@@ -2,8 +2,10 @@
 // from gir-files (https://github.com/gtk-rs/gir-files @ ???)
 // DO NOT EDIT
 
+use 80211Mode;
 use AccessPoint;
 use Device;
+use DeviceWifiCapabilities;
 use Error;
 use ffi;
 use gio;
@@ -40,9 +42,9 @@ pub trait DeviceWifiExt {
 
     fn get_bitrate(&self) -> u32;
 
-    //fn get_capabilities(&self) -> /*Ignored*/DeviceWifiCapabilities;
+    fn get_capabilities(&self) -> DeviceWifiCapabilities;
 
-    //fn get_mode(&self) -> /*Ignored*/80211Mode;
+    fn get_mode(&self) -> 80211Mode;
 
     fn get_permanent_hw_address(&self) -> Option<String>;
 
@@ -50,13 +52,13 @@ pub trait DeviceWifiExt {
 
     fn request_scan_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, cancellable: P, callback: Q);
 
-    //fn request_scan_options<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, options: /*Ignored*/&glib::Variant, cancellable: P) -> Result<(), Error>;
+    fn request_scan_options<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, options: &glib::Variant, cancellable: P) -> Result<(), Error>;
 
-    //fn request_scan_options_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: /*Unimplemented*/gio::AsyncReadyCallback>(&self, options: /*Ignored*/&glib::Variant, cancellable: P, callback: Q);
+    //fn request_scan_options_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: /*Unimplemented*/gio::AsyncReadyCallback>(&self, options: &glib::Variant, cancellable: P, callback: Q);
 
     fn get_property_perm_hw_address(&self) -> Option<String>;
 
-    //fn get_property_wireless_capabilities(&self) -> /*Ignored*/DeviceWifiCapabilities;
+    fn get_property_wireless_capabilities(&self) -> DeviceWifiCapabilities;
 
     fn connect_access_point_added<F: Fn(&Self, &glib::Object) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -100,13 +102,17 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object>> DeviceWifiExt for O {
         }
     }
 
-    //fn get_capabilities(&self) -> /*Ignored*/DeviceWifiCapabilities {
-    //    unsafe { TODO: call ffi::nm_device_wifi_get_capabilities() }
-    //}
+    fn get_capabilities(&self) -> DeviceWifiCapabilities {
+        unsafe {
+            from_glib(ffi::nm_device_wifi_get_capabilities(self.to_glib_none().0))
+        }
+    }
 
-    //fn get_mode(&self) -> /*Ignored*/80211Mode {
-    //    unsafe { TODO: call ffi::nm_device_wifi_get_mode() }
-    //}
+    fn get_mode(&self) -> 80211Mode {
+        unsafe {
+            from_glib(ffi::nm_device_wifi_get_mode(self.to_glib_none().0))
+        }
+    }
 
     fn get_permanent_hw_address(&self) -> Option<String> {
         unsafe {
@@ -143,11 +149,17 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object>> DeviceWifiExt for O {
         }
     }
 
-    //fn request_scan_options<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, options: /*Ignored*/&glib::Variant, cancellable: P) -> Result<(), Error> {
-    //    unsafe { TODO: call ffi::nm_device_wifi_request_scan_options() }
-    //}
+    fn request_scan_options<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, options: &glib::Variant, cancellable: P) -> Result<(), Error> {
+        let cancellable = cancellable.into();
+        let cancellable = cancellable.to_glib_none();
+        unsafe {
+            let mut error = ptr::null_mut();
+            let _ = ffi::nm_device_wifi_request_scan_options(self.to_glib_none().0, options.to_glib_none().0, cancellable.0, &mut error);
+            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+        }
+    }
 
-    //fn request_scan_options_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: /*Unimplemented*/gio::AsyncReadyCallback>(&self, options: /*Ignored*/&glib::Variant, cancellable: P, callback: Q) {
+    //fn request_scan_options_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: /*Unimplemented*/gio::AsyncReadyCallback>(&self, options: &glib::Variant, cancellable: P, callback: Q) {
     //    unsafe { TODO: call ffi::nm_device_wifi_request_scan_options_async() }
     //}
 
@@ -159,13 +171,13 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object>> DeviceWifiExt for O {
         }
     }
 
-    //fn get_property_wireless_capabilities(&self) -> /*Ignored*/DeviceWifiCapabilities {
-    //    unsafe {
-    //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "wireless-capabilities".to_glib_none().0, value.to_glib_none_mut().0);
-    //        value.get().unwrap()
-    //    }
-    //}
+    fn get_property_wireless_capabilities(&self) -> DeviceWifiCapabilities {
+        unsafe {
+            let mut value = Value::from_type(<DeviceWifiCapabilities as StaticType>::static_type());
+            gobject_ffi::g_object_get_property(self.to_glib_none().0, "wireless-capabilities".to_glib_none().0, value.to_glib_none_mut().0);
+            value.get().unwrap()
+        }
+    }
 
     fn connect_access_point_added<F: Fn(&Self, &glib::Object) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {

@@ -156,15 +156,15 @@ pub trait ConnectionExt {
 
     fn remove_setting(&self, setting_type: glib::types::Type);
 
-    //fn replace_settings(&self, new_settings: /*Ignored*/&glib::Variant) -> Result<(), Error>;
+    fn replace_settings(&self, new_settings: &glib::Variant) -> Result<(), Error>;
 
     fn replace_settings_from_connection<P: IsA<Connection>>(&self, new_connection: &P);
 
     fn set_path(&self, path: &str);
 
-    //fn to_dbus(&self, flags: /*Ignored*/ConnectionSerializationFlags) -> /*Ignored*/Option<glib::Variant>;
+    //fn to_dbus(&self, flags: /*Ignored*/ConnectionSerializationFlags) -> Option<glib::Variant>;
 
-    //fn update_secrets(&self, setting_name: &str, secrets: /*Ignored*/&glib::Variant) -> Result<(), Error>;
+    fn update_secrets(&self, setting_name: &str, secrets: &glib::Variant) -> Result<(), Error>;
 
     fn verify(&self) -> Result<(), Error>;
 
@@ -451,9 +451,13 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
         }
     }
 
-    //fn replace_settings(&self, new_settings: /*Ignored*/&glib::Variant) -> Result<(), Error> {
-    //    unsafe { TODO: call ffi::nm_connection_replace_settings() }
-    //}
+    fn replace_settings(&self, new_settings: &glib::Variant) -> Result<(), Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let _ = ffi::nm_connection_replace_settings(self.to_glib_none().0, new_settings.to_glib_none().0, &mut error);
+            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+        }
+    }
 
     fn replace_settings_from_connection<P: IsA<Connection>>(&self, new_connection: &P) {
         unsafe {
@@ -467,13 +471,17 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
         }
     }
 
-    //fn to_dbus(&self, flags: /*Ignored*/ConnectionSerializationFlags) -> /*Ignored*/Option<glib::Variant> {
+    //fn to_dbus(&self, flags: /*Ignored*/ConnectionSerializationFlags) -> Option<glib::Variant> {
     //    unsafe { TODO: call ffi::nm_connection_to_dbus() }
     //}
 
-    //fn update_secrets(&self, setting_name: &str, secrets: /*Ignored*/&glib::Variant) -> Result<(), Error> {
-    //    unsafe { TODO: call ffi::nm_connection_update_secrets() }
-    //}
+    fn update_secrets(&self, setting_name: &str, secrets: &glib::Variant) -> Result<(), Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let _ = ffi::nm_connection_update_secrets(self.to_glib_none().0, setting_name.to_glib_none().0, secrets.to_glib_none().0, &mut error);
+            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+        }
+    }
 
     fn verify(&self) -> Result<(), Error> {
         unsafe {

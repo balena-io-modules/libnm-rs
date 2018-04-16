@@ -31,8 +31,12 @@ pub use self::remote_connection::RemoteConnection;
 pub use self::remote_connection::RemoteConnectionExt;
 
 mod enums;
+pub use self::enums::80211Mode;
 pub use self::enums::ConnectivityState;
 pub use self::enums::State;
+
+mod flags;
+pub use self::flags::DeviceWifiCapabilities;
 
 #[doc(hidden)]
 pub mod traits {

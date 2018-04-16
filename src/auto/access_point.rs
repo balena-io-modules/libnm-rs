@@ -2,6 +2,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files @ ???)
 // DO NOT EDIT
 
+use 80211Mode;
 use Connection;
 use ffi;
 use glib;
@@ -42,7 +43,7 @@ pub trait AccessPointExt {
 
     fn get_max_bitrate(&self) -> u32;
 
-    //fn get_mode(&self) -> /*Ignored*/80211Mode;
+    fn get_mode(&self) -> 80211Mode;
 
     //fn get_rsn_flags(&self) -> /*Ignored*/80211ApSecurityFlags;
 
@@ -118,9 +119,11 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
         }
     }
 
-    //fn get_mode(&self) -> /*Ignored*/80211Mode {
-    //    unsafe { TODO: call ffi::nm_access_point_get_mode() }
-    //}
+    fn get_mode(&self) -> 80211Mode {
+        unsafe {
+            from_glib(ffi::nm_access_point_get_mode(self.to_glib_none().0))
+        }
+    }
 
     //fn get_rsn_flags(&self) -> /*Ignored*/80211ApSecurityFlags {
     //    unsafe { TODO: call ffi::nm_access_point_get_rsn_flags() }

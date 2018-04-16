@@ -13,6 +13,68 @@ use glib::value::Value;
 use gobject_ffi;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+pub enum 80211Mode {
+    Unknown,
+    Adhoc,
+    Infra,
+    Ap,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for 80211Mode {
+    type GlibType = ffi::NM80211Mode;
+
+    fn to_glib(&self) -> ffi::NM80211Mode {
+        match *self {
+            80211Mode::Unknown => ffi::NM_802_11_MODE_UNKNOWN,
+            80211Mode::Adhoc => ffi::NM_802_11_MODE_ADHOC,
+            80211Mode::Infra => ffi::NM_802_11_MODE_INFRA,
+            80211Mode::Ap => ffi::NM_802_11_MODE_AP,
+            80211Mode::__Unknown(value) => value
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NM80211Mode> for 80211Mode {
+    fn from_glib(value: ffi::NM80211Mode) -> Self {
+        match value {
+            0 => 80211Mode::Unknown,
+            1 => 80211Mode::Adhoc,
+            2 => 80211Mode::Infra,
+            3 => 80211Mode::Ap,
+            value => 80211Mode::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for 80211Mode {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_802_11_mode_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for 80211Mode {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for 80211Mode {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for 80211Mode {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub enum ConnectivityState {
     Unknown,
     None,

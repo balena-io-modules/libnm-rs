@@ -37,9 +37,9 @@ pub trait RemoteConnectionExt {
 
     fn delete_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, cancellable: P, callback: Q);
 
-    //fn get_secrets<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, setting_name: &str, cancellable: P) -> Result</*Ignored*/glib::Variant, Error>;
+    fn get_secrets<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, setting_name: &str, cancellable: P) -> Result<glib::Variant, Error>;
 
-    //fn get_secrets_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result</*Ignored*/glib::Variant, Error>) + Send + 'static>(&self, setting_name: &str, cancellable: P, callback: Q);
+    fn get_secrets_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<glib::Variant, Error>) + Send + 'static>(&self, setting_name: &str, cancellable: P, callback: Q);
 
     fn get_unsaved(&self) -> bool;
 
@@ -50,7 +50,7 @@ pub trait RemoteConnectionExt {
     fn save_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, cancellable: P, callback: Q);
 
     //#[cfg(any(feature = "v1_10_2", feature = "dox"))]
-    //fn update2<'a, 'b, 'c, 'd, P: Into<Option<&'a /*Ignored*/glib::Variant>>, Q: Into<Option<&'b /*Ignored*/glib::Variant>>, R: Into<Option<&'c gio::Cancellable>>, S: Into<Option<&'d /*Unimplemented*/gio::AsyncReadyCallback>>, T: Into<Option</*Unimplemented*/Fundamental: Pointer>>>(&self, settings: P, flags: /*Ignored*/SettingsUpdate2Flags, args: Q, cancellable: R, callback: S, user_data: T);
+    //fn update2<'a, 'b, 'c, 'd, P: Into<Option<&'a glib::Variant>>, Q: Into<Option<&'b glib::Variant>>, R: Into<Option<&'c gio::Cancellable>>, S: Into<Option<&'d /*Unimplemented*/gio::AsyncReadyCallback>>, T: Into<Option</*Unimplemented*/Fundamental: Pointer>>>(&self, settings: P, flags: /*Ignored*/SettingsUpdate2Flags, args: Q, cancellable: R, callback: S, user_data: T);
 
     fn connect_property_unsaved_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -116,13 +116,34 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object>> RemoteConnectionExt f
         }
     }
 
-    //fn get_secrets<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, setting_name: &str, cancellable: P) -> Result</*Ignored*/glib::Variant, Error> {
-    //    unsafe { TODO: call ffi::nm_remote_connection_get_secrets() }
-    //}
+    fn get_secrets<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, setting_name: &str, cancellable: P) -> Result<glib::Variant, Error> {
+        let cancellable = cancellable.into();
+        let cancellable = cancellable.to_glib_none();
+        unsafe {
+            let mut error = ptr::null_mut();
+            let ret = ffi::nm_remote_connection_get_secrets(self.to_glib_none().0, setting_name.to_glib_none().0, cancellable.0, &mut error);
+            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
+        }
+    }
 
-    //fn get_secrets_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result</*Ignored*/glib::Variant, Error>) + Send + 'static>(&self, setting_name: &str, cancellable: P, callback: Q) {
-    //    unsafe { TODO: call ffi::nm_remote_connection_get_secrets_async() }
-    //}
+    fn get_secrets_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<glib::Variant, Error>) + Send + 'static>(&self, setting_name: &str, cancellable: P, callback: Q) {
+        let cancellable = cancellable.into();
+        let cancellable = cancellable.to_glib_none();
+        let user_data: Box<Box<Q>> = Box::new(Box::new(callback));
+        unsafe extern "C" fn get_secrets_async_trampoline<Q: FnOnce(Result<glib::Variant, Error>) + Send + 'static>(_source_object: *mut gobject_ffi::GObject, res: *mut gio_ffi::GAsyncResult, user_data: glib_ffi::gpointer)
+        {
+            callback_guard!();
+            let mut error = ptr::null_mut();
+            let ret = ffi::nm_remote_connection_get_secrets_finish(_source_object as *mut _, res, &mut error);
+            let result = if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) };
+            let callback: Box<Box<Q>> = Box::from_raw(user_data as *mut _);
+            callback(result);
+        }
+        let callback = get_secrets_async_trampoline::<Q>;
+        unsafe {
+            ffi::nm_remote_connection_get_secrets_async(self.to_glib_none().0, setting_name.to_glib_none().0, cancellable.0, Some(callback), Box::into_raw(user_data) as *mut _);
+        }
+    }
 
     fn get_unsaved(&self) -> bool {
         unsafe {
@@ -166,7 +187,7 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object>> RemoteConnectionExt f
     }
 
     //#[cfg(any(feature = "v1_10_2", feature = "dox"))]
-    //fn update2<'a, 'b, 'c, 'd, P: Into<Option<&'a /*Ignored*/glib::Variant>>, Q: Into<Option<&'b /*Ignored*/glib::Variant>>, R: Into<Option<&'c gio::Cancellable>>, S: Into<Option<&'d /*Unimplemented*/gio::AsyncReadyCallback>>, T: Into<Option</*Unimplemented*/Fundamental: Pointer>>>(&self, settings: P, flags: /*Ignored*/SettingsUpdate2Flags, args: Q, cancellable: R, callback: S, user_data: T) {
+    //fn update2<'a, 'b, 'c, 'd, P: Into<Option<&'a glib::Variant>>, Q: Into<Option<&'b glib::Variant>>, R: Into<Option<&'c gio::Cancellable>>, S: Into<Option<&'d /*Unimplemented*/gio::AsyncReadyCallback>>, T: Into<Option</*Unimplemented*/Fundamental: Pointer>>>(&self, settings: P, flags: /*Ignored*/SettingsUpdate2Flags, args: Q, cancellable: R, callback: S, user_data: T) {
     //    unsafe { TODO: call ffi::nm_remote_connection_update2() }
     //}
 

@@ -3,5 +3,69 @@
 // DO NOT EDIT
 
 use ffi;
+use glib::StaticType;
+use glib::Type;
 use glib::translate::*;
+use glib::value::FromValue;
+use glib::value::FromValueOptional;
+use glib::value::SetValue;
+use glib::value::Value;
+use gobject_ffi;
+
+bitflags! {
+    pub struct DeviceWifiCapabilities: u32 {
+        const NONE = 0;
+        const CIPHER_WEP40 = 1;
+        const CIPHER_WEP104 = 2;
+        const CIPHER_TKIP = 4;
+        const CIPHER_CCMP = 8;
+        const WPA = 16;
+        const RSN = 32;
+        const AP = 64;
+        const ADHOC = 128;
+        const FREQ_VALID = 256;
+        const FREQ_2GHZ = 512;
+        const FREQ_5GHZ = 1024;
+    }
+}
+
+#[doc(hidden)]
+impl ToGlib for DeviceWifiCapabilities {
+    type GlibType = ffi::NMDeviceWifiCapabilities;
+
+    fn to_glib(&self) -> ffi::NMDeviceWifiCapabilities {
+        self.bits()
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMDeviceWifiCapabilities> for DeviceWifiCapabilities {
+    fn from_glib(value: ffi::NMDeviceWifiCapabilities) -> DeviceWifiCapabilities {
+        DeviceWifiCapabilities::from_bits_truncate(value)
+    }
+}
+
+impl StaticType for DeviceWifiCapabilities {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_device_wifi_capabilities_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for DeviceWifiCapabilities {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for DeviceWifiCapabilities {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_flags(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for DeviceWifiCapabilities {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
 
