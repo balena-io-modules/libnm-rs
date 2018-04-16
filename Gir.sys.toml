@@ -1,0 +1,10 @@
+[options]
+work_mode = "sys"
+library = "NM"
+version = "1.0"
+min_cfg_version = "1.10"
+external_libraries = [
+   "GLib",
+   "GObject",
+   "Gio",
+]
