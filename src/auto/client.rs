@@ -78,10 +78,13 @@ pub trait ClientExt {
 
     fn check_connectivity_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<ConnectivityState, Error>) + Send + 'static>(&self, cancellable: P, callback: Q);
 
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn connectivity_check_get_available(&self) -> bool;
 
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn connectivity_check_get_enabled(&self) -> bool;
 
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn connectivity_check_set_enabled(&self, enabled: bool);
 
     fn deactivate_connection<'a, P: IsA<ActiveConnection>, Q: Into<Option<&'a gio::Cancellable>>>(&self, active: &P, cancellable: Q) -> Result<(), Error>;
@@ -110,10 +113,13 @@ pub trait ClientExt {
 
     //fn get_devices(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 };
 
+    //#[cfg(any(feature = "v1_6", feature = "dox"))]
     //fn get_dns_configuration(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 23 };
 
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_dns_mode(&self) -> Option<String>;
 
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_dns_rc_manager(&self) -> Option<String>;
 
     fn get_nm_running(&self) -> bool;
@@ -230,10 +236,13 @@ pub trait ClientExt {
 
     fn connect_property_devices_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn connect_property_dns_configuration_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn connect_property_dns_mode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn connect_property_dns_rc_manager_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     fn connect_property_hostname_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -362,18 +371,21 @@ impl<O: IsA<Client> + IsA<glib::object::Object>> ClientExt for O {
         }
     }
 
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn connectivity_check_get_available(&self) -> bool {
         unsafe {
             from_glib(ffi::nm_client_connectivity_check_get_available(self.to_glib_none().0))
         }
     }
 
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn connectivity_check_get_enabled(&self) -> bool {
         unsafe {
             from_glib(ffi::nm_client_connectivity_check_get_enabled(self.to_glib_none().0))
         }
     }
 
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn connectivity_check_set_enabled(&self, enabled: bool) {
         unsafe {
             ffi::nm_client_connectivity_check_set_enabled(self.to_glib_none().0, enabled.to_glib());
@@ -467,16 +479,19 @@ impl<O: IsA<Client> + IsA<glib::object::Object>> ClientExt for O {
     //    unsafe { TODO: call ffi::nm_client_get_devices() }
     //}
 
+    //#[cfg(any(feature = "v1_6", feature = "dox"))]
     //fn get_dns_configuration(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 23 } {
     //    unsafe { TODO: call ffi::nm_client_get_dns_configuration() }
     //}
 
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_dns_mode(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::nm_client_get_dns_mode(self.to_glib_none().0))
         }
     }
 
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_dns_rc_manager(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::nm_client_get_dns_rc_manager(self.to_glib_none().0))
@@ -929,6 +944,7 @@ impl<O: IsA<Client> + IsA<glib::object::Object>> ClientExt for O {
         }
     }
 
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn connect_property_dns_configuration_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
@@ -937,6 +953,7 @@ impl<O: IsA<Client> + IsA<glib::object::Object>> ClientExt for O {
         }
     }
 
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn connect_property_dns_mode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
@@ -945,6 +962,7 @@ impl<O: IsA<Client> + IsA<glib::object::Object>> ClientExt for O {
         }
     }
 
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn connect_property_dns_rc_manager_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
@@ -1192,6 +1210,7 @@ where P: IsA<Client> {
     f(&Client::from_glib_borrow(this).downcast_unchecked())
 }
 
+#[cfg(any(feature = "v1_6", feature = "dox"))]
 unsafe extern "C" fn notify_dns_configuration_trampoline<P>(this: *mut ffi::NMClient, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Client> {
     callback_guard!();
@@ -1199,6 +1218,7 @@ where P: IsA<Client> {
     f(&Client::from_glib_borrow(this).downcast_unchecked())
 }
 
+#[cfg(any(feature = "v1_6", feature = "dox"))]
 unsafe extern "C" fn notify_dns_mode_trampoline<P>(this: *mut ffi::NMClient, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Client> {
     callback_guard!();
@@ -1206,6 +1226,7 @@ where P: IsA<Client> {
     f(&Client::from_glib_borrow(this).downcast_unchecked())
 }
 
+#[cfg(any(feature = "v1_6", feature = "dox"))]
 unsafe extern "C" fn notify_dns_rc_manager_trampoline<P>(this: *mut ffi::NMClient, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<Client> {
     callback_guard!();

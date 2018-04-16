@@ -73,6 +73,7 @@ pub trait ConnectionExt {
 
     //fn get_setting_dcb(&self) -> /*Ignored*/Option<SettingDcb>;
 
+    //#[cfg(any(feature = "v1_8", feature = "dox"))]
     //fn get_setting_dummy(&self) -> /*Ignored*/Option<SettingDummy>;
 
     //fn get_setting_generic(&self) -> /*Ignored*/Option<SettingGeneric>;
@@ -87,24 +88,30 @@ pub trait ConnectionExt {
 
     //fn get_setting_ip_tunnel(&self) -> /*Ignored*/Option<SettingIPTunnel>;
 
+    //#[cfg(any(feature = "v1_6", feature = "dox"))]
     //fn get_setting_macsec(&self) -> /*Ignored*/Option<SettingMacsec>;
 
     //fn get_setting_macvlan(&self) -> /*Ignored*/Option<SettingMacvlan>;
 
     //fn get_setting_olpc_mesh(&self) -> /*Ignored*/Option<SettingOlpcMesh>;
 
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
     //fn get_setting_ovs_bridge(&self) -> /*Ignored*/Option<SettingOvsBridge>;
 
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
     //fn get_setting_ovs_interface(&self) -> /*Ignored*/Option<SettingOvsInterface>;
 
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
     //fn get_setting_ovs_patch(&self) -> /*Ignored*/Option<SettingOvsPatch>;
 
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
     //fn get_setting_ovs_port(&self) -> /*Ignored*/Option<SettingOvsPort>;
 
     //fn get_setting_ppp(&self) -> /*Ignored*/Option<SettingPpp>;
 
     //fn get_setting_pppoe(&self) -> /*Ignored*/Option<SettingPppoe>;
 
+    //#[cfg(any(feature = "v1_6", feature = "dox"))]
     //fn get_setting_proxy(&self) -> /*Ignored*/Option<SettingProxy>;
 
     //fn get_setting_serial(&self) -> /*Ignored*/Option<SettingSerial>;
@@ -132,6 +139,7 @@ pub trait ConnectionExt {
 
     //fn get_setting_wireless_security(&self) -> /*Ignored*/Option<SettingWirelessSecurity>;
 
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
     //fn get_settings(&self) -> /*Ignored*/Vec<Setting>;
 
     fn get_uuid(&self) -> Option<String>;
@@ -276,6 +284,7 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_dcb() }
     //}
 
+    //#[cfg(any(feature = "v1_8", feature = "dox"))]
     //fn get_setting_dummy(&self) -> /*Ignored*/Option<SettingDummy> {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_dummy() }
     //}
@@ -304,6 +313,7 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_ip_tunnel() }
     //}
 
+    //#[cfg(any(feature = "v1_6", feature = "dox"))]
     //fn get_setting_macsec(&self) -> /*Ignored*/Option<SettingMacsec> {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_macsec() }
     //}
@@ -316,18 +326,22 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_olpc_mesh() }
     //}
 
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
     //fn get_setting_ovs_bridge(&self) -> /*Ignored*/Option<SettingOvsBridge> {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_ovs_bridge() }
     //}
 
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
     //fn get_setting_ovs_interface(&self) -> /*Ignored*/Option<SettingOvsInterface> {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_ovs_interface() }
     //}
 
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
     //fn get_setting_ovs_patch(&self) -> /*Ignored*/Option<SettingOvsPatch> {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_ovs_patch() }
     //}
 
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
     //fn get_setting_ovs_port(&self) -> /*Ignored*/Option<SettingOvsPort> {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_ovs_port() }
     //}
@@ -340,6 +354,7 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_pppoe() }
     //}
 
+    //#[cfg(any(feature = "v1_6", feature = "dox"))]
     //fn get_setting_proxy(&self) -> /*Ignored*/Option<SettingProxy> {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_proxy() }
     //}
@@ -393,6 +408,7 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_wireless_security() }
     //}
 
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
     //fn get_settings(&self) -> /*Ignored*/Vec<Setting> {
     //    unsafe { TODO: call ffi::nm_connection_get_settings() }
     //}

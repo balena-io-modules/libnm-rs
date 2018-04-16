@@ -18,8 +18,16 @@ fn find() -> Result<(), Error> {
     let shared_libs = ["nm"];
     let version = if cfg!(feature = "v1_10_2") {
         "1.10.2"
-    } else {
+    } else if cfg!(feature = "v1_10") {
         "1.10"
+    } else if cfg!(feature = "v1_8") {
+        "1.8"
+    } else if cfg!(feature = "v1_6") {
+        "1.6"
+    } else if cfg!(feature = "v1_4") {
+        "1.4"
+    } else {
+        "1.2"
     };
 
     if let Ok(lib_dir) = env::var("GTK_LIB_DIR") {

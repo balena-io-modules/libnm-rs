@@ -4311,11 +4311,17 @@ extern "C" {
     // NMDnsEntry
     //=========================================================================
     pub fn nm_dns_entry_get_type() -> GType;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_dns_entry_get_domains(entry: *mut NMDnsEntry) -> *const *const c_char;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_dns_entry_get_interface(entry: *mut NMDnsEntry) -> *const c_char;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_dns_entry_get_nameservers(entry: *mut NMDnsEntry) -> *const *const c_char;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_dns_entry_get_priority(entry: *mut NMDnsEntry) -> c_int;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_dns_entry_get_vpn(entry: *mut NMDnsEntry) -> gboolean;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_dns_entry_unref(entry: *mut NMDnsEntry);
 
     //=========================================================================
@@ -4347,6 +4353,7 @@ extern "C" {
     pub fn nm_ip_route_new_binary(family: c_int, dest: gconstpointer, prefix: c_uint, next_hop: gconstpointer, metric: i64, error: *mut *mut glib::GError) -> *mut NMIPRoute;
     pub fn nm_ip_route_dup(route: *mut NMIPRoute) -> *mut NMIPRoute;
     pub fn nm_ip_route_equal(route: *mut NMIPRoute, other: *mut NMIPRoute) -> gboolean;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_ip_route_equal_full(route: *mut NMIPRoute, other: *mut NMIPRoute, cmp_flags: c_uint) -> gboolean;
     pub fn nm_ip_route_get_attribute(route: *mut NMIPRoute, name: *const c_char) -> *mut glib::GVariant;
     pub fn nm_ip_route_get_attribute_names(route: *mut NMIPRoute) -> *mut *mut c_char;
@@ -4366,7 +4373,9 @@ extern "C" {
     pub fn nm_ip_route_set_next_hop_binary(route: *mut NMIPRoute, next_hop: gconstpointer);
     pub fn nm_ip_route_set_prefix(route: *mut NMIPRoute, prefix: c_uint);
     pub fn nm_ip_route_unref(route: *mut NMIPRoute);
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_ip_route_attribute_validate(name: *const c_char, value: *mut glib::GVariant, family: c_int, known: *mut gboolean, error: *mut *mut glib::GError) -> gboolean;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_ip_route_get_variant_attribute_spec() -> *const *const NMVariantAttributeSpec;
 
     //=========================================================================
@@ -4522,7 +4531,9 @@ extern "C" {
     pub fn nm_active_connection_get_master(connection: *mut NMActiveConnection) -> *mut NMDevice;
     pub fn nm_active_connection_get_specific_object_path(connection: *mut NMActiveConnection) -> *const c_char;
     pub fn nm_active_connection_get_state(connection: *mut NMActiveConnection) -> NMActiveConnectionState;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_active_connection_get_state_flags(connection: *mut NMActiveConnection) -> NMActivationStateFlags;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_active_connection_get_state_reason(connection: *mut NMActiveConnection) -> NMActiveConnectionStateReason;
     pub fn nm_active_connection_get_uuid(connection: *mut NMActiveConnection) -> *const c_char;
     pub fn nm_active_connection_get_vpn(connection: *mut NMActiveConnection) -> gboolean;
@@ -4543,8 +4554,11 @@ extern "C" {
     pub fn nm_client_check_connectivity(client: *mut NMClient, cancellable: *mut gio::GCancellable, error: *mut *mut glib::GError) -> NMConnectivityState;
     pub fn nm_client_check_connectivity_async(client: *mut NMClient, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
     pub fn nm_client_check_connectivity_finish(client: *mut NMClient, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> NMConnectivityState;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_client_connectivity_check_get_available(client: *mut NMClient) -> gboolean;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_client_connectivity_check_get_enabled(client: *mut NMClient) -> gboolean;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_client_connectivity_check_set_enabled(client: *mut NMClient, enabled: gboolean);
     pub fn nm_client_deactivate_connection(client: *mut NMClient, active: *mut NMActiveConnection, cancellable: *mut gio::GCancellable, error: *mut *mut glib::GError) -> gboolean;
     pub fn nm_client_deactivate_connection_async(client: *mut NMClient, active: *mut NMActiveConnection, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
@@ -4560,8 +4574,11 @@ extern "C" {
     pub fn nm_client_get_device_by_iface(client: *mut NMClient, iface: *const c_char) -> *mut NMDevice;
     pub fn nm_client_get_device_by_path(client: *mut NMClient, object_path: *const c_char) -> *mut NMDevice;
     pub fn nm_client_get_devices(client: *mut NMClient) -> *const glib::GPtrArray;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_client_get_dns_configuration(client: *mut NMClient) -> *const glib::GPtrArray;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_client_get_dns_mode(client: *mut NMClient) -> *const c_char;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_client_get_dns_rc_manager(client: *mut NMClient) -> *const c_char;
     pub fn nm_client_get_logging(client: *mut NMClient, level: *mut *mut c_char, domains: *mut *mut c_char, error: *mut *mut glib::GError) -> gboolean;
     pub fn nm_client_get_nm_running(client: *mut NMClient) -> gboolean;
@@ -4681,6 +4698,7 @@ extern "C" {
     // NMDeviceDummy
     //=========================================================================
     pub fn nm_device_dummy_get_type() -> GType;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_device_dummy_get_hw_address(device: *mut NMDeviceDummy) -> *const c_char;
 
     //=========================================================================
@@ -4726,19 +4744,33 @@ extern "C" {
     // NMDeviceMacsec
     //=========================================================================
     pub fn nm_device_macsec_get_type() -> GType;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_device_macsec_get_cipher_suite(device: *mut NMDeviceMacsec) -> u64;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_device_macsec_get_encoding_sa(device: *mut NMDeviceMacsec) -> u8;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_device_macsec_get_encrypt(device: *mut NMDeviceMacsec) -> gboolean;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_device_macsec_get_es(device: *mut NMDeviceMacsec) -> gboolean;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_device_macsec_get_hw_address(device: *mut NMDeviceMacsec) -> *const c_char;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_device_macsec_get_icv_length(device: *mut NMDeviceMacsec) -> u8;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_device_macsec_get_include_sci(device: *mut NMDeviceMacsec) -> gboolean;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_device_macsec_get_parent(device: *mut NMDeviceMacsec) -> *mut NMDevice;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_device_macsec_get_protect(device: *mut NMDeviceMacsec) -> gboolean;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_device_macsec_get_replay_protect(device: *mut NMDeviceMacsec) -> gboolean;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_device_macsec_get_scb(device: *mut NMDeviceMacsec) -> gboolean;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_device_macsec_get_sci(device: *mut NMDeviceMacsec) -> u64;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_device_macsec_get_validation(device: *mut NMDeviceMacsec) -> *const c_char;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_device_macsec_get_window(device: *mut NMDeviceMacsec) -> c_uint;
 
     //=========================================================================
@@ -4791,6 +4823,7 @@ extern "C" {
     //=========================================================================
     pub fn nm_device_team_get_type() -> GType;
     pub fn nm_device_team_get_carrier(device: *mut NMDeviceTeam) -> gboolean;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_device_team_get_config(device: *mut NMDeviceTeam) -> *const c_char;
     pub fn nm_device_team_get_hw_address(device: *mut NMDeviceTeam) -> *const c_char;
     pub fn nm_device_team_get_slaves(device: *mut NMDeviceTeam) -> *const glib::GPtrArray;
@@ -4966,19 +4999,26 @@ extern "C" {
     pub fn nm_setting_802_1x_clear_phase2_altsubject_matches(setting: *mut NMSetting8021x);
     pub fn nm_setting_802_1x_get_altsubject_match(setting: *mut NMSetting8021x, i: u32) -> *const c_char;
     pub fn nm_setting_802_1x_get_anonymous_identity(setting: *mut NMSetting8021x) -> *const c_char;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_802_1x_get_auth_timeout(setting: *mut NMSetting8021x) -> c_int;
     pub fn nm_setting_802_1x_get_ca_cert_blob(setting: *mut NMSetting8021x) -> *mut glib::GBytes;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_802_1x_get_ca_cert_password(setting: *mut NMSetting8021x) -> *const c_char;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_802_1x_get_ca_cert_password_flags(setting: *mut NMSetting8021x) -> NMSettingSecretFlags;
     pub fn nm_setting_802_1x_get_ca_cert_path(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_ca_cert_scheme(setting: *mut NMSetting8021x) -> NMSetting8021xCKScheme;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_802_1x_get_ca_cert_uri(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_ca_path(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_client_cert_blob(setting: *mut NMSetting8021x) -> *mut glib::GBytes;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_802_1x_get_client_cert_password(setting: *mut NMSetting8021x) -> *const c_char;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_802_1x_get_client_cert_password_flags(setting: *mut NMSetting8021x) -> NMSettingSecretFlags;
     pub fn nm_setting_802_1x_get_client_cert_path(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_client_cert_scheme(setting: *mut NMSetting8021x) -> NMSetting8021xCKScheme;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_802_1x_get_client_cert_uri(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_domain_suffix_match(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_eap_method(setting: *mut NMSetting8021x, i: u32) -> *const c_char;
@@ -4991,6 +5031,7 @@ extern "C" {
     pub fn nm_setting_802_1x_get_password_flags(setting: *mut NMSetting8021x) -> NMSettingSecretFlags;
     pub fn nm_setting_802_1x_get_password_raw(setting: *mut NMSetting8021x) -> *mut glib::GBytes;
     pub fn nm_setting_802_1x_get_password_raw_flags(setting: *mut NMSetting8021x) -> NMSettingSecretFlags;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_802_1x_get_phase1_auth_flags(setting: *mut NMSetting8021x) -> NMSetting8021xAuthFlags;
     pub fn nm_setting_802_1x_get_phase1_fast_provisioning(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_phase1_peaplabel(setting: *mut NMSetting8021x) -> *const c_char;
@@ -4999,17 +5040,23 @@ extern "C" {
     pub fn nm_setting_802_1x_get_phase2_auth(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_phase2_autheap(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_phase2_ca_cert_blob(setting: *mut NMSetting8021x) -> *mut glib::GBytes;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_802_1x_get_phase2_ca_cert_password(setting: *mut NMSetting8021x) -> *const c_char;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_802_1x_get_phase2_ca_cert_password_flags(setting: *mut NMSetting8021x) -> NMSettingSecretFlags;
     pub fn nm_setting_802_1x_get_phase2_ca_cert_path(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_phase2_ca_cert_scheme(setting: *mut NMSetting8021x) -> NMSetting8021xCKScheme;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_802_1x_get_phase2_ca_cert_uri(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_phase2_ca_path(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_phase2_client_cert_blob(setting: *mut NMSetting8021x) -> *mut glib::GBytes;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_802_1x_get_phase2_client_cert_password(setting: *mut NMSetting8021x) -> *const c_char;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_802_1x_get_phase2_client_cert_password_flags(setting: *mut NMSetting8021x) -> NMSettingSecretFlags;
     pub fn nm_setting_802_1x_get_phase2_client_cert_path(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_phase2_client_cert_scheme(setting: *mut NMSetting8021x) -> NMSetting8021xCKScheme;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_802_1x_get_phase2_client_cert_uri(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_phase2_domain_suffix_match(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_phase2_private_key_blob(setting: *mut NMSetting8021x) -> *mut glib::GBytes;
@@ -5018,6 +5065,7 @@ extern "C" {
     pub fn nm_setting_802_1x_get_phase2_private_key_password_flags(setting: *mut NMSetting8021x) -> NMSettingSecretFlags;
     pub fn nm_setting_802_1x_get_phase2_private_key_path(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_phase2_private_key_scheme(setting: *mut NMSetting8021x) -> NMSetting8021xCKScheme;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_802_1x_get_phase2_private_key_uri(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_phase2_subject_match(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_pin(setting: *mut NMSetting8021x) -> *const c_char;
@@ -5028,6 +5076,7 @@ extern "C" {
     pub fn nm_setting_802_1x_get_private_key_password_flags(setting: *mut NMSetting8021x) -> NMSettingSecretFlags;
     pub fn nm_setting_802_1x_get_private_key_path(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_private_key_scheme(setting: *mut NMSetting8021x) -> NMSetting8021xCKScheme;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_802_1x_get_private_key_uri(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_subject_match(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_system_ca_certs(setting: *mut NMSetting8021x) -> gboolean;
@@ -5086,6 +5135,7 @@ extern "C" {
     pub fn nm_setting_bridge_new() -> *mut NMSetting;
     pub fn nm_setting_bridge_get_ageing_time(setting: *mut NMSettingBridge) -> u32;
     pub fn nm_setting_bridge_get_forward_delay(setting: *mut NMSettingBridge) -> u16;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_bridge_get_group_forward_mask(setting: *mut NMSettingBridge) -> u16;
     pub fn nm_setting_bridge_get_hello_time(setting: *mut NMSettingBridge) -> u16;
     pub fn nm_setting_bridge_get_mac_address(setting: *mut NMSettingBridge) -> *const c_char;
@@ -5108,6 +5158,7 @@ extern "C" {
     //=========================================================================
     pub fn nm_setting_cdma_get_type() -> GType;
     pub fn nm_setting_cdma_new() -> *mut NMSetting;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_cdma_get_mtu(setting: *mut NMSettingCdma) -> u32;
     pub fn nm_setting_cdma_get_number(setting: *mut NMSettingCdma) -> *const c_char;
     pub fn nm_setting_cdma_get_password(setting: *mut NMSettingCdma) -> *const c_char;
@@ -5121,9 +5172,11 @@ extern "C" {
     pub fn nm_setting_connection_new() -> *mut NMSetting;
     pub fn nm_setting_connection_add_permission(setting: *mut NMSettingConnection, ptype: *const c_char, pitem: *const c_char, detail: *const c_char) -> gboolean;
     pub fn nm_setting_connection_add_secondary(setting: *mut NMSettingConnection, sec_uuid: *const c_char) -> gboolean;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_connection_get_auth_retries(setting: *mut NMSettingConnection) -> c_int;
     pub fn nm_setting_connection_get_autoconnect(setting: *mut NMSettingConnection) -> gboolean;
     pub fn nm_setting_connection_get_autoconnect_priority(setting: *mut NMSettingConnection) -> c_int;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_connection_get_autoconnect_retries(setting: *mut NMSettingConnection) -> c_int;
     pub fn nm_setting_connection_get_autoconnect_slaves(setting: *mut NMSettingConnection) -> NMSettingConnectionAutoconnectSlaves;
     pub fn nm_setting_connection_get_connection_type(setting: *mut NMSettingConnection) -> *const c_char;
@@ -5139,6 +5192,7 @@ extern "C" {
     pub fn nm_setting_connection_get_read_only(setting: *mut NMSettingConnection) -> gboolean;
     pub fn nm_setting_connection_get_secondary(setting: *mut NMSettingConnection, idx: u32) -> *const c_char;
     pub fn nm_setting_connection_get_slave_type(setting: *mut NMSettingConnection) -> *const c_char;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_setting_connection_get_stable_id(setting: *mut NMSettingConnection) -> *const c_char;
     pub fn nm_setting_connection_get_timestamp(setting: *mut NMSettingConnection) -> u64;
     pub fn nm_setting_connection_get_uuid(setting: *mut NMSettingConnection) -> *const c_char;
@@ -5181,6 +5235,7 @@ extern "C" {
     // NMSettingDummy
     //=========================================================================
     pub fn nm_setting_dummy_get_type() -> GType;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_dummy_new() -> *mut NMSetting;
 
     //=========================================================================
@@ -5197,6 +5252,7 @@ extern "C" {
     pub fn nm_setting_gsm_get_apn(setting: *mut NMSettingGsm) -> *const c_char;
     pub fn nm_setting_gsm_get_device_id(setting: *mut NMSettingGsm) -> *const c_char;
     pub fn nm_setting_gsm_get_home_only(setting: *mut NMSettingGsm) -> gboolean;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_gsm_get_mtu(setting: *mut NMSettingGsm) -> u32;
     pub fn nm_setting_gsm_get_network_id(setting: *mut NMSettingGsm) -> *const c_char;
     pub fn nm_setting_gsm_get_number(setting: *mut NMSettingGsm) -> *const c_char;
@@ -5223,6 +5279,7 @@ extern "C" {
     pub fn nm_setting_ip6_config_new() -> *mut NMSetting;
     pub fn nm_setting_ip6_config_get_addr_gen_mode(setting: *mut NMSettingIP6Config) -> NMSettingIP6ConfigAddrGenMode;
     pub fn nm_setting_ip6_config_get_ip6_privacy(setting: *mut NMSettingIP6Config) -> NMSettingIP6ConfigPrivacy;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_setting_ip6_config_get_token(setting: *mut NMSettingIP6Config) -> *const c_char;
 
     //=========================================================================
@@ -5246,6 +5303,7 @@ extern "C" {
     pub fn nm_setting_ip_config_get_dhcp_timeout(setting: *mut NMSettingIPConfig) -> c_int;
     pub fn nm_setting_ip_config_get_dns(setting: *mut NMSettingIPConfig, idx: c_int) -> *const c_char;
     pub fn nm_setting_ip_config_get_dns_option(setting: *mut NMSettingIPConfig, idx: c_uint) -> *const c_char;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_setting_ip_config_get_dns_priority(setting: *mut NMSettingIPConfig) -> c_int;
     pub fn nm_setting_ip_config_get_dns_search(setting: *mut NMSettingIPConfig, idx: c_int) -> *const c_char;
     pub fn nm_setting_ip_config_get_gateway(setting: *mut NMSettingIPConfig) -> *const c_char;
@@ -5261,6 +5319,7 @@ extern "C" {
     pub fn nm_setting_ip_config_get_num_routes(setting: *mut NMSettingIPConfig) -> c_uint;
     pub fn nm_setting_ip_config_get_route(setting: *mut NMSettingIPConfig, idx: c_int) -> *mut NMIPRoute;
     pub fn nm_setting_ip_config_get_route_metric(setting: *mut NMSettingIPConfig) -> i64;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ip_config_get_route_table(setting: *mut NMSettingIPConfig) -> u32;
     pub fn nm_setting_ip_config_has_dns_options(setting: *mut NMSettingIPConfig) -> gboolean;
     pub fn nm_setting_ip_config_next_valid_dns_option(setting: *mut NMSettingIPConfig, idx: c_uint) -> c_int;
@@ -5309,14 +5368,23 @@ extern "C" {
     // NMSettingMacsec
     //=========================================================================
     pub fn nm_setting_macsec_get_type() -> GType;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_macsec_new() -> *mut NMSetting;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_macsec_get_encrypt(setting: *mut NMSettingMacsec) -> gboolean;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_macsec_get_mka_cak(setting: *mut NMSettingMacsec) -> *const c_char;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_macsec_get_mka_cak_flags(setting: *mut NMSettingMacsec) -> NMSettingSecretFlags;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_macsec_get_mka_ckn(setting: *mut NMSettingMacsec) -> *const c_char;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_macsec_get_mode(setting: *mut NMSettingMacsec) -> NMSettingMacsecMode;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_macsec_get_parent(setting: *mut NMSettingMacsec) -> *const c_char;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_macsec_get_port(setting: *mut NMSettingMacsec) -> c_int;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_macsec_get_validation(setting: *mut NMSettingMacsec) -> NMSettingMacsecValidation;
 
     //=========================================================================
@@ -5342,36 +5410,52 @@ extern "C" {
     // NMSettingOvsBridge
     //=========================================================================
     pub fn nm_setting_ovs_bridge_get_type() -> GType;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_bridge_new() -> *mut NMSetting;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_bridge_get_fail_mode(self_: *mut NMSettingOvsBridge) -> *const c_char;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_bridge_get_mcast_snooping_enable(self_: *mut NMSettingOvsBridge) -> gboolean;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_bridge_get_rstp_enable(self_: *mut NMSettingOvsBridge) -> gboolean;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_bridge_get_stp_enable(self_: *mut NMSettingOvsBridge) -> gboolean;
 
     //=========================================================================
     // NMSettingOvsInterface
     //=========================================================================
     pub fn nm_setting_ovs_interface_get_type() -> GType;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_interface_new() -> *mut NMSetting;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_interface_get_interface_type(self_: *mut NMSettingOvsInterface) -> *const c_char;
 
     //=========================================================================
     // NMSettingOvsPatch
     //=========================================================================
     pub fn nm_setting_ovs_patch_get_type() -> GType;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_patch_new() -> *mut NMSetting;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_patch_get_peer(self_: *mut NMSettingOvsPatch) -> *const c_char;
 
     //=========================================================================
     // NMSettingOvsPort
     //=========================================================================
     pub fn nm_setting_ovs_port_get_type() -> GType;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_port_new() -> *mut NMSetting;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_port_get_bond_downdelay(self_: *mut NMSettingOvsPort) -> c_uint;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_port_get_bond_mode(self_: *mut NMSettingOvsPort) -> *const c_char;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_port_get_bond_updelay(self_: *mut NMSettingOvsPort) -> c_uint;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_port_get_lacp(self_: *mut NMSettingOvsPort) -> *const c_char;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_port_get_tag(self_: *mut NMSettingOvsPort) -> c_uint;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_ovs_port_get_vlan_mode(self_: *mut NMSettingOvsPort) -> *const c_char;
 
     //=========================================================================
@@ -5403,6 +5487,7 @@ extern "C" {
     //=========================================================================
     pub fn nm_setting_pppoe_get_type() -> GType;
     pub fn nm_setting_pppoe_new() -> *mut NMSetting;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_pppoe_get_parent(setting: *mut NMSettingPppoe) -> *const c_char;
     pub fn nm_setting_pppoe_get_password(setting: *mut NMSettingPppoe) -> *const c_char;
     pub fn nm_setting_pppoe_get_password_flags(setting: *mut NMSettingPppoe) -> NMSettingSecretFlags;
@@ -5413,10 +5498,15 @@ extern "C" {
     // NMSettingProxy
     //=========================================================================
     pub fn nm_setting_proxy_get_type() -> GType;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_proxy_new() -> *mut NMSetting;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_proxy_get_browser_only(setting: *mut NMSettingProxy) -> gboolean;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_proxy_get_method(setting: *mut NMSettingProxy) -> NMSettingProxyMethod;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_proxy_get_pac_script(setting: *mut NMSettingProxy) -> *const c_char;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_proxy_get_pac_url(setting: *mut NMSettingProxy) -> *const c_char;
 
     //=========================================================================
@@ -5562,10 +5652,14 @@ extern "C" {
     //=========================================================================
     pub fn nm_setting_user_get_type() -> GType;
     pub fn nm_setting_user_new() -> *mut NMSetting;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_user_check_key(key: *const c_char, error: *mut *mut glib::GError) -> gboolean;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_user_check_val(val: *const c_char, error: *mut *mut glib::GError) -> gboolean;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_user_get_data(setting: *mut NMSettingUser, key: *const c_char) -> *const c_char;
     pub fn nm_setting_user_get_keys(setting: *mut NMSettingUser, out_len: *mut c_uint) -> *mut *mut c_char;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_setting_user_set_data(setting: *mut NMSettingUser, key: *const c_char, val: *const c_char, error: *mut *mut glib::GError) -> gboolean;
 
     //=========================================================================
@@ -5646,6 +5740,7 @@ extern "C" {
     pub fn nm_setting_wired_get_auto_negotiate(setting: *mut NMSettingWired) -> gboolean;
     pub fn nm_setting_wired_get_cloned_mac_address(setting: *mut NMSettingWired) -> *const c_char;
     pub fn nm_setting_wired_get_duplex(setting: *mut NMSettingWired) -> *const c_char;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_setting_wired_get_generate_mac_address_mask(setting: *mut NMSettingWired) -> *const c_char;
     pub fn nm_setting_wired_get_mac_address(setting: *mut NMSettingWired) -> *const c_char;
     pub fn nm_setting_wired_get_mac_address_blacklist(setting: *mut NMSettingWired) -> *const *const c_char;
@@ -5679,6 +5774,7 @@ extern "C" {
     pub fn nm_setting_wireless_get_bssid(setting: *mut NMSettingWireless) -> *const c_char;
     pub fn nm_setting_wireless_get_channel(setting: *mut NMSettingWireless) -> u32;
     pub fn nm_setting_wireless_get_cloned_mac_address(setting: *mut NMSettingWireless) -> *const c_char;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_setting_wireless_get_generate_mac_address_mask(setting: *mut NMSettingWireless) -> *const c_char;
     pub fn nm_setting_wireless_get_hidden(setting: *mut NMSettingWireless) -> gboolean;
     pub fn nm_setting_wireless_get_mac_address(setting: *mut NMSettingWireless) -> *const c_char;
@@ -5726,6 +5822,7 @@ extern "C" {
     pub fn nm_setting_wireless_security_get_wep_key_flags(setting: *mut NMSettingWirelessSecurity) -> NMSettingSecretFlags;
     pub fn nm_setting_wireless_security_get_wep_key_type(setting: *mut NMSettingWirelessSecurity) -> NMWepKeyType;
     pub fn nm_setting_wireless_security_get_wep_tx_keyidx(setting: *mut NMSettingWirelessSecurity) -> u32;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_wireless_security_get_wps_method(setting: *mut NMSettingWirelessSecurity) -> NMSettingWirelessSecurityWpsMethod;
     pub fn nm_setting_wireless_security_remove_group(setting: *mut NMSettingWirelessSecurity, i: u32);
     pub fn nm_setting_wireless_security_remove_group_by_value(setting: *mut NMSettingWirelessSecurity, group: *const c_char) -> gboolean;
@@ -5755,28 +5852,35 @@ extern "C" {
     //=========================================================================
     pub fn nm_vpn_plugin_info_get_type() -> GType;
     pub fn nm_vpn_plugin_info_new_from_file(filename: *const c_char, error: *mut *mut glib::GError) -> *mut NMVpnPluginInfo;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_vpn_plugin_info_new_search_file(name: *const c_char, service: *const c_char) -> *mut NMVpnPluginInfo;
     pub fn nm_vpn_plugin_info_new_with_data(filename: *const c_char, keyfile: *mut glib::GKeyFile, error: *mut *mut glib::GError) -> *mut NMVpnPluginInfo;
     pub fn nm_vpn_plugin_info_list_add(list: *mut *mut glib::GSList, plugin_info: *mut NMVpnPluginInfo, error: *mut *mut glib::GError) -> gboolean;
     pub fn nm_vpn_plugin_info_list_find_by_filename(list: *mut glib::GSList, filename: *const c_char) -> *mut NMVpnPluginInfo;
     pub fn nm_vpn_plugin_info_list_find_by_name(list: *mut glib::GSList, name: *const c_char) -> *mut NMVpnPluginInfo;
     pub fn nm_vpn_plugin_info_list_find_by_service(list: *mut glib::GSList, service: *const c_char) -> *mut NMVpnPluginInfo;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_vpn_plugin_info_list_find_service_type(list: *mut glib::GSList, name: *const c_char) -> *mut c_char;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_vpn_plugin_info_list_get_service_types(list: *mut glib::GSList, only_existing: gboolean, with_abbreviations: gboolean) -> *mut *mut c_char;
     pub fn nm_vpn_plugin_info_list_load() -> *mut glib::GSList;
     pub fn nm_vpn_plugin_info_list_remove(list: *mut *mut glib::GSList, plugin_info: *mut NMVpnPluginInfo) -> gboolean;
     pub fn nm_vpn_plugin_info_validate_filename(filename: *const c_char) -> gboolean;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_vpn_plugin_info_get_aliases(self_: *mut NMVpnPluginInfo) -> *mut *mut c_char;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_vpn_plugin_info_get_auth_dialog(self_: *mut NMVpnPluginInfo) -> *const c_char;
     pub fn nm_vpn_plugin_info_get_editor_plugin(self_: *mut NMVpnPluginInfo) -> *mut NMVpnEditorPlugin;
     pub fn nm_vpn_plugin_info_get_filename(self_: *mut NMVpnPluginInfo) -> *const c_char;
     pub fn nm_vpn_plugin_info_get_name(self_: *mut NMVpnPluginInfo) -> *const c_char;
     pub fn nm_vpn_plugin_info_get_plugin(self_: *mut NMVpnPluginInfo) -> *const c_char;
     pub fn nm_vpn_plugin_info_get_program(self_: *mut NMVpnPluginInfo) -> *const c_char;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_vpn_plugin_info_get_service(self_: *mut NMVpnPluginInfo) -> *const c_char;
     pub fn nm_vpn_plugin_info_load_editor_plugin(self_: *mut NMVpnPluginInfo, error: *mut *mut glib::GError) -> *mut NMVpnEditorPlugin;
     pub fn nm_vpn_plugin_info_lookup_property(self_: *mut NMVpnPluginInfo, group: *const c_char, key: *const c_char) -> *const c_char;
     pub fn nm_vpn_plugin_info_set_editor_plugin(self_: *mut NMVpnPluginInfo, plugin: *mut NMVpnEditorPlugin);
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_vpn_plugin_info_supports_hints(self_: *mut NMVpnPluginInfo) -> gboolean;
     pub fn nm_vpn_plugin_info_supports_multiple(self_: *mut NMVpnPluginInfo) -> gboolean;
 
@@ -5849,6 +5953,7 @@ extern "C" {
     pub fn nm_connection_get_setting_cdma(connection: *mut NMConnection) -> *mut NMSettingCdma;
     pub fn nm_connection_get_setting_connection(connection: *mut NMConnection) -> *mut NMSettingConnection;
     pub fn nm_connection_get_setting_dcb(connection: *mut NMConnection) -> *mut NMSettingDcb;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_connection_get_setting_dummy(connection: *mut NMConnection) -> *mut NMSettingDummy;
     pub fn nm_connection_get_setting_generic(connection: *mut NMConnection) -> *mut NMSettingGeneric;
     pub fn nm_connection_get_setting_gsm(connection: *mut NMConnection) -> *mut NMSettingGsm;
@@ -5856,15 +5961,21 @@ extern "C" {
     pub fn nm_connection_get_setting_ip4_config(connection: *mut NMConnection) -> *mut NMSettingIP4Config;
     pub fn nm_connection_get_setting_ip6_config(connection: *mut NMConnection) -> *mut NMSettingIP6Config;
     pub fn nm_connection_get_setting_ip_tunnel(connection: *mut NMConnection) -> *mut NMSettingIPTunnel;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_connection_get_setting_macsec(connection: *mut NMConnection) -> *mut NMSettingMacsec;
     pub fn nm_connection_get_setting_macvlan(connection: *mut NMConnection) -> *mut NMSettingMacvlan;
     pub fn nm_connection_get_setting_olpc_mesh(connection: *mut NMConnection) -> *mut NMSettingOlpcMesh;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_connection_get_setting_ovs_bridge(connection: *mut NMConnection) -> *mut NMSettingOvsBridge;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_connection_get_setting_ovs_interface(connection: *mut NMConnection) -> *mut NMSettingOvsInterface;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_connection_get_setting_ovs_patch(connection: *mut NMConnection) -> *mut NMSettingOvsPatch;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_connection_get_setting_ovs_port(connection: *mut NMConnection) -> *mut NMSettingOvsPort;
     pub fn nm_connection_get_setting_ppp(connection: *mut NMConnection) -> *mut NMSettingPpp;
     pub fn nm_connection_get_setting_pppoe(connection: *mut NMConnection) -> *mut NMSettingPppoe;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_connection_get_setting_proxy(connection: *mut NMConnection) -> *mut NMSettingProxy;
     pub fn nm_connection_get_setting_serial(connection: *mut NMConnection) -> *mut NMSettingSerial;
     #[cfg(any(feature = "v1_10_2", feature = "dox"))]
@@ -5879,6 +5990,7 @@ extern "C" {
     pub fn nm_connection_get_setting_wired(connection: *mut NMConnection) -> *mut NMSettingWired;
     pub fn nm_connection_get_setting_wireless(connection: *mut NMConnection) -> *mut NMSettingWireless;
     pub fn nm_connection_get_setting_wireless_security(connection: *mut NMConnection) -> *mut NMSettingWirelessSecurity;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_connection_get_settings(connection: *mut NMConnection, out_length: *mut c_uint) -> *mut *mut NMSetting;
     pub fn nm_connection_get_uuid(connection: *mut NMConnection) -> *const c_char;
     pub fn nm_connection_get_virtual_device_description(connection: *mut NMConnection) -> *mut c_char;
@@ -5906,14 +6018,18 @@ extern "C" {
     // NMVpnEditorPlugin
     //=========================================================================
     pub fn nm_vpn_editor_plugin_get_type() -> GType;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_vpn_editor_plugin_load(plugin_name: *const c_char, check_service: *const c_char, error: *mut *mut glib::GError) -> *mut NMVpnEditorPlugin;
     pub fn nm_vpn_editor_plugin_export(plugin: *mut NMVpnEditorPlugin, path: *const c_char, connection: *mut NMConnection, error: *mut *mut glib::GError) -> gboolean;
     pub fn nm_vpn_editor_plugin_get_capabilities(plugin: *mut NMVpnEditorPlugin) -> NMVpnEditorPluginCapability;
     pub fn nm_vpn_editor_plugin_get_editor(plugin: *mut NMVpnEditorPlugin, connection: *mut NMConnection, error: *mut *mut glib::GError) -> *mut NMVpnEditor;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_vpn_editor_plugin_get_plugin_info(plugin: *mut NMVpnEditorPlugin) -> *mut NMVpnPluginInfo;
     pub fn nm_vpn_editor_plugin_get_suggested_filename(plugin: *mut NMVpnEditorPlugin, connection: *mut NMConnection) -> *mut c_char;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_vpn_editor_plugin_get_vt(plugin: *mut NMVpnEditorPlugin, vt: *mut NMVpnEditorPluginVT, vt_size: size_t) -> size_t;
     pub fn nm_vpn_editor_plugin_import(plugin: *mut NMVpnEditorPlugin, path: *const c_char, error: *mut *mut glib::GError) -> *mut NMConnection;
+    #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_vpn_editor_plugin_set_plugin_info(plugin: *mut NMVpnEditorPlugin, plugin_info: *mut NMVpnPluginInfo);
 
     //=========================================================================
@@ -5963,9 +6079,11 @@ extern "C" {
     pub fn nm_utils_ip_routes_to_variant(routes: *mut glib::GPtrArray) -> *mut glib::GVariant;
     pub fn nm_utils_ipaddr_valid(family: c_int, ip: *const c_char) -> gboolean;
     pub fn nm_utils_is_empty_ssid(ssid: *mut u8, len: size_t) -> gboolean;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_utils_is_json_object(str: *const c_char, error: *mut *mut glib::GError) -> gboolean;
     pub fn nm_utils_is_uuid(str: *const c_char) -> gboolean;
     pub fn nm_utils_is_valid_iface_name(name: *const c_char, error: *mut *mut glib::GError) -> gboolean;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn nm_utils_parse_variant_attributes(string: *const c_char, attr_separator: c_char, key_value_separator: c_char, ignore_unknown: gboolean, spec: *const *const NMVariantAttributeSpec, error: *mut *mut glib::GError) -> *mut glib::GHashTable;
     pub fn nm_utils_same_ssid(ssid1: *mut u8, len1: size_t, ssid2: *mut u8, len2: size_t, ignore_trailing_null: gboolean) -> gboolean;
     pub fn nm_utils_security_valid(type_: NMUtilsSecurityType, wifi_caps: NMDeviceWifiCapabilities, have_ap: gboolean, adhoc: gboolean, ap_flags: NM80211ApFlags, ap_wpa: NM80211ApSecurityFlags, ap_rsn: NM80211ApSecurityFlags) -> gboolean;
@@ -5983,6 +6101,7 @@ extern "C" {
     #[cfg(any(feature = "v1_10_2", feature = "dox"))]
     pub fn nm_utils_tc_tfilter_to_str(tfilter: *mut NMTCTfilter, error: *mut *mut glib::GError) -> *mut c_char;
     pub fn nm_utils_uuid_generate() -> *mut c_char;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_utils_version() -> c_uint;
     pub fn nm_utils_wep_key_valid(key: *const c_char, wep_type: NMWepKeyType) -> gboolean;
     pub fn nm_utils_wifi_2ghz_freqs() -> *const c_uint;

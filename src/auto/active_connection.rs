@@ -56,8 +56,10 @@ pub trait ActiveConnectionExt {
 
     //fn get_state(&self) -> /*Ignored*/ActiveConnectionState;
 
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
     //fn get_state_flags(&self) -> /*Ignored*/ActivationStateFlags;
 
+    //#[cfg(any(feature = "v1_8", feature = "dox"))]
     //fn get_state_reason(&self) -> /*Ignored*/ActiveConnectionStateReason;
 
     fn get_uuid(&self) -> Option<String>;
@@ -92,6 +94,7 @@ pub trait ActiveConnectionExt {
 
     fn connect_property_state_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn connect_property_state_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     fn connect_property_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -168,10 +171,12 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     //    unsafe { TODO: call ffi::nm_active_connection_get_state() }
     //}
 
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
     //fn get_state_flags(&self) -> /*Ignored*/ActivationStateFlags {
     //    unsafe { TODO: call ffi::nm_active_connection_get_state_flags() }
     //}
 
+    //#[cfg(any(feature = "v1_8", feature = "dox"))]
     //fn get_state_reason(&self) -> /*Ignored*/ActiveConnectionStateReason {
     //    unsafe { TODO: call ffi::nm_active_connection_get_state_reason() }
     //}
@@ -300,6 +305,7 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
         }
     }
 
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn connect_property_state_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
@@ -424,6 +430,7 @@ where P: IsA<ActiveConnection> {
     f(&ActiveConnection::from_glib_borrow(this).downcast_unchecked())
 }
 
+#[cfg(any(feature = "v1_10", feature = "dox"))]
 unsafe extern "C" fn notify_state_flags_trampoline<P>(this: *mut ffi::NMActiveConnection, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
 where P: IsA<ActiveConnection> {
     callback_guard!();
