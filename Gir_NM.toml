@@ -10,6 +10,7 @@ generate = [
     "NM.Connection",
     "NM.ActiveConnection",
     "NM.RemoteConnection",
+    "NM.Device",
     "NM.DeviceWifi",
     "NM.DeviceWifiCapabilities",
     "NM.80211Mode",
@@ -50,8 +51,3 @@ trait = false
     [[object.function]]
     name = "get_logging"
     ignore = true
-
-[[object]]
-name = "NM.Device"
-status = "generate"
-trait = false

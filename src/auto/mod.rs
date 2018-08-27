@@ -19,6 +19,7 @@ pub use self::connection::ConnectionExt;
 
 mod device;
 pub use self::device::Device;
+pub use self::device::DeviceExt;
 
 mod device_wifi;
 pub use self::device_wifi::DeviceWifi;
@@ -41,6 +42,7 @@ pub mod traits {
     pub use super::AccessPointExt;
     pub use super::ActiveConnectionExt;
     pub use super::ConnectionExt;
+    pub use super::DeviceExt;
     pub use super::DeviceWifiExt;
     pub use super::RemoteConnectionExt;
 }

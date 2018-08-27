@@ -13,6 +13,7 @@ use gio_ffi;
 use glib;
 use glib::StaticType;
 use glib::Value;
+use glib::object::Downcast;
 use glib::object::IsA;
 use glib::signal::SignalHandlerId;
 use glib::signal::connect;
@@ -34,7 +35,182 @@ glib_wrapper! {
 }
 
 impl Device {
-    pub fn connection_compatible<P: IsA<Connection>>(&self, connection: &P) -> Result<(), Error> {
+    pub fn disambiguate_names(devices: &[Device]) -> Vec<String> {
+        let num_devices = devices.len() as i32;
+        unsafe {
+            FromGlibPtrContainer::from_glib_full(ffi::nm_device_disambiguate_names(devices.to_glib_none().0, num_devices))
+        }
+    }
+}
+
+pub trait DeviceExt: Sized {
+    fn connection_compatible<P: IsA<Connection>>(&self, connection: &P) -> Result<(), Error>;
+
+    fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool;
+
+    fn delete<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, cancellable: P) -> Result<(), Error>;
+
+    fn delete_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, cancellable: P, callback: Q);
+
+    #[cfg(feature = "futures")]
+    fn delete_async_future(&self) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
+
+    fn disconnect<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, cancellable: P) -> Result<(), Error>;
+
+    fn disconnect_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, cancellable: P, callback: Q);
+
+    #[cfg(feature = "futures")]
+    fn disconnect_async_future(&self) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
+
+    //fn filter_connections(&self, connections: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 4 }) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 4 };
+
+    fn get_active_connection(&self) -> Option<ActiveConnection>;
+
+    fn get_applied_connection<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, flags: u32, cancellable: P) -> Result<(Connection, u64), Error>;
+
+    fn get_applied_connection_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<(Connection, u64), Error>) + Send + 'static>(&self, flags: u32, cancellable: P, callback: Q);
+
+    #[cfg(feature = "futures")]
+    fn get_applied_connection_async_future(&self, flags: u32) -> Box_<futures_core::Future<Item = (Self, (Connection, u64)), Error = (Self, Error)>>;
+
+    fn get_autoconnect(&self) -> bool;
+
+    //fn get_available_connections(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 9 };
+
+    //fn get_capabilities(&self) -> /*Ignored*/DeviceCapabilities;
+
+    fn get_description(&self) -> Option<String>;
+
+    //fn get_device_type(&self) -> /*Ignored*/DeviceType;
+
+    //fn get_dhcp4_config(&self) -> /*Ignored*/Option<DhcpConfig>;
+
+    //fn get_dhcp6_config(&self) -> /*Ignored*/Option<DhcpConfig>;
+
+    fn get_driver(&self) -> Option<String>;
+
+    fn get_driver_version(&self) -> Option<String>;
+
+    fn get_firmware_missing(&self) -> bool;
+
+    fn get_firmware_version(&self) -> Option<String>;
+
+    fn get_hw_address(&self) -> Option<String>;
+
+    fn get_iface(&self) -> Option<String>;
+
+    //fn get_ip4_config(&self) -> /*Ignored*/Option<IPConfig>;
+
+    //fn get_ip6_config(&self) -> /*Ignored*/Option<IPConfig>;
+
+    fn get_ip_iface(&self) -> Option<String>;
+
+    //fn get_lldp_neighbors(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 77 };
+
+    fn get_managed(&self) -> bool;
+
+    //fn get_metered(&self) -> /*Ignored*/Metered;
+
+    fn get_mtu(&self) -> u32;
+
+    fn get_nm_plugin_missing(&self) -> bool;
+
+    fn get_physical_port_id(&self) -> Option<String>;
+
+    fn get_product(&self) -> Option<String>;
+
+    fn get_setting_type(&self) -> glib::types::Type;
+
+    //fn get_state(&self) -> /*Ignored*/DeviceState;
+
+    //fn get_state_reason(&self) -> /*Ignored*/DeviceStateReason;
+
+    fn get_type_description(&self) -> Option<String>;
+
+    fn get_udi(&self) -> Option<String>;
+
+    fn get_vendor(&self) -> Option<String>;
+
+    fn is_real(&self) -> bool;
+
+    fn is_software(&self) -> bool;
+
+    fn reapply<'a, P: IsA<Connection>, Q: Into<Option<&'a gio::Cancellable>>>(&self, connection: &P, version_id: u64, flags: u32, cancellable: Q) -> Result<(), Error>;
+
+    fn reapply_async<'a, P: IsA<Connection>, Q: Into<Option<&'a gio::Cancellable>>, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, connection: &P, version_id: u64, flags: u32, cancellable: Q, callback: R);
+
+    #[cfg(feature = "futures")]
+    fn reapply_async_future<P: IsA<Connection> + Clone + 'static>(&self, connection: &P, version_id: u64, flags: u32) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
+
+    fn set_autoconnect(&self, autoconnect: bool);
+
+    fn set_managed(&self, managed: bool);
+
+    fn get_property_interface(&self) -> Option<String>;
+
+    fn get_property_ip_interface(&self) -> Option<String>;
+
+    fn get_property_real(&self) -> bool;
+
+    fn connect_state_changed<F: Fn(&Self, u32, u32, u32) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_active_connection_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_autoconnect_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_available_connections_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_capabilities_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_device_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_dhcp4_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_dhcp6_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_driver_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_driver_version_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_firmware_missing_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_firmware_version_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_interface_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_ip_interface_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_ip4_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_ip6_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_lldp_neighbors_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_managed_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_metered_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_mtu_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_nm_plugin_missing_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_physical_port_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_product_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_real_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_state_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_state_reason_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_udi_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_vendor_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+}
+
+impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for O {
+    fn connection_compatible<P: IsA<Connection>>(&self, connection: &P) -> Result<(), Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = ffi::nm_device_connection_compatible(self.to_glib_none().0, connection.to_glib_none().0, &mut error);
@@ -42,13 +218,13 @@ impl Device {
         }
     }
 
-    pub fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool {
+    fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool {
         unsafe {
             from_glib(ffi::nm_device_connection_valid(self.to_glib_none().0, connection.to_glib_none().0))
         }
     }
 
-    pub fn delete<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, cancellable: P) -> Result<(), Error> {
+    fn delete<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, cancellable: P) -> Result<(), Error> {
         let cancellable = cancellable.into();
         let cancellable = cancellable.to_glib_none();
         unsafe {
@@ -58,7 +234,7 @@ impl Device {
         }
     }
 
-    pub fn delete_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, cancellable: P, callback: Q) {
+    fn delete_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, cancellable: P, callback: Q) {
         let cancellable = cancellable.into();
         let cancellable = cancellable.to_glib_none();
         let user_data: Box<Box<Q>> = Box::new(Box::new(callback));
@@ -77,7 +253,7 @@ impl Device {
     }
 
     #[cfg(feature = "futures")]
-    pub fn delete_async_future(&self) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    fn delete_async_future(&self) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
         use gio::GioFuture;
         use send_cell::SendCell;
 
@@ -98,7 +274,7 @@ impl Device {
         })
     }
 
-    pub fn disconnect<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, cancellable: P) -> Result<(), Error> {
+    fn disconnect<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, cancellable: P) -> Result<(), Error> {
         let cancellable = cancellable.into();
         let cancellable = cancellable.to_glib_none();
         unsafe {
@@ -108,7 +284,7 @@ impl Device {
         }
     }
 
-    pub fn disconnect_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, cancellable: P, callback: Q) {
+    fn disconnect_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<(), Error>) + Send + 'static>(&self, cancellable: P, callback: Q) {
         let cancellable = cancellable.into();
         let cancellable = cancellable.to_glib_none();
         let user_data: Box<Box<Q>> = Box::new(Box::new(callback));
@@ -127,7 +303,7 @@ impl Device {
     }
 
     #[cfg(feature = "futures")]
-    pub fn disconnect_async_future(&self) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    fn disconnect_async_future(&self) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
         use gio::GioFuture;
         use send_cell::SendCell;
 
@@ -148,17 +324,17 @@ impl Device {
         })
     }
 
-    //pub fn filter_connections(&self, connections: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 4 }) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 4 } {
+    //fn filter_connections(&self, connections: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 4 }) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 4 } {
     //    unsafe { TODO: call ffi::nm_device_filter_connections() }
     //}
 
-    pub fn get_active_connection(&self) -> Option<ActiveConnection> {
+    fn get_active_connection(&self) -> Option<ActiveConnection> {
         unsafe {
             from_glib_none(ffi::nm_device_get_active_connection(self.to_glib_none().0))
         }
     }
 
-    pub fn get_applied_connection<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, flags: u32, cancellable: P) -> Result<(Connection, u64), Error> {
+    fn get_applied_connection<'a, P: Into<Option<&'a gio::Cancellable>>>(&self, flags: u32, cancellable: P) -> Result<(Connection, u64), Error> {
         let cancellable = cancellable.into();
         let cancellable = cancellable.to_glib_none();
         unsafe {
@@ -169,7 +345,7 @@ impl Device {
         }
     }
 
-    pub fn get_applied_connection_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<(Connection, u64), Error>) + Send + 'static>(&self, flags: u32, cancellable: P, callback: Q) {
+    fn get_applied_connection_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<(Connection, u64), Error>) + Send + 'static>(&self, flags: u32, cancellable: P, callback: Q) {
         let cancellable = cancellable.into();
         let cancellable = cancellable.to_glib_none();
         let user_data: Box<Box<Q>> = Box::new(Box::new(callback));
@@ -189,7 +365,7 @@ impl Device {
     }
 
     #[cfg(feature = "futures")]
-    pub fn get_applied_connection_async_future(&self, flags: u32) -> Box_<futures_core::Future<Item = (Self, (Connection, u64)), Error = (Self, Error)>> {
+    fn get_applied_connection_async_future(&self, flags: u32) -> Box_<futures_core::Future<Item = (Self, (Connection, u64)), Error = (Self, Error)>> {
         use gio::GioFuture;
         use send_cell::SendCell;
 
@@ -211,171 +387,171 @@ impl Device {
         })
     }
 
-    pub fn get_autoconnect(&self) -> bool {
+    fn get_autoconnect(&self) -> bool {
         unsafe {
             from_glib(ffi::nm_device_get_autoconnect(self.to_glib_none().0))
         }
     }
 
-    //pub fn get_available_connections(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 9 } {
+    //fn get_available_connections(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 9 } {
     //    unsafe { TODO: call ffi::nm_device_get_available_connections() }
     //}
 
-    //pub fn get_capabilities(&self) -> /*Ignored*/DeviceCapabilities {
+    //fn get_capabilities(&self) -> /*Ignored*/DeviceCapabilities {
     //    unsafe { TODO: call ffi::nm_device_get_capabilities() }
     //}
 
-    pub fn get_description(&self) -> Option<String> {
+    fn get_description(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::nm_device_get_description(self.to_glib_none().0))
         }
     }
 
-    //pub fn get_device_type(&self) -> /*Ignored*/DeviceType {
+    //fn get_device_type(&self) -> /*Ignored*/DeviceType {
     //    unsafe { TODO: call ffi::nm_device_get_device_type() }
     //}
 
-    //pub fn get_dhcp4_config(&self) -> /*Ignored*/Option<DhcpConfig> {
+    //fn get_dhcp4_config(&self) -> /*Ignored*/Option<DhcpConfig> {
     //    unsafe { TODO: call ffi::nm_device_get_dhcp4_config() }
     //}
 
-    //pub fn get_dhcp6_config(&self) -> /*Ignored*/Option<DhcpConfig> {
+    //fn get_dhcp6_config(&self) -> /*Ignored*/Option<DhcpConfig> {
     //    unsafe { TODO: call ffi::nm_device_get_dhcp6_config() }
     //}
 
-    pub fn get_driver(&self) -> Option<String> {
+    fn get_driver(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::nm_device_get_driver(self.to_glib_none().0))
         }
     }
 
-    pub fn get_driver_version(&self) -> Option<String> {
+    fn get_driver_version(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::nm_device_get_driver_version(self.to_glib_none().0))
         }
     }
 
-    pub fn get_firmware_missing(&self) -> bool {
+    fn get_firmware_missing(&self) -> bool {
         unsafe {
             from_glib(ffi::nm_device_get_firmware_missing(self.to_glib_none().0))
         }
     }
 
-    pub fn get_firmware_version(&self) -> Option<String> {
+    fn get_firmware_version(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::nm_device_get_firmware_version(self.to_glib_none().0))
         }
     }
 
-    pub fn get_hw_address(&self) -> Option<String> {
+    fn get_hw_address(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::nm_device_get_hw_address(self.to_glib_none().0))
         }
     }
 
-    pub fn get_iface(&self) -> Option<String> {
+    fn get_iface(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::nm_device_get_iface(self.to_glib_none().0))
         }
     }
 
-    //pub fn get_ip4_config(&self) -> /*Ignored*/Option<IPConfig> {
+    //fn get_ip4_config(&self) -> /*Ignored*/Option<IPConfig> {
     //    unsafe { TODO: call ffi::nm_device_get_ip4_config() }
     //}
 
-    //pub fn get_ip6_config(&self) -> /*Ignored*/Option<IPConfig> {
+    //fn get_ip6_config(&self) -> /*Ignored*/Option<IPConfig> {
     //    unsafe { TODO: call ffi::nm_device_get_ip6_config() }
     //}
 
-    pub fn get_ip_iface(&self) -> Option<String> {
+    fn get_ip_iface(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::nm_device_get_ip_iface(self.to_glib_none().0))
         }
     }
 
-    //pub fn get_lldp_neighbors(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 77 } {
+    //fn get_lldp_neighbors(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 77 } {
     //    unsafe { TODO: call ffi::nm_device_get_lldp_neighbors() }
     //}
 
-    pub fn get_managed(&self) -> bool {
+    fn get_managed(&self) -> bool {
         unsafe {
             from_glib(ffi::nm_device_get_managed(self.to_glib_none().0))
         }
     }
 
-    //pub fn get_metered(&self) -> /*Ignored*/Metered {
+    //fn get_metered(&self) -> /*Ignored*/Metered {
     //    unsafe { TODO: call ffi::nm_device_get_metered() }
     //}
 
-    pub fn get_mtu(&self) -> u32 {
+    fn get_mtu(&self) -> u32 {
         unsafe {
             ffi::nm_device_get_mtu(self.to_glib_none().0)
         }
     }
 
-    pub fn get_nm_plugin_missing(&self) -> bool {
+    fn get_nm_plugin_missing(&self) -> bool {
         unsafe {
             from_glib(ffi::nm_device_get_nm_plugin_missing(self.to_glib_none().0))
         }
     }
 
-    pub fn get_physical_port_id(&self) -> Option<String> {
+    fn get_physical_port_id(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::nm_device_get_physical_port_id(self.to_glib_none().0))
         }
     }
 
-    pub fn get_product(&self) -> Option<String> {
+    fn get_product(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::nm_device_get_product(self.to_glib_none().0))
         }
     }
 
-    pub fn get_setting_type(&self) -> glib::types::Type {
+    fn get_setting_type(&self) -> glib::types::Type {
         unsafe {
             from_glib(ffi::nm_device_get_setting_type(self.to_glib_none().0))
         }
     }
 
-    //pub fn get_state(&self) -> /*Ignored*/DeviceState {
+    //fn get_state(&self) -> /*Ignored*/DeviceState {
     //    unsafe { TODO: call ffi::nm_device_get_state() }
     //}
 
-    //pub fn get_state_reason(&self) -> /*Ignored*/DeviceStateReason {
+    //fn get_state_reason(&self) -> /*Ignored*/DeviceStateReason {
     //    unsafe { TODO: call ffi::nm_device_get_state_reason() }
     //}
 
-    pub fn get_type_description(&self) -> Option<String> {
+    fn get_type_description(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::nm_device_get_type_description(self.to_glib_none().0))
         }
     }
 
-    pub fn get_udi(&self) -> Option<String> {
+    fn get_udi(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::nm_device_get_udi(self.to_glib_none().0))
         }
     }
 
-    pub fn get_vendor(&self) -> Option<String> {
+    fn get_vendor(&self) -> Option<String> {
         unsafe {
             from_glib_none(ffi::nm_device_get_vendor(self.to_glib_none().0))
         }
     }
 
-    pub fn is_real(&self) -> bool {
+    fn is_real(&self) -> bool {
         unsafe {
             from_glib(ffi::nm_device_is_real(self.to_glib_none().0))
         }
     }
 
-    pub fn is_software(&self) -> bool {
+    fn is_software(&self) -> bool {
         unsafe {
             from_glib(ffi::nm_device_is_software(self.to_glib_none().0))
         }
     }
 
-    pub fn reapply<'a, P: IsA<Connection>, Q: Into<Option<&'a gio::Cancellable>>>(&self, connection: &P, version_id: u64, flags: u32, cancellable: Q) -> Result<(), Error> {
+    fn reapply<'a, P: IsA<Connection>, Q: Into<Option<&'a gio::Cancellable>>>(&self, connection: &P, version_id: u64, flags: u32, cancellable: Q) -> Result<(), Error> {
         let cancellable = cancellable.into();
         let cancellable = cancellable.to_glib_none();
         unsafe {
@@ -385,7 +561,7 @@ impl Device {
         }
     }
 
-    pub fn reapply_async<'a, P: IsA<Connection>, Q: Into<Option<&'a gio::Cancellable>>, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, connection: &P, version_id: u64, flags: u32, cancellable: Q, callback: R) {
+    fn reapply_async<'a, P: IsA<Connection>, Q: Into<Option<&'a gio::Cancellable>>, R: FnOnce(Result<(), Error>) + Send + 'static>(&self, connection: &P, version_id: u64, flags: u32, cancellable: Q, callback: R) {
         let cancellable = cancellable.into();
         let cancellable = cancellable.to_glib_none();
         let user_data: Box<Box<R>> = Box::new(Box::new(callback));
@@ -404,7 +580,7 @@ impl Device {
     }
 
     #[cfg(feature = "futures")]
-    pub fn reapply_async_future<P: IsA<Connection> + Clone + 'static>(&self, connection: &P, version_id: u64, flags: u32) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    fn reapply_async_future<P: IsA<Connection> + Clone + 'static>(&self, connection: &P, version_id: u64, flags: u32) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
         use gio::GioFuture;
         use send_cell::SendCell;
 
@@ -429,19 +605,19 @@ impl Device {
         })
     }
 
-    pub fn set_autoconnect(&self, autoconnect: bool) {
+    fn set_autoconnect(&self, autoconnect: bool) {
         unsafe {
             ffi::nm_device_set_autoconnect(self.to_glib_none().0, autoconnect.to_glib());
         }
     }
 
-    pub fn set_managed(&self, managed: bool) {
+    fn set_managed(&self, managed: bool) {
         unsafe {
             ffi::nm_device_set_managed(self.to_glib_none().0, managed.to_glib());
         }
     }
 
-    pub fn get_property_interface(&self) -> Option<String> {
+    fn get_property_interface(&self) -> Option<String> {
         unsafe {
             let mut value = Value::from_type(<String as StaticType>::static_type());
             gobject_ffi::g_object_get_property(self.to_glib_none().0, "interface".to_glib_none().0, value.to_glib_none_mut().0);
@@ -449,7 +625,7 @@ impl Device {
         }
     }
 
-    pub fn get_property_ip_interface(&self) -> Option<String> {
+    fn get_property_ip_interface(&self) -> Option<String> {
         unsafe {
             let mut value = Value::from_type(<String as StaticType>::static_type());
             gobject_ffi::g_object_get_property(self.to_glib_none().0, "ip-interface".to_glib_none().0, value.to_glib_none_mut().0);
@@ -457,7 +633,7 @@ impl Device {
         }
     }
 
-    pub fn get_property_real(&self) -> bool {
+    fn get_property_real(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
             gobject_ffi::g_object_get_property(self.to_glib_none().0, "real".to_glib_none().0, value.to_glib_none_mut().0);
@@ -465,374 +641,395 @@ impl Device {
         }
     }
 
-    pub fn disambiguate_names(devices: &[Device]) -> Vec<String> {
-        let num_devices = devices.len() as i32;
+    fn connect_state_changed<F: Fn(&Self, u32, u32, u32) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            FromGlibPtrContainer::from_glib_full(ffi::nm_device_disambiguate_names(devices.to_glib_none().0, num_devices))
-        }
-    }
-
-    pub fn connect_state_changed<F: Fn(&Device, u32, u32, u32) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe {
-            let f: Box_<Box_<Fn(&Device, u32, u32, u32) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self, u32, u32, u32) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "state-changed",
-                transmute(state_changed_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(state_changed_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_active_connection_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_active_connection_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::active-connection",
-                transmute(notify_active_connection_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_active_connection_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_autoconnect_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_autoconnect_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::autoconnect",
-                transmute(notify_autoconnect_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_autoconnect_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_available_connections_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_available_connections_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::available-connections",
-                transmute(notify_available_connections_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_available_connections_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_capabilities_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_capabilities_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::capabilities",
-                transmute(notify_capabilities_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_capabilities_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_device_type_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_device_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::device-type",
-                transmute(notify_device_type_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_device_type_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_dhcp4_config_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_dhcp4_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::dhcp4-config",
-                transmute(notify_dhcp4_config_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_dhcp4_config_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_dhcp6_config_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_dhcp6_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::dhcp6-config",
-                transmute(notify_dhcp6_config_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_dhcp6_config_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_driver_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_driver_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::driver",
-                transmute(notify_driver_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_driver_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_driver_version_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_driver_version_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::driver-version",
-                transmute(notify_driver_version_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_driver_version_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_firmware_missing_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_firmware_missing_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::firmware-missing",
-                transmute(notify_firmware_missing_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_firmware_missing_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_firmware_version_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_firmware_version_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::firmware-version",
-                transmute(notify_firmware_version_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_firmware_version_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_interface_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_interface_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::interface",
-                transmute(notify_interface_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_interface_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_ip_interface_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_ip_interface_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::ip-interface",
-                transmute(notify_ip_interface_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_ip_interface_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_ip4_config_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_ip4_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::ip4-config",
-                transmute(notify_ip4_config_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_ip4_config_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_ip6_config_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_ip6_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::ip6-config",
-                transmute(notify_ip6_config_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_ip6_config_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_lldp_neighbors_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_lldp_neighbors_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::lldp-neighbors",
-                transmute(notify_lldp_neighbors_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_lldp_neighbors_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_managed_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_managed_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::managed",
-                transmute(notify_managed_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_managed_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_metered_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_metered_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::metered",
-                transmute(notify_metered_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_metered_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_mtu_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_mtu_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::mtu",
-                transmute(notify_mtu_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_mtu_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_nm_plugin_missing_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_nm_plugin_missing_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::nm-plugin-missing",
-                transmute(notify_nm_plugin_missing_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_nm_plugin_missing_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_physical_port_id_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_physical_port_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::physical-port-id",
-                transmute(notify_physical_port_id_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_physical_port_id_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_product_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_product_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::product",
-                transmute(notify_product_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_product_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_real_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_real_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::real",
-                transmute(notify_real_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_real_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_state_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_state_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::state",
-                transmute(notify_state_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_state_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_state_reason_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_state_reason_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::state-reason",
-                transmute(notify_state_reason_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_state_reason_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_udi_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_udi_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::udi",
-                transmute(notify_udi_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_udi_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 
-    pub fn connect_property_vendor_notify<F: Fn(&Device) + 'static>(&self, f: F) -> SignalHandlerId {
+    fn connect_property_vendor_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
-            let f: Box_<Box_<Fn(&Device) + 'static>> = Box_::new(Box_::new(f));
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
             connect(self.to_glib_none().0, "notify::vendor",
-                transmute(notify_vendor_trampoline as usize), Box_::into_raw(f) as *mut _)
+                transmute(notify_vendor_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
         }
     }
 }
 
-unsafe extern "C" fn state_changed_trampoline(this: *mut ffi::NMDevice, new_state: libc::c_uint, old_state: libc::c_uint, reason: libc::c_uint, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device, u32, u32, u32) + 'static) = transmute(f);
-    f(&from_glib_borrow(this), new_state, old_state, reason)
+unsafe extern "C" fn state_changed_trampoline<P>(this: *mut ffi::NMDevice, new_state: libc::c_uint, old_state: libc::c_uint, reason: libc::c_uint, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P, u32, u32, u32) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked(), new_state, old_state, reason)
 }
 
-unsafe extern "C" fn notify_active_connection_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_active_connection_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_autoconnect_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_autoconnect_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_available_connections_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_available_connections_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_capabilities_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_capabilities_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_device_type_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_device_type_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_dhcp4_config_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_dhcp4_config_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_dhcp6_config_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_dhcp6_config_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_driver_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_driver_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_driver_version_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_driver_version_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_firmware_missing_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_firmware_missing_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_firmware_version_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_firmware_version_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_interface_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_interface_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_ip_interface_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_ip_interface_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_ip4_config_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_ip4_config_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_ip6_config_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_ip6_config_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_lldp_neighbors_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_lldp_neighbors_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_managed_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_managed_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_metered_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_metered_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_mtu_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_mtu_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_nm_plugin_missing_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_nm_plugin_missing_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_physical_port_id_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_physical_port_id_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_product_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_product_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_real_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_real_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_state_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_state_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_state_reason_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_state_reason_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_udi_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_udi_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn notify_vendor_trampoline(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer) {
-    let f: &&(Fn(&Device) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
+unsafe extern "C" fn notify_vendor_trampoline<P>(this: *mut ffi::NMDevice, _param_spec: glib_ffi::gpointer, f: glib_ffi::gpointer)
+where P: IsA<Device> {
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&Device::from_glib_borrow(this).downcast_unchecked())
 }
