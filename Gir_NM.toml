@@ -10,7 +10,6 @@ generate = [
     "NM.Connection",
     "NM.ActiveConnection",
     "NM.RemoteConnection",
-    "NM.Device",
     "NM.DeviceWifi",
     "NM.DeviceWifiCapabilities",
     "NM.80211Mode",
@@ -34,12 +33,25 @@ manual = [
 [[object]]
 name = "NM.Client"
 status = "generate"
+trait = false
+
     [[object.function]]
     name = "get_logging"
     ignore = true
+
     [[object.function]]
     name = "load_connections"
     ignore = true
+
     [[object.function]]
     name = "load_connections_async"
     ignore = true
+
+    [[object.function]]
+    name = "get_logging"
+    ignore = true
+
+[[object]]
+name = "NM.Device"
+status = "generate"
+trait = false

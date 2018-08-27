@@ -14,8 +14,10 @@ extern crate gio;
 
 extern crate nm_sys as ffi;
 
+pub use glib::Error;
+
 mod auto;
 
 pub use auto::*;
 
-pub use glib::Error;
+mod client;
