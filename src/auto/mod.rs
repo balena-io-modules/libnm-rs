@@ -29,6 +29,10 @@ mod remote_connection;
 pub use self::remote_connection::RemoteConnection;
 pub use self::remote_connection::RemoteConnectionExt;
 
+mod setting;
+pub use self::setting::Setting;
+pub use self::setting::SettingExt;
+
 mod enums;
 pub use self::enums::ConnectivityState;
 pub use self::enums::State;
@@ -45,4 +49,5 @@ pub mod traits {
     pub use super::DeviceExt;
     pub use super::DeviceWifiExt;
     pub use super::RemoteConnectionExt;
+    pub use super::SettingExt;
 }

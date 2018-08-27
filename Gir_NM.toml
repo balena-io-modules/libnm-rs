@@ -17,6 +17,7 @@ generate = [
     "NM.AccessPoint",
     "NM.ConnectivityState",
     "NM.State",
+    "NM.Setting",
 ]
 
 manual = [

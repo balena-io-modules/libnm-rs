@@ -17,6 +17,7 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Error;
+use Setting;
 
 glib_wrapper! {
     pub struct Connection(Object<ffi::NMConnection, ffi::NMConnectionInterface>);
@@ -27,7 +28,7 @@ glib_wrapper! {
 }
 
 pub trait ConnectionExt {
-    //fn add_setting<P: IsA</*Ignored*/Setting>>(&self, setting: &P);
+    fn add_setting<P: IsA<Setting>>(&self, setting: &P);
 
     fn clear_secrets(&self);
 
@@ -51,7 +52,7 @@ pub trait ConnectionExt {
 
     fn get_path(&self) -> Option<String>;
 
-    //fn get_setting(&self, setting_type: glib::types::Type) -> /*Ignored*/Option<Setting>;
+    fn get_setting(&self, setting_type: glib::types::Type) -> Option<Setting>;
 
     //fn get_setting_802_1x(&self) -> /*Ignored*/Option<Setting8021x>;
 
@@ -65,7 +66,7 @@ pub trait ConnectionExt {
 
     //fn get_setting_bridge_port(&self) -> /*Ignored*/Option<SettingBridgePort>;
 
-    //fn get_setting_by_name(&self, name: &str) -> /*Ignored*/Option<Setting>;
+    fn get_setting_by_name(&self, name: &str) -> Option<Setting>;
 
     //fn get_setting_cdma(&self) -> /*Ignored*/Option<SettingCdma>;
 
@@ -139,8 +140,8 @@ pub trait ConnectionExt {
 
     //fn get_setting_wireless_security(&self) -> /*Ignored*/Option<SettingWirelessSecurity>;
 
-    //#[cfg(any(feature = "v1_10", feature = "dox"))]
-    //fn get_settings(&self) -> /*Ignored*/Vec<Setting>;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    fn get_settings(&self) -> Vec<Setting>;
 
     fn get_uuid(&self) -> Option<String>;
 
@@ -178,9 +179,11 @@ pub trait ConnectionExt {
 }
 
 impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
-    //fn add_setting<P: IsA</*Ignored*/Setting>>(&self, setting: &P) {
-    //    unsafe { TODO: call ffi::nm_connection_add_setting() }
-    //}
+    fn add_setting<P: IsA<Setting>>(&self, setting: &P) {
+        unsafe {
+            ffi::nm_connection_add_setting(self.to_glib_none().0, setting.to_glib_full());
+        }
+    }
 
     fn clear_secrets(&self) {
         unsafe {
@@ -236,9 +239,14 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
         unsafe { from_glib_none(ffi::nm_connection_get_path(self.to_glib_none().0)) }
     }
 
-    //fn get_setting(&self, setting_type: glib::types::Type) -> /*Ignored*/Option<Setting> {
-    //    unsafe { TODO: call ffi::nm_connection_get_setting() }
-    //}
+    fn get_setting(&self, setting_type: glib::types::Type) -> Option<Setting> {
+        unsafe {
+            from_glib_none(ffi::nm_connection_get_setting(
+                self.to_glib_none().0,
+                setting_type.to_glib(),
+            ))
+        }
+    }
 
     //fn get_setting_802_1x(&self) -> /*Ignored*/Option<Setting8021x> {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_802_1x() }
@@ -264,9 +272,14 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_bridge_port() }
     //}
 
-    //fn get_setting_by_name(&self, name: &str) -> /*Ignored*/Option<Setting> {
-    //    unsafe { TODO: call ffi::nm_connection_get_setting_by_name() }
-    //}
+    fn get_setting_by_name(&self, name: &str) -> Option<Setting> {
+        unsafe {
+            from_glib_none(ffi::nm_connection_get_setting_by_name(
+                self.to_glib_none().0,
+                name.to_glib_none().0,
+            ))
+        }
+    }
 
     //fn get_setting_cdma(&self) -> /*Ignored*/Option<SettingCdma> {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_cdma() }
@@ -404,10 +417,17 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_wireless_security() }
     //}
 
-    //#[cfg(any(feature = "v1_10", feature = "dox"))]
-    //fn get_settings(&self) -> /*Ignored*/Vec<Setting> {
-    //    unsafe { TODO: call ffi::nm_connection_get_settings() }
-    //}
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    fn get_settings(&self) -> Vec<Setting> {
+        unsafe {
+            let mut out_length = mem::uninitialized();
+            let ret = FromGlibContainer::from_glib_container_num(
+                ffi::nm_connection_get_settings(self.to_glib_none().0, &mut out_length),
+                out_length as usize,
+            );
+            ret
+        }
+    }
 
     fn get_uuid(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_connection_get_uuid(self.to_glib_none().0)) }
