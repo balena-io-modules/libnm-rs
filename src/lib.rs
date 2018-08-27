@@ -22,6 +22,7 @@ mod auto;
 
 pub use auto::*;
 
+mod array;
 mod client;
 
 pub mod prelude {
