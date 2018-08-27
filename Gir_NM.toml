@@ -49,5 +49,25 @@ trait = false
     ignore = true
 
     [[object.function]]
-    name = "get_logging"
+    name = "get_devices"
+    ignore = true
+
+    [[object.function]]
+    name = "get_all_devices"
+    ignore = true
+
+    [[object.function]]
+    name = "get_connections"
+    ignore = true
+
+    [[object.function]]
+    name = "get_active_connections"
+    ignore = true
+
+    [[object.function]]
+    name = "get_dns_configuration"
+    ignore = true
+
+    [[object.function]]
+    name = "get_checkpoints"
     ignore = true

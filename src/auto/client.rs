@@ -751,19 +751,6 @@ impl Client {
         }
     }
 
-    //pub fn get_active_connections(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 10 } {
-    //    unsafe { TODO: call ffi::nm_client_get_active_connections() }
-    //}
-
-    //pub fn get_all_devices(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 } {
-    //    unsafe { TODO: call ffi::nm_client_get_all_devices() }
-    //}
-
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //pub fn get_checkpoints(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 20 } {
-    //    unsafe { TODO: call ffi::nm_client_get_checkpoints() }
-    //}
-
     pub fn get_connection_by_id(&self, id: &str) -> Option<RemoteConnection> {
         unsafe {
             from_glib_none(ffi::nm_client_get_connection_by_id(
@@ -791,10 +778,6 @@ impl Client {
         }
     }
 
-    //pub fn get_connections(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 9 } {
-    //    unsafe { TODO: call ffi::nm_client_get_connections() }
-    //}
-
     pub fn get_connectivity(&self) -> ConnectivityState {
         unsafe { from_glib(ffi::nm_client_get_connectivity(self.to_glib_none().0)) }
     }
@@ -816,15 +799,6 @@ impl Client {
             ))
         }
     }
-
-    //pub fn get_devices(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 } {
-    //    unsafe { TODO: call ffi::nm_client_get_devices() }
-    //}
-
-    //#[cfg(any(feature = "v1_6", feature = "dox"))]
-    //pub fn get_dns_configuration(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 25 } {
-    //    unsafe { TODO: call ffi::nm_client_get_dns_configuration() }
-    //}
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_dns_mode(&self) -> Option<String> {
@@ -1139,6 +1113,22 @@ impl Client {
         }
     }
 
+    //pub fn get_property_active_connections(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 10 } {
+    //    unsafe {
+    //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "active-connections".to_glib_none().0, value.to_glib_none_mut().0);
+    //        value.get().unwrap()
+    //    }
+    //}
+
+    //pub fn get_property_all_devices(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 } {
+    //    unsafe {
+    //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "all-devices".to_glib_none().0, value.to_glib_none_mut().0);
+    //        value.get().unwrap()
+    //    }
+    //}
+
     pub fn get_property_can_modify(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
@@ -1150,6 +1140,23 @@ impl Client {
             value.get().unwrap()
         }
     }
+
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
+    //pub fn get_property_checkpoints(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 20 } {
+    //    unsafe {
+    //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "checkpoints".to_glib_none().0, value.to_glib_none_mut().0);
+    //        value.get().unwrap()
+    //    }
+    //}
+
+    //pub fn get_property_connections(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 9 } {
+    //    unsafe {
+    //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "connections".to_glib_none().0, value.to_glib_none_mut().0);
+    //        value.get().unwrap()
+    //    }
+    //}
 
     pub fn get_property_connectivity_check_available(&self) -> bool {
         unsafe {
@@ -1184,6 +1191,23 @@ impl Client {
             );
         }
     }
+
+    //pub fn get_property_devices(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 } {
+    //    unsafe {
+    //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "devices".to_glib_none().0, value.to_glib_none_mut().0);
+    //        value.get().unwrap()
+    //    }
+    //}
+
+    //#[cfg(any(feature = "v1_6", feature = "dox"))]
+    //pub fn get_property_dns_configuration(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 2, id: 179 } {
+    //    unsafe {
+    //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "dns-configuration".to_glib_none().0, value.to_glib_none_mut().0);
+    //        value.get().unwrap()
+    //    }
+    //}
 
     pub fn get_property_hostname(&self) -> Option<String> {
         unsafe {
