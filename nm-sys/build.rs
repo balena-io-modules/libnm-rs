@@ -16,8 +16,10 @@ fn main() {
 fn find() -> Result<(), Error> {
     let package_name = "libnm";
     let shared_libs = ["nm"];
-    let version = if cfg!(feature = "v1_10_2") {
-        "1.10.2"
+    let version = if cfg!(feature = "v1_12_2") {
+        "1.12.2"
+    } else if cfg!(feature = "v1_12") {
+        "1.12"
     } else if cfg!(feature = "v1_10") {
         "1.10"
     } else if cfg!(feature = "v1_8") {

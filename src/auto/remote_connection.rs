@@ -74,6 +74,12 @@ pub trait RemoteConnectionExt: Sized {
         &self,
     ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
 
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_filename(&self) -> Option<String>;
+
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
+    //fn get_flags(&self) -> /*Ignored*/SettingsConnectionFlags;
+
     fn get_secrets<'a, P: Into<Option<&'a gio::Cancellable>>>(
         &self,
         setting_name: &str,
@@ -118,12 +124,18 @@ pub trait RemoteConnectionExt: Sized {
         &self,
     ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
 
-    //#[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
     //fn update2<'a, 'b, 'c, P: Into<Option<&'a glib::Variant>>, Q: Into<Option<&'b glib::Variant>>, R: Into<Option<&'c gio::Cancellable>>, S: FnOnce(Result<glib::Variant, Error>) + Send + 'static>(&self, settings: P, flags: /*Ignored*/SettingsUpdate2Flags, args: Q, cancellable: R, callback: S);
 
     //#[cfg(feature = "futures")]
-    //#[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
     //fn update2_future<'a, 'b, P: Into<Option<&'a glib::Variant>>, Q: Into<Option<&'b glib::Variant>>>(&self, settings: P, flags: /*Ignored*/SettingsUpdate2Flags, args: Q) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>>;
+
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn connect_property_filename_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn connect_property_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     fn connect_property_unsaved_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -304,6 +316,20 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
         })
     }
 
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_filename(&self) -> Option<String> {
+        unsafe {
+            from_glib_none(ffi::nm_remote_connection_get_filename(
+                self.to_glib_none().0,
+            ))
+        }
+    }
+
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
+    //fn get_flags(&self) -> /*Ignored*/SettingsConnectionFlags {
+    //    unsafe { TODO: call ffi::nm_remote_connection_get_flags() }
+    //}
+
     fn get_secrets<'a, P: Into<Option<&'a gio::Cancellable>>>(
         &self,
         setting_name: &str,
@@ -481,13 +507,13 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
         })
     }
 
-    //#[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
     //fn update2<'a, 'b, 'c, P: Into<Option<&'a glib::Variant>>, Q: Into<Option<&'b glib::Variant>>, R: Into<Option<&'c gio::Cancellable>>, S: FnOnce(Result<glib::Variant, Error>) + Send + 'static>(&self, settings: P, flags: /*Ignored*/SettingsUpdate2Flags, args: Q, cancellable: R, callback: S) {
     //    unsafe { TODO: call ffi::nm_remote_connection_update2() }
     //}
 
     //#[cfg(feature = "futures")]
-    //#[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
     //fn update2_future<'a, 'b, P: Into<Option<&'a glib::Variant>>, Q: Into<Option<&'b glib::Variant>>>(&self, settings: P, flags: /*Ignored*/SettingsUpdate2Flags, args: Q) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>> {
     //use gio::GioFuture;
     //use send_cell::SendCell;
@@ -516,6 +542,32 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
     //})
     //}
 
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn connect_property_filename_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe {
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            connect(
+                self.to_glib_none().0,
+                "notify::filename",
+                transmute(notify_filename_trampoline::<Self> as usize),
+                Box_::into_raw(f) as *mut _,
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn connect_property_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe {
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            connect(
+                self.to_glib_none().0,
+                "notify::flags",
+                transmute(notify_flags_trampoline::<Self> as usize),
+                Box_::into_raw(f) as *mut _,
+            )
+        }
+    }
+
     fn connect_property_unsaved_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
@@ -539,6 +591,30 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
             )
         }
     }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+unsafe extern "C" fn notify_filename_trampoline<P>(
+    this: *mut ffi::NMRemoteConnection,
+    _param_spec: glib_ffi::gpointer,
+    f: glib_ffi::gpointer,
+) where
+    P: IsA<RemoteConnection>,
+{
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&RemoteConnection::from_glib_borrow(this).downcast_unchecked())
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+unsafe extern "C" fn notify_flags_trampoline<P>(
+    this: *mut ffi::NMRemoteConnection,
+    _param_spec: glib_ffi::gpointer,
+    f: glib_ffi::gpointer,
+) where
+    P: IsA<RemoteConnection>,
+{
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&RemoteConnection::from_glib_borrow(this).downcast_unchecked())
 }
 
 unsafe extern "C" fn notify_unsaved_trampoline<P>(

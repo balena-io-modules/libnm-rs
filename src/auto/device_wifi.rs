@@ -46,6 +46,9 @@ pub trait DeviceWifiExt: Sized {
 
     fn get_capabilities(&self) -> DeviceWifiCapabilities;
 
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_last_scan(&self) -> i64;
+
     fn get_mode(&self) -> _80211Mode;
 
     fn get_permanent_hw_address(&self) -> Option<String>;
@@ -106,6 +109,9 @@ pub trait DeviceWifiExt: Sized {
 
     fn connect_property_hw_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn connect_property_last_scan_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
     fn connect_property_mode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     fn connect_property_perm_hw_address_notify<F: Fn(&Self) + 'static>(
@@ -147,6 +153,11 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
 
     fn get_capabilities(&self) -> DeviceWifiCapabilities {
         unsafe { from_glib(ffi::nm_device_wifi_get_capabilities(self.to_glib_none().0)) }
+    }
+
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_last_scan(&self) -> i64 {
+        unsafe { ffi::nm_device_wifi_get_last_scan(self.to_glib_none().0) }
     }
 
     fn get_mode(&self) -> _80211Mode {
@@ -376,6 +387,19 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
         }
     }
 
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn connect_property_last_scan_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe {
+            let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
+            connect(
+                self.to_glib_none().0,
+                "notify::last-scan",
+                transmute(notify_last_scan_trampoline::<Self> as usize),
+                Box_::into_raw(f) as *mut _,
+            )
+        }
+    }
+
     fn connect_property_mode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
@@ -481,6 +505,18 @@ unsafe extern "C" fn notify_bitrate_trampoline<P>(
 }
 
 unsafe extern "C" fn notify_hw_address_trampoline<P>(
+    this: *mut ffi::NMDeviceWifi,
+    _param_spec: glib_ffi::gpointer,
+    f: glib_ffi::gpointer,
+) where
+    P: IsA<DeviceWifi>,
+{
+    let f: &&(Fn(&P) + 'static) = transmute(f);
+    f(&DeviceWifi::from_glib_borrow(this).downcast_unchecked())
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+unsafe extern "C" fn notify_last_scan_trampoline<P>(
     this: *mut ffi::NMDeviceWifi,
     _param_spec: glib_ffi::gpointer,
     f: glib_ffi::gpointer,

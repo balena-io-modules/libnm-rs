@@ -116,7 +116,7 @@ pub trait ConnectionExt {
 
     //fn get_setting_serial(&self) -> /*Ignored*/Option<SettingSerial>;
 
-    //#[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
     //fn get_setting_tc_config(&self) -> /*Ignored*/Option<SettingTCConfig>;
 
     //fn get_setting_team(&self) -> /*Ignored*/Option<SettingTeam>;
@@ -359,7 +359,7 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_serial() }
     //}
 
-    //#[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
     //fn get_setting_tc_config(&self) -> /*Ignored*/Option<SettingTCConfig> {
     //    unsafe { TODO: call ffi::nm_connection_get_setting_tc_config() }
     //}

@@ -150,7 +150,7 @@ pub trait DeviceExt: Sized {
 
     fn get_ip_iface(&self) -> Option<String>;
 
-    //fn get_lldp_neighbors(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 77 };
+    //fn get_lldp_neighbors(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 79 };
 
     fn get_managed(&self) -> bool;
 
@@ -180,32 +180,40 @@ pub trait DeviceExt: Sized {
 
     fn is_software(&self) -> bool;
 
-    fn reapply<'a, P: IsA<Connection>, Q: Into<Option<&'a gio::Cancellable>>>(
+    fn reapply<
+        'a,
+        'b,
+        P: IsA<Connection> + 'a,
+        Q: Into<Option<&'a P>>,
+        R: Into<Option<&'b gio::Cancellable>>,
+    >(
         &self,
-        connection: &P,
+        connection: Q,
         version_id: u64,
         flags: u32,
-        cancellable: Q,
+        cancellable: R,
     ) -> Result<(), Error>;
 
     fn reapply_async<
         'a,
-        P: IsA<Connection>,
-        Q: Into<Option<&'a gio::Cancellable>>,
-        R: FnOnce(Result<(), Error>) + Send + 'static,
+        'b,
+        P: IsA<Connection> + 'a,
+        Q: Into<Option<&'a P>>,
+        R: Into<Option<&'b gio::Cancellable>>,
+        S: FnOnce(Result<(), Error>) + Send + 'static,
     >(
         &self,
-        connection: &P,
+        connection: Q,
         version_id: u64,
         flags: u32,
-        cancellable: Q,
-        callback: R,
+        cancellable: R,
+        callback: S,
     );
 
     #[cfg(feature = "futures")]
-    fn reapply_async_future<P: IsA<Connection> + Clone + 'static>(
+    fn reapply_async_future<'a, P: IsA<Connection> + Clone + 'static, Q: Into<Option<&'a P>>>(
         &self,
-        connection: &P,
+        connection: Q,
         version_id: u64,
         flags: u32,
     ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
@@ -656,7 +664,7 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
         unsafe { from_glib_none(ffi::nm_device_get_ip_iface(self.to_glib_none().0)) }
     }
 
-    //fn get_lldp_neighbors(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 77 } {
+    //fn get_lldp_neighbors(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 79 } {
     //    unsafe { TODO: call ffi::nm_device_get_lldp_neighbors() }
     //}
 
@@ -716,20 +724,28 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
         unsafe { from_glib(ffi::nm_device_is_software(self.to_glib_none().0)) }
     }
 
-    fn reapply<'a, P: IsA<Connection>, Q: Into<Option<&'a gio::Cancellable>>>(
+    fn reapply<
+        'a,
+        'b,
+        P: IsA<Connection> + 'a,
+        Q: Into<Option<&'a P>>,
+        R: Into<Option<&'b gio::Cancellable>>,
+    >(
         &self,
-        connection: &P,
+        connection: Q,
         version_id: u64,
         flags: u32,
-        cancellable: Q,
+        cancellable: R,
     ) -> Result<(), Error> {
+        let connection = connection.into();
+        let connection = connection.to_glib_none();
         let cancellable = cancellable.into();
         let cancellable = cancellable.to_glib_none();
         unsafe {
             let mut error = ptr::null_mut();
             let _ = ffi::nm_device_reapply(
                 self.to_glib_none().0,
-                connection.to_glib_none().0,
+                connection.0,
                 version_id,
                 flags,
                 cancellable.0,
@@ -745,22 +761,26 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
 
     fn reapply_async<
         'a,
-        P: IsA<Connection>,
-        Q: Into<Option<&'a gio::Cancellable>>,
-        R: FnOnce(Result<(), Error>) + Send + 'static,
+        'b,
+        P: IsA<Connection> + 'a,
+        Q: Into<Option<&'a P>>,
+        R: Into<Option<&'b gio::Cancellable>>,
+        S: FnOnce(Result<(), Error>) + Send + 'static,
     >(
         &self,
-        connection: &P,
+        connection: Q,
         version_id: u64,
         flags: u32,
-        cancellable: Q,
-        callback: R,
+        cancellable: R,
+        callback: S,
     ) {
+        let connection = connection.into();
+        let connection = connection.to_glib_none();
         let cancellable = cancellable.into();
         let cancellable = cancellable.to_glib_none();
-        let user_data: Box<Box<R>> = Box::new(Box::new(callback));
+        let user_data: Box<Box<S>> = Box::new(Box::new(callback));
         unsafe extern "C" fn reapply_async_trampoline<
-            R: FnOnce(Result<(), Error>) + Send + 'static,
+            S: FnOnce(Result<(), Error>) + Send + 'static,
         >(
             _source_object: *mut gobject_ffi::GObject,
             res: *mut gio_ffi::GAsyncResult,
@@ -773,14 +793,14 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box<Box<R>> = Box::from_raw(user_data as *mut _);
+            let callback: Box<Box<S>> = Box::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = reapply_async_trampoline::<R>;
+        let callback = reapply_async_trampoline::<S>;
         unsafe {
             ffi::nm_device_reapply_async(
                 self.to_glib_none().0,
-                connection.to_glib_none().0,
+                connection.0,
                 version_id,
                 flags,
                 cancellable.0,
@@ -791,22 +811,23 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     }
 
     #[cfg(feature = "futures")]
-    fn reapply_async_future<P: IsA<Connection> + Clone + 'static>(
+    fn reapply_async_future<'a, P: IsA<Connection> + Clone + 'static, Q: Into<Option<&'a P>>>(
         &self,
-        connection: &P,
+        connection: Q,
         version_id: u64,
         flags: u32,
     ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
         use gio::GioFuture;
         use send_cell::SendCell;
 
-        let connection = connection.clone();
+        let connection = connection.into();
+        let connection = connection.map(ToOwned::to_owned);
         GioFuture::new(self, move |obj, send| {
             let cancellable = gio::Cancellable::new();
             let send = SendCell::new(send);
             let obj_clone = SendCell::new(obj.clone());
             obj.reapply_async(
-                &connection,
+                connection.as_ref().map(::std::borrow::Borrow::borrow),
                 version_id,
                 flags,
                 Some(&cancellable),

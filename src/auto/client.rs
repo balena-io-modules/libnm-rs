@@ -413,6 +413,214 @@ impl Client {
         })
     }
 
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn checkpoint_adjust_rollback_timeout<
+        'a,
+        P: Into<Option<&'a gio::Cancellable>>,
+        Q: FnOnce(Result<(), Error>) + Send + 'static,
+    >(
+        &self,
+        checkpoint_path: &str,
+        add_timeout: u32,
+        cancellable: P,
+        callback: Q,
+    ) {
+        let cancellable = cancellable.into();
+        let cancellable = cancellable.to_glib_none();
+        let user_data: Box<Box<Q>> = Box::new(Box::new(callback));
+        unsafe extern "C" fn checkpoint_adjust_rollback_timeout_trampoline<
+            Q: FnOnce(Result<(), Error>) + Send + 'static,
+        >(
+            _source_object: *mut gobject_ffi::GObject,
+            res: *mut gio_ffi::GAsyncResult,
+            user_data: glib_ffi::gpointer,
+        ) {
+            let mut error = ptr::null_mut();
+            let _ = ffi::nm_client_checkpoint_adjust_rollback_timeout_finish(
+                _source_object as *mut _,
+                res,
+                &mut error,
+            );
+            let result = if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            };
+            let callback: Box<Box<Q>> = Box::from_raw(user_data as *mut _);
+            callback(result);
+        }
+        let callback = checkpoint_adjust_rollback_timeout_trampoline::<Q>;
+        unsafe {
+            ffi::nm_client_checkpoint_adjust_rollback_timeout(
+                self.to_glib_none().0,
+                checkpoint_path.to_glib_none().0,
+                add_timeout,
+                cancellable.0,
+                Some(callback),
+                Box::into_raw(user_data) as *mut _,
+            );
+        }
+    }
+
+    #[cfg(feature = "futures")]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn checkpoint_adjust_rollback_timeout_future(
+        &self,
+        checkpoint_path: &str,
+        add_timeout: u32,
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+        use gio::GioFuture;
+        use send_cell::SendCell;
+
+        let checkpoint_path = String::from(checkpoint_path);
+        GioFuture::new(self, move |obj, send| {
+            let cancellable = gio::Cancellable::new();
+            let send = SendCell::new(send);
+            let obj_clone = SendCell::new(obj.clone());
+            obj.checkpoint_adjust_rollback_timeout(
+                &checkpoint_path,
+                add_timeout,
+                Some(&cancellable),
+                move |res| {
+                    let obj = obj_clone.into_inner();
+                    let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
+                    let _ = send.into_inner().send(res);
+                },
+            );
+
+            cancellable
+        })
+    }
+
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
+    //pub fn checkpoint_create<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result</*Ignored*/Checkpoint, Error>) + Send + 'static>(&self, devices: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 }, rollback_timeout: u32, flags: /*Ignored*/CheckpointCreateFlags, cancellable: P, callback: Q) {
+    //    unsafe { TODO: call ffi::nm_client_checkpoint_create() }
+    //}
+
+    //#[cfg(feature = "futures")]
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
+    //pub fn checkpoint_create_future(&self, devices: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 }, rollback_timeout: u32, flags: /*Ignored*/CheckpointCreateFlags) -> Box_<futures_core::Future<Item = (Self, /*Ignored*/Checkpoint), Error = (Self, Error)>> {
+    //use gio::GioFuture;
+    //use send_cell::SendCell;
+
+    //GioFuture::new(self, move |obj, send| {
+    //    let cancellable = gio::Cancellable::new();
+    //    let send = SendCell::new(send);
+    //    let obj_clone = SendCell::new(obj.clone());
+    //    obj.checkpoint_create(
+    //         devices,
+    //         rollback_timeout,
+    //         flags,
+    //         Some(&cancellable),
+    //         move |res| {
+    //             let obj = obj_clone.into_inner();
+    //             let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
+    //             let _ = send.into_inner().send(res);
+    //         },
+    //    );
+
+    //    cancellable
+    //})
+    //}
+
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn checkpoint_destroy<
+        'a,
+        P: Into<Option<&'a gio::Cancellable>>,
+        Q: FnOnce(Result<(), Error>) + Send + 'static,
+    >(
+        &self,
+        checkpoint_path: &str,
+        cancellable: P,
+        callback: Q,
+    ) {
+        let cancellable = cancellable.into();
+        let cancellable = cancellable.to_glib_none();
+        let user_data: Box<Box<Q>> = Box::new(Box::new(callback));
+        unsafe extern "C" fn checkpoint_destroy_trampoline<
+            Q: FnOnce(Result<(), Error>) + Send + 'static,
+        >(
+            _source_object: *mut gobject_ffi::GObject,
+            res: *mut gio_ffi::GAsyncResult,
+            user_data: glib_ffi::gpointer,
+        ) {
+            let mut error = ptr::null_mut();
+            let _ =
+                ffi::nm_client_checkpoint_destroy_finish(_source_object as *mut _, res, &mut error);
+            let result = if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            };
+            let callback: Box<Box<Q>> = Box::from_raw(user_data as *mut _);
+            callback(result);
+        }
+        let callback = checkpoint_destroy_trampoline::<Q>;
+        unsafe {
+            ffi::nm_client_checkpoint_destroy(
+                self.to_glib_none().0,
+                checkpoint_path.to_glib_none().0,
+                cancellable.0,
+                Some(callback),
+                Box::into_raw(user_data) as *mut _,
+            );
+        }
+    }
+
+    #[cfg(feature = "futures")]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn checkpoint_destroy_future(
+        &self,
+        checkpoint_path: &str,
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+        use gio::GioFuture;
+        use send_cell::SendCell;
+
+        let checkpoint_path = String::from(checkpoint_path);
+        GioFuture::new(self, move |obj, send| {
+            let cancellable = gio::Cancellable::new();
+            let send = SendCell::new(send);
+            let obj_clone = SendCell::new(obj.clone());
+            obj.checkpoint_destroy(&checkpoint_path, Some(&cancellable), move |res| {
+                let obj = obj_clone.into_inner();
+                let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
+                let _ = send.into_inner().send(res);
+            });
+
+            cancellable
+        })
+    }
+
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
+    //pub fn checkpoint_rollback<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result</*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }, Error>) + Send + 'static>(&self, checkpoint_path: &str, cancellable: P, callback: Q) {
+    //    unsafe { TODO: call ffi::nm_client_checkpoint_rollback() }
+    //}
+
+    //#[cfg(feature = "futures")]
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
+    //pub fn checkpoint_rollback_future(&self, checkpoint_path: &str) -> Box_<futures_core::Future<Item = (Self, /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }), Error = (Self, Error)>> {
+    //use gio::GioFuture;
+    //use send_cell::SendCell;
+
+    //let checkpoint_path = String::from(checkpoint_path);
+    //GioFuture::new(self, move |obj, send| {
+    //    let cancellable = gio::Cancellable::new();
+    //    let send = SendCell::new(send);
+    //    let obj_clone = SendCell::new(obj.clone());
+    //    obj.checkpoint_rollback(
+    //         &checkpoint_path,
+    //         Some(&cancellable),
+    //         move |res| {
+    //             let obj = obj_clone.into_inner();
+    //             let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
+    //             let _ = send.into_inner().send(res);
+    //         },
+    //    );
+
+    //    cancellable
+    //})
+    //}
+
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn connectivity_check_get_available(&self) -> bool {
         unsafe {
@@ -551,6 +759,11 @@ impl Client {
     //    unsafe { TODO: call ffi::nm_client_get_all_devices() }
     //}
 
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
+    //pub fn get_checkpoints(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 20 } {
+    //    unsafe { TODO: call ffi::nm_client_get_checkpoints() }
+    //}
+
     pub fn get_connection_by_id(&self, id: &str) -> Option<RemoteConnection> {
         unsafe {
             from_glib_none(ffi::nm_client_get_connection_by_id(
@@ -609,7 +822,7 @@ impl Client {
     //}
 
     //#[cfg(any(feature = "v1_6", feature = "dox"))]
-    //pub fn get_dns_configuration(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 23 } {
+    //pub fn get_dns_configuration(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 25 } {
     //    unsafe { TODO: call ffi::nm_client_get_dns_configuration() }
     //}
 
@@ -1366,6 +1579,22 @@ impl Client {
         }
     }
 
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn connect_property_checkpoints_notify<F: Fn(&Client) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe {
+            let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
+            connect(
+                self.to_glib_none().0,
+                "notify::checkpoints",
+                transmute(notify_checkpoints_trampoline as usize),
+                Box_::into_raw(f) as *mut _,
+            )
+        }
+    }
+
     pub fn connect_property_connections_notify<F: Fn(&Client) + 'static>(
         &self,
         f: F,
@@ -1813,6 +2042,16 @@ unsafe extern "C" fn notify_all_devices_trampoline(
 }
 
 unsafe extern "C" fn notify_can_modify_trampoline(
+    this: *mut ffi::NMClient,
+    _param_spec: glib_ffi::gpointer,
+    f: glib_ffi::gpointer,
+) {
+    let f: &&(Fn(&Client) + 'static) = transmute(f);
+    f(&from_glib_borrow(this))
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+unsafe extern "C" fn notify_checkpoints_trampoline(
     this: *mut ffi::NMClient,
     _param_spec: glib_ffi::gpointer,
     f: glib_ffi::gpointer,

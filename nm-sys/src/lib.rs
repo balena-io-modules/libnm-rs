@@ -61,12 +61,6 @@ pub type Capability = c_int;
 pub const NM_CAPABILITY_TEAM: Capability = 1;
 pub type NMCapability = Capability;
 
-pub type NMCheckpointCreateFlags = c_int;
-pub const NM_CHECKPOINT_CREATE_FLAG_NONE: NMCheckpointCreateFlags = 0;
-pub const NM_CHECKPOINT_CREATE_FLAG_DESTROY_ALL: NMCheckpointCreateFlags = 1;
-pub const NM_CHECKPOINT_CREATE_FLAG_DELETE_NEW_CONNECTIONS: NMCheckpointCreateFlags = 2;
-pub const NM_CHECKPOINT_CREATE_FLAG_DISCONNECT_NEW_DEVICES: NMCheckpointCreateFlags = 4;
-
 pub type NMClientError = c_int;
 pub const NM_CLIENT_ERROR_FAILED: NMClientError = 0;
 pub const NM_CLIENT_ERROR_MANAGER_NOT_RUNNING: NMClientError = 1;
@@ -328,6 +322,12 @@ pub const NM_SETTING_CONNECTION_LLDP_DEFAULT: NMSettingConnectionLldp = -1;
 pub const NM_SETTING_CONNECTION_LLDP_DISABLE: NMSettingConnectionLldp = 0;
 pub const NM_SETTING_CONNECTION_LLDP_ENABLE_RX: NMSettingConnectionLldp = 1;
 
+pub type NMSettingConnectionMdns = c_int;
+pub const NM_SETTING_CONNECTION_MDNS_DEFAULT: NMSettingConnectionMdns = -1;
+pub const NM_SETTING_CONNECTION_MDNS_NO: NMSettingConnectionMdns = 0;
+pub const NM_SETTING_CONNECTION_MDNS_RESOLVE: NMSettingConnectionMdns = 1;
+pub const NM_SETTING_CONNECTION_MDNS_YES: NMSettingConnectionMdns = 2;
+
 pub type NMSettingDiffResult = c_int;
 pub const NM_SETTING_DIFF_RESULT_UNKNOWN: NMSettingDiffResult = 0;
 pub const NM_SETTING_DIFF_RESULT_IN_A: NMSettingDiffResult = 1;
@@ -385,6 +385,12 @@ pub const NM_SETTING_WIRELESS_POWERSAVE_DEFAULT: NMSettingWirelessPowersave = 0;
 pub const NM_SETTING_WIRELESS_POWERSAVE_IGNORE: NMSettingWirelessPowersave = 1;
 pub const NM_SETTING_WIRELESS_POWERSAVE_DISABLE: NMSettingWirelessPowersave = 2;
 pub const NM_SETTING_WIRELESS_POWERSAVE_ENABLE: NMSettingWirelessPowersave = 3;
+
+pub type NMSettingWirelessSecurityFils = c_int;
+pub const NM_SETTING_WIRELESS_SECURITY_FILS_DEFAULT: NMSettingWirelessSecurityFils = 0;
+pub const NM_SETTING_WIRELESS_SECURITY_FILS_DISABLE: NMSettingWirelessSecurityFils = 1;
+pub const NM_SETTING_WIRELESS_SECURITY_FILS_OPTIONAL: NMSettingWirelessSecurityFils = 2;
+pub const NM_SETTING_WIRELESS_SECURITY_FILS_REQUIRED: NMSettingWirelessSecurityFils = 3;
 
 pub type NMSettingWirelessSecurityPmf = c_int;
 pub const NM_SETTING_WIRELESS_SECURITY_PMF_DEFAULT: NMSettingWirelessSecurityPmf = 0;
@@ -523,6 +529,9 @@ pub const NM_ACTIVE_CONNECTION_STATE_FLAGS: *const c_char = b"state-flags\0" as 
 pub const NM_ACTIVE_CONNECTION_TYPE: *const c_char = b"type\0" as *const u8 as *const c_char;
 pub const NM_ACTIVE_CONNECTION_UUID: *const c_char = b"uuid\0" as *const u8 as *const c_char;
 pub const NM_ACTIVE_CONNECTION_VPN: *const c_char = b"vpn\0" as *const u8 as *const c_char;
+pub const NM_CHECKPOINT_CREATED: *const c_char = b"created\0" as *const u8 as *const c_char;
+pub const NM_CHECKPOINT_DEVICES: *const c_char = b"devices\0" as *const u8 as *const c_char;
+pub const NM_CHECKPOINT_ROLLBACK_TIMEOUT: *const c_char = b"rollback-timeout\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_ACTIVATING_CONNECTION: *const c_char = b"activating-connection\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_ACTIVE_CONNECTIONS: *const c_char = b"active-connections\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_ACTIVE_CONNECTION_ADDED: *const c_char = b"active-connection-added\0" as *const u8 as *const c_char;
@@ -633,6 +642,7 @@ pub const NM_DEVICE_IP4_CONFIG: *const c_char = b"ip4-config\0" as *const u8 as 
 pub const NM_DEVICE_IP6_CONFIG: *const c_char = b"ip6-config\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_IP_INTERFACE: *const c_char = b"ip-interface\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_IP_TUNNEL_ENCAPSULATION_LIMIT: *const c_char = b"encapsulation-limit\0" as *const u8 as *const c_char;
+pub const NM_DEVICE_IP_TUNNEL_FLAGS: *const c_char = b"flags\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_IP_TUNNEL_FLOW_LABEL: *const c_char = b"flow-label\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_IP_TUNNEL_INPUT_KEY: *const c_char = b"input-key\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_IP_TUNNEL_LOCAL: *const c_char = b"local\0" as *const u8 as *const c_char;
@@ -672,6 +682,8 @@ pub const NM_DEVICE_NM_PLUGIN_MISSING: *const c_char = b"nm-plugin-missing\0" as
 pub const NM_DEVICE_OLPC_MESH_ACTIVE_CHANNEL: *const c_char = b"active-channel\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_OLPC_MESH_COMPANION: *const c_char = b"companion\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_OLPC_MESH_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
+pub const NM_DEVICE_OVS_BRIDGE_SLAVES: *const c_char = b"slaves\0" as *const u8 as *const c_char;
+pub const NM_DEVICE_OVS_PORT_SLAVES: *const c_char = b"slaves\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_PHYSICAL_PORT_ID: *const c_char = b"physical-port-id\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_PRODUCT: *const c_char = b"product\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_REAL: *const c_char = b"real\0" as *const u8 as *const c_char;
@@ -717,6 +729,7 @@ pub const NM_DEVICE_WIFI_ACTIVE_ACCESS_POINT: *const c_char = b"active-access-po
 pub const NM_DEVICE_WIFI_BITRATE: *const c_char = b"bitrate\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_WIFI_CAPABILITIES: *const c_char = b"wireless-capabilities\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_WIFI_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
+pub const NM_DEVICE_WIFI_LAST_SCAN: *const c_char = b"last-scan\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_WIFI_MODE: *const c_char = b"mode\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_WIFI_PERMANENT_HW_ADDRESS: *const c_char = b"perm-hw-address\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_WIMAX_ACTIVE_NSP: *const c_char = b"active-nsp\0" as *const u8 as *const c_char;
@@ -729,6 +742,7 @@ pub const NM_DEVICE_WIMAX_RSSI: *const c_char = b"rssi\0" as *const u8 as *const
 pub const NM_DEVICE_WIMAX_TX_POWER: *const c_char = b"tx-power\0" as *const u8 as *const c_char;
 pub const NM_DHCP_CONFIG_FAMILY: *const c_char = b"family\0" as *const u8 as *const c_char;
 pub const NM_DHCP_CONFIG_OPTIONS: *const c_char = b"options\0" as *const u8 as *const c_char;
+pub const NM_IP_ADDRESS_ATTRIBUTE_LABEL: *const c_char = b"label\0" as *const u8 as *const c_char;
 pub const NM_IP_CONFIG_ADDRESSES: *const c_char = b"addresses\0" as *const u8 as *const c_char;
 pub const NM_IP_CONFIG_DOMAINS: *const c_char = b"domains\0" as *const u8 as *const c_char;
 pub const NM_IP_CONFIG_FAMILY: *const c_char = b"family\0" as *const u8 as *const c_char;
@@ -770,13 +784,15 @@ pub const NM_LLDP_DEST_NEAREST_BRIDGE: *const c_char = b"nearest-bridge\0" as *c
 pub const NM_LLDP_DEST_NEAREST_CUSTOMER_BRIDGE: *const c_char = b"nearest-customer-bridge\0" as *const u8 as *const c_char;
 pub const NM_LLDP_DEST_NEAREST_NON_TPMR_BRIDGE: *const c_char = b"nearest-non-tpmr-bridge\0" as *const u8 as *const c_char;
 pub const NM_MAJOR_VERSION: c_int = 1;
-pub const NM_MICRO_VERSION: c_int = 6;
-pub const NM_MINOR_VERSION: c_int = 10;
+pub const NM_MICRO_VERSION: c_int = 3;
+pub const NM_MINOR_VERSION: c_int = 12;
 pub const NM_OBJECT_DBUS_CONNECTION: *const c_char = b"dbus-connection\0" as *const u8 as *const c_char;
 pub const NM_OBJECT_DBUS_OBJECT: *const c_char = b"dbus-object\0" as *const u8 as *const c_char;
 pub const NM_OBJECT_DBUS_OBJECT_MANAGER: *const c_char = b"dbus-object-manager\0" as *const u8 as *const c_char;
 pub const NM_OBJECT_PATH: *const c_char = b"path\0" as *const u8 as *const c_char;
 pub const NM_REMOTE_CONNECTION_DBUS_CONNECTION: *const c_char = b"dbus-connection\0" as *const u8 as *const c_char;
+pub const NM_REMOTE_CONNECTION_FILENAME: *const c_char = b"filename\0" as *const u8 as *const c_char;
+pub const NM_REMOTE_CONNECTION_FLAGS: *const c_char = b"flags\0" as *const u8 as *const c_char;
 pub const NM_REMOTE_CONNECTION_PATH: *const c_char = b"path\0" as *const u8 as *const c_char;
 pub const NM_REMOTE_CONNECTION_UNSAVED: *const c_char = b"unsaved\0" as *const u8 as *const c_char;
 pub const NM_REMOTE_CONNECTION_VISIBLE: *const c_char = b"visible\0" as *const u8 as *const c_char;
@@ -912,6 +928,7 @@ pub const NM_SETTING_CONNECTION_ID: *const c_char = b"id\0" as *const u8 as *con
 pub const NM_SETTING_CONNECTION_INTERFACE_NAME: *const c_char = b"interface-name\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CONNECTION_LLDP: *const c_char = b"lldp\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CONNECTION_MASTER: *const c_char = b"master\0" as *const u8 as *const c_char;
+pub const NM_SETTING_CONNECTION_MDNS: *const c_char = b"mdns\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CONNECTION_METERED: *const c_char = b"metered\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CONNECTION_PERMISSIONS: *const c_char = b"permissions\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CONNECTION_READ_ONLY: *const c_char = b"read-only\0" as *const u8 as *const c_char;
@@ -987,6 +1004,7 @@ pub const NM_SETTING_IP4_CONFIG_METHOD_MANUAL: *const c_char = b"manual\0" as *c
 pub const NM_SETTING_IP4_CONFIG_METHOD_SHARED: *const c_char = b"shared\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP4_CONFIG_SETTING_NAME: *const c_char = b"ipv4\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE: *const c_char = b"addr-gen-mode\0" as *const u8 as *const c_char;
+pub const NM_SETTING_IP6_CONFIG_DHCP_DUID: *const c_char = b"dhcp-duid\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP6_CONFIG_IP6_PRIVACY: *const c_char = b"ip6-privacy\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP6_CONFIG_METHOD_AUTO: *const c_char = b"auto\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP6_CONFIG_METHOD_DHCP: *const c_char = b"dhcp\0" as *const u8 as *const c_char;
@@ -1016,6 +1034,7 @@ pub const NM_SETTING_IP_CONFIG_ROUTES: *const c_char = b"routes\0" as *const u8 
 pub const NM_SETTING_IP_CONFIG_ROUTE_METRIC: *const c_char = b"route-metric\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP_CONFIG_ROUTE_TABLE: *const c_char = b"route-table\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP_TUNNEL_ENCAPSULATION_LIMIT: *const c_char = b"encapsulation-limit\0" as *const u8 as *const c_char;
+pub const NM_SETTING_IP_TUNNEL_FLAGS: *const c_char = b"flags\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP_TUNNEL_FLOW_LABEL: *const c_char = b"flow-label\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP_TUNNEL_INPUT_KEY: *const c_char = b"input-key\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP_TUNNEL_LOCAL: *const c_char = b"local\0" as *const u8 as *const c_char;
@@ -1037,6 +1056,7 @@ pub const NM_SETTING_MACSEC_MKA_CKN_LENGTH: c_int = 64;
 pub const NM_SETTING_MACSEC_MODE: *const c_char = b"mode\0" as *const u8 as *const c_char;
 pub const NM_SETTING_MACSEC_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
 pub const NM_SETTING_MACSEC_PORT: *const c_char = b"port\0" as *const u8 as *const c_char;
+pub const NM_SETTING_MACSEC_SEND_SCI: *const c_char = b"send-sci\0" as *const u8 as *const c_char;
 pub const NM_SETTING_MACSEC_SETTING_NAME: *const c_char = b"macsec\0" as *const u8 as *const c_char;
 pub const NM_SETTING_MACSEC_VALIDATION: *const c_char = b"validation\0" as *const u8 as *const c_char;
 pub const NM_SETTING_MACVLAN_MODE: *const c_char = b"mode\0" as *const u8 as *const c_char;
@@ -1226,6 +1246,7 @@ pub const NM_SETTING_WIRELESS_MTU: *const c_char = b"mtu\0" as *const u8 as *con
 pub const NM_SETTING_WIRELESS_POWERSAVE: *const c_char = b"powersave\0" as *const u8 as *const c_char;
 pub const NM_SETTING_WIRELESS_RATE: *const c_char = b"rate\0" as *const u8 as *const c_char;
 pub const NM_SETTING_WIRELESS_SECURITY_AUTH_ALG: *const c_char = b"auth-alg\0" as *const u8 as *const c_char;
+pub const NM_SETTING_WIRELESS_SECURITY_FILS: *const c_char = b"fils\0" as *const u8 as *const c_char;
 pub const NM_SETTING_WIRELESS_SECURITY_GROUP: *const c_char = b"group\0" as *const u8 as *const c_char;
 pub const NM_SETTING_WIRELESS_SECURITY_KEY_MGMT: *const c_char = b"key-mgmt\0" as *const u8 as *const c_char;
 pub const NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD: *const c_char = b"leap-password\0" as *const u8 as *const c_char;
@@ -1249,6 +1270,7 @@ pub const NM_SETTING_WIRELESS_SEEN_BSSIDS: *const c_char = b"seen-bssids\0" as *
 pub const NM_SETTING_WIRELESS_SETTING_NAME: *const c_char = b"802-11-wireless\0" as *const u8 as *const c_char;
 pub const NM_SETTING_WIRELESS_SSID: *const c_char = b"ssid\0" as *const u8 as *const c_char;
 pub const NM_SETTING_WIRELESS_TX_POWER: *const c_char = b"tx-power\0" as *const u8 as *const c_char;
+pub const NM_SETTING_WIRELESS_WAKE_ON_WLAN: *const c_char = b"wake-on-wlan\0" as *const u8 as *const c_char;
 pub const NM_TEAM_LINK_WATCHER_ARP_PING: *const c_char = b"arp_ping\0" as *const u8 as *const c_char;
 pub const NM_TEAM_LINK_WATCHER_ETHTOOL: *const c_char = b"ethtool\0" as *const u8 as *const c_char;
 pub const NM_TEAM_LINK_WATCHER_NSNA_PING: *const c_char = b"nsna_ping\0" as *const u8 as *const c_char;
@@ -1342,6 +1364,13 @@ pub const NM_BT_CAPABILITY_NONE: NMBluetoothCapabilities = 0;
 pub const NM_BT_CAPABILITY_DUN: NMBluetoothCapabilities = 1;
 pub const NM_BT_CAPABILITY_NAP: NMBluetoothCapabilities = 2;
 
+pub type NMCheckpointCreateFlags = c_uint;
+pub const NM_CHECKPOINT_CREATE_FLAG_NONE: NMCheckpointCreateFlags = 0;
+pub const NM_CHECKPOINT_CREATE_FLAG_DESTROY_ALL: NMCheckpointCreateFlags = 1;
+pub const NM_CHECKPOINT_CREATE_FLAG_DELETE_NEW_CONNECTIONS: NMCheckpointCreateFlags = 2;
+pub const NM_CHECKPOINT_CREATE_FLAG_DISCONNECT_NEW_DEVICES: NMCheckpointCreateFlags = 4;
+pub const NM_CHECKPOINT_CREATE_FLAG_ALLOW_OVERLAPPING: NMCheckpointCreateFlags = 8;
+
 pub type NMConnectionSerializationFlags = c_uint;
 pub const NM_CONNECTION_SERIALIZE_ALL: NMConnectionSerializationFlags = 0;
 pub const NM_CONNECTION_SERIALIZE_NO_SECRETS: NMConnectionSerializationFlags = 1;
@@ -1374,6 +1403,15 @@ pub const NM_WIFI_DEVICE_CAP_ADHOC: NMDeviceWifiCapabilities = 128;
 pub const NM_WIFI_DEVICE_CAP_FREQ_VALID: NMDeviceWifiCapabilities = 256;
 pub const NM_WIFI_DEVICE_CAP_FREQ_2GHZ: NMDeviceWifiCapabilities = 512;
 pub const NM_WIFI_DEVICE_CAP_FREQ_5GHZ: NMDeviceWifiCapabilities = 1024;
+
+pub type NMIPTunnelFlags = c_uint;
+pub const NM_IP_TUNNEL_FLAG_NONE: NMIPTunnelFlags = 0;
+pub const NM_IP_TUNNEL_FLAG_IP6_IGN_ENCAP_LIMIT: NMIPTunnelFlags = 1;
+pub const NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_TCLASS: NMIPTunnelFlags = 2;
+pub const NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_FLOWLABEL: NMIPTunnelFlags = 4;
+pub const NM_IP_TUNNEL_FLAG_IP6_MIP6_DEV: NMIPTunnelFlags = 8;
+pub const NM_IP_TUNNEL_FLAG_IP6_RCV_DSCP_COPY: NMIPTunnelFlags = 16;
+pub const NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_FWMARK: NMIPTunnelFlags = 32;
 
 pub type NMSecretAgentCapabilities = c_uint;
 pub const NM_SECRET_AGENT_CAPABILITY_NONE: NMSecretAgentCapabilities = 0;
@@ -1417,6 +1455,24 @@ pub const NM_SETTING_WIRED_WAKE_ON_LAN_ARP: NMSettingWiredWakeOnLan = 32;
 pub const NM_SETTING_WIRED_WAKE_ON_LAN_MAGIC: NMSettingWiredWakeOnLan = 64;
 pub const NM_SETTING_WIRED_WAKE_ON_LAN_DEFAULT: NMSettingWiredWakeOnLan = 1;
 pub const NM_SETTING_WIRED_WAKE_ON_LAN_IGNORE: NMSettingWiredWakeOnLan = 32768;
+
+pub type NMSettingWirelessWakeOnWLan = c_uint;
+pub const NM_SETTING_WIRELESS_WAKE_ON_WLAN_ANY: NMSettingWirelessWakeOnWLan = 2;
+pub const NM_SETTING_WIRELESS_WAKE_ON_WLAN_DISCONNECT: NMSettingWirelessWakeOnWLan = 4;
+pub const NM_SETTING_WIRELESS_WAKE_ON_WLAN_MAGIC: NMSettingWirelessWakeOnWLan = 8;
+pub const NM_SETTING_WIRELESS_WAKE_ON_WLAN_GTK_REKEY_FAILURE: NMSettingWirelessWakeOnWLan = 16;
+pub const NM_SETTING_WIRELESS_WAKE_ON_WLAN_EAP_IDENTITY_REQUEST: NMSettingWirelessWakeOnWLan = 32;
+pub const NM_SETTING_WIRELESS_WAKE_ON_WLAN_4WAY_HANDSHAKE: NMSettingWirelessWakeOnWLan = 64;
+pub const NM_SETTING_WIRELESS_WAKE_ON_WLAN_RFKILL_RELEASE: NMSettingWirelessWakeOnWLan = 128;
+pub const NM_SETTING_WIRELESS_WAKE_ON_WLAN_TCP: NMSettingWirelessWakeOnWLan = 256;
+pub const NM_SETTING_WIRELESS_WAKE_ON_WLAN_DEFAULT: NMSettingWirelessWakeOnWLan = 1;
+pub const NM_SETTING_WIRELESS_WAKE_ON_WLAN_IGNORE: NMSettingWirelessWakeOnWLan = 32768;
+
+pub type NMSettingsConnectionFlags = c_uint;
+pub const NM_SETTINGS_CONNECTION_FLAG_NONE: NMSettingsConnectionFlags = 0;
+pub const NM_SETTINGS_CONNECTION_FLAG_UNSAVED: NMSettingsConnectionFlags = 1;
+pub const NM_SETTINGS_CONNECTION_FLAG_NM_GENERATED: NMSettingsConnectionFlags = 2;
+pub const NM_SETTINGS_CONNECTION_FLAG_VOLATILE: NMSettingsConnectionFlags = 4;
 
 pub type NMSettingsUpdate2Flags = c_uint;
 pub const NM_SETTINGS_UPDATE2_FLAG_NONE: NMSettingsUpdate2Flags = 0;
@@ -1480,6 +1536,16 @@ impl ::std::fmt::Debug for NMActiveConnectionClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("NMActiveConnectionClass @ {:?}", self as *const _))
          .field("parent", &self.parent)
+         .finish()
+    }
+}
+
+#[repr(C)]
+pub struct NMCheckpointClass(c_void);
+
+impl ::std::fmt::Debug for NMCheckpointClass {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("NMCheckpointClass @ {:?}", self as *const _))
          .finish()
     }
 }
@@ -2901,6 +2967,16 @@ impl ::std::fmt::Debug for NMActiveConnection {
 }
 
 #[repr(C)]
+pub struct NMCheckpoint(c_void);
+
+impl ::std::fmt::Debug for NMCheckpoint {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("NMCheckpoint @ {:?}", self as *const _))
+         .finish()
+    }
+}
+
+#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct NMClient {
     pub parent: gobject::GObject,
@@ -4097,6 +4173,11 @@ extern "C" {
     pub fn nm_setting_connection_lldp_get_type() -> GType;
 
     //=========================================================================
+    // NMSettingConnectionMdns
+    //=========================================================================
+    pub fn nm_setting_connection_mdns_get_type() -> GType;
+
+    //=========================================================================
     // NMSettingDiffResult
     //=========================================================================
     pub fn nm_setting_diff_result_get_type() -> GType;
@@ -4150,6 +4231,11 @@ extern "C" {
     // NMSettingWirelessPowersave
     //=========================================================================
     pub fn nm_setting_wireless_powersave_get_type() -> GType;
+
+    //=========================================================================
+    // NMSettingWirelessSecurityFils
+    //=========================================================================
+    pub fn nm_setting_wireless_security_fils_get_type() -> GType;
 
     //=========================================================================
     // NMSettingWirelessSecurityPmf
@@ -4239,6 +4325,11 @@ extern "C" {
     pub fn nm_bluetooth_capabilities_get_type() -> GType;
 
     //=========================================================================
+    // NMCheckpointCreateFlags
+    //=========================================================================
+    pub fn nm_checkpoint_create_flags_get_type() -> GType;
+
+    //=========================================================================
     // NMConnectionSerializationFlags
     //=========================================================================
     pub fn nm_connection_serialization_flags_get_type() -> GType;
@@ -4257,6 +4348,11 @@ extern "C" {
     // NMDeviceWifiCapabilities
     //=========================================================================
     pub fn nm_device_wifi_capabilities_get_type() -> GType;
+
+    //=========================================================================
+    // NMIPTunnelFlags
+    //=========================================================================
+    pub fn nm_ip_tunnel_flags_get_type() -> GType;
 
     //=========================================================================
     // NMSecretAgentCapabilities
@@ -4287,6 +4383,16 @@ extern "C" {
     // NMSettingWiredWakeOnLan
     //=========================================================================
     pub fn nm_setting_wired_wake_on_lan_get_type() -> GType;
+
+    //=========================================================================
+    // NMSettingWirelessWakeOnWLan
+    //=========================================================================
+    pub fn nm_setting_wireless_wake_on_wlan_get_type() -> GType;
+
+    //=========================================================================
+    // NMSettingsConnectionFlags
+    //=========================================================================
+    pub fn nm_settings_connection_flags_get_type() -> GType;
 
     //=========================================================================
     // NMSettingsUpdate2Flags
@@ -4395,107 +4501,107 @@ extern "C" {
     // NMTCAction
     //=========================================================================
     pub fn nm_tc_action_get_type() -> GType;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_action_new(kind: *const c_char, error: *mut *mut glib::GError) -> *mut NMTCAction;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_action_dup(action: *mut NMTCAction) -> *mut NMTCAction;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_action_equal(action: *mut NMTCAction, other: *mut NMTCAction) -> gboolean;
     pub fn nm_tc_action_get_attribute(action: *mut NMTCAction, name: *const c_char) -> *mut glib::GVariant;
     pub fn nm_tc_action_get_attribute_names(action: *mut NMTCAction) -> *mut *mut c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_action_get_kind(action: *mut NMTCAction) -> *const c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_action_ref(action: *mut NMTCAction);
     pub fn nm_tc_action_set_attribute(action: *mut NMTCAction, name: *const c_char, value: *mut glib::GVariant);
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_action_unref(action: *mut NMTCAction);
 
     //=========================================================================
     // NMTCQdisc
     //=========================================================================
     pub fn nm_tc_qdisc_get_type() -> GType;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_qdisc_new(kind: *const c_char, parent: u32, error: *mut *mut glib::GError) -> *mut NMTCQdisc;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_qdisc_dup(qdisc: *mut NMTCQdisc) -> *mut NMTCQdisc;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_qdisc_equal(qdisc: *mut NMTCQdisc, other: *mut NMTCQdisc) -> gboolean;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_qdisc_get_handle(qdisc: *mut NMTCQdisc) -> u32;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_qdisc_get_kind(qdisc: *mut NMTCQdisc) -> *const c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_qdisc_get_parent(qdisc: *mut NMTCQdisc) -> u32;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_qdisc_ref(qdisc: *mut NMTCQdisc);
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_qdisc_set_handle(qdisc: *mut NMTCQdisc, handle: u32);
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_qdisc_unref(qdisc: *mut NMTCQdisc);
 
     //=========================================================================
     // NMTCTfilter
     //=========================================================================
     pub fn nm_tc_tfilter_get_type() -> GType;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_new(kind: *const c_char, parent: u32, error: *mut *mut glib::GError) -> *mut NMTCTfilter;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_dup(tfilter: *mut NMTCTfilter) -> *mut NMTCTfilter;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_equal(tfilter: *mut NMTCTfilter, other: *mut NMTCTfilter) -> gboolean;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_get_action(tfilter: *mut NMTCTfilter) -> *mut NMTCAction;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_get_handle(tfilter: *mut NMTCTfilter) -> u32;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_get_kind(tfilter: *mut NMTCTfilter) -> *const c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_get_parent(tfilter: *mut NMTCTfilter) -> u32;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_ref(tfilter: *mut NMTCTfilter);
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_set_action(tfilter: *mut NMTCTfilter, action: *mut NMTCAction);
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_set_handle(tfilter: *mut NMTCTfilter, handle: u32);
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_unref(tfilter: *mut NMTCTfilter);
 
     //=========================================================================
     // NMTeamLinkWatcher
     //=========================================================================
     pub fn nm_team_link_watcher_get_type() -> GType;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_new_arp_ping(init_wait: c_int, interval: c_int, missed_max: c_int, target_host: *const c_char, source_host: *const c_char, flags: NMTeamLinkWatcherArpPingFlags, error: *mut *mut glib::GError) -> *mut NMTeamLinkWatcher;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_new_ethtool(delay_up: c_int, delay_down: c_int, error: *mut *mut glib::GError) -> *mut NMTeamLinkWatcher;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_new_nsna_ping(init_wait: c_int, interval: c_int, missed_max: c_int, target_host: *const c_char, error: *mut *mut glib::GError) -> *mut NMTeamLinkWatcher;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_dup(watcher: *mut NMTeamLinkWatcher) -> *mut NMTeamLinkWatcher;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_equal(watcher: *mut NMTeamLinkWatcher, other: *mut NMTeamLinkWatcher) -> gboolean;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_get_delay_down(watcher: *mut NMTeamLinkWatcher) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_get_delay_up(watcher: *mut NMTeamLinkWatcher) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_get_flags(watcher: *mut NMTeamLinkWatcher) -> NMTeamLinkWatcherArpPingFlags;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_get_init_wait(watcher: *mut NMTeamLinkWatcher) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_get_interval(watcher: *mut NMTeamLinkWatcher) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_get_missed_max(watcher: *mut NMTeamLinkWatcher) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_get_name(watcher: *mut NMTeamLinkWatcher) -> *const c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_get_source_host(watcher: *mut NMTeamLinkWatcher) -> *const c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_get_target_host(watcher: *mut NMTeamLinkWatcher) -> *const c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_ref(watcher: *mut NMTeamLinkWatcher);
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_team_link_watcher_unref(watcher: *mut NMTeamLinkWatcher);
 
     //=========================================================================
@@ -4540,6 +4646,17 @@ extern "C" {
     pub fn nm_active_connection_get_vpn(connection: *mut NMActiveConnection) -> gboolean;
 
     //=========================================================================
+    // NMCheckpoint
+    //=========================================================================
+    pub fn nm_checkpoint_get_type() -> GType;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_checkpoint_get_created(checkpoint: *mut NMCheckpoint) -> i64;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_checkpoint_get_devices(checkpoint: *mut NMCheckpoint) -> *const glib::GPtrArray;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_checkpoint_get_rollback_timeout(checkpoint: *mut NMCheckpoint) -> u32;
+
+    //=========================================================================
     // NMClient
     //=========================================================================
     pub fn nm_client_get_type() -> GType;
@@ -4555,6 +4672,22 @@ extern "C" {
     pub fn nm_client_check_connectivity(client: *mut NMClient, cancellable: *mut gio::GCancellable, error: *mut *mut glib::GError) -> NMConnectivityState;
     pub fn nm_client_check_connectivity_async(client: *mut NMClient, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
     pub fn nm_client_check_connectivity_finish(client: *mut NMClient, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> NMConnectivityState;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_client_checkpoint_adjust_rollback_timeout(client: *mut NMClient, checkpoint_path: *const c_char, add_timeout: u32, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_client_checkpoint_adjust_rollback_timeout_finish(client: *mut NMClient, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> gboolean;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_client_checkpoint_create(client: *mut NMClient, devices: *const glib::GPtrArray, rollback_timeout: u32, flags: NMCheckpointCreateFlags, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_client_checkpoint_create_finish(client: *mut NMClient, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> *mut NMCheckpoint;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_client_checkpoint_destroy(client: *mut NMClient, checkpoint_path: *const c_char, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_client_checkpoint_destroy_finish(client: *mut NMClient, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> gboolean;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_client_checkpoint_rollback(client: *mut NMClient, checkpoint_path: *const c_char, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_client_checkpoint_rollback_finish(client: *mut NMClient, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> *mut glib::GHashTable;
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_client_connectivity_check_get_available(client: *mut NMClient) -> gboolean;
     #[cfg(any(feature = "v1_10", feature = "dox"))]
@@ -4567,6 +4700,8 @@ extern "C" {
     pub fn nm_client_get_activating_connection(client: *mut NMClient) -> *mut NMActiveConnection;
     pub fn nm_client_get_active_connections(client: *mut NMClient) -> *const glib::GPtrArray;
     pub fn nm_client_get_all_devices(client: *mut NMClient) -> *const glib::GPtrArray;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_client_get_checkpoints(client: *mut NMClient) -> *const glib::GPtrArray;
     pub fn nm_client_get_connection_by_id(client: *mut NMClient, id: *const c_char) -> *mut NMRemoteConnection;
     pub fn nm_client_get_connection_by_path(client: *mut NMClient, path: *const c_char) -> *mut NMRemoteConnection;
     pub fn nm_client_get_connection_by_uuid(client: *mut NMClient, uuid: *const c_char) -> *mut NMRemoteConnection;
@@ -4723,6 +4858,8 @@ extern "C" {
     //=========================================================================
     pub fn nm_device_ip_tunnel_get_type() -> GType;
     pub fn nm_device_ip_tunnel_get_encapsulation_limit(device: *mut NMDeviceIPTunnel) -> u8;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_device_ip_tunnel_get_flags(device: *mut NMDeviceIPTunnel) -> NMIPTunnelFlags;
     pub fn nm_device_ip_tunnel_get_flow_label(device: *mut NMDeviceIPTunnel) -> c_uint;
     pub fn nm_device_ip_tunnel_get_input_key(device: *mut NMDeviceIPTunnel) -> *const c_char;
     pub fn nm_device_ip_tunnel_get_local(device: *mut NMDeviceIPTunnel) -> *const c_char;
@@ -4803,6 +4940,8 @@ extern "C" {
     // NMDeviceOvsBridge
     //=========================================================================
     pub fn nm_device_ovs_bridge_get_type() -> GType;
+    #[cfg(any(feature = "v1_12_2", feature = "dox"))]
+    pub fn nm_device_ovs_bridge_get_slaves(device: *mut NMDeviceOvsBridge) -> *const glib::GPtrArray;
 
     //=========================================================================
     // NMDeviceOvsInterface
@@ -4813,6 +4952,8 @@ extern "C" {
     // NMDeviceOvsPort
     //=========================================================================
     pub fn nm_device_ovs_port_get_type() -> GType;
+    #[cfg(any(feature = "v1_12_2", feature = "dox"))]
+    pub fn nm_device_ovs_port_get_slaves(device: *mut NMDeviceOvsPort) -> *const glib::GPtrArray;
 
     //=========================================================================
     // NMDevicePpp
@@ -4883,6 +5024,8 @@ extern "C" {
     pub fn nm_device_wifi_get_bitrate(device: *mut NMDeviceWifi) -> u32;
     pub fn nm_device_wifi_get_capabilities(device: *mut NMDeviceWifi) -> NMDeviceWifiCapabilities;
     pub fn nm_device_wifi_get_hw_address(device: *mut NMDeviceWifi) -> *const c_char;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_device_wifi_get_last_scan(device: *mut NMDeviceWifi) -> i64;
     pub fn nm_device_wifi_get_mode(device: *mut NMDeviceWifi) -> NM80211Mode;
     pub fn nm_device_wifi_get_permanent_hw_address(device: *mut NMDeviceWifi) -> *const c_char;
     pub fn nm_device_wifi_request_scan(device: *mut NMDeviceWifi, cancellable: *mut gio::GCancellable, error: *mut *mut glib::GError) -> gboolean;
@@ -4942,6 +5085,10 @@ extern "C" {
     pub fn nm_remote_connection_delete(connection: *mut NMRemoteConnection, cancellable: *mut gio::GCancellable, error: *mut *mut glib::GError) -> gboolean;
     pub fn nm_remote_connection_delete_async(connection: *mut NMRemoteConnection, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
     pub fn nm_remote_connection_delete_finish(connection: *mut NMRemoteConnection, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> gboolean;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_remote_connection_get_filename(connection: *mut NMRemoteConnection) -> *const c_char;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_remote_connection_get_flags(connection: *mut NMRemoteConnection) -> NMSettingsConnectionFlags;
     pub fn nm_remote_connection_get_secrets(connection: *mut NMRemoteConnection, setting_name: *const c_char, cancellable: *mut gio::GCancellable, error: *mut *mut glib::GError) -> *mut glib::GVariant;
     pub fn nm_remote_connection_get_secrets_async(connection: *mut NMRemoteConnection, setting_name: *const c_char, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
     pub fn nm_remote_connection_get_secrets_finish(connection: *mut NMRemoteConnection, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> *mut glib::GVariant;
@@ -4950,7 +5097,7 @@ extern "C" {
     pub fn nm_remote_connection_save(connection: *mut NMRemoteConnection, cancellable: *mut gio::GCancellable, error: *mut *mut glib::GError) -> gboolean;
     pub fn nm_remote_connection_save_async(connection: *mut NMRemoteConnection, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
     pub fn nm_remote_connection_save_finish(connection: *mut NMRemoteConnection, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> gboolean;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_remote_connection_update2(connection: *mut NMRemoteConnection, settings: *mut glib::GVariant, flags: NMSettingsUpdate2Flags, args: *mut glib::GVariant, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
     pub fn nm_remote_connection_update2_finish(connection: *mut NMRemoteConnection, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> *mut glib::GVariant;
 
@@ -5186,6 +5333,8 @@ extern "C" {
     pub fn nm_setting_connection_get_interface_name(setting: *mut NMSettingConnection) -> *const c_char;
     pub fn nm_setting_connection_get_lldp(setting: *mut NMSettingConnection) -> NMSettingConnectionLldp;
     pub fn nm_setting_connection_get_master(setting: *mut NMSettingConnection) -> *const c_char;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_setting_connection_get_mdns(setting: *mut NMSettingConnection) -> NMSettingConnectionMdns;
     pub fn nm_setting_connection_get_metered(setting: *mut NMSettingConnection) -> NMMetered;
     pub fn nm_setting_connection_get_num_permissions(setting: *mut NMSettingConnection) -> u32;
     pub fn nm_setting_connection_get_num_secondaries(setting: *mut NMSettingConnection) -> u32;
@@ -5279,6 +5428,8 @@ extern "C" {
     pub fn nm_setting_ip6_config_get_type() -> GType;
     pub fn nm_setting_ip6_config_new() -> *mut NMSetting;
     pub fn nm_setting_ip6_config_get_addr_gen_mode(setting: *mut NMSettingIP6Config) -> NMSettingIP6ConfigAddrGenMode;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_setting_ip6_config_get_dhcp_duid(setting: *mut NMSettingIP6Config) -> *const c_char;
     pub fn nm_setting_ip6_config_get_ip6_privacy(setting: *mut NMSettingIP6Config) -> NMSettingIP6ConfigPrivacy;
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_setting_ip6_config_get_token(setting: *mut NMSettingIP6Config) -> *const c_char;
@@ -5341,6 +5492,7 @@ extern "C" {
     pub fn nm_setting_ip_tunnel_get_type() -> GType;
     pub fn nm_setting_ip_tunnel_new() -> *mut NMSetting;
     pub fn nm_setting_ip_tunnel_get_encapsulation_limit(setting: *mut NMSettingIPTunnel) -> c_uint;
+    pub fn nm_setting_ip_tunnel_get_flags(setting: *mut NMSettingIPTunnel) -> NMIPTunnelFlags;
     pub fn nm_setting_ip_tunnel_get_flow_label(setting: *mut NMSettingIPTunnel) -> c_uint;
     pub fn nm_setting_ip_tunnel_get_input_key(setting: *mut NMSettingIPTunnel) -> *const c_char;
     pub fn nm_setting_ip_tunnel_get_local(setting: *mut NMSettingIPTunnel) -> *const c_char;
@@ -5385,6 +5537,8 @@ extern "C" {
     pub fn nm_setting_macsec_get_parent(setting: *mut NMSettingMacsec) -> *const c_char;
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_macsec_get_port(setting: *mut NMSettingMacsec) -> c_int;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_setting_macsec_get_send_sci(setting: *mut NMSettingMacsec) -> gboolean;
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_macsec_get_validation(setting: *mut NMSettingMacsec) -> NMSettingMacsecValidation;
 
@@ -5525,31 +5679,31 @@ extern "C" {
     // NMSettingTCConfig
     //=========================================================================
     pub fn nm_setting_tc_config_get_type() -> GType;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_tc_config_new() -> *mut NMSetting;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_tc_config_add_qdisc(setting: *mut NMSettingTCConfig, qdisc: *mut NMTCQdisc) -> gboolean;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_tc_config_add_tfilter(setting: *mut NMSettingTCConfig, tfilter: *mut NMTCTfilter) -> gboolean;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_tc_config_clear_qdiscs(setting: *mut NMSettingTCConfig);
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_tc_config_clear_tfilters(setting: *mut NMSettingTCConfig);
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_tc_config_get_num_qdiscs(setting: *mut NMSettingTCConfig) -> c_uint;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_tc_config_get_num_tfilters(setting: *mut NMSettingTCConfig) -> c_uint;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_tc_config_get_qdisc(setting: *mut NMSettingTCConfig, idx: c_uint) -> *mut NMTCQdisc;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_tc_config_get_tfilter(setting: *mut NMSettingTCConfig, idx: c_uint) -> *mut NMTCTfilter;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_tc_config_remove_qdisc(setting: *mut NMSettingTCConfig, idx: c_uint);
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_tc_config_remove_qdisc_by_value(setting: *mut NMSettingTCConfig, qdisc: *mut NMTCQdisc) -> gboolean;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_tc_config_remove_tfilter(setting: *mut NMSettingTCConfig, idx: c_uint);
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_tc_config_remove_tfilter_by_value(setting: *mut NMSettingTCConfig, tfilter: *mut NMTCTfilter) -> gboolean;
 
     //=========================================================================
@@ -5557,54 +5711,54 @@ extern "C" {
     //=========================================================================
     pub fn nm_setting_team_get_type() -> GType;
     pub fn nm_setting_team_new() -> *mut NMSetting;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_add_link_watcher(setting: *mut NMSettingTeam, link_watcher: *mut NMTeamLinkWatcher) -> gboolean;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_add_runner_tx_hash(setting: *mut NMSettingTeam, txhash: *const c_char) -> gboolean;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_clear_link_watchers(setting: *mut NMSettingTeam);
     pub fn nm_setting_team_get_config(setting: *mut NMSettingTeam) -> *const c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_link_watcher(setting: *mut NMSettingTeam, idx: c_uint) -> *mut NMTeamLinkWatcher;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_mcast_rejoin_count(setting: *mut NMSettingTeam) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_mcast_rejoin_interval(setting: *mut NMSettingTeam) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_notify_peers_count(setting: *mut NMSettingTeam) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_notify_peers_interval(setting: *mut NMSettingTeam) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_num_link_watchers(setting: *mut NMSettingTeam) -> c_uint;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_num_runner_tx_hash(setting: *mut NMSettingTeam) -> c_uint;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_runner(setting: *mut NMSettingTeam) -> *const c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_runner_active(setting: *mut NMSettingTeam) -> gboolean;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_runner_agg_select_policy(setting: *mut NMSettingTeam) -> *const c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_runner_fast_rate(setting: *mut NMSettingTeam) -> gboolean;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_runner_hwaddr_policy(setting: *mut NMSettingTeam) -> *const c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_runner_min_ports(setting: *mut NMSettingTeam) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_runner_sys_prio(setting: *mut NMSettingTeam) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_runner_tx_balancer(setting: *mut NMSettingTeam) -> *const c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_runner_tx_balancer_interval(setting: *mut NMSettingTeam) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_get_runner_tx_hash(setting: *mut NMSettingTeam, idx: c_uint) -> *const c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_remove_link_watcher(setting: *mut NMSettingTeam, idx: c_uint);
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_remove_link_watcher_by_value(setting: *mut NMSettingTeam, link_watcher: *mut NMTeamLinkWatcher) -> gboolean;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_remove_runner_tx_hash(setting: *mut NMSettingTeam, idx: c_uint);
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_remove_runner_tx_hash_by_value(setting: *mut NMSettingTeam, txhash: *const c_char) -> gboolean;
 
     //=========================================================================
@@ -5612,28 +5766,28 @@ extern "C" {
     //=========================================================================
     pub fn nm_setting_team_port_get_type() -> GType;
     pub fn nm_setting_team_port_new() -> *mut NMSetting;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_port_add_link_watcher(setting: *mut NMSettingTeamPort, link_watcher: *mut NMTeamLinkWatcher) -> gboolean;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_port_clear_link_watchers(setting: *mut NMSettingTeamPort);
     pub fn nm_setting_team_port_get_config(setting: *mut NMSettingTeamPort) -> *const c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_port_get_lacp_key(setting: *mut NMSettingTeamPort) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_port_get_lacp_prio(setting: *mut NMSettingTeamPort) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_port_get_link_watcher(setting: *mut NMSettingTeamPort, idx: c_uint) -> *mut NMTeamLinkWatcher;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_port_get_num_link_watchers(setting: *mut NMSettingTeamPort) -> c_uint;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_port_get_prio(setting: *mut NMSettingTeamPort) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_port_get_queue_id(setting: *mut NMSettingTeamPort) -> c_int;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_port_get_sticky(setting: *mut NMSettingTeamPort) -> gboolean;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_port_remove_link_watcher(setting: *mut NMSettingTeamPort, idx: c_uint);
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_team_port_remove_link_watcher_by_value(setting: *mut NMSettingTeamPort, link_watcher: *mut NMTeamLinkWatcher) -> gboolean;
 
     //=========================================================================
@@ -5690,10 +5844,14 @@ extern "C" {
     pub fn nm_setting_vpn_foreach_data_item(setting: *mut NMSettingVpn, func: NMVpnIterFunc, user_data: gpointer);
     pub fn nm_setting_vpn_foreach_secret(setting: *mut NMSettingVpn, func: NMVpnIterFunc, user_data: gpointer);
     pub fn nm_setting_vpn_get_data_item(setting: *mut NMSettingVpn, key: *const c_char) -> *const c_char;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_setting_vpn_get_data_keys(setting: *mut NMSettingVpn, out_length: *mut c_uint) -> *mut *mut c_char;
     pub fn nm_setting_vpn_get_num_data_items(setting: *mut NMSettingVpn) -> u32;
     pub fn nm_setting_vpn_get_num_secrets(setting: *mut NMSettingVpn) -> u32;
     pub fn nm_setting_vpn_get_persistent(setting: *mut NMSettingVpn) -> gboolean;
     pub fn nm_setting_vpn_get_secret(setting: *mut NMSettingVpn, key: *const c_char) -> *const c_char;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_setting_vpn_get_secret_keys(setting: *mut NMSettingVpn, out_length: *mut c_uint) -> *mut *mut c_char;
     pub fn nm_setting_vpn_get_service_type(setting: *mut NMSettingVpn) -> *const c_char;
     pub fn nm_setting_vpn_get_timeout(setting: *mut NMSettingVpn) -> u32;
     pub fn nm_setting_vpn_get_user_name(setting: *mut NMSettingVpn) -> *const c_char;
@@ -5791,6 +5949,8 @@ extern "C" {
     pub fn nm_setting_wireless_get_seen_bssid(setting: *mut NMSettingWireless, i: u32) -> *const c_char;
     pub fn nm_setting_wireless_get_ssid(setting: *mut NMSettingWireless) -> *mut glib::GBytes;
     pub fn nm_setting_wireless_get_tx_power(setting: *mut NMSettingWireless) -> u32;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_setting_wireless_get_wake_on_wlan(setting: *mut NMSettingWireless) -> NMSettingWirelessWakeOnWLan;
     pub fn nm_setting_wireless_remove_mac_blacklist_item(setting: *mut NMSettingWireless, idx: u32);
     pub fn nm_setting_wireless_remove_mac_blacklist_item_by_value(setting: *mut NMSettingWireless, mac: *const c_char) -> gboolean;
 
@@ -5806,6 +5966,8 @@ extern "C" {
     pub fn nm_setting_wireless_security_clear_pairwise(setting: *mut NMSettingWirelessSecurity);
     pub fn nm_setting_wireless_security_clear_protos(setting: *mut NMSettingWirelessSecurity);
     pub fn nm_setting_wireless_security_get_auth_alg(setting: *mut NMSettingWirelessSecurity) -> *const c_char;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_setting_wireless_security_get_fils(setting: *mut NMSettingWirelessSecurity) -> NMSettingWirelessSecurityFils;
     pub fn nm_setting_wireless_security_get_group(setting: *mut NMSettingWirelessSecurity, i: u32) -> *const c_char;
     pub fn nm_setting_wireless_security_get_key_mgmt(setting: *mut NMSettingWirelessSecurity) -> *const c_char;
     pub fn nm_setting_wireless_security_get_leap_password(setting: *mut NMSettingWirelessSecurity) -> *const c_char;
@@ -5916,6 +6078,8 @@ extern "C" {
     pub fn nm_vpn_service_plugin_set_ip4_config(plugin: *mut NMVpnServicePlugin, ip4_config: *mut glib::GVariant);
     pub fn nm_vpn_service_plugin_set_ip6_config(plugin: *mut NMVpnServicePlugin, ip6_config: *mut glib::GVariant);
     pub fn nm_vpn_service_plugin_set_login_banner(plugin: *mut NMVpnServicePlugin, banner: *const c_char);
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_vpn_service_plugin_shutdown(plugin: *mut NMVpnServicePlugin);
 
     //=========================================================================
     // NMWimaxNsp
@@ -5979,7 +6143,7 @@ extern "C" {
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_connection_get_setting_proxy(connection: *mut NMConnection) -> *mut NMSettingProxy;
     pub fn nm_connection_get_setting_serial(connection: *mut NMConnection) -> *mut NMSettingSerial;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_connection_get_setting_tc_config(connection: *mut NMConnection) -> *mut NMSettingTCConfig;
     pub fn nm_connection_get_setting_team(connection: *mut NMConnection) -> *mut NMSettingTeam;
     pub fn nm_connection_get_setting_team_port(connection: *mut NMConnection) -> *mut NMSettingTeamPort;
@@ -6050,6 +6214,7 @@ extern "C" {
     pub fn nm_utils_file_is_private_key(filename: *const c_char, out_encrypted: *mut gboolean) -> gboolean;
     pub fn nm_utils_file_search_in_paths(progname: *const c_char, try_first: *const c_char, paths: *const *const c_char, file_test_flags: glib::GFileTest, predicate: NMUtilsFileSearchInPathsPredicate, user_data: gpointer, error: *mut *mut glib::GError) -> *const c_char;
     pub fn nm_utils_format_variant_attributes(attributes: *mut glib::GHashTable, attr_separator: c_char, key_value_separator: c_char) -> *mut c_char;
+    pub fn nm_utils_get_timestamp_msec() -> i64;
     pub fn nm_utils_hexstr2bin(hex: *const c_char) -> *mut glib::GBytes;
     pub fn nm_utils_hwaddr_atoba(asc: *const c_char, length: size_t) -> *mut glib::GByteArray;
     pub fn nm_utils_hwaddr_aton(asc: *const c_char, buffer: gpointer, length: size_t) -> *mut u8;
@@ -6062,6 +6227,7 @@ extern "C" {
     pub fn nm_utils_inet4_ntop(inaddr: c_char, dst: *mut c_char) -> *const c_char;
     pub fn nm_utils_ip4_addresses_from_variant(value: *mut glib::GVariant, out_gateway: *mut *mut c_char) -> *mut glib::GPtrArray;
     pub fn nm_utils_ip4_addresses_to_variant(addresses: *mut glib::GPtrArray, gateway: *const c_char) -> *mut glib::GVariant;
+    pub fn nm_utils_ip4_dns_from_variant(value: *mut glib::GVariant) -> *mut *mut c_char;
     pub fn nm_utils_ip4_dns_to_variant(dns: *mut *mut c_char) -> *mut glib::GVariant;
     pub fn nm_utils_ip4_get_default_prefix(ip: u32) -> u32;
     pub fn nm_utils_ip4_netmask_to_prefix(netmask: u32) -> u32;
@@ -6089,17 +6255,17 @@ extern "C" {
     pub fn nm_utils_same_ssid(ssid1: *mut u8, len1: size_t, ssid2: *mut u8, len2: size_t, ignore_trailing_null: gboolean) -> gboolean;
     pub fn nm_utils_security_valid(type_: NMUtilsSecurityType, wifi_caps: NMDeviceWifiCapabilities, have_ap: gboolean, adhoc: gboolean, ap_flags: NM80211ApFlags, ap_wpa: NM80211ApSecurityFlags, ap_rsn: NM80211ApSecurityFlags) -> gboolean;
     pub fn nm_utils_ssid_to_utf8(ssid: *mut u8, len: size_t) -> *mut c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_utils_tc_action_from_str(str: *const c_char, error: *mut *mut glib::GError) -> *mut NMTCAction;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_utils_tc_action_to_str(action: *mut NMTCAction, error: *mut *mut glib::GError) -> *mut c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_utils_tc_qdisc_from_str(str: *const c_char, error: *mut *mut glib::GError) -> *mut NMTCQdisc;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_utils_tc_qdisc_to_str(qdisc: *mut NMTCQdisc, error: *mut *mut glib::GError) -> *mut c_char;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_utils_tc_tfilter_from_str(str: *const c_char, error: *mut *mut glib::GError) -> *mut NMTCTfilter;
-    #[cfg(any(feature = "v1_10_2", feature = "dox"))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_utils_tc_tfilter_to_str(tfilter: *mut NMTCTfilter, error: *mut *mut glib::GError) -> *mut c_char;
     pub fn nm_utils_uuid_generate() -> *mut c_char;
     #[cfg(any(feature = "v1_6", feature = "dox"))]

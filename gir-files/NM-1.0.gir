@@ -395,9 +395,9 @@ not be modified or freed.</doc>
       </method>
       <method name="get_frequency"
               c:identifier="nm_access_point_get_frequency">
-        <doc xml:space="preserve">Gets the frequency of the access point.</doc>
+        <doc xml:space="preserve">Gets the frequency of the access point in MHz.</doc>
         <return-value transfer-ownership="none">
-          <doc xml:space="preserve">the frequency</doc>
+          <doc xml:space="preserve">the frequency in MHz</doc>
           <type name="guint32" c:type="guint32"/>
         </return-value>
         <parameters>
@@ -481,9 +481,9 @@ point.</doc>
         </parameters>
       </method>
       <method name="get_strength" c:identifier="nm_access_point_get_strength">
-        <doc xml:space="preserve">Gets the current signal strength of the access point.</doc>
+        <doc xml:space="preserve">Gets the current signal strength of the access point as a percentage.</doc>
         <return-value transfer-ownership="none">
-          <doc xml:space="preserve">the signal strength</doc>
+          <doc xml:space="preserve">the signal strength (0 to 100)</doc>
           <type name="guint8" c:type="guint8"/>
         </return-value>
         <parameters>
@@ -907,11 +907,9 @@ This is the internal string used by the connection, and must not be modified.</d
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="devices" transfer-ownership="none">
-        <doc xml:space="preserve">The devices of the active connection.
-
-Element-type: NMDevice</doc>
+        <doc xml:space="preserve">The devices of the active connection.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="Device"/>
         </array>
       </property>
       <property name="dhcp4-config" transfer-ownership="none">
@@ -1226,6 +1224,21 @@ Bluetooth device.</doc>
         <doc xml:space="preserve">device provides Network Access Point capability</doc>
       </member>
     </bitfield>
+    <constant name="CHECKPOINT_CREATED"
+              value="created"
+              c:type="NM_CHECKPOINT_CREATED">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
+    <constant name="CHECKPOINT_DEVICES"
+              value="devices"
+              c:type="NM_CHECKPOINT_DEVICES">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
+    <constant name="CHECKPOINT_ROLLBACK_TIMEOUT"
+              value="rollback-timeout"
+              c:type="NM_CHECKPOINT_ROLLBACK_TIMEOUT">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
     <constant name="CLIENT_ACTIVATING_CONNECTION"
               value="activating-connection"
               c:type="NM_CLIENT_ACTIVATING_CONNECTION">
@@ -1429,34 +1442,138 @@ extensions.</doc>
         <doc xml:space="preserve">Teams can be managed</doc>
       </member>
     </enumeration>
-    <enumeration name="CheckpointCreateFlags"
-                 version="1.4"
-                 c:type="NMCheckpointCreateFlags">
+    <class name="Checkpoint"
+           c:symbol-prefix="checkpoint"
+           c:type="NMCheckpoint"
+           parent="Object"
+           glib:type-name="NMCheckpoint"
+           glib:get-type="nm_checkpoint_get_type"
+           glib:type-struct="CheckpointClass">
+      <implements name="Gio.AsyncInitable"/>
+      <implements name="Gio.Initable"/>
+      <method name="get_created"
+              c:identifier="nm_checkpoint_get_created"
+              version="1.12">
+        <doc xml:space="preserve">Gets the timestamp (in CLOCK_BOOTTIME milliseconds) of checkpoint creation.
+
+Use nm_utils_get_timestamp_msec() to obtain current time value suitable for
+comparing to this value.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the timestamp of checkpoint creation.</doc>
+          <type name="gint64" c:type="gint64"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="checkpoint" transfer-ownership="none">
+            <doc xml:space="preserve">a #NMCheckpoint</doc>
+            <type name="Checkpoint" c:type="NMCheckpoint*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_devices"
+              c:identifier="nm_checkpoint_get_devices"
+              version="1.12">
+        <doc xml:space="preserve">The devices that are part of this checkpoint.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the devices list.</doc>
+          <array name="GLib.PtrArray" c:type="const GPtrArray*">
+            <type name="Device"/>
+          </array>
+        </return-value>
+        <parameters>
+          <instance-parameter name="checkpoint" transfer-ownership="none">
+            <doc xml:space="preserve">a #NMCheckpoint</doc>
+            <type name="Checkpoint" c:type="NMCheckpoint*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_rollback_timeout"
+              c:identifier="nm_checkpoint_get_rollback_timeout"
+              version="1.12">
+        <doc xml:space="preserve">Gets the the timeout in seconds for automatic rollback.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the rollback timeout.</doc>
+          <type name="guint32" c:type="guint32"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="checkpoint" transfer-ownership="none">
+            <doc xml:space="preserve">a #NMCheckpoint</doc>
+            <type name="Checkpoint" c:type="NMCheckpoint*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <property name="created" version="1.12" transfer-ownership="none">
+        <doc xml:space="preserve">The timestamp (in CLOCK_BOOTTIME milliseconds) of checkpoint creation.</doc>
+        <type name="gint64" c:type="gint64"/>
+      </property>
+      <property name="devices" version="1.12" transfer-ownership="none">
+        <doc xml:space="preserve">The devices that are part of this checkpoint.</doc>
+        <array name="GLib.PtrArray">
+          <type name="Device"/>
+        </array>
+      </property>
+      <property name="rollback-timeout"
+                version="1.12"
+                transfer-ownership="none">
+        <doc xml:space="preserve">Timeout in seconds for automatic rollback, or zero.</doc>
+        <type name="guint" c:type="guint"/>
+      </property>
+    </class>
+    <record name="CheckpointClass"
+            c:type="NMCheckpointClass"
+            disguised="1"
+            glib:is-gtype-struct-for="Checkpoint">
+    </record>
+    <bitfield name="CheckpointCreateFlags"
+              version="1.4"
+              glib:type-name="NMCheckpointCreateFlags"
+              glib:get-type="nm_checkpoint_create_flags_get_type"
+              c:type="NMCheckpointCreateFlags">
       <doc xml:space="preserve">The flags for CheckpointCreate call</doc>
       <member name="none"
               value="0"
-              c:identifier="NM_CHECKPOINT_CREATE_FLAG_NONE">
+              c:identifier="NM_CHECKPOINT_CREATE_FLAG_NONE"
+              glib:nick="none">
         <doc xml:space="preserve">no flags</doc>
       </member>
       <member name="destroy_all"
               value="1"
-              c:identifier="NM_CHECKPOINT_CREATE_FLAG_DESTROY_ALL">
+              c:identifier="NM_CHECKPOINT_CREATE_FLAG_DESTROY_ALL"
+              glib:nick="destroy-all">
         <doc xml:space="preserve">when creating
   a new checkpoint, destroy all existing ones.</doc>
       </member>
       <member name="delete_new_connections"
               value="2"
-              c:identifier="NM_CHECKPOINT_CREATE_FLAG_DELETE_NEW_CONNECTIONS">
+              c:identifier="NM_CHECKPOINT_CREATE_FLAG_DELETE_NEW_CONNECTIONS"
+              glib:nick="delete-new-connections">
         <doc xml:space="preserve">upon rollback,
   delete any new connection added after the checkpoint (Since: 1.6)</doc>
       </member>
       <member name="disconnect_new_devices"
               value="4"
-              c:identifier="NM_CHECKPOINT_CREATE_FLAG_DISCONNECT_NEW_DEVICES">
+              c:identifier="NM_CHECKPOINT_CREATE_FLAG_DISCONNECT_NEW_DEVICES"
+              glib:nick="disconnect-new-devices">
         <doc xml:space="preserve">upon rollback,
   disconnect any new device appeared after the checkpoint (Since: 1.6)</doc>
       </member>
-    </enumeration>
+      <member name="allow_overlapping"
+              value="8"
+              c:identifier="NM_CHECKPOINT_CREATE_FLAG_ALLOW_OVERLAPPING"
+              glib:nick="allow-overlapping">
+        <doc xml:space="preserve">by default, creating
+  a checkpoint fails if there are already existing checkoints that
+  reference the same devices. With this flag, creation of such
+  checkpoints is allowed, however, if an older checkpoint
+  that references overlapping devices gets rolled back, it will
+  automatically destroy this checkpoint during rollback. This
+  allows to create several overlapping checkpoints in parallel,
+  and rollback to them at will. With the special case that
+  rolling back to an older checkpoint will invalidate all
+  overlapping younger checkpoints. This opts-in that the
+  checkpoint can be automatically destroyed by the rollback
+  of an older checkpoint. (Since: 1.12)</doc>
+      </member>
+    </bitfield>
     <class name="Client"
            c:symbol-prefix="client"
            c:type="NMClient"
@@ -1986,6 +2103,278 @@ call.</doc>
           </parameter>
         </parameters>
       </method>
+      <method name="checkpoint_adjust_rollback_timeout"
+              c:identifier="nm_client_checkpoint_adjust_rollback_timeout"
+              version="1.12">
+        <doc xml:space="preserve">Resets the timeout for the checkpoint with path @checkpoint_path
+to @timeout_add.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="client" transfer-ownership="none">
+            <doc xml:space="preserve">the %NMClient</doc>
+            <type name="Client" c:type="NMClient*"/>
+          </instance-parameter>
+          <parameter name="checkpoint_path" transfer-ownership="none">
+            <doc xml:space="preserve">a D-Bus path to a checkpoint</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+          <parameter name="add_timeout" transfer-ownership="none">
+            <doc xml:space="preserve">the timeout in seconds counting from now.
+  Set to zero, to disable the timeout.</doc>
+            <type name="guint32" c:type="guint32"/>
+          </parameter>
+          <parameter name="cancellable"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve">a #GCancellable, or %NULL</doc>
+            <type name="Gio.Cancellable" c:type="GCancellable*"/>
+          </parameter>
+          <parameter name="callback"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1"
+                     scope="async"
+                     closure="4">
+            <doc xml:space="preserve">callback to be called when the add operation completes</doc>
+            <type name="Gio.AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
+          </parameter>
+          <parameter name="user_data"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve">caller-specific data passed to @callback</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="checkpoint_adjust_rollback_timeout_finish"
+              c:identifier="nm_client_checkpoint_adjust_rollback_timeout_finish"
+              version="1.12"
+              throws="1">
+        <doc xml:space="preserve">Gets the result of a call to nm_client_checkpoint_adjust_rollback_timeout().</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">%TRUE on success or %FALSE on failure.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="client" transfer-ownership="none">
+            <doc xml:space="preserve">an #NMClient</doc>
+            <type name="Client" c:type="NMClient*"/>
+          </instance-parameter>
+          <parameter name="result" transfer-ownership="none">
+            <doc xml:space="preserve">the result passed to the #GAsyncReadyCallback</doc>
+            <type name="Gio.AsyncResult" c:type="GAsyncResult*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="checkpoint_create"
+              c:identifier="nm_client_checkpoint_create"
+              version="1.12">
+        <doc xml:space="preserve">Creates a checkpoint of the current networking configuration
+for given interfaces. An empty @devices argument means all
+devices. If @rollback_timeout is not zero, a rollback is
+automatically performed after the given timeout.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="client" transfer-ownership="none">
+            <doc xml:space="preserve">the %NMClient</doc>
+            <type name="Client" c:type="NMClient*"/>
+          </instance-parameter>
+          <parameter name="devices" transfer-ownership="none">
+            <doc xml:space="preserve">a list of devices for which a
+  checkpoint should be created.</doc>
+            <array name="GLib.PtrArray" c:type="const GPtrArray*">
+              <type name="Device"/>
+            </array>
+          </parameter>
+          <parameter name="rollback_timeout" transfer-ownership="none">
+            <doc xml:space="preserve">the rollback timeout in seconds</doc>
+            <type name="guint32" c:type="guint32"/>
+          </parameter>
+          <parameter name="flags" transfer-ownership="none">
+            <doc xml:space="preserve">creation flags</doc>
+            <type name="CheckpointCreateFlags"
+                  c:type="NMCheckpointCreateFlags"/>
+          </parameter>
+          <parameter name="cancellable"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve">a #GCancellable, or %NULL</doc>
+            <type name="Gio.Cancellable" c:type="GCancellable*"/>
+          </parameter>
+          <parameter name="callback"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1"
+                     scope="async"
+                     closure="5">
+            <doc xml:space="preserve">callback to be called when the add operation completes</doc>
+            <type name="Gio.AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
+          </parameter>
+          <parameter name="user_data"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve">caller-specific data passed to @callback</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="checkpoint_create_finish"
+              c:identifier="nm_client_checkpoint_create_finish"
+              version="1.12"
+              throws="1">
+        <doc xml:space="preserve">Gets the result of a call to nm_client_checkpoint_create().</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">the new #NMCheckpoint on success, %NULL on
+  failure, in which case @error will be set.</doc>
+          <type name="Checkpoint" c:type="NMCheckpoint*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="client" transfer-ownership="none">
+            <doc xml:space="preserve">the #NMClient</doc>
+            <type name="Client" c:type="NMClient*"/>
+          </instance-parameter>
+          <parameter name="result" transfer-ownership="none">
+            <doc xml:space="preserve">the result passed to the #GAsyncReadyCallback</doc>
+            <type name="Gio.AsyncResult" c:type="GAsyncResult*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="checkpoint_destroy"
+              c:identifier="nm_client_checkpoint_destroy"
+              version="1.12">
+        <doc xml:space="preserve">Destroys an existing checkpoint without performing a rollback.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="client" transfer-ownership="none">
+            <doc xml:space="preserve">the %NMClient</doc>
+            <type name="Client" c:type="NMClient*"/>
+          </instance-parameter>
+          <parameter name="checkpoint_path" transfer-ownership="none">
+            <doc xml:space="preserve">the D-Bus path for the checkpoint</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+          <parameter name="cancellable"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve">a #GCancellable, or %NULL</doc>
+            <type name="Gio.Cancellable" c:type="GCancellable*"/>
+          </parameter>
+          <parameter name="callback"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1"
+                     scope="async"
+                     closure="3">
+            <doc xml:space="preserve">callback to be called when the add operation completes</doc>
+            <type name="Gio.AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
+          </parameter>
+          <parameter name="user_data"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve">caller-specific data passed to @callback</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="checkpoint_destroy_finish"
+              c:identifier="nm_client_checkpoint_destroy_finish"
+              version="1.12"
+              throws="1">
+        <doc xml:space="preserve">Gets the result of a call to nm_client_checkpoint_destroy().</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">%TRUE on success or %FALSE on failure, in which case
+  @error will be set.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="client" transfer-ownership="none">
+            <doc xml:space="preserve">an #NMClient</doc>
+            <type name="Client" c:type="NMClient*"/>
+          </instance-parameter>
+          <parameter name="result" transfer-ownership="none">
+            <doc xml:space="preserve">the result passed to the #GAsyncReadyCallback</doc>
+            <type name="Gio.AsyncResult" c:type="GAsyncResult*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="checkpoint_rollback"
+              c:identifier="nm_client_checkpoint_rollback"
+              version="1.12">
+        <doc xml:space="preserve">Performs the rollback of a checkpoint before the timeout is reached.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="client" transfer-ownership="none">
+            <doc xml:space="preserve">the %NMClient</doc>
+            <type name="Client" c:type="NMClient*"/>
+          </instance-parameter>
+          <parameter name="checkpoint_path" transfer-ownership="none">
+            <doc xml:space="preserve">the D-Bus path to the checkpoint</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+          <parameter name="cancellable"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve">a #GCancellable, or %NULL</doc>
+            <type name="Gio.Cancellable" c:type="GCancellable*"/>
+          </parameter>
+          <parameter name="callback"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1"
+                     scope="async"
+                     closure="3">
+            <doc xml:space="preserve">callback to be called when the add operation completes</doc>
+            <type name="Gio.AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
+          </parameter>
+          <parameter name="user_data"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve">caller-specific data passed to @callback</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="checkpoint_rollback_finish"
+              c:identifier="nm_client_checkpoint_rollback_finish"
+              version="1.12"
+              throws="1">
+        <doc xml:space="preserve">Gets the result of a call to nm_client_checkpoint_rollback().</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">an hash table of
+  devices and results. Devices are represented by their original
+  D-Bus path; each result is a #NMRollbackResult.</doc>
+          <type name="GLib.HashTable" c:type="GHashTable*">
+            <type name="utf8"/>
+            <type name="guint32"/>
+          </type>
+        </return-value>
+        <parameters>
+          <instance-parameter name="client" transfer-ownership="none">
+            <doc xml:space="preserve">an #NMClient</doc>
+            <type name="Client" c:type="NMClient*"/>
+          </instance-parameter>
+          <parameter name="result" transfer-ownership="none">
+            <doc xml:space="preserve">the result passed to the #GAsyncReadyCallback</doc>
+            <type name="Gio.AsyncResult" c:type="GAsyncResult*"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="connectivity_check_get_available"
               c:identifier="nm_client_connectivity_check_get_available"
               version="1.10">
@@ -2176,6 +2565,25 @@ containing all the #NMDevices.  The returned array is owned by the
 #NMClient object and should not be modified.</doc>
           <array name="GLib.PtrArray" c:type="const GPtrArray*">
             <type name="Device"/>
+          </array>
+        </return-value>
+        <parameters>
+          <instance-parameter name="client" transfer-ownership="none">
+            <doc xml:space="preserve">a #NMClient</doc>
+            <type name="Client" c:type="NMClient*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_checkpoints"
+              c:identifier="nm_client_get_checkpoints"
+              version="1.12">
+        <doc xml:space="preserve">Gets all the active checkpoints.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">a #GPtrArray
+containing all the #NMCheckpoint.  The returned array is owned by the
+#NMClient object and should not be modified.</doc>
+          <array name="GLib.PtrArray" c:type="const GPtrArray*">
+            <type name="Checkpoint"/>
           </array>
         </return-value>
         <parameters>
@@ -3029,34 +3437,34 @@ likely to become the new #NMClient:primary-connection.</doc>
         <type name="ActiveConnection"/>
       </property>
       <property name="active-connections" transfer-ownership="none">
-        <doc xml:space="preserve">The active connections.
-
-Element-type: NMActiveConnection</doc>
+        <doc xml:space="preserve">The active connections.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="ActiveConnection"/>
         </array>
       </property>
       <property name="all-devices" version="1.2" transfer-ownership="none">
-        <doc xml:space="preserve">List of both real devices and device placeholders.
-
-Element-type: NMDevice</doc>
+        <doc xml:space="preserve">List of both real devices and device placeholders.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="Device"/>
         </array>
       </property>
       <property name="can-modify" transfer-ownership="none">
         <doc xml:space="preserve">If %TRUE, adding and modifying connections is supported.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
+      <property name="checkpoints" version="1.12" transfer-ownership="none">
+        <doc xml:space="preserve">The list of active checkpoints.</doc>
+        <array name="GLib.PtrArray">
+          <type name="Checkpoint"/>
+        </array>
+      </property>
       <property name="connections" transfer-ownership="none">
         <doc xml:space="preserve">The list of configured connections that are available to the user. (Note
 that this differs from the underlying D-Bus property, which may also
 contain the object paths of connections that the user does not have
-permission to read the details of.)
-
-Element-type: NMRemoteConnection</doc>
+permission to read the details of.)</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="RemoteConnection"/>
         </array>
       </property>
       <property name="connectivity" transfer-ownership="none">
@@ -3072,11 +3480,9 @@ Element-type: NMRemoteConnection</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="devices" transfer-ownership="none">
-        <doc xml:space="preserve">List of real network devices.  Does not include placeholder devices.
-
-Element-type: NMDevice</doc>
+        <doc xml:space="preserve">List of real network devices.  Does not include placeholder devices.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="Device"/>
         </array>
       </property>
       <property name="dns-configuration"
@@ -3090,7 +3496,7 @@ relative priority, "interface" the interface on which these
 servers are contacted, "vpn" a boolean telling whether the
 configuration was obtained from a VPN connection.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="GLib.Variant"/>
         </array>
       </property>
       <property name="dns-mode" version="1.6" transfer-ownership="none">
@@ -4320,7 +4726,7 @@ connection contains one, otherwise %NULL</doc>
       </method>
       <method name="get_setting_tc_config"
               c:identifier="nm_connection_get_setting_tc_config"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">A shortcut to return any #NMSettingTCConfig the connection might contain.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">an #NMSettingTCConfig if the connection contains one, otherwise %NULL</doc>
@@ -4631,7 +5037,7 @@ cannot be normalized, the connection will not be modified.</doc>
             <doc xml:space="preserve">a #GHashTable with
 normalization parameters to allow customization of the normalization by providing
 specific arguments. Unknown arguments will be ignored and the default will be
-used. The keys must be strings, hashed by g_str_hash() and g_str_equal() functions.
+used. The keys must be strings compared with g_str_equal() function.
 The values are opaque and depend on the parameter name.</doc>
             <type name="GLib.HashTable" c:type="GHashTable*">
               <type name="utf8"/>
@@ -5449,6 +5855,11 @@ and some #NMSetting8021x operations.</doc>
               c:type="NM_DEVICE_IP_TUNNEL_ENCAPSULATION_LIMIT">
       <type name="utf8" c:type="gchar*"/>
     </constant>
+    <constant name="DEVICE_IP_TUNNEL_FLAGS"
+              value="flags"
+              c:type="NM_DEVICE_IP_TUNNEL_FLAGS">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
     <constant name="DEVICE_IP_TUNNEL_FLOW_LABEL"
               value="flow-label"
               c:type="NM_DEVICE_IP_TUNNEL_FLOW_LABEL">
@@ -5634,6 +6045,16 @@ and some #NMSetting8021x operations.</doc>
     <constant name="DEVICE_OLPC_MESH_HW_ADDRESS"
               value="hw-address"
               c:type="NM_DEVICE_OLPC_MESH_HW_ADDRESS">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
+    <constant name="DEVICE_OVS_BRIDGE_SLAVES"
+              value="slaves"
+              c:type="NM_DEVICE_OVS_BRIDGE_SLAVES">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
+    <constant name="DEVICE_OVS_PORT_SLAVES"
+              value="slaves"
+              c:type="NM_DEVICE_OVS_PORT_SLAVES">
       <type name="utf8" c:type="gchar*"/>
     </constant>
     <constant name="DEVICE_PHYSICAL_PORT_ID"
@@ -5839,6 +6260,11 @@ and some #NMSetting8021x operations.</doc>
     <constant name="DEVICE_WIFI_HW_ADDRESS"
               value="hw-address"
               c:type="NM_DEVICE_WIFI_HW_ADDRESS">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
+    <constant name="DEVICE_WIFI_LAST_SCAN"
+              value="last-scan"
+              c:type="NM_DEVICE_WIFI_LAST_SCAN">
       <type name="utf8" c:type="gchar*"/>
     </constant>
     <constant name="DEVICE_WIFI_MODE"
@@ -6693,7 +7119,7 @@ array and thus it is safe for callers to reference and keep using it.</doc>
       <method name="get_mtu" c:identifier="nm_device_get_mtu">
         <doc xml:space="preserve">Gets the  MTU of the #NMDevice.</doc>
         <return-value transfer-ownership="none">
-          <doc xml:space="preserve">the MTU of the device.</doc>
+          <doc xml:space="preserve">the MTU of the device in bytes.</doc>
           <type name="guint32" c:type="guint32"/>
         </return-value>
         <parameters>
@@ -6886,14 +7312,18 @@ made since it was last applied.</doc>
             <doc xml:space="preserve">a #NMDevice</doc>
             <type name="Device" c:type="NMDevice*"/>
           </instance-parameter>
-          <parameter name="connection" transfer-ownership="none">
-            <doc xml:space="preserve">the #NMConnection to replace the applied settings with or %NULL to reuse existing</doc>
+          <parameter name="connection"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve">the #NMConnection to replace the applied
+  settings with or %NULL to reuse existing</doc>
             <type name="Connection" c:type="NMConnection*"/>
           </parameter>
           <parameter name="version_id" transfer-ownership="none">
-            <doc xml:space="preserve">zero or the expected version id of the applied connection. If specified
-  and the version id mismatches, the call fails without modification. This allows to
-  catch concurrent accesses.</doc>
+            <doc xml:space="preserve">zero or the expected version id of the applied connection.
+  If specified and the version id mismatches, the call fails without
+  modification. This allows to catch concurrent accesses.</doc>
             <type name="guint64" c:type="guint64"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
@@ -6922,14 +7352,19 @@ currently active connection made since it was last applied.</doc>
             <doc xml:space="preserve">a #NMDevice</doc>
             <type name="Device" c:type="NMDevice*"/>
           </instance-parameter>
-          <parameter name="connection" transfer-ownership="none">
-            <doc xml:space="preserve">the #NMConnection to replace the applied settings with or %NULL to reuse existing</doc>
+          <parameter name="connection"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve">the #NMConnection to replace the applied
+  settings with or %NULL to reuse existing</doc>
             <type name="Connection" c:type="NMConnection*"/>
           </parameter>
           <parameter name="version_id" transfer-ownership="none">
-            <doc xml:space="preserve">zero or the expected version id of the applied connection. If specified
-  and the version id mismatches, the call fails without modification. This allows to
-  catch concurrent accesses.</doc>
+            <doc xml:space="preserve">zero or the expected version id of the applied
+  connection. If specified and the version id mismatches, the call
+  fails without modification. This allows to catch concurrent
+  accesses.</doc>
             <type name="guint64" c:type="guint64"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
@@ -7025,11 +7460,9 @@ will be set.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="available-connections" transfer-ownership="none">
-        <doc xml:space="preserve">The available connections of the device
-
-Element-type: NMRemoteConnection</doc>
+        <doc xml:space="preserve">The available connections of the device</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="RemoteConnection"/>
         </array>
       </property>
       <property name="capabilities" transfer-ownership="none">
@@ -7247,7 +7680,7 @@ device, and must not be modified.</doc>
         </parameters>
       </method>
       <method name="get_slaves" c:identifier="nm_device_bond_get_slaves">
-        <doc xml:space="preserve">Gets the devices currently slaved to @device.</doc>
+        <doc xml:space="preserve">Gets the devices currently enslaved to @device.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the #GPtrArray containing
 #NMDevices that are slaves of @device. This is the internal
@@ -7272,11 +7705,9 @@ copy used by the device, and must not be modified.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="slaves" transfer-ownership="none">
-        <doc xml:space="preserve">The devices slaved to the bond device.
-
-Element-type: NMDevice</doc>
+        <doc xml:space="preserve">The devices enslaved to the bond device.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="Device"/>
         </array>
       </property>
       <field name="parent">
@@ -7333,7 +7764,7 @@ device, and must not be modified.</doc>
         </parameters>
       </method>
       <method name="get_slaves" c:identifier="nm_device_bridge_get_slaves">
-        <doc xml:space="preserve">Gets the devices currently slaved to @device.</doc>
+        <doc xml:space="preserve">Gets the devices currently enslaved to @device.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the #GPtrArray containing
 #NMDevices that are slaves of @device. This is the internal
@@ -7358,11 +7789,9 @@ copy used by the device, and must not be modified.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="slaves" transfer-ownership="none">
-        <doc xml:space="preserve">The devices slaved to the bridge device.
-
-Element-type: NMDevice</doc>
+        <doc xml:space="preserve">The devices enslaved to the bridge device.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="Device"/>
         </array>
       </property>
       <field name="parent">
@@ -7789,9 +8218,9 @@ device, and must not be modified.</doc>
         </parameters>
       </method>
       <method name="get_speed" c:identifier="nm_device_ethernet_get_speed">
-        <doc xml:space="preserve">Gets the speed of the #NMDeviceEthernet.</doc>
+        <doc xml:space="preserve">Gets the speed of the #NMDeviceEthernet in Mbit/s.</doc>
         <return-value transfer-ownership="none">
-          <doc xml:space="preserve">the speed of the device</doc>
+          <doc xml:space="preserve">the speed of the device in Mbit/s</doc>
           <type name="guint32" c:type="guint32"/>
         </return-value>
         <parameters>
@@ -7906,6 +8335,20 @@ if not known.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the maximum permitted encapsulation level</doc>
           <type name="guint8" c:type="guint8"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="device" transfer-ownership="none">
+            <doc xml:space="preserve">a #NMDeviceIPTunnel</doc>
+            <type name="DeviceIPTunnel" c:type="NMDeviceIPTunnel*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_flags"
+              c:identifier="nm_device_ip_tunnel_get_flags"
+              version="1.12">
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the tunnel flags</doc>
+          <type name="IPTunnelFlags" c:type="NMIPTunnelFlags"/>
         </return-value>
         <parameters>
           <instance-parameter name="device" transfer-ownership="none">
@@ -8062,6 +8505,10 @@ to tunneled packets.</doc>
 be prepended to packets. This property applies only to IPv6
 tunnels.</doc>
         <type name="guint8" c:type="guint8"/>
+      </property>
+      <property name="flags" version="1.12" transfer-ownership="none">
+        <doc xml:space="preserve">Tunnel flags.</doc>
+        <type name="guint" c:type="guint"/>
       </property>
       <property name="flow-label" version="1.2" transfer-ownership="none">
         <doc xml:space="preserve">The flow label to assign to tunnel packets. This property
@@ -8811,6 +9258,25 @@ device, and must not be modified.</doc>
            glib:type-struct="DeviceOvsBridgeClass">
       <implements name="Gio.AsyncInitable"/>
       <implements name="Gio.Initable"/>
+      <method name="get_slaves"
+              c:identifier="nm_device_ovs_bridge_get_slaves"
+              version="1.12.2">
+        <doc xml:space="preserve">Gets the ports currently enslaved to @device.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the #GPtrArray containing
+#NMDevices that are slaves of @device. This is the internal
+copy used by the device, and must not be modified.</doc>
+          <array name="GLib.PtrArray" c:type="const GPtrArray*">
+            <type name="Device"/>
+          </array>
+        </return-value>
+        <parameters>
+          <instance-parameter name="device" transfer-ownership="none">
+            <doc xml:space="preserve">a #NMDeviceOvsBridge</doc>
+            <type name="DeviceOvsBridge" c:type="NMDeviceOvsBridge*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
     </class>
     <record name="DeviceOvsBridgeClass"
             c:type="NMDeviceOvsBridgeClass"
@@ -8841,6 +9307,25 @@ device, and must not be modified.</doc>
            glib:type-struct="DeviceOvsPortClass">
       <implements name="Gio.AsyncInitable"/>
       <implements name="Gio.Initable"/>
+      <method name="get_slaves"
+              c:identifier="nm_device_ovs_port_get_slaves"
+              version="1.12.2">
+        <doc xml:space="preserve">Gets the interfaces currently enslaved to @device.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the #GPtrArray containing
+#NMDevices that are slaves of @device. This is the internal
+copy used by the device, and must not be modified.</doc>
+          <array name="GLib.PtrArray" c:type="const GPtrArray*">
+            <type name="Device"/>
+          </array>
+        </return-value>
+        <parameters>
+          <instance-parameter name="device" transfer-ownership="none">
+            <doc xml:space="preserve">a #NMDeviceOvsPort</doc>
+            <type name="DeviceOvsPort" c:type="NMDeviceOvsPort*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
     </class>
     <record name="DeviceOvsPortClass"
             c:type="NMDeviceOvsPortClass"
@@ -9354,7 +9839,7 @@ device, and must not be modified.</doc>
               value="63"
               c:identifier="NM_DEVICE_STATE_REASON_OVSDB_FAILED"
               glib:nick="ovsdb-failed">
-        <doc xml:space="preserve">problem communicating with OpenVSwitch database</doc>
+        <doc xml:space="preserve">problem communicating with Open vSwitch database</doc>
       </member>
       <member name="ip_address_duplicate"
               value="64"
@@ -9452,11 +9937,9 @@ copy used by the device, and must not be modified.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="slaves" transfer-ownership="none">
-        <doc xml:space="preserve">The devices enslaved to the team device.
-
-Element-type: NMDevice</doc>
+        <doc xml:space="preserve">The devices enslaved to the team device.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="Device"/>
         </array>
       </property>
       <field name="parent">
@@ -9788,19 +10271,19 @@ GSM/UMTS, or LTE network access protocols</doc>
               value="24"
               c:identifier="NM_DEVICE_TYPE_OVS_INTERFACE"
               glib:nick="ovs-interface">
-        <doc xml:space="preserve">a OpenVSwitch interface</doc>
+        <doc xml:space="preserve">a Open vSwitch interface</doc>
       </member>
       <member name="ovs_port"
               value="25"
               c:identifier="NM_DEVICE_TYPE_OVS_PORT"
               glib:nick="ovs-port">
-        <doc xml:space="preserve">a OpenVSwitch port</doc>
+        <doc xml:space="preserve">a Open vSwitch port</doc>
       </member>
       <member name="ovs_bridge"
               value="26"
               c:identifier="NM_DEVICE_TYPE_OVS_BRIDGE"
               glib:nick="ovs-bridge">
-        <doc xml:space="preserve">a OpenVSwitch bridge</doc>
+        <doc xml:space="preserve">a Open vSwitch bridge</doc>
       </member>
     </enumeration>
     <class name="DeviceVlan"
@@ -10384,6 +10867,25 @@ device, and must not be modified.</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="get_last_scan"
+              c:identifier="nm_device_wifi_get_last_scan"
+              version="1.12">
+        <doc xml:space="preserve">Returns the timestamp (in CLOCK_BOOTTIME milliseconds) for the last finished
+network scan. A value of -1 means the device never scanned for access points.
+
+Use nm_utils_get_timestamp_msec() to obtain current time value suitable for
+comparing to this value.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the last scan time in seconds</doc>
+          <type name="gint64" c:type="gint64"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="device" transfer-ownership="none">
+            <doc xml:space="preserve">a #NMDeviceWifi</doc>
+            <type name="DeviceWifi" c:type="NMDeviceWifi*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="get_mode" c:identifier="nm_device_wifi_get_mode">
         <doc xml:space="preserve">Gets the #NMDeviceWifi mode.</doc>
         <return-value transfer-ownership="none">
@@ -10577,11 +11079,9 @@ D-Bus call. Valid otions inside the dictionary are:
         </parameters>
       </method>
       <property name="access-points" transfer-ownership="none">
-        <doc xml:space="preserve">List of all Wi-Fi access points the device can see.
-
-Element-type: NMAccessPoint</doc>
+        <doc xml:space="preserve">List of all Wi-Fi access points the device can see.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="AccessPoint"/>
         </array>
       </property>
       <property name="active-access-point" transfer-ownership="none">
@@ -10595,6 +11095,12 @@ Element-type: NMAccessPoint</doc>
       <property name="hw-address" transfer-ownership="none">
         <doc xml:space="preserve">The hardware (MAC) address of the device.</doc>
         <type name="utf8" c:type="gchar*"/>
+      </property>
+      <property name="last-scan" version="1.12" transfer-ownership="none">
+        <doc xml:space="preserve">The timestamp (in CLOCK_BOOTTIME seconds) for the last finished
+network scan. A value of -1 means the device never scanned for
+access points.</doc>
+        <type name="gint64" c:type="gint64"/>
       </property>
       <property name="mode" transfer-ownership="none">
         <doc xml:space="preserve">The mode of the device.</doc>
@@ -11008,11 +11514,9 @@ meaning when the device is not connected.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="nsps" transfer-ownership="none">
-        <doc xml:space="preserve">List of all WiMAX Network Service Providers the device can see.
-
-Element-type: NMWimaxNsp</doc>
+        <doc xml:space="preserve">List of all WiMAX Network Service Providers the device can see.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="WimaxNsp"/>
         </array>
       </property>
       <property name="rssi"
@@ -11681,7 +12185,7 @@ returned array and thus it is safe for callers to reference and keep using it.</
         <doc xml:space="preserve">Gets the routes.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the #GPtrArray containing
-#NMIPRoutes. This is the internal copy used by the configuration, and must
+#NMIPRoute&lt;!-- --&gt;s. This is the internal copy used by the configuration, and must
 not be modified. The library never modifies the returned array and thus it is
 safe for callers to reference and keep using it.</doc>
           <array name="GLib.PtrArray" c:type="GPtrArray*">
@@ -11758,7 +12262,7 @@ safe for callers to reference and keep using it.</doc>
       <property name="routes" transfer-ownership="none">
         <doc xml:space="preserve">A #GPtrArray containing the routes (#NMIPRoute) of the configuration.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="IPRoute"/>
         </array>
       </property>
       <property name="searches" transfer-ownership="none">
@@ -12286,6 +12790,46 @@ and the value is of the correct type and well-formed.</doc>
         </return-value>
       </function>
     </record>
+    <bitfield name="IPTunnelFlags"
+              glib:type-name="NMIPTunnelFlags"
+              glib:get-type="nm_ip_tunnel_flags_get_type"
+              c:type="NMIPTunnelFlags">
+      <member name="none"
+              value="0"
+              c:identifier="NM_IP_TUNNEL_FLAG_NONE"
+              glib:nick="none">
+      </member>
+      <member name="ip6_ign_encap_limit"
+              value="1"
+              c:identifier="NM_IP_TUNNEL_FLAG_IP6_IGN_ENCAP_LIMIT"
+              glib:nick="ip6-ign-encap-limit">
+      </member>
+      <member name="ip6_use_orig_tclass"
+              value="2"
+              c:identifier="NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_TCLASS"
+              glib:nick="ip6-use-orig-tclass">
+      </member>
+      <member name="ip6_use_orig_flowlabel"
+              value="4"
+              c:identifier="NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_FLOWLABEL"
+              glib:nick="ip6-use-orig-flowlabel">
+      </member>
+      <member name="ip6_mip6_dev"
+              value="8"
+              c:identifier="NM_IP_TUNNEL_FLAG_IP6_MIP6_DEV"
+              glib:nick="ip6-mip6-dev">
+      </member>
+      <member name="ip6_rcv_dscp_copy"
+              value="16"
+              c:identifier="NM_IP_TUNNEL_FLAG_IP6_RCV_DSCP_COPY"
+              glib:nick="ip6-rcv-dscp-copy">
+      </member>
+      <member name="ip6_use_orig_fwmark"
+              value="32"
+              c:identifier="NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_FWMARK"
+              glib:nick="ip6-use-orig-fwmark">
+      </member>
+    </bitfield>
     <enumeration name="IPTunnelMode"
                  version="1.2"
                  glib:type-name="NMIPTunnelMode"
@@ -12353,6 +12897,11 @@ and the value is of the correct type and well-formed.</doc>
         <doc xml:space="preserve">IPv6 VTI tunnel</doc>
       </member>
     </enumeration>
+    <constant name="IP_ADDRESS_ATTRIBUTE_LABEL"
+              value="label"
+              c:type="NM_IP_ADDRESS_ATTRIBUTE_LABEL">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
     <constant name="IP_CONFIG_ADDRESSES"
               value="addresses"
               c:type="NM_IP_CONFIG_ADDRESSES">
@@ -12690,12 +13239,12 @@ reaches zero, the object will be destroyed.</doc>
 is compiled against.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MICRO_VERSION" value="6" c:type="NM_MICRO_VERSION">
+    <constant name="MICRO_VERSION" value="3" c:type="NM_MICRO_VERSION">
       <doc xml:space="preserve">Evaluates to the micro version number of NetworkManager which this source
 compiled against.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MINOR_VERSION" value="10" c:type="NM_MINOR_VERSION">
+    <constant name="MINOR_VERSION" value="12" c:type="NM_MINOR_VERSION">
       <doc xml:space="preserve">Evaluates to the minor version number of NetworkManager which this source
 is compiled against.</doc>
       <type name="gint" c:type="gint"/>
@@ -12980,6 +13529,16 @@ object, and must not be modified.</doc>
               c:type="NM_REMOTE_CONNECTION_DBUS_CONNECTION">
       <type name="utf8" c:type="gchar*"/>
     </constant>
+    <constant name="REMOTE_CONNECTION_FILENAME"
+              value="filename"
+              c:type="NM_REMOTE_CONNECTION_FILENAME">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
+    <constant name="REMOTE_CONNECTION_FLAGS"
+              value="flags"
+              c:type="NM_REMOTE_CONNECTION_FLAGS">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
     <constant name="REMOTE_CONNECTION_PATH"
               value="path"
               c:type="NM_REMOTE_CONNECTION_PATH">
@@ -13170,6 +13729,35 @@ changed.</doc>
             <doc xml:space="preserve">the result passed to the #GAsyncReadyCallback</doc>
             <type name="Gio.AsyncResult" c:type="GAsyncResult*"/>
           </parameter>
+        </parameters>
+      </method>
+      <method name="get_filename"
+              c:identifier="nm_remote_connection_get_filename"
+              version="1.12">
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">file that stores the connection in case the connection is file-backed.</doc>
+          <type name="utf8" c:type="const char*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="connection" transfer-ownership="none">
+            <doc xml:space="preserve">the #NMRemoteConnection</doc>
+            <type name="RemoteConnection" c:type="NMRemoteConnection*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_flags"
+              c:identifier="nm_remote_connection_get_flags"
+              version="1.12">
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the flags of the connection of type #NMSettingsConnectionFlags.</doc>
+          <type name="SettingsConnectionFlags"
+                c:type="NMSettingsConnectionFlags"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="connection" transfer-ownership="none">
+            <doc xml:space="preserve">the #NMRemoteConnection</doc>
+            <type name="RemoteConnection" c:type="NMRemoteConnection*"/>
+          </instance-parameter>
         </parameters>
       </method>
       <method name="get_secrets"
@@ -13375,7 +13963,7 @@ been written to disk, or if the connection has never been saved.</doc>
       </method>
       <method name="update2"
               c:identifier="nm_remote_connection_update2"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Asynchronously calls the Update2() D-Bus method.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -13448,6 +14036,16 @@ been written to disk, or if the connection has never been saved.</doc>
           </parameter>
         </parameters>
       </method>
+      <property name="filename" version="1.12" transfer-ownership="none">
+        <doc xml:space="preserve">File that stores the connection in case the connection is
+file-backed.</doc>
+        <type name="utf8" c:type="gchar*"/>
+      </property>
+      <property name="flags" version="1.12" transfer-ownership="none">
+        <doc xml:space="preserve">The flags of the connection as unsigned integer. The values
+correspond to the #NMSettingsConnectionFlags enum.</doc>
+        <type name="guint" c:type="guint"/>
+      </property>
       <property name="unsaved" transfer-ownership="none">
         <doc xml:space="preserve">%TRUE if the remote connection contains changes that have not been saved
 to disk, %FALSE if the connection is the same as its on-disk representation.</doc>
@@ -14160,6 +14758,11 @@ Access Point).</doc>
               c:type="NM_SETTING_CONNECTION_MASTER">
       <type name="utf8" c:type="gchar*"/>
     </constant>
+    <constant name="SETTING_CONNECTION_MDNS"
+              value="mdns"
+              c:type="NM_SETTING_CONNECTION_MDNS">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
     <constant name="SETTING_CONNECTION_METERED"
               value="metered"
               c:type="NM_SETTING_CONNECTION_METERED">
@@ -14545,6 +15148,11 @@ through that interface to the default network.</doc>
               c:type="NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE">
       <type name="utf8" c:type="gchar*"/>
     </constant>
+    <constant name="SETTING_IP6_CONFIG_DHCP_DUID"
+              value="dhcp-duid"
+              c:type="NM_SETTING_IP6_CONFIG_DHCP_DUID">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
     <constant name="SETTING_IP6_CONFIG_IP6_PRIVACY"
               value="ip6-privacy"
               c:type="NM_SETTING_IP6_CONFIG_IP6_PRIVACY">
@@ -14708,6 +15316,11 @@ supported for IPv6)</doc>
               c:type="NM_SETTING_IP_TUNNEL_ENCAPSULATION_LIMIT">
       <type name="utf8" c:type="gchar*"/>
     </constant>
+    <constant name="SETTING_IP_TUNNEL_FLAGS"
+              value="flags"
+              c:type="NM_SETTING_IP_TUNNEL_FLAGS">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
     <constant name="SETTING_IP_TUNNEL_FLOW_LABEL"
               value="flow-label"
               c:type="NM_SETTING_IP_TUNNEL_FLOW_LABEL">
@@ -14811,6 +15424,11 @@ supported for IPv6)</doc>
     <constant name="SETTING_MACSEC_PORT"
               value="port"
               c:type="NM_SETTING_MACSEC_PORT">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
+    <constant name="SETTING_MACSEC_SEND_SCI"
+              value="send-sci"
+              c:type="NM_SETTING_MACSEC_SEND_SCI">
       <type name="utf8" c:type="gchar*"/>
     </constant>
     <constant name="SETTING_MACSEC_SETTING_NAME"
@@ -15751,6 +16369,11 @@ for this connection.</doc>
               c:type="NM_SETTING_WIRELESS_SECURITY_AUTH_ALG">
       <type name="utf8" c:type="gchar*"/>
     </constant>
+    <constant name="SETTING_WIRELESS_SECURITY_FILS"
+              value="fils"
+              c:type="NM_SETTING_WIRELESS_SECURITY_FILS">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
     <constant name="SETTING_WIRELESS_SECURITY_GROUP"
               value="group"
               c:type="NM_SETTING_WIRELESS_SECURITY_GROUP">
@@ -15864,6 +16487,11 @@ for this connection.</doc>
     <constant name="SETTING_WIRELESS_TX_POWER"
               value="tx-power"
               c:type="NM_SETTING_WIRELESS_TX_POWER">
+      <type name="utf8" c:type="gchar*"/>
+    </constant>
+    <constant name="SETTING_WIRELESS_WAKE_ON_WLAN"
+              value="wake-on-wlan"
+              c:type="NM_SETTING_WIRELESS_WAKE_ON_WLAN">
       <type name="utf8" c:type="gchar*"/>
     </constant>
     <bitfield name="SecretAgentCapabilities"
@@ -20042,7 +20670,11 @@ used for STP, MAC pause frames and LACP.</doc>
         <doc xml:space="preserve">The Spanning Tree Protocol (STP) hello time, in seconds.</doc>
         <type name="guint" c:type="guint"/>
       </property>
-      <property name="mac-address" writable="1" transfer-ownership="none">
+      <property name="mac-address"
+                deprecated="1"
+                deprecated-version="1.12"
+                writable="1"
+                transfer-ownership="none">
         <doc xml:space="preserve">If specified, the MAC address of bridge. When creating a new bridge, this
 MAC address will be set.
 
@@ -20051,6 +20683,7 @@ referred instead to generate the initial MAC address. Note that setting
 "ethernet.cloned-mac-address" anyway overwrites the MAC address of
 the bridge later while activating the bridge. Hence, this property
 is deprecated.</doc>
+        <doc-deprecated xml:space="preserve">Use the ethernet.cloned-mac-address property instead.</doc-deprecated>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="max-age"
@@ -20827,6 +21460,20 @@ connection.</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="get_mdns"
+              c:identifier="nm_setting_connection_get_mdns"
+              version="1.12">
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the #NMSettingConnection:mdns property of the setting.</doc>
+          <type name="SettingConnectionMdns" c:type="NMSettingConnectionMdns"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="setting" transfer-ownership="none">
+            <doc xml:space="preserve">the #NMSettingConnection</doc>
+            <type name="SettingConnection" c:type="NMSettingConnection*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="get_metered"
               c:identifier="nm_setting_connection_get_metered"
               version="1.2">
@@ -21140,7 +21787,11 @@ Currently this only applies to 802-1x authentication.</doc>
         <doc xml:space="preserve">Whether or not the connection should be automatically connected by
 NetworkManager when the resources for the connection are available.
 %TRUE to automatically activate the connection, %FALSE to require manual
-intervention to activate the connection.</doc>
+intervention to activate the connection.
+
+Note that autoconnect is not implemented for VPN profiles. See
+#NMSettingConnection:secondaries as an alternative to automatically
+connect VPN profiles.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="autoconnect-priority"
@@ -21170,7 +21821,9 @@ to autoconnect again.</doc>
                 transfer-ownership="none">
         <doc xml:space="preserve">Whether or not slaves of this connection should be automatically brought up
 when NetworkManager activates this connection. This only has a real effect
-for master connections.
+for master connections. The properties #NMSettingConnection:autoconnect,
+#NMSettingConnection:autoconnect-priority and #NMSettingConnection:autoconnect-retries
+are unrelated to this setting.
 The permitted values are: 0: leave slave connections untouched,
 1: activate all the slave connections with this connection, -1: default.
 If -1 (default) is set, global connection.autoconnect-slaves is read to
@@ -21215,6 +21868,22 @@ connection may be applied to the wrong interface.</doc>
       <property name="master" writable="1" transfer-ownership="none">
         <doc xml:space="preserve">Interface name of the master device or UUID of the master connection.</doc>
         <type name="utf8" c:type="gchar*"/>
+      </property>
+      <property name="mdns"
+                version="1.12"
+                writable="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve">Whether mDNS is enabled for the connection.
+
+The permitted values are: yes: register hostname and resolving
+for the connection, no: disable mDNS for the interface, resolve:
+do not register hostname but allow resolving of mDNS host names.
+When updating this property on a currently activated connection,
+the change takes effect immediately.
+
+This feature requires a plugin which supports mDNS. One such
+plugin is dns-systemd-resolved.</doc>
+        <type name="gint" c:type="gint"/>
       </property>
       <property name="metered"
                 version="1.2"
@@ -21270,32 +21939,40 @@ slave.</doc>
                 version="1.4"
                 writable="1"
                 transfer-ownership="none">
-        <doc xml:space="preserve">Token to generate stable IDs for the connection.
+        <doc xml:space="preserve">This represents the identity of the connection used for various purposes.
+It allows to configure multiple profiles to share the identity. Also,
+the stable-id can contain placeholders that are substituted dynamically and
+deterministically depending on the context.
 
 The stable-id is used for generating IPv6 stable private addresses
 with ipv6.addr-gen-mode=stable-privacy. It is also used to seed the
 generated cloned MAC address for ethernet.cloned-mac-address=stable
-and wifi.cloned-mac-address=stable. Note that also the interface name
-of the activating connection and a per-host secret key is included
-into the address generation so that the same stable-id on different
-hosts/devices yields different addresses.
+and wifi.cloned-mac-address=stable. It is also used as DHCP client
+identifier with ipv4.dhcp-client-id=stable and to derive the DHCP
+DUID with ipv6.dhcp-duid=stable-[llt,ll,uuid].
 
-If the value is unset, an ID unique for the connection is used.
-Specifying a stable-id allows multiple connections to generate the
-same addresses. Another use is to generate IDs at runtime via
-dynamic substitutions.
+Note that depending on the context where it is used, other parameters are
+also seeded into the generation algorithm. For example, a per-host key
+is commonly also included, so that different systems end up generating
+different IDs. Or with ipv6.addr-gen-mode=stable-privacy, also the device's
+name is included, so that different interfaces yield different addresses.
 
 The '$' character is treated special to perform dynamic substitutions
-at runtime. Currently supported are "${CONNECTION}", "${BOOT}", "${RANDOM}".
-These effectively create unique IDs per-connection, per-boot, or every time.
+at runtime. Currently supported are "${CONNECTION}", "${DEVICE}",
+"${BOOT}", "${RANDOM}".
+These effectively create unique IDs per-connection, per-device, per-boot,
+or every time. Note that "${DEVICE}" corresponds the the interface name of the
+device.
 Any unrecognized patterns following '$' are treated verbatim, however
 are reserved for future use. You are thus advised to avoid '$' or
 escape it as "$$".
-For example, set it to "${CONNECTION}/${BOOT}" to create a unique id for
-this connection that changes with every reboot.
+For example, set it to "${CONNECTION}-${BOOT}-${DEVICE}" to create a unique id for
+this connection that changes with every reboot and differs depending on the
+interface where the profile activates.
 
-Note that two connections only use the same effective id if
-their stable-id is also identical before performing dynamic substitutions.</doc>
+If the value is unset, a global connection default is consulted. If the
+value is still unset, the default is similar to "${CONNECTION}" and uses
+a unique, fixed ID for the connection.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="timestamp"
@@ -21412,6 +22089,37 @@ should be activated when master is activated.</doc>
               c:identifier="NM_SETTING_CONNECTION_LLDP_ENABLE_RX"
               glib:nick="enable-rx">
         <doc xml:space="preserve">enable reception of LLDP frames</doc>
+      </member>
+    </enumeration>
+    <enumeration name="SettingConnectionMdns"
+                 version="1.12"
+                 glib:type-name="NMSettingConnectionMdns"
+                 glib:get-type="nm_setting_connection_mdns_get_type"
+                 c:type="NMSettingConnectionMdns">
+      <doc xml:space="preserve">#NMSettingConnectionMdns values indicate whether mDNS should be enabled.</doc>
+      <member name="default"
+              value="-1"
+              c:identifier="NM_SETTING_CONNECTION_MDNS_DEFAULT"
+              glib:nick="default">
+        <doc xml:space="preserve">default value</doc>
+      </member>
+      <member name="no"
+              value="0"
+              c:identifier="NM_SETTING_CONNECTION_MDNS_NO"
+              glib:nick="no">
+        <doc xml:space="preserve">disable mDNS</doc>
+      </member>
+      <member name="resolve"
+              value="1"
+              c:identifier="NM_SETTING_CONNECTION_MDNS_RESOLVE"
+              glib:nick="resolve">
+        <doc xml:space="preserve">support only resolving, do not register hostname</doc>
+      </member>
+      <member name="yes"
+              value="2"
+              c:identifier="NM_SETTING_CONNECTION_MDNS_YES"
+              glib:nick="yes">
+        <doc xml:space="preserve">enable mDNS</doc>
       </member>
     </enumeration>
     <class name="SettingDcb"
@@ -21849,11 +22557,9 @@ property includes the %NM_SETTING_DCB_FLAG_ENABLE flag.</doc>
 Priority (0 - 7) and the value indicates the percentage of bandwidth of
 the priority's assigned group that the priority may use.  The sum of all
 percentages for priorities which belong to the same group must total 100
-percents.
-
-Element-type: guint</doc>
+percents.</doc>
         <array name="GLib.Array">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="guint"/>
         </array>
       </property>
       <property name="priority-flow-control"
@@ -21861,11 +22567,9 @@ Element-type: guint</doc>
                 transfer-ownership="none">
         <doc xml:space="preserve">An array of 8 boolean values, where the array index corresponds to the User
 Priority (0 - 7) and the value indicates whether or not the corresponding
-priority should transmit priority pause.
-
-Element-type: gboolean</doc>
+priority should transmit priority pause.</doc>
         <array name="GLib.Array">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="gboolean"/>
         </array>
       </property>
       <property name="priority-flow-control-flags"
@@ -21882,11 +22586,9 @@ Flags may be any combination of %NM_SETTING_DCB_FLAG_ENABLE,
         <doc xml:space="preserve">An array of 8 uint values, where the array index corresponds to the
 Priority Group ID (0 - 7) and the value indicates the percentage of link
 bandwidth allocated to that group.  Allowed values are 0 - 100, and the
-sum of all values must total 100 percents.
-
-Element-type: guint</doc>
+sum of all values must total 100 percents.</doc>
         <array name="GLib.Array">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="guint"/>
         </array>
       </property>
       <property name="priority-group-flags"
@@ -21902,11 +22604,9 @@ any combination of %NM_SETTING_DCB_FLAG_ENABLE,
                 transfer-ownership="none">
         <doc xml:space="preserve">An array of 8 uint values, where the array index corresponds to the User
 Priority (0 - 7) and the value indicates the Priority Group ID.  Allowed
-Priority Group ID values are 0 - 7 or 15 for the unrestricted group.
-
-Element-type: guint</doc>
+Priority Group ID values are 0 - 7 or 15 for the unrestricted group.</doc>
         <array name="GLib.Array">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="guint"/>
         </array>
       </property>
       <property name="priority-strict-bandwidth"
@@ -21914,11 +22614,9 @@ Element-type: guint</doc>
                 transfer-ownership="none">
         <doc xml:space="preserve">An array of 8 boolean values, where the array index corresponds to the User
 Priority (0 - 7) and the value indicates whether or not the priority may
-use all of the bandwidth allocated to its assigned group.
-
-Element-type: gboolean</doc>
+use all of the bandwidth allocated to its assigned group.</doc>
         <array name="GLib.Array">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="gboolean"/>
         </array>
       </property>
       <property name="priority-traffic-class"
@@ -21926,11 +22624,9 @@ Element-type: gboolean</doc>
                 transfer-ownership="none">
         <doc xml:space="preserve">An array of 8 uint values, where the array index corresponds to the User
 Priority (0 - 7) and the value indicates the traffic class (0 - 7) to
-which the priority is mapped.
-
-Element-type: guint</doc>
+which the priority is mapped.</doc>
         <array name="GLib.Array">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="guint"/>
         </array>
       </property>
       <field name="parent">
@@ -22430,7 +23126,18 @@ binary client ID, in which case the first byte is assumed to be the
 an hardware address (e.g. '01:xx:xx:xx:xx:xx:xx' where 1 is the Ethernet
 ARP type and the rest is a MAC address).
 If the property is not a hex string it is considered as a
-non-hardware-address client ID and the 'type' field is set to 0.</doc>
+non-hardware-address client ID and the 'type' field is set to 0.
+
+The special values "mac" and "perm-mac" are supported, which use the
+current or permanent MAC address of the device to generate a client identifier
+with type ethernet type (01). Currently, these options only work for ethernet
+type of links.
+
+The special value "stable" is supported to generate a type 0 client identifier based
+on the stable-id (see connection.stable-id) and a per-host key.
+
+If unset, a globally configured default is used. If still unset, the
+client-id from the last lease is reused.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="dhcp-fqdn"
@@ -22483,6 +23190,23 @@ property.</doc>
           <doc xml:space="preserve">IPv6 Address Generation Mode.</doc>
           <type name="SettingIP6ConfigAddrGenMode"
                 c:type="NMSettingIP6ConfigAddrGenMode"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="setting" transfer-ownership="none">
+            <doc xml:space="preserve">the #NMSettingIP6Config</doc>
+            <type name="SettingIP6Config" c:type="NMSettingIP6Config*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_dhcp_duid"
+              c:identifier="nm_setting_ip6_config_get_dhcp_duid"
+              version="1.12">
+        <doc xml:space="preserve">Returns the value contained in the #NMSettingIP6Config:dhcp-duid
+property.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">The configured DUID value to be included in the DHCPv6 requests
+sent to the DHCPv6 servers.</doc>
+          <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="setting" transfer-ownership="none">
@@ -22555,6 +23279,40 @@ Note that this setting is distinct from the Privacy Extensions as
 configured by "ip6-privacy" property and it does not affect the
 temporary addresses configured with this option.</doc>
         <type name="gint" c:type="gint"/>
+      </property>
+      <property name="dhcp-duid"
+                version="1.12"
+                writable="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve">A string containing the DHCPv6 Unique Identifier (DUID) used by the dhcp
+client to identify itself to DHCPv6 servers (RFC 3315). The DUID is carried
+in the Client Identifier option.
+If the property is a hex string ('aa:bb:cc') it is interpreted as a binary
+DUID and filled as an opaque value in the Client Identifier option.
+
+The special value "lease" will retrieve the DUID previously used from the
+lease file belonging to the connection. If no DUID is found and "dhclient"
+is the configured dhcp client, the DUID is searched in the system-wide
+dhclient lease file. If still no DUID is found, or another dhcp client is
+used, a global and permanent DUID-UUID (RFC 6355) will be generated based
+on the machine-id.
+
+The special values "llt" and "ll" will generate a DUID of type LLT or LL
+(see RFC 3315) based on the current MAC address of the device. In order to
+try providing a stable DUID-LLT, the time field will contain a constant
+timestamp that is used globally (for all profiles) and persisted to disk.
+
+The special values "stable-llt", "stable-ll" and "stable-uuid" will generate
+a DUID of the corresponding type, derived from the connection's stable-id and
+a per-host unique key.
+So, the link-layer address of "stable-ll" and "stable-llt" will be a generated
+address derived from the stable id. The DUID-LLT time value in the "stable-llt"
+option will be picked among a static timespan of three years (the upper bound
+of the interval is the same constant timestamp used in "llt").
+
+When the property is unset, the global value provided for "ipv6.dhcp-duid" is
+used. If no global value is provided, the default "lease" value is assumed.</doc>
+        <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="ip6-privacy"
                 writable="1"
@@ -23407,11 +24165,9 @@ and ignore route attributes. Now, @route must match exactly.</doc>
         </parameters>
       </method>
       <property name="addresses" writable="1" transfer-ownership="none">
-        <doc xml:space="preserve">Array of IP addresses.
-
-Element-Type: NMIPAddress</doc>
+        <doc xml:space="preserve">Array of IP addresses.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="IPAddress"/>
         </array>
       </property>
       <property name="dad-timeout"
@@ -23423,8 +24179,10 @@ Element-Type: NMIPAddress</doc>
 addresses on the network.  If an address conflict is detected, the
 activation will fail.  A zero value means that no duplicate address
 detection is performed, -1 means the default value (either configuration
-ipvx.dad-timeout override or 3 seconds).  A value greater than zero is a
-timeout in milliseconds.</doc>
+ipvx.dad-timeout override or zero).  A value greater than zero is a
+timeout in milliseconds.
+
+The property is currently implemented only for IPv4.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="dhcp-hostname" writable="1" transfer-ownership="none">
@@ -23473,28 +24231,41 @@ distinct from an empty list of properties.</doc>
                 writable="1"
                 construct="1"
                 transfer-ownership="none">
-        <doc xml:space="preserve">Intra-connection DNS priority.
+        <doc xml:space="preserve">DNS servers priority.
 
-The relative priority to be used when determining the order of DNS
-servers in resolv.conf.  A lower value means that servers will be on top
-of the file.  Zero selects the default value, which is 50 for VPNs and
-100 for other connections.  Note that the priority is to order DNS
-settings for multiple active connections. It does not disambiguate
-multiple DNS servers within the same connection profile. For that,
-just specify the DNS servers in the desired order.
-When multiple devices have configurations with the same priority, the
-one with an active default route will be preferred.
-Note that when using dns=dnsmasq the order is meaningless
-since dnsmasq forwards queries to all known servers at the same time.
+The relative priority for DNS servers specified by this setting.  A lower
+value is better (higher priority).  Zero selects the default value, which
+is 50 for VPNs and 100 for other connections.
 
-Negative values have the special effect of excluding other configurations
-with a greater priority value; so in presence of at least a negative
-priority, only DNS servers from connections with the lowest priority
-value will be used.</doc>
+Note that the priority is to order DNS settings for multiple active
+connections.  It does not disambiguate multiple DNS servers within the
+same connection profile.
+
+When using dns=default, servers with higher priority will be on top of
+resolv.conf.  To prioritize a given server over another one within the
+same connection, just specify them in the desired order.  When multiple
+devices have configurations with the same priority, the one with an
+active default route will be preferred.  Negative values have the special
+effect of excluding other configurations with a greater priority value;
+so in presence of at least a negative priority, only DNS servers from
+connections with the lowest priority value will be used.
+
+When using a DNS resolver that supports split-DNS as dns=dnsmasq or
+dns=systemd-resolved, each connection is used to query domains in its
+search list.  Queries for domains not present in any search list are
+routed through connections having the '~.' special wildcard domain, which
+is added automatically to connections with the default route (or can be
+added manually).  When multiple connections specify the same domain, the
+one with the highest priority (lowest numerical value) wins.  If a
+connection specifies a domain which is subdomain of another domain with a
+negative DNS priority value, the subdomain is ignored.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="dns-search" writable="1" transfer-ownership="none">
-        <doc xml:space="preserve">Array of DNS search domains.</doc>
+        <doc xml:space="preserve">Array of DNS search domains. Domains starting with a tilde ('~')
+are considered 'routing' domains and are used only to decide the
+interface over which a query must be forwarded; they are not used
+to complete unqualified host names.</doc>
         <array>
           <type name="utf8"/>
         </array>
@@ -23604,11 +24375,9 @@ of NetworkManager.</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <property name="routes" writable="1" transfer-ownership="none">
-        <doc xml:space="preserve">Array of IP routes.
-
-Element-Type: NMIPRoute</doc>
+        <doc xml:space="preserve">Array of IP routes.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="IPRoute"/>
         </array>
       </property>
       <field name="parent">
@@ -23655,6 +24424,16 @@ Element-Type: NMIPRoute</doc>
         <parameters>
           <instance-parameter name="setting" transfer-ownership="none">
             <doc xml:space="preserve">the #NMSettingIPTunnel</doc>
+            <type name="SettingIPTunnel" c:type="NMSettingIPTunnel*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_flags" c:identifier="nm_setting_ip_tunnel_get_flags">
+        <return-value transfer-ownership="none">
+          <type name="IPTunnelFlags" c:type="NMIPTunnelFlags"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="setting" transfer-ownership="none">
             <type name="SettingIPTunnel" c:type="NMSettingIPTunnel*"/>
           </instance-parameter>
         </parameters>
@@ -23831,6 +24610,17 @@ Element-Type: NMIPRoute</doc>
                 transfer-ownership="none">
         <doc xml:space="preserve">How many additional levels of encapsulation are permitted to be prepended
 to packets. This property applies only to IPv6 tunnels.</doc>
+        <type name="guint" c:type="guint"/>
+      </property>
+      <property name="flags"
+                version="1.12"
+                writable="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve">Tunnel flags. Currently the following values are supported:
+%NM_IP_TUNNEL_FLAG_IP6_IGN_ENCAP_LIMIT, %NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_TCLASS,
+%NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_FLOWLABEL, %NM_IP_TUNNEL_FLAG_IP6_MIP6_DEV,
+%NM_IP_TUNNEL_FLAG_IP6_RCV_DSCP_COPY, %NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_FWMARK.
+They are valid only for IPv6 tunnels.</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <property name="flow-label"
@@ -24240,6 +25030,20 @@ overridden by user-controlled defaults configuration, is "never".</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="get_send_sci"
+              c:identifier="nm_setting_macsec_get_send_sci"
+              version="1.12">
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the #NMSettingMacsec:send-sci property of the setting</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="setting" transfer-ownership="none">
+            <doc xml:space="preserve">the #NMSettingMacsec</doc>
+            <type name="SettingMacsec" c:type="NMSettingMacsec*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="get_validation"
               c:identifier="nm_setting_macsec_get_validation"
               version="1.6">
@@ -24316,6 +25120,15 @@ with a #NMSettingWired:mac-address property.</doc>
                 transfer-ownership="none">
         <doc xml:space="preserve">The port component of the SCI (Secure Channel Identifier), between 1 and 65534.</doc>
         <type name="gint" c:type="gint"/>
+      </property>
+      <property name="send-sci"
+                version="1.12"
+                writable="1"
+                construct="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve">Specifies whether the SCI (Secure Channel Identifier) is included
+in every packet.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="validation"
                 version="1.6"
@@ -24756,7 +25569,7 @@ answers the request.</doc>
            glib:type-name="NMSettingOvsInterface"
            glib:get-type="nm_setting_ovs_interface_get_type"
            glib:type-struct="SettingOvsInterfaceClass">
-      <doc xml:space="preserve">OpenVSwitch Interface Settings</doc>
+      <doc xml:space="preserve">Open vSwitch Interface Settings</doc>
       <constructor name="new"
                    c:identifier="nm_setting_ovs_interface_new"
                    version="1.10">
@@ -24830,7 +25643,7 @@ answers the request.</doc>
                 writable="1"
                 construct="1"
                 transfer-ownership="none">
-        <doc xml:space="preserve">Specifies the unicast destination IP address of a remote OpenVSwitch
+        <doc xml:space="preserve">Specifies the unicast destination IP address of a remote Open vSwitch
 bridge port to connect to.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
@@ -25863,7 +26676,7 @@ The 1 in "8n1" for example.</doc>
     <class name="SettingTCConfig"
            c:symbol-prefix="setting_tc_config"
            c:type="NMSettingTCConfig"
-           version="1.10.2"
+           version="1.12"
            parent="Setting"
            glib:type-name="NMSettingTCConfig"
            glib:get-type="nm_setting_tc_config_get_type"
@@ -25871,7 +26684,7 @@ The 1 in "8n1" for example.</doc>
       <doc xml:space="preserve">Linux Traffic Contril Settings.</doc>
       <constructor name="new"
                    c:identifier="nm_setting_tc_config_new"
-                   version="1.10.2">
+                   version="1.12">
         <doc xml:space="preserve">Creates a new #NMSettingTCConfig object with default values.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">the new empty #NMSettingTCConfig object</doc>
@@ -25880,7 +26693,7 @@ The 1 in "8n1" for example.</doc>
       </constructor>
       <method name="add_qdisc"
               c:identifier="nm_setting_tc_config_add_qdisc"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Appends a new qdisc and associated information to the setting.  The
 given qdisc is duplicated internally and is not changed by this function.
 If an identical qdisc (considering attributes as well) already exists, the
@@ -25902,7 +26715,7 @@ qdisc is not added and the function returns %FALSE.</doc>
       </method>
       <method name="add_tfilter"
               c:identifier="nm_setting_tc_config_add_tfilter"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Appends a new tfilter and associated information to the setting.  The
 given tfilter is duplicated internally and is not changed by this function.
 If an identical tfilter (considering attributes as well) already exists, the
@@ -25924,7 +26737,7 @@ tfilter is not added and the function returns %FALSE.</doc>
       </method>
       <method name="clear_qdiscs"
               c:identifier="nm_setting_tc_config_clear_qdiscs"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Removes all configured queueing disciplines.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -25938,7 +26751,7 @@ tfilter is not added and the function returns %FALSE.</doc>
       </method>
       <method name="clear_tfilters"
               c:identifier="nm_setting_tc_config_clear_tfilters"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Removes all configured queueing disciplines.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -25952,7 +26765,7 @@ tfilter is not added and the function returns %FALSE.</doc>
       </method>
       <method name="get_num_qdiscs"
               c:identifier="nm_setting_tc_config_get_num_qdiscs"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the number of configured queueing disciplines</doc>
           <type name="guint" c:type="guint"/>
@@ -25966,7 +26779,7 @@ tfilter is not added and the function returns %FALSE.</doc>
       </method>
       <method name="get_num_tfilters"
               c:identifier="nm_setting_tc_config_get_num_tfilters"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the number of configured queueing disciplines</doc>
           <type name="guint" c:type="guint"/>
@@ -25980,7 +26793,7 @@ tfilter is not added and the function returns %FALSE.</doc>
       </method>
       <method name="get_qdisc"
               c:identifier="nm_setting_tc_config_get_qdisc"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the qdisc at index @idx</doc>
           <type name="TCQdisc" c:type="NMTCQdisc*"/>
@@ -25998,7 +26811,7 @@ tfilter is not added and the function returns %FALSE.</doc>
       </method>
       <method name="get_tfilter"
               c:identifier="nm_setting_tc_config_get_tfilter"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the tfilter at index @idx</doc>
           <type name="TCTfilter" c:type="NMTCTfilter*"/>
@@ -26016,7 +26829,7 @@ tfilter is not added and the function returns %FALSE.</doc>
       </method>
       <method name="remove_qdisc"
               c:identifier="nm_setting_tc_config_remove_qdisc"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Removes the qdisc at index @idx.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -26034,7 +26847,7 @@ tfilter is not added and the function returns %FALSE.</doc>
       </method>
       <method name="remove_qdisc_by_value"
               c:identifier="nm_setting_tc_config_remove_qdisc_by_value"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Removes the first matching qdisc that matches @qdisc.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE if the qdisc was found and removed; %FALSE if it was not.</doc>
@@ -26053,7 +26866,7 @@ tfilter is not added and the function returns %FALSE.</doc>
       </method>
       <method name="remove_tfilter"
               c:identifier="nm_setting_tc_config_remove_tfilter"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Removes the tfilter at index @idx.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -26071,7 +26884,7 @@ tfilter is not added and the function returns %FALSE.</doc>
       </method>
       <method name="remove_tfilter_by_value"
               c:identifier="nm_setting_tc_config_remove_tfilter_by_value"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Removes the first matching tfilter that matches @tfilter.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE if the tfilter was found and removed; %FALSE if it was not.</doc>
@@ -26089,19 +26902,15 @@ tfilter is not added and the function returns %FALSE.</doc>
         </parameters>
       </method>
       <property name="qdiscs" writable="1" transfer-ownership="none">
-        <doc xml:space="preserve">Array of TC queuening disciplines.
-
-Element-Type: NMTCQdisc</doc>
+        <doc xml:space="preserve">Array of TC queuening disciplines.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="TCQdisc"/>
         </array>
       </property>
       <property name="tfilters" writable="1" transfer-ownership="none">
-        <doc xml:space="preserve">Array of TC traffic filters.
-
-Element-Type: NMTCTfilter</doc>
+        <doc xml:space="preserve">Array of TC traffic filters.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="TCTfilter"/>
         </array>
       </property>
     </class>
@@ -26127,7 +26936,7 @@ Element-Type: NMTCTfilter</doc>
       </constructor>
       <method name="add_link_watcher"
               c:identifier="nm_setting_team_add_link_watcher"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Appends a new link watcher to the setting.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE if the link watcher is added; %FALSE if an identical link
@@ -26147,7 +26956,7 @@ watcher was already there.</doc>
       </method>
       <method name="add_runner_tx_hash"
               c:identifier="nm_setting_team_add_runner_tx_hash"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Adds a new txhash element to the setting.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE if the txhash element was added; %FALSE if the element
@@ -26167,7 +26976,7 @@ was already knnown.</doc>
       </method>
       <method name="clear_link_watchers"
               c:identifier="nm_setting_team_clear_link_watchers"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Removes all configured link watchers.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -26193,7 +27002,7 @@ was already knnown.</doc>
       </method>
       <method name="get_link_watcher"
               c:identifier="nm_setting_team_get_link_watcher"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the link watcher at index @idx.</doc>
           <type name="TeamLinkWatcher" c:type="NMTeamLinkWatcher*"/>
@@ -26211,7 +27020,7 @@ was already knnown.</doc>
       </method>
       <method name="get_mcast_rejoin_count"
               c:identifier="nm_setting_team_get_mcast_rejoin_count"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the ##NMSettingTeam:mcast-rejoin-count property of the setting</doc>
           <type name="gint" c:type="gint"/>
@@ -26225,7 +27034,7 @@ was already knnown.</doc>
       </method>
       <method name="get_mcast_rejoin_interval"
               c:identifier="nm_setting_team_get_mcast_rejoin_interval"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the ##NMSettingTeam:mcast-rejoin-interval property of the setting</doc>
           <type name="gint" c:type="gint"/>
@@ -26239,7 +27048,7 @@ was already knnown.</doc>
       </method>
       <method name="get_notify_peers_count"
               c:identifier="nm_setting_team_get_notify_peers_count"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the ##NMSettingTeam:notify-peers-count property of the setting</doc>
           <type name="gint" c:type="gint"/>
@@ -26253,7 +27062,7 @@ was already knnown.</doc>
       </method>
       <method name="get_notify_peers_interval"
               c:identifier="nm_setting_team_get_notify_peers_interval"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the ##NMSettingTeam:notify-peers-interval property of the setting</doc>
           <type name="gint" c:type="gint"/>
@@ -26267,7 +27076,7 @@ was already knnown.</doc>
       </method>
       <method name="get_num_link_watchers"
               c:identifier="nm_setting_team_get_num_link_watchers"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the number of configured link watchers</doc>
           <type name="guint" c:type="guint"/>
@@ -26281,7 +27090,7 @@ was already knnown.</doc>
       </method>
       <method name="get_num_runner_tx_hash"
               c:identifier="nm_setting_team_get_num_runner_tx_hash"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the number of elements in txhash</doc>
           <type name="guint" c:type="guint"/>
@@ -26295,7 +27104,7 @@ was already knnown.</doc>
       </method>
       <method name="get_runner"
               c:identifier="nm_setting_team_get_runner"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the ##NMSettingTeam:runner property of the setting</doc>
           <type name="utf8" c:type="const char*"/>
@@ -26309,7 +27118,7 @@ was already knnown.</doc>
       </method>
       <method name="get_runner_active"
               c:identifier="nm_setting_team_get_runner_active"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the ##NMSettingTeam:runner_active property of the setting</doc>
           <type name="gboolean" c:type="gboolean"/>
@@ -26323,7 +27132,7 @@ was already knnown.</doc>
       </method>
       <method name="get_runner_agg_select_policy"
               c:identifier="nm_setting_team_get_runner_agg_select_policy"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the ##NMSettingTeam:runner-agg-select-policy property of the setting</doc>
           <type name="utf8" c:type="const char*"/>
@@ -26337,7 +27146,7 @@ was already knnown.</doc>
       </method>
       <method name="get_runner_fast_rate"
               c:identifier="nm_setting_team_get_runner_fast_rate"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the ##NMSettingTeam:runner-fast-rate property of the setting</doc>
           <type name="gboolean" c:type="gboolean"/>
@@ -26351,7 +27160,7 @@ was already knnown.</doc>
       </method>
       <method name="get_runner_hwaddr_policy"
               c:identifier="nm_setting_team_get_runner_hwaddr_policy"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the ##NMSettingTeam:runner-hwaddr-policy property of the setting</doc>
           <type name="utf8" c:type="const char*"/>
@@ -26365,7 +27174,7 @@ was already knnown.</doc>
       </method>
       <method name="get_runner_min_ports"
               c:identifier="nm_setting_team_get_runner_min_ports"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the ##NMSettingTeam:runner-min-ports property of the setting</doc>
           <type name="gint" c:type="gint"/>
@@ -26379,7 +27188,7 @@ was already knnown.</doc>
       </method>
       <method name="get_runner_sys_prio"
               c:identifier="nm_setting_team_get_runner_sys_prio"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the ##NMSettingTeam:runner-sys-prio property of the setting</doc>
           <type name="gint" c:type="gint"/>
@@ -26393,7 +27202,7 @@ was already knnown.</doc>
       </method>
       <method name="get_runner_tx_balancer"
               c:identifier="nm_setting_team_get_runner_tx_balancer"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the ##NMSettingTeam:runner-tx-balancer property of the setting</doc>
           <type name="utf8" c:type="const char*"/>
@@ -26407,7 +27216,7 @@ was already knnown.</doc>
       </method>
       <method name="get_runner_tx_balancer_interval"
               c:identifier="nm_setting_team_get_runner_tx_balancer_interval"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the ##NMSettingTeam:runner-tx-balancer_interval property of the setting</doc>
           <type name="gint" c:type="gint"/>
@@ -26421,7 +27230,7 @@ was already knnown.</doc>
       </method>
       <method name="get_runner_tx_hash"
               c:identifier="nm_setting_team_get_runner_tx_hash"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the txhash element at index @idx</doc>
           <type name="utf8" c:type="const char*"/>
@@ -26439,7 +27248,7 @@ was already knnown.</doc>
       </method>
       <method name="remove_link_watcher"
               c:identifier="nm_setting_team_remove_link_watcher"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Removes the link watcher at index #idx.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -26457,7 +27266,7 @@ was already knnown.</doc>
       </method>
       <method name="remove_link_watcher_by_value"
               c:identifier="nm_setting_team_remove_link_watcher_by_value"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Removes the link watcher entry matching link_watcher.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE if the link watcher was found and removed, %FALSE otherwise.</doc>
@@ -26476,7 +27285,7 @@ was already knnown.</doc>
       </method>
       <method name="remove_runner_tx_hash"
               c:identifier="nm_setting_team_remove_runner_tx_hash"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Removes the txhash element at index @idx.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -26494,7 +27303,7 @@ was already knnown.</doc>
       </method>
       <method name="remove_runner_tx_hash_by_value"
               c:identifier="nm_setting_team_remove_runner_tx_hash_by_value"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Removes the txhash element #txhash</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE if the txhash element was found and removed; %FALSE if it was not.</doc>
@@ -26519,7 +27328,7 @@ configuration is used.  See man teamd.conf for the format details.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="link-watchers"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Link watchers configuration for the connection: each link watcher is
@@ -26529,48 +27338,46 @@ watcher. Available link watchers are 'ethtool', 'nsna_ping' and
 Available keys are:   ethtool: 'delay-up', 'delay-down', 'init-wait';
 nsna_ping: 'init-wait', 'interval', 'missed-max', 'target-host';
 arp_ping: all the ones in nsna_ping and 'source-host', 'validate-active',
-'validate-incative', 'send-always'. See teamd.conf man for more details.
-
-Element-Type: NMTeamLinkWatcher</doc>
+'validate-incative', 'send-always'. See teamd.conf man for more details.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="TeamLinkWatcher"/>
         </array>
       </property>
       <property name="mcast-rejoin-count"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd mcast_rejoin.count.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="mcast-rejoin-interval"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd mcast_rejoin.interval.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="notify-peers-count"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd notify_peers.count.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="notify-peers-interval"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd notify_peers.interval.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="runner"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd runner.name.
 Permitted values are: "roundrobin", "broadcast", "activebackup",
-"loadbalance", "lacp".
+"loadbalance", "lacp", "random".
 When setting the runner, all the properties specific to the runner
 will be reset to the default value; all the properties specific to
 other runners will be set to an empty value (or if not possible to
@@ -26578,63 +27385,63 @@ a default value).</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="runner-active"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd runner.active.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="runner-agg-select-policy"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd runner.agg_select_policy.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="runner-fast-rate"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd runner.fast_rate.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="runner-hwaddr-policy"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd runner.hwaddr_policy.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="runner-min-ports"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd runner.min_ports.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="runner-sys-prio"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd runner.sys_prio.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="runner-tx-balancer"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd runner.tx_balancer.name.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="runner-tx-balancer-interval"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd runner.tx_balancer.interval.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="runner-tx-hash"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd runner.tx_hash.</doc>
@@ -26675,7 +27482,7 @@ a default value).</doc>
       </constructor>
       <method name="add_link_watcher"
               c:identifier="nm_setting_team_port_add_link_watcher"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Appends a new link watcher to the setting.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE if the link watcher is added; %FALSE if an identical link
@@ -26695,7 +27502,7 @@ watcher was already there.</doc>
       </method>
       <method name="clear_link_watchers"
               c:identifier="nm_setting_team_port_clear_link_watchers"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Removes all configured link watchers.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -26721,7 +27528,7 @@ watcher was already there.</doc>
       </method>
       <method name="get_lacp_key"
               c:identifier="nm_setting_team_port_get_lacp_key"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the #NMSettingTeamPort:lacp-key property of the setting</doc>
           <type name="gint" c:type="gint"/>
@@ -26735,7 +27542,7 @@ watcher was already there.</doc>
       </method>
       <method name="get_lacp_prio"
               c:identifier="nm_setting_team_port_get_lacp_prio"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the #NMSettingTeamPort:lacp-prio property of the setting</doc>
           <type name="gint" c:type="gint"/>
@@ -26749,7 +27556,7 @@ watcher was already there.</doc>
       </method>
       <method name="get_link_watcher"
               c:identifier="nm_setting_team_port_get_link_watcher"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the link watcher at index @idx.</doc>
           <type name="TeamLinkWatcher" c:type="NMTeamLinkWatcher*"/>
@@ -26767,7 +27574,7 @@ watcher was already there.</doc>
       </method>
       <method name="get_num_link_watchers"
               c:identifier="nm_setting_team_port_get_num_link_watchers"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the number of configured link watchers</doc>
           <type name="guint" c:type="guint"/>
@@ -26781,7 +27588,7 @@ watcher was already there.</doc>
       </method>
       <method name="get_prio"
               c:identifier="nm_setting_team_port_get_prio"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the #NMSettingTeamPort:prio property of the setting</doc>
           <type name="gint" c:type="gint"/>
@@ -26795,7 +27602,7 @@ watcher was already there.</doc>
       </method>
       <method name="get_queue_id"
               c:identifier="nm_setting_team_port_get_queue_id"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the #NMSettingTeamPort:queue_id property of the setting</doc>
           <type name="gint" c:type="gint"/>
@@ -26809,7 +27616,7 @@ watcher was already there.</doc>
       </method>
       <method name="get_sticky"
               c:identifier="nm_setting_team_port_get_sticky"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the #NMSettingTeamPort:sticky property of the setting</doc>
           <type name="gboolean" c:type="gboolean"/>
@@ -26823,7 +27630,7 @@ watcher was already there.</doc>
       </method>
       <method name="remove_link_watcher"
               c:identifier="nm_setting_team_port_remove_link_watcher"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Removes the link watcher at index #idx.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -26841,7 +27648,7 @@ watcher was already there.</doc>
       </method>
       <method name="remove_link_watcher_by_value"
               c:identifier="nm_setting_team_port_remove_link_watcher_by_value"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Removes the link watcher entry matching link_watcher.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE if the link watcher was found and removed, %FALSE otherwise.</doc>
@@ -26866,21 +27673,21 @@ used. See man teamd.conf for the format details.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="lacp-key"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd ports.PORTIFNAME.lacp_key.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="lacp-prio"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd ports.PORTIFNAME.lacp_prio.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="link-watchers"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Link watchers configuration for the connection: each link watcher is
@@ -26890,22 +27697,20 @@ watcher. Available link watchers are 'ethtool', 'nsna_ping' and
 Available keys are:   ethtool: 'delay-up', 'delay-down', 'init-wait';
 nsna_ping: 'init-wait', 'interval', 'missed-max', 'target-host';
 arp_ping: all the ones in nsna_ping and 'source-host', 'validate-active',
-'validate-incative', 'send-always'. See teamd.conf man for more details.
-
-Element-Type: NMTeamLinkWatcher</doc>
+'validate-incative', 'send-always'. See teamd.conf man for more details.</doc>
         <array name="GLib.PtrArray">
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="TeamLinkWatcher"/>
         </array>
       </property>
       <property name="prio"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd ports.PORTIFNAME.prio.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="queue-id"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd ports.PORTIFNAME.queue_id.
@@ -26913,7 +27718,7 @@ When set to -1 means the parameter is skipped from the json config.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="sticky"
-                version="1.10.2"
+                version="1.12"
                 writable="1"
                 transfer-ownership="none">
         <doc xml:space="preserve">Corresponds to the teamd ports.PORTIFNAME.sticky.</doc>
@@ -27755,6 +28560,33 @@ by nm_setting_vpn_add_data_item().</doc>
           </parameter>
         </parameters>
       </method>
+      <method name="get_data_keys"
+              c:identifier="nm_setting_vpn_get_data_keys"
+              version="1.12">
+        <doc xml:space="preserve">Retrieves every data key inside @setting, as an array.</doc>
+        <return-value transfer-ownership="container">
+          <doc xml:space="preserve">a
+  %NULL-terminated array containing each data key or %NULL if
+  there are no data items.</doc>
+          <array length="0" zero-terminated="0" c:type="char**">
+            <type name="utf8"/>
+          </array>
+        </return-value>
+        <parameters>
+          <instance-parameter name="setting" transfer-ownership="none">
+            <doc xml:space="preserve">the #NMSettingVpn</doc>
+            <type name="SettingVpn" c:type="NMSettingVpn*"/>
+          </instance-parameter>
+          <parameter name="out_length"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full"
+                     nullable="1">
+            <doc xml:space="preserve">(out): the length of the returned array</doc>
+            <type name="guint" c:type="guint*"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="get_num_data_items"
               c:identifier="nm_setting_vpn_get_num_data_items">
         <doc xml:space="preserve">Gets number of key/value pairs of VPN configuration data.</doc>
@@ -27811,6 +28643,33 @@ by nm_setting_vpn_add_secret().</doc>
           <parameter name="key" transfer-ownership="none">
             <doc xml:space="preserve">the name of the secret to retrieve</doc>
             <type name="utf8" c:type="const char*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_secret_keys"
+              c:identifier="nm_setting_vpn_get_secret_keys"
+              version="1.12">
+        <doc xml:space="preserve">Retrieves every secret key inside @setting, as an array.</doc>
+        <return-value transfer-ownership="container">
+          <doc xml:space="preserve">a
+  %NULL-terminated array containing each secret key or %NULL if
+  there are no secrets.</doc>
+          <array length="0" zero-terminated="0" c:type="char**">
+            <type name="utf8"/>
+          </array>
+        </return-value>
+        <parameters>
+          <instance-parameter name="setting" transfer-ownership="none">
+            <doc xml:space="preserve">the #NMSettingVpn</doc>
+            <type name="SettingVpn" c:type="NMSettingVpn*"/>
+          </instance-parameter>
+          <parameter name="out_length"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full"
+                     nullable="1">
+            <doc xml:space="preserve">(out): the length of the returned array</doc>
+            <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
       </method>
@@ -28887,9 +29746,14 @@ list, %FALSE if it was not.</doc>
                 writable="1"
                 construct="1"
                 transfer-ownership="none">
-        <doc xml:space="preserve">If %TRUE, enforce auto-negotiation of port speed and duplex mode.  If
-%FALSE, "speed" and "duplex" properties should be both set or link configuration
-will be skipped.</doc>
+        <doc xml:space="preserve">When %TRUE, enforce auto-negotiation of speed and duplex mode.
+If "speed" and "duplex" properties are both specified, only that
+single mode will be advertised and accepted during the link
+auto-negotiation process: this works only for BASE-T 802.3 specifications
+and is useful for enforcing gigabits modes, as in these cases link
+negotiation is mandatory.
+When %FALSE, "speed" and "duplex" properties should be both set or
+link configuration will be skipped.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="cloned-mac-address"
@@ -28916,8 +29780,16 @@ On D-Bus, this field is expressed as "assigned-mac-address" or the deprecated
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="duplex" writable="1" transfer-ownership="none">
-        <doc xml:space="preserve">Can be specified only when "auto-negotiate" is "off". In that case, statically
-configures the device to use that specified duplex mode, either "half" or "full".
+        <doc xml:space="preserve">When a value is set, either "half" or "full", configures the device
+to use the specified duplex mode. If "auto-negotiate" is "yes" the
+specified duplex mode will be the only one advertised during link
+negotiation: this works only for BASE-T 802.3 specifications and is
+useful for enforcing gigabits modes, as in these cases link negotiation
+is mandatory.
+If the value is unset (the default), the link configuration will be
+either skipped (if "auto-negotiate" is "no", the default) or will
+be auto-negotiated (if "auto-negotiate" is "yes") and the local device
+will advertise all the supported duplex modes.
 Must be set together with the "speed" property if specified.
 Before specifying a duplex mode be sure your device supports it.</doc>
         <type name="utf8" c:type="gchar*"/>
@@ -29018,8 +29890,16 @@ period (.) character.</doc>
                 writable="1"
                 construct="1"
                 transfer-ownership="none">
-        <doc xml:space="preserve">Can be set to a value greater than zero only when "auto-negotiate" is "off".
-In that case, statically configures the device to use that specified speed.
+        <doc xml:space="preserve">When a value grater than 0 is set, configures the device to use
+the specified speed. If "auto-negotiate" is "yes" the specified
+speed will be the only one advertised during link negotiation:
+this works only for BASE-T 802.3 specifications and is useful for
+enforcing gigabit speeds, as in this case link negotiation is
+mandatory.
+If the value is unset (0, the default), the link configuration will be
+either skipped (if "auto-negotiate" is "no", the default) or will
+be auto-negotiated (if "auto-negotiate" is "yes") and the local device
+will advertise all the supported speeds.
 In Mbit/s, ie 100 == 100Mbit/s.
 Must be set together with the "duplex" property when non-zero.
 Before specifying a speed value be sure your device supports it.</doc>
@@ -29488,6 +30368,22 @@ at index @idx</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="get_wake_on_wlan"
+              c:identifier="nm_setting_wireless_get_wake_on_wlan"
+              version="1.12">
+        <doc xml:space="preserve">Returns the Wake-on-WLAN options enabled for the connection</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the Wake-on-WLAN options</doc>
+          <type name="SettingWirelessWakeOnWLan"
+                c:type="NMSettingWirelessWakeOnWLan"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="setting" transfer-ownership="none">
+            <doc xml:space="preserve">the #NMSettingWireless</doc>
+            <type name="SettingWireless" c:type="NMSettingWireless*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="remove_mac_blacklist_item"
               c:identifier="nm_setting_wireless_remove_mac_blacklist_item">
         <doc xml:space="preserve">Removes the MAC address at index @idx from the blacklist.</doc>
@@ -29610,7 +30506,10 @@ administered.</doc>
 its SSID.  In this case various workarounds may take place, such as
 probe-scanning the SSID for more reliable network discovery.  However,
 these workarounds expose inherent insecurities with hidden SSID networks,
-and thus hidden SSID networks should be used with caution.</doc>
+and thus hidden SSID networks should be used with caution.
+
+Note that marking the network as hidden may be a privacy issue for you, as
+the explicit probe-scans may be distinctly recognizable on the air.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="mac-address" writable="1" transfer-ownership="none">
@@ -29700,6 +30599,25 @@ preserved.</doc>
         <doc xml:space="preserve">If non-zero, directs the device to use the specified transmit power.
 Units are dBm.  This property is highly driver dependent and not all
 devices support setting a static transmit power.</doc>
+        <type name="guint" c:type="guint"/>
+      </property>
+      <property name="wake-on-wlan"
+                version="1.12"
+                writable="1"
+                construct="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve">The #NMSettingWirelessWakeOnWLan options to enable. Not all devices support all options.
+May be any combination of %NM_SETTING_WIRELESS_WAKE_ON_WLAN_ANY,
+%NM_SETTING_WIRELESS_WAKE_ON_WLAN_DISCONNECT,
+%NM_SETTING_WIRELESS_WAKE_ON_WLAN_MAGIC,
+%NM_SETTING_WIRELESS_WAKE_ON_WLAN_GTK_REKEY_FAILURE,
+%NM_SETTING_WIRELESS_WAKE_ON_WLAN_EAP_IDENTITY_REQUEST,
+%NM_SETTING_WIRELESS_WAKE_ON_WLAN_4WAY_HANDSHAKE,
+%NM_SETTING_WIRELESS_WAKE_ON_WLAN_RFKILL_RELEASE,
+%NM_SETTING_WIRELESS_WAKE_ON_WLAN_TCP or the special values
+%NM_SETTING_WIRELESS_WAKE_ON_WLAN_DEFAULT (to use global settings) and
+%NM_SETTING_WIRELESS_WAKE_ON_WLAN_IGNORE (to disable management of Wake-on-LAN in
+NetworkManager).</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <field name="parent">
@@ -29889,6 +30807,19 @@ specified then all protocols are allowed.</doc>
         <parameters>
           <instance-parameter name="setting" transfer-ownership="none">
             <doc xml:space="preserve">the #NMSettingWirelessSecurity</doc>
+            <type name="SettingWirelessSecurity"
+                  c:type="NMSettingWirelessSecurity*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_fils"
+              c:identifier="nm_setting_wireless_security_get_fils">
+        <return-value transfer-ownership="none">
+          <type name="SettingWirelessSecurityFils"
+                c:type="NMSettingWirelessSecurityFils"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="setting" transfer-ownership="none">
             <type name="SettingWirelessSecurity"
                   c:type="NMSettingWirelessSecurity*"/>
           </instance-parameter>
@@ -30318,6 +31249,21 @@ using Cisco LEAP (ie, key-mgmt = "ieee8021x" and auth-alg = "leap") the
 "leap-username" and "leap-password" properties must be specified.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
+      <property name="fils"
+                version="1.12"
+                writable="1"
+                construct="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve">Indicates whether Fast Initial Link Setup (802.11ai) must be enabled for
+the connection.  One of %NM_SETTING_WIRELESS_SECURITY_FILS_DEFAULT (use
+global default value), %NM_SETTING_WIRELESS_SECURITY_FILS_DISABLE
+(disable FILS), %NM_SETTING_WIRELESS_SECURITY_FILS_OPTIONAL (enable FILS
+if the supplicant and the access point support it) or
+%NM_SETTING_WIRELESS_SECURITY_FILS_REQUIRED (enable FILS and fail if not
+supported).  When set to %NM_SETTING_WIRELESS_SECURITY_FILS_DEFAULT and
+no global default is set, FILS will be optionally enabled.</doc>
+        <type name="gint" c:type="gint"/>
+      </property>
       <property name="group" writable="1" transfer-ownership="none">
         <doc xml:space="preserve">A list of group/broadcast encryption algorithms which prevents
 connections to Wi-Fi networks that do not utilize one of the algorithms
@@ -30475,6 +31421,37 @@ WPS can be disabled by setting this property to a value of 1.</doc>
         </array>
       </field>
     </record>
+    <enumeration name="SettingWirelessSecurityFils"
+                 version="1.12"
+                 glib:type-name="NMSettingWirelessSecurityFils"
+                 glib:get-type="nm_setting_wireless_security_fils_get_type"
+                 c:type="NMSettingWirelessSecurityFils">
+      <doc xml:space="preserve">These flags indicate whether FILS must be enabled.</doc>
+      <member name="default"
+              value="0"
+              c:identifier="NM_SETTING_WIRELESS_SECURITY_FILS_DEFAULT"
+              glib:nick="default">
+        <doc xml:space="preserve">use the default value</doc>
+      </member>
+      <member name="disable"
+              value="1"
+              c:identifier="NM_SETTING_WIRELESS_SECURITY_FILS_DISABLE"
+              glib:nick="disable">
+        <doc xml:space="preserve">disable FILS</doc>
+      </member>
+      <member name="optional"
+              value="2"
+              c:identifier="NM_SETTING_WIRELESS_SECURITY_FILS_OPTIONAL"
+              glib:nick="optional">
+        <doc xml:space="preserve">enable FILS if the supplicant and the AP support it</doc>
+      </member>
+      <member name="required"
+              value="3"
+              c:identifier="NM_SETTING_WIRELESS_SECURITY_FILS_REQUIRED"
+              glib:nick="required">
+        <doc xml:space="preserve">require FILS and fail if not available</doc>
+      </member>
+    </enumeration>
     <enumeration name="SettingWirelessSecurityPmf"
                  glib:type-name="NMSettingWirelessSecurityPmf"
                  glib:get-type="nm_setting_wireless_security_pmf_get_type"
@@ -30542,6 +31519,114 @@ WPS can be disabled by setting this property to a value of 1.</doc>
         <doc xml:space="preserve">use PIN method</doc>
       </member>
     </enumeration>
+    <bitfield name="SettingWirelessWakeOnWLan"
+              version="1.12"
+              glib:type-name="NMSettingWirelessWakeOnWLan"
+              glib:get-type="nm_setting_wireless_wake_on_wlan_get_type"
+              c:type="NMSettingWirelessWakeOnWLan">
+      <doc xml:space="preserve">Options for #NMSettingWireless:wake-on-wlan. Note that not all options
+are supported by all devices.</doc>
+      <member name="any"
+              value="2"
+              c:identifier="NM_SETTING_WIRELESS_WAKE_ON_WLAN_ANY"
+              glib:nick="any">
+        <doc xml:space="preserve">Wake on any activity</doc>
+      </member>
+      <member name="disconnect"
+              value="4"
+              c:identifier="NM_SETTING_WIRELESS_WAKE_ON_WLAN_DISCONNECT"
+              glib:nick="disconnect">
+        <doc xml:space="preserve">Wake on disconnect</doc>
+      </member>
+      <member name="magic"
+              value="8"
+              c:identifier="NM_SETTING_WIRELESS_WAKE_ON_WLAN_MAGIC"
+              glib:nick="magic">
+        <doc xml:space="preserve">Wake on magic packet</doc>
+      </member>
+      <member name="gtk_rekey_failure"
+              value="16"
+              c:identifier="NM_SETTING_WIRELESS_WAKE_ON_WLAN_GTK_REKEY_FAILURE"
+              glib:nick="gtk-rekey-failure">
+        <doc xml:space="preserve">Wake on GTK rekey failure</doc>
+      </member>
+      <member name="eap_identity_request"
+              value="32"
+              c:identifier="NM_SETTING_WIRELESS_WAKE_ON_WLAN_EAP_IDENTITY_REQUEST"
+              glib:nick="eap-identity-request">
+        <doc xml:space="preserve">Wake on EAP identity request</doc>
+      </member>
+      <member name="4way_handshake"
+              value="64"
+              c:identifier="NM_SETTING_WIRELESS_WAKE_ON_WLAN_4WAY_HANDSHAKE"
+              glib:nick="4way-handshake">
+        <doc xml:space="preserve">Wake on 4way hanshake</doc>
+      </member>
+      <member name="rfkill_release"
+              value="128"
+              c:identifier="NM_SETTING_WIRELESS_WAKE_ON_WLAN_RFKILL_RELEASE"
+              glib:nick="rfkill-release">
+        <doc xml:space="preserve">Wake on rfkill release</doc>
+      </member>
+      <member name="tcp"
+              value="256"
+              c:identifier="NM_SETTING_WIRELESS_WAKE_ON_WLAN_TCP"
+              glib:nick="tcp">
+      </member>
+      <member name="default"
+              value="1"
+              c:identifier="NM_SETTING_WIRELESS_WAKE_ON_WLAN_DEFAULT"
+              glib:nick="default">
+        <doc xml:space="preserve">Use the default value</doc>
+      </member>
+      <member name="ignore"
+              value="32768"
+              c:identifier="NM_SETTING_WIRELESS_WAKE_ON_WLAN_IGNORE"
+              glib:nick="ignore">
+        <doc xml:space="preserve">Don't change configured settings</doc>
+      </member>
+    </bitfield>
+    <bitfield name="SettingsConnectionFlags"
+              version="1.12"
+              glib:type-name="NMSettingsConnectionFlags"
+              glib:get-type="nm_settings_connection_flags_get_type"
+              c:type="NMSettingsConnectionFlags">
+      <doc xml:space="preserve">Flags describing the current activation state.</doc>
+      <member name="none"
+              value="0"
+              c:identifier="NM_SETTINGS_CONNECTION_FLAG_NONE"
+              glib:nick="none">
+        <doc xml:space="preserve">an alias for numeric zero, no flags set.</doc>
+      </member>
+      <member name="unsaved"
+              value="1"
+              c:identifier="NM_SETTINGS_CONNECTION_FLAG_UNSAVED"
+              glib:nick="unsaved">
+        <doc xml:space="preserve">the connection is not saved to disk.
+  That either means, that the connection is in-memory only and currently
+  is not backed by a file. Or, that the connection is backed by a file,
+  but has modifications in-memory that were not persisted to disk.</doc>
+      </member>
+      <member name="nm_generated"
+              value="2"
+              c:identifier="NM_SETTINGS_CONNECTION_FLAG_NM_GENERATED"
+              glib:nick="nm-generated">
+        <doc xml:space="preserve">A connection is "nm-generated" if
+ it was generated by NetworkManger. If the connection gets modified or saved
+ by the user, the flag gets cleared. A nm-generated is also unsaved
+ and has no backing file as it is in-memory only.</doc>
+      </member>
+      <member name="volatile"
+              value="4"
+              c:identifier="NM_SETTINGS_CONNECTION_FLAG_VOLATILE"
+              glib:nick="volatile">
+        <doc xml:space="preserve">The connection will be deleted
+ when it disconnects. That is for in-memory connections (unsaved), which are
+ currently active but deleted on disconnect. Volatile connections are
+ always unsaved, but they are also no backing file on disk and are entirely
+ in-memory only.</doc>
+      </member>
+    </bitfield>
     <enumeration name="SettingsError"
                  glib:type-name="NMSettingsError"
                  glib:get-type="nm_settings_error_get_type"
@@ -30609,7 +31694,7 @@ D-Bus errors in that namespace.</doc>
       </function>
     </enumeration>
     <bitfield name="SettingsUpdate2Flags"
-              version="1.10.2"
+              version="1.12"
               glib:type-name="NMSettingsUpdate2Flags"
               glib:get-type="nm_settings_update2_flags_get_type"
               c:type="NMSettingsUpdate2Flags">
@@ -30687,9 +31772,7 @@ D-Bus errors in that namespace.</doc>
            glib:type-struct="SimpleConnectionClass">
       <implements name="Connection"/>
       <function name="new" c:identifier="nm_simple_connection_new">
-        <doc xml:space="preserve">Creates a new #NMSimpleConnection object with no #NMSetting objects. An
-#NMSimpleConnection does not directly represent a D-Bus-exported connection,
-but might be used in the process of creating a new one.</doc>
+        <doc xml:space="preserve">Creates a new #NMSimpleConnection object with no #NMSetting objects.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">the new empty #NMConnection object</doc>
           <type name="Connection" c:type="NMConnection*"/>
@@ -30823,7 +31906,7 @@ connection failed to normalize.</doc>
             c:symbol-prefix="tc_action">
       <constructor name="new"
                    c:identifier="nm_tc_action_new"
-                   version="1.10.2"
+                   version="1.12"
                    throws="1">
         <doc xml:space="preserve">Creates a new #NMTCAction object.</doc>
         <return-value transfer-ownership="full">
@@ -30837,7 +31920,7 @@ connection failed to normalize.</doc>
           </parameter>
         </parameters>
       </constructor>
-      <method name="dup" c:identifier="nm_tc_action_dup" version="1.10.2">
+      <method name="dup" c:identifier="nm_tc_action_dup" version="1.12">
         <doc xml:space="preserve">Creates a copy of @action</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">a copy of @action</doc>
@@ -30850,7 +31933,7 @@ connection failed to normalize.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="equal" c:identifier="nm_tc_action_equal" version="1.10.2">
+      <method name="equal" c:identifier="nm_tc_action_equal" version="1.12">
         <doc xml:space="preserve">Determines if two #NMTCAction objects contain the same kind, family,
 handle, parent and info.</doc>
         <return-value transfer-ownership="none">
@@ -30904,7 +31987,7 @@ handle, parent and info.</doc>
       </method>
       <method name="get_kind"
               c:identifier="nm_tc_action_get_kind"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
         </return-value>
@@ -30915,7 +31998,7 @@ handle, parent and info.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="ref" c:identifier="nm_tc_action_ref" version="1.10.2">
+      <method name="ref" c:identifier="nm_tc_action_ref" version="1.12">
         <doc xml:space="preserve">Increases the reference count of the object.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -30950,7 +32033,7 @@ handle, parent and info.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="unref" c:identifier="nm_tc_action_unref" version="1.10.2">
+      <method name="unref" c:identifier="nm_tc_action_unref" version="1.12">
         <doc xml:space="preserve">Decreases the reference count of the object.  If the reference count
 reaches zero, the object will be destroyed.</doc>
         <return-value transfer-ownership="none">
@@ -30971,7 +32054,7 @@ reaches zero, the object will be destroyed.</doc>
             c:symbol-prefix="tc_qdisc">
       <constructor name="new"
                    c:identifier="nm_tc_qdisc_new"
-                   version="1.10.2"
+                   version="1.12"
                    throws="1">
         <doc xml:space="preserve">Creates a new #NMTCQdisc object.</doc>
         <return-value transfer-ownership="full">
@@ -30989,7 +32072,7 @@ reaches zero, the object will be destroyed.</doc>
           </parameter>
         </parameters>
       </constructor>
-      <method name="dup" c:identifier="nm_tc_qdisc_dup" version="1.10.2">
+      <method name="dup" c:identifier="nm_tc_qdisc_dup" version="1.12">
         <doc xml:space="preserve">Creates a copy of @qdisc</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">a copy of @qdisc</doc>
@@ -31002,7 +32085,7 @@ reaches zero, the object will be destroyed.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="equal" c:identifier="nm_tc_qdisc_equal" version="1.10.2">
+      <method name="equal" c:identifier="nm_tc_qdisc_equal" version="1.12">
         <doc xml:space="preserve">Determines if two #NMTCQdisc objects contain the same kind, * handle
 and parent.</doc>
         <return-value transfer-ownership="none">
@@ -31022,7 +32105,7 @@ and parent.</doc>
       </method>
       <method name="get_handle"
               c:identifier="nm_tc_qdisc_get_handle"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the queueing discipline handle</doc>
           <type name="guint32" c:type="guint32"/>
@@ -31036,7 +32119,7 @@ and parent.</doc>
       </method>
       <method name="get_kind"
               c:identifier="nm_tc_qdisc_get_kind"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
         </return-value>
@@ -31049,7 +32132,7 @@ and parent.</doc>
       </method>
       <method name="get_parent"
               c:identifier="nm_tc_qdisc_get_parent"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the parent class</doc>
           <type name="guint32" c:type="guint32"/>
@@ -31061,7 +32144,7 @@ and parent.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="ref" c:identifier="nm_tc_qdisc_ref" version="1.10.2">
+      <method name="ref" c:identifier="nm_tc_qdisc_ref" version="1.12">
         <doc xml:space="preserve">Increases the reference count of the object.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -31075,7 +32158,7 @@ and parent.</doc>
       </method>
       <method name="set_handle"
               c:identifier="nm_tc_qdisc_set_handle"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Sets the queueing discipline handle.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -31091,7 +32174,7 @@ and parent.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="unref" c:identifier="nm_tc_qdisc_unref" version="1.10.2">
+      <method name="unref" c:identifier="nm_tc_qdisc_unref" version="1.12">
         <doc xml:space="preserve">Decreases the reference count of the object.  If the reference count
 reaches zero, the object will be destroyed.</doc>
         <return-value transfer-ownership="none">
@@ -31112,7 +32195,7 @@ reaches zero, the object will be destroyed.</doc>
             c:symbol-prefix="tc_tfilter">
       <constructor name="new"
                    c:identifier="nm_tc_tfilter_new"
-                   version="1.10.2"
+                   version="1.12"
                    throws="1">
         <doc xml:space="preserve">Creates a new #NMTCTfilter object.</doc>
         <return-value transfer-ownership="full">
@@ -31130,7 +32213,7 @@ reaches zero, the object will be destroyed.</doc>
           </parameter>
         </parameters>
       </constructor>
-      <method name="dup" c:identifier="nm_tc_tfilter_dup" version="1.10.2">
+      <method name="dup" c:identifier="nm_tc_tfilter_dup" version="1.12">
         <doc xml:space="preserve">Creates a copy of @tfilter</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">a copy of @tfilter</doc>
@@ -31143,7 +32226,7 @@ reaches zero, the object will be destroyed.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="equal" c:identifier="nm_tc_tfilter_equal" version="1.10.2">
+      <method name="equal" c:identifier="nm_tc_tfilter_equal" version="1.12">
         <doc xml:space="preserve">Determines if two #NMTCTfilter objects contain the same kind, family,
 handle, parent and info.</doc>
         <return-value transfer-ownership="none">
@@ -31163,7 +32246,7 @@ handle, parent and info.</doc>
       </method>
       <method name="get_action"
               c:identifier="nm_tc_tfilter_get_action"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">the action associated with a traffic filter.</doc>
           <type name="TCAction" c:type="NMTCAction*"/>
@@ -31177,7 +32260,7 @@ handle, parent and info.</doc>
       </method>
       <method name="get_handle"
               c:identifier="nm_tc_tfilter_get_handle"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the queueing discipline handle</doc>
           <type name="guint32" c:type="guint32"/>
@@ -31191,7 +32274,7 @@ handle, parent and info.</doc>
       </method>
       <method name="get_kind"
               c:identifier="nm_tc_tfilter_get_kind"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
         </return-value>
@@ -31204,7 +32287,7 @@ handle, parent and info.</doc>
       </method>
       <method name="get_parent"
               c:identifier="nm_tc_tfilter_get_parent"
-              version="1.10.2">
+              version="1.12">
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the parent class</doc>
           <type name="guint32" c:type="guint32"/>
@@ -31216,7 +32299,7 @@ handle, parent and info.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="ref" c:identifier="nm_tc_tfilter_ref" version="1.10.2">
+      <method name="ref" c:identifier="nm_tc_tfilter_ref" version="1.12">
         <doc xml:space="preserve">Increases the reference count of the object.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -31230,7 +32313,7 @@ handle, parent and info.</doc>
       </method>
       <method name="set_action"
               c:identifier="nm_tc_tfilter_set_action"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Sets the action associated with a traffic filter.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -31248,7 +32331,7 @@ handle, parent and info.</doc>
       </method>
       <method name="set_handle"
               c:identifier="nm_tc_tfilter_set_handle"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Sets the queueing discipline handle.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -31264,7 +32347,7 @@ handle, parent and info.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="unref" c:identifier="nm_tc_tfilter_unref" version="1.10.2">
+      <method name="unref" c:identifier="nm_tc_tfilter_unref" version="1.12">
         <doc xml:space="preserve">Decreases the reference count of the object.  If the reference count
 reaches zero, the object will be destroyed.</doc>
         <return-value transfer-ownership="none">
@@ -31300,7 +32383,7 @@ reaches zero, the object will be destroyed.</doc>
             c:symbol-prefix="team_link_watcher">
       <constructor name="new_arp_ping"
                    c:identifier="nm_team_link_watcher_new_arp_ping"
-                   version="1.10.2"
+                   version="1.12"
                    throws="1">
         <doc xml:space="preserve">Creates a new arp_ping #NMTeamLinkWatcher object</doc>
         <return-value transfer-ownership="full">
@@ -31339,7 +32422,7 @@ reaches zero, the object will be destroyed.</doc>
       </constructor>
       <constructor name="new_ethtool"
                    c:identifier="nm_team_link_watcher_new_ethtool"
-                   version="1.10.2"
+                   version="1.12"
                    throws="1">
         <doc xml:space="preserve">Creates a new ethtool #NMTeamLinkWatcher object</doc>
         <return-value transfer-ownership="full">
@@ -31359,7 +32442,7 @@ reaches zero, the object will be destroyed.</doc>
       </constructor>
       <constructor name="new_nsna_ping"
                    c:identifier="nm_team_link_watcher_new_nsna_ping"
-                   version="1.10.2"
+                   version="1.12"
                    throws="1">
         <doc xml:space="preserve">Creates a new nsna_ping #NMTeamLinkWatcher object</doc>
         <return-value transfer-ownership="full">
@@ -31388,7 +32471,7 @@ reaches zero, the object will be destroyed.</doc>
       </constructor>
       <method name="dup"
               c:identifier="nm_team_link_watcher_dup"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Creates a copy of @watcher</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">a copy of @watcher</doc>
@@ -31403,7 +32486,7 @@ reaches zero, the object will be destroyed.</doc>
       </method>
       <method name="equal"
               c:identifier="nm_team_link_watcher_equal"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Determines if two #NMTeamLinkWatcher objects contain the same values
 in all the properties.</doc>
         <return-value transfer-ownership="none">
@@ -31423,7 +32506,7 @@ in all the properties.</doc>
       </method>
       <method name="get_delay_down"
               c:identifier="nm_team_link_watcher_get_delay_down"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Gets the delay_down interval (in milliseconds) that elapses between the link
 going down and the runner beeing notified about it.</doc>
         <return-value transfer-ownership="none">
@@ -31438,7 +32521,7 @@ going down and the runner beeing notified about it.</doc>
       </method>
       <method name="get_delay_up"
               c:identifier="nm_team_link_watcher_get_delay_up"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Gets the delay_up interval (in milliseconds) that elapses between the link
 coming up and the runner beeing notified about it.</doc>
         <return-value transfer-ownership="none">
@@ -31453,7 +32536,7 @@ coming up and the runner beeing notified about it.</doc>
       </method>
       <method name="get_flags"
               c:identifier="nm_team_link_watcher_get_flags"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Gets the arp ping watcher flags.</doc>
         <return-value transfer-ownership="none">
           <type name="TeamLinkWatcherArpPingFlags"
@@ -31468,7 +32551,7 @@ coming up and the runner beeing notified about it.</doc>
       </method>
       <method name="get_init_wait"
               c:identifier="nm_team_link_watcher_get_init_wait"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Gets the init_wait interval (in milliseconds) that the team slave should
 wait before sending the first packet to the target host.</doc>
         <return-value transfer-ownership="none">
@@ -31483,7 +32566,7 @@ wait before sending the first packet to the target host.</doc>
       </method>
       <method name="get_interval"
               c:identifier="nm_team_link_watcher_get_interval"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Gets the interval (in milliseconds) that the team slave should wait between
 sending two check packets to the target host.</doc>
         <return-value transfer-ownership="none">
@@ -31498,7 +32581,7 @@ sending two check packets to the target host.</doc>
       </method>
       <method name="get_missed_max"
               c:identifier="nm_team_link_watcher_get_missed_max"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Gets the number of missed replies after which the link is considered down.</doc>
         <return-value transfer-ownership="none">
           <type name="gint" c:type="int"/>
@@ -31512,7 +32595,7 @@ sending two check packets to the target host.</doc>
       </method>
       <method name="get_name"
               c:identifier="nm_team_link_watcher_get_name"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Gets the name of the link watcher to be used.</doc>
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
@@ -31526,7 +32609,7 @@ sending two check packets to the target host.</doc>
       </method>
       <method name="get_source_host"
               c:identifier="nm_team_link_watcher_get_source_host"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Gets the ip address to be used as source for the link probing packets.</doc>
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
@@ -31540,7 +32623,7 @@ sending two check packets to the target host.</doc>
       </method>
       <method name="get_target_host"
               c:identifier="nm_team_link_watcher_get_target_host"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Gets the host name/ip address to be used as destination for the link probing
 packets.</doc>
         <return-value transfer-ownership="none">
@@ -31555,7 +32638,7 @@ packets.</doc>
       </method>
       <method name="ref"
               c:identifier="nm_team_link_watcher_ref"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Increases the reference count of the object.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -31569,7 +32652,7 @@ packets.</doc>
       </method>
       <method name="unref"
               c:identifier="nm_team_link_watcher_unref"
-              version="1.10.2">
+              version="1.12">
         <doc xml:space="preserve">Decreases the reference count of the object.  If the reference count
 reaches zero, the object will be destroyed.</doc>
         <return-value transfer-ownership="none">
@@ -31616,7 +32699,7 @@ reaches zero, the object will be destroyed.</doc>
 nm_utils_hwaddr_len(), and nm_utils_hwaddr_aton().</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-<!-- 
+<!--
     <callback name="UtilsCheckFilePredicate"
               c:type="NMUtilsCheckFilePredicate"
               throws="1">
@@ -31994,7 +33077,7 @@ generating the dynamic WEP keys automatically</doc>
               c:identifier="NM_VLAN_FLAG_GVRP"
               glib:nick="gvrp">
         <doc xml:space="preserve">indicates that this interface should use GVRP to register
- itself with it's switch</doc>
+ itself with its switch</doc>
       </member>
       <member name="loose_binding"
               value="4"
@@ -32009,7 +33092,7 @@ generating the dynamic WEP keys automatically</doc>
               c:identifier="NM_VLAN_FLAG_MVRP"
               glib:nick="mvrp">
         <doc xml:space="preserve">indicates that this interface should use MVRP to register
- itself with it's switch</doc>
+ itself with its switch</doc>
       </member>
     </bitfield>
     <enumeration name="VlanPriorityMap"
@@ -32602,11 +33685,8 @@ as you could for nm_vpn_editor_plugin_load().</doc>
           <instance-parameter name="plugin" transfer-ownership="none">
             <type name="VpnEditorPlugin" c:type="NMVpnEditorPlugin*"/>
           </instance-parameter>
-          <parameter name="plugin_info"
-                     transfer-ownership="none"
-                     nullable="1"
-                     allow-none="1">
-            <type name="gpointer" c:type="NMVpnPluginInfo*"/>
+          <parameter name="plugin_info" transfer-ownership="none">
+            <type name="VpnPluginInfo" c:type="NMVpnPluginInfo*"/>
           </parameter>
         </parameters>
       </virtual-method>
@@ -32661,9 +33741,9 @@ as you could for nm_vpn_editor_plugin_load().</doc>
       <method name="get_plugin_info"
               c:identifier="nm_vpn_editor_plugin_get_plugin_info"
               version="1.4">
-        <return-value transfer-ownership="none" nullable="1">
+        <return-value transfer-ownership="none">
           <doc xml:space="preserve">if set, return the #NMVpnPluginInfo instance.</doc>
-          <type name="gpointer" c:type="NMVpnPluginInfo*"/>
+          <type name="VpnPluginInfo" c:type="NMVpnPluginInfo*"/>
         </return-value>
         <parameters>
           <instance-parameter name="plugin" transfer-ownership="none">
@@ -32755,7 +33835,7 @@ reference as the plugin-info might also reference the editor-plugin.</doc>
                      nullable="1"
                      allow-none="1">
             <doc xml:space="preserve">a #NMVpnPluginInfo instance or %NULL</doc>
-            <type name="gpointer" c:type="NMVpnPluginInfo*"/>
+            <type name="VpnPluginInfo" c:type="NMVpnPluginInfo*"/>
           </parameter>
         </parameters>
       </method>
@@ -32898,11 +33978,8 @@ reference as the plugin-info might also reference the editor-plugin.</doc>
             <parameter name="plugin" transfer-ownership="none">
               <type name="VpnEditorPlugin" c:type="NMVpnEditorPlugin*"/>
             </parameter>
-            <parameter name="plugin_info"
-                       transfer-ownership="none"
-                       nullable="1"
-                       allow-none="1">
-              <type name="gpointer" c:type="NMVpnPluginInfo*"/>
+            <parameter name="plugin_info" transfer-ownership="none">
+              <type name="VpnPluginInfo" c:type="NMVpnPluginInfo*"/>
             </parameter>
           </parameters>
         </callback>
@@ -34651,6 +35728,25 @@ information to complete the request.</doc>
           </parameter>
         </parameters>
       </method>
+      <method name="shutdown"
+              c:identifier="nm_vpn_service_plugin_shutdown"
+              version="1.12">
+        <doc xml:space="preserve">Shutdown the @plugin and disconnect from D-Bus. After this,
+the plugin instance is dead and should no longer be used.
+It ensures to get no more requests from D-Bus. In principle,
+you don't need to shutdown the plugin, disposing the instance
+has the same effect. However, this gives a way to deactivate
+the plugin before giving up the last reference.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="plugin" transfer-ownership="none">
+            <doc xml:space="preserve">the #NMVpnServicePlugin instance</doc>
+            <type name="VpnServicePlugin" c:type="NMVpnServicePlugin*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <property name="service-name"
                 version="1.2"
                 writable="1"
@@ -35665,6 +36761,12 @@ recognized by NetworkManager.</doc>
         </parameter>
       </parameters>
     </function>
+    <function name="utils_get_timestamp_msec"
+              c:identifier="nm_utils_get_timestamp_msec">
+      <return-value transfer-ownership="none">
+        <type name="gint64" c:type="gint64"/>
+      </return-value>
+    </function>
     <function name="utils_hexstr2bin" c:identifier="nm_utils_hexstr2bin">
       <doc xml:space="preserve">Converts a hexadecimal string @hex into an array of bytes.  The optional
 separator ':' may be used between single or pairs of hexadecimal characters,
@@ -35715,12 +36817,11 @@ Bytes in @asc can be sepatared by colons (:), or hyphens (-), but not mixed.</do
           <doc xml:space="preserve">the ASCII representation of a hardware address</doc>
           <type name="utf8" c:type="const char*"/>
         </parameter>
-        <parameter name="buffer"
-                   transfer-ownership="none"
-                   nullable="1"
-                   allow-none="1">
+        <parameter name="buffer" transfer-ownership="none">
           <doc xml:space="preserve">buffer to store the result into</doc>
-          <type name="gpointer" c:type="gpointer"/>
+          <array length="2" zero-terminated="0" c:type="gpointer">
+            <type name="guint8" c:type="gpointer"/>
+          </array>
         </parameter>
         <parameter name="length" transfer-ownership="none">
           <doc xml:space="preserve">the expected length in bytes of the result and
@@ -35899,7 +37000,7 @@ length.</doc>
  characters. If set to %NULL, it will return a pointer to an internal, static
  buffer (shared with nm_utils_inet6_ntop()).  Beware, that the internal
  buffer will be overwritten with ever new call of nm_utils_inet4_ntop() or
- nm_utils_inet6_ntop() that does not provied it's own @dst buffer. Also,
+ nm_utils_inet6_ntop() that does not provide its own @dst buffer. Also,
  using the internal buffer is not thread safe. When in doubt, pass your own
  @dst buffer to avoid these issues.</doc>
           <type name="utf8" c:type="char*"/>
@@ -35931,7 +37032,7 @@ length.</doc>
  characters. If set to %NULL, it will return a pointer to an internal, static
  buffer (shared with nm_utils_inet4_ntop()).  Beware, that the internal
  buffer will be overwritten with ever new call of nm_utils_inet4_ntop() or
- nm_utils_inet6_ntop() that does not provied it's own @dst buffer. Also,
+ nm_utils_inet6_ntop() that does not provide its own @dst buffer. Also,
  using the internal buffer is not thread safe. When in doubt, pass your own
  @dst buffer to avoid these issues.</doc>
           <type name="utf8" c:type="char*"/>
@@ -35996,7 +37097,6 @@ gateway). The "gateway" field of the first address will get the value of
         </parameter>
       </parameters>
     </function>
-<!--
     <function name="utils_ip4_dns_from_variant"
               c:identifier="nm_utils_ip4_dns_from_variant">
       <doc xml:space="preserve">Utility function to convert a #GVariant of type 'au' representing a list of
@@ -36012,7 +37112,6 @@ IPv4 addresses into an array of IP address strings.</doc>
         </parameter>
       </parameters>
     </function>
--->
     <function name="utils_ip4_dns_to_variant"
               c:identifier="nm_utils_ip4_dns_to_variant">
       <doc xml:space="preserve">Utility function to convert an array of IP address strings int a #GVariant of
@@ -36416,10 +37515,11 @@ function in net/core/dev.c.</doc>
               throws="1">
       <doc xml:space="preserve">Parse attributes from a string.</doc>
       <return-value transfer-ownership="full">
-        <doc xml:space="preserve">a #GHashTable mapping attribute names to #GVariant values.</doc>
+        <doc xml:space="preserve">a #GHashTable mapping
+attribute names to #GVariant values.</doc>
         <type name="GLib.HashTable" c:type="GHashTable*">
-          <type name="gpointer" c:type="gpointer"/>
-          <type name="gpointer" c:type="gpointer"/>
+          <type name="utf8"/>
+          <type name="GLib.Variant"/>
         </type>
       </return-value>
       <parameters>
@@ -36577,7 +37677,7 @@ Returns %NULL on errors.</doc>
     </function>
     <function name="utils_tc_action_from_str"
               c:identifier="nm_utils_tc_action_from_str"
-              version="1.10.2"
+              version="1.12"
               throws="1">
       <doc xml:space="preserve">Parces the tc style string action representation of the queueing
 discipline to a %NMTCAction instance. Supports a subset of the tc language.</doc>
@@ -36594,7 +37694,7 @@ discipline to a %NMTCAction instance. Supports a subset of the tc language.</doc
     </function>
     <function name="utils_tc_action_to_str"
               c:identifier="nm_utils_tc_action_to_str"
-              version="1.10.2"
+              version="1.12"
               throws="1">
       <doc xml:space="preserve">Turns the %NMTCAction into a tc style string representation of the queueing
 discipline.</doc>
@@ -36611,7 +37711,7 @@ discipline.</doc>
     </function>
     <function name="utils_tc_qdisc_from_str"
               c:identifier="nm_utils_tc_qdisc_from_str"
-              version="1.10.2"
+              version="1.12"
               throws="1">
       <doc xml:space="preserve">Parces the tc style string qdisc representation of the queueing
 discipline to a %NMTCQdisc instance. Supports a subset of the tc language.</doc>
@@ -36628,7 +37728,7 @@ discipline to a %NMTCQdisc instance. Supports a subset of the tc language.</doc>
     </function>
     <function name="utils_tc_qdisc_to_str"
               c:identifier="nm_utils_tc_qdisc_to_str"
-              version="1.10.2"
+              version="1.12"
               throws="1">
       <doc xml:space="preserve">Turns the %NMTCQdisc into a tc style string representation of the queueing
 discipline.</doc>
@@ -36645,7 +37745,7 @@ discipline.</doc>
     </function>
     <function name="utils_tc_tfilter_from_str"
               c:identifier="nm_utils_tc_tfilter_from_str"
-              version="1.10.2"
+              version="1.12"
               throws="1">
       <doc xml:space="preserve">Parces the tc style string tfilter representation of the queueing
 discipline to a %NMTCTfilter instance. Supports a subset of the tc language.</doc>
@@ -36662,7 +37762,7 @@ discipline to a %NMTCTfilter instance. Supports a subset of the tc language.</do
     </function>
     <function name="utils_tc_tfilter_to_str"
               c:identifier="nm_utils_tc_tfilter_to_str"
-              version="1.10.2"
+              version="1.12"
               throws="1">
       <doc xml:space="preserve">Turns the %NMTCTfilter into a tc style string representation of the queueing
 discipline.</doc>
@@ -36805,9 +37905,12 @@ object's #NMSettingConnection:id: property.  Should be freed with g_free()</doc>
     <function name="utils_wifi_strength_bars"
               c:identifier="nm_utils_wifi_strength_bars">
       <doc xml:space="preserve">Converts @strength into a 4-character-wide graphical representation of
-strength suitable for printing to stdout. If the current locale and terminal
-support it, this will use unicode graphics characters to represent
-"bars". Otherwise it will use 0 to 4 asterisks.</doc>
+strength suitable for printing to stdout.
+
+Previous versions used to take a guess at the terminal type and possibly
+return a wide UTF-8 encoded string. Now it always returns a 7-bit
+clean strings of one to 0 to 4 asterisks. Users that actually need
+the functionality are encouraged to make their implementations instead.</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve">the graphical representation of the access point strength</doc>
         <type name="utf8" c:type="const char*"/>
@@ -36863,7 +37966,6 @@ nm_vpn_editor_plugin_load_from_file() is preferred.</doc>
         </parameter>
       </parameters>
     </function>
-<!--
     <function name="vpn_editor_plugin_load_from_file"
               c:identifier="nm_vpn_editor_plugin_load_from_file"
               moved-to="VpnEditorPlugin.load_from_file"
@@ -36919,7 +38021,6 @@ as you could for nm_vpn_editor_plugin_load().</doc>
         </parameter>
       </parameters>
     </function>
--->
     <function name="vpn_plugin_error_quark"
               c:identifier="nm_vpn_plugin_error_quark"
               moved-to="VpnPluginError.quark">
