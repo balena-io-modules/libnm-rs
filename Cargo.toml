@@ -5,6 +5,7 @@ authors = ["majorz"]
 
 [dependencies]
 libc = "0.2"
+bitflags = "1.0"
 
 [dependencies.nm-sys]
 path = "nm-sys"
