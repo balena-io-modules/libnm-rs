@@ -11,9 +11,6 @@ extern crate bitflags;
 //extern crate lazy_static;
 extern crate libc;
 
-#[macro_use]
-mod rt;
-
 mod auto;
 
 pub use auto::*;
