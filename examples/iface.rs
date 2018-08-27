@@ -5,7 +5,10 @@ use nm::prelude::*;
 fn main() {
     let client = nm::Client::new(None).unwrap();
     for device in client.get_devices() {
-        
-        println!("{}: {}", device.get_iface().unwrap(), device.downcast::<nm::DeviceWifi>().is_ok());
+        println!(
+            "{}: {}",
+            device.get_iface().unwrap(),
+            device.downcast::<nm::DeviceWifi>().is_ok()
+        );
     }
 }
