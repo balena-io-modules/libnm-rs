@@ -3,17 +3,16 @@
 // DO NOT EDIT
 
 use ffi;
-use glib::StaticType;
-use glib::Type;
 use glib::translate::*;
 use glib::value::FromValue;
 use glib::value::FromValueOptional;
 use glib::value::SetValue;
 use glib::value::Value;
+use glib::StaticType;
+use glib::Type;
 use gobject_ffi;
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum _80211Mode {
     Unknown,
     Adhoc,
@@ -33,7 +32,7 @@ impl ToGlib for _80211Mode {
             _80211Mode::Adhoc => ffi::NM_802_11_MODE_ADHOC,
             _80211Mode::Infra => ffi::NM_802_11_MODE_INFRA,
             _80211Mode::Ap => ffi::NM_802_11_MODE_AP,
-            _80211Mode::__Unknown(value) => value
+            _80211Mode::__Unknown(value) => value,
         }
     }
 }
@@ -75,8 +74,7 @@ impl SetValue for _80211Mode {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum ConnectivityState {
     Unknown,
     None,
@@ -98,7 +96,7 @@ impl ToGlib for ConnectivityState {
             ConnectivityState::Portal => ffi::NM_CONNECTIVITY_PORTAL,
             ConnectivityState::Limited => ffi::NM_CONNECTIVITY_LIMITED,
             ConnectivityState::Full => ffi::NM_CONNECTIVITY_FULL,
-            ConnectivityState::__Unknown(value) => value
+            ConnectivityState::__Unknown(value) => value,
         }
     }
 }
@@ -141,8 +139,7 @@ impl SetValue for ConnectivityState {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum State {
     Unknown,
     Asleep,
@@ -170,7 +167,7 @@ impl ToGlib for State {
             State::ConnectedLocal => ffi::NM_STATE_CONNECTED_LOCAL,
             State::ConnectedSite => ffi::NM_STATE_CONNECTED_SITE,
             State::ConnectedGlobal => ffi::NM_STATE_CONNECTED_GLOBAL,
-            State::__Unknown(value) => value
+            State::__Unknown(value) => value,
         }
     }
 }
@@ -215,4 +212,3 @@ impl SetValue for State {
         gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
     }
 }
-

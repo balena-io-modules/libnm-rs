@@ -15,5 +15,8 @@ echo 'Generate NM auto bindings...'
 echo 'Replace 80211Mode with _80211Mode...'
 grep -lr -w 80211Mode ./src/auto/*.rs | xargs sed -i 's/\b80211Mode\b/_80211Mode/g'
 
+echo 'Formatting code...'
+cargo fmt
+
 echo 'Run connectivity example...'
 cargo run --example connectivity

@@ -2,13 +2,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files @ ???)
 // DO NOT EDIT
 
-use Error;
 use ffi;
 use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::SignalHandlerId;
 use glib::signal::connect;
+use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib_ffi;
 use gobject_ffi;
@@ -17,6 +16,7 @@ use std::boxed::Box as Box_;
 use std::mem;
 use std::mem::transmute;
 use std::ptr;
+use Error;
 
 glib_wrapper! {
     pub struct Connection(Object<ffi::NMConnection, ffi::NMConnectionInterface>);
@@ -218,26 +218,22 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
 
     fn get_connection_type(&self) -> Option<String> {
         unsafe {
-            from_glib_none(ffi::nm_connection_get_connection_type(self.to_glib_none().0))
+            from_glib_none(ffi::nm_connection_get_connection_type(
+                self.to_glib_none().0,
+            ))
         }
     }
 
     fn get_id(&self) -> Option<String> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_id(self.to_glib_none().0))
-        }
+        unsafe { from_glib_none(ffi::nm_connection_get_id(self.to_glib_none().0)) }
     }
 
     fn get_interface_name(&self) -> Option<String> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_interface_name(self.to_glib_none().0))
-        }
+        unsafe { from_glib_none(ffi::nm_connection_get_interface_name(self.to_glib_none().0)) }
     }
 
     fn get_path(&self) -> Option<String> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_path(self.to_glib_none().0))
-        }
+        unsafe { from_glib_none(ffi::nm_connection_get_path(self.to_glib_none().0)) }
     }
 
     //fn get_setting(&self, setting_type: glib::types::Type) -> /*Ignored*/Option<Setting> {
@@ -414,27 +410,28 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     //}
 
     fn get_uuid(&self) -> Option<String> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_uuid(self.to_glib_none().0))
-        }
+        unsafe { from_glib_none(ffi::nm_connection_get_uuid(self.to_glib_none().0)) }
     }
 
     fn get_virtual_device_description(&self) -> Option<String> {
         unsafe {
-            from_glib_full(ffi::nm_connection_get_virtual_device_description(self.to_glib_none().0))
+            from_glib_full(ffi::nm_connection_get_virtual_device_description(
+                self.to_glib_none().0,
+            ))
         }
     }
 
     fn is_type(&self, type_: &str) -> bool {
         unsafe {
-            from_glib(ffi::nm_connection_is_type(self.to_glib_none().0, type_.to_glib_none().0))
+            from_glib(ffi::nm_connection_is_type(
+                self.to_glib_none().0,
+                type_.to_glib_none().0,
+            ))
         }
     }
 
     fn is_virtual(&self) -> bool {
-        unsafe {
-            from_glib(ffi::nm_connection_is_virtual(self.to_glib_none().0))
-        }
+        unsafe { from_glib(ffi::nm_connection_is_virtual(self.to_glib_none().0)) }
     }
 
     //fn need_secrets(&self, hints: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 0, id: 28 }) -> Option<String> {
@@ -454,14 +451,25 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     fn replace_settings(&self, new_settings: &glib::Variant) -> Result<(), Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_connection_replace_settings(self.to_glib_none().0, new_settings.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = ffi::nm_connection_replace_settings(
+                self.to_glib_none().0,
+                new_settings.to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn replace_settings_from_connection<P: IsA<Connection>>(&self, new_connection: &P) {
         unsafe {
-            ffi::nm_connection_replace_settings_from_connection(self.to_glib_none().0, new_connection.to_glib_none().0);
+            ffi::nm_connection_replace_settings_from_connection(
+                self.to_glib_none().0,
+                new_connection.to_glib_none().0,
+            );
         }
     }
 
@@ -478,8 +486,17 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     fn update_secrets(&self, setting_name: &str, secrets: &glib::Variant) -> Result<(), Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_connection_update_secrets(self.to_glib_none().0, setting_name.to_glib_none().0, secrets.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = ffi::nm_connection_update_secrets(
+                self.to_glib_none().0,
+                setting_name.to_glib_none().0,
+                secrets.to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
@@ -487,7 +504,11 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = ffi::nm_connection_verify(self.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
@@ -495,49 +516,79 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = ffi::nm_connection_verify_secrets(self.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(self.to_glib_none().0, "changed",
-                transmute(changed_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+            connect(
+                self.to_glib_none().0,
+                "changed",
+                transmute(changed_trampoline::<Self> as usize),
+                Box_::into_raw(f) as *mut _,
+            )
         }
     }
 
     fn connect_secrets_cleared<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(self.to_glib_none().0, "secrets-cleared",
-                transmute(secrets_cleared_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+            connect(
+                self.to_glib_none().0,
+                "secrets-cleared",
+                transmute(secrets_cleared_trampoline::<Self> as usize),
+                Box_::into_raw(f) as *mut _,
+            )
         }
     }
 
     fn connect_secrets_updated<F: Fn(&Self, &str) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self, &str) + 'static>> = Box_::new(Box_::new(f));
-            connect(self.to_glib_none().0, "secrets-updated",
-                transmute(secrets_updated_trampoline::<Self> as usize), Box_::into_raw(f) as *mut _)
+            connect(
+                self.to_glib_none().0,
+                "secrets-updated",
+                transmute(secrets_updated_trampoline::<Self> as usize),
+                Box_::into_raw(f) as *mut _,
+            )
         }
     }
 }
 
 unsafe extern "C" fn changed_trampoline<P>(this: *mut ffi::NMConnection, f: glib_ffi::gpointer)
-where P: IsA<Connection> {
+where
+    P: IsA<Connection>,
+{
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&Connection::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn secrets_cleared_trampoline<P>(this: *mut ffi::NMConnection, f: glib_ffi::gpointer)
-where P: IsA<Connection> {
+unsafe extern "C" fn secrets_cleared_trampoline<P>(
+    this: *mut ffi::NMConnection,
+    f: glib_ffi::gpointer,
+) where
+    P: IsA<Connection>,
+{
     let f: &&(Fn(&P) + 'static) = transmute(f);
     f(&Connection::from_glib_borrow(this).downcast_unchecked())
 }
 
-unsafe extern "C" fn secrets_updated_trampoline<P>(this: *mut ffi::NMConnection, setting_name: *mut libc::c_char, f: glib_ffi::gpointer)
-where P: IsA<Connection> {
+unsafe extern "C" fn secrets_updated_trampoline<P>(
+    this: *mut ffi::NMConnection,
+    setting_name: *mut libc::c_char,
+    f: glib_ffi::gpointer,
+) where
+    P: IsA<Connection>,
+{
     let f: &&(Fn(&P, &str) + 'static) = transmute(f);
-    f(&Connection::from_glib_borrow(this).downcast_unchecked(), &String::from_glib_none(setting_name))
+    f(
+        &Connection::from_glib_borrow(this).downcast_unchecked(),
+        &String::from_glib_none(setting_name),
+    )
 }
