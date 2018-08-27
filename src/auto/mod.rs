@@ -31,7 +31,7 @@ pub use self::remote_connection::RemoteConnection;
 pub use self::remote_connection::RemoteConnectionExt;
 
 mod enums;
-pub use self::enums::80211Mode;
+pub use self::enums::_80211Mode;
 pub use self::enums::ConnectivityState;
 pub use self::enums::State;
 

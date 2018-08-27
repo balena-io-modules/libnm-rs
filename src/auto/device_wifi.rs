@@ -2,7 +2,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files @ ???)
 // DO NOT EDIT
 
-use 80211Mode;
+use _80211Mode;
 use AccessPoint;
 use Device;
 use DeviceWifiCapabilities;
@@ -46,7 +46,7 @@ pub trait DeviceWifiExt: Sized {
 
     fn get_capabilities(&self) -> DeviceWifiCapabilities;
 
-    fn get_mode(&self) -> 80211Mode;
+    fn get_mode(&self) -> _80211Mode;
 
     fn get_permanent_hw_address(&self) -> Option<String>;
 
@@ -113,7 +113,7 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
         }
     }
 
-    fn get_mode(&self) -> 80211Mode {
+    fn get_mode(&self) -> _80211Mode {
         unsafe {
             from_glib(ffi::nm_device_wifi_get_mode(self.to_glib_none().0))
         }
