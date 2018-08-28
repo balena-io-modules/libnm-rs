@@ -137,6 +137,7 @@ manual = [
     "GLib.Error",
     "GLib.PtrArray",
     "GLib.Variant",
+    "GLib.VariantType",
     "Gio.AsyncReadyCallback",
     "Gio.Cancellable",
     "Gio.InputStream",

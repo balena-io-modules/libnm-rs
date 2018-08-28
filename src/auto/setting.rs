@@ -43,7 +43,7 @@ pub trait SettingExt {
 
     //fn enumerate_values<P: Into<Option</*Unimplemented*/Fundamental: Pointer>>>(&self, func: /*Unknown conversion*//*Unimplemented*/SettingValueIterFn, user_data: P);
 
-    //fn get_dbus_property_type(&self, property_name: &str) -> /*Ignored*/Option<glib::VariantType>;
+    fn get_dbus_property_type(&self, property_name: &str) -> Option<glib::VariantType>;
 
     fn get_name(&self) -> Option<String>;
 
@@ -87,9 +87,14 @@ impl<O: IsA<Setting> + IsA<glib::object::Object>> SettingExt for O {
     //    unsafe { TODO: call ffi::nm_setting_enumerate_values() }
     //}
 
-    //fn get_dbus_property_type(&self, property_name: &str) -> /*Ignored*/Option<glib::VariantType> {
-    //    unsafe { TODO: call ffi::nm_setting_get_dbus_property_type() }
-    //}
+    fn get_dbus_property_type(&self, property_name: &str) -> Option<glib::VariantType> {
+        unsafe {
+            from_glib_none(ffi::nm_setting_get_dbus_property_type(
+                self.to_glib_none().0,
+                property_name.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_name(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_setting_get_name(self.to_glib_none().0)) }
