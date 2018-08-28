@@ -75,6 +75,181 @@ impl SetValue for _80211Mode {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum ClientPermission {
+    None,
+    EnableDisableNetwork,
+    EnableDisableWifi,
+    EnableDisableWwan,
+    EnableDisableWimax,
+    SleepWake,
+    NetworkControl,
+    WifiShareProtected,
+    WifiShareOpen,
+    SettingsModifySystem,
+    SettingsModifyOwn,
+    SettingsModifyHostname,
+    SettingsModifyGlobalDns,
+    Reload,
+    CheckpointRollback,
+    EnableDisableStatistics,
+    EnableDisableConnectivityCheck,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for ClientPermission {
+    type GlibType = ffi::NMClientPermission;
+
+    fn to_glib(&self) -> ffi::NMClientPermission {
+        match *self {
+            ClientPermission::None => ffi::NM_CLIENT_PERMISSION_NONE,
+            ClientPermission::EnableDisableNetwork => {
+                ffi::NM_CLIENT_PERMISSION_ENABLE_DISABLE_NETWORK
+            }
+            ClientPermission::EnableDisableWifi => ffi::NM_CLIENT_PERMISSION_ENABLE_DISABLE_WIFI,
+            ClientPermission::EnableDisableWwan => ffi::NM_CLIENT_PERMISSION_ENABLE_DISABLE_WWAN,
+            ClientPermission::EnableDisableWimax => ffi::NM_CLIENT_PERMISSION_ENABLE_DISABLE_WIMAX,
+            ClientPermission::SleepWake => ffi::NM_CLIENT_PERMISSION_SLEEP_WAKE,
+            ClientPermission::NetworkControl => ffi::NM_CLIENT_PERMISSION_NETWORK_CONTROL,
+            ClientPermission::WifiShareProtected => ffi::NM_CLIENT_PERMISSION_WIFI_SHARE_PROTECTED,
+            ClientPermission::WifiShareOpen => ffi::NM_CLIENT_PERMISSION_WIFI_SHARE_OPEN,
+            ClientPermission::SettingsModifySystem => {
+                ffi::NM_CLIENT_PERMISSION_SETTINGS_MODIFY_SYSTEM
+            }
+            ClientPermission::SettingsModifyOwn => ffi::NM_CLIENT_PERMISSION_SETTINGS_MODIFY_OWN,
+            ClientPermission::SettingsModifyHostname => {
+                ffi::NM_CLIENT_PERMISSION_SETTINGS_MODIFY_HOSTNAME
+            }
+            ClientPermission::SettingsModifyGlobalDns => {
+                ffi::NM_CLIENT_PERMISSION_SETTINGS_MODIFY_GLOBAL_DNS
+            }
+            ClientPermission::Reload => ffi::NM_CLIENT_PERMISSION_RELOAD,
+            ClientPermission::CheckpointRollback => ffi::NM_CLIENT_PERMISSION_CHECKPOINT_ROLLBACK,
+            ClientPermission::EnableDisableStatistics => {
+                ffi::NM_CLIENT_PERMISSION_ENABLE_DISABLE_STATISTICS
+            }
+            ClientPermission::EnableDisableConnectivityCheck => {
+                ffi::NM_CLIENT_PERMISSION_ENABLE_DISABLE_CONNECTIVITY_CHECK
+            }
+            ClientPermission::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMClientPermission> for ClientPermission {
+    fn from_glib(value: ffi::NMClientPermission) -> Self {
+        match value {
+            0 => ClientPermission::None,
+            1 => ClientPermission::EnableDisableNetwork,
+            2 => ClientPermission::EnableDisableWifi,
+            3 => ClientPermission::EnableDisableWwan,
+            4 => ClientPermission::EnableDisableWimax,
+            5 => ClientPermission::SleepWake,
+            6 => ClientPermission::NetworkControl,
+            7 => ClientPermission::WifiShareProtected,
+            8 => ClientPermission::WifiShareOpen,
+            9 => ClientPermission::SettingsModifySystem,
+            10 => ClientPermission::SettingsModifyOwn,
+            11 => ClientPermission::SettingsModifyHostname,
+            12 => ClientPermission::SettingsModifyGlobalDns,
+            13 => ClientPermission::Reload,
+            14 => ClientPermission::CheckpointRollback,
+            15 => ClientPermission::EnableDisableStatistics,
+            16 => ClientPermission::EnableDisableConnectivityCheck,
+            value => ClientPermission::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for ClientPermission {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_client_permission_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for ClientPermission {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for ClientPermission {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for ClientPermission {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum ClientPermissionResult {
+    Unknown,
+    Yes,
+    Auth,
+    No,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for ClientPermissionResult {
+    type GlibType = ffi::NMClientPermissionResult;
+
+    fn to_glib(&self) -> ffi::NMClientPermissionResult {
+        match *self {
+            ClientPermissionResult::Unknown => ffi::NM_CLIENT_PERMISSION_RESULT_UNKNOWN,
+            ClientPermissionResult::Yes => ffi::NM_CLIENT_PERMISSION_RESULT_YES,
+            ClientPermissionResult::Auth => ffi::NM_CLIENT_PERMISSION_RESULT_AUTH,
+            ClientPermissionResult::No => ffi::NM_CLIENT_PERMISSION_RESULT_NO,
+            ClientPermissionResult::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMClientPermissionResult> for ClientPermissionResult {
+    fn from_glib(value: ffi::NMClientPermissionResult) -> Self {
+        match value {
+            0 => ClientPermissionResult::Unknown,
+            1 => ClientPermissionResult::Yes,
+            2 => ClientPermissionResult::Auth,
+            3 => ClientPermissionResult::No,
+            value => ClientPermissionResult::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for ClientPermissionResult {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_client_permission_result_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for ClientPermissionResult {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for ClientPermissionResult {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for ClientPermissionResult {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum ConnectivityState {
     Unknown,
     None,

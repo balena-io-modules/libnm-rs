@@ -41,11 +41,15 @@ pub use self::setting::Setting;
 pub use self::setting::SettingExt;
 
 mod enums;
+pub use self::enums::ClientPermission;
+pub use self::enums::ClientPermissionResult;
 pub use self::enums::ConnectivityState;
 pub use self::enums::State;
 pub use self::enums::_80211Mode;
 
 mod flags;
+#[cfg(any(feature = "v1_4", feature = "dox"))]
+pub use self::flags::CheckpointCreateFlags;
 pub use self::flags::DeviceWifiCapabilities;
 
 #[doc(hidden)]

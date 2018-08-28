@@ -21,6 +21,8 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use ActiveConnection;
+use ClientPermission;
+use ClientPermissionResult;
 use Connection;
 use ConnectivityState;
 use Device;
@@ -492,13 +494,13 @@ impl Client {
     }
 
     //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //pub fn checkpoint_create<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<Checkpoint, Error>) + Send + 'static>(&self, devices: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 }, rollback_timeout: u32, flags: /*Ignored*/CheckpointCreateFlags, cancellable: P, callback: Q) {
+    //pub fn checkpoint_create<'a, P: Into<Option<&'a gio::Cancellable>>, Q: FnOnce(Result<Checkpoint, Error>) + Send + 'static>(&self, devices: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 }, rollback_timeout: u32, flags: CheckpointCreateFlags, cancellable: P, callback: Q) {
     //    unsafe { TODO: call ffi::nm_client_checkpoint_create() }
     //}
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //pub fn checkpoint_create_future(&self, devices: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 }, rollback_timeout: u32, flags: /*Ignored*/CheckpointCreateFlags) -> Box_<futures_core::Future<Item = (Self, Checkpoint), Error = (Self, Error)>> {
+    //pub fn checkpoint_create_future(&self, devices: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 }, rollback_timeout: u32, flags: CheckpointCreateFlags) -> Box_<futures_core::Future<Item = (Self, Checkpoint), Error = (Self, Error)>> {
     //use gio::GioFuture;
     //use send_cell::SendCell;
 
@@ -813,9 +815,14 @@ impl Client {
         unsafe { from_glib(ffi::nm_client_get_nm_running(self.to_glib_none().0)) }
     }
 
-    //pub fn get_permission_result(&self, permission: /*Ignored*/ClientPermission) -> /*Ignored*/ClientPermissionResult {
-    //    unsafe { TODO: call ffi::nm_client_get_permission_result() }
-    //}
+    pub fn get_permission_result(&self, permission: ClientPermission) -> ClientPermissionResult {
+        unsafe {
+            from_glib(ffi::nm_client_get_permission_result(
+                self.to_glib_none().0,
+                permission.to_glib(),
+            ))
+        }
+    }
 
     pub fn get_primary_connection(&self) -> Option<ActiveConnection> {
         unsafe { from_glib_none(ffi::nm_client_get_primary_connection(self.to_glib_none().0)) }

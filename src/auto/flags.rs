@@ -12,6 +12,63 @@ use glib::StaticType;
 use glib::Type;
 use gobject_ffi;
 
+#[cfg(any(feature = "v1_4", feature = "dox"))]
+bitflags! {
+    pub struct CheckpointCreateFlags: u32 {
+        const NONE = 0;
+        const DESTROY_ALL = 1;
+        const DELETE_NEW_CONNECTIONS = 2;
+        const DISCONNECT_NEW_DEVICES = 4;
+        const ALLOW_OVERLAPPING = 8;
+    }
+}
+
+#[cfg(any(feature = "v1_4", feature = "dox"))]
+#[doc(hidden)]
+impl ToGlib for CheckpointCreateFlags {
+    type GlibType = ffi::NMCheckpointCreateFlags;
+
+    fn to_glib(&self) -> ffi::NMCheckpointCreateFlags {
+        self.bits()
+    }
+}
+
+#[cfg(any(feature = "v1_4", feature = "dox"))]
+#[doc(hidden)]
+impl FromGlib<ffi::NMCheckpointCreateFlags> for CheckpointCreateFlags {
+    fn from_glib(value: ffi::NMCheckpointCreateFlags) -> CheckpointCreateFlags {
+        CheckpointCreateFlags::from_bits_truncate(value)
+    }
+}
+
+#[cfg(any(feature = "v1_4", feature = "dox"))]
+impl StaticType for CheckpointCreateFlags {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_checkpoint_create_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_4", feature = "dox"))]
+impl<'a> FromValueOptional<'a> for CheckpointCreateFlags {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+#[cfg(any(feature = "v1_4", feature = "dox"))]
+impl<'a> FromValue<'a> for CheckpointCreateFlags {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_flags(value.to_glib_none().0))
+    }
+}
+
+#[cfg(any(feature = "v1_4", feature = "dox"))]
+impl SetValue for CheckpointCreateFlags {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
 bitflags! {
     pub struct DeviceWifiCapabilities: u32 {
         const NONE = 0;

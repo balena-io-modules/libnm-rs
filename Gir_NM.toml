@@ -19,6 +19,9 @@ generate = [
     "NM.State",
     "NM.Setting",
     "NM.Checkpoint",
+    "NM.CheckpointCreateFlags",
+    "NM.ClientPermission",
+    "NM.ClientPermissionResult",
 ]
 
 manual = [
