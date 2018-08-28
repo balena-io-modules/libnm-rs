@@ -2413,6 +2413,83 @@ impl SetValue for State {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum UtilsSecurityType {
+    Invalid,
+    None,
+    StaticWep,
+    Leap,
+    DynamicWep,
+    WpaPsk,
+    WpaEnterprise,
+    Wpa2Psk,
+    Wpa2Enterprise,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for UtilsSecurityType {
+    type GlibType = ffi::NMUtilsSecurityType;
+
+    fn to_glib(&self) -> ffi::NMUtilsSecurityType {
+        match *self {
+            UtilsSecurityType::Invalid => ffi::NMU_SEC_INVALID,
+            UtilsSecurityType::None => ffi::NMU_SEC_NONE,
+            UtilsSecurityType::StaticWep => ffi::NMU_SEC_STATIC_WEP,
+            UtilsSecurityType::Leap => ffi::NMU_SEC_LEAP,
+            UtilsSecurityType::DynamicWep => ffi::NMU_SEC_DYNAMIC_WEP,
+            UtilsSecurityType::WpaPsk => ffi::NMU_SEC_WPA_PSK,
+            UtilsSecurityType::WpaEnterprise => ffi::NMU_SEC_WPA_ENTERPRISE,
+            UtilsSecurityType::Wpa2Psk => ffi::NMU_SEC_WPA2_PSK,
+            UtilsSecurityType::Wpa2Enterprise => ffi::NMU_SEC_WPA2_ENTERPRISE,
+            UtilsSecurityType::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMUtilsSecurityType> for UtilsSecurityType {
+    fn from_glib(value: ffi::NMUtilsSecurityType) -> Self {
+        match value {
+            0 => UtilsSecurityType::Invalid,
+            1 => UtilsSecurityType::None,
+            2 => UtilsSecurityType::StaticWep,
+            3 => UtilsSecurityType::Leap,
+            4 => UtilsSecurityType::DynamicWep,
+            5 => UtilsSecurityType::WpaPsk,
+            6 => UtilsSecurityType::WpaEnterprise,
+            7 => UtilsSecurityType::Wpa2Psk,
+            8 => UtilsSecurityType::Wpa2Enterprise,
+            value => UtilsSecurityType::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for UtilsSecurityType {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_utils_security_type_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for UtilsSecurityType {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for UtilsSecurityType {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for UtilsSecurityType {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum VlanPriorityMap {
     IngressMap,
     EgressMap,

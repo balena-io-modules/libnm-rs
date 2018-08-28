@@ -118,6 +118,7 @@ generate = [
     "NM.TCTfilter",
     "NM.TeamLinkWatcher",
     "NM.TeamLinkWatcherArpPingFlags",
+    "NM.UtilsSecurityType",
     "NM.VlanFlags",
     "NM.VlanPriorityMap",
     "NM.VpnConnection",
@@ -134,7 +135,9 @@ generate = [
 manual = [
     "GObject.Object",
     "GLib.Bytes",
+    "GLib.FileTest",
     "GLib.Error",
+    "GLib.KeyFile",
     "GLib.PtrArray",
     "GLib.Variant",
     "GLib.VariantType",
@@ -316,5 +319,60 @@ status = "generate"
 
     [[object.function]]
     name = "set_private_key"
+    # Does not compile
+    ignore = true
+
+
+[[object]]
+name = "NM.*"
+status = "generate"
+
+    [[object.function]]
+    name = "utils_bin2hexstr"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "utils_hwaddr_aton"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "utils_hwaddr_ntoa"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "utils_inet4_ntop"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "utils_ip4_dns_from_variant"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "utils_ip4_dns_to_variant"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "utils_ip6_dns_from_variant"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "utils_ip6_dns_to_variant"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "utils_wifi_2ghz_freqs"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "utils_wifi_5ghz_freqs"
     # Does not compile
     ignore = true

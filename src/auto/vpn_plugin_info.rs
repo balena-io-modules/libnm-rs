@@ -51,9 +51,21 @@ impl VpnPluginInfo {
         unsafe { from_glib_full(ffi::nm_vpn_plugin_info_new_search_file(name.0, service.0)) }
     }
 
-    //pub fn new_with_data(filename: &str, keyfile: /*Ignored*/&glib::KeyFile) -> Result<VpnPluginInfo, Error> {
-    //    unsafe { TODO: call ffi::nm_vpn_plugin_info_new_with_data() }
-    //}
+    pub fn new_with_data(filename: &str, keyfile: &glib::KeyFile) -> Result<VpnPluginInfo, Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let ret = ffi::nm_vpn_plugin_info_new_with_data(
+                filename.to_glib_none().0,
+                keyfile.to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(from_glib_full(ret))
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn list_find_service_type(list: &[VpnPluginInfo], name: &str) -> Option<String> {
