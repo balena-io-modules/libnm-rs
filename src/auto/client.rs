@@ -7,7 +7,6 @@ use ffi;
 use futures_core;
 use gio;
 use gio_ffi;
-use glib;
 use glib::object::IsA;
 use glib::signal::connect;
 use glib::signal::SignalHandlerId;
