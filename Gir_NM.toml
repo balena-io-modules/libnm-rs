@@ -53,9 +53,9 @@ generate = [
     "NM.IPTunnelMode",
     "NM.Metered",
     "NM.RemoteConnection",
-    "NM.Setting8021x",
     "NM.Setting8021xAuthFlags",
     "NM.Setting8021xCKScheme",
+    "NM.Setting8021xCKFormat",
     "NM.SettingAdsl",
     "NM.SettingBluetooth",
     "NM.SettingBond",
@@ -281,5 +281,40 @@ status = "generate"
 
     [[object.function]]
     name = "secrets_required"
+    # Does not compile
+    ignore = true
+
+
+[[object]]
+name = "NM.Setting8021x"
+status = "generate"
+
+    [[object.function]]
+    name = "set_ca_cert"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "set_client_cert"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "set_phase2_ca_cert"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "set_phase2_client_cert"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "set_phase2_private_key"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "set_private_key"
     # Does not compile
     ignore = true

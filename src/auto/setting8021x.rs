@@ -20,6 +20,7 @@ use std::ptr;
 use Setting;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
 use Setting8021xAuthFlags;
+use Setting8021xCKFormat;
 use Setting8021xCKScheme;
 use SettingSecretFlags;
 
@@ -172,7 +173,7 @@ pub trait Setting8021xExt {
 
     fn get_phase2_private_key_blob(&self) -> Option<glib::Bytes>;
 
-    //fn get_phase2_private_key_format(&self) -> /*Ignored*/Setting8021xCKFormat;
+    fn get_phase2_private_key_format(&self) -> Setting8021xCKFormat;
 
     fn get_phase2_private_key_password(&self) -> Option<String>;
 
@@ -193,7 +194,7 @@ pub trait Setting8021xExt {
 
     fn get_private_key_blob(&self) -> Option<glib::Bytes>;
 
-    //fn get_private_key_format(&self) -> /*Ignored*/Setting8021xCKFormat;
+    fn get_private_key_format(&self) -> Setting8021xCKFormat;
 
     fn get_private_key_password(&self) -> Option<String>;
 
@@ -222,18 +223,6 @@ pub trait Setting8021xExt {
 
     fn remove_phase2_altsubject_match_by_value(&self, phase2_altsubject_match: &str) -> bool;
 
-    //fn set_ca_cert(&self, value: &str, scheme: Setting8021xCKScheme, out_format: /*Ignored*/Setting8021xCKFormat) -> Result<(), Error>;
-
-    //fn set_client_cert(&self, value: &str, scheme: Setting8021xCKScheme, out_format: /*Ignored*/Setting8021xCKFormat) -> Result<(), Error>;
-
-    //fn set_phase2_ca_cert(&self, value: &str, scheme: Setting8021xCKScheme, out_format: /*Ignored*/Setting8021xCKFormat) -> Result<(), Error>;
-
-    //fn set_phase2_client_cert(&self, value: &str, scheme: Setting8021xCKScheme, out_format: /*Ignored*/Setting8021xCKFormat) -> Result<(), Error>;
-
-    //fn set_phase2_private_key(&self, value: &str, password: &str, scheme: Setting8021xCKScheme, out_format: /*Ignored*/Setting8021xCKFormat) -> Result<(), Error>;
-
-    //fn set_private_key(&self, value: &str, password: &str, scheme: Setting8021xCKScheme, out_format: /*Ignored*/Setting8021xCKFormat) -> Result<(), Error>;
-
     fn get_property_altsubject_matches(&self) -> Vec<String>;
 
     fn set_property_altsubject_matches(&self, altsubject_matches: &[&str]);
@@ -245,6 +234,8 @@ pub trait Setting8021xExt {
 
     fn get_property_ca_cert(&self) -> Option<glib::Bytes>;
 
+    fn set_property_ca_cert(&self, ca_cert: Option<&glib::Bytes>);
+
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_ca_cert_password(&self, ca_cert_password: Option<&str>);
 
@@ -254,6 +245,8 @@ pub trait Setting8021xExt {
     fn set_property_ca_path(&self, ca_path: Option<&str>);
 
     fn get_property_client_cert(&self) -> Option<glib::Bytes>;
+
+    fn set_property_client_cert(&self, client_cert: Option<&glib::Bytes>);
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_client_cert_password(&self, client_cert_password: Option<&str>);
@@ -301,6 +294,8 @@ pub trait Setting8021xExt {
 
     fn get_property_phase2_ca_cert(&self) -> Option<glib::Bytes>;
 
+    fn set_property_phase2_ca_cert(&self, phase2_ca_cert: Option<&glib::Bytes>);
+
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_phase2_ca_cert_password(&self, phase2_ca_cert_password: Option<&str>);
 
@@ -314,6 +309,8 @@ pub trait Setting8021xExt {
 
     fn get_property_phase2_client_cert(&self) -> Option<glib::Bytes>;
 
+    fn set_property_phase2_client_cert(&self, phase2_client_cert: Option<&glib::Bytes>);
+
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_phase2_client_cert_password(&self, phase2_client_cert_password: Option<&str>);
 
@@ -326,6 +323,8 @@ pub trait Setting8021xExt {
     fn set_property_phase2_domain_suffix_match(&self, phase2_domain_suffix_match: Option<&str>);
 
     fn get_property_phase2_private_key(&self) -> Option<glib::Bytes>;
+
+    fn set_property_phase2_private_key(&self, phase2_private_key: Option<&glib::Bytes>);
 
     fn set_property_phase2_private_key_password(&self, phase2_private_key_password: Option<&str>);
 
@@ -341,6 +340,8 @@ pub trait Setting8021xExt {
     fn set_property_pin_flags(&self, pin_flags: SettingSecretFlags);
 
     fn get_property_private_key(&self) -> Option<glib::Bytes>;
+
+    fn set_property_private_key(&self, private_key: Option<&glib::Bytes>);
 
     fn set_property_private_key_password(&self, private_key_password: Option<&str>);
 
@@ -970,9 +971,13 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    //fn get_phase2_private_key_format(&self) -> /*Ignored*/Setting8021xCKFormat {
-    //    unsafe { TODO: call ffi::nm_setting_802_1x_get_phase2_private_key_format() }
-    //}
+    fn get_phase2_private_key_format(&self) -> Setting8021xCKFormat {
+        unsafe {
+            from_glib(ffi::nm_setting_802_1x_get_phase2_private_key_format(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_phase2_private_key_password(&self) -> Option<String> {
         unsafe {
@@ -1039,9 +1044,13 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    //fn get_private_key_format(&self) -> /*Ignored*/Setting8021xCKFormat {
-    //    unsafe { TODO: call ffi::nm_setting_802_1x_get_private_key_format() }
-    //}
+    fn get_private_key_format(&self) -> Setting8021xCKFormat {
+        unsafe {
+            from_glib(ffi::nm_setting_802_1x_get_private_key_format(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_private_key_password(&self) -> Option<String> {
         unsafe {
@@ -1147,30 +1156,6 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    //fn set_ca_cert(&self, value: &str, scheme: Setting8021xCKScheme, out_format: /*Ignored*/Setting8021xCKFormat) -> Result<(), Error> {
-    //    unsafe { TODO: call ffi::nm_setting_802_1x_set_ca_cert() }
-    //}
-
-    //fn set_client_cert(&self, value: &str, scheme: Setting8021xCKScheme, out_format: /*Ignored*/Setting8021xCKFormat) -> Result<(), Error> {
-    //    unsafe { TODO: call ffi::nm_setting_802_1x_set_client_cert() }
-    //}
-
-    //fn set_phase2_ca_cert(&self, value: &str, scheme: Setting8021xCKScheme, out_format: /*Ignored*/Setting8021xCKFormat) -> Result<(), Error> {
-    //    unsafe { TODO: call ffi::nm_setting_802_1x_set_phase2_ca_cert() }
-    //}
-
-    //fn set_phase2_client_cert(&self, value: &str, scheme: Setting8021xCKScheme, out_format: /*Ignored*/Setting8021xCKFormat) -> Result<(), Error> {
-    //    unsafe { TODO: call ffi::nm_setting_802_1x_set_phase2_client_cert() }
-    //}
-
-    //fn set_phase2_private_key(&self, value: &str, password: &str, scheme: Setting8021xCKScheme, out_format: /*Ignored*/Setting8021xCKFormat) -> Result<(), Error> {
-    //    unsafe { TODO: call ffi::nm_setting_802_1x_set_phase2_private_key() }
-    //}
-
-    //fn set_private_key(&self, value: &str, password: &str, scheme: Setting8021xCKScheme, out_format: /*Ignored*/Setting8021xCKFormat) -> Result<(), Error> {
-    //    unsafe { TODO: call ffi::nm_setting_802_1x_set_private_key() }
-    //}
-
     fn get_property_altsubject_matches(&self) -> Vec<String> {
         unsafe {
             let mut value = Value::from_type(<Vec<String> as StaticType>::static_type());
@@ -1226,6 +1211,16 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
+    fn set_property_ca_cert(&self, ca_cert: Option<&glib::Bytes>) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "ca-cert".to_glib_none().0,
+                Value::from(ca_cert).to_glib_none().0,
+            );
+        }
+    }
+
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_ca_cert_password(&self, ca_cert_password: Option<&str>) {
         unsafe {
@@ -1267,6 +1262,16 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
                 value.to_glib_none_mut().0,
             );
             value.get()
+        }
+    }
+
+    fn set_property_client_cert(&self, client_cert: Option<&glib::Bytes>) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "client-cert".to_glib_none().0,
+                Value::from(client_cert).to_glib_none().0,
+            );
         }
     }
 
@@ -1482,6 +1487,16 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
+    fn set_property_phase2_ca_cert(&self, phase2_ca_cert: Option<&glib::Bytes>) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "phase2-ca-cert".to_glib_none().0,
+                Value::from(phase2_ca_cert).to_glib_none().0,
+            );
+        }
+    }
+
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_phase2_ca_cert_password(&self, phase2_ca_cert_password: Option<&str>) {
         unsafe {
@@ -1526,6 +1541,16 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
                 value.to_glib_none_mut().0,
             );
             value.get()
+        }
+    }
+
+    fn set_property_phase2_client_cert(&self, phase2_client_cert: Option<&glib::Bytes>) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "phase2-client-cert".to_glib_none().0,
+                Value::from(phase2_client_cert).to_glib_none().0,
+            );
         }
     }
 
@@ -1575,6 +1600,16 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
                 value.to_glib_none_mut().0,
             );
             value.get()
+        }
+    }
+
+    fn set_property_phase2_private_key(&self, phase2_private_key: Option<&glib::Bytes>) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "phase2-private-key".to_glib_none().0,
+                Value::from(phase2_private_key).to_glib_none().0,
+            );
         }
     }
 
@@ -1642,6 +1677,16 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
                 value.to_glib_none_mut().0,
             );
             value.get()
+        }
+    }
+
+    fn set_property_private_key(&self, private_key: Option<&glib::Bytes>) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "private-key".to_glib_none().0,
+                Value::from(private_key).to_glib_none().0,
+            );
         }
     }
 

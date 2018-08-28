@@ -1159,6 +1159,68 @@ impl SetValue for Metered {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum Setting8021xCKFormat {
+    Unknown,
+    X509,
+    RawKey,
+    Pkcs12,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for Setting8021xCKFormat {
+    type GlibType = ffi::NMSetting8021xCKFormat;
+
+    fn to_glib(&self) -> ffi::NMSetting8021xCKFormat {
+        match *self {
+            Setting8021xCKFormat::Unknown => ffi::NM_SETTING_802_1X_CK_FORMAT_UNKNOWN,
+            Setting8021xCKFormat::X509 => ffi::NM_SETTING_802_1X_CK_FORMAT_X509,
+            Setting8021xCKFormat::RawKey => ffi::NM_SETTING_802_1X_CK_FORMAT_RAW_KEY,
+            Setting8021xCKFormat::Pkcs12 => ffi::NM_SETTING_802_1X_CK_FORMAT_PKCS12,
+            Setting8021xCKFormat::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMSetting8021xCKFormat> for Setting8021xCKFormat {
+    fn from_glib(value: ffi::NMSetting8021xCKFormat) -> Self {
+        match value {
+            0 => Setting8021xCKFormat::Unknown,
+            1 => Setting8021xCKFormat::X509,
+            2 => Setting8021xCKFormat::RawKey,
+            3 => Setting8021xCKFormat::Pkcs12,
+            value => Setting8021xCKFormat::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for Setting8021xCKFormat {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_802_1x_ck_format_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for Setting8021xCKFormat {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for Setting8021xCKFormat {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for Setting8021xCKFormat {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum Setting8021xCKScheme {
     Unknown,
     Blob,

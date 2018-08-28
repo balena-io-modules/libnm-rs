@@ -339,6 +339,7 @@ pub use self::enums::DeviceStateReason;
 pub use self::enums::DeviceType;
 pub use self::enums::IPTunnelMode;
 pub use self::enums::Metered;
+pub use self::enums::Setting8021xCKFormat;
 pub use self::enums::Setting8021xCKScheme;
 pub use self::enums::SettingCompareFlags;
 pub use self::enums::SettingConnectionAutoconnectSlaves;
