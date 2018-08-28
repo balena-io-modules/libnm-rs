@@ -288,6 +288,30 @@ mod setting_wireless_security;
 pub use self::setting_wireless_security::SettingWirelessSecurity;
 pub use self::setting_wireless_security::SettingWirelessSecurityExt;
 
+mod vpn_connection;
+pub use self::vpn_connection::VpnConnection;
+pub use self::vpn_connection::VpnConnectionExt;
+
+mod vpn_editor;
+pub use self::vpn_editor::VpnEditor;
+pub use self::vpn_editor::VpnEditorExt;
+
+mod vpn_editor_plugin;
+pub use self::vpn_editor_plugin::VpnEditorPlugin;
+pub use self::vpn_editor_plugin::VpnEditorPluginExt;
+
+mod vpn_plugin_info;
+pub use self::vpn_plugin_info::VpnPluginInfo;
+pub use self::vpn_plugin_info::VpnPluginInfoExt;
+
+mod vpn_plugin_old;
+pub use self::vpn_plugin_old::VpnPluginOld;
+pub use self::vpn_plugin_old::VpnPluginOldExt;
+
+mod vpn_service_plugin;
+pub use self::vpn_service_plugin::VpnServicePlugin;
+pub use self::vpn_service_plugin::VpnServicePluginExt;
+
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 mod tc_qdisc;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
@@ -340,6 +364,10 @@ pub use self::enums::SettingWirelessSecurityPmf;
 pub use self::enums::SettingWirelessSecurityWpsMethod;
 pub use self::enums::State;
 pub use self::enums::VlanPriorityMap;
+pub use self::enums::VpnConnectionState;
+pub use self::enums::VpnPluginError;
+pub use self::enums::VpnPluginFailure;
+pub use self::enums::VpnServiceState;
 pub use self::enums::WepKeyType;
 pub use self::enums::_80211Mode;
 
@@ -367,6 +395,7 @@ pub use self::flags::SettingsConnectionFlags;
 pub use self::flags::SettingsUpdate2Flags;
 pub use self::flags::TeamLinkWatcherArpPingFlags;
 pub use self::flags::VlanFlags;
+pub use self::flags::VpnEditorPluginCapability;
 pub use self::flags::_80211ApFlags;
 pub use self::flags::_80211ApSecurityFlags;
 
@@ -443,4 +472,10 @@ pub mod traits {
     pub use super::SettingWiredExt;
     pub use super::SettingWirelessExt;
     pub use super::SettingWirelessSecurityExt;
+    pub use super::VpnConnectionExt;
+    pub use super::VpnEditorExt;
+    pub use super::VpnEditorPluginExt;
+    pub use super::VpnPluginInfoExt;
+    pub use super::VpnPluginOldExt;
+    pub use super::VpnServicePluginExt;
 }

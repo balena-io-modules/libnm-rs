@@ -3,11 +3,13 @@
 // DO NOT EDIT
 
 use ffi;
+use glib::error::ErrorDomain;
 use glib::translate::*;
 use glib::value::FromValue;
 use glib::value::FromValueOptional;
 use glib::value::SetValue;
 use glib::value::Value;
+use glib::Quark;
 use glib::StaticType;
 use glib::Type;
 use gobject_ffi;
@@ -2399,6 +2401,318 @@ impl<'a> FromValue<'a> for VlanPriorityMap {
 }
 
 impl SetValue for VlanPriorityMap {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum VpnConnectionState {
+    Unknown,
+    Prepare,
+    NeedAuth,
+    Connect,
+    IpConfigGet,
+    Activated,
+    Failed,
+    Disconnected,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for VpnConnectionState {
+    type GlibType = ffi::NMVpnConnectionState;
+
+    fn to_glib(&self) -> ffi::NMVpnConnectionState {
+        match *self {
+            VpnConnectionState::Unknown => ffi::NM_VPN_CONNECTION_STATE_UNKNOWN,
+            VpnConnectionState::Prepare => ffi::NM_VPN_CONNECTION_STATE_PREPARE,
+            VpnConnectionState::NeedAuth => ffi::NM_VPN_CONNECTION_STATE_NEED_AUTH,
+            VpnConnectionState::Connect => ffi::NM_VPN_CONNECTION_STATE_CONNECT,
+            VpnConnectionState::IpConfigGet => ffi::NM_VPN_CONNECTION_STATE_IP_CONFIG_GET,
+            VpnConnectionState::Activated => ffi::NM_VPN_CONNECTION_STATE_ACTIVATED,
+            VpnConnectionState::Failed => ffi::NM_VPN_CONNECTION_STATE_FAILED,
+            VpnConnectionState::Disconnected => ffi::NM_VPN_CONNECTION_STATE_DISCONNECTED,
+            VpnConnectionState::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMVpnConnectionState> for VpnConnectionState {
+    fn from_glib(value: ffi::NMVpnConnectionState) -> Self {
+        match value {
+            0 => VpnConnectionState::Unknown,
+            1 => VpnConnectionState::Prepare,
+            2 => VpnConnectionState::NeedAuth,
+            3 => VpnConnectionState::Connect,
+            4 => VpnConnectionState::IpConfigGet,
+            5 => VpnConnectionState::Activated,
+            6 => VpnConnectionState::Failed,
+            7 => VpnConnectionState::Disconnected,
+            value => VpnConnectionState::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for VpnConnectionState {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_vpn_connection_state_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for VpnConnectionState {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for VpnConnectionState {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for VpnConnectionState {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum VpnPluginError {
+    Failed,
+    StartingInProgress,
+    AlreadyStarted,
+    StoppingInProgress,
+    AlreadyStopped,
+    WrongState,
+    BadArguments,
+    LaunchFailed,
+    InvalidConnection,
+    InteractiveNotSupported,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for VpnPluginError {
+    type GlibType = ffi::NMVpnPluginError;
+
+    fn to_glib(&self) -> ffi::NMVpnPluginError {
+        match *self {
+            VpnPluginError::Failed => ffi::NM_VPN_PLUGIN_ERROR_FAILED,
+            VpnPluginError::StartingInProgress => ffi::NM_VPN_PLUGIN_ERROR_STARTING_IN_PROGRESS,
+            VpnPluginError::AlreadyStarted => ffi::NM_VPN_PLUGIN_ERROR_ALREADY_STARTED,
+            VpnPluginError::StoppingInProgress => ffi::NM_VPN_PLUGIN_ERROR_STOPPING_IN_PROGRESS,
+            VpnPluginError::AlreadyStopped => ffi::NM_VPN_PLUGIN_ERROR_ALREADY_STOPPED,
+            VpnPluginError::WrongState => ffi::NM_VPN_PLUGIN_ERROR_WRONG_STATE,
+            VpnPluginError::BadArguments => ffi::NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
+            VpnPluginError::LaunchFailed => ffi::NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+            VpnPluginError::InvalidConnection => ffi::NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
+            VpnPluginError::InteractiveNotSupported => {
+                ffi::NM_VPN_PLUGIN_ERROR_INTERACTIVE_NOT_SUPPORTED
+            }
+            VpnPluginError::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMVpnPluginError> for VpnPluginError {
+    fn from_glib(value: ffi::NMVpnPluginError) -> Self {
+        match value {
+            0 => VpnPluginError::Failed,
+            1 => VpnPluginError::StartingInProgress,
+            2 => VpnPluginError::AlreadyStarted,
+            3 => VpnPluginError::StoppingInProgress,
+            4 => VpnPluginError::AlreadyStopped,
+            5 => VpnPluginError::WrongState,
+            6 => VpnPluginError::BadArguments,
+            7 => VpnPluginError::LaunchFailed,
+            8 => VpnPluginError::InvalidConnection,
+            9 => VpnPluginError::InteractiveNotSupported,
+            value => VpnPluginError::__Unknown(value),
+        }
+    }
+}
+
+impl ErrorDomain for VpnPluginError {
+    fn domain() -> Quark {
+        unsafe { from_glib(ffi::nm_vpn_plugin_error_quark()) }
+    }
+
+    fn code(self) -> i32 {
+        self.to_glib()
+    }
+
+    fn from(code: i32) -> Option<Self> {
+        match code {
+            0 => Some(VpnPluginError::Failed),
+            1 => Some(VpnPluginError::StartingInProgress),
+            2 => Some(VpnPluginError::AlreadyStarted),
+            3 => Some(VpnPluginError::StoppingInProgress),
+            4 => Some(VpnPluginError::AlreadyStopped),
+            5 => Some(VpnPluginError::WrongState),
+            6 => Some(VpnPluginError::BadArguments),
+            7 => Some(VpnPluginError::LaunchFailed),
+            8 => Some(VpnPluginError::InvalidConnection),
+            9 => Some(VpnPluginError::InteractiveNotSupported),
+            _ => Some(VpnPluginError::Failed),
+        }
+    }
+}
+
+impl StaticType for VpnPluginError {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_vpn_plugin_error_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for VpnPluginError {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for VpnPluginError {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for VpnPluginError {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum VpnPluginFailure {
+    LoginFailed,
+    ConnectFailed,
+    BadIpConfig,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for VpnPluginFailure {
+    type GlibType = ffi::NMVpnPluginFailure;
+
+    fn to_glib(&self) -> ffi::NMVpnPluginFailure {
+        match *self {
+            VpnPluginFailure::LoginFailed => ffi::NM_VPN_PLUGIN_FAILURE_LOGIN_FAILED,
+            VpnPluginFailure::ConnectFailed => ffi::NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED,
+            VpnPluginFailure::BadIpConfig => ffi::NM_VPN_PLUGIN_FAILURE_BAD_IP_CONFIG,
+            VpnPluginFailure::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMVpnPluginFailure> for VpnPluginFailure {
+    fn from_glib(value: ffi::NMVpnPluginFailure) -> Self {
+        match value {
+            0 => VpnPluginFailure::LoginFailed,
+            1 => VpnPluginFailure::ConnectFailed,
+            2 => VpnPluginFailure::BadIpConfig,
+            value => VpnPluginFailure::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for VpnPluginFailure {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_vpn_plugin_failure_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for VpnPluginFailure {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for VpnPluginFailure {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for VpnPluginFailure {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum VpnServiceState {
+    Unknown,
+    Init,
+    Shutdown,
+    Starting,
+    Started,
+    Stopping,
+    Stopped,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for VpnServiceState {
+    type GlibType = ffi::NMVpnServiceState;
+
+    fn to_glib(&self) -> ffi::NMVpnServiceState {
+        match *self {
+            VpnServiceState::Unknown => ffi::NM_VPN_SERVICE_STATE_UNKNOWN,
+            VpnServiceState::Init => ffi::NM_VPN_SERVICE_STATE_INIT,
+            VpnServiceState::Shutdown => ffi::NM_VPN_SERVICE_STATE_SHUTDOWN,
+            VpnServiceState::Starting => ffi::NM_VPN_SERVICE_STATE_STARTING,
+            VpnServiceState::Started => ffi::NM_VPN_SERVICE_STATE_STARTED,
+            VpnServiceState::Stopping => ffi::NM_VPN_SERVICE_STATE_STOPPING,
+            VpnServiceState::Stopped => ffi::NM_VPN_SERVICE_STATE_STOPPED,
+            VpnServiceState::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMVpnServiceState> for VpnServiceState {
+    fn from_glib(value: ffi::NMVpnServiceState) -> Self {
+        match value {
+            0 => VpnServiceState::Unknown,
+            1 => VpnServiceState::Init,
+            2 => VpnServiceState::Shutdown,
+            3 => VpnServiceState::Starting,
+            4 => VpnServiceState::Started,
+            5 => VpnServiceState::Stopping,
+            6 => VpnServiceState::Stopped,
+            value => VpnServiceState::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for VpnServiceState {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_vpn_service_state_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for VpnServiceState {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for VpnServiceState {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for VpnServiceState {
     unsafe fn set_value(value: &mut Value, this: &Self) {
         gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
     }

@@ -120,6 +120,14 @@ generate = [
     "NM.TeamLinkWatcherArpPingFlags",
     "NM.VlanFlags",
     "NM.VlanPriorityMap",
+    "NM.VpnConnection",
+    "NM.VpnConnectionState",
+    "NM.VpnEditor",
+    "NM.VpnEditorPlugin",
+    "NM.VpnEditorPluginCapability",
+    "NM.VpnPluginError",
+    "NM.VpnPluginFailure",
+    "NM.VpnServiceState",
     "NM.WepKeyType",
 ]
 
@@ -222,5 +230,55 @@ status = "generate"
 
     [[object.function]]
     name = "get_secret_flags"
+    # Does not compile
+    ignore = true
+
+
+[[object]]
+name = "NM.VpnPluginInfo"
+status = "generate"
+
+    [[object.function]]
+    name = "list_add"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "list_find_by_filename"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "list_find_by_name"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "list_find_by_service"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "list_remove"
+    # Does not compile
+    ignore = true
+
+
+[[object]]
+name = "NM.VpnPluginOld"
+status = "generate"
+
+    [[object.function]]
+    name = "secrets_required"
+    # Does not compile
+    ignore = true
+
+
+[[object]]
+name = "NM.VpnServicePlugin"
+status = "generate"
+
+    [[object.function]]
+    name = "secrets_required"
     # Does not compile
     ignore = true

@@ -1020,3 +1020,52 @@ impl SetValue for VlanFlags {
         gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
     }
 }
+
+bitflags! {
+    pub struct VpnEditorPluginCapability: u32 {
+        const NONE = 0;
+        const IMPORT = 1;
+        const EXPORT = 2;
+        const IPV6 = 4;
+    }
+}
+
+#[doc(hidden)]
+impl ToGlib for VpnEditorPluginCapability {
+    type GlibType = ffi::NMVpnEditorPluginCapability;
+
+    fn to_glib(&self) -> ffi::NMVpnEditorPluginCapability {
+        self.bits()
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMVpnEditorPluginCapability> for VpnEditorPluginCapability {
+    fn from_glib(value: ffi::NMVpnEditorPluginCapability) -> VpnEditorPluginCapability {
+        VpnEditorPluginCapability::from_bits_truncate(value)
+    }
+}
+
+impl StaticType for VpnEditorPluginCapability {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_vpn_editor_plugin_capability_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for VpnEditorPluginCapability {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for VpnEditorPluginCapability {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_flags(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for VpnEditorPluginCapability {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
