@@ -28,6 +28,77 @@ mod device;
 pub use self::device::Device;
 pub use self::device::DeviceExt;
 
+mod device_adsl;
+pub use self::device_adsl::DeviceAdsl;
+pub use self::device_adsl::DeviceAdslExt;
+
+mod device_bond;
+pub use self::device_bond::DeviceBond;
+pub use self::device_bond::DeviceBondExt;
+
+mod device_bridge;
+pub use self::device_bridge::DeviceBridge;
+pub use self::device_bridge::DeviceBridgeExt;
+
+mod device_bt;
+pub use self::device_bt::DeviceBt;
+pub use self::device_bt::DeviceBtExt;
+
+mod device_dummy;
+pub use self::device_dummy::DeviceDummy;
+pub use self::device_dummy::DeviceDummyExt;
+
+mod device_ethernet;
+pub use self::device_ethernet::DeviceEthernet;
+pub use self::device_ethernet::DeviceEthernetExt;
+
+mod device_generic;
+pub use self::device_generic::DeviceGeneric;
+pub use self::device_generic::DeviceGenericExt;
+
+mod device_ip_tunnel;
+pub use self::device_ip_tunnel::DeviceIPTunnel;
+pub use self::device_ip_tunnel::DeviceIPTunnelExt;
+
+mod device_infiniband;
+pub use self::device_infiniband::DeviceInfiniband;
+pub use self::device_infiniband::DeviceInfinibandExt;
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+mod device_macsec;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+pub use self::device_macsec::DeviceMacsec;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+pub use self::device_macsec::DeviceMacsecExt;
+
+mod device_macvlan;
+pub use self::device_macvlan::DeviceMacvlan;
+pub use self::device_macvlan::DeviceMacvlanExt;
+
+mod device_modem;
+pub use self::device_modem::DeviceModem;
+pub use self::device_modem::DeviceModemExt;
+
+mod device_olpc_mesh;
+pub use self::device_olpc_mesh::DeviceOlpcMesh;
+pub use self::device_olpc_mesh::DeviceOlpcMeshExt;
+
+mod device_team;
+pub use self::device_team::DeviceTeam;
+pub use self::device_team::DeviceTeamExt;
+
+mod device_tun;
+pub use self::device_tun::DeviceTun;
+pub use self::device_tun::DeviceTunExt;
+
+mod device_vlan;
+pub use self::device_vlan::DeviceVlan;
+pub use self::device_vlan::DeviceVlanExt;
+
+mod device_vxlan;
+pub use self::device_vxlan::DeviceVxlan;
+pub use self::device_vxlan::DeviceVxlanExt;
+
 mod device_wifi;
 pub use self::device_wifi::DeviceWifi;
 pub use self::device_wifi::DeviceWifiExt;
@@ -275,10 +346,12 @@ pub use self::enums::_80211Mode;
 mod flags;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 pub use self::flags::ActivationStateFlags;
+pub use self::flags::BluetoothCapabilities;
 #[cfg(any(feature = "v1_4", feature = "dox"))]
 pub use self::flags::CheckpointCreateFlags;
 pub use self::flags::ConnectionSerializationFlags;
 pub use self::flags::DeviceCapabilities;
+pub use self::flags::DeviceModemCapabilities;
 pub use self::flags::DeviceWifiCapabilities;
 pub use self::flags::IPTunnelFlags;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
@@ -304,7 +377,25 @@ pub mod traits {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub use super::CheckpointExt;
     pub use super::ConnectionExt;
+    pub use super::DeviceAdslExt;
+    pub use super::DeviceBondExt;
+    pub use super::DeviceBridgeExt;
+    pub use super::DeviceBtExt;
+    pub use super::DeviceDummyExt;
+    pub use super::DeviceEthernetExt;
     pub use super::DeviceExt;
+    pub use super::DeviceGenericExt;
+    pub use super::DeviceIPTunnelExt;
+    pub use super::DeviceInfinibandExt;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    pub use super::DeviceMacsecExt;
+    pub use super::DeviceMacvlanExt;
+    pub use super::DeviceModemExt;
+    pub use super::DeviceOlpcMeshExt;
+    pub use super::DeviceTeamExt;
+    pub use super::DeviceTunExt;
+    pub use super::DeviceVlanExt;
+    pub use super::DeviceVxlanExt;
     pub use super::DeviceWifiExt;
     pub use super::DhcpConfigExt;
     pub use super::IPConfigExt;

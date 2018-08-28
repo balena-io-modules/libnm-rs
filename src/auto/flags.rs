@@ -177,6 +177,54 @@ impl SetValue for ActivationStateFlags {
     }
 }
 
+bitflags! {
+    pub struct BluetoothCapabilities: u32 {
+        const NONE = 0;
+        const DUN = 1;
+        const NAP = 2;
+    }
+}
+
+#[doc(hidden)]
+impl ToGlib for BluetoothCapabilities {
+    type GlibType = ffi::NMBluetoothCapabilities;
+
+    fn to_glib(&self) -> ffi::NMBluetoothCapabilities {
+        self.bits()
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMBluetoothCapabilities> for BluetoothCapabilities {
+    fn from_glib(value: ffi::NMBluetoothCapabilities) -> BluetoothCapabilities {
+        BluetoothCapabilities::from_bits_truncate(value)
+    }
+}
+
+impl StaticType for BluetoothCapabilities {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_bluetooth_capabilities_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for BluetoothCapabilities {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for BluetoothCapabilities {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_flags(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for BluetoothCapabilities {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
 #[cfg(any(feature = "v1_4", feature = "dox"))]
 bitflags! {
     pub struct CheckpointCreateFlags: u32 {
@@ -327,6 +375,56 @@ impl<'a> FromValue<'a> for DeviceCapabilities {
 }
 
 impl SetValue for DeviceCapabilities {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+bitflags! {
+    pub struct DeviceModemCapabilities: u32 {
+        const NONE = 0;
+        const POTS = 1;
+        const CDMA_EVDO = 2;
+        const GSM_UMTS = 4;
+        const LTE = 8;
+    }
+}
+
+#[doc(hidden)]
+impl ToGlib for DeviceModemCapabilities {
+    type GlibType = ffi::NMDeviceModemCapabilities;
+
+    fn to_glib(&self) -> ffi::NMDeviceModemCapabilities {
+        self.bits()
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMDeviceModemCapabilities> for DeviceModemCapabilities {
+    fn from_glib(value: ffi::NMDeviceModemCapabilities) -> DeviceModemCapabilities {
+        DeviceModemCapabilities::from_bits_truncate(value)
+    }
+}
+
+impl StaticType for DeviceModemCapabilities {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_device_modem_capabilities_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for DeviceModemCapabilities {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for DeviceModemCapabilities {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_flags(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for DeviceModemCapabilities {
     unsafe fn set_value(value: &mut Value, this: &Self) {
         gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
     }
