@@ -17,6 +17,7 @@ use std::mem::transmute;
 use std::ptr;
 use Connection;
 use Error;
+use SettingCompareFlags;
 
 glib_wrapper! {
     pub struct Setting(Object<ffi::NMSetting, ffi::NMSettingClass>);
@@ -33,9 +34,9 @@ impl Setting {
 }
 
 pub trait SettingExt {
-    //fn compare<P: IsA<Setting>>(&self, b: &P, flags: /*Ignored*/SettingCompareFlags) -> bool;
+    fn compare<P: IsA<Setting>>(&self, b: &P, flags: SettingCompareFlags) -> bool;
 
-    //fn diff<P: IsA<Setting>>(&self, b: &P, flags: /*Ignored*/SettingCompareFlags, invert_results: bool, results: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }) -> bool;
+    //fn diff<P: IsA<Setting>>(&self, b: &P, flags: SettingCompareFlags, invert_results: bool, results: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }) -> bool;
 
     fn duplicate(&self) -> Option<Setting>;
 
@@ -65,11 +66,17 @@ pub trait SettingExt {
 }
 
 impl<O: IsA<Setting> + IsA<glib::object::Object>> SettingExt for O {
-    //fn compare<P: IsA<Setting>>(&self, b: &P, flags: /*Ignored*/SettingCompareFlags) -> bool {
-    //    unsafe { TODO: call ffi::nm_setting_compare() }
-    //}
+    fn compare<P: IsA<Setting>>(&self, b: &P, flags: SettingCompareFlags) -> bool {
+        unsafe {
+            from_glib(ffi::nm_setting_compare(
+                self.to_glib_none().0,
+                b.to_glib_none().0,
+                flags.to_glib(),
+            ))
+        }
+    }
 
-    //fn diff<P: IsA<Setting>>(&self, b: &P, flags: /*Ignored*/SettingCompareFlags, invert_results: bool, results: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }) -> bool {
+    //fn diff<P: IsA<Setting>>(&self, b: &P, flags: SettingCompareFlags, invert_results: bool, results: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }) -> bool {
     //    unsafe { TODO: call ffi::nm_setting_diff() }
     //}
 

@@ -15,6 +15,12 @@ echo 'Generate NM auto bindings...'
 echo 'Replace 80211Mode with _80211Mode...'
 grep -lr -w 80211Mode ./src/auto/*.rs | xargs sed -i 's/\b80211Mode\b/_80211Mode/g'
 
+echo 'Replace 80211ApFlags with _80211ApFlags...'
+grep -lr -w 80211ApFlags ./src/auto/*.rs | xargs sed -i 's/\b80211ApFlags\b/_80211ApFlags/g'
+
+echo 'Replace 80211ApSecurityFlags with _80211ApSecurityFlags...'
+grep -lr -w 80211ApSecurityFlags ./src/auto/*.rs | xargs sed -i 's/\b80211ApSecurityFlags\b/_80211ApSecurityFlags/g'
+
 echo 'Purge unused glib from auto/client.rs...'
 sed -i '/use glib;/d' src/auto/client.rs
 

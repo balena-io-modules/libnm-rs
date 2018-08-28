@@ -18,7 +18,14 @@ use std::boxed::Box as Box_;
 use std::mem;
 use std::mem::transmute;
 use std::ptr;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+use ActivationStateFlags;
+use ActiveConnectionState;
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+use ActiveConnectionStateReason;
 use Device;
+use DhcpConfig;
+use IPConfig;
 use RemoteConnection;
 
 glib_wrapper! {
@@ -40,27 +47,27 @@ pub trait ActiveConnectionExt {
 
     //fn get_devices(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 };
 
-    //fn get_dhcp4_config(&self) -> /*Ignored*/Option<DhcpConfig>;
+    fn get_dhcp4_config(&self) -> Option<DhcpConfig>;
 
-    //fn get_dhcp6_config(&self) -> /*Ignored*/Option<DhcpConfig>;
+    fn get_dhcp6_config(&self) -> Option<DhcpConfig>;
 
     fn get_id(&self) -> Option<String>;
 
-    //fn get_ip4_config(&self) -> /*Ignored*/Option<IPConfig>;
+    fn get_ip4_config(&self) -> Option<IPConfig>;
 
-    //fn get_ip6_config(&self) -> /*Ignored*/Option<IPConfig>;
+    fn get_ip6_config(&self) -> Option<IPConfig>;
 
     fn get_master(&self) -> Option<Device>;
 
     fn get_specific_object_path(&self) -> Option<String>;
 
-    //fn get_state(&self) -> /*Ignored*/ActiveConnectionState;
+    fn get_state(&self) -> ActiveConnectionState;
 
-    //#[cfg(any(feature = "v1_10", feature = "dox"))]
-    //fn get_state_flags(&self) -> /*Ignored*/ActivationStateFlags;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    fn get_state_flags(&self) -> ActivationStateFlags;
 
-    //#[cfg(any(feature = "v1_8", feature = "dox"))]
-    //fn get_state_reason(&self) -> /*Ignored*/ActiveConnectionStateReason;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
+    fn get_state_reason(&self) -> ActiveConnectionStateReason;
 
     fn get_uuid(&self) -> Option<String>;
 
@@ -142,25 +149,41 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     //    unsafe { TODO: call ffi::nm_active_connection_get_devices() }
     //}
 
-    //fn get_dhcp4_config(&self) -> /*Ignored*/Option<DhcpConfig> {
-    //    unsafe { TODO: call ffi::nm_active_connection_get_dhcp4_config() }
-    //}
+    fn get_dhcp4_config(&self) -> Option<DhcpConfig> {
+        unsafe {
+            from_glib_none(ffi::nm_active_connection_get_dhcp4_config(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
-    //fn get_dhcp6_config(&self) -> /*Ignored*/Option<DhcpConfig> {
-    //    unsafe { TODO: call ffi::nm_active_connection_get_dhcp6_config() }
-    //}
+    fn get_dhcp6_config(&self) -> Option<DhcpConfig> {
+        unsafe {
+            from_glib_none(ffi::nm_active_connection_get_dhcp6_config(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_id(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_active_connection_get_id(self.to_glib_none().0)) }
     }
 
-    //fn get_ip4_config(&self) -> /*Ignored*/Option<IPConfig> {
-    //    unsafe { TODO: call ffi::nm_active_connection_get_ip4_config() }
-    //}
+    fn get_ip4_config(&self) -> Option<IPConfig> {
+        unsafe {
+            from_glib_none(ffi::nm_active_connection_get_ip4_config(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
-    //fn get_ip6_config(&self) -> /*Ignored*/Option<IPConfig> {
-    //    unsafe { TODO: call ffi::nm_active_connection_get_ip6_config() }
-    //}
+    fn get_ip6_config(&self) -> Option<IPConfig> {
+        unsafe {
+            from_glib_none(ffi::nm_active_connection_get_ip6_config(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_master(&self) -> Option<Device> {
         unsafe { from_glib_none(ffi::nm_active_connection_get_master(self.to_glib_none().0)) }
@@ -174,19 +197,27 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
         }
     }
 
-    //fn get_state(&self) -> /*Ignored*/ActiveConnectionState {
-    //    unsafe { TODO: call ffi::nm_active_connection_get_state() }
-    //}
+    fn get_state(&self) -> ActiveConnectionState {
+        unsafe { from_glib(ffi::nm_active_connection_get_state(self.to_glib_none().0)) }
+    }
 
-    //#[cfg(any(feature = "v1_10", feature = "dox"))]
-    //fn get_state_flags(&self) -> /*Ignored*/ActivationStateFlags {
-    //    unsafe { TODO: call ffi::nm_active_connection_get_state_flags() }
-    //}
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    fn get_state_flags(&self) -> ActivationStateFlags {
+        unsafe {
+            from_glib(ffi::nm_active_connection_get_state_flags(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
-    //#[cfg(any(feature = "v1_8", feature = "dox"))]
-    //fn get_state_reason(&self) -> /*Ignored*/ActiveConnectionStateReason {
-    //    unsafe { TODO: call ffi::nm_active_connection_get_state_reason() }
-    //}
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
+    fn get_state_reason(&self) -> ActiveConnectionStateReason {
+        unsafe {
+            from_glib(ffi::nm_active_connection_get_state_reason(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_uuid(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_active_connection_get_uuid(self.to_glib_none().0)) }

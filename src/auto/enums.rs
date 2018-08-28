@@ -75,6 +75,199 @@ impl SetValue for _80211Mode {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum ActiveConnectionState {
+    Unknown,
+    Activating,
+    Activated,
+    Deactivating,
+    Deactivated,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for ActiveConnectionState {
+    type GlibType = ffi::NMActiveConnectionState;
+
+    fn to_glib(&self) -> ffi::NMActiveConnectionState {
+        match *self {
+            ActiveConnectionState::Unknown => ffi::NM_ACTIVE_CONNECTION_STATE_UNKNOWN,
+            ActiveConnectionState::Activating => ffi::NM_ACTIVE_CONNECTION_STATE_ACTIVATING,
+            ActiveConnectionState::Activated => ffi::NM_ACTIVE_CONNECTION_STATE_ACTIVATED,
+            ActiveConnectionState::Deactivating => ffi::NM_ACTIVE_CONNECTION_STATE_DEACTIVATING,
+            ActiveConnectionState::Deactivated => ffi::NM_ACTIVE_CONNECTION_STATE_DEACTIVATED,
+            ActiveConnectionState::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMActiveConnectionState> for ActiveConnectionState {
+    fn from_glib(value: ffi::NMActiveConnectionState) -> Self {
+        match value {
+            0 => ActiveConnectionState::Unknown,
+            1 => ActiveConnectionState::Activating,
+            2 => ActiveConnectionState::Activated,
+            3 => ActiveConnectionState::Deactivating,
+            4 => ActiveConnectionState::Deactivated,
+            value => ActiveConnectionState::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for ActiveConnectionState {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_active_connection_state_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for ActiveConnectionState {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for ActiveConnectionState {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for ActiveConnectionState {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum ActiveConnectionStateReason {
+    Unknown,
+    None,
+    UserDisconnected,
+    DeviceDisconnected,
+    ServiceStopped,
+    IpConfigInvalid,
+    ConnectTimeout,
+    ServiceStartTimeout,
+    ServiceStartFailed,
+    NoSecrets,
+    LoginFailed,
+    ConnectionRemoved,
+    DependencyFailed,
+    DeviceRealizeFailed,
+    DeviceRemoved,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+#[doc(hidden)]
+impl ToGlib for ActiveConnectionStateReason {
+    type GlibType = ffi::NMActiveConnectionStateReason;
+
+    fn to_glib(&self) -> ffi::NMActiveConnectionStateReason {
+        match *self {
+            ActiveConnectionStateReason::Unknown => ffi::NM_ACTIVE_CONNECTION_STATE_REASON_UNKNOWN,
+            ActiveConnectionStateReason::None => ffi::NM_ACTIVE_CONNECTION_STATE_REASON_NONE,
+            ActiveConnectionStateReason::UserDisconnected => {
+                ffi::NM_ACTIVE_CONNECTION_STATE_REASON_USER_DISCONNECTED
+            }
+            ActiveConnectionStateReason::DeviceDisconnected => {
+                ffi::NM_ACTIVE_CONNECTION_STATE_REASON_DEVICE_DISCONNECTED
+            }
+            ActiveConnectionStateReason::ServiceStopped => {
+                ffi::NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_STOPPED
+            }
+            ActiveConnectionStateReason::IpConfigInvalid => {
+                ffi::NM_ACTIVE_CONNECTION_STATE_REASON_IP_CONFIG_INVALID
+            }
+            ActiveConnectionStateReason::ConnectTimeout => {
+                ffi::NM_ACTIVE_CONNECTION_STATE_REASON_CONNECT_TIMEOUT
+            }
+            ActiveConnectionStateReason::ServiceStartTimeout => {
+                ffi::NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_START_TIMEOUT
+            }
+            ActiveConnectionStateReason::ServiceStartFailed => {
+                ffi::NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_START_FAILED
+            }
+            ActiveConnectionStateReason::NoSecrets => {
+                ffi::NM_ACTIVE_CONNECTION_STATE_REASON_NO_SECRETS
+            }
+            ActiveConnectionStateReason::LoginFailed => {
+                ffi::NM_ACTIVE_CONNECTION_STATE_REASON_LOGIN_FAILED
+            }
+            ActiveConnectionStateReason::ConnectionRemoved => {
+                ffi::NM_ACTIVE_CONNECTION_STATE_REASON_CONNECTION_REMOVED
+            }
+            ActiveConnectionStateReason::DependencyFailed => {
+                ffi::NM_ACTIVE_CONNECTION_STATE_REASON_DEPENDENCY_FAILED
+            }
+            ActiveConnectionStateReason::DeviceRealizeFailed => {
+                ffi::NM_ACTIVE_CONNECTION_STATE_REASON_DEVICE_REALIZE_FAILED
+            }
+            ActiveConnectionStateReason::DeviceRemoved => {
+                ffi::NM_ACTIVE_CONNECTION_STATE_REASON_DEVICE_REMOVED
+            }
+            ActiveConnectionStateReason::__Unknown(value) => value,
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+#[doc(hidden)]
+impl FromGlib<ffi::NMActiveConnectionStateReason> for ActiveConnectionStateReason {
+    fn from_glib(value: ffi::NMActiveConnectionStateReason) -> Self {
+        match value {
+            0 => ActiveConnectionStateReason::Unknown,
+            1 => ActiveConnectionStateReason::None,
+            2 => ActiveConnectionStateReason::UserDisconnected,
+            3 => ActiveConnectionStateReason::DeviceDisconnected,
+            4 => ActiveConnectionStateReason::ServiceStopped,
+            5 => ActiveConnectionStateReason::IpConfigInvalid,
+            6 => ActiveConnectionStateReason::ConnectTimeout,
+            7 => ActiveConnectionStateReason::ServiceStartTimeout,
+            8 => ActiveConnectionStateReason::ServiceStartFailed,
+            9 => ActiveConnectionStateReason::NoSecrets,
+            10 => ActiveConnectionStateReason::LoginFailed,
+            11 => ActiveConnectionStateReason::ConnectionRemoved,
+            12 => ActiveConnectionStateReason::DependencyFailed,
+            13 => ActiveConnectionStateReason::DeviceRealizeFailed,
+            14 => ActiveConnectionStateReason::DeviceRemoved,
+            value => ActiveConnectionStateReason::__Unknown(value),
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+impl StaticType for ActiveConnectionStateReason {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_active_connection_state_reason_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+impl<'a> FromValueOptional<'a> for ActiveConnectionStateReason {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+impl<'a> FromValue<'a> for ActiveConnectionStateReason {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+impl SetValue for ActiveConnectionStateReason {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum ClientPermission {
     None,
     EnableDisableNetwork,
@@ -309,6 +502,660 @@ impl<'a> FromValue<'a> for ConnectivityState {
 }
 
 impl SetValue for ConnectivityState {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum DeviceState {
+    Unknown,
+    Unmanaged,
+    Unavailable,
+    Disconnected,
+    Prepare,
+    Config,
+    NeedAuth,
+    IpConfig,
+    IpCheck,
+    Secondaries,
+    Activated,
+    Deactivating,
+    Failed,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for DeviceState {
+    type GlibType = ffi::NMDeviceState;
+
+    fn to_glib(&self) -> ffi::NMDeviceState {
+        match *self {
+            DeviceState::Unknown => ffi::NM_DEVICE_STATE_UNKNOWN,
+            DeviceState::Unmanaged => ffi::NM_DEVICE_STATE_UNMANAGED,
+            DeviceState::Unavailable => ffi::NM_DEVICE_STATE_UNAVAILABLE,
+            DeviceState::Disconnected => ffi::NM_DEVICE_STATE_DISCONNECTED,
+            DeviceState::Prepare => ffi::NM_DEVICE_STATE_PREPARE,
+            DeviceState::Config => ffi::NM_DEVICE_STATE_CONFIG,
+            DeviceState::NeedAuth => ffi::NM_DEVICE_STATE_NEED_AUTH,
+            DeviceState::IpConfig => ffi::NM_DEVICE_STATE_IP_CONFIG,
+            DeviceState::IpCheck => ffi::NM_DEVICE_STATE_IP_CHECK,
+            DeviceState::Secondaries => ffi::NM_DEVICE_STATE_SECONDARIES,
+            DeviceState::Activated => ffi::NM_DEVICE_STATE_ACTIVATED,
+            DeviceState::Deactivating => ffi::NM_DEVICE_STATE_DEACTIVATING,
+            DeviceState::Failed => ffi::NM_DEVICE_STATE_FAILED,
+            DeviceState::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMDeviceState> for DeviceState {
+    fn from_glib(value: ffi::NMDeviceState) -> Self {
+        match value {
+            0 => DeviceState::Unknown,
+            10 => DeviceState::Unmanaged,
+            20 => DeviceState::Unavailable,
+            30 => DeviceState::Disconnected,
+            40 => DeviceState::Prepare,
+            50 => DeviceState::Config,
+            60 => DeviceState::NeedAuth,
+            70 => DeviceState::IpConfig,
+            80 => DeviceState::IpCheck,
+            90 => DeviceState::Secondaries,
+            100 => DeviceState::Activated,
+            110 => DeviceState::Deactivating,
+            120 => DeviceState::Failed,
+            value => DeviceState::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for DeviceState {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_device_state_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for DeviceState {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for DeviceState {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for DeviceState {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum DeviceStateReason {
+    None,
+    Unknown,
+    NowManaged,
+    NowUnmanaged,
+    ConfigFailed,
+    IpConfigUnavailable,
+    IpConfigExpired,
+    NoSecrets,
+    SupplicantDisconnect,
+    SupplicantConfigFailed,
+    SupplicantFailed,
+    SupplicantTimeout,
+    PppStartFailed,
+    PppDisconnect,
+    PppFailed,
+    DhcpStartFailed,
+    DhcpError,
+    DhcpFailed,
+    SharedStartFailed,
+    SharedFailed,
+    AutoipStartFailed,
+    AutoipError,
+    AutoipFailed,
+    ModemBusy,
+    ModemNoDialTone,
+    ModemNoCarrier,
+    ModemDialTimeout,
+    ModemDialFailed,
+    ModemInitFailed,
+    GsmApnFailed,
+    GsmRegistrationNotSearching,
+    GsmRegistrationDenied,
+    GsmRegistrationTimeout,
+    GsmRegistrationFailed,
+    GsmPinCheckFailed,
+    FirmwareMissing,
+    Removed,
+    Sleeping,
+    ConnectionRemoved,
+    UserRequested,
+    Carrier,
+    ConnectionAssumed,
+    SupplicantAvailable,
+    ModemNotFound,
+    BtFailed,
+    GsmSimNotInserted,
+    GsmSimPinRequired,
+    GsmSimPukRequired,
+    GsmSimWrong,
+    InfinibandMode,
+    DependencyFailed,
+    Br2684Failed,
+    ModemManagerUnavailable,
+    SsidNotFound,
+    SecondaryConnectionFailed,
+    DcbFcoeFailed,
+    TeamdControlFailed,
+    ModemFailed,
+    ModemAvailable,
+    SimPinIncorrect,
+    NewActivation,
+    ParentChanged,
+    ParentManagedChanged,
+    OvsdbFailed,
+    IpAddressDuplicate,
+    IpMethodUnsupported,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for DeviceStateReason {
+    type GlibType = ffi::NMDeviceStateReason;
+
+    fn to_glib(&self) -> ffi::NMDeviceStateReason {
+        match *self {
+            DeviceStateReason::None => ffi::NM_DEVICE_STATE_REASON_NONE,
+            DeviceStateReason::Unknown => ffi::NM_DEVICE_STATE_REASON_UNKNOWN,
+            DeviceStateReason::NowManaged => ffi::NM_DEVICE_STATE_REASON_NOW_MANAGED,
+            DeviceStateReason::NowUnmanaged => ffi::NM_DEVICE_STATE_REASON_NOW_UNMANAGED,
+            DeviceStateReason::ConfigFailed => ffi::NM_DEVICE_STATE_REASON_CONFIG_FAILED,
+            DeviceStateReason::IpConfigUnavailable => {
+                ffi::NM_DEVICE_STATE_REASON_IP_CONFIG_UNAVAILABLE
+            }
+            DeviceStateReason::IpConfigExpired => ffi::NM_DEVICE_STATE_REASON_IP_CONFIG_EXPIRED,
+            DeviceStateReason::NoSecrets => ffi::NM_DEVICE_STATE_REASON_NO_SECRETS,
+            DeviceStateReason::SupplicantDisconnect => {
+                ffi::NM_DEVICE_STATE_REASON_SUPPLICANT_DISCONNECT
+            }
+            DeviceStateReason::SupplicantConfigFailed => {
+                ffi::NM_DEVICE_STATE_REASON_SUPPLICANT_CONFIG_FAILED
+            }
+            DeviceStateReason::SupplicantFailed => ffi::NM_DEVICE_STATE_REASON_SUPPLICANT_FAILED,
+            DeviceStateReason::SupplicantTimeout => ffi::NM_DEVICE_STATE_REASON_SUPPLICANT_TIMEOUT,
+            DeviceStateReason::PppStartFailed => ffi::NM_DEVICE_STATE_REASON_PPP_START_FAILED,
+            DeviceStateReason::PppDisconnect => ffi::NM_DEVICE_STATE_REASON_PPP_DISCONNECT,
+            DeviceStateReason::PppFailed => ffi::NM_DEVICE_STATE_REASON_PPP_FAILED,
+            DeviceStateReason::DhcpStartFailed => ffi::NM_DEVICE_STATE_REASON_DHCP_START_FAILED,
+            DeviceStateReason::DhcpError => ffi::NM_DEVICE_STATE_REASON_DHCP_ERROR,
+            DeviceStateReason::DhcpFailed => ffi::NM_DEVICE_STATE_REASON_DHCP_FAILED,
+            DeviceStateReason::SharedStartFailed => ffi::NM_DEVICE_STATE_REASON_SHARED_START_FAILED,
+            DeviceStateReason::SharedFailed => ffi::NM_DEVICE_STATE_REASON_SHARED_FAILED,
+            DeviceStateReason::AutoipStartFailed => ffi::NM_DEVICE_STATE_REASON_AUTOIP_START_FAILED,
+            DeviceStateReason::AutoipError => ffi::NM_DEVICE_STATE_REASON_AUTOIP_ERROR,
+            DeviceStateReason::AutoipFailed => ffi::NM_DEVICE_STATE_REASON_AUTOIP_FAILED,
+            DeviceStateReason::ModemBusy => ffi::NM_DEVICE_STATE_REASON_MODEM_BUSY,
+            DeviceStateReason::ModemNoDialTone => ffi::NM_DEVICE_STATE_REASON_MODEM_NO_DIAL_TONE,
+            DeviceStateReason::ModemNoCarrier => ffi::NM_DEVICE_STATE_REASON_MODEM_NO_CARRIER,
+            DeviceStateReason::ModemDialTimeout => ffi::NM_DEVICE_STATE_REASON_MODEM_DIAL_TIMEOUT,
+            DeviceStateReason::ModemDialFailed => ffi::NM_DEVICE_STATE_REASON_MODEM_DIAL_FAILED,
+            DeviceStateReason::ModemInitFailed => ffi::NM_DEVICE_STATE_REASON_MODEM_INIT_FAILED,
+            DeviceStateReason::GsmApnFailed => ffi::NM_DEVICE_STATE_REASON_GSM_APN_FAILED,
+            DeviceStateReason::GsmRegistrationNotSearching => {
+                ffi::NM_DEVICE_STATE_REASON_GSM_REGISTRATION_NOT_SEARCHING
+            }
+            DeviceStateReason::GsmRegistrationDenied => {
+                ffi::NM_DEVICE_STATE_REASON_GSM_REGISTRATION_DENIED
+            }
+            DeviceStateReason::GsmRegistrationTimeout => {
+                ffi::NM_DEVICE_STATE_REASON_GSM_REGISTRATION_TIMEOUT
+            }
+            DeviceStateReason::GsmRegistrationFailed => {
+                ffi::NM_DEVICE_STATE_REASON_GSM_REGISTRATION_FAILED
+            }
+            DeviceStateReason::GsmPinCheckFailed => {
+                ffi::NM_DEVICE_STATE_REASON_GSM_PIN_CHECK_FAILED
+            }
+            DeviceStateReason::FirmwareMissing => ffi::NM_DEVICE_STATE_REASON_FIRMWARE_MISSING,
+            DeviceStateReason::Removed => ffi::NM_DEVICE_STATE_REASON_REMOVED,
+            DeviceStateReason::Sleeping => ffi::NM_DEVICE_STATE_REASON_SLEEPING,
+            DeviceStateReason::ConnectionRemoved => ffi::NM_DEVICE_STATE_REASON_CONNECTION_REMOVED,
+            DeviceStateReason::UserRequested => ffi::NM_DEVICE_STATE_REASON_USER_REQUESTED,
+            DeviceStateReason::Carrier => ffi::NM_DEVICE_STATE_REASON_CARRIER,
+            DeviceStateReason::ConnectionAssumed => ffi::NM_DEVICE_STATE_REASON_CONNECTION_ASSUMED,
+            DeviceStateReason::SupplicantAvailable => {
+                ffi::NM_DEVICE_STATE_REASON_SUPPLICANT_AVAILABLE
+            }
+            DeviceStateReason::ModemNotFound => ffi::NM_DEVICE_STATE_REASON_MODEM_NOT_FOUND,
+            DeviceStateReason::BtFailed => ffi::NM_DEVICE_STATE_REASON_BT_FAILED,
+            DeviceStateReason::GsmSimNotInserted => {
+                ffi::NM_DEVICE_STATE_REASON_GSM_SIM_NOT_INSERTED
+            }
+            DeviceStateReason::GsmSimPinRequired => {
+                ffi::NM_DEVICE_STATE_REASON_GSM_SIM_PIN_REQUIRED
+            }
+            DeviceStateReason::GsmSimPukRequired => {
+                ffi::NM_DEVICE_STATE_REASON_GSM_SIM_PUK_REQUIRED
+            }
+            DeviceStateReason::GsmSimWrong => ffi::NM_DEVICE_STATE_REASON_GSM_SIM_WRONG,
+            DeviceStateReason::InfinibandMode => ffi::NM_DEVICE_STATE_REASON_INFINIBAND_MODE,
+            DeviceStateReason::DependencyFailed => ffi::NM_DEVICE_STATE_REASON_DEPENDENCY_FAILED,
+            DeviceStateReason::Br2684Failed => ffi::NM_DEVICE_STATE_REASON_BR2684_FAILED,
+            DeviceStateReason::ModemManagerUnavailable => {
+                ffi::NM_DEVICE_STATE_REASON_MODEM_MANAGER_UNAVAILABLE
+            }
+            DeviceStateReason::SsidNotFound => ffi::NM_DEVICE_STATE_REASON_SSID_NOT_FOUND,
+            DeviceStateReason::SecondaryConnectionFailed => {
+                ffi::NM_DEVICE_STATE_REASON_SECONDARY_CONNECTION_FAILED
+            }
+            DeviceStateReason::DcbFcoeFailed => ffi::NM_DEVICE_STATE_REASON_DCB_FCOE_FAILED,
+            DeviceStateReason::TeamdControlFailed => {
+                ffi::NM_DEVICE_STATE_REASON_TEAMD_CONTROL_FAILED
+            }
+            DeviceStateReason::ModemFailed => ffi::NM_DEVICE_STATE_REASON_MODEM_FAILED,
+            DeviceStateReason::ModemAvailable => ffi::NM_DEVICE_STATE_REASON_MODEM_AVAILABLE,
+            DeviceStateReason::SimPinIncorrect => ffi::NM_DEVICE_STATE_REASON_SIM_PIN_INCORRECT,
+            DeviceStateReason::NewActivation => ffi::NM_DEVICE_STATE_REASON_NEW_ACTIVATION,
+            DeviceStateReason::ParentChanged => ffi::NM_DEVICE_STATE_REASON_PARENT_CHANGED,
+            DeviceStateReason::ParentManagedChanged => {
+                ffi::NM_DEVICE_STATE_REASON_PARENT_MANAGED_CHANGED
+            }
+            DeviceStateReason::OvsdbFailed => ffi::NM_DEVICE_STATE_REASON_OVSDB_FAILED,
+            DeviceStateReason::IpAddressDuplicate => {
+                ffi::NM_DEVICE_STATE_REASON_IP_ADDRESS_DUPLICATE
+            }
+            DeviceStateReason::IpMethodUnsupported => {
+                ffi::NM_DEVICE_STATE_REASON_IP_METHOD_UNSUPPORTED
+            }
+            DeviceStateReason::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMDeviceStateReason> for DeviceStateReason {
+    fn from_glib(value: ffi::NMDeviceStateReason) -> Self {
+        match value {
+            0 => DeviceStateReason::None,
+            1 => DeviceStateReason::Unknown,
+            2 => DeviceStateReason::NowManaged,
+            3 => DeviceStateReason::NowUnmanaged,
+            4 => DeviceStateReason::ConfigFailed,
+            5 => DeviceStateReason::IpConfigUnavailable,
+            6 => DeviceStateReason::IpConfigExpired,
+            7 => DeviceStateReason::NoSecrets,
+            8 => DeviceStateReason::SupplicantDisconnect,
+            9 => DeviceStateReason::SupplicantConfigFailed,
+            10 => DeviceStateReason::SupplicantFailed,
+            11 => DeviceStateReason::SupplicantTimeout,
+            12 => DeviceStateReason::PppStartFailed,
+            13 => DeviceStateReason::PppDisconnect,
+            14 => DeviceStateReason::PppFailed,
+            15 => DeviceStateReason::DhcpStartFailed,
+            16 => DeviceStateReason::DhcpError,
+            17 => DeviceStateReason::DhcpFailed,
+            18 => DeviceStateReason::SharedStartFailed,
+            19 => DeviceStateReason::SharedFailed,
+            20 => DeviceStateReason::AutoipStartFailed,
+            21 => DeviceStateReason::AutoipError,
+            22 => DeviceStateReason::AutoipFailed,
+            23 => DeviceStateReason::ModemBusy,
+            24 => DeviceStateReason::ModemNoDialTone,
+            25 => DeviceStateReason::ModemNoCarrier,
+            26 => DeviceStateReason::ModemDialTimeout,
+            27 => DeviceStateReason::ModemDialFailed,
+            28 => DeviceStateReason::ModemInitFailed,
+            29 => DeviceStateReason::GsmApnFailed,
+            30 => DeviceStateReason::GsmRegistrationNotSearching,
+            31 => DeviceStateReason::GsmRegistrationDenied,
+            32 => DeviceStateReason::GsmRegistrationTimeout,
+            33 => DeviceStateReason::GsmRegistrationFailed,
+            34 => DeviceStateReason::GsmPinCheckFailed,
+            35 => DeviceStateReason::FirmwareMissing,
+            36 => DeviceStateReason::Removed,
+            37 => DeviceStateReason::Sleeping,
+            38 => DeviceStateReason::ConnectionRemoved,
+            39 => DeviceStateReason::UserRequested,
+            40 => DeviceStateReason::Carrier,
+            41 => DeviceStateReason::ConnectionAssumed,
+            42 => DeviceStateReason::SupplicantAvailable,
+            43 => DeviceStateReason::ModemNotFound,
+            44 => DeviceStateReason::BtFailed,
+            45 => DeviceStateReason::GsmSimNotInserted,
+            46 => DeviceStateReason::GsmSimPinRequired,
+            47 => DeviceStateReason::GsmSimPukRequired,
+            48 => DeviceStateReason::GsmSimWrong,
+            49 => DeviceStateReason::InfinibandMode,
+            50 => DeviceStateReason::DependencyFailed,
+            51 => DeviceStateReason::Br2684Failed,
+            52 => DeviceStateReason::ModemManagerUnavailable,
+            53 => DeviceStateReason::SsidNotFound,
+            54 => DeviceStateReason::SecondaryConnectionFailed,
+            55 => DeviceStateReason::DcbFcoeFailed,
+            56 => DeviceStateReason::TeamdControlFailed,
+            57 => DeviceStateReason::ModemFailed,
+            58 => DeviceStateReason::ModemAvailable,
+            59 => DeviceStateReason::SimPinIncorrect,
+            60 => DeviceStateReason::NewActivation,
+            61 => DeviceStateReason::ParentChanged,
+            62 => DeviceStateReason::ParentManagedChanged,
+            63 => DeviceStateReason::OvsdbFailed,
+            64 => DeviceStateReason::IpAddressDuplicate,
+            65 => DeviceStateReason::IpMethodUnsupported,
+            value => DeviceStateReason::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for DeviceStateReason {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_device_state_reason_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for DeviceStateReason {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for DeviceStateReason {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for DeviceStateReason {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum DeviceType {
+    Unknown,
+    Ethernet,
+    Wifi,
+    Unused1,
+    Unused2,
+    Bt,
+    OlpcMesh,
+    Wimax,
+    Modem,
+    Infiniband,
+    Bond,
+    Vlan,
+    Adsl,
+    Bridge,
+    Generic,
+    Team,
+    Tun,
+    IpTunnel,
+    Macvlan,
+    Vxlan,
+    Veth,
+    Macsec,
+    Dummy,
+    Ppp,
+    OvsInterface,
+    OvsPort,
+    OvsBridge,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for DeviceType {
+    type GlibType = ffi::NMDeviceType;
+
+    fn to_glib(&self) -> ffi::NMDeviceType {
+        match *self {
+            DeviceType::Unknown => ffi::NM_DEVICE_TYPE_UNKNOWN,
+            DeviceType::Ethernet => ffi::NM_DEVICE_TYPE_ETHERNET,
+            DeviceType::Wifi => ffi::NM_DEVICE_TYPE_WIFI,
+            DeviceType::Unused1 => ffi::NM_DEVICE_TYPE_UNUSED1,
+            DeviceType::Unused2 => ffi::NM_DEVICE_TYPE_UNUSED2,
+            DeviceType::Bt => ffi::NM_DEVICE_TYPE_BT,
+            DeviceType::OlpcMesh => ffi::NM_DEVICE_TYPE_OLPC_MESH,
+            DeviceType::Wimax => ffi::NM_DEVICE_TYPE_WIMAX,
+            DeviceType::Modem => ffi::NM_DEVICE_TYPE_MODEM,
+            DeviceType::Infiniband => ffi::NM_DEVICE_TYPE_INFINIBAND,
+            DeviceType::Bond => ffi::NM_DEVICE_TYPE_BOND,
+            DeviceType::Vlan => ffi::NM_DEVICE_TYPE_VLAN,
+            DeviceType::Adsl => ffi::NM_DEVICE_TYPE_ADSL,
+            DeviceType::Bridge => ffi::NM_DEVICE_TYPE_BRIDGE,
+            DeviceType::Generic => ffi::NM_DEVICE_TYPE_GENERIC,
+            DeviceType::Team => ffi::NM_DEVICE_TYPE_TEAM,
+            DeviceType::Tun => ffi::NM_DEVICE_TYPE_TUN,
+            DeviceType::IpTunnel => ffi::NM_DEVICE_TYPE_IP_TUNNEL,
+            DeviceType::Macvlan => ffi::NM_DEVICE_TYPE_MACVLAN,
+            DeviceType::Vxlan => ffi::NM_DEVICE_TYPE_VXLAN,
+            DeviceType::Veth => ffi::NM_DEVICE_TYPE_VETH,
+            DeviceType::Macsec => ffi::NM_DEVICE_TYPE_MACSEC,
+            DeviceType::Dummy => ffi::NM_DEVICE_TYPE_DUMMY,
+            DeviceType::Ppp => ffi::NM_DEVICE_TYPE_PPP,
+            DeviceType::OvsInterface => ffi::NM_DEVICE_TYPE_OVS_INTERFACE,
+            DeviceType::OvsPort => ffi::NM_DEVICE_TYPE_OVS_PORT,
+            DeviceType::OvsBridge => ffi::NM_DEVICE_TYPE_OVS_BRIDGE,
+            DeviceType::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMDeviceType> for DeviceType {
+    fn from_glib(value: ffi::NMDeviceType) -> Self {
+        match value {
+            0 => DeviceType::Unknown,
+            1 => DeviceType::Ethernet,
+            2 => DeviceType::Wifi,
+            3 => DeviceType::Unused1,
+            4 => DeviceType::Unused2,
+            5 => DeviceType::Bt,
+            6 => DeviceType::OlpcMesh,
+            7 => DeviceType::Wimax,
+            8 => DeviceType::Modem,
+            9 => DeviceType::Infiniband,
+            10 => DeviceType::Bond,
+            11 => DeviceType::Vlan,
+            12 => DeviceType::Adsl,
+            13 => DeviceType::Bridge,
+            14 => DeviceType::Generic,
+            15 => DeviceType::Team,
+            16 => DeviceType::Tun,
+            17 => DeviceType::IpTunnel,
+            18 => DeviceType::Macvlan,
+            19 => DeviceType::Vxlan,
+            20 => DeviceType::Veth,
+            21 => DeviceType::Macsec,
+            22 => DeviceType::Dummy,
+            23 => DeviceType::Ppp,
+            24 => DeviceType::OvsInterface,
+            25 => DeviceType::OvsPort,
+            26 => DeviceType::OvsBridge,
+            value => DeviceType::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for DeviceType {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_device_type_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for DeviceType {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for DeviceType {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for DeviceType {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum Metered {
+    Unknown,
+    Yes,
+    No,
+    GuessYes,
+    GuessNo,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for Metered {
+    type GlibType = ffi::NMMetered;
+
+    fn to_glib(&self) -> ffi::NMMetered {
+        match *self {
+            Metered::Unknown => ffi::NM_METERED_UNKNOWN,
+            Metered::Yes => ffi::NM_METERED_YES,
+            Metered::No => ffi::NM_METERED_NO,
+            Metered::GuessYes => ffi::NM_METERED_GUESS_YES,
+            Metered::GuessNo => ffi::NM_METERED_GUESS_NO,
+            Metered::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMMetered> for Metered {
+    fn from_glib(value: ffi::NMMetered) -> Self {
+        match value {
+            0 => Metered::Unknown,
+            1 => Metered::Yes,
+            2 => Metered::No,
+            3 => Metered::GuessYes,
+            4 => Metered::GuessNo,
+            value => Metered::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for Metered {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_metered_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for Metered {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for Metered {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for Metered {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingCompareFlags {
+    Exact,
+    Fuzzy,
+    IgnoreId,
+    IgnoreSecrets,
+    IgnoreAgentOwnedSecrets,
+    IgnoreNotSavedSecrets,
+    DiffResultWithDefault,
+    DiffResultNoDefault,
+    IgnoreTimestamp,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for SettingCompareFlags {
+    type GlibType = ffi::NMSettingCompareFlags;
+
+    fn to_glib(&self) -> ffi::NMSettingCompareFlags {
+        match *self {
+            SettingCompareFlags::Exact => ffi::NM_SETTING_COMPARE_FLAG_EXACT,
+            SettingCompareFlags::Fuzzy => ffi::NM_SETTING_COMPARE_FLAG_FUZZY,
+            SettingCompareFlags::IgnoreId => ffi::NM_SETTING_COMPARE_FLAG_IGNORE_ID,
+            SettingCompareFlags::IgnoreSecrets => ffi::NM_SETTING_COMPARE_FLAG_IGNORE_SECRETS,
+            SettingCompareFlags::IgnoreAgentOwnedSecrets => {
+                ffi::NM_SETTING_COMPARE_FLAG_IGNORE_AGENT_OWNED_SECRETS
+            }
+            SettingCompareFlags::IgnoreNotSavedSecrets => {
+                ffi::NM_SETTING_COMPARE_FLAG_IGNORE_NOT_SAVED_SECRETS
+            }
+            SettingCompareFlags::DiffResultWithDefault => {
+                ffi::NM_SETTING_COMPARE_FLAG_DIFF_RESULT_WITH_DEFAULT
+            }
+            SettingCompareFlags::DiffResultNoDefault => {
+                ffi::NM_SETTING_COMPARE_FLAG_DIFF_RESULT_NO_DEFAULT
+            }
+            SettingCompareFlags::IgnoreTimestamp => ffi::NM_SETTING_COMPARE_FLAG_IGNORE_TIMESTAMP,
+            SettingCompareFlags::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingCompareFlags> for SettingCompareFlags {
+    fn from_glib(value: ffi::NMSettingCompareFlags) -> Self {
+        match value {
+            0 => SettingCompareFlags::Exact,
+            1 => SettingCompareFlags::Fuzzy,
+            2 => SettingCompareFlags::IgnoreId,
+            4 => SettingCompareFlags::IgnoreSecrets,
+            8 => SettingCompareFlags::IgnoreAgentOwnedSecrets,
+            16 => SettingCompareFlags::IgnoreNotSavedSecrets,
+            32 => SettingCompareFlags::DiffResultWithDefault,
+            64 => SettingCompareFlags::DiffResultNoDefault,
+            128 => SettingCompareFlags::IgnoreTimestamp,
+            value => SettingCompareFlags::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for SettingCompareFlags {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_compare_flags_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for SettingCompareFlags {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for SettingCompareFlags {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for SettingCompareFlags {
     unsafe fn set_value(value: &mut Value, this: &Self) {
         gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
     }

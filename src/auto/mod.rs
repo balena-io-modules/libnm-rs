@@ -32,6 +32,14 @@ mod device_wifi;
 pub use self::device_wifi::DeviceWifi;
 pub use self::device_wifi::DeviceWifiExt;
 
+mod dhcp_config;
+pub use self::dhcp_config::DhcpConfig;
+pub use self::dhcp_config::DhcpConfigExt;
+
+mod ip_config;
+pub use self::ip_config::IPConfig;
+pub use self::ip_config::IPConfigExt;
+
 mod remote_connection;
 pub use self::remote_connection::RemoteConnection;
 pub use self::remote_connection::RemoteConnectionExt;
@@ -40,17 +48,200 @@ mod setting;
 pub use self::setting::Setting;
 pub use self::setting::SettingExt;
 
+mod setting8021x;
+pub use self::setting8021x::Setting8021x;
+pub use self::setting8021x::Setting8021xExt;
+
+mod setting_adsl;
+pub use self::setting_adsl::SettingAdsl;
+pub use self::setting_adsl::SettingAdslExt;
+
+mod setting_bluetooth;
+pub use self::setting_bluetooth::SettingBluetooth;
+pub use self::setting_bluetooth::SettingBluetoothExt;
+
+mod setting_bond;
+pub use self::setting_bond::SettingBond;
+pub use self::setting_bond::SettingBondExt;
+
+mod setting_bridge;
+pub use self::setting_bridge::SettingBridge;
+pub use self::setting_bridge::SettingBridgeExt;
+
+mod setting_bridge_port;
+pub use self::setting_bridge_port::SettingBridgePort;
+pub use self::setting_bridge_port::SettingBridgePortExt;
+
+mod setting_cdma;
+pub use self::setting_cdma::SettingCdma;
+pub use self::setting_cdma::SettingCdmaExt;
+
+mod setting_connection;
+pub use self::setting_connection::SettingConnection;
+pub use self::setting_connection::SettingConnectionExt;
+
+mod setting_dcb;
+pub use self::setting_dcb::SettingDcb;
+pub use self::setting_dcb::SettingDcbExt;
+
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+mod setting_dummy;
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+pub use self::setting_dummy::SettingDummy;
+
+mod setting_generic;
+pub use self::setting_generic::SettingGeneric;
+
+mod setting_gsm;
+pub use self::setting_gsm::SettingGsm;
+pub use self::setting_gsm::SettingGsmExt;
+
+mod setting_ip4_config;
+pub use self::setting_ip4_config::SettingIP4Config;
+pub use self::setting_ip4_config::SettingIP4ConfigExt;
+
+mod setting_ip6_config;
+pub use self::setting_ip6_config::SettingIP6Config;
+pub use self::setting_ip6_config::SettingIP6ConfigExt;
+
+mod setting_ip_tunnel;
+pub use self::setting_ip_tunnel::SettingIPTunnel;
+pub use self::setting_ip_tunnel::SettingIPTunnelExt;
+
+mod setting_infiniband;
+pub use self::setting_infiniband::SettingInfiniband;
+pub use self::setting_infiniband::SettingInfinibandExt;
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+mod setting_macsec;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+pub use self::setting_macsec::SettingMacsec;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+pub use self::setting_macsec::SettingMacsecExt;
+
+mod setting_macvlan;
+pub use self::setting_macvlan::SettingMacvlan;
+pub use self::setting_macvlan::SettingMacvlanExt;
+
+mod setting_olpc_mesh;
+pub use self::setting_olpc_mesh::SettingOlpcMesh;
+pub use self::setting_olpc_mesh::SettingOlpcMeshExt;
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+mod setting_ovs_bridge;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+pub use self::setting_ovs_bridge::SettingOvsBridge;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+pub use self::setting_ovs_bridge::SettingOvsBridgeExt;
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+mod setting_ovs_interface;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+pub use self::setting_ovs_interface::SettingOvsInterface;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+pub use self::setting_ovs_interface::SettingOvsInterfaceExt;
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+mod setting_ovs_patch;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+pub use self::setting_ovs_patch::SettingOvsPatch;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+pub use self::setting_ovs_patch::SettingOvsPatchExt;
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+mod setting_ovs_port;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+pub use self::setting_ovs_port::SettingOvsPort;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+pub use self::setting_ovs_port::SettingOvsPortExt;
+
+mod setting_ppp;
+pub use self::setting_ppp::SettingPpp;
+pub use self::setting_ppp::SettingPppExt;
+
+mod setting_pppoe;
+pub use self::setting_pppoe::SettingPppoe;
+pub use self::setting_pppoe::SettingPppoeExt;
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+mod setting_proxy;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+pub use self::setting_proxy::SettingProxy;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+pub use self::setting_proxy::SettingProxyExt;
+
+mod setting_serial;
+pub use self::setting_serial::SettingSerial;
+pub use self::setting_serial::SettingSerialExt;
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+mod setting_tc_config;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+pub use self::setting_tc_config::SettingTCConfig;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+pub use self::setting_tc_config::SettingTCConfigExt;
+
+mod setting_team;
+pub use self::setting_team::SettingTeam;
+pub use self::setting_team::SettingTeamExt;
+
+mod setting_team_port;
+pub use self::setting_team_port::SettingTeamPort;
+pub use self::setting_team_port::SettingTeamPortExt;
+
+mod setting_tun;
+pub use self::setting_tun::SettingTun;
+pub use self::setting_tun::SettingTunExt;
+
+mod setting_vlan;
+pub use self::setting_vlan::SettingVlan;
+pub use self::setting_vlan::SettingVlanExt;
+
+mod setting_vpn;
+pub use self::setting_vpn::SettingVpn;
+pub use self::setting_vpn::SettingVpnExt;
+
+mod setting_vxlan;
+pub use self::setting_vxlan::SettingVxlan;
+pub use self::setting_vxlan::SettingVxlanExt;
+
+mod setting_wired;
+pub use self::setting_wired::SettingWired;
+pub use self::setting_wired::SettingWiredExt;
+
+mod setting_wireless;
+pub use self::setting_wireless::SettingWireless;
+pub use self::setting_wireless::SettingWirelessExt;
+
+mod setting_wireless_security;
+pub use self::setting_wireless_security::SettingWirelessSecurity;
+pub use self::setting_wireless_security::SettingWirelessSecurityExt;
+
 mod enums;
+pub use self::enums::ActiveConnectionState;
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+pub use self::enums::ActiveConnectionStateReason;
 pub use self::enums::ClientPermission;
 pub use self::enums::ClientPermissionResult;
 pub use self::enums::ConnectivityState;
+pub use self::enums::DeviceState;
+pub use self::enums::DeviceStateReason;
+pub use self::enums::DeviceType;
+pub use self::enums::Metered;
+pub use self::enums::SettingCompareFlags;
 pub use self::enums::State;
 pub use self::enums::_80211Mode;
 
 mod flags;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+pub use self::flags::ActivationStateFlags;
 #[cfg(any(feature = "v1_4", feature = "dox"))]
 pub use self::flags::CheckpointCreateFlags;
+pub use self::flags::ConnectionSerializationFlags;
+pub use self::flags::DeviceCapabilities;
 pub use self::flags::DeviceWifiCapabilities;
+pub use self::flags::_80211ApFlags;
+pub use self::flags::_80211ApSecurityFlags;
 
 #[doc(hidden)]
 pub mod traits {
@@ -61,6 +252,50 @@ pub mod traits {
     pub use super::ConnectionExt;
     pub use super::DeviceExt;
     pub use super::DeviceWifiExt;
+    pub use super::DhcpConfigExt;
+    pub use super::IPConfigExt;
     pub use super::RemoteConnectionExt;
+    pub use super::Setting8021xExt;
+    pub use super::SettingAdslExt;
+    pub use super::SettingBluetoothExt;
+    pub use super::SettingBondExt;
+    pub use super::SettingBridgeExt;
+    pub use super::SettingBridgePortExt;
+    pub use super::SettingCdmaExt;
+    pub use super::SettingConnectionExt;
+    pub use super::SettingDcbExt;
     pub use super::SettingExt;
+    pub use super::SettingGsmExt;
+    pub use super::SettingIP4ConfigExt;
+    pub use super::SettingIP6ConfigExt;
+    pub use super::SettingIPTunnelExt;
+    pub use super::SettingInfinibandExt;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    pub use super::SettingMacsecExt;
+    pub use super::SettingMacvlanExt;
+    pub use super::SettingOlpcMeshExt;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    pub use super::SettingOvsBridgeExt;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    pub use super::SettingOvsInterfaceExt;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    pub use super::SettingOvsPatchExt;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    pub use super::SettingOvsPortExt;
+    pub use super::SettingPppExt;
+    pub use super::SettingPppoeExt;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    pub use super::SettingProxyExt;
+    pub use super::SettingSerialExt;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub use super::SettingTCConfigExt;
+    pub use super::SettingTeamExt;
+    pub use super::SettingTeamPortExt;
+    pub use super::SettingTunExt;
+    pub use super::SettingVlanExt;
+    pub use super::SettingVpnExt;
+    pub use super::SettingVxlanExt;
+    pub use super::SettingWiredExt;
+    pub use super::SettingWirelessExt;
+    pub use super::SettingWirelessSecurityExt;
 }

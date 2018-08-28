@@ -7,28 +7,78 @@ target_path = "."
 work_mode = "normal"
 
 generate = [
-    "NM.Connection",
-    "NM.ActiveConnection",
-    "NM.RemoteConnection",
-    "NM.Device",
-    "NM.DeviceWifi",
-    "NM.DeviceWifiCapabilities",
+    "NM.80211ApFlags",
+    "NM.80211ApSecurityFlags",
     "NM.80211Mode",
     "NM.AccessPoint",
-    "NM.ConnectivityState",
-    "NM.State",
-    "NM.Setting",
+    "NM.ActivationStateFlags",
+    "NM.ActiveConnection",
+    "NM.ActiveConnectionState",
+    "NM.ActiveConnectionStateReason",
     "NM.Checkpoint",
     "NM.CheckpointCreateFlags",
     "NM.ClientPermission",
     "NM.ClientPermissionResult",
+    "NM.Connection",
+    "NM.ConnectionSerializationFlags",
+    "NM.ConnectivityState",
+    "NM.Device",
+    "NM.DeviceCapabilities",
+    "NM.DeviceState",
+    "NM.DeviceStateReason",
+    "NM.DeviceType",
+    "NM.DeviceWifi",
+    "NM.DeviceWifiCapabilities",
+    "NM.DhcpConfig",
+    "NM.IPConfig",
+    "NM.Metered",
+    "NM.RemoteConnection",
+    "NM.Setting",
+    "NM.Setting8021x",
+    "NM.SettingAdsl",
+    "NM.SettingBluetooth",
+    "NM.SettingBond",
+    "NM.SettingBridge",
+    "NM.SettingBridgePort",
+    "NM.SettingCdma",
+    "NM.SettingCompareFlags",
+    "NM.SettingDcb",
+    "NM.SettingDummy",
+    "NM.SettingGeneric",
+    "NM.SettingGsm",
+    "NM.SettingInfiniband",
+    "NM.SettingIP4Config",
+    "NM.SettingIP6Config",
+    "NM.SettingIPTunnel",
+    "NM.SettingMacsec",
+    "NM.SettingMacvlan",
+    "NM.SettingOlpcMesh",
+    "NM.SettingOvsBridge",
+    "NM.SettingOvsInterface",
+    "NM.SettingOvsPatch",
+    "NM.SettingOvsPort",
+    "NM.SettingPpp",
+    "NM.SettingPppoe",
+    "NM.SettingProxy",
+    "NM.SettingSerial",
+    "NM.SettingTCConfig",
+    "NM.SettingTeam",
+    "NM.SettingTeamPort",
+    "NM.SettingTun",
+    "NM.SettingVlan",
+    "NM.SettingVpn",
+    "NM.SettingVxlan",
+    "NM.SettingWired",
+    "NM.SettingWireless",
+    "NM.SettingWirelessSecurity",
+    "NM.State",
 ]
 
 manual = [
     "GObject.Object",
     "GLib.Bytes",
-    "GLib.PtrArray",
     "GLib.Error",
+    "GLib.PtrArray",
     "GLib.Variant",
     "Gio.AsyncReadyCallback",
     "Gio.Cancellable",
@@ -43,36 +93,54 @@ trait = false
 
     [[object.function]]
     name = "get_logging"
+    # Does not compile
     ignore = true
 
     [[object.function]]
     name = "load_connections"
+    # Does not compile
     ignore = true
 
     [[object.function]]
     name = "load_connections_async"
+    # Does not compile
     ignore = true
 
     [[object.function]]
     name = "get_devices"
+    # No GPtrArray support
     ignore = true
 
     [[object.function]]
     name = "get_all_devices"
+    # No GPtrArray support
     ignore = true
 
     [[object.function]]
     name = "get_connections"
+    # No GPtrArray support
     ignore = true
 
     [[object.function]]
     name = "get_active_connections"
+    # No GPtrArray support
     ignore = true
 
     [[object.function]]
     name = "get_dns_configuration"
+    # No GPtrArray support
     ignore = true
 
     [[object.function]]
     name = "get_checkpoints"
+    # No GPtrArray support
+    ignore = true
+
+[[object]]
+name = "NM.SettingConnection"
+status = "generate"
+
+    [[object.function]]
+    name = "get_permission"
+    # Does not compile
     ignore = true

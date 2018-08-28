@@ -24,7 +24,14 @@ use std::mem::transmute;
 use std::ptr;
 use ActiveConnection;
 use Connection;
+use DeviceCapabilities;
+use DeviceState;
+use DeviceStateReason;
+use DeviceType;
+use DhcpConfig;
 use Error;
+use IPConfig;
+use Metered;
 
 glib_wrapper! {
     pub struct Device(Object<ffi::NMDevice, ffi::NMDeviceClass>);
@@ -122,15 +129,15 @@ pub trait DeviceExt: Sized {
 
     //fn get_available_connections(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 9 };
 
-    //fn get_capabilities(&self) -> /*Ignored*/DeviceCapabilities;
+    fn get_capabilities(&self) -> DeviceCapabilities;
 
     fn get_description(&self) -> Option<String>;
 
-    //fn get_device_type(&self) -> /*Ignored*/DeviceType;
+    fn get_device_type(&self) -> DeviceType;
 
-    //fn get_dhcp4_config(&self) -> /*Ignored*/Option<DhcpConfig>;
+    fn get_dhcp4_config(&self) -> Option<DhcpConfig>;
 
-    //fn get_dhcp6_config(&self) -> /*Ignored*/Option<DhcpConfig>;
+    fn get_dhcp6_config(&self) -> Option<DhcpConfig>;
 
     fn get_driver(&self) -> Option<String>;
 
@@ -144,9 +151,9 @@ pub trait DeviceExt: Sized {
 
     fn get_iface(&self) -> Option<String>;
 
-    //fn get_ip4_config(&self) -> /*Ignored*/Option<IPConfig>;
+    fn get_ip4_config(&self) -> Option<IPConfig>;
 
-    //fn get_ip6_config(&self) -> /*Ignored*/Option<IPConfig>;
+    fn get_ip6_config(&self) -> Option<IPConfig>;
 
     fn get_ip_iface(&self) -> Option<String>;
 
@@ -154,7 +161,7 @@ pub trait DeviceExt: Sized {
 
     fn get_managed(&self) -> bool;
 
-    //fn get_metered(&self) -> /*Ignored*/Metered;
+    fn get_metered(&self) -> Metered;
 
     fn get_mtu(&self) -> u32;
 
@@ -166,9 +173,9 @@ pub trait DeviceExt: Sized {
 
     fn get_setting_type(&self) -> glib::types::Type;
 
-    //fn get_state(&self) -> /*Ignored*/DeviceState;
+    fn get_state(&self) -> DeviceState;
 
-    //fn get_state_reason(&self) -> /*Ignored*/DeviceStateReason;
+    fn get_state_reason(&self) -> DeviceStateReason;
 
     fn get_type_description(&self) -> Option<String>;
 
@@ -608,25 +615,25 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     //    unsafe { TODO: call ffi::nm_device_get_available_connections() }
     //}
 
-    //fn get_capabilities(&self) -> /*Ignored*/DeviceCapabilities {
-    //    unsafe { TODO: call ffi::nm_device_get_capabilities() }
-    //}
+    fn get_capabilities(&self) -> DeviceCapabilities {
+        unsafe { from_glib(ffi::nm_device_get_capabilities(self.to_glib_none().0)) }
+    }
 
     fn get_description(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_device_get_description(self.to_glib_none().0)) }
     }
 
-    //fn get_device_type(&self) -> /*Ignored*/DeviceType {
-    //    unsafe { TODO: call ffi::nm_device_get_device_type() }
-    //}
+    fn get_device_type(&self) -> DeviceType {
+        unsafe { from_glib(ffi::nm_device_get_device_type(self.to_glib_none().0)) }
+    }
 
-    //fn get_dhcp4_config(&self) -> /*Ignored*/Option<DhcpConfig> {
-    //    unsafe { TODO: call ffi::nm_device_get_dhcp4_config() }
-    //}
+    fn get_dhcp4_config(&self) -> Option<DhcpConfig> {
+        unsafe { from_glib_none(ffi::nm_device_get_dhcp4_config(self.to_glib_none().0)) }
+    }
 
-    //fn get_dhcp6_config(&self) -> /*Ignored*/Option<DhcpConfig> {
-    //    unsafe { TODO: call ffi::nm_device_get_dhcp6_config() }
-    //}
+    fn get_dhcp6_config(&self) -> Option<DhcpConfig> {
+        unsafe { from_glib_none(ffi::nm_device_get_dhcp6_config(self.to_glib_none().0)) }
+    }
 
     fn get_driver(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_device_get_driver(self.to_glib_none().0)) }
@@ -652,13 +659,13 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
         unsafe { from_glib_none(ffi::nm_device_get_iface(self.to_glib_none().0)) }
     }
 
-    //fn get_ip4_config(&self) -> /*Ignored*/Option<IPConfig> {
-    //    unsafe { TODO: call ffi::nm_device_get_ip4_config() }
-    //}
+    fn get_ip4_config(&self) -> Option<IPConfig> {
+        unsafe { from_glib_none(ffi::nm_device_get_ip4_config(self.to_glib_none().0)) }
+    }
 
-    //fn get_ip6_config(&self) -> /*Ignored*/Option<IPConfig> {
-    //    unsafe { TODO: call ffi::nm_device_get_ip6_config() }
-    //}
+    fn get_ip6_config(&self) -> Option<IPConfig> {
+        unsafe { from_glib_none(ffi::nm_device_get_ip6_config(self.to_glib_none().0)) }
+    }
 
     fn get_ip_iface(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_device_get_ip_iface(self.to_glib_none().0)) }
@@ -672,9 +679,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
         unsafe { from_glib(ffi::nm_device_get_managed(self.to_glib_none().0)) }
     }
 
-    //fn get_metered(&self) -> /*Ignored*/Metered {
-    //    unsafe { TODO: call ffi::nm_device_get_metered() }
-    //}
+    fn get_metered(&self) -> Metered {
+        unsafe { from_glib(ffi::nm_device_get_metered(self.to_glib_none().0)) }
+    }
 
     fn get_mtu(&self) -> u32 {
         unsafe { ffi::nm_device_get_mtu(self.to_glib_none().0) }
@@ -696,13 +703,13 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
         unsafe { from_glib(ffi::nm_device_get_setting_type(self.to_glib_none().0)) }
     }
 
-    //fn get_state(&self) -> /*Ignored*/DeviceState {
-    //    unsafe { TODO: call ffi::nm_device_get_state() }
-    //}
+    fn get_state(&self) -> DeviceState {
+        unsafe { from_glib(ffi::nm_device_get_state(self.to_glib_none().0)) }
+    }
 
-    //fn get_state_reason(&self) -> /*Ignored*/DeviceStateReason {
-    //    unsafe { TODO: call ffi::nm_device_get_state_reason() }
-    //}
+    fn get_state_reason(&self) -> DeviceStateReason {
+        unsafe { from_glib(ffi::nm_device_get_state_reason(self.to_glib_none().0)) }
+    }
 
     fn get_type_description(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_device_get_type_description(self.to_glib_none().0)) }

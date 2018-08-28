@@ -2,6 +2,8 @@
 // from gir-files (https://github.com/gtk-rs/gir-files @ ???)
 // DO NOT EDIT
 
+use _80211ApFlags;
+use _80211ApSecurityFlags;
 use _80211Mode;
 use ffi;
 use glib;
@@ -35,7 +37,7 @@ pub trait AccessPointExt {
 
     fn get_bssid(&self) -> Option<String>;
 
-    //fn get_flags(&self) -> /*Ignored*/80211ApFlags;
+    fn get_flags(&self) -> _80211ApFlags;
 
     fn get_frequency(&self) -> u32;
 
@@ -45,13 +47,13 @@ pub trait AccessPointExt {
 
     fn get_mode(&self) -> _80211Mode;
 
-    //fn get_rsn_flags(&self) -> /*Ignored*/80211ApSecurityFlags;
+    fn get_rsn_flags(&self) -> _80211ApSecurityFlags;
 
     fn get_ssid(&self) -> Option<glib::Bytes>;
 
     fn get_strength(&self) -> u8;
 
-    //fn get_wpa_flags(&self) -> /*Ignored*/80211ApSecurityFlags;
+    fn get_wpa_flags(&self) -> _80211ApSecurityFlags;
 
     #[deprecated]
     fn get_property_hw_address(&self) -> Option<String>;
@@ -98,9 +100,9 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
         unsafe { from_glib_none(ffi::nm_access_point_get_bssid(self.to_glib_none().0)) }
     }
 
-    //fn get_flags(&self) -> /*Ignored*/80211ApFlags {
-    //    unsafe { TODO: call ffi::nm_access_point_get_flags() }
-    //}
+    fn get_flags(&self) -> _80211ApFlags {
+        unsafe { from_glib(ffi::nm_access_point_get_flags(self.to_glib_none().0)) }
+    }
 
     fn get_frequency(&self) -> u32 {
         unsafe { ffi::nm_access_point_get_frequency(self.to_glib_none().0) }
@@ -118,9 +120,9 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
         unsafe { from_glib(ffi::nm_access_point_get_mode(self.to_glib_none().0)) }
     }
 
-    //fn get_rsn_flags(&self) -> /*Ignored*/80211ApSecurityFlags {
-    //    unsafe { TODO: call ffi::nm_access_point_get_rsn_flags() }
-    //}
+    fn get_rsn_flags(&self) -> _80211ApSecurityFlags {
+        unsafe { from_glib(ffi::nm_access_point_get_rsn_flags(self.to_glib_none().0)) }
+    }
 
     fn get_ssid(&self) -> Option<glib::Bytes> {
         unsafe { from_glib_none(ffi::nm_access_point_get_ssid(self.to_glib_none().0)) }
@@ -130,9 +132,9 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
         unsafe { ffi::nm_access_point_get_strength(self.to_glib_none().0) }
     }
 
-    //fn get_wpa_flags(&self) -> /*Ignored*/80211ApSecurityFlags {
-    //    unsafe { TODO: call ffi::nm_access_point_get_wpa_flags() }
-    //}
+    fn get_wpa_flags(&self) -> _80211ApSecurityFlags {
+        unsafe { from_glib(ffi::nm_access_point_get_wpa_flags(self.to_glib_none().0)) }
+    }
 
     fn get_property_hw_address(&self) -> Option<String> {
         unsafe {

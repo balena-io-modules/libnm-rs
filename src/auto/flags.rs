@@ -12,6 +12,171 @@ use glib::StaticType;
 use glib::Type;
 use gobject_ffi;
 
+bitflags! {
+    pub struct _80211ApFlags: u32 {
+        const NONE = 0;
+        const PRIVACY = 1;
+        const WPS = 2;
+        const WPS_PBC = 4;
+        const WPS_PIN = 8;
+    }
+}
+
+#[doc(hidden)]
+impl ToGlib for _80211ApFlags {
+    type GlibType = ffi::NM80211ApFlags;
+
+    fn to_glib(&self) -> ffi::NM80211ApFlags {
+        self.bits()
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NM80211ApFlags> for _80211ApFlags {
+    fn from_glib(value: ffi::NM80211ApFlags) -> _80211ApFlags {
+        _80211ApFlags::from_bits_truncate(value)
+    }
+}
+
+impl StaticType for _80211ApFlags {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_802_11_ap_flags_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for _80211ApFlags {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for _80211ApFlags {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_flags(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for _80211ApFlags {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+bitflags! {
+    pub struct _80211ApSecurityFlags: u32 {
+        const NONE = 0;
+        const PAIR_WEP40 = 1;
+        const PAIR_WEP104 = 2;
+        const PAIR_TKIP = 4;
+        const PAIR_CCMP = 8;
+        const GROUP_WEP40 = 16;
+        const GROUP_WEP104 = 32;
+        const GROUP_TKIP = 64;
+        const GROUP_CCMP = 128;
+        const KEY_MGMT_PSK = 256;
+        const KEY_MGMT_802_1X = 512;
+    }
+}
+
+#[doc(hidden)]
+impl ToGlib for _80211ApSecurityFlags {
+    type GlibType = ffi::NM80211ApSecurityFlags;
+
+    fn to_glib(&self) -> ffi::NM80211ApSecurityFlags {
+        self.bits()
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NM80211ApSecurityFlags> for _80211ApSecurityFlags {
+    fn from_glib(value: ffi::NM80211ApSecurityFlags) -> _80211ApSecurityFlags {
+        _80211ApSecurityFlags::from_bits_truncate(value)
+    }
+}
+
+impl StaticType for _80211ApSecurityFlags {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_802_11_ap_security_flags_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for _80211ApSecurityFlags {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for _80211ApSecurityFlags {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_flags(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for _80211ApSecurityFlags {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+bitflags! {
+    pub struct ActivationStateFlags: u32 {
+        const NONE = 0;
+        const IS_MASTER = 1;
+        const IS_SLAVE = 2;
+        const LAYER2_READY = 4;
+        const IP4_READY = 8;
+        const IP6_READY = 16;
+        const MASTER_HAS_SLAVES = 32;
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[doc(hidden)]
+impl ToGlib for ActivationStateFlags {
+    type GlibType = ffi::NMActivationStateFlags;
+
+    fn to_glib(&self) -> ffi::NMActivationStateFlags {
+        self.bits()
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[doc(hidden)]
+impl FromGlib<ffi::NMActivationStateFlags> for ActivationStateFlags {
+    fn from_glib(value: ffi::NMActivationStateFlags) -> ActivationStateFlags {
+        ActivationStateFlags::from_bits_truncate(value)
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+impl StaticType for ActivationStateFlags {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_activation_state_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+impl<'a> FromValueOptional<'a> for ActivationStateFlags {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+impl<'a> FromValue<'a> for ActivationStateFlags {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_flags(value.to_glib_none().0))
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+impl SetValue for ActivationStateFlags {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
 #[cfg(any(feature = "v1_4", feature = "dox"))]
 bitflags! {
     pub struct CheckpointCreateFlags: u32 {
@@ -64,6 +229,104 @@ impl<'a> FromValue<'a> for CheckpointCreateFlags {
 
 #[cfg(any(feature = "v1_4", feature = "dox"))]
 impl SetValue for CheckpointCreateFlags {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+bitflags! {
+    pub struct ConnectionSerializationFlags: u32 {
+        const ALL = 0;
+        const NO_SECRETS = 1;
+        const ONLY_SECRETS = 2;
+    }
+}
+
+#[doc(hidden)]
+impl ToGlib for ConnectionSerializationFlags {
+    type GlibType = ffi::NMConnectionSerializationFlags;
+
+    fn to_glib(&self) -> ffi::NMConnectionSerializationFlags {
+        self.bits()
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMConnectionSerializationFlags> for ConnectionSerializationFlags {
+    fn from_glib(value: ffi::NMConnectionSerializationFlags) -> ConnectionSerializationFlags {
+        ConnectionSerializationFlags::from_bits_truncate(value)
+    }
+}
+
+impl StaticType for ConnectionSerializationFlags {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_connection_serialization_flags_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for ConnectionSerializationFlags {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for ConnectionSerializationFlags {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_flags(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for ConnectionSerializationFlags {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+bitflags! {
+    pub struct DeviceCapabilities: u32 {
+        const NONE = 0;
+        const NM_SUPPORTED = 1;
+        const CARRIER_DETECT = 2;
+        const IS_SOFTWARE = 4;
+        const SRIOV = 8;
+    }
+}
+
+#[doc(hidden)]
+impl ToGlib for DeviceCapabilities {
+    type GlibType = ffi::NMDeviceCapabilities;
+
+    fn to_glib(&self) -> ffi::NMDeviceCapabilities {
+        self.bits()
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMDeviceCapabilities> for DeviceCapabilities {
+    fn from_glib(value: ffi::NMDeviceCapabilities) -> DeviceCapabilities {
+        DeviceCapabilities::from_bits_truncate(value)
+    }
+}
+
+impl StaticType for DeviceCapabilities {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_device_capabilities_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for DeviceCapabilities {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for DeviceCapabilities {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_flags(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for DeviceCapabilities {
     unsafe fn set_value(value: &mut Value, this: &Self) {
         gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
     }
