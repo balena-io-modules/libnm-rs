@@ -19,6 +19,10 @@ use std::mem::transmute;
 use std::ptr;
 use Metered;
 use Setting;
+use SettingConnectionAutoconnectSlaves;
+use SettingConnectionLldp;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use SettingConnectionMdns;
 
 glib_wrapper! {
     pub struct SettingConnection(Object<ffi::NMSettingConnection, ffi::NMSettingConnectionClass>): Setting;
@@ -60,7 +64,7 @@ pub trait SettingConnectionExt {
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_autoconnect_retries(&self) -> i32;
 
-    //fn get_autoconnect_slaves(&self) -> /*Ignored*/SettingConnectionAutoconnectSlaves;
+    fn get_autoconnect_slaves(&self) -> SettingConnectionAutoconnectSlaves;
 
     fn get_connection_type(&self) -> Option<String>;
 
@@ -70,12 +74,12 @@ pub trait SettingConnectionExt {
 
     fn get_interface_name(&self) -> Option<String>;
 
-    //fn get_lldp(&self) -> /*Ignored*/SettingConnectionLldp;
+    fn get_lldp(&self) -> SettingConnectionLldp;
 
     fn get_master(&self) -> Option<String>;
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_mdns(&self) -> /*Ignored*/SettingConnectionMdns;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_mdns(&self) -> SettingConnectionMdns;
 
     fn get_metered(&self) -> Metered;
 
@@ -126,7 +130,10 @@ pub trait SettingConnectionExt {
 
     fn set_property_autoconnect_retries(&self, autoconnect_retries: i32);
 
-    //fn set_property_autoconnect_slaves(&self, autoconnect_slaves: /*Ignored*/SettingConnectionAutoconnectSlaves);
+    fn set_property_autoconnect_slaves(
+        &self,
+        autoconnect_slaves: SettingConnectionAutoconnectSlaves,
+    );
 
     fn set_property_gateway_ping_timeout(&self, gateway_ping_timeout: u32);
 
@@ -280,9 +287,13 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         unsafe { ffi::nm_setting_connection_get_autoconnect_retries(self.to_glib_none().0) }
     }
 
-    //fn get_autoconnect_slaves(&self) -> /*Ignored*/SettingConnectionAutoconnectSlaves {
-    //    unsafe { TODO: call ffi::nm_setting_connection_get_autoconnect_slaves() }
-    //}
+    fn get_autoconnect_slaves(&self) -> SettingConnectionAutoconnectSlaves {
+        unsafe {
+            from_glib(ffi::nm_setting_connection_get_autoconnect_slaves(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_connection_type(&self) -> Option<String> {
         unsafe {
@@ -308,18 +319,18 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         }
     }
 
-    //fn get_lldp(&self) -> /*Ignored*/SettingConnectionLldp {
-    //    unsafe { TODO: call ffi::nm_setting_connection_get_lldp() }
-    //}
+    fn get_lldp(&self) -> SettingConnectionLldp {
+        unsafe { from_glib(ffi::nm_setting_connection_get_lldp(self.to_glib_none().0)) }
+    }
 
     fn get_master(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_setting_connection_get_master(self.to_glib_none().0)) }
     }
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_mdns(&self) -> /*Ignored*/SettingConnectionMdns {
-    //    unsafe { TODO: call ffi::nm_setting_connection_get_mdns() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_mdns(&self) -> SettingConnectionMdns {
+        unsafe { from_glib(ffi::nm_setting_connection_get_mdns(self.to_glib_none().0)) }
+    }
 
     fn get_metered(&self) -> Metered {
         unsafe {
@@ -493,11 +504,18 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         }
     }
 
-    //fn set_property_autoconnect_slaves(&self, autoconnect_slaves: /*Ignored*/SettingConnectionAutoconnectSlaves) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "autoconnect-slaves".to_glib_none().0, Value::from(&autoconnect_slaves).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_autoconnect_slaves(
+        &self,
+        autoconnect_slaves: SettingConnectionAutoconnectSlaves,
+    ) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "autoconnect-slaves".to_glib_none().0,
+                Value::from(&autoconnect_slaves).to_glib_none().0,
+            );
+        }
+    }
 
     fn set_property_gateway_ping_timeout(&self, gateway_ping_timeout: u32) {
         unsafe {

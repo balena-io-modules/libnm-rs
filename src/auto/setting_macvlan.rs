@@ -17,6 +17,7 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+use SettingMacvlanMode;
 
 glib_wrapper! {
     pub struct SettingMacvlan(Object<ffi::NMSettingMacvlan, ffi::NMSettingMacvlanClass>): Setting;
@@ -39,7 +40,7 @@ impl Default for SettingMacvlan {
 }
 
 pub trait SettingMacvlanExt {
-    //fn get_mode(&self) -> /*Ignored*/SettingMacvlanMode;
+    fn get_mode(&self) -> SettingMacvlanMode;
 
     fn get_parent(&self) -> Option<String>;
 
@@ -65,9 +66,9 @@ pub trait SettingMacvlanExt {
 }
 
 impl<O: IsA<SettingMacvlan> + IsA<glib::object::Object>> SettingMacvlanExt for O {
-    //fn get_mode(&self) -> /*Ignored*/SettingMacvlanMode {
-    //    unsafe { TODO: call ffi::nm_setting_macvlan_get_mode() }
-    //}
+    fn get_mode(&self) -> SettingMacvlanMode {
+        unsafe { from_glib(ffi::nm_setting_macvlan_get_mode(self.to_glib_none().0)) }
+    }
 
     fn get_parent(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_setting_macvlan_get_parent(self.to_glib_none().0)) }

@@ -217,6 +217,21 @@ mod setting_wireless_security;
 pub use self::setting_wireless_security::SettingWirelessSecurity;
 pub use self::setting_wireless_security::SettingWirelessSecurityExt;
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+mod tc_qdisc;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+pub use self::tc_qdisc::TCQdisc;
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+mod tc_tfilter;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+pub use self::tc_tfilter::TCTfilter;
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+mod team_link_watcher;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+pub use self::team_link_watcher::TeamLinkWatcher;
+
 mod enums;
 pub use self::enums::ActiveConnectionState;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
@@ -227,9 +242,34 @@ pub use self::enums::ConnectivityState;
 pub use self::enums::DeviceState;
 pub use self::enums::DeviceStateReason;
 pub use self::enums::DeviceType;
+pub use self::enums::IPTunnelMode;
 pub use self::enums::Metered;
+pub use self::enums::Setting8021xCKScheme;
 pub use self::enums::SettingCompareFlags;
+pub use self::enums::SettingConnectionAutoconnectSlaves;
+pub use self::enums::SettingConnectionLldp;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+pub use self::enums::SettingConnectionMdns;
+pub use self::enums::SettingIP6ConfigAddrGenMode;
+pub use self::enums::SettingIP6ConfigPrivacy;
+pub use self::enums::SettingMacRandomization;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+pub use self::enums::SettingMacsecMode;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+pub use self::enums::SettingMacsecValidation;
+pub use self::enums::SettingMacvlanMode;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+pub use self::enums::SettingProxyMethod;
+pub use self::enums::SettingSerialParity;
+pub use self::enums::SettingTunMode;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+pub use self::enums::SettingWirelessSecurityFils;
+pub use self::enums::SettingWirelessSecurityPmf;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+pub use self::enums::SettingWirelessSecurityWpsMethod;
 pub use self::enums::State;
+pub use self::enums::VlanPriorityMap;
+pub use self::enums::WepKeyType;
 pub use self::enums::_80211Mode;
 
 mod flags;
@@ -240,6 +280,20 @@ pub use self::flags::CheckpointCreateFlags;
 pub use self::flags::ConnectionSerializationFlags;
 pub use self::flags::DeviceCapabilities;
 pub use self::flags::DeviceWifiCapabilities;
+pub use self::flags::IPTunnelFlags;
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+pub use self::flags::Setting8021xAuthFlags;
+pub use self::flags::SettingDcbFlags;
+pub use self::flags::SettingSecretFlags;
+pub use self::flags::SettingWiredWakeOnLan;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+pub use self::flags::SettingWirelessWakeOnWLan;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+pub use self::flags::SettingsConnectionFlags;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+pub use self::flags::SettingsUpdate2Flags;
+pub use self::flags::TeamLinkWatcherArpPingFlags;
+pub use self::flags::VlanFlags;
 pub use self::flags::_80211ApFlags;
 pub use self::flags::_80211ApSecurityFlags;
 

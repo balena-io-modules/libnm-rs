@@ -22,6 +22,12 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+use SettingMacsecMode;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+use SettingMacsecValidation;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+use SettingSecretFlags;
 
 glib_wrapper! {
     pub struct SettingMacsec(Object<ffi::NMSettingMacsec, ffi::NMSettingMacsecClass>): Setting;
@@ -52,14 +58,14 @@ pub trait SettingMacsecExt {
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_mka_cak(&self) -> Option<String>;
 
-    //#[cfg(any(feature = "v1_6", feature = "dox"))]
-    //fn get_mka_cak_flags(&self) -> /*Ignored*/SettingSecretFlags;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    fn get_mka_cak_flags(&self) -> SettingSecretFlags;
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_mka_ckn(&self) -> Option<String>;
 
-    //#[cfg(any(feature = "v1_6", feature = "dox"))]
-    //fn get_mode(&self) -> /*Ignored*/SettingMacsecMode;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    fn get_mode(&self) -> SettingMacsecMode;
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_parent(&self) -> Option<String>;
@@ -70,8 +76,8 @@ pub trait SettingMacsecExt {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_send_sci(&self) -> bool;
 
-    //#[cfg(any(feature = "v1_6", feature = "dox"))]
-    //fn get_validation(&self) -> /*Ignored*/SettingMacsecValidation;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    fn get_validation(&self) -> SettingMacsecValidation;
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_encrypt(&self, encrypt: bool);
@@ -79,8 +85,8 @@ pub trait SettingMacsecExt {
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_mka_cak(&self, mka_cak: Option<&str>);
 
-    //#[cfg(any(feature = "v1_6", feature = "dox"))]
-    //fn set_property_mka_cak_flags(&self, mka_cak_flags: /*Ignored*/SettingSecretFlags);
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    fn set_property_mka_cak_flags(&self, mka_cak_flags: SettingSecretFlags);
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_mka_ckn(&self, mka_ckn: Option<&str>);
@@ -142,20 +148,24 @@ impl<O: IsA<SettingMacsec> + IsA<glib::object::Object>> SettingMacsecExt for O {
         unsafe { from_glib_none(ffi::nm_setting_macsec_get_mka_cak(self.to_glib_none().0)) }
     }
 
-    //#[cfg(any(feature = "v1_6", feature = "dox"))]
-    //fn get_mka_cak_flags(&self) -> /*Ignored*/SettingSecretFlags {
-    //    unsafe { TODO: call ffi::nm_setting_macsec_get_mka_cak_flags() }
-    //}
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    fn get_mka_cak_flags(&self) -> SettingSecretFlags {
+        unsafe {
+            from_glib(ffi::nm_setting_macsec_get_mka_cak_flags(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_mka_ckn(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_setting_macsec_get_mka_ckn(self.to_glib_none().0)) }
     }
 
-    //#[cfg(any(feature = "v1_6", feature = "dox"))]
-    //fn get_mode(&self) -> /*Ignored*/SettingMacsecMode {
-    //    unsafe { TODO: call ffi::nm_setting_macsec_get_mode() }
-    //}
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    fn get_mode(&self) -> SettingMacsecMode {
+        unsafe { from_glib(ffi::nm_setting_macsec_get_mode(self.to_glib_none().0)) }
+    }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_parent(&self) -> Option<String> {
@@ -172,10 +182,10 @@ impl<O: IsA<SettingMacsec> + IsA<glib::object::Object>> SettingMacsecExt for O {
         unsafe { from_glib(ffi::nm_setting_macsec_get_send_sci(self.to_glib_none().0)) }
     }
 
-    //#[cfg(any(feature = "v1_6", feature = "dox"))]
-    //fn get_validation(&self) -> /*Ignored*/SettingMacsecValidation {
-    //    unsafe { TODO: call ffi::nm_setting_macsec_get_validation() }
-    //}
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    fn get_validation(&self) -> SettingMacsecValidation {
+        unsafe { from_glib(ffi::nm_setting_macsec_get_validation(self.to_glib_none().0)) }
+    }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_encrypt(&self, encrypt: bool) {
@@ -199,12 +209,16 @@ impl<O: IsA<SettingMacsec> + IsA<glib::object::Object>> SettingMacsecExt for O {
         }
     }
 
-    //#[cfg(any(feature = "v1_6", feature = "dox"))]
-    //fn set_property_mka_cak_flags(&self, mka_cak_flags: /*Ignored*/SettingSecretFlags) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "mka-cak-flags".to_glib_none().0, Value::from(&mka_cak_flags).to_glib_none().0);
-    //    }
-    //}
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    fn set_property_mka_cak_flags(&self, mka_cak_flags: SettingSecretFlags) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "mka-cak-flags".to_glib_none().0,
+                Value::from(&mka_cak_flags).to_glib_none().0,
+            );
+        }
+    }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_mka_ckn(&self, mka_ckn: Option<&str>) {

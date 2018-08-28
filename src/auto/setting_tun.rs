@@ -17,6 +17,7 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+use SettingTunMode;
 
 glib_wrapper! {
     pub struct SettingTun(Object<ffi::NMSettingTun, ffi::NMSettingTunClass>): Setting;
@@ -41,7 +42,7 @@ impl Default for SettingTun {
 pub trait SettingTunExt {
     fn get_group(&self) -> Option<String>;
 
-    //fn get_mode(&self) -> /*Ignored*/SettingTunMode;
+    fn get_mode(&self) -> SettingTunMode;
 
     fn get_multi_queue(&self) -> bool;
 
@@ -81,9 +82,9 @@ impl<O: IsA<SettingTun> + IsA<glib::object::Object>> SettingTunExt for O {
         unsafe { from_glib_none(ffi::nm_setting_tun_get_group(self.to_glib_none().0)) }
     }
 
-    //fn get_mode(&self) -> /*Ignored*/SettingTunMode {
-    //    unsafe { TODO: call ffi::nm_setting_tun_get_mode() }
-    //}
+    fn get_mode(&self) -> SettingTunMode {
+        unsafe { from_glib(ffi::nm_setting_tun_get_mode(self.to_glib_none().0)) }
+    }
 
     fn get_multi_queue(&self) -> bool {
         unsafe { from_glib(ffi::nm_setting_tun_get_multi_queue(self.to_glib_none().0)) }

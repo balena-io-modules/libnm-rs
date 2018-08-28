@@ -16,6 +16,10 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use TCQdisc;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use TCTfilter;
 
 glib_wrapper! {
     pub struct SettingTCConfig(Object<ffi::NMSettingTCConfig, ffi::NMSettingTCConfigClass>): Setting;
@@ -40,11 +44,11 @@ impl Default for SettingTCConfig {
 }
 
 pub trait SettingTCConfigExt {
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn add_qdisc(&self, qdisc: /*Ignored*/&TCQdisc) -> bool;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn add_qdisc(&self, qdisc: &TCQdisc) -> bool;
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn add_tfilter(&self, tfilter: /*Ignored*/&TCTfilter) -> bool;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn add_tfilter(&self, tfilter: &TCTfilter) -> bool;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn clear_qdiscs(&self);
@@ -58,23 +62,23 @@ pub trait SettingTCConfigExt {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_num_tfilters(&self) -> u32;
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_qdisc(&self, idx: u32) -> /*Ignored*/Option<TCQdisc>;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_qdisc(&self, idx: u32) -> Option<TCQdisc>;
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_tfilter(&self, idx: u32) -> /*Ignored*/Option<TCTfilter>;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_tfilter(&self, idx: u32) -> Option<TCTfilter>;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn remove_qdisc(&self, idx: u32);
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn remove_qdisc_by_value(&self, qdisc: /*Ignored*/&TCQdisc) -> bool;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn remove_qdisc_by_value(&self, qdisc: &TCQdisc) -> bool;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn remove_tfilter(&self, idx: u32);
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn remove_tfilter_by_value(&self, tfilter: /*Ignored*/&TCTfilter) -> bool;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn remove_tfilter_by_value(&self, tfilter: &TCTfilter) -> bool;
 
     //fn get_property_qdiscs(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 201 };
 
@@ -90,15 +94,25 @@ pub trait SettingTCConfigExt {
 }
 
 impl<O: IsA<SettingTCConfig> + IsA<glib::object::Object>> SettingTCConfigExt for O {
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn add_qdisc(&self, qdisc: /*Ignored*/&TCQdisc) -> bool {
-    //    unsafe { TODO: call ffi::nm_setting_tc_config_add_qdisc() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn add_qdisc(&self, qdisc: &TCQdisc) -> bool {
+        unsafe {
+            from_glib(ffi::nm_setting_tc_config_add_qdisc(
+                self.to_glib_none().0,
+                qdisc.to_glib_none().0,
+            ))
+        }
+    }
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn add_tfilter(&self, tfilter: /*Ignored*/&TCTfilter) -> bool {
-    //    unsafe { TODO: call ffi::nm_setting_tc_config_add_tfilter() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn add_tfilter(&self, tfilter: &TCTfilter) -> bool {
+        unsafe {
+            from_glib(ffi::nm_setting_tc_config_add_tfilter(
+                self.to_glib_none().0,
+                tfilter.to_glib_none().0,
+            ))
+        }
+    }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn clear_qdiscs(&self) {
@@ -124,15 +138,25 @@ impl<O: IsA<SettingTCConfig> + IsA<glib::object::Object>> SettingTCConfigExt for
         unsafe { ffi::nm_setting_tc_config_get_num_tfilters(self.to_glib_none().0) }
     }
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_qdisc(&self, idx: u32) -> /*Ignored*/Option<TCQdisc> {
-    //    unsafe { TODO: call ffi::nm_setting_tc_config_get_qdisc() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_qdisc(&self, idx: u32) -> Option<TCQdisc> {
+        unsafe {
+            from_glib_none(ffi::nm_setting_tc_config_get_qdisc(
+                self.to_glib_none().0,
+                idx,
+            ))
+        }
+    }
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_tfilter(&self, idx: u32) -> /*Ignored*/Option<TCTfilter> {
-    //    unsafe { TODO: call ffi::nm_setting_tc_config_get_tfilter() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_tfilter(&self, idx: u32) -> Option<TCTfilter> {
+        unsafe {
+            from_glib_none(ffi::nm_setting_tc_config_get_tfilter(
+                self.to_glib_none().0,
+                idx,
+            ))
+        }
+    }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn remove_qdisc(&self, idx: u32) {
@@ -141,10 +165,15 @@ impl<O: IsA<SettingTCConfig> + IsA<glib::object::Object>> SettingTCConfigExt for
         }
     }
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn remove_qdisc_by_value(&self, qdisc: /*Ignored*/&TCQdisc) -> bool {
-    //    unsafe { TODO: call ffi::nm_setting_tc_config_remove_qdisc_by_value() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn remove_qdisc_by_value(&self, qdisc: &TCQdisc) -> bool {
+        unsafe {
+            from_glib(ffi::nm_setting_tc_config_remove_qdisc_by_value(
+                self.to_glib_none().0,
+                qdisc.to_glib_none().0,
+            ))
+        }
+    }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn remove_tfilter(&self, idx: u32) {
@@ -153,10 +182,15 @@ impl<O: IsA<SettingTCConfig> + IsA<glib::object::Object>> SettingTCConfigExt for
         }
     }
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn remove_tfilter_by_value(&self, tfilter: /*Ignored*/&TCTfilter) -> bool {
-    //    unsafe { TODO: call ffi::nm_setting_tc_config_remove_tfilter_by_value() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn remove_tfilter_by_value(&self, tfilter: &TCTfilter) -> bool {
+        unsafe {
+            from_glib(ffi::nm_setting_tc_config_remove_tfilter_by_value(
+                self.to_glib_none().0,
+                tfilter.to_glib_none().0,
+            ))
+        }
+    }
 
     //fn get_property_qdiscs(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 201 } {
     //    unsafe {

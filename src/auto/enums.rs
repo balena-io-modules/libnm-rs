@@ -1012,6 +1012,86 @@ impl SetValue for DeviceType {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum IPTunnelMode {
+    Unknown,
+    Ipip,
+    Gre,
+    Sit,
+    Isatap,
+    Vti,
+    Ip6ip6,
+    Ipip6,
+    Ip6gre,
+    Vti6,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for IPTunnelMode {
+    type GlibType = ffi::NMIPTunnelMode;
+
+    fn to_glib(&self) -> ffi::NMIPTunnelMode {
+        match *self {
+            IPTunnelMode::Unknown => ffi::NM_IP_TUNNEL_MODE_UNKNOWN,
+            IPTunnelMode::Ipip => ffi::NM_IP_TUNNEL_MODE_IPIP,
+            IPTunnelMode::Gre => ffi::NM_IP_TUNNEL_MODE_GRE,
+            IPTunnelMode::Sit => ffi::NM_IP_TUNNEL_MODE_SIT,
+            IPTunnelMode::Isatap => ffi::NM_IP_TUNNEL_MODE_ISATAP,
+            IPTunnelMode::Vti => ffi::NM_IP_TUNNEL_MODE_VTI,
+            IPTunnelMode::Ip6ip6 => ffi::NM_IP_TUNNEL_MODE_IP6IP6,
+            IPTunnelMode::Ipip6 => ffi::NM_IP_TUNNEL_MODE_IPIP6,
+            IPTunnelMode::Ip6gre => ffi::NM_IP_TUNNEL_MODE_IP6GRE,
+            IPTunnelMode::Vti6 => ffi::NM_IP_TUNNEL_MODE_VTI6,
+            IPTunnelMode::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMIPTunnelMode> for IPTunnelMode {
+    fn from_glib(value: ffi::NMIPTunnelMode) -> Self {
+        match value {
+            0 => IPTunnelMode::Unknown,
+            1 => IPTunnelMode::Ipip,
+            2 => IPTunnelMode::Gre,
+            3 => IPTunnelMode::Sit,
+            4 => IPTunnelMode::Isatap,
+            5 => IPTunnelMode::Vti,
+            6 => IPTunnelMode::Ip6ip6,
+            7 => IPTunnelMode::Ipip6,
+            8 => IPTunnelMode::Ip6gre,
+            9 => IPTunnelMode::Vti6,
+            value => IPTunnelMode::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for IPTunnelMode {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_ip_tunnel_mode_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for IPTunnelMode {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for IPTunnelMode {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for IPTunnelMode {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum Metered {
     Unknown,
     Yes,
@@ -1071,6 +1151,68 @@ impl<'a> FromValue<'a> for Metered {
 }
 
 impl SetValue for Metered {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum Setting8021xCKScheme {
+    Unknown,
+    Blob,
+    Path,
+    Pkcs11,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for Setting8021xCKScheme {
+    type GlibType = ffi::NMSetting8021xCKScheme;
+
+    fn to_glib(&self) -> ffi::NMSetting8021xCKScheme {
+        match *self {
+            Setting8021xCKScheme::Unknown => ffi::NM_SETTING_802_1X_CK_SCHEME_UNKNOWN,
+            Setting8021xCKScheme::Blob => ffi::NM_SETTING_802_1X_CK_SCHEME_BLOB,
+            Setting8021xCKScheme::Path => ffi::NM_SETTING_802_1X_CK_SCHEME_PATH,
+            Setting8021xCKScheme::Pkcs11 => ffi::NM_SETTING_802_1X_CK_SCHEME_PKCS11,
+            Setting8021xCKScheme::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMSetting8021xCKScheme> for Setting8021xCKScheme {
+    fn from_glib(value: ffi::NMSetting8021xCKScheme) -> Self {
+        match value {
+            0 => Setting8021xCKScheme::Unknown,
+            1 => Setting8021xCKScheme::Blob,
+            2 => Setting8021xCKScheme::Path,
+            3 => Setting8021xCKScheme::Pkcs11,
+            value => Setting8021xCKScheme::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for Setting8021xCKScheme {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_802_1x_ck_scheme_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for Setting8021xCKScheme {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for Setting8021xCKScheme {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for Setting8021xCKScheme {
     unsafe fn set_value(value: &mut Value, this: &Self) {
         gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
     }
@@ -1162,6 +1304,977 @@ impl SetValue for SettingCompareFlags {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingConnectionAutoconnectSlaves {
+    Default,
+    No,
+    Yes,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for SettingConnectionAutoconnectSlaves {
+    type GlibType = ffi::NMSettingConnectionAutoconnectSlaves;
+
+    fn to_glib(&self) -> ffi::NMSettingConnectionAutoconnectSlaves {
+        match *self {
+            SettingConnectionAutoconnectSlaves::Default => {
+                ffi::NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES_DEFAULT
+            }
+            SettingConnectionAutoconnectSlaves::No => {
+                ffi::NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES_NO
+            }
+            SettingConnectionAutoconnectSlaves::Yes => {
+                ffi::NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES_YES
+            }
+            SettingConnectionAutoconnectSlaves::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingConnectionAutoconnectSlaves> for SettingConnectionAutoconnectSlaves {
+    fn from_glib(value: ffi::NMSettingConnectionAutoconnectSlaves) -> Self {
+        match value {
+            -1 => SettingConnectionAutoconnectSlaves::Default,
+            0 => SettingConnectionAutoconnectSlaves::No,
+            1 => SettingConnectionAutoconnectSlaves::Yes,
+            value => SettingConnectionAutoconnectSlaves::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for SettingConnectionAutoconnectSlaves {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_connection_autoconnect_slaves_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for SettingConnectionAutoconnectSlaves {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for SettingConnectionAutoconnectSlaves {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for SettingConnectionAutoconnectSlaves {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingConnectionLldp {
+    Default,
+    Disable,
+    EnableRx,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for SettingConnectionLldp {
+    type GlibType = ffi::NMSettingConnectionLldp;
+
+    fn to_glib(&self) -> ffi::NMSettingConnectionLldp {
+        match *self {
+            SettingConnectionLldp::Default => ffi::NM_SETTING_CONNECTION_LLDP_DEFAULT,
+            SettingConnectionLldp::Disable => ffi::NM_SETTING_CONNECTION_LLDP_DISABLE,
+            SettingConnectionLldp::EnableRx => ffi::NM_SETTING_CONNECTION_LLDP_ENABLE_RX,
+            SettingConnectionLldp::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingConnectionLldp> for SettingConnectionLldp {
+    fn from_glib(value: ffi::NMSettingConnectionLldp) -> Self {
+        match value {
+            -1 => SettingConnectionLldp::Default,
+            0 => SettingConnectionLldp::Disable,
+            1 => SettingConnectionLldp::EnableRx,
+            value => SettingConnectionLldp::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for SettingConnectionLldp {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_connection_lldp_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for SettingConnectionLldp {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for SettingConnectionLldp {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for SettingConnectionLldp {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingConnectionMdns {
+    Default,
+    No,
+    Resolve,
+    Yes,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[doc(hidden)]
+impl ToGlib for SettingConnectionMdns {
+    type GlibType = ffi::NMSettingConnectionMdns;
+
+    fn to_glib(&self) -> ffi::NMSettingConnectionMdns {
+        match *self {
+            SettingConnectionMdns::Default => ffi::NM_SETTING_CONNECTION_MDNS_DEFAULT,
+            SettingConnectionMdns::No => ffi::NM_SETTING_CONNECTION_MDNS_NO,
+            SettingConnectionMdns::Resolve => ffi::NM_SETTING_CONNECTION_MDNS_RESOLVE,
+            SettingConnectionMdns::Yes => ffi::NM_SETTING_CONNECTION_MDNS_YES,
+            SettingConnectionMdns::__Unknown(value) => value,
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingConnectionMdns> for SettingConnectionMdns {
+    fn from_glib(value: ffi::NMSettingConnectionMdns) -> Self {
+        match value {
+            -1 => SettingConnectionMdns::Default,
+            0 => SettingConnectionMdns::No,
+            1 => SettingConnectionMdns::Resolve,
+            2 => SettingConnectionMdns::Yes,
+            value => SettingConnectionMdns::__Unknown(value),
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+impl StaticType for SettingConnectionMdns {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_connection_mdns_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+impl<'a> FromValueOptional<'a> for SettingConnectionMdns {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+impl<'a> FromValue<'a> for SettingConnectionMdns {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+impl SetValue for SettingConnectionMdns {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingIP6ConfigAddrGenMode {
+    Eui64,
+    StablePrivacy,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for SettingIP6ConfigAddrGenMode {
+    type GlibType = ffi::NMSettingIP6ConfigAddrGenMode;
+
+    fn to_glib(&self) -> ffi::NMSettingIP6ConfigAddrGenMode {
+        match *self {
+            SettingIP6ConfigAddrGenMode::Eui64 => ffi::NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE_EUI64,
+            SettingIP6ConfigAddrGenMode::StablePrivacy => {
+                ffi::NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE_STABLE_PRIVACY
+            }
+            SettingIP6ConfigAddrGenMode::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingIP6ConfigAddrGenMode> for SettingIP6ConfigAddrGenMode {
+    fn from_glib(value: ffi::NMSettingIP6ConfigAddrGenMode) -> Self {
+        match value {
+            0 => SettingIP6ConfigAddrGenMode::Eui64,
+            1 => SettingIP6ConfigAddrGenMode::StablePrivacy,
+            value => SettingIP6ConfigAddrGenMode::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for SettingIP6ConfigAddrGenMode {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_ip6_config_addr_gen_mode_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for SettingIP6ConfigAddrGenMode {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for SettingIP6ConfigAddrGenMode {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for SettingIP6ConfigAddrGenMode {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingIP6ConfigPrivacy {
+    Unknown,
+    Disabled,
+    PreferPublicAddr,
+    PreferTempAddr,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for SettingIP6ConfigPrivacy {
+    type GlibType = ffi::NMSettingIP6ConfigPrivacy;
+
+    fn to_glib(&self) -> ffi::NMSettingIP6ConfigPrivacy {
+        match *self {
+            SettingIP6ConfigPrivacy::Unknown => ffi::NM_SETTING_IP6_CONFIG_PRIVACY_UNKNOWN,
+            SettingIP6ConfigPrivacy::Disabled => ffi::NM_SETTING_IP6_CONFIG_PRIVACY_DISABLED,
+            SettingIP6ConfigPrivacy::PreferPublicAddr => {
+                ffi::NM_SETTING_IP6_CONFIG_PRIVACY_PREFER_PUBLIC_ADDR
+            }
+            SettingIP6ConfigPrivacy::PreferTempAddr => {
+                ffi::NM_SETTING_IP6_CONFIG_PRIVACY_PREFER_TEMP_ADDR
+            }
+            SettingIP6ConfigPrivacy::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingIP6ConfigPrivacy> for SettingIP6ConfigPrivacy {
+    fn from_glib(value: ffi::NMSettingIP6ConfigPrivacy) -> Self {
+        match value {
+            -1 => SettingIP6ConfigPrivacy::Unknown,
+            0 => SettingIP6ConfigPrivacy::Disabled,
+            1 => SettingIP6ConfigPrivacy::PreferPublicAddr,
+            2 => SettingIP6ConfigPrivacy::PreferTempAddr,
+            value => SettingIP6ConfigPrivacy::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for SettingIP6ConfigPrivacy {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_ip6_config_privacy_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for SettingIP6ConfigPrivacy {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for SettingIP6ConfigPrivacy {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for SettingIP6ConfigPrivacy {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingMacRandomization {
+    Default,
+    Never,
+    Always,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for SettingMacRandomization {
+    type GlibType = ffi::NMSettingMacRandomization;
+
+    fn to_glib(&self) -> ffi::NMSettingMacRandomization {
+        match *self {
+            SettingMacRandomization::Default => ffi::NM_SETTING_MAC_RANDOMIZATION_DEFAULT,
+            SettingMacRandomization::Never => ffi::NM_SETTING_MAC_RANDOMIZATION_NEVER,
+            SettingMacRandomization::Always => ffi::NM_SETTING_MAC_RANDOMIZATION_ALWAYS,
+            SettingMacRandomization::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingMacRandomization> for SettingMacRandomization {
+    fn from_glib(value: ffi::NMSettingMacRandomization) -> Self {
+        match value {
+            0 => SettingMacRandomization::Default,
+            1 => SettingMacRandomization::Never,
+            2 => SettingMacRandomization::Always,
+            value => SettingMacRandomization::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for SettingMacRandomization {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_mac_randomization_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for SettingMacRandomization {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for SettingMacRandomization {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for SettingMacRandomization {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingMacsecMode {
+    Psk,
+    Eap,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[doc(hidden)]
+impl ToGlib for SettingMacsecMode {
+    type GlibType = ffi::NMSettingMacsecMode;
+
+    fn to_glib(&self) -> ffi::NMSettingMacsecMode {
+        match *self {
+            SettingMacsecMode::Psk => ffi::NM_SETTING_MACSEC_MODE_PSK,
+            SettingMacsecMode::Eap => ffi::NM_SETTING_MACSEC_MODE_EAP,
+            SettingMacsecMode::__Unknown(value) => value,
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingMacsecMode> for SettingMacsecMode {
+    fn from_glib(value: ffi::NMSettingMacsecMode) -> Self {
+        match value {
+            0 => SettingMacsecMode::Psk,
+            1 => SettingMacsecMode::Eap,
+            value => SettingMacsecMode::__Unknown(value),
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+impl StaticType for SettingMacsecMode {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_macsec_mode_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+impl<'a> FromValueOptional<'a> for SettingMacsecMode {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+impl<'a> FromValue<'a> for SettingMacsecMode {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+impl SetValue for SettingMacsecMode {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingMacsecValidation {
+    Disable,
+    Check,
+    Strict,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[doc(hidden)]
+impl ToGlib for SettingMacsecValidation {
+    type GlibType = ffi::NMSettingMacsecValidation;
+
+    fn to_glib(&self) -> ffi::NMSettingMacsecValidation {
+        match *self {
+            SettingMacsecValidation::Disable => ffi::NM_SETTING_MACSEC_VALIDATION_DISABLE,
+            SettingMacsecValidation::Check => ffi::NM_SETTING_MACSEC_VALIDATION_CHECK,
+            SettingMacsecValidation::Strict => ffi::NM_SETTING_MACSEC_VALIDATION_STRICT,
+            SettingMacsecValidation::__Unknown(value) => value,
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingMacsecValidation> for SettingMacsecValidation {
+    fn from_glib(value: ffi::NMSettingMacsecValidation) -> Self {
+        match value {
+            0 => SettingMacsecValidation::Disable,
+            1 => SettingMacsecValidation::Check,
+            2 => SettingMacsecValidation::Strict,
+            value => SettingMacsecValidation::__Unknown(value),
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+impl StaticType for SettingMacsecValidation {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_macsec_validation_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+impl<'a> FromValueOptional<'a> for SettingMacsecValidation {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+impl<'a> FromValue<'a> for SettingMacsecValidation {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+impl SetValue for SettingMacsecValidation {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingMacvlanMode {
+    Unknown,
+    Vepa,
+    Bridge,
+    Private,
+    Passthru,
+    Source,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for SettingMacvlanMode {
+    type GlibType = ffi::NMSettingMacvlanMode;
+
+    fn to_glib(&self) -> ffi::NMSettingMacvlanMode {
+        match *self {
+            SettingMacvlanMode::Unknown => ffi::NM_SETTING_MACVLAN_MODE_UNKNOWN,
+            SettingMacvlanMode::Vepa => ffi::NM_SETTING_MACVLAN_MODE_VEPA,
+            SettingMacvlanMode::Bridge => ffi::NM_SETTING_MACVLAN_MODE_BRIDGE,
+            SettingMacvlanMode::Private => ffi::NM_SETTING_MACVLAN_MODE_PRIVATE,
+            SettingMacvlanMode::Passthru => ffi::NM_SETTING_MACVLAN_MODE_PASSTHRU,
+            SettingMacvlanMode::Source => ffi::NM_SETTING_MACVLAN_MODE_SOURCE,
+            SettingMacvlanMode::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingMacvlanMode> for SettingMacvlanMode {
+    fn from_glib(value: ffi::NMSettingMacvlanMode) -> Self {
+        match value {
+            0 => SettingMacvlanMode::Unknown,
+            1 => SettingMacvlanMode::Vepa,
+            2 => SettingMacvlanMode::Bridge,
+            3 => SettingMacvlanMode::Private,
+            4 => SettingMacvlanMode::Passthru,
+            5 => SettingMacvlanMode::Source,
+            value => SettingMacvlanMode::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for SettingMacvlanMode {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_macvlan_mode_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for SettingMacvlanMode {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for SettingMacvlanMode {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for SettingMacvlanMode {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingProxyMethod {
+    None,
+    Auto,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[doc(hidden)]
+impl ToGlib for SettingProxyMethod {
+    type GlibType = ffi::NMSettingProxyMethod;
+
+    fn to_glib(&self) -> ffi::NMSettingProxyMethod {
+        match *self {
+            SettingProxyMethod::None => ffi::NM_SETTING_PROXY_METHOD_NONE,
+            SettingProxyMethod::Auto => ffi::NM_SETTING_PROXY_METHOD_AUTO,
+            SettingProxyMethod::__Unknown(value) => value,
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingProxyMethod> for SettingProxyMethod {
+    fn from_glib(value: ffi::NMSettingProxyMethod) -> Self {
+        match value {
+            0 => SettingProxyMethod::None,
+            1 => SettingProxyMethod::Auto,
+            value => SettingProxyMethod::__Unknown(value),
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+impl StaticType for SettingProxyMethod {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_proxy_method_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+impl<'a> FromValueOptional<'a> for SettingProxyMethod {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+impl<'a> FromValue<'a> for SettingProxyMethod {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+impl SetValue for SettingProxyMethod {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingSerialParity {
+    None,
+    Even,
+    Odd,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for SettingSerialParity {
+    type GlibType = ffi::NMSettingSerialParity;
+
+    fn to_glib(&self) -> ffi::NMSettingSerialParity {
+        match *self {
+            SettingSerialParity::None => ffi::NM_SETTING_SERIAL_PARITY_NONE,
+            SettingSerialParity::Even => ffi::NM_SETTING_SERIAL_PARITY_EVEN,
+            SettingSerialParity::Odd => ffi::NM_SETTING_SERIAL_PARITY_ODD,
+            SettingSerialParity::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingSerialParity> for SettingSerialParity {
+    fn from_glib(value: ffi::NMSettingSerialParity) -> Self {
+        match value {
+            0 => SettingSerialParity::None,
+            1 => SettingSerialParity::Even,
+            2 => SettingSerialParity::Odd,
+            value => SettingSerialParity::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for SettingSerialParity {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_serial_parity_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for SettingSerialParity {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for SettingSerialParity {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for SettingSerialParity {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingTunMode {
+    Unknown,
+    Tun,
+    Tap,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for SettingTunMode {
+    type GlibType = ffi::NMSettingTunMode;
+
+    fn to_glib(&self) -> ffi::NMSettingTunMode {
+        match *self {
+            SettingTunMode::Unknown => ffi::NM_SETTING_TUN_MODE_UNKNOWN,
+            SettingTunMode::Tun => ffi::NM_SETTING_TUN_MODE_TUN,
+            SettingTunMode::Tap => ffi::NM_SETTING_TUN_MODE_TAP,
+            SettingTunMode::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingTunMode> for SettingTunMode {
+    fn from_glib(value: ffi::NMSettingTunMode) -> Self {
+        match value {
+            0 => SettingTunMode::Unknown,
+            1 => SettingTunMode::Tun,
+            2 => SettingTunMode::Tap,
+            value => SettingTunMode::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for SettingTunMode {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_tun_mode_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for SettingTunMode {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for SettingTunMode {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for SettingTunMode {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingWirelessSecurityFils {
+    Default,
+    Disable,
+    Optional,
+    Required,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[doc(hidden)]
+impl ToGlib for SettingWirelessSecurityFils {
+    type GlibType = ffi::NMSettingWirelessSecurityFils;
+
+    fn to_glib(&self) -> ffi::NMSettingWirelessSecurityFils {
+        match *self {
+            SettingWirelessSecurityFils::Default => ffi::NM_SETTING_WIRELESS_SECURITY_FILS_DEFAULT,
+            SettingWirelessSecurityFils::Disable => ffi::NM_SETTING_WIRELESS_SECURITY_FILS_DISABLE,
+            SettingWirelessSecurityFils::Optional => {
+                ffi::NM_SETTING_WIRELESS_SECURITY_FILS_OPTIONAL
+            }
+            SettingWirelessSecurityFils::Required => {
+                ffi::NM_SETTING_WIRELESS_SECURITY_FILS_REQUIRED
+            }
+            SettingWirelessSecurityFils::__Unknown(value) => value,
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingWirelessSecurityFils> for SettingWirelessSecurityFils {
+    fn from_glib(value: ffi::NMSettingWirelessSecurityFils) -> Self {
+        match value {
+            0 => SettingWirelessSecurityFils::Default,
+            1 => SettingWirelessSecurityFils::Disable,
+            2 => SettingWirelessSecurityFils::Optional,
+            3 => SettingWirelessSecurityFils::Required,
+            value => SettingWirelessSecurityFils::__Unknown(value),
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+impl StaticType for SettingWirelessSecurityFils {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_wireless_security_fils_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+impl<'a> FromValueOptional<'a> for SettingWirelessSecurityFils {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+impl<'a> FromValue<'a> for SettingWirelessSecurityFils {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+impl SetValue for SettingWirelessSecurityFils {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingWirelessSecurityPmf {
+    Default,
+    Disable,
+    Optional,
+    Required,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for SettingWirelessSecurityPmf {
+    type GlibType = ffi::NMSettingWirelessSecurityPmf;
+
+    fn to_glib(&self) -> ffi::NMSettingWirelessSecurityPmf {
+        match *self {
+            SettingWirelessSecurityPmf::Default => ffi::NM_SETTING_WIRELESS_SECURITY_PMF_DEFAULT,
+            SettingWirelessSecurityPmf::Disable => ffi::NM_SETTING_WIRELESS_SECURITY_PMF_DISABLE,
+            SettingWirelessSecurityPmf::Optional => ffi::NM_SETTING_WIRELESS_SECURITY_PMF_OPTIONAL,
+            SettingWirelessSecurityPmf::Required => ffi::NM_SETTING_WIRELESS_SECURITY_PMF_REQUIRED,
+            SettingWirelessSecurityPmf::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingWirelessSecurityPmf> for SettingWirelessSecurityPmf {
+    fn from_glib(value: ffi::NMSettingWirelessSecurityPmf) -> Self {
+        match value {
+            0 => SettingWirelessSecurityPmf::Default,
+            1 => SettingWirelessSecurityPmf::Disable,
+            2 => SettingWirelessSecurityPmf::Optional,
+            3 => SettingWirelessSecurityPmf::Required,
+            value => SettingWirelessSecurityPmf::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for SettingWirelessSecurityPmf {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_wireless_security_pmf_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for SettingWirelessSecurityPmf {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for SettingWirelessSecurityPmf {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for SettingWirelessSecurityPmf {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum SettingWirelessSecurityWpsMethod {
+    Default,
+    Disabled,
+    Auto,
+    Pbc,
+    Pin,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[doc(hidden)]
+impl ToGlib for SettingWirelessSecurityWpsMethod {
+    type GlibType = ffi::NMSettingWirelessSecurityWpsMethod;
+
+    fn to_glib(&self) -> ffi::NMSettingWirelessSecurityWpsMethod {
+        match *self {
+            SettingWirelessSecurityWpsMethod::Default => {
+                ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_DEFAULT
+            }
+            SettingWirelessSecurityWpsMethod::Disabled => {
+                ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_DISABLED
+            }
+            SettingWirelessSecurityWpsMethod::Auto => {
+                ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_AUTO
+            }
+            SettingWirelessSecurityWpsMethod::Pbc => {
+                ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_PBC
+            }
+            SettingWirelessSecurityWpsMethod::Pin => {
+                ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_PIN
+            }
+            SettingWirelessSecurityWpsMethod::__Unknown(value) => value,
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingWirelessSecurityWpsMethod> for SettingWirelessSecurityWpsMethod {
+    fn from_glib(value: ffi::NMSettingWirelessSecurityWpsMethod) -> Self {
+        match value {
+            0 => SettingWirelessSecurityWpsMethod::Default,
+            1 => SettingWirelessSecurityWpsMethod::Disabled,
+            2 => SettingWirelessSecurityWpsMethod::Auto,
+            4 => SettingWirelessSecurityWpsMethod::Pbc,
+            8 => SettingWirelessSecurityWpsMethod::Pin,
+            value => SettingWirelessSecurityWpsMethod::__Unknown(value),
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+impl StaticType for SettingWirelessSecurityWpsMethod {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_wireless_security_wps_method_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+impl<'a> FromValueOptional<'a> for SettingWirelessSecurityWpsMethod {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+impl<'a> FromValue<'a> for SettingWirelessSecurityWpsMethod {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+impl SetValue for SettingWirelessSecurityWpsMethod {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum State {
     Unknown,
     Asleep,
@@ -1230,6 +2343,121 @@ impl<'a> FromValue<'a> for State {
 }
 
 impl SetValue for State {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum VlanPriorityMap {
+    IngressMap,
+    EgressMap,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for VlanPriorityMap {
+    type GlibType = ffi::NMVlanPriorityMap;
+
+    fn to_glib(&self) -> ffi::NMVlanPriorityMap {
+        match *self {
+            VlanPriorityMap::IngressMap => ffi::NM_VLAN_INGRESS_MAP,
+            VlanPriorityMap::EgressMap => ffi::NM_VLAN_EGRESS_MAP,
+            VlanPriorityMap::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMVlanPriorityMap> for VlanPriorityMap {
+    fn from_glib(value: ffi::NMVlanPriorityMap) -> Self {
+        match value {
+            0 => VlanPriorityMap::IngressMap,
+            1 => VlanPriorityMap::EgressMap,
+            value => VlanPriorityMap::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for VlanPriorityMap {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_vlan_priority_map_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for VlanPriorityMap {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for VlanPriorityMap {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for VlanPriorityMap {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+pub enum WepKeyType {
+    Unknown,
+    Key,
+    Passphrase,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[doc(hidden)]
+impl ToGlib for WepKeyType {
+    type GlibType = ffi::NMWepKeyType;
+
+    fn to_glib(&self) -> ffi::NMWepKeyType {
+        match *self {
+            WepKeyType::Unknown => ffi::NM_WEP_KEY_TYPE_UNKNOWN,
+            WepKeyType::Key => ffi::NM_WEP_KEY_TYPE_KEY,
+            WepKeyType::Passphrase => ffi::NM_WEP_KEY_TYPE_PASSPHRASE,
+            WepKeyType::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::NMWepKeyType> for WepKeyType {
+    fn from_glib(value: ffi::NMWepKeyType) -> Self {
+        match value {
+            0 => WepKeyType::Unknown,
+            1 => WepKeyType::Key,
+            2 => WepKeyType::Passphrase,
+            value => WepKeyType::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for WepKeyType {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_wep_key_type_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for WepKeyType {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for WepKeyType {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for WepKeyType {
     unsafe fn set_value(value: &mut Value, this: &Self) {
         gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
     }

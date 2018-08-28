@@ -16,6 +16,8 @@ use std::boxed::Box as Box_;
 use std::mem;
 use std::mem::transmute;
 use std::ptr;
+use IPTunnelFlags;
+use IPTunnelMode;
 use Setting;
 
 glib_wrapper! {
@@ -41,7 +43,7 @@ impl Default for SettingIPTunnel {
 pub trait SettingIPTunnelExt {
     fn get_encapsulation_limit(&self) -> u32;
 
-    //fn get_flags(&self) -> /*Ignored*/IPTunnelFlags;
+    fn get_flags(&self) -> IPTunnelFlags;
 
     fn get_flow_label(&self) -> u32;
 
@@ -49,7 +51,7 @@ pub trait SettingIPTunnelExt {
 
     fn get_local(&self) -> Option<String>;
 
-    //fn get_mode(&self) -> /*Ignored*/IPTunnelMode;
+    fn get_mode(&self) -> IPTunnelMode;
 
     fn get_mtu(&self) -> u32;
 
@@ -131,9 +133,9 @@ impl<O: IsA<SettingIPTunnel> + IsA<glib::object::Object>> SettingIPTunnelExt for
         unsafe { ffi::nm_setting_ip_tunnel_get_encapsulation_limit(self.to_glib_none().0) }
     }
 
-    //fn get_flags(&self) -> /*Ignored*/IPTunnelFlags {
-    //    unsafe { TODO: call ffi::nm_setting_ip_tunnel_get_flags() }
-    //}
+    fn get_flags(&self) -> IPTunnelFlags {
+        unsafe { from_glib(ffi::nm_setting_ip_tunnel_get_flags(self.to_glib_none().0)) }
+    }
 
     fn get_flow_label(&self) -> u32 {
         unsafe { ffi::nm_setting_ip_tunnel_get_flow_label(self.to_glib_none().0) }
@@ -151,9 +153,9 @@ impl<O: IsA<SettingIPTunnel> + IsA<glib::object::Object>> SettingIPTunnelExt for
         unsafe { from_glib_none(ffi::nm_setting_ip_tunnel_get_local(self.to_glib_none().0)) }
     }
 
-    //fn get_mode(&self) -> /*Ignored*/IPTunnelMode {
-    //    unsafe { TODO: call ffi::nm_setting_ip_tunnel_get_mode() }
-    //}
+    fn get_mode(&self) -> IPTunnelMode {
+        unsafe { from_glib(ffi::nm_setting_ip_tunnel_get_mode(self.to_glib_none().0)) }
+    }
 
     fn get_mtu(&self) -> u32 {
         unsafe { ffi::nm_setting_ip_tunnel_get_mtu(self.to_glib_none().0) }

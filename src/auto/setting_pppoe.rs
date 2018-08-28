@@ -17,6 +17,7 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+use SettingSecretFlags;
 
 glib_wrapper! {
     pub struct SettingPppoe(Object<ffi::NMSettingPppoe, ffi::NMSettingPppoeClass>): Setting;
@@ -44,7 +45,7 @@ pub trait SettingPppoeExt {
 
     fn get_password(&self) -> Option<String>;
 
-    //fn get_password_flags(&self) -> /*Ignored*/SettingSecretFlags;
+    fn get_password_flags(&self) -> SettingSecretFlags;
 
     fn get_service(&self) -> Option<String>;
 
@@ -55,7 +56,7 @@ pub trait SettingPppoeExt {
 
     fn set_property_password(&self, password: Option<&str>);
 
-    //fn set_property_password_flags(&self, password_flags: /*Ignored*/SettingSecretFlags);
+    fn set_property_password_flags(&self, password_flags: SettingSecretFlags);
 
     fn set_property_service(&self, service: Option<&str>);
 
@@ -86,9 +87,13 @@ impl<O: IsA<SettingPppoe> + IsA<glib::object::Object>> SettingPppoeExt for O {
         unsafe { from_glib_none(ffi::nm_setting_pppoe_get_password(self.to_glib_none().0)) }
     }
 
-    //fn get_password_flags(&self) -> /*Ignored*/SettingSecretFlags {
-    //    unsafe { TODO: call ffi::nm_setting_pppoe_get_password_flags() }
-    //}
+    fn get_password_flags(&self) -> SettingSecretFlags {
+        unsafe {
+            from_glib(ffi::nm_setting_pppoe_get_password_flags(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_service(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_setting_pppoe_get_service(self.to_glib_none().0)) }
@@ -119,11 +124,15 @@ impl<O: IsA<SettingPppoe> + IsA<glib::object::Object>> SettingPppoeExt for O {
         }
     }
 
-    //fn set_property_password_flags(&self, password_flags: /*Ignored*/SettingSecretFlags) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "password-flags".to_glib_none().0, Value::from(&password_flags).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_password_flags(&self, password_flags: SettingSecretFlags) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "password-flags".to_glib_none().0,
+                Value::from(&password_flags).to_glib_none().0,
+            );
+        }
+    }
 
     fn set_property_service(&self, service: Option<&str>) {
         unsafe {

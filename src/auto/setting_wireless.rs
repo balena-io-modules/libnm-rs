@@ -21,7 +21,10 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+use SettingMacRandomization;
 use SettingWirelessSecurity;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use SettingWirelessWakeOnWLan;
 
 glib_wrapper! {
     pub struct SettingWireless(Object<ffi::NMSettingWireless, ffi::NMSettingWirelessClass>): Setting;
@@ -76,7 +79,7 @@ pub trait SettingWirelessExt {
 
     fn get_mac_address_blacklist(&self) -> Vec<String>;
 
-    //fn get_mac_address_randomization(&self) -> /*Ignored*/SettingMacRandomization;
+    fn get_mac_address_randomization(&self) -> SettingMacRandomization;
 
     fn get_mac_blacklist_item(&self, idx: u32) -> Option<String>;
 
@@ -98,8 +101,8 @@ pub trait SettingWirelessExt {
 
     fn get_tx_power(&self) -> u32;
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_wake_on_wlan(&self) -> /*Ignored*/SettingWirelessWakeOnWLan;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_wake_on_wlan(&self) -> SettingWirelessWakeOnWLan;
 
     fn remove_mac_blacklist_item(&self, idx: u32);
 
@@ -289,9 +292,13 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         }
     }
 
-    //fn get_mac_address_randomization(&self) -> /*Ignored*/SettingMacRandomization {
-    //    unsafe { TODO: call ffi::nm_setting_wireless_get_mac_address_randomization() }
-    //}
+    fn get_mac_address_randomization(&self) -> SettingMacRandomization {
+        unsafe {
+            from_glib(ffi::nm_setting_wireless_get_mac_address_randomization(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_mac_blacklist_item(&self, idx: u32) -> Option<String> {
         unsafe {
@@ -343,10 +350,14 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         unsafe { ffi::nm_setting_wireless_get_tx_power(self.to_glib_none().0) }
     }
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_wake_on_wlan(&self) -> /*Ignored*/SettingWirelessWakeOnWLan {
-    //    unsafe { TODO: call ffi::nm_setting_wireless_get_wake_on_wlan() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_wake_on_wlan(&self) -> SettingWirelessWakeOnWLan {
+        unsafe {
+            from_glib(ffi::nm_setting_wireless_get_wake_on_wlan(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn remove_mac_blacklist_item(&self, idx: u32) {
         unsafe {

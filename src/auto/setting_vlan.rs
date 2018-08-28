@@ -18,6 +18,8 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+use VlanFlags;
+use VlanPriorityMap;
 
 glib_wrapper! {
     pub struct SettingVlan(Object<ffi::NMSettingVlan, ffi::NMSettingVlanClass>): Setting;
@@ -40,33 +42,33 @@ impl Default for SettingVlan {
 }
 
 pub trait SettingVlanExt {
-    //fn add_priority(&self, map: /*Ignored*/VlanPriorityMap, from: u32, to: u32) -> bool;
+    fn add_priority(&self, map: VlanPriorityMap, from: u32, to: u32) -> bool;
 
-    //fn add_priority_str(&self, map: /*Ignored*/VlanPriorityMap, str: &str) -> bool;
+    fn add_priority_str(&self, map: VlanPriorityMap, str: &str) -> bool;
 
-    //fn clear_priorities(&self, map: /*Ignored*/VlanPriorityMap);
+    fn clear_priorities(&self, map: VlanPriorityMap);
 
     fn get_flags(&self) -> u32;
 
     fn get_id(&self) -> u32;
 
-    //fn get_num_priorities(&self, map: /*Ignored*/VlanPriorityMap) -> i32;
+    fn get_num_priorities(&self, map: VlanPriorityMap) -> i32;
 
     fn get_parent(&self) -> Option<String>;
 
-    //fn get_priority(&self, map: /*Ignored*/VlanPriorityMap, idx: u32) -> Option<(u32, u32)>;
+    fn get_priority(&self, map: VlanPriorityMap, idx: u32) -> Option<(u32, u32)>;
 
-    //fn remove_priority(&self, map: /*Ignored*/VlanPriorityMap, idx: u32);
+    fn remove_priority(&self, map: VlanPriorityMap, idx: u32);
 
-    //fn remove_priority_by_value(&self, map: /*Ignored*/VlanPriorityMap, from: u32, to: u32) -> bool;
+    fn remove_priority_by_value(&self, map: VlanPriorityMap, from: u32, to: u32) -> bool;
 
-    //fn remove_priority_str_by_value(&self, map: /*Ignored*/VlanPriorityMap, str: &str) -> bool;
+    fn remove_priority_str_by_value(&self, map: VlanPriorityMap, str: &str) -> bool;
 
     fn get_property_egress_priority_map(&self) -> Vec<String>;
 
     fn set_property_egress_priority_map(&self, egress_priority_map: &[&str]);
 
-    //fn set_property_flags(&self, flags: /*Ignored*/VlanFlags);
+    fn set_property_flags(&self, flags: VlanFlags);
 
     fn set_property_id(&self, id: u32);
 
@@ -94,17 +96,32 @@ pub trait SettingVlanExt {
 }
 
 impl<O: IsA<SettingVlan> + IsA<glib::object::Object>> SettingVlanExt for O {
-    //fn add_priority(&self, map: /*Ignored*/VlanPriorityMap, from: u32, to: u32) -> bool {
-    //    unsafe { TODO: call ffi::nm_setting_vlan_add_priority() }
-    //}
+    fn add_priority(&self, map: VlanPriorityMap, from: u32, to: u32) -> bool {
+        unsafe {
+            from_glib(ffi::nm_setting_vlan_add_priority(
+                self.to_glib_none().0,
+                map.to_glib(),
+                from,
+                to,
+            ))
+        }
+    }
 
-    //fn add_priority_str(&self, map: /*Ignored*/VlanPriorityMap, str: &str) -> bool {
-    //    unsafe { TODO: call ffi::nm_setting_vlan_add_priority_str() }
-    //}
+    fn add_priority_str(&self, map: VlanPriorityMap, str: &str) -> bool {
+        unsafe {
+            from_glib(ffi::nm_setting_vlan_add_priority_str(
+                self.to_glib_none().0,
+                map.to_glib(),
+                str.to_glib_none().0,
+            ))
+        }
+    }
 
-    //fn clear_priorities(&self, map: /*Ignored*/VlanPriorityMap) {
-    //    unsafe { TODO: call ffi::nm_setting_vlan_clear_priorities() }
-    //}
+    fn clear_priorities(&self, map: VlanPriorityMap) {
+        unsafe {
+            ffi::nm_setting_vlan_clear_priorities(self.to_glib_none().0, map.to_glib());
+        }
+    }
 
     fn get_flags(&self) -> u32 {
         unsafe { ffi::nm_setting_vlan_get_flags(self.to_glib_none().0) }
@@ -114,29 +131,59 @@ impl<O: IsA<SettingVlan> + IsA<glib::object::Object>> SettingVlanExt for O {
         unsafe { ffi::nm_setting_vlan_get_id(self.to_glib_none().0) }
     }
 
-    //fn get_num_priorities(&self, map: /*Ignored*/VlanPriorityMap) -> i32 {
-    //    unsafe { TODO: call ffi::nm_setting_vlan_get_num_priorities() }
-    //}
+    fn get_num_priorities(&self, map: VlanPriorityMap) -> i32 {
+        unsafe { ffi::nm_setting_vlan_get_num_priorities(self.to_glib_none().0, map.to_glib()) }
+    }
 
     fn get_parent(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_setting_vlan_get_parent(self.to_glib_none().0)) }
     }
 
-    //fn get_priority(&self, map: /*Ignored*/VlanPriorityMap, idx: u32) -> Option<(u32, u32)> {
-    //    unsafe { TODO: call ffi::nm_setting_vlan_get_priority() }
-    //}
+    fn get_priority(&self, map: VlanPriorityMap, idx: u32) -> Option<(u32, u32)> {
+        unsafe {
+            let mut out_from = mem::uninitialized();
+            let mut out_to = mem::uninitialized();
+            let ret = from_glib(ffi::nm_setting_vlan_get_priority(
+                self.to_glib_none().0,
+                map.to_glib(),
+                idx,
+                &mut out_from,
+                &mut out_to,
+            ));
+            if ret {
+                Some((out_from, out_to))
+            } else {
+                None
+            }
+        }
+    }
 
-    //fn remove_priority(&self, map: /*Ignored*/VlanPriorityMap, idx: u32) {
-    //    unsafe { TODO: call ffi::nm_setting_vlan_remove_priority() }
-    //}
+    fn remove_priority(&self, map: VlanPriorityMap, idx: u32) {
+        unsafe {
+            ffi::nm_setting_vlan_remove_priority(self.to_glib_none().0, map.to_glib(), idx);
+        }
+    }
 
-    //fn remove_priority_by_value(&self, map: /*Ignored*/VlanPriorityMap, from: u32, to: u32) -> bool {
-    //    unsafe { TODO: call ffi::nm_setting_vlan_remove_priority_by_value() }
-    //}
+    fn remove_priority_by_value(&self, map: VlanPriorityMap, from: u32, to: u32) -> bool {
+        unsafe {
+            from_glib(ffi::nm_setting_vlan_remove_priority_by_value(
+                self.to_glib_none().0,
+                map.to_glib(),
+                from,
+                to,
+            ))
+        }
+    }
 
-    //fn remove_priority_str_by_value(&self, map: /*Ignored*/VlanPriorityMap, str: &str) -> bool {
-    //    unsafe { TODO: call ffi::nm_setting_vlan_remove_priority_str_by_value() }
-    //}
+    fn remove_priority_str_by_value(&self, map: VlanPriorityMap, str: &str) -> bool {
+        unsafe {
+            from_glib(ffi::nm_setting_vlan_remove_priority_str_by_value(
+                self.to_glib_none().0,
+                map.to_glib(),
+                str.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_property_egress_priority_map(&self) -> Vec<String> {
         unsafe {
@@ -160,11 +207,15 @@ impl<O: IsA<SettingVlan> + IsA<glib::object::Object>> SettingVlanExt for O {
         }
     }
 
-    //fn set_property_flags(&self, flags: /*Ignored*/VlanFlags) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "flags".to_glib_none().0, Value::from(&flags).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_flags(&self, flags: VlanFlags) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "flags".to_glib_none().0,
+                Value::from(&flags).to_glib_none().0,
+            );
+        }
+    }
 
     fn set_property_id(&self, id: u32) {
         unsafe {

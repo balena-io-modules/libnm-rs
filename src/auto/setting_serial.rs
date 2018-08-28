@@ -17,6 +17,7 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+use SettingSerialParity;
 
 glib_wrapper! {
     pub struct SettingSerial(Object<ffi::NMSettingSerial, ffi::NMSettingSerialClass>): Setting;
@@ -43,7 +44,7 @@ pub trait SettingSerialExt {
 
     fn get_bits(&self) -> u32;
 
-    //fn get_parity(&self) -> /*Ignored*/SettingSerialParity;
+    fn get_parity(&self) -> SettingSerialParity;
 
     fn get_send_delay(&self) -> u64;
 
@@ -53,7 +54,7 @@ pub trait SettingSerialExt {
 
     fn set_property_bits(&self, bits: u32);
 
-    //fn set_property_parity(&self, parity: /*Ignored*/SettingSerialParity);
+    fn set_property_parity(&self, parity: SettingSerialParity);
 
     fn set_property_send_delay(&self, send_delay: u64);
 
@@ -79,9 +80,9 @@ impl<O: IsA<SettingSerial> + IsA<glib::object::Object>> SettingSerialExt for O {
         unsafe { ffi::nm_setting_serial_get_bits(self.to_glib_none().0) }
     }
 
-    //fn get_parity(&self) -> /*Ignored*/SettingSerialParity {
-    //    unsafe { TODO: call ffi::nm_setting_serial_get_parity() }
-    //}
+    fn get_parity(&self) -> SettingSerialParity {
+        unsafe { from_glib(ffi::nm_setting_serial_get_parity(self.to_glib_none().0)) }
+    }
 
     fn get_send_delay(&self) -> u64 {
         unsafe { ffi::nm_setting_serial_get_send_delay(self.to_glib_none().0) }
@@ -111,11 +112,15 @@ impl<O: IsA<SettingSerial> + IsA<glib::object::Object>> SettingSerialExt for O {
         }
     }
 
-    //fn set_property_parity(&self, parity: /*Ignored*/SettingSerialParity) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "parity".to_glib_none().0, Value::from(&parity).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_parity(&self, parity: SettingSerialParity) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "parity".to_glib_none().0,
+                Value::from(&parity).to_glib_none().0,
+            );
+        }
+    }
 
     fn set_property_send_delay(&self, send_delay: u64) {
         unsafe {

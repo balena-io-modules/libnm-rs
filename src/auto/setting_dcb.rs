@@ -17,6 +17,7 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+use SettingDcbFlags;
 
 glib_wrapper! {
     pub struct SettingDcb(Object<ffi::NMSettingDcb, ffi::NMSettingDcbClass>): Setting;
@@ -39,17 +40,17 @@ impl Default for SettingDcb {
 }
 
 pub trait SettingDcbExt {
-    //fn get_app_fcoe_flags(&self) -> /*Ignored*/SettingDcbFlags;
+    fn get_app_fcoe_flags(&self) -> SettingDcbFlags;
 
     fn get_app_fcoe_mode(&self) -> Option<String>;
 
     fn get_app_fcoe_priority(&self) -> i32;
 
-    //fn get_app_fip_flags(&self) -> /*Ignored*/SettingDcbFlags;
+    fn get_app_fip_flags(&self) -> SettingDcbFlags;
 
     fn get_app_fip_priority(&self) -> i32;
 
-    //fn get_app_iscsi_flags(&self) -> /*Ignored*/SettingDcbFlags;
+    fn get_app_iscsi_flags(&self) -> SettingDcbFlags;
 
     fn get_app_iscsi_priority(&self) -> i32;
 
@@ -57,11 +58,11 @@ pub trait SettingDcbExt {
 
     fn get_priority_flow_control(&self, user_priority: u32) -> bool;
 
-    //fn get_priority_flow_control_flags(&self) -> /*Ignored*/SettingDcbFlags;
+    fn get_priority_flow_control_flags(&self) -> SettingDcbFlags;
 
     fn get_priority_group_bandwidth(&self, group_id: u32) -> u32;
 
-    //fn get_priority_group_flags(&self) -> /*Ignored*/SettingDcbFlags;
+    fn get_priority_group_flags(&self) -> SettingDcbFlags;
 
     fn get_priority_group_id(&self, user_priority: u32) -> u32;
 
@@ -81,23 +82,26 @@ pub trait SettingDcbExt {
 
     fn set_priority_traffic_class(&self, user_priority: u32, traffic_class: u32);
 
-    //fn set_property_app_fcoe_flags(&self, app_fcoe_flags: /*Ignored*/SettingDcbFlags);
+    fn set_property_app_fcoe_flags(&self, app_fcoe_flags: SettingDcbFlags);
 
     fn set_property_app_fcoe_mode(&self, app_fcoe_mode: Option<&str>);
 
     fn set_property_app_fcoe_priority(&self, app_fcoe_priority: i32);
 
-    //fn set_property_app_fip_flags(&self, app_fip_flags: /*Ignored*/SettingDcbFlags);
+    fn set_property_app_fip_flags(&self, app_fip_flags: SettingDcbFlags);
 
     fn set_property_app_fip_priority(&self, app_fip_priority: i32);
 
-    //fn set_property_app_iscsi_flags(&self, app_iscsi_flags: /*Ignored*/SettingDcbFlags);
+    fn set_property_app_iscsi_flags(&self, app_iscsi_flags: SettingDcbFlags);
 
     fn set_property_app_iscsi_priority(&self, app_iscsi_priority: i32);
 
-    //fn set_property_priority_flow_control_flags(&self, priority_flow_control_flags: /*Ignored*/SettingDcbFlags);
+    fn set_property_priority_flow_control_flags(
+        &self,
+        priority_flow_control_flags: SettingDcbFlags,
+    );
 
-    //fn set_property_priority_group_flags(&self, priority_group_flags: /*Ignored*/SettingDcbFlags);
+    fn set_property_priority_group_flags(&self, priority_group_flags: SettingDcbFlags);
 
     fn connect_property_app_fcoe_flags_notify<F: Fn(&Self) + 'static>(
         &self,
@@ -176,9 +180,13 @@ pub trait SettingDcbExt {
 }
 
 impl<O: IsA<SettingDcb> + IsA<glib::object::Object>> SettingDcbExt for O {
-    //fn get_app_fcoe_flags(&self) -> /*Ignored*/SettingDcbFlags {
-    //    unsafe { TODO: call ffi::nm_setting_dcb_get_app_fcoe_flags() }
-    //}
+    fn get_app_fcoe_flags(&self) -> SettingDcbFlags {
+        unsafe {
+            from_glib(ffi::nm_setting_dcb_get_app_fcoe_flags(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_app_fcoe_mode(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_setting_dcb_get_app_fcoe_mode(self.to_glib_none().0)) }
@@ -188,17 +196,21 @@ impl<O: IsA<SettingDcb> + IsA<glib::object::Object>> SettingDcbExt for O {
         unsafe { ffi::nm_setting_dcb_get_app_fcoe_priority(self.to_glib_none().0) }
     }
 
-    //fn get_app_fip_flags(&self) -> /*Ignored*/SettingDcbFlags {
-    //    unsafe { TODO: call ffi::nm_setting_dcb_get_app_fip_flags() }
-    //}
+    fn get_app_fip_flags(&self) -> SettingDcbFlags {
+        unsafe { from_glib(ffi::nm_setting_dcb_get_app_fip_flags(self.to_glib_none().0)) }
+    }
 
     fn get_app_fip_priority(&self) -> i32 {
         unsafe { ffi::nm_setting_dcb_get_app_fip_priority(self.to_glib_none().0) }
     }
 
-    //fn get_app_iscsi_flags(&self) -> /*Ignored*/SettingDcbFlags {
-    //    unsafe { TODO: call ffi::nm_setting_dcb_get_app_iscsi_flags() }
-    //}
+    fn get_app_iscsi_flags(&self) -> SettingDcbFlags {
+        unsafe {
+            from_glib(ffi::nm_setting_dcb_get_app_iscsi_flags(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_app_iscsi_priority(&self) -> i32 {
         unsafe { ffi::nm_setting_dcb_get_app_iscsi_priority(self.to_glib_none().0) }
@@ -217,17 +229,25 @@ impl<O: IsA<SettingDcb> + IsA<glib::object::Object>> SettingDcbExt for O {
         }
     }
 
-    //fn get_priority_flow_control_flags(&self) -> /*Ignored*/SettingDcbFlags {
-    //    unsafe { TODO: call ffi::nm_setting_dcb_get_priority_flow_control_flags() }
-    //}
+    fn get_priority_flow_control_flags(&self) -> SettingDcbFlags {
+        unsafe {
+            from_glib(ffi::nm_setting_dcb_get_priority_flow_control_flags(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_priority_group_bandwidth(&self, group_id: u32) -> u32 {
         unsafe { ffi::nm_setting_dcb_get_priority_group_bandwidth(self.to_glib_none().0, group_id) }
     }
 
-    //fn get_priority_group_flags(&self) -> /*Ignored*/SettingDcbFlags {
-    //    unsafe { TODO: call ffi::nm_setting_dcb_get_priority_group_flags() }
-    //}
+    fn get_priority_group_flags(&self) -> SettingDcbFlags {
+        unsafe {
+            from_glib(ffi::nm_setting_dcb_get_priority_group_flags(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_priority_group_id(&self, user_priority: u32) -> u32 {
         unsafe { ffi::nm_setting_dcb_get_priority_group_id(self.to_glib_none().0, user_priority) }
@@ -308,11 +328,15 @@ impl<O: IsA<SettingDcb> + IsA<glib::object::Object>> SettingDcbExt for O {
         }
     }
 
-    //fn set_property_app_fcoe_flags(&self, app_fcoe_flags: /*Ignored*/SettingDcbFlags) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "app-fcoe-flags".to_glib_none().0, Value::from(&app_fcoe_flags).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_app_fcoe_flags(&self, app_fcoe_flags: SettingDcbFlags) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "app-fcoe-flags".to_glib_none().0,
+                Value::from(&app_fcoe_flags).to_glib_none().0,
+            );
+        }
+    }
 
     fn set_property_app_fcoe_mode(&self, app_fcoe_mode: Option<&str>) {
         unsafe {
@@ -334,11 +358,15 @@ impl<O: IsA<SettingDcb> + IsA<glib::object::Object>> SettingDcbExt for O {
         }
     }
 
-    //fn set_property_app_fip_flags(&self, app_fip_flags: /*Ignored*/SettingDcbFlags) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "app-fip-flags".to_glib_none().0, Value::from(&app_fip_flags).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_app_fip_flags(&self, app_fip_flags: SettingDcbFlags) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "app-fip-flags".to_glib_none().0,
+                Value::from(&app_fip_flags).to_glib_none().0,
+            );
+        }
+    }
 
     fn set_property_app_fip_priority(&self, app_fip_priority: i32) {
         unsafe {
@@ -350,11 +378,15 @@ impl<O: IsA<SettingDcb> + IsA<glib::object::Object>> SettingDcbExt for O {
         }
     }
 
-    //fn set_property_app_iscsi_flags(&self, app_iscsi_flags: /*Ignored*/SettingDcbFlags) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "app-iscsi-flags".to_glib_none().0, Value::from(&app_iscsi_flags).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_app_iscsi_flags(&self, app_iscsi_flags: SettingDcbFlags) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "app-iscsi-flags".to_glib_none().0,
+                Value::from(&app_iscsi_flags).to_glib_none().0,
+            );
+        }
+    }
 
     fn set_property_app_iscsi_priority(&self, app_iscsi_priority: i32) {
         unsafe {
@@ -366,17 +398,28 @@ impl<O: IsA<SettingDcb> + IsA<glib::object::Object>> SettingDcbExt for O {
         }
     }
 
-    //fn set_property_priority_flow_control_flags(&self, priority_flow_control_flags: /*Ignored*/SettingDcbFlags) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "priority-flow-control-flags".to_glib_none().0, Value::from(&priority_flow_control_flags).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_priority_flow_control_flags(
+        &self,
+        priority_flow_control_flags: SettingDcbFlags,
+    ) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "priority-flow-control-flags".to_glib_none().0,
+                Value::from(&priority_flow_control_flags).to_glib_none().0,
+            );
+        }
+    }
 
-    //fn set_property_priority_group_flags(&self, priority_group_flags: /*Ignored*/SettingDcbFlags) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "priority-group-flags".to_glib_none().0, Value::from(&priority_group_flags).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_priority_group_flags(&self, priority_group_flags: SettingDcbFlags) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "priority-group-flags".to_glib_none().0,
+                Value::from(&priority_group_flags).to_glib_none().0,
+            );
+        }
+    }
 
     fn connect_property_app_fcoe_flags_notify<F: Fn(&Self) + 'static>(
         &self,

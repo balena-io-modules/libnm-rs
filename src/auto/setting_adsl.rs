@@ -17,6 +17,7 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+use SettingSecretFlags;
 
 glib_wrapper! {
     pub struct SettingAdsl(Object<ffi::NMSettingAdsl, ffi::NMSettingAdslClass>): Setting;
@@ -43,7 +44,7 @@ pub trait SettingAdslExt {
 
     fn get_password(&self) -> Option<String>;
 
-    //fn get_password_flags(&self) -> /*Ignored*/SettingSecretFlags;
+    fn get_password_flags(&self) -> SettingSecretFlags;
 
     fn get_protocol(&self) -> Option<String>;
 
@@ -57,7 +58,7 @@ pub trait SettingAdslExt {
 
     fn set_property_password(&self, password: Option<&str>);
 
-    //fn set_property_password_flags(&self, password_flags: /*Ignored*/SettingSecretFlags);
+    fn set_property_password_flags(&self, password_flags: SettingSecretFlags);
 
     fn set_property_protocol(&self, protocol: Option<&str>);
 
@@ -101,9 +102,13 @@ impl<O: IsA<SettingAdsl> + IsA<glib::object::Object>> SettingAdslExt for O {
         unsafe { from_glib_none(ffi::nm_setting_adsl_get_password(self.to_glib_none().0)) }
     }
 
-    //fn get_password_flags(&self) -> /*Ignored*/SettingSecretFlags {
-    //    unsafe { TODO: call ffi::nm_setting_adsl_get_password_flags() }
-    //}
+    fn get_password_flags(&self) -> SettingSecretFlags {
+        unsafe {
+            from_glib(ffi::nm_setting_adsl_get_password_flags(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_protocol(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_setting_adsl_get_protocol(self.to_glib_none().0)) }
@@ -141,11 +146,15 @@ impl<O: IsA<SettingAdsl> + IsA<glib::object::Object>> SettingAdslExt for O {
         }
     }
 
-    //fn set_property_password_flags(&self, password_flags: /*Ignored*/SettingSecretFlags) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "password-flags".to_glib_none().0, Value::from(&password_flags).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_password_flags(&self, password_flags: SettingSecretFlags) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "password-flags".to_glib_none().0,
+                Value::from(&password_flags).to_glib_none().0,
+            );
+        }
+    }
 
     fn set_property_protocol(&self, protocol: Option<&str>) {
         unsafe {

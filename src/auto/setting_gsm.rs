@@ -17,6 +17,7 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+use SettingSecretFlags;
 
 glib_wrapper! {
     pub struct SettingGsm(Object<ffi::NMSettingGsm, ffi::NMSettingGsmClass>): Setting;
@@ -54,11 +55,11 @@ pub trait SettingGsmExt {
 
     fn get_password(&self) -> Option<String>;
 
-    //fn get_password_flags(&self) -> /*Ignored*/SettingSecretFlags;
+    fn get_password_flags(&self) -> SettingSecretFlags;
 
     fn get_pin(&self) -> Option<String>;
 
-    //fn get_pin_flags(&self) -> /*Ignored*/SettingSecretFlags;
+    fn get_pin_flags(&self) -> SettingSecretFlags;
 
     fn get_sim_id(&self) -> Option<String>;
 
@@ -81,11 +82,11 @@ pub trait SettingGsmExt {
 
     fn set_property_password(&self, password: Option<&str>);
 
-    //fn set_property_password_flags(&self, password_flags: /*Ignored*/SettingSecretFlags);
+    fn set_property_password_flags(&self, password_flags: SettingSecretFlags);
 
     fn set_property_pin(&self, pin: Option<&str>);
 
-    //fn set_property_pin_flags(&self, pin_flags: /*Ignored*/SettingSecretFlags);
+    fn set_property_pin_flags(&self, pin_flags: SettingSecretFlags);
 
     fn set_property_sim_id(&self, sim_id: Option<&str>);
 
@@ -157,17 +158,21 @@ impl<O: IsA<SettingGsm> + IsA<glib::object::Object>> SettingGsmExt for O {
         unsafe { from_glib_none(ffi::nm_setting_gsm_get_password(self.to_glib_none().0)) }
     }
 
-    //fn get_password_flags(&self) -> /*Ignored*/SettingSecretFlags {
-    //    unsafe { TODO: call ffi::nm_setting_gsm_get_password_flags() }
-    //}
+    fn get_password_flags(&self) -> SettingSecretFlags {
+        unsafe {
+            from_glib(ffi::nm_setting_gsm_get_password_flags(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_pin(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_setting_gsm_get_pin(self.to_glib_none().0)) }
     }
 
-    //fn get_pin_flags(&self) -> /*Ignored*/SettingSecretFlags {
-    //    unsafe { TODO: call ffi::nm_setting_gsm_get_pin_flags() }
-    //}
+    fn get_pin_flags(&self) -> SettingSecretFlags {
+        unsafe { from_glib(ffi::nm_setting_gsm_get_pin_flags(self.to_glib_none().0)) }
+    }
 
     fn get_sim_id(&self) -> Option<String> {
         unsafe { from_glib_none(ffi::nm_setting_gsm_get_sim_id(self.to_glib_none().0)) }
@@ -256,11 +261,15 @@ impl<O: IsA<SettingGsm> + IsA<glib::object::Object>> SettingGsmExt for O {
         }
     }
 
-    //fn set_property_password_flags(&self, password_flags: /*Ignored*/SettingSecretFlags) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "password-flags".to_glib_none().0, Value::from(&password_flags).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_password_flags(&self, password_flags: SettingSecretFlags) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "password-flags".to_glib_none().0,
+                Value::from(&password_flags).to_glib_none().0,
+            );
+        }
+    }
 
     fn set_property_pin(&self, pin: Option<&str>) {
         unsafe {
@@ -272,11 +281,15 @@ impl<O: IsA<SettingGsm> + IsA<glib::object::Object>> SettingGsmExt for O {
         }
     }
 
-    //fn set_property_pin_flags(&self, pin_flags: /*Ignored*/SettingSecretFlags) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "pin-flags".to_glib_none().0, Value::from(&pin_flags).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_pin_flags(&self, pin_flags: SettingSecretFlags) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "pin-flags".to_glib_none().0,
+                Value::from(&pin_flags).to_glib_none().0,
+            );
+        }
+    }
 
     fn set_property_sim_id(&self, sim_id: Option<&str>) {
         unsafe {

@@ -22,6 +22,8 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+use SettingProxyMethod;
 
 glib_wrapper! {
     pub struct SettingProxy(Object<ffi::NMSettingProxy, ffi::NMSettingProxyClass>): Setting;
@@ -49,8 +51,8 @@ pub trait SettingProxyExt {
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_browser_only(&self) -> bool;
 
-    //#[cfg(any(feature = "v1_6", feature = "dox"))]
-    //fn get_method(&self) -> /*Ignored*/SettingProxyMethod;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    fn get_method(&self) -> SettingProxyMethod;
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_pac_script(&self) -> Option<String>;
@@ -94,10 +96,10 @@ impl<O: IsA<SettingProxy> + IsA<glib::object::Object>> SettingProxyExt for O {
         }
     }
 
-    //#[cfg(any(feature = "v1_6", feature = "dox"))]
-    //fn get_method(&self) -> /*Ignored*/SettingProxyMethod {
-    //    unsafe { TODO: call ffi::nm_setting_proxy_get_method() }
-    //}
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    fn get_method(&self) -> SettingProxyMethod {
+        unsafe { from_glib(ffi::nm_setting_proxy_get_method(self.to_glib_none().0)) }
+    }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_pac_script(&self) -> Option<String> {

@@ -30,10 +30,13 @@ generate = [
     "NM.DeviceWifiCapabilities",
     "NM.DhcpConfig",
     "NM.IPConfig",
+    "NM.IPTunnelFlags",
+    "NM.IPTunnelMode",
     "NM.Metered",
     "NM.RemoteConnection",
-    "NM.Setting",
     "NM.Setting8021x",
+    "NM.Setting8021xAuthFlags",
+    "NM.Setting8021xCKScheme",
     "NM.SettingAdsl",
     "NM.SettingBluetooth",
     "NM.SettingBond",
@@ -41,16 +44,26 @@ generate = [
     "NM.SettingBridgePort",
     "NM.SettingCdma",
     "NM.SettingCompareFlags",
+    "NM.SettingConnectionAutoconnectSlaves",
+    "NM.SettingConnectionLldp",
+    "NM.SettingConnectionMdns",
     "NM.SettingDcb",
+    "NM.SettingDcbFlags",
     "NM.SettingDummy",
     "NM.SettingGeneric",
     "NM.SettingGsm",
     "NM.SettingInfiniband",
     "NM.SettingIP4Config",
     "NM.SettingIP6Config",
+    "NM.SettingIP6ConfigAddrGenMode",
+    "NM.SettingIP6ConfigPrivacy",
     "NM.SettingIPTunnel",
+    "NM.SettingMacRandomization",
     "NM.SettingMacsec",
+    "NM.SettingMacsecMode",
+    "NM.SettingMacsecValidation",
     "NM.SettingMacvlan",
+    "NM.SettingMacvlanMode",
     "NM.SettingOlpcMesh",
     "NM.SettingOvsBridge",
     "NM.SettingOvsInterface",
@@ -59,18 +72,36 @@ generate = [
     "NM.SettingPpp",
     "NM.SettingPppoe",
     "NM.SettingProxy",
+    "NM.SettingProxyMethod",
+    "NM.SettingsConnectionFlags",
+    "NM.SettingSecretFlags",
     "NM.SettingSerial",
+    "NM.SettingSerialParity",
+    "NM.SettingsUpdate2Flags",
     "NM.SettingTCConfig",
     "NM.SettingTeam",
     "NM.SettingTeamPort",
     "NM.SettingTun",
+    "NM.SettingTunMode",
     "NM.SettingVlan",
     "NM.SettingVpn",
     "NM.SettingVxlan",
     "NM.SettingWired",
+    "NM.SettingWiredWakeOnLan",
     "NM.SettingWireless",
     "NM.SettingWirelessSecurity",
+    "NM.SettingWirelessSecurityFils",
+    "NM.SettingWirelessSecurityPmf",
+    "NM.SettingWirelessSecurityWpsMethod",
+    "NM.SettingWirelessWakeOnWLan",
     "NM.State",
+    "NM.TCQdisc",
+    "NM.TCTfilter",
+    "NM.TeamLinkWatcher",
+    "NM.TeamLinkWatcherArpPingFlags",
+    "NM.VlanFlags",
+    "NM.VlanPriorityMap",
+    "NM.WepKeyType",
 ]
 
 manual = [
@@ -162,5 +193,15 @@ status = "generate"
 
     [[object.function]]
     name = "get_permission"
+    # Does not compile
+    ignore = true
+
+
+[[object]]
+name = "NM.Setting"
+status = "generate"
+
+    [[object.function]]
+    name = "get_secret_flags"
     # Does not compile
     ignore = true

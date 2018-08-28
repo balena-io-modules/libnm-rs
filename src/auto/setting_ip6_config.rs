@@ -17,6 +17,8 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+use SettingIP6ConfigAddrGenMode;
+use SettingIP6ConfigPrivacy;
 
 glib_wrapper! {
     pub struct SettingIP6Config(Object<ffi::NMSettingIP6Config, ffi::NMSettingIP6ConfigClass>): Setting;
@@ -39,12 +41,12 @@ impl Default for SettingIP6Config {
 }
 
 pub trait SettingIP6ConfigExt {
-    //fn get_addr_gen_mode(&self) -> /*Ignored*/SettingIP6ConfigAddrGenMode;
+    fn get_addr_gen_mode(&self) -> SettingIP6ConfigAddrGenMode;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_dhcp_duid(&self) -> Option<String>;
 
-    //fn get_ip6_privacy(&self) -> /*Ignored*/SettingIP6ConfigPrivacy;
+    fn get_ip6_privacy(&self) -> SettingIP6ConfigPrivacy;
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn get_token(&self) -> Option<String>;
@@ -54,7 +56,7 @@ pub trait SettingIP6ConfigExt {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_dhcp_duid(&self, dhcp_duid: Option<&str>);
 
-    //fn set_property_ip6_privacy(&self, ip6_privacy: /*Ignored*/SettingIP6ConfigPrivacy);
+    fn set_property_ip6_privacy(&self, ip6_privacy: SettingIP6ConfigPrivacy);
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn set_property_token(&self, token: Option<&str>);
@@ -74,9 +76,13 @@ pub trait SettingIP6ConfigExt {
 }
 
 impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt for O {
-    //fn get_addr_gen_mode(&self) -> /*Ignored*/SettingIP6ConfigAddrGenMode {
-    //    unsafe { TODO: call ffi::nm_setting_ip6_config_get_addr_gen_mode() }
-    //}
+    fn get_addr_gen_mode(&self) -> SettingIP6ConfigAddrGenMode {
+        unsafe {
+            from_glib(ffi::nm_setting_ip6_config_get_addr_gen_mode(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_dhcp_duid(&self) -> Option<String> {
@@ -87,9 +93,13 @@ impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt f
         }
     }
 
-    //fn get_ip6_privacy(&self) -> /*Ignored*/SettingIP6ConfigPrivacy {
-    //    unsafe { TODO: call ffi::nm_setting_ip6_config_get_ip6_privacy() }
-    //}
+    fn get_ip6_privacy(&self) -> SettingIP6ConfigPrivacy {
+        unsafe {
+            from_glib(ffi::nm_setting_ip6_config_get_ip6_privacy(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn get_token(&self) -> Option<String> {
@@ -117,11 +127,15 @@ impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt f
         }
     }
 
-    //fn set_property_ip6_privacy(&self, ip6_privacy: /*Ignored*/SettingIP6ConfigPrivacy) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "ip6-privacy".to_glib_none().0, Value::from(&ip6_privacy).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_ip6_privacy(&self, ip6_privacy: SettingIP6ConfigPrivacy) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "ip6-privacy".to_glib_none().0,
+                Value::from(&ip6_privacy).to_glib_none().0,
+            );
+        }
+    }
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn set_property_token(&self, token: Option<&str>) {

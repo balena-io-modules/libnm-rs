@@ -21,6 +21,10 @@ use std::mem::transmute;
 use std::ptr;
 use Connection;
 use Error;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use SettingsConnectionFlags;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use SettingsUpdate2Flags;
 
 glib_wrapper! {
     pub struct RemoteConnection(Object<ffi::NMRemoteConnection, ffi::NMRemoteConnectionClass>): Connection;
@@ -77,8 +81,8 @@ pub trait RemoteConnectionExt: Sized {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_filename(&self) -> Option<String>;
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_flags(&self) -> /*Ignored*/SettingsConnectionFlags;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_flags(&self) -> SettingsConnectionFlags;
 
     fn get_secrets<'a, P: Into<Option<&'a gio::Cancellable>>>(
         &self,
@@ -124,12 +128,37 @@ pub trait RemoteConnectionExt: Sized {
         &self,
     ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn update2<'a, 'b, 'c, P: Into<Option<&'a glib::Variant>>, Q: Into<Option<&'b glib::Variant>>, R: Into<Option<&'c gio::Cancellable>>, S: FnOnce(Result<glib::Variant, Error>) + Send + 'static>(&self, settings: P, flags: /*Ignored*/SettingsUpdate2Flags, args: Q, cancellable: R, callback: S);
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn update2<
+        'a,
+        'b,
+        'c,
+        P: Into<Option<&'a glib::Variant>>,
+        Q: Into<Option<&'b glib::Variant>>,
+        R: Into<Option<&'c gio::Cancellable>>,
+        S: FnOnce(Result<glib::Variant, Error>) + Send + 'static,
+    >(
+        &self,
+        settings: P,
+        flags: SettingsUpdate2Flags,
+        args: Q,
+        cancellable: R,
+        callback: S,
+    );
 
-    //#[cfg(feature = "futures")]
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn update2_future<'a, 'b, P: Into<Option<&'a glib::Variant>>, Q: Into<Option<&'b glib::Variant>>>(&self, settings: P, flags: /*Ignored*/SettingsUpdate2Flags, args: Q) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>>;
+    #[cfg(feature = "futures")]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn update2_future<
+        'a,
+        'b,
+        P: Into<Option<&'a glib::Variant>>,
+        Q: Into<Option<&'b glib::Variant>>,
+    >(
+        &self,
+        settings: P,
+        flags: SettingsUpdate2Flags,
+        args: Q,
+    ) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>>;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn connect_property_filename_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -325,10 +354,10 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
         }
     }
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_flags(&self) -> /*Ignored*/SettingsConnectionFlags {
-    //    unsafe { TODO: call ffi::nm_remote_connection_get_flags() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_flags(&self) -> SettingsConnectionFlags {
+        unsafe { from_glib(ffi::nm_remote_connection_get_flags(self.to_glib_none().0)) }
+    }
 
     fn get_secrets<'a, P: Into<Option<&'a gio::Cancellable>>>(
         &self,
@@ -507,40 +536,101 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
         })
     }
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn update2<'a, 'b, 'c, P: Into<Option<&'a glib::Variant>>, Q: Into<Option<&'b glib::Variant>>, R: Into<Option<&'c gio::Cancellable>>, S: FnOnce(Result<glib::Variant, Error>) + Send + 'static>(&self, settings: P, flags: /*Ignored*/SettingsUpdate2Flags, args: Q, cancellable: R, callback: S) {
-    //    unsafe { TODO: call ffi::nm_remote_connection_update2() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn update2<
+        'a,
+        'b,
+        'c,
+        P: Into<Option<&'a glib::Variant>>,
+        Q: Into<Option<&'b glib::Variant>>,
+        R: Into<Option<&'c gio::Cancellable>>,
+        S: FnOnce(Result<glib::Variant, Error>) + Send + 'static,
+    >(
+        &self,
+        settings: P,
+        flags: SettingsUpdate2Flags,
+        args: Q,
+        cancellable: R,
+        callback: S,
+    ) {
+        let settings = settings.into();
+        let settings = settings.to_glib_none();
+        let args = args.into();
+        let args = args.to_glib_none();
+        let cancellable = cancellable.into();
+        let cancellable = cancellable.to_glib_none();
+        let user_data: Box<Box<S>> = Box::new(Box::new(callback));
+        unsafe extern "C" fn update2_trampoline<
+            S: FnOnce(Result<glib::Variant, Error>) + Send + 'static,
+        >(
+            _source_object: *mut gobject_ffi::GObject,
+            res: *mut gio_ffi::GAsyncResult,
+            user_data: glib_ffi::gpointer,
+        ) {
+            let mut error = ptr::null_mut();
+            let ret =
+                ffi::nm_remote_connection_update2_finish(_source_object as *mut _, res, &mut error);
+            let result = if error.is_null() {
+                Ok(from_glib_full(ret))
+            } else {
+                Err(from_glib_full(error))
+            };
+            let callback: Box<Box<S>> = Box::from_raw(user_data as *mut _);
+            callback(result);
+        }
+        let callback = update2_trampoline::<S>;
+        unsafe {
+            ffi::nm_remote_connection_update2(
+                self.to_glib_none().0,
+                settings.0,
+                flags.to_glib(),
+                args.0,
+                cancellable.0,
+                Some(callback),
+                Box::into_raw(user_data) as *mut _,
+            );
+        }
+    }
 
-    //#[cfg(feature = "futures")]
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn update2_future<'a, 'b, P: Into<Option<&'a glib::Variant>>, Q: Into<Option<&'b glib::Variant>>>(&self, settings: P, flags: /*Ignored*/SettingsUpdate2Flags, args: Q) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>> {
-    //use gio::GioFuture;
-    //use send_cell::SendCell;
+    #[cfg(feature = "futures")]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn update2_future<
+        'a,
+        'b,
+        P: Into<Option<&'a glib::Variant>>,
+        Q: Into<Option<&'b glib::Variant>>,
+    >(
+        &self,
+        settings: P,
+        flags: SettingsUpdate2Flags,
+        args: Q,
+    ) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>> {
+        use gio::GioFuture;
+        use send_cell::SendCell;
 
-    //let settings = settings.into();
-    //let settings = settings.map(ToOwned::to_owned);
-    //let args = args.into();
-    //let args = args.map(ToOwned::to_owned);
-    //GioFuture::new(self, move |obj, send| {
-    //    let cancellable = gio::Cancellable::new();
-    //    let send = SendCell::new(send);
-    //    let obj_clone = SendCell::new(obj.clone());
-    //    obj.update2(
-    //         settings.as_ref().map(::std::borrow::Borrow::borrow),
-    //         flags,
-    //         args.as_ref().map(::std::borrow::Borrow::borrow),
-    //         Some(&cancellable),
-    //         move |res| {
-    //             let obj = obj_clone.into_inner();
-    //             let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
-    //             let _ = send.into_inner().send(res);
-    //         },
-    //    );
+        let settings = settings.into();
+        let settings = settings.map(ToOwned::to_owned);
+        let args = args.into();
+        let args = args.map(ToOwned::to_owned);
+        GioFuture::new(self, move |obj, send| {
+            let cancellable = gio::Cancellable::new();
+            let send = SendCell::new(send);
+            let obj_clone = SendCell::new(obj.clone());
+            obj.update2(
+                settings.as_ref().map(::std::borrow::Borrow::borrow),
+                flags,
+                args.as_ref().map(::std::borrow::Borrow::borrow),
+                Some(&cancellable),
+                move |res| {
+                    let obj = obj_clone.into_inner();
+                    let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
+                    let _ = send.into_inner().send(res);
+                },
+            );
 
-    //    cancellable
-    //})
-    //}
+            cancellable
+        })
+    }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn connect_property_filename_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {

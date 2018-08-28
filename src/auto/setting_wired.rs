@@ -18,6 +18,7 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+use SettingWiredWakeOnLan;
 
 glib_wrapper! {
     pub struct SettingWired(Object<ffi::NMSettingWired, ffi::NMSettingWiredClass>): Setting;
@@ -81,7 +82,7 @@ pub trait SettingWiredExt {
 
     fn get_valid_s390_options(&self) -> Vec<String>;
 
-    //fn get_wake_on_lan(&self) -> /*Ignored*/SettingWiredWakeOnLan;
+    fn get_wake_on_lan(&self) -> SettingWiredWakeOnLan;
 
     fn get_wake_on_lan_password(&self) -> Option<String>;
 
@@ -319,9 +320,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    //fn get_wake_on_lan(&self) -> /*Ignored*/SettingWiredWakeOnLan {
-    //    unsafe { TODO: call ffi::nm_setting_wired_get_wake_on_lan() }
-    //}
+    fn get_wake_on_lan(&self) -> SettingWiredWakeOnLan {
+        unsafe { from_glib(ffi::nm_setting_wired_get_wake_on_lan(self.to_glib_none().0)) }
+    }
 
     fn get_wake_on_lan_password(&self) -> Option<String> {
         unsafe {

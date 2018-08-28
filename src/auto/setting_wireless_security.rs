@@ -18,6 +18,13 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+use SettingSecretFlags;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use SettingWirelessSecurityFils;
+use SettingWirelessSecurityPmf;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+use SettingWirelessSecurityWpsMethod;
+use WepKeyType;
 
 glib_wrapper! {
     pub struct SettingWirelessSecurity(Object<ffi::NMSettingWirelessSecurity, ffi::NMSettingWirelessSecurityClass>): Setting;
@@ -56,8 +63,8 @@ pub trait SettingWirelessSecurityExt {
 
     fn get_auth_alg(&self) -> Option<String>;
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_fils(&self) -> /*Ignored*/SettingWirelessSecurityFils;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_fils(&self) -> SettingWirelessSecurityFils;
 
     fn get_group(&self, i: u32) -> Option<String>;
 
@@ -65,7 +72,7 @@ pub trait SettingWirelessSecurityExt {
 
     fn get_leap_password(&self) -> Option<String>;
 
-    //fn get_leap_password_flags(&self) -> /*Ignored*/SettingSecretFlags;
+    fn get_leap_password_flags(&self) -> SettingSecretFlags;
 
     fn get_leap_username(&self) -> Option<String>;
 
@@ -77,24 +84,24 @@ pub trait SettingWirelessSecurityExt {
 
     fn get_pairwise(&self, i: u32) -> Option<String>;
 
-    //fn get_pmf(&self) -> /*Ignored*/SettingWirelessSecurityPmf;
+    fn get_pmf(&self) -> SettingWirelessSecurityPmf;
 
     fn get_proto(&self, i: u32) -> Option<String>;
 
     fn get_psk(&self) -> Option<String>;
 
-    //fn get_psk_flags(&self) -> /*Ignored*/SettingSecretFlags;
+    fn get_psk_flags(&self) -> SettingSecretFlags;
 
     fn get_wep_key(&self, idx: u32) -> Option<String>;
 
-    //fn get_wep_key_flags(&self) -> /*Ignored*/SettingSecretFlags;
+    fn get_wep_key_flags(&self) -> SettingSecretFlags;
 
-    //fn get_wep_key_type(&self) -> /*Ignored*/WepKeyType;
+    fn get_wep_key_type(&self) -> WepKeyType;
 
     fn get_wep_tx_keyidx(&self) -> u32;
 
-    //#[cfg(any(feature = "v1_10", feature = "dox"))]
-    //fn get_wps_method(&self) -> /*Ignored*/SettingWirelessSecurityWpsMethod;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    fn get_wps_method(&self) -> SettingWirelessSecurityWpsMethod;
 
     fn remove_group(&self, i: u32);
 
@@ -121,7 +128,7 @@ pub trait SettingWirelessSecurityExt {
 
     fn set_property_leap_password(&self, leap_password: Option<&str>);
 
-    //fn set_property_leap_password_flags(&self, leap_password_flags: /*Ignored*/SettingSecretFlags);
+    fn set_property_leap_password_flags(&self, leap_password_flags: SettingSecretFlags);
 
     fn set_property_leap_username(&self, leap_username: Option<&str>);
 
@@ -134,11 +141,11 @@ pub trait SettingWirelessSecurityExt {
 
     fn set_property_psk(&self, psk: Option<&str>);
 
-    //fn set_property_psk_flags(&self, psk_flags: /*Ignored*/SettingSecretFlags);
+    fn set_property_psk_flags(&self, psk_flags: SettingSecretFlags);
 
-    //fn set_property_wep_key_flags(&self, wep_key_flags: /*Ignored*/SettingSecretFlags);
+    fn set_property_wep_key_flags(&self, wep_key_flags: SettingSecretFlags);
 
-    //fn set_property_wep_key_type(&self, wep_key_type: /*Ignored*/WepKeyType);
+    fn set_property_wep_key_type(&self, wep_key_type: WepKeyType);
 
     fn get_property_wep_key0(&self) -> Option<String>;
 
@@ -275,10 +282,14 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_fils(&self) -> /*Ignored*/SettingWirelessSecurityFils {
-    //    unsafe { TODO: call ffi::nm_setting_wireless_security_get_fils() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_fils(&self) -> SettingWirelessSecurityFils {
+        unsafe {
+            from_glib(ffi::nm_setting_wireless_security_get_fils(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_group(&self, i: u32) -> Option<String> {
         unsafe {
@@ -305,9 +316,13 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    //fn get_leap_password_flags(&self) -> /*Ignored*/SettingSecretFlags {
-    //    unsafe { TODO: call ffi::nm_setting_wireless_security_get_leap_password_flags() }
-    //}
+    fn get_leap_password_flags(&self) -> SettingSecretFlags {
+        unsafe {
+            from_glib(ffi::nm_setting_wireless_security_get_leap_password_flags(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_leap_username(&self) -> Option<String> {
         unsafe {
@@ -338,9 +353,13 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    //fn get_pmf(&self) -> /*Ignored*/SettingWirelessSecurityPmf {
-    //    unsafe { TODO: call ffi::nm_setting_wireless_security_get_pmf() }
-    //}
+    fn get_pmf(&self) -> SettingWirelessSecurityPmf {
+        unsafe {
+            from_glib(ffi::nm_setting_wireless_security_get_pmf(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_proto(&self, i: u32) -> Option<String> {
         unsafe {
@@ -359,9 +378,13 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    //fn get_psk_flags(&self) -> /*Ignored*/SettingSecretFlags {
-    //    unsafe { TODO: call ffi::nm_setting_wireless_security_get_psk_flags() }
-    //}
+    fn get_psk_flags(&self) -> SettingSecretFlags {
+        unsafe {
+            from_glib(ffi::nm_setting_wireless_security_get_psk_flags(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_wep_key(&self, idx: u32) -> Option<String> {
         unsafe {
@@ -372,22 +395,34 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    //fn get_wep_key_flags(&self) -> /*Ignored*/SettingSecretFlags {
-    //    unsafe { TODO: call ffi::nm_setting_wireless_security_get_wep_key_flags() }
-    //}
+    fn get_wep_key_flags(&self) -> SettingSecretFlags {
+        unsafe {
+            from_glib(ffi::nm_setting_wireless_security_get_wep_key_flags(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
-    //fn get_wep_key_type(&self) -> /*Ignored*/WepKeyType {
-    //    unsafe { TODO: call ffi::nm_setting_wireless_security_get_wep_key_type() }
-    //}
+    fn get_wep_key_type(&self) -> WepKeyType {
+        unsafe {
+            from_glib(ffi::nm_setting_wireless_security_get_wep_key_type(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn get_wep_tx_keyidx(&self) -> u32 {
         unsafe { ffi::nm_setting_wireless_security_get_wep_tx_keyidx(self.to_glib_none().0) }
     }
 
-    //#[cfg(any(feature = "v1_10", feature = "dox"))]
-    //fn get_wps_method(&self) -> /*Ignored*/SettingWirelessSecurityWpsMethod {
-    //    unsafe { TODO: call ffi::nm_setting_wireless_security_get_wps_method() }
-    //}
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    fn get_wps_method(&self) -> SettingWirelessSecurityWpsMethod {
+        unsafe {
+            from_glib(ffi::nm_setting_wireless_security_get_wps_method(
+                self.to_glib_none().0,
+            ))
+        }
+    }
 
     fn remove_group(&self, i: u32) {
         unsafe {
@@ -495,11 +530,15 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    //fn set_property_leap_password_flags(&self, leap_password_flags: /*Ignored*/SettingSecretFlags) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "leap-password-flags".to_glib_none().0, Value::from(&leap_password_flags).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_leap_password_flags(&self, leap_password_flags: SettingSecretFlags) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "leap-password-flags".to_glib_none().0,
+                Value::from(&leap_password_flags).to_glib_none().0,
+            );
+        }
+    }
 
     fn set_property_leap_username(&self, leap_username: Option<&str>) {
         unsafe {
@@ -552,23 +591,35 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    //fn set_property_psk_flags(&self, psk_flags: /*Ignored*/SettingSecretFlags) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "psk-flags".to_glib_none().0, Value::from(&psk_flags).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_psk_flags(&self, psk_flags: SettingSecretFlags) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "psk-flags".to_glib_none().0,
+                Value::from(&psk_flags).to_glib_none().0,
+            );
+        }
+    }
 
-    //fn set_property_wep_key_flags(&self, wep_key_flags: /*Ignored*/SettingSecretFlags) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "wep-key-flags".to_glib_none().0, Value::from(&wep_key_flags).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_wep_key_flags(&self, wep_key_flags: SettingSecretFlags) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "wep-key-flags".to_glib_none().0,
+                Value::from(&wep_key_flags).to_glib_none().0,
+            );
+        }
+    }
 
-    //fn set_property_wep_key_type(&self, wep_key_type: /*Ignored*/WepKeyType) {
-    //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "wep-key-type".to_glib_none().0, Value::from(&wep_key_type).to_glib_none().0);
-    //    }
-    //}
+    fn set_property_wep_key_type(&self, wep_key_type: WepKeyType) {
+        unsafe {
+            gobject_ffi::g_object_set_property(
+                self.to_glib_none().0,
+                "wep-key-type".to_glib_none().0,
+                Value::from(&wep_key_type).to_glib_none().0,
+            );
+        }
+    }
 
     fn get_property_wep_key0(&self) -> Option<String> {
         unsafe {

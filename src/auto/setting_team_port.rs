@@ -17,6 +17,8 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use TeamLinkWatcher;
 
 glib_wrapper! {
     pub struct SettingTeamPort(Object<ffi::NMSettingTeamPort, ffi::NMSettingTeamPortClass>): Setting;
@@ -39,8 +41,8 @@ impl Default for SettingTeamPort {
 }
 
 pub trait SettingTeamPortExt {
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn add_link_watcher(&self, link_watcher: /*Ignored*/&TeamLinkWatcher) -> bool;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn add_link_watcher(&self, link_watcher: &TeamLinkWatcher) -> bool;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn clear_link_watchers(&self);
@@ -53,8 +55,8 @@ pub trait SettingTeamPortExt {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_lacp_prio(&self) -> i32;
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_link_watcher(&self, idx: u32) -> /*Ignored*/Option<TeamLinkWatcher>;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_link_watcher(&self, idx: u32) -> Option<TeamLinkWatcher>;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_num_link_watchers(&self) -> u32;
@@ -71,8 +73,8 @@ pub trait SettingTeamPortExt {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn remove_link_watcher(&self, idx: u32);
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn remove_link_watcher_by_value(&self, link_watcher: /*Ignored*/&TeamLinkWatcher) -> bool;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn remove_link_watcher_by_value(&self, link_watcher: &TeamLinkWatcher) -> bool;
 
     fn set_property_config(&self, config: Option<&str>);
 
@@ -122,10 +124,15 @@ pub trait SettingTeamPortExt {
 }
 
 impl<O: IsA<SettingTeamPort> + IsA<glib::object::Object>> SettingTeamPortExt for O {
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn add_link_watcher(&self, link_watcher: /*Ignored*/&TeamLinkWatcher) -> bool {
-    //    unsafe { TODO: call ffi::nm_setting_team_port_add_link_watcher() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn add_link_watcher(&self, link_watcher: &TeamLinkWatcher) -> bool {
+        unsafe {
+            from_glib(ffi::nm_setting_team_port_add_link_watcher(
+                self.to_glib_none().0,
+                link_watcher.to_glib_none().0,
+            ))
+        }
+    }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn clear_link_watchers(&self) {
@@ -148,10 +155,15 @@ impl<O: IsA<SettingTeamPort> + IsA<glib::object::Object>> SettingTeamPortExt for
         unsafe { ffi::nm_setting_team_port_get_lacp_prio(self.to_glib_none().0) }
     }
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_link_watcher(&self, idx: u32) -> /*Ignored*/Option<TeamLinkWatcher> {
-    //    unsafe { TODO: call ffi::nm_setting_team_port_get_link_watcher() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_link_watcher(&self, idx: u32) -> Option<TeamLinkWatcher> {
+        unsafe {
+            from_glib_none(ffi::nm_setting_team_port_get_link_watcher(
+                self.to_glib_none().0,
+                idx,
+            ))
+        }
+    }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_num_link_watchers(&self) -> u32 {
@@ -180,10 +192,15 @@ impl<O: IsA<SettingTeamPort> + IsA<glib::object::Object>> SettingTeamPortExt for
         }
     }
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn remove_link_watcher_by_value(&self, link_watcher: /*Ignored*/&TeamLinkWatcher) -> bool {
-    //    unsafe { TODO: call ffi::nm_setting_team_port_remove_link_watcher_by_value() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn remove_link_watcher_by_value(&self, link_watcher: &TeamLinkWatcher) -> bool {
+        unsafe {
+            from_glib(ffi::nm_setting_team_port_remove_link_watcher_by_value(
+                self.to_glib_none().0,
+                link_watcher.to_glib_none().0,
+            ))
+        }
+    }
 
     fn set_property_config(&self, config: Option<&str>) {
         unsafe {

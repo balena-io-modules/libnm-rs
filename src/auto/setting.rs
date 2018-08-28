@@ -18,6 +18,7 @@ use std::ptr;
 use Connection;
 use Error;
 use SettingCompareFlags;
+use SettingSecretFlags;
 
 glib_wrapper! {
     pub struct Setting(Object<ffi::NMSetting, ffi::NMSettingClass>);
@@ -46,9 +47,7 @@ pub trait SettingExt {
 
     fn get_name(&self) -> Option<String>;
 
-    //fn get_secret_flags(&self, secret_name: &str, out_flags: /*Ignored*/SettingSecretFlags) -> Result<(), Error>;
-
-    //fn set_secret_flags(&self, secret_name: &str, flags: /*Ignored*/SettingSecretFlags) -> Result<(), Error>;
+    fn set_secret_flags(&self, secret_name: &str, flags: SettingSecretFlags) -> Result<(), Error>;
 
     fn to_string(&self) -> String;
 
@@ -96,13 +95,22 @@ impl<O: IsA<Setting> + IsA<glib::object::Object>> SettingExt for O {
         unsafe { from_glib_none(ffi::nm_setting_get_name(self.to_glib_none().0)) }
     }
 
-    //fn get_secret_flags(&self, secret_name: &str, out_flags: /*Ignored*/SettingSecretFlags) -> Result<(), Error> {
-    //    unsafe { TODO: call ffi::nm_setting_get_secret_flags() }
-    //}
-
-    //fn set_secret_flags(&self, secret_name: &str, flags: /*Ignored*/SettingSecretFlags) -> Result<(), Error> {
-    //    unsafe { TODO: call ffi::nm_setting_set_secret_flags() }
-    //}
+    fn set_secret_flags(&self, secret_name: &str, flags: SettingSecretFlags) -> Result<(), Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let _ = ffi::nm_setting_set_secret_flags(
+                self.to_glib_none().0,
+                secret_name.to_glib_none().0,
+                flags.to_glib(),
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     fn to_string(&self) -> String {
         unsafe { from_glib_full(ffi::nm_setting_to_string(self.to_glib_none().0)) }

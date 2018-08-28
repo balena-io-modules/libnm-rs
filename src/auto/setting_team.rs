@@ -17,6 +17,8 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use TeamLinkWatcher;
 
 glib_wrapper! {
     pub struct SettingTeam(Object<ffi::NMSettingTeam, ffi::NMSettingTeamClass>): Setting;
@@ -39,8 +41,8 @@ impl Default for SettingTeam {
 }
 
 pub trait SettingTeamExt {
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn add_link_watcher(&self, link_watcher: /*Ignored*/&TeamLinkWatcher) -> bool;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn add_link_watcher(&self, link_watcher: &TeamLinkWatcher) -> bool;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn add_runner_tx_hash(&self, txhash: &str) -> bool;
@@ -50,8 +52,8 @@ pub trait SettingTeamExt {
 
     fn get_config(&self) -> Option<String>;
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_link_watcher(&self, idx: u32) -> /*Ignored*/Option<TeamLinkWatcher>;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_link_watcher(&self, idx: u32) -> Option<TeamLinkWatcher>;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_mcast_rejoin_count(&self) -> i32;
@@ -104,8 +106,8 @@ pub trait SettingTeamExt {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn remove_link_watcher(&self, idx: u32);
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn remove_link_watcher_by_value(&self, link_watcher: /*Ignored*/&TeamLinkWatcher) -> bool;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn remove_link_watcher_by_value(&self, link_watcher: &TeamLinkWatcher) -> bool;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn remove_runner_tx_hash(&self, idx: u32);
@@ -254,10 +256,15 @@ pub trait SettingTeamExt {
 }
 
 impl<O: IsA<SettingTeam> + IsA<glib::object::Object>> SettingTeamExt for O {
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn add_link_watcher(&self, link_watcher: /*Ignored*/&TeamLinkWatcher) -> bool {
-    //    unsafe { TODO: call ffi::nm_setting_team_add_link_watcher() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn add_link_watcher(&self, link_watcher: &TeamLinkWatcher) -> bool {
+        unsafe {
+            from_glib(ffi::nm_setting_team_add_link_watcher(
+                self.to_glib_none().0,
+                link_watcher.to_glib_none().0,
+            ))
+        }
+    }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn add_runner_tx_hash(&self, txhash: &str) -> bool {
@@ -280,10 +287,15 @@ impl<O: IsA<SettingTeam> + IsA<glib::object::Object>> SettingTeamExt for O {
         unsafe { from_glib_none(ffi::nm_setting_team_get_config(self.to_glib_none().0)) }
     }
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn get_link_watcher(&self, idx: u32) -> /*Ignored*/Option<TeamLinkWatcher> {
-    //    unsafe { TODO: call ffi::nm_setting_team_get_link_watcher() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn get_link_watcher(&self, idx: u32) -> Option<TeamLinkWatcher> {
+        unsafe {
+            from_glib_none(ffi::nm_setting_team_get_link_watcher(
+                self.to_glib_none().0,
+                idx,
+            ))
+        }
+    }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_mcast_rejoin_count(&self) -> i32 {
@@ -397,10 +409,15 @@ impl<O: IsA<SettingTeam> + IsA<glib::object::Object>> SettingTeamExt for O {
         }
     }
 
-    //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //fn remove_link_watcher_by_value(&self, link_watcher: /*Ignored*/&TeamLinkWatcher) -> bool {
-    //    unsafe { TODO: call ffi::nm_setting_team_remove_link_watcher_by_value() }
-    //}
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    fn remove_link_watcher_by_value(&self, link_watcher: &TeamLinkWatcher) -> bool {
+        unsafe {
+            from_glib(ffi::nm_setting_team_remove_link_watcher_by_value(
+                self.to_glib_none().0,
+                link_watcher.to_glib_none().0,
+            ))
+        }
+    }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn remove_runner_tx_hash(&self, idx: u32) {
