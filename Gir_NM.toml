@@ -376,3 +376,8 @@ status = "generate"
     name = "utils_wifi_5ghz_freqs"
     # Does not compile
     ignore = true
+
+    [[object.function]]
+    name = "utils_uuid_generate"
+    # Manual - no Option
+    ignore = true

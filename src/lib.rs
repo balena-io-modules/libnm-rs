@@ -17,17 +17,23 @@ extern crate gio;
 
 extern crate nm_sys as ffi;
 
-pub use glib::Error;
-
 mod auto;
 
+pub use glib::Error;
+
+pub use auto::functions::*;
 pub use auto::*;
 
 mod array;
 mod client;
+
+mod functions;
+pub use functions::*;
 
 pub mod prelude {
     pub use glib::prelude::*;
 
     pub use auto::traits::*;
 }
+
+pub use prelude::*;

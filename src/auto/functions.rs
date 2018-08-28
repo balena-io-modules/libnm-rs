@@ -359,10 +359,6 @@ pub fn utils_tc_tfilter_to_str(tfilter: &TCTfilter) -> Result<String, Error> {
     }
 }
 
-pub fn utils_uuid_generate() -> Option<String> {
-    unsafe { from_glib_full(ffi::nm_utils_uuid_generate()) }
-}
-
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 pub fn utils_version() -> u32 {
     unsafe { ffi::nm_utils_version() }
