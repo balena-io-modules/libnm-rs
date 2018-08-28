@@ -10,6 +10,13 @@ mod active_connection;
 pub use self::active_connection::ActiveConnection;
 pub use self::active_connection::ActiveConnectionExt;
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+mod checkpoint;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+pub use self::checkpoint::Checkpoint;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+pub use self::checkpoint::CheckpointExt;
+
 mod client;
 pub use self::client::Client;
 
@@ -45,6 +52,8 @@ pub use self::flags::DeviceWifiCapabilities;
 pub mod traits {
     pub use super::AccessPointExt;
     pub use super::ActiveConnectionExt;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub use super::CheckpointExt;
     pub use super::ConnectionExt;
     pub use super::DeviceExt;
     pub use super::DeviceWifiExt;

@@ -18,6 +18,7 @@ generate = [
     "NM.ConnectivityState",
     "NM.State",
     "NM.Setting",
+    "NM.Checkpoint",
 ]
 
 manual = [
