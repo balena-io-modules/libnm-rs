@@ -1,19 +1,13 @@
 extern crate nm;
 
-use nm::prelude::*;
-
 fn main() {
     let client = nm::Client::new(None).unwrap();
     let connectivity = client.get_connectivity();
     println!("Connectivity: {:?}", connectivity);
 
-    let connectivity_check_enabled: bool = client
-        .get_property("connectivity-check-enabled")
-        .unwrap()
-        .get()
-        .unwrap();
+    let connectivity_check_enabled = client.get_property_connectivity_check_enabled();
     println!(
-        "Connectivity Check Enabled: {:?}",
+        "Connectivity check enabled: {:?}",
         connectivity_check_enabled
     );
 }
