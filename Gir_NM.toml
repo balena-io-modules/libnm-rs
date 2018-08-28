@@ -19,7 +19,6 @@ generate = [
     "NM.CheckpointCreateFlags",
     "NM.ClientPermission",
     "NM.ClientPermissionResult",
-    "NM.Connection",
     "NM.ConnectionSerializationFlags",
     "NM.ConnectivityState",
     "NM.Device",
@@ -135,6 +134,27 @@ trait = false
     name = "get_checkpoints"
     # No GPtrArray support
     ignore = true
+
+    [[object.property]]
+    name = "wimax-enabled"
+    # Deprecated
+    ignore = true    
+
+    [[object.property]]
+    name = "wimax-hardware-enabled"
+    # Deprecated
+    ignore = true    
+
+
+[[object]]
+name = "NM.Connection"
+status = "generate"
+
+    [[object.function]]
+    name = "get_setting_wimax"
+    # Deprecated
+    ignore = true
+
 
 [[object]]
 name = "NM.SettingConnection"

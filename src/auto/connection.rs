@@ -179,8 +179,6 @@ pub trait ConnectionExt {
 
     fn get_setting_vxlan(&self) -> Option<SettingVxlan>;
 
-    //fn get_setting_wimax(&self) -> /*Ignored*/Option<SettingWimax>;
-
     fn get_setting_wired(&self) -> Option<SettingWired>;
 
     fn get_setting_wireless(&self) -> Option<SettingWireless>;
@@ -517,10 +515,6 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     fn get_setting_vxlan(&self) -> Option<SettingVxlan> {
         unsafe { from_glib_none(ffi::nm_connection_get_setting_vxlan(self.to_glib_none().0)) }
     }
-
-    //fn get_setting_wimax(&self) -> /*Ignored*/Option<SettingWimax> {
-    //    unsafe { TODO: call ffi::nm_connection_get_setting_wimax() }
-    //}
 
     fn get_setting_wired(&self) -> Option<SettingWired> {
         unsafe { from_glib_none(ffi::nm_connection_get_setting_wired(self.to_glib_none().0)) }

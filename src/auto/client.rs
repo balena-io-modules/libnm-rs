@@ -1261,40 +1261,6 @@ impl Client {
         }
     }
 
-    pub fn get_property_wimax_enabled(&self) -> bool {
-        unsafe {
-            let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "wimax-enabled".to_glib_none().0,
-                value.to_glib_none_mut().0,
-            );
-            value.get().unwrap()
-        }
-    }
-
-    pub fn set_property_wimax_enabled(&self, wimax_enabled: bool) {
-        unsafe {
-            gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "wimax-enabled".to_glib_none().0,
-                Value::from(&wimax_enabled).to_glib_none().0,
-            );
-        }
-    }
-
-    pub fn get_property_wimax_hardware_enabled(&self) -> bool {
-        unsafe {
-            let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "wimax-hardware-enabled".to_glib_none().0,
-                value.to_glib_none_mut().0,
-            );
-            value.get().unwrap()
-        }
-    }
-
     pub fn get_property_wireless_enabled(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
@@ -1865,36 +1831,6 @@ impl Client {
         }
     }
 
-    pub fn connect_property_wimax_enabled_notify<F: Fn(&Client) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId {
-        unsafe {
-            let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wimax-enabled",
-                transmute(notify_wimax_enabled_trampoline as usize),
-                Box_::into_raw(f) as *mut _,
-            )
-        }
-    }
-
-    pub fn connect_property_wimax_hardware_enabled_notify<F: Fn(&Client) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId {
-        unsafe {
-            let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wimax-hardware-enabled",
-                transmute(notify_wimax_hardware_enabled_trampoline as usize),
-                Box_::into_raw(f) as *mut _,
-            )
-        }
-    }
-
     pub fn connect_property_wireless_enabled_notify<F: Fn(&Client) + 'static>(
         &self,
         f: F,
@@ -2229,24 +2165,6 @@ unsafe extern "C" fn notify_state_trampoline(
 }
 
 unsafe extern "C" fn notify_version_trampoline(
-    this: *mut ffi::NMClient,
-    _param_spec: glib_ffi::gpointer,
-    f: glib_ffi::gpointer,
-) {
-    let f: &&(Fn(&Client) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
-}
-
-unsafe extern "C" fn notify_wimax_enabled_trampoline(
-    this: *mut ffi::NMClient,
-    _param_spec: glib_ffi::gpointer,
-    f: glib_ffi::gpointer,
-) {
-    let f: &&(Fn(&Client) + 'static) = transmute(f);
-    f(&from_glib_borrow(this))
-}
-
-unsafe extern "C" fn notify_wimax_hardware_enabled_trampoline(
     this: *mut ffi::NMClient,
     _param_spec: glib_ffi::gpointer,
     f: glib_ffi::gpointer,
