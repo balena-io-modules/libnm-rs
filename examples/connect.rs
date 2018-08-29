@@ -4,25 +4,38 @@ extern crate nm;
 use nm::*;
 
 fn main() {
-    //    let client = nm::Client::new(None).unwrap();
+    //let client = nm::Client::new(None).unwrap();
 
     let uuid = nm::utils_uuid_generate();
 
-    println!("{}", uuid);
+    let type_ = &nm::SETTING_WIRED_SETTING_NAME;
 
-    println!("{}", nm::utils_is_uuid(&uuid));
+    let type_g = nm::Setting::lookup_type(type_);
+    let s_obj = glib::Object::new(type_g, &[]).unwrap();
+    let s_base = s_obj.downcast::<nm::Setting>().unwrap();
+    println!("{:?}", s_base);
 
-    let type_ = nm::Setting::lookup_type(&nm::SETTING_DUMMY_SETTING_NAME);
-    let obj = glib::Object::new(type_, &[]).unwrap();
-    let dummy = obj.downcast::<nm::SettingDummy>().unwrap();
+    let con = nm::SimpleConnection::new();
 
-    let dummy2 = nm::SettingDummy::new();
+    println!("{:?}", con);
 
-    println!("{:?}", dummy);
+    let s_con = nm::SettingConnection::new();
 
-    println!("{:?}", dummy2);
+    s_con.set_property_id(Some("test1"));
+    s_con.set_property_uuid(Some(&uuid));
+    s_con.set_property_type(Some(type_));
 
-    let connection = nm::SimpleConnection::new();
+    println!("{:?}", s_con);
 
-    println!("{:?}", connection);
+    con.add_setting(&s_con);
+
+    con.add_setting(&s_base);
+
+    let as_dbus = con.to_dbus(nm::ConnectionSerializationFlags::ALL).unwrap();
+
+    println!("{}", as_dbus);
+
+    if let Err(e) = con.verify() {
+        panic!("Verification error: {:?}", e);
+    }
 }
