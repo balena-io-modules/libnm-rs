@@ -27,6 +27,9 @@ mod array;
 
 pub mod client;
 
+mod simple_connection;
+pub use simple_connection::SimpleConnection;
+
 pub mod functions;
 pub use functions::*;
 

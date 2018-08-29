@@ -146,6 +146,7 @@ manual = [
     "Gio.Cancellable",
     "Gio.InputStream",
     "Gio.OutputStream",
+    "NM.SimpleConnection",
 ]
 
 [[object]]
@@ -217,11 +218,6 @@ status = "generate"
     name = "get_setting_wimax"
     # Deprecated
     ignore = true
-
-
-[[object]]
-name = "NM.SimpleConnection"
-status = "ignore"
 
 
 [[object]]

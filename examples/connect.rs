@@ -21,4 +21,8 @@ fn main() {
     println!("{:?}", dummy);
 
     println!("{:?}", dummy2);
+
+    let connection = nm::SimpleConnection::new();
+
+    println!("{:?}", connection);
 }
