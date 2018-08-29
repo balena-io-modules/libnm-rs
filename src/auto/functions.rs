@@ -11,10 +11,6 @@ use std::mem;
 use std::ptr;
 use DeviceWifiCapabilities;
 use Error;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-use TCQdisc;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-use TCTfilter;
 use UtilsSecurityType;
 use WepKeyType;
 
@@ -307,57 +303,25 @@ pub fn utils_ssid_to_utf8(ssid: &[u8]) -> Option<String> {
 //    unsafe { TODO: call ffi::nm_utils_tc_action_to_str() }
 //}
 
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-pub fn utils_tc_qdisc_from_str(str: &str) -> Result<TCQdisc, Error> {
-    unsafe {
-        let mut error = ptr::null_mut();
-        let ret = ffi::nm_utils_tc_qdisc_from_str(str.to_glib_none().0, &mut error);
-        if error.is_null() {
-            Ok(from_glib_full(ret))
-        } else {
-            Err(from_glib_full(error))
-        }
-    }
-}
+//#[cfg(any(feature = "v1_12", feature = "dox"))]
+//pub fn utils_tc_qdisc_from_str(str: &str) -> Result</*Ignored*/TCQdisc, Error> {
+//    unsafe { TODO: call ffi::nm_utils_tc_qdisc_from_str() }
+//}
 
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-pub fn utils_tc_qdisc_to_str(qdisc: &TCQdisc) -> Result<String, Error> {
-    unsafe {
-        let mut error = ptr::null_mut();
-        let ret = ffi::nm_utils_tc_qdisc_to_str(qdisc.to_glib_none().0, &mut error);
-        if error.is_null() {
-            Ok(from_glib_full(ret))
-        } else {
-            Err(from_glib_full(error))
-        }
-    }
-}
+//#[cfg(any(feature = "v1_12", feature = "dox"))]
+//pub fn utils_tc_qdisc_to_str(qdisc: /*Ignored*/&TCQdisc) -> Result<String, Error> {
+//    unsafe { TODO: call ffi::nm_utils_tc_qdisc_to_str() }
+//}
 
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-pub fn utils_tc_tfilter_from_str(str: &str) -> Result<TCTfilter, Error> {
-    unsafe {
-        let mut error = ptr::null_mut();
-        let ret = ffi::nm_utils_tc_tfilter_from_str(str.to_glib_none().0, &mut error);
-        if error.is_null() {
-            Ok(from_glib_full(ret))
-        } else {
-            Err(from_glib_full(error))
-        }
-    }
-}
+//#[cfg(any(feature = "v1_12", feature = "dox"))]
+//pub fn utils_tc_tfilter_from_str(str: &str) -> Result</*Ignored*/TCTfilter, Error> {
+//    unsafe { TODO: call ffi::nm_utils_tc_tfilter_from_str() }
+//}
 
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-pub fn utils_tc_tfilter_to_str(tfilter: &TCTfilter) -> Result<String, Error> {
-    unsafe {
-        let mut error = ptr::null_mut();
-        let ret = ffi::nm_utils_tc_tfilter_to_str(tfilter.to_glib_none().0, &mut error);
-        if error.is_null() {
-            Ok(from_glib_full(ret))
-        } else {
-            Err(from_glib_full(error))
-        }
-    }
-}
+//#[cfg(any(feature = "v1_12", feature = "dox"))]
+//pub fn utils_tc_tfilter_to_str(tfilter: /*Ignored*/&TCTfilter) -> Result<String, Error> {
+//    unsafe { TODO: call ffi::nm_utils_tc_tfilter_to_str() }
+//}
 
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 pub fn utils_version() -> u32 {

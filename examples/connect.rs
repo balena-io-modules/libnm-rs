@@ -16,5 +16,9 @@ fn main() {
     let obj = glib::Object::new(type_, &[]).unwrap();
     let dummy = obj.downcast::<nm::SettingDummy>().unwrap();
 
+    let dummy2 = nm::SettingDummy::new();
+
     println!("{:?}", dummy);
+
+    println!("{:?}", dummy2);
 }

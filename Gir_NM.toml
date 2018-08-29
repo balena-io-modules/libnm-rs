@@ -15,96 +15,96 @@ generate = [
     "NM.ActiveConnection",
     "NM.ActiveConnectionState",
     "NM.ActiveConnectionStateReason",
-    "NM.BluetoothCapabilities",
-    "NM.Checkpoint",
-    "NM.CheckpointCreateFlags",
-    "NM.ClientPermission",
-    "NM.ClientPermissionResult",
+#    "NM.BluetoothCapabilities",
+#    "NM.Checkpoint",
+#    "NM.CheckpointCreateFlags",
+#    "NM.ClientPermission",
+#    "NM.ClientPermissionResult",
     "NM.ConnectionSerializationFlags",
     "NM.ConnectivityState",
     "NM.Device",
-    "NM.DeviceAdsl",
-    "NM.DeviceBond",
-    "NM.DeviceBridge",
-    "NM.DeviceBt",
+#    "NM.DeviceAdsl",
+#    "NM.DeviceBond",
+#    "NM.DeviceBridge",
+#    "NM.DeviceBt",
     "NM.DeviceCapabilities",
     "NM.DeviceDummy",
     "NM.DeviceEthernet",
     "NM.DeviceGeneric",
-    "NM.DeviceInfiniband",
-    "NM.DeviceIPTunnel",
-    "NM.DeviceMacsec",
-    "NM.DeviceMacvlan",
-    "NM.DeviceModem",
-    "NM.DeviceModemCapabilities",
-    "NM.DeviceOlpcMesh",
+#    "NM.DeviceInfiniband",
+#    "NM.DeviceIPTunnel",
+#    "NM.DeviceMacsec",
+#    "NM.DeviceMacvlan",
+#    "NM.DeviceModem",
+#    "NM.DeviceModemCapabilities",
+#    "NM.DeviceOlpcMesh",
     "NM.DeviceState",
     "NM.DeviceStateReason",
-    "NM.DeviceTeam",
-    "NM.DeviceTun",
+#    "NM.DeviceTeam",
+#    "NM.DeviceTun",
     "NM.DeviceType",
-    "NM.DeviceVlan",
-    "NM.DeviceVxlan",
+#    "NM.DeviceVlan",
+#    "NM.DeviceVxlan",
     "NM.DeviceWifi",
     "NM.DeviceWifiCapabilities",
     "NM.DhcpConfig",
     "NM.IPConfig",
-    "NM.IPTunnelFlags",
-    "NM.IPTunnelMode",
+#    "NM.IPTunnelFlags",
+#    "NM.IPTunnelMode",
     "NM.Metered",
     "NM.RemoteConnection",
     "NM.Setting8021xAuthFlags",
     "NM.Setting8021xCKScheme",
     "NM.Setting8021xCKFormat",
-    "NM.SettingAdsl",
-    "NM.SettingBluetooth",
-    "NM.SettingBond",
-    "NM.SettingBridge",
-    "NM.SettingBridgePort",
-    "NM.SettingCdma",
+#    "NM.SettingAdsl",
+#    "NM.SettingBluetooth",
+#    "NM.SettingBond",
+#    "NM.SettingBridge",
+#    "NM.SettingBridgePort",
+#    "NM.SettingCdma",
     "NM.SettingCompareFlags",
     "NM.SettingConnectionAutoconnectSlaves",
     "NM.SettingConnectionLldp",
     "NM.SettingConnectionMdns",
-    "NM.SettingDcb",
-    "NM.SettingDcbFlags",
+#    "NM.SettingDcb",
+#    "NM.SettingDcbFlags",
     "NM.SettingDummy",
     "NM.SettingGeneric",
-    "NM.SettingGsm",
-    "NM.SettingInfiniband",
+#    "NM.SettingGsm",
+#    "NM.SettingInfiniband",
     "NM.SettingIP4Config",
     "NM.SettingIP6Config",
     "NM.SettingIP6ConfigAddrGenMode",
     "NM.SettingIP6ConfigPrivacy",
-    "NM.SettingIPTunnel",
+#    "NM.SettingIPTunnel",
     "NM.SettingMacRandomization",
-    "NM.SettingMacsec",
-    "NM.SettingMacsecMode",
-    "NM.SettingMacsecValidation",
-    "NM.SettingMacvlan",
-    "NM.SettingMacvlanMode",
-    "NM.SettingOlpcMesh",
-    "NM.SettingOvsBridge",
-    "NM.SettingOvsInterface",
-    "NM.SettingOvsPatch",
-    "NM.SettingOvsPort",
-    "NM.SettingPpp",
-    "NM.SettingPppoe",
-    "NM.SettingProxy",
-    "NM.SettingProxyMethod",
+#    "NM.SettingMacsec",
+#    "NM.SettingMacsecMode",
+#    "NM.SettingMacsecValidation",
+#    "NM.SettingMacvlan",
+#    "NM.SettingMacvlanMode",
+#    "NM.SettingOlpcMesh",
+#    "NM.SettingOvsBridge",
+#    "NM.SettingOvsInterface",
+#    "NM.SettingOvsPatch",
+#    "NM.SettingOvsPort",
+#    "NM.SettingPpp",
+#    "NM.SettingPppoe",
+#    "NM.SettingProxy",
+#    "NM.SettingProxyMethod",
     "NM.SettingsConnectionFlags",
     "NM.SettingSecretFlags",
-    "NM.SettingSerial",
-    "NM.SettingSerialParity",
+#    "NM.SettingSerial",
+#    "NM.SettingSerialParity",
     "NM.SettingsUpdate2Flags",
-    "NM.SettingTCConfig",
-    "NM.SettingTeam",
-    "NM.SettingTeamPort",
-    "NM.SettingTun",
-    "NM.SettingTunMode",
-    "NM.SettingVlan",
-    "NM.SettingVpn",
-    "NM.SettingVxlan",
+#    "NM.SettingTCConfig",
+#    "NM.SettingTeam",
+#    "NM.SettingTeamPort",
+#    "NM.SettingTun",
+#    "NM.SettingTunMode",
+#    "NM.SettingVlan",
+#    "NM.SettingVpn",
+#    "NM.SettingVxlan",
     "NM.SettingWired",
     "NM.SettingWiredWakeOnLan",
     "NM.SettingWireless",
@@ -114,21 +114,21 @@ generate = [
     "NM.SettingWirelessSecurityWpsMethod",
     "NM.SettingWirelessWakeOnWLan",
     "NM.State",
-    "NM.TCQdisc",
-    "NM.TCTfilter",
-    "NM.TeamLinkWatcher",
-    "NM.TeamLinkWatcherArpPingFlags",
+#    "NM.TCQdisc",
+#    "NM.TCTfilter",
+#    "NM.TeamLinkWatcher",
+#    "NM.TeamLinkWatcherArpPingFlags",
     "NM.UtilsSecurityType",
-    "NM.VlanFlags",
-    "NM.VlanPriorityMap",
-    "NM.VpnConnection",
-    "NM.VpnConnectionState",
-    "NM.VpnEditor",
-    "NM.VpnEditorPlugin",
-    "NM.VpnEditorPluginCapability",
-    "NM.VpnPluginError",
-    "NM.VpnPluginFailure",
-    "NM.VpnServiceState",
+#    "NM.VlanFlags",
+#    "NM.VlanPriorityMap",
+#    "NM.VpnConnection",
+#    "NM.VpnConnectionState",
+#    "NM.VpnEditor",
+#    "NM.VpnEditorPlugin",
+#    "NM.VpnEditorPluginCapability",
+#    "NM.VpnPluginError",
+#    "NM.VpnPluginFailure",
+#    "NM.VpnServiceState",
     "NM.WepKeyType",
 ]
 
@@ -219,6 +219,11 @@ status = "generate"
 
 
 [[object]]
+name = "NM.SimpleConnection"
+status = "ignore"
+
+
+[[object]]
 name = "NM.SettingConnection"
 status = "generate"
 
@@ -238,63 +243,63 @@ status = "generate"
     ignore = true
 
 
-[[object]]
-name = "NM.VpnPluginInfo"
-status = "generate"
+# [[object]]
+# name = "NM.VpnPluginInfo"
+# status = "generate"
 
-    [[object.function]]
-    name = "list_add"
-    # Does not compile
-    ignore = true
+#     [[object.function]]
+#     name = "list_add"
+#     # Does not compile
+#     ignore = true
 
-    [[object.function]]
-    name = "list_find_by_filename"
-    # Does not compile
-    ignore = true
+#     [[object.function]]
+#     name = "list_find_by_filename"
+#     # Does not compile
+#     ignore = true
 
-    [[object.function]]
-    name = "list_find_by_name"
-    # Does not compile
-    ignore = true
+#     [[object.function]]
+#     name = "list_find_by_name"
+#     # Does not compile
+#     ignore = true
 
-    [[object.function]]
-    name = "list_find_by_service"
-    # Does not compile
-    ignore = true
+#     [[object.function]]
+#     name = "list_find_by_service"
+#     # Does not compile
+#     ignore = true
 
-    [[object.function]]
-    name = "list_remove"
-    # Does not compile
-    ignore = true
+#     [[object.function]]
+#     name = "list_remove"
+#     # Does not compile
+#     ignore = true
 
-    [[object.function]]
-    name = "list_find_service_type"
-    # Does not compile
-    ignore = true
+#     [[object.function]]
+#     name = "list_find_service_type"
+#     # Does not compile
+#     ignore = true
 
-    [[object.function]]
-    name = "list_get_service_types"
-    # Does not compile
-    ignore = true
+#     [[object.function]]
+#     name = "list_get_service_types"
+#     # Does not compile
+#     ignore = true
 
-[[object]]
-name = "NM.VpnPluginOld"
-status = "generate"
+# [[object]]
+# name = "NM.VpnPluginOld"
+# status = "generate"
 
-    [[object.function]]
-    name = "secrets_required"
-    # Does not compile
-    ignore = true
+#     [[object.function]]
+#     name = "secrets_required"
+#     # Does not compile
+#     ignore = true
 
 
-[[object]]
-name = "NM.VpnServicePlugin"
-status = "generate"
+# [[object]]
+# name = "NM.VpnServicePlugin"
+# status = "generate"
 
-    [[object.function]]
-    name = "secrets_required"
-    # Does not compile
-    ignore = true
+#     [[object.function]]
+#     name = "secrets_required"
+#     # Does not compile
+#     ignore = true
 
 
 [[object]]

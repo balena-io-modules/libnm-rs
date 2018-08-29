@@ -20,48 +20,13 @@ use ConnectionSerializationFlags;
 use Error;
 use Setting;
 use Setting8021x;
-use SettingAdsl;
-use SettingBluetooth;
-use SettingBond;
-use SettingBridge;
-use SettingBridgePort;
-use SettingCdma;
 use SettingCompareFlags;
 use SettingConnection;
-use SettingDcb;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
 use SettingDummy;
 use SettingGeneric;
-use SettingGsm;
 use SettingIP4Config;
 use SettingIP6Config;
-use SettingIPTunnel;
-use SettingInfiniband;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-use SettingMacsec;
-use SettingMacvlan;
-use SettingOlpcMesh;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-use SettingOvsBridge;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-use SettingOvsInterface;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-use SettingOvsPatch;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-use SettingOvsPort;
-use SettingPpp;
-use SettingPppoe;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-use SettingProxy;
-use SettingSerial;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-use SettingTCConfig;
-use SettingTeam;
-use SettingTeamPort;
-use SettingTun;
-use SettingVlan;
-use SettingVpn;
-use SettingVxlan;
 use SettingWired;
 use SettingWireless;
 use SettingWirelessSecurity;
@@ -103,81 +68,81 @@ pub trait ConnectionExt {
 
     fn get_setting_802_1x(&self) -> Option<Setting8021x>;
 
-    fn get_setting_adsl(&self) -> Option<SettingAdsl>;
+    //fn get_setting_adsl(&self) -> /*Ignored*/Option<SettingAdsl>;
 
-    fn get_setting_bluetooth(&self) -> Option<SettingBluetooth>;
+    //fn get_setting_bluetooth(&self) -> /*Ignored*/Option<SettingBluetooth>;
 
-    fn get_setting_bond(&self) -> Option<SettingBond>;
+    //fn get_setting_bond(&self) -> /*Ignored*/Option<SettingBond>;
 
-    fn get_setting_bridge(&self) -> Option<SettingBridge>;
+    //fn get_setting_bridge(&self) -> /*Ignored*/Option<SettingBridge>;
 
-    fn get_setting_bridge_port(&self) -> Option<SettingBridgePort>;
+    //fn get_setting_bridge_port(&self) -> /*Ignored*/Option<SettingBridgePort>;
 
     fn get_setting_by_name(&self, name: &str) -> Option<Setting>;
 
-    fn get_setting_cdma(&self) -> Option<SettingCdma>;
+    //fn get_setting_cdma(&self) -> /*Ignored*/Option<SettingCdma>;
 
     fn get_setting_connection(&self) -> Option<SettingConnection>;
 
-    fn get_setting_dcb(&self) -> Option<SettingDcb>;
+    //fn get_setting_dcb(&self) -> /*Ignored*/Option<SettingDcb>;
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_setting_dummy(&self) -> Option<SettingDummy>;
 
     fn get_setting_generic(&self) -> Option<SettingGeneric>;
 
-    fn get_setting_gsm(&self) -> Option<SettingGsm>;
+    //fn get_setting_gsm(&self) -> /*Ignored*/Option<SettingGsm>;
 
-    fn get_setting_infiniband(&self) -> Option<SettingInfiniband>;
+    //fn get_setting_infiniband(&self) -> /*Ignored*/Option<SettingInfiniband>;
 
     fn get_setting_ip4_config(&self) -> Option<SettingIP4Config>;
 
     fn get_setting_ip6_config(&self) -> Option<SettingIP6Config>;
 
-    fn get_setting_ip_tunnel(&self) -> Option<SettingIPTunnel>;
+    //fn get_setting_ip_tunnel(&self) -> /*Ignored*/Option<SettingIPTunnel>;
 
-    #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_setting_macsec(&self) -> Option<SettingMacsec>;
+    //#[cfg(any(feature = "v1_6", feature = "dox"))]
+    //fn get_setting_macsec(&self) -> /*Ignored*/Option<SettingMacsec>;
 
-    fn get_setting_macvlan(&self) -> Option<SettingMacvlan>;
+    //fn get_setting_macvlan(&self) -> /*Ignored*/Option<SettingMacvlan>;
 
-    fn get_setting_olpc_mesh(&self) -> Option<SettingOlpcMesh>;
+    //fn get_setting_olpc_mesh(&self) -> /*Ignored*/Option<SettingOlpcMesh>;
 
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    fn get_setting_ovs_bridge(&self) -> Option<SettingOvsBridge>;
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
+    //fn get_setting_ovs_bridge(&self) -> /*Ignored*/Option<SettingOvsBridge>;
 
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    fn get_setting_ovs_interface(&self) -> Option<SettingOvsInterface>;
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
+    //fn get_setting_ovs_interface(&self) -> /*Ignored*/Option<SettingOvsInterface>;
 
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    fn get_setting_ovs_patch(&self) -> Option<SettingOvsPatch>;
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
+    //fn get_setting_ovs_patch(&self) -> /*Ignored*/Option<SettingOvsPatch>;
 
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    fn get_setting_ovs_port(&self) -> Option<SettingOvsPort>;
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
+    //fn get_setting_ovs_port(&self) -> /*Ignored*/Option<SettingOvsPort>;
 
-    fn get_setting_ppp(&self) -> Option<SettingPpp>;
+    //fn get_setting_ppp(&self) -> /*Ignored*/Option<SettingPpp>;
 
-    fn get_setting_pppoe(&self) -> Option<SettingPppoe>;
+    //fn get_setting_pppoe(&self) -> /*Ignored*/Option<SettingPppoe>;
 
-    #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_setting_proxy(&self) -> Option<SettingProxy>;
+    //#[cfg(any(feature = "v1_6", feature = "dox"))]
+    //fn get_setting_proxy(&self) -> /*Ignored*/Option<SettingProxy>;
 
-    fn get_setting_serial(&self) -> Option<SettingSerial>;
+    //fn get_setting_serial(&self) -> /*Ignored*/Option<SettingSerial>;
 
-    #[cfg(any(feature = "v1_12", feature = "dox"))]
-    fn get_setting_tc_config(&self) -> Option<SettingTCConfig>;
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
+    //fn get_setting_tc_config(&self) -> /*Ignored*/Option<SettingTCConfig>;
 
-    fn get_setting_team(&self) -> Option<SettingTeam>;
+    //fn get_setting_team(&self) -> /*Ignored*/Option<SettingTeam>;
 
-    fn get_setting_team_port(&self) -> Option<SettingTeamPort>;
+    //fn get_setting_team_port(&self) -> /*Ignored*/Option<SettingTeamPort>;
 
-    fn get_setting_tun(&self) -> Option<SettingTun>;
+    //fn get_setting_tun(&self) -> /*Ignored*/Option<SettingTun>;
 
-    fn get_setting_vlan(&self) -> Option<SettingVlan>;
+    //fn get_setting_vlan(&self) -> /*Ignored*/Option<SettingVlan>;
 
-    fn get_setting_vpn(&self) -> Option<SettingVpn>;
+    //fn get_setting_vpn(&self) -> /*Ignored*/Option<SettingVpn>;
 
-    fn get_setting_vxlan(&self) -> Option<SettingVxlan>;
+    //fn get_setting_vxlan(&self) -> /*Ignored*/Option<SettingVxlan>;
 
     fn get_setting_wired(&self) -> Option<SettingWired>;
 
@@ -303,33 +268,25 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
         unsafe { from_glib_none(ffi::nm_connection_get_setting_802_1x(self.to_glib_none().0)) }
     }
 
-    fn get_setting_adsl(&self) -> Option<SettingAdsl> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_adsl(self.to_glib_none().0)) }
-    }
+    //fn get_setting_adsl(&self) -> /*Ignored*/Option<SettingAdsl> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_adsl() }
+    //}
 
-    fn get_setting_bluetooth(&self) -> Option<SettingBluetooth> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_setting_bluetooth(
-                self.to_glib_none().0,
-            ))
-        }
-    }
+    //fn get_setting_bluetooth(&self) -> /*Ignored*/Option<SettingBluetooth> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_bluetooth() }
+    //}
 
-    fn get_setting_bond(&self) -> Option<SettingBond> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_bond(self.to_glib_none().0)) }
-    }
+    //fn get_setting_bond(&self) -> /*Ignored*/Option<SettingBond> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_bond() }
+    //}
 
-    fn get_setting_bridge(&self) -> Option<SettingBridge> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_bridge(self.to_glib_none().0)) }
-    }
+    //fn get_setting_bridge(&self) -> /*Ignored*/Option<SettingBridge> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_bridge() }
+    //}
 
-    fn get_setting_bridge_port(&self) -> Option<SettingBridgePort> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_setting_bridge_port(
-                self.to_glib_none().0,
-            ))
-        }
-    }
+    //fn get_setting_bridge_port(&self) -> /*Ignored*/Option<SettingBridgePort> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_bridge_port() }
+    //}
 
     fn get_setting_by_name(&self, name: &str) -> Option<Setting> {
         unsafe {
@@ -340,9 +297,9 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
         }
     }
 
-    fn get_setting_cdma(&self) -> Option<SettingCdma> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_cdma(self.to_glib_none().0)) }
-    }
+    //fn get_setting_cdma(&self) -> /*Ignored*/Option<SettingCdma> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_cdma() }
+    //}
 
     fn get_setting_connection(&self) -> Option<SettingConnection> {
         unsafe {
@@ -352,9 +309,9 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
         }
     }
 
-    fn get_setting_dcb(&self) -> Option<SettingDcb> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_dcb(self.to_glib_none().0)) }
-    }
+    //fn get_setting_dcb(&self) -> /*Ignored*/Option<SettingDcb> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_dcb() }
+    //}
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_setting_dummy(&self) -> Option<SettingDummy> {
@@ -369,17 +326,13 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
         }
     }
 
-    fn get_setting_gsm(&self) -> Option<SettingGsm> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_gsm(self.to_glib_none().0)) }
-    }
+    //fn get_setting_gsm(&self) -> /*Ignored*/Option<SettingGsm> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_gsm() }
+    //}
 
-    fn get_setting_infiniband(&self) -> Option<SettingInfiniband> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_setting_infiniband(
-                self.to_glib_none().0,
-            ))
-        }
-    }
+    //fn get_setting_infiniband(&self) -> /*Ignored*/Option<SettingInfiniband> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_infiniband() }
+    //}
 
     fn get_setting_ip4_config(&self) -> Option<SettingIP4Config> {
         unsafe {
@@ -397,124 +350,88 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
         }
     }
 
-    fn get_setting_ip_tunnel(&self) -> Option<SettingIPTunnel> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_setting_ip_tunnel(
-                self.to_glib_none().0,
-            ))
-        }
-    }
+    //fn get_setting_ip_tunnel(&self) -> /*Ignored*/Option<SettingIPTunnel> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_ip_tunnel() }
+    //}
 
-    #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_setting_macsec(&self) -> Option<SettingMacsec> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_macsec(self.to_glib_none().0)) }
-    }
+    //#[cfg(any(feature = "v1_6", feature = "dox"))]
+    //fn get_setting_macsec(&self) -> /*Ignored*/Option<SettingMacsec> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_macsec() }
+    //}
 
-    fn get_setting_macvlan(&self) -> Option<SettingMacvlan> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_setting_macvlan(
-                self.to_glib_none().0,
-            ))
-        }
-    }
+    //fn get_setting_macvlan(&self) -> /*Ignored*/Option<SettingMacvlan> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_macvlan() }
+    //}
 
-    fn get_setting_olpc_mesh(&self) -> Option<SettingOlpcMesh> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_setting_olpc_mesh(
-                self.to_glib_none().0,
-            ))
-        }
-    }
+    //fn get_setting_olpc_mesh(&self) -> /*Ignored*/Option<SettingOlpcMesh> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_olpc_mesh() }
+    //}
 
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    fn get_setting_ovs_bridge(&self) -> Option<SettingOvsBridge> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_setting_ovs_bridge(
-                self.to_glib_none().0,
-            ))
-        }
-    }
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
+    //fn get_setting_ovs_bridge(&self) -> /*Ignored*/Option<SettingOvsBridge> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_ovs_bridge() }
+    //}
 
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    fn get_setting_ovs_interface(&self) -> Option<SettingOvsInterface> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_setting_ovs_interface(
-                self.to_glib_none().0,
-            ))
-        }
-    }
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
+    //fn get_setting_ovs_interface(&self) -> /*Ignored*/Option<SettingOvsInterface> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_ovs_interface() }
+    //}
 
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    fn get_setting_ovs_patch(&self) -> Option<SettingOvsPatch> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_setting_ovs_patch(
-                self.to_glib_none().0,
-            ))
-        }
-    }
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
+    //fn get_setting_ovs_patch(&self) -> /*Ignored*/Option<SettingOvsPatch> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_ovs_patch() }
+    //}
 
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    fn get_setting_ovs_port(&self) -> Option<SettingOvsPort> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_setting_ovs_port(
-                self.to_glib_none().0,
-            ))
-        }
-    }
+    //#[cfg(any(feature = "v1_10", feature = "dox"))]
+    //fn get_setting_ovs_port(&self) -> /*Ignored*/Option<SettingOvsPort> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_ovs_port() }
+    //}
 
-    fn get_setting_ppp(&self) -> Option<SettingPpp> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_ppp(self.to_glib_none().0)) }
-    }
+    //fn get_setting_ppp(&self) -> /*Ignored*/Option<SettingPpp> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_ppp() }
+    //}
 
-    fn get_setting_pppoe(&self) -> Option<SettingPppoe> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_pppoe(self.to_glib_none().0)) }
-    }
+    //fn get_setting_pppoe(&self) -> /*Ignored*/Option<SettingPppoe> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_pppoe() }
+    //}
 
-    #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_setting_proxy(&self) -> Option<SettingProxy> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_proxy(self.to_glib_none().0)) }
-    }
+    //#[cfg(any(feature = "v1_6", feature = "dox"))]
+    //fn get_setting_proxy(&self) -> /*Ignored*/Option<SettingProxy> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_proxy() }
+    //}
 
-    fn get_setting_serial(&self) -> Option<SettingSerial> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_serial(self.to_glib_none().0)) }
-    }
+    //fn get_setting_serial(&self) -> /*Ignored*/Option<SettingSerial> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_serial() }
+    //}
 
-    #[cfg(any(feature = "v1_12", feature = "dox"))]
-    fn get_setting_tc_config(&self) -> Option<SettingTCConfig> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_setting_tc_config(
-                self.to_glib_none().0,
-            ))
-        }
-    }
+    //#[cfg(any(feature = "v1_12", feature = "dox"))]
+    //fn get_setting_tc_config(&self) -> /*Ignored*/Option<SettingTCConfig> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_tc_config() }
+    //}
 
-    fn get_setting_team(&self) -> Option<SettingTeam> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_team(self.to_glib_none().0)) }
-    }
+    //fn get_setting_team(&self) -> /*Ignored*/Option<SettingTeam> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_team() }
+    //}
 
-    fn get_setting_team_port(&self) -> Option<SettingTeamPort> {
-        unsafe {
-            from_glib_none(ffi::nm_connection_get_setting_team_port(
-                self.to_glib_none().0,
-            ))
-        }
-    }
+    //fn get_setting_team_port(&self) -> /*Ignored*/Option<SettingTeamPort> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_team_port() }
+    //}
 
-    fn get_setting_tun(&self) -> Option<SettingTun> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_tun(self.to_glib_none().0)) }
-    }
+    //fn get_setting_tun(&self) -> /*Ignored*/Option<SettingTun> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_tun() }
+    //}
 
-    fn get_setting_vlan(&self) -> Option<SettingVlan> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_vlan(self.to_glib_none().0)) }
-    }
+    //fn get_setting_vlan(&self) -> /*Ignored*/Option<SettingVlan> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_vlan() }
+    //}
 
-    fn get_setting_vpn(&self) -> Option<SettingVpn> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_vpn(self.to_glib_none().0)) }
-    }
+    //fn get_setting_vpn(&self) -> /*Ignored*/Option<SettingVpn> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_vpn() }
+    //}
 
-    fn get_setting_vxlan(&self) -> Option<SettingVxlan> {
-        unsafe { from_glib_none(ffi::nm_connection_get_setting_vxlan(self.to_glib_none().0)) }
-    }
+    //fn get_setting_vxlan(&self) -> /*Ignored*/Option<SettingVxlan> {
+    //    unsafe { TODO: call ffi::nm_connection_get_setting_vxlan() }
+    //}
 
     fn get_setting_wired(&self) -> Option<SettingWired> {
         unsafe { from_glib_none(ffi::nm_connection_get_setting_wired(self.to_glib_none().0)) }
