@@ -267,6 +267,15 @@ status = "generate"
     # Does not compile
     ignore = true
 
+    [[object.function]]
+    name = "list_find_service_type"
+    # Does not compile
+    ignore = true
+
+    [[object.function]]
+    name = "list_get_service_types"
+    # Does not compile
+    ignore = true
 
 [[object]]
 name = "NM.VpnPluginOld"

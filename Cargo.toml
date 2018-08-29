@@ -16,12 +16,30 @@ git = "https://github.com/gtk-rs/glib"
 
 [dependencies.glib-sys]
 git = "https://github.com/gtk-rs/sys"
-
-[dependencies.gobject-sys]
-git = "https://github.com/gtk-rs/sys"
-
-[dependencies.gio-sys]
-git = "https://github.com/gtk-rs/sys"
+version = "0.6.0"
 
 [dependencies.gio]
 git = "https://github.com/gtk-rs/gio"
+
+[dependencies.gio-sys]
+git = "https://github.com/gtk-rs/sys"
+version = "0.6.0"
+
+[dependencies.gobject-sys]
+git = "https://github.com/gtk-rs/sys"
+version = "0.6.0"
+
+[dependencies.futures-core-preview]
+version = "0.2"
+optional = true
+
+[features]
+v1_12_2 = ["nm-sys/v1_12_2", "v1_12"]
+v1_12 = ["nm-sys/v1_12", "v1_10"]
+v1_10 = ["nm-sys/v1_10", "v1_8"]
+v1_8 = ["nm-sys/v1_8", "v1_6"]
+v1_6 = ["nm-sys/v1_6", "v1_4"]
+v1_4 = ["nm-sys/v1_4"]
+futures = ["futures-core-preview"]
+dox = ["nm-sys/dox", "glib/dox", "futures"]
+default-features = ["v1_12_2"]

@@ -21,6 +21,9 @@ grep -lr -w 80211ApFlags ./src/auto/*.rs | xargs sed -i 's/\b80211ApFlags\b/_802
 echo 'Replace 80211ApSecurityFlags with _80211ApSecurityFlags...'
 grep -lr -w 80211ApSecurityFlags ./src/auto/*.rs | xargs sed -i 's/\b80211ApSecurityFlags\b/_80211ApSecurityFlags/g'
 
+echo 'Replace 4WAY_HANDSHAKE with _4WAY_HANDSHAKE...'
+grep -lr -w 4WAY_HANDSHAKE ./src/auto/*.rs | xargs sed -i 's/\b4WAY_HANDSHAKE\b/_4WAY_HANDSHAKE/g'
+
 echo 'Purge unused glib from auto/client.rs...'
 sed -i '/use glib;/d' src/auto/client.rs
 
