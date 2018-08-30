@@ -1,3 +1,4 @@
+extern crate futures_core;
 extern crate glib;
 extern crate nm;
 

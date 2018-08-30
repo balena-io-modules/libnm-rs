@@ -15,6 +15,12 @@ extern crate glib;
 
 extern crate gio;
 
+#[cfg(feature = "futures")]
+extern crate send_cell;
+
+#[cfg(feature = "futures")]
+extern crate futures_core;
+
 extern crate nm_sys as ffi;
 
 pub use glib::Error;

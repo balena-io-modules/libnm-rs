@@ -29,6 +29,10 @@ version = "0.6.0"
 git = "https://github.com/gtk-rs/sys"
 version = "0.6.0"
 
+[dependencies.send-cell]
+version = "0.1"
+optional = true
+
 [dependencies.futures-core-preview]
 version = "0.2"
 optional = true
@@ -40,6 +44,16 @@ v1_10 = ["nm-sys/v1_10", "v1_8"]
 v1_8 = ["nm-sys/v1_8", "v1_6"]
 v1_6 = ["nm-sys/v1_6", "v1_4"]
 v1_4 = ["nm-sys/v1_4"]
-futures = ["futures-core-preview"]
+futures = ["futures-core-preview", "send-cell", "gio/futures"]
 dox = ["nm-sys/dox", "glib/dox", "futures"]
 default = ["v1_12_2"]
+
+[[example]]
+name = "connect"
+required-features = ["futures"]
+
+[[example]]
+name = "iface"
+
+[[example]]
+name = "connectivity"
