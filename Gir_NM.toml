@@ -219,6 +219,11 @@ status = "generate"
     # Deprecated
     ignore = true
 
+    [[object.function]]
+    name = "normalize"
+    # Manual
+    ignore = true
+
 
 [[object]]
 name = "NM.SettingConnection"

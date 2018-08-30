@@ -33,10 +33,14 @@ pub use simple_connection::SimpleConnection;
 pub mod functions;
 pub use functions::*;
 
+mod connection;
+
 pub mod prelude {
     pub use glib::prelude::*;
 
     pub use auto::traits::*;
+
+    pub use connection::ConnectionExtManual;
 }
 
 pub use prelude::*;

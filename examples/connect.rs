@@ -33,9 +33,14 @@ fn main() {
 
     let as_dbus = con.to_dbus(nm::ConnectionSerializationFlags::ALL).unwrap();
 
-    println!("{}", as_dbus);
+    println!("[PRE ] {}", as_dbus);
 
-    if let Err(e) = con.verify() {
-        panic!("Verification error: {:?}", e);
+    match con.normalize() {
+        Ok(modified) => println!("Modified: {}", modified),
+        Err(e) => panic!("Verification error: {:?}", e),
     }
+
+    let as_dbus = con.to_dbus(nm::ConnectionSerializationFlags::ALL).unwrap();
+
+    println!("[POST] {}", as_dbus);
 }

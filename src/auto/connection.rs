@@ -163,8 +163,6 @@ pub trait ConnectionExt {
 
     //fn need_secrets(&self, hints: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 0, id: 28 }) -> Option<String>;
 
-    //fn normalize<'a, P: Into<Option<&'a /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 25 }>>>(&self, parameters: P) -> Result<bool, Error>;
-
     fn remove_setting(&self, setting_type: glib::types::Type);
 
     fn replace_settings(&self, new_settings: &glib::Variant) -> Result<(), Error>;
@@ -492,10 +490,6 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
 
     //fn need_secrets(&self, hints: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 0, id: 28 }) -> Option<String> {
     //    unsafe { TODO: call ffi::nm_connection_need_secrets() }
-    //}
-
-    //fn normalize<'a, P: Into<Option<&'a /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 25 }>>>(&self, parameters: P) -> Result<bool, Error> {
-    //    unsafe { TODO: call ffi::nm_connection_normalize() }
     //}
 
     fn remove_setting(&self, setting_type: glib::types::Type) {
