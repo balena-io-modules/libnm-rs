@@ -13,7 +13,7 @@ use nm::*;
 fn main() {
     let ssid = "My-Network-SSID";
     let password = "My-Network-Password";
-    
+
     let context = glib::MainContext::default();
     let loop_ = glib::MainLoop::new(Some(&context), false);
 
@@ -49,27 +49,23 @@ fn main() {
     let future = client.add_and_activate_connection_async_future(&connection, &device, None);
     let new_future = future
         .map(|(_con, active_con)| {
-            active_con.connect_state_changed(move |_, state, _|{
+            active_con.connect_state_changed(move |_, state, _| {
                 let state = ActiveConnectionState::from_glib(state as _);
                 match state {
                     ActiveConnectionState::Activated => {
                         println!("Connection successfully activated.");
                         l_clone.quit();
-                    },
+                    }
                     ActiveConnectionState::Deactivated => {
                         println!("Connection NOT activated!");
                         l_clone.quit();
-                    },
+                    }
                     _ => {}
                 }
             });
-        })
-        .map_err(|(_con, e)| {
+        }).map_err(|(_con, e)| {
             eprintln!("{:?}", e);
-        })
-        .then(move |_| {
-            Ok(())
-        });
+        }).then(move |_| Ok(()));
 
     context.spawn_local(new_future);
 
