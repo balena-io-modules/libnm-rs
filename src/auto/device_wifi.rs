@@ -235,13 +235,13 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
     fn request_scan_async_future(
         &self,
     ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+        use fragile::Fragile;
         use gio::GioFuture;
-        use send_cell::SendCell;
 
         GioFuture::new(self, move |obj, send| {
             let cancellable = gio::Cancellable::new();
-            let send = SendCell::new(send);
-            let obj_clone = SendCell::new(obj.clone());
+            let send = Fragile::new(send);
+            let obj_clone = Fragile::new(obj.clone());
             obj.request_scan_async(Some(&cancellable), move |res| {
                 let obj = obj_clone.into_inner();
                 let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));

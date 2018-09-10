@@ -16,7 +16,7 @@ extern crate glib;
 extern crate gio;
 
 #[cfg(feature = "futures")]
-extern crate send_cell;
+extern crate fragile;
 
 #[cfg(feature = "futures")]
 extern crate futures_core;

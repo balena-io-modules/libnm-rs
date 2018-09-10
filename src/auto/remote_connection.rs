@@ -248,13 +248,13 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
         &self,
         save_to_disk: bool,
     ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+        use fragile::Fragile;
         use gio::GioFuture;
-        use send_cell::SendCell;
 
         GioFuture::new(self, move |obj, send| {
             let cancellable = gio::Cancellable::new();
-            let send = SendCell::new(send);
-            let obj_clone = SendCell::new(obj.clone());
+            let send = Fragile::new(send);
+            let obj_clone = Fragile::new(obj.clone());
             obj.commit_changes_async(save_to_disk, Some(&cancellable), move |res| {
                 let obj = obj_clone.into_inner();
                 let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
@@ -328,13 +328,13 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
     fn delete_async_future(
         &self,
     ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+        use fragile::Fragile;
         use gio::GioFuture;
-        use send_cell::SendCell;
 
         GioFuture::new(self, move |obj, send| {
             let cancellable = gio::Cancellable::new();
-            let send = SendCell::new(send);
-            let obj_clone = SendCell::new(obj.clone());
+            let send = Fragile::new(send);
+            let obj_clone = Fragile::new(obj.clone());
             obj.delete_async(Some(&cancellable), move |res| {
                 let obj = obj_clone.into_inner();
                 let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
@@ -433,14 +433,14 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
         &self,
         setting_name: &str,
     ) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>> {
+        use fragile::Fragile;
         use gio::GioFuture;
-        use send_cell::SendCell;
 
         let setting_name = String::from(setting_name);
         GioFuture::new(self, move |obj, send| {
             let cancellable = gio::Cancellable::new();
-            let send = SendCell::new(send);
-            let obj_clone = SendCell::new(obj.clone());
+            let send = Fragile::new(send);
+            let obj_clone = Fragile::new(obj.clone());
             obj.get_secrets_async(&setting_name, Some(&cancellable), move |res| {
                 let obj = obj_clone.into_inner();
                 let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
@@ -519,13 +519,13 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
     fn save_async_future(
         &self,
     ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+        use fragile::Fragile;
         use gio::GioFuture;
-        use send_cell::SendCell;
 
         GioFuture::new(self, move |obj, send| {
             let cancellable = gio::Cancellable::new();
-            let send = SendCell::new(send);
-            let obj_clone = SendCell::new(obj.clone());
+            let send = Fragile::new(send);
+            let obj_clone = Fragile::new(obj.clone());
             obj.save_async(Some(&cancellable), move |res| {
                 let obj = obj_clone.into_inner();
                 let res = res.map(|v| (obj.clone(), v)).map_err(|v| (obj.clone(), v));
@@ -605,8 +605,8 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
         flags: SettingsUpdate2Flags,
         args: Q,
     ) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>> {
+        use fragile::Fragile;
         use gio::GioFuture;
-        use send_cell::SendCell;
 
         let settings = settings.into();
         let settings = settings.map(ToOwned::to_owned);
@@ -614,8 +614,8 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
         let args = args.map(ToOwned::to_owned);
         GioFuture::new(self, move |obj, send| {
             let cancellable = gio::Cancellable::new();
-            let send = SendCell::new(send);
-            let obj_clone = SendCell::new(obj.clone());
+            let send = Fragile::new(send);
+            let obj_clone = Fragile::new(obj.clone());
             obj.update2(
                 settings.as_ref().map(::std::borrow::Borrow::borrow),
                 flags,

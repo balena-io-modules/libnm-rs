@@ -6,15 +6,12 @@ libc = "0.2"
 
 [dependencies.gio-sys]
 git = "https://github.com/gtk-rs/sys"
-version = "0.6.0"
 
 [dependencies.glib-sys]
 git = "https://github.com/gtk-rs/sys"
-version = "0.6.0"
 
 [dependencies.gobject-sys]
 git = "https://github.com/gtk-rs/sys"
-version = "0.6.0"
 
 [dev-dependencies]
 shell-words = "0.1.0"
