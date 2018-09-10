@@ -77,6 +77,10 @@ mod setting_ip6_config;
 pub use self::setting_ip6_config::SettingIP6Config;
 pub use self::setting_ip6_config::SettingIP6ConfigExt;
 
+mod setting_ip_config;
+pub use self::setting_ip_config::SettingIPConfig;
+pub use self::setting_ip_config::SettingIPConfigExt;
+
 mod setting_wired;
 pub use self::setting_wired::SettingWired;
 pub use self::setting_wired::SettingWiredExt;
@@ -88,6 +92,12 @@ pub use self::setting_wireless::SettingWirelessExt;
 mod setting_wireless_security;
 pub use self::setting_wireless_security::SettingWirelessSecurity;
 pub use self::setting_wireless_security::SettingWirelessSecurityExt;
+
+mod ip_address;
+pub use self::ip_address::IPAddress;
+
+mod ip_route;
+pub use self::ip_route::IPRoute;
 
 mod enums;
 pub use self::enums::ActiveConnectionState;
@@ -965,6 +975,7 @@ pub mod traits {
     pub use super::SettingExt;
     pub use super::SettingIP4ConfigExt;
     pub use super::SettingIP6ConfigExt;
+    pub use super::SettingIPConfigExt;
     pub use super::SettingWiredExt;
     pub use super::SettingWirelessExt;
     pub use super::SettingWirelessSecurityExt;

@@ -19,9 +19,10 @@ use std::ptr;
 use Setting;
 use SettingIP6ConfigAddrGenMode;
 use SettingIP6ConfigPrivacy;
+use SettingIPConfig;
 
 glib_wrapper! {
-    pub struct SettingIP6Config(Object<ffi::NMSettingIP6Config, ffi::NMSettingIP6ConfigClass>): Setting;
+    pub struct SettingIP6Config(Object<ffi::NMSettingIP6Config, ffi::NMSettingIP6ConfigClass>): SettingIPConfig, Setting;
 
     match fn {
         get_type => || ffi::nm_setting_ip6_config_get_type(),

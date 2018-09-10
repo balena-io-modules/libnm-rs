@@ -17,9 +17,10 @@ use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
+use SettingIPConfig;
 
 glib_wrapper! {
-    pub struct SettingIP4Config(Object<ffi::NMSettingIP4Config, ffi::NMSettingIP4ConfigClass>): Setting;
+    pub struct SettingIP4Config(Object<ffi::NMSettingIP4Config, ffi::NMSettingIP4ConfigClass>): SettingIPConfig, Setting;
 
     match fn {
         get_type => || ffi::nm_setting_ip4_config_get_type(),
