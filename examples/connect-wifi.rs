@@ -13,6 +13,7 @@ use nm::*;
 fn main() {
     let ssid = "My-Network-SSID";
     let password = "My-Network-Password";
+    let interface = "wlan0";
 
     let context = glib::MainContext::default();
     let loop_ = glib::MainLoop::new(Some(&context), false);
@@ -42,7 +43,10 @@ fn main() {
         panic!("Verification error: {:?}", e);
     }
 
-    let device = client.get_device_by_iface("wlo1").unwrap();
+    let device = match client.get_device_by_iface(interface) {
+        Some(device) => device,
+        _ => panic!("Interface not found: {}", interface),
+    };
 
     let l_clone = loop_.clone();
 
