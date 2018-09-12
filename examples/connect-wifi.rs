@@ -60,6 +60,7 @@ fn get_config() -> Config {
 struct AccessPointData {
     ssid: String,
     strength: u8,
+    security: String,
 }
 
 fn main() {
@@ -94,7 +95,41 @@ fn main() {
                     max_ssid = ssid.len();
                 }
                 let strength = ap.get_strength();
-                access_points_data.push(AccessPointData { ssid, strength });
+
+                let mut security = String::new();
+
+                let flags = ap.get_flags();
+                let rsn_flags = ap.get_rsn_flags();
+                let wpa_flags = ap.get_wpa_flags();
+
+                if flags.contains(_80211ApFlags::PRIVACY)
+                    && wpa_flags == _80211ApSecurityFlags::NONE
+                    && rsn_flags == _80211ApSecurityFlags::NONE
+                {
+                    security.push_str("WEP ");
+                }
+
+                if wpa_flags != _80211ApSecurityFlags::NONE {
+                    security.push_str("WPA1 ");
+                }
+
+                if rsn_flags != _80211ApSecurityFlags::NONE {
+                    security.push_str("WPA2 ");
+                }
+
+                if wpa_flags.contains(_80211ApSecurityFlags::KEY_MGMT_802_1X)
+                    || rsn_flags.contains(_80211ApSecurityFlags::KEY_MGMT_802_1X)
+                {
+                    security.push_str("802.1X ");
+                }
+
+                security.pop();
+
+                access_points_data.push(AccessPointData {
+                    ssid,
+                    strength,
+                    security,
+                });
             }
         }
     }
@@ -105,10 +140,12 @@ fn main() {
     for (index, ap) in access_points_data.iter().enumerate() {
         let bars = utils_wifi_strength_bars(ap.strength).unwrap();
         println!(
-            "[{:2}] {1:2$} {3:3} {4}",
-            index, ap.ssid, max_ssid, ap.strength, bars,
+            "[{:2}] {1:2$} {3:3} {4} {5}",
+            index, ap.ssid, max_ssid, ap.strength, bars, ap.security
         );
     }
+
+    panic!("bye");
 
     let s_connection = SettingConnection::new();
     s_connection.set_property_type(Some(&SETTING_WIRELESS_SETTING_NAME));
