@@ -38,8 +38,6 @@ glib_wrapper! {
 pub trait DeviceWifiExt: Sized {
     fn get_access_point_by_path(&self, path: &str) -> Option<AccessPoint>;
 
-    //fn get_access_points(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 3 };
-
     fn get_active_access_point(&self) -> Option<AccessPoint>;
 
     fn get_bitrate(&self) -> u32;
@@ -80,6 +78,8 @@ pub trait DeviceWifiExt: Sized {
     ) -> Result<(), Error>;
 
     //fn request_scan_options_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: /*Unimplemented*/gio::AsyncReadyCallback>(&self, options: &glib::Variant, cancellable: P, callback: Q);
+
+    //fn get_property_access_points(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 3 };
 
     fn get_property_perm_hw_address(&self) -> Option<String>;
 
@@ -134,10 +134,6 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
             ))
         }
     }
-
-    //fn get_access_points(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 3 } {
-    //    unsafe { TODO: call ffi::nm_device_wifi_get_access_points() }
-    //}
 
     fn get_active_access_point(&self) -> Option<AccessPoint> {
         unsafe {
@@ -277,6 +273,14 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
 
     //fn request_scan_options_async<'a, P: Into<Option<&'a gio::Cancellable>>, Q: /*Unimplemented*/gio::AsyncReadyCallback>(&self, options: &glib::Variant, cancellable: P, callback: Q) {
     //    unsafe { TODO: call ffi::nm_device_wifi_request_scan_options_async() }
+    //}
+
+    //fn get_property_access_points(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 3 } {
+    //    unsafe {
+    //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "access-points".to_glib_none().0, value.to_glib_none_mut().0);
+    //        value.get().unwrap()
+    //    }
     //}
 
     fn get_property_perm_hw_address(&self) -> Option<String> {

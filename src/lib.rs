@@ -32,6 +32,7 @@ pub use auto::*;
 mod array;
 
 pub mod client;
+pub mod device_wifi;
 
 mod simple_connection;
 pub use simple_connection::SimpleConnection;
@@ -47,6 +48,7 @@ pub mod prelude {
     pub use auto::traits::*;
 
     pub use connection::ConnectionExtManual;
+    pub use device_wifi::DeviceWifiExtManual;
 }
 
 pub use prelude::*;

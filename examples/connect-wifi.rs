@@ -5,6 +5,8 @@ extern crate glib;
 
 extern crate nm;
 
+use std::str;
+
 use clap::{App, Arg};
 
 use glib::translate::FromGlib;
@@ -55,6 +57,11 @@ fn get_config() -> Config {
     }
 }
 
+struct AccessPointData {
+    ssid: String,
+    strength: u8,
+}
+
 fn main() {
     let config = get_config();
 
@@ -66,6 +73,42 @@ fn main() {
     let client = Client::new(None).unwrap();
 
     let device = find_device(&client, &config.interface);
+
+    let device_wifi = if let Ok(device_wifi) = device.clone().downcast::<DeviceWifi>() {
+        device_wifi
+    } else {
+        panic!("Not a WiFi device!");
+    };
+
+    println!("Choose a WiFi network:");
+
+    let access_points = device_wifi.get_access_points();
+
+    let mut access_points_data = vec![];
+    let mut max_ssid = 0;
+    for ap in &access_points {
+        if let Some(ssid) = ap.get_ssid() {
+            if let Ok(ssid) = str::from_utf8(&ssid) {
+                let ssid = ssid.to_string();
+                if ssid.len() > max_ssid {
+                    max_ssid = ssid.len();
+                }
+                let strength = ap.get_strength();
+                access_points_data.push(AccessPointData { ssid, strength });
+            }
+        }
+    }
+
+    access_points_data.sort_by_key(|ap| ap.strength);
+    access_points_data.reverse();
+
+    for (index, ap) in access_points_data.iter().enumerate() {
+        let bars = utils_wifi_strength_bars(ap.strength).unwrap();
+        println!(
+            "[{:2}] {1:2$} {3:3} {4}",
+            index, ap.ssid, max_ssid, ap.strength, bars,
+        );
+    }
 
     let s_connection = SettingConnection::new();
     s_connection.set_property_type(Some(&SETTING_WIRELESS_SETTING_NAME));

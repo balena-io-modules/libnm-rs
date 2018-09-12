@@ -46,7 +46,6 @@ generate = [
     "NM.DeviceType",
 #    "NM.DeviceVlan",
 #    "NM.DeviceVxlan",
-    "NM.DeviceWifi",
     "NM.DeviceWifiCapabilities",
     "NM.DhcpConfig",
     "NM.IPAddress",
@@ -247,6 +246,14 @@ status = "generate"
     # Does not compile
     ignore = true
 
+[[object]]
+name = "NM.DeviceWifi"
+status = "generate"
+
+    [[object.function]]
+    name = "get_access_points"
+    # Manual
+    ignore = true
 
 # [[object]]
 # name = "NM.VpnPluginInfo"
