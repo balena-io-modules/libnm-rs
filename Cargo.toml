@@ -50,7 +50,7 @@ v1_6 = ["nm-sys/v1_6", "v1_4"]
 v1_4 = ["nm-sys/v1_4"]
 futures = ["futures-preview", "futures-core-preview", "fragile", "gio/futures"]
 dox = ["nm-sys/dox", "glib/dox", "futures"]
-default = ["v1_12_2"]
+default = ["v1_6"]
 
 [[example]]
 name = "connect-wifi"
