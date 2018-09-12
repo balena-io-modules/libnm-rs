@@ -93,8 +93,11 @@ fn main() {
     let future = client.add_and_activate_connection_async_future(&connection, &device, None);
     let new_future = future
         .map(|(_con, active_con)| {
-            active_con.connect_state_changed(move |_, state, _| {
+            active_con.connect_state_changed(move |_active_con, state, reason| {
                 let state = ActiveConnectionState::from_glib(state as _);
+                let reason = ActiveConnectionStateReason::from_glib(reason as _);
+                println!("Connection state: {:?} / {:?}", state, reason);
+
                 match state {
                     ActiveConnectionState::Activated => {
                         println!("Connection successfully activated.");
