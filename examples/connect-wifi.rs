@@ -5,7 +5,10 @@ extern crate glib;
 
 extern crate nm;
 
+use std::io;
+use std::io::Write;
 use std::str;
+use std::str::FromStr;
 
 use clap::{App, Arg};
 
@@ -17,8 +20,6 @@ use nm::*;
 
 #[derive(Debug)]
 struct Config {
-    ssid: String,
-    passphrase: String,
     interface: Option<String>,
 }
 
@@ -26,18 +27,6 @@ fn get_config() -> Config {
     let matches = App::new("connect-wifi")
         .version("0.0.1")
         .arg(
-            Arg::with_name("ssid")
-                .value_name("SSID")
-                .help("WiFi network SSID")
-                .index(1)
-                .required(true),
-        ).arg(
-            Arg::with_name("passphrase")
-                .value_name("PASSPHRASE")
-                .help("WiFi network passphrase")
-                .index(2)
-                .required(true),
-        ).arg(
             Arg::with_name("interface")
                 .short("i")
                 .long("interface")
@@ -46,15 +35,9 @@ fn get_config() -> Config {
                 .takes_value(true),
         ).get_matches();
 
-    let ssid = matches.value_of("ssid").unwrap().to_string();
-    let passphrase = matches.value_of("passphrase").unwrap().to_string();
     let interface: Option<String> = matches.value_of("interface").map(str::to_string);
 
-    Config {
-        ssid,
-        passphrase,
-        interface,
-    }
+    Config { interface }
 }
 
 struct AccessPointData {
@@ -145,18 +128,28 @@ fn main() {
         );
     }
 
-    panic!("bye");
+    let input = read_input();
+    let ap = access_points_data
+        .get(usize::from_str(&input).unwrap())
+        .unwrap();
+
+    let password = if ap.security.len() > 0 {
+        println!("Password:");
+        Some(read_input())
+    } else {
+        None
+    };
 
     let s_connection = SettingConnection::new();
     s_connection.set_property_type(Some(&SETTING_WIRELESS_SETTING_NAME));
-    s_connection.set_property_id(Some(&config.ssid));
+    s_connection.set_property_id(Some(&ap.ssid));
 
     let s_wireless = SettingWireless::new();
-    s_wireless.set_property_ssid(Some(&(config.ssid.as_bytes().into())));
+    s_wireless.set_property_ssid(Some(&(ap.ssid.as_bytes().into())));
 
     let s_wireless_security = SettingWirelessSecurity::new();
     s_wireless_security.set_property_key_mgmt(Some("wpa-psk"));
-    s_wireless_security.set_property_psk(Some(&config.passphrase));
+    s_wireless_security.set_property_psk(Some(&password.unwrap()));
 
     let connection = SimpleConnection::new();
 
@@ -201,6 +194,18 @@ fn main() {
     loop_.run();
 
     context.pop_thread_default();
+}
+
+fn read_input() -> String {
+    print!("> ");
+    io::stdout().flush().unwrap();
+
+    let mut input = String::new();
+    if let Err(error) = io::stdin().read_line(&mut input) {
+        panic!("{}", error);
+    }
+
+    input.trim().to_string()
 }
 
 fn find_device(client: &Client, interface: &Option<String>) -> Device {
