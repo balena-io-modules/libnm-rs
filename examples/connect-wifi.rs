@@ -1,8 +1,11 @@
+extern crate clap;
 extern crate futures;
 extern crate gio;
 extern crate glib;
 
 extern crate nm;
+
+use clap::{App, Arg};
 
 use glib::translate::FromGlib;
 
@@ -10,30 +13,72 @@ use futures::prelude::*;
 
 use nm::*;
 
+#[derive(Debug)]
+struct Config {
+    ssid: String,
+    passphrase: String,
+    interface: Option<String>,
+}
+
+fn get_config() -> Config {
+    let matches = App::new("connect-wifi")
+        .version("0.0.1")
+        .arg(
+            Arg::with_name("ssid")
+                .value_name("SSID")
+                .help("WiFi network SSID")
+                .index(1)
+                .required(true),
+        ).arg(
+            Arg::with_name("passphrase")
+                .value_name("PASSPHRASE")
+                .help("WiFi network passphrase")
+                .index(2)
+                .required(true),
+        ).arg(
+            Arg::with_name("interface")
+                .short("i")
+                .long("interface")
+                .value_name("interface")
+                .help("WiFi interface name")
+                .takes_value(true),
+        ).get_matches();
+
+    let ssid = matches.value_of("ssid").unwrap().to_string();
+    let passphrase = matches.value_of("passphrase").unwrap().to_string();
+    let interface: Option<String> = matches.value_of("interface").map(str::to_string);
+
+    Config {
+        ssid,
+        passphrase,
+        interface,
+    }
+}
+
 fn main() {
-    let ssid = "My-Network-SSID";
-    let password = "My-Network-Password";
-    let interface = "wlan0";
+    let config = get_config();
 
     let context = glib::MainContext::default();
     let loop_ = glib::MainLoop::new(Some(&context), false);
 
     context.push_thread_default();
 
-    let client = nm::Client::new(None).unwrap();
+    let client = Client::new(None).unwrap();
 
-    let s_connection = nm::SettingConnection::new();
+    let device = find_device(&client, &config.interface);
+
+    let s_connection = SettingConnection::new();
     s_connection.set_property_type(Some(&SETTING_WIRELESS_SETTING_NAME));
-    s_connection.set_property_id(Some(ssid));
+    s_connection.set_property_id(Some(&config.ssid));
 
     let s_wireless = SettingWireless::new();
-    s_wireless.set_property_ssid(Some(&(ssid.as_bytes().into())));
+    s_wireless.set_property_ssid(Some(&(config.ssid.as_bytes().into())));
 
     let s_wireless_security = SettingWirelessSecurity::new();
     s_wireless_security.set_property_key_mgmt(Some("wpa-psk"));
-    s_wireless_security.set_property_psk(Some(password));
+    s_wireless_security.set_property_psk(Some(&config.passphrase));
 
-    let connection = nm::SimpleConnection::new();
+    let connection = SimpleConnection::new();
 
     connection.add_setting(&s_connection);
     connection.add_setting(&s_wireless);
@@ -42,11 +87,6 @@ fn main() {
     if let Err(e) = connection.normalize() {
         panic!("Verification error: {:?}", e);
     }
-
-    let device = match client.get_device_by_iface(interface) {
-        Some(device) => device,
-        _ => panic!("Interface not found: {}", interface),
-    };
 
     let l_clone = loop_.clone();
 
@@ -76,4 +116,26 @@ fn main() {
     loop_.run();
 
     context.pop_thread_default();
+}
+
+fn find_device(client: &Client, interface: &Option<String>) -> Device {
+    if let Some(ref interface) = *interface {
+        match client.get_device_by_iface(interface) {
+            Some(device) => device,
+            _ => panic!("Interface not found: {}", interface),
+        }
+    } else {
+        let devices = client.get_devices();
+
+        let device = devices
+            .iter()
+            .find(|d| d.get_device_type() == DeviceType::Wifi);
+
+        if let Some(device) = device {
+            println!("WiFi device: {}", device.get_iface().unwrap());
+            device.clone()
+        } else {
+            panic!("Could not find a WiFi device");
+        }
+    }
 }

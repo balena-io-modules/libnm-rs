@@ -38,6 +38,9 @@ optional = true
 version = "0.2"
 optional = true
 
+[dev-dependencies]
+clap = "2.32"
+
 [features]
 v1_12_2 = ["nm-sys/v1_12_2", "v1_12"]
 v1_12 = ["nm-sys/v1_12", "v1_10"]
@@ -52,9 +55,6 @@ default = ["v1_12_2"]
 [[example]]
 name = "connect-wifi"
 required-features = ["futures"]
-
-[[example]]
-name = "iface"
 
 [[example]]
 name = "connectivity"
