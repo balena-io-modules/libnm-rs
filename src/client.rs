@@ -2,9 +2,10 @@ use glib::translate::*;
 
 use ffi;
 
-use ActiveConnection;
 use Client;
 use Device;
+use ActiveConnection;
+use RemoteConnection;
 
 use array::gptrarray_to_vec;
 
@@ -17,7 +18,7 @@ impl Client {
         unsafe { gptrarray_to_vec(ffi::nm_client_get_all_devices(self.to_glib_none().0)) }
     }
 
-    pub fn get_connections(&self) -> Vec<Device> {
+    pub fn get_connections(&self) -> Vec<RemoteConnection> {
         unsafe { gptrarray_to_vec(ffi::nm_client_get_connections(self.to_glib_none().0)) }
     }
 
