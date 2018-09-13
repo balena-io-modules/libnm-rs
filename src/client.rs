@@ -2,9 +2,9 @@ use glib::translate::*;
 
 use ffi;
 
+use ActiveConnection;
 use Client;
 use Device;
-use ActiveConnection;
 use RemoteConnection;
 
 use array::gptrarray_to_vec;

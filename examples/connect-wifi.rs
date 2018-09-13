@@ -71,49 +71,46 @@ fn main() {
     let mut access_points_data = vec![];
     let mut max_ssid = 0;
     for ap in &access_points {
-        if let Some(ssid) = ap.get_ssid() {
-            if let Ok(ssid) = str::from_utf8(&ssid) {
-                let ssid = ssid.to_string();
-                if ssid.len() > max_ssid {
-                    max_ssid = ssid.len();
-                }
-                let strength = ap.get_strength();
-
-                let mut security = String::new();
-
-                let flags = ap.get_flags();
-                let rsn_flags = ap.get_rsn_flags();
-                let wpa_flags = ap.get_wpa_flags();
-
-                if flags.contains(_80211ApFlags::PRIVACY)
-                    && wpa_flags == _80211ApSecurityFlags::NONE
-                    && rsn_flags == _80211ApSecurityFlags::NONE
-                {
-                    security.push_str("WEP ");
-                }
-
-                if wpa_flags != _80211ApSecurityFlags::NONE {
-                    security.push_str("WPA1 ");
-                }
-
-                if rsn_flags != _80211ApSecurityFlags::NONE {
-                    security.push_str("WPA2 ");
-                }
-
-                if wpa_flags.contains(_80211ApSecurityFlags::KEY_MGMT_802_1X)
-                    || rsn_flags.contains(_80211ApSecurityFlags::KEY_MGMT_802_1X)
-                {
-                    security.push_str("802.1X ");
-                }
-
-                security.pop();
-
-                access_points_data.push(AccessPointData {
-                    ssid,
-                    strength,
-                    security,
-                });
+        if let Some(ssid) = ssid_to_string(ap.get_ssid()) {
+            if ssid.len() > max_ssid {
+                max_ssid = ssid.len();
             }
+            let strength = ap.get_strength();
+
+            let mut security = String::new();
+
+            let flags = ap.get_flags();
+            let rsn_flags = ap.get_rsn_flags();
+            let wpa_flags = ap.get_wpa_flags();
+
+            if flags.contains(_80211ApFlags::PRIVACY)
+                && wpa_flags == _80211ApSecurityFlags::NONE
+                && rsn_flags == _80211ApSecurityFlags::NONE
+            {
+                security.push_str("WEP ");
+            }
+
+            if wpa_flags != _80211ApSecurityFlags::NONE {
+                security.push_str("WPA1 ");
+            }
+
+            if rsn_flags != _80211ApSecurityFlags::NONE {
+                security.push_str("WPA2 ");
+            }
+
+            if wpa_flags.contains(_80211ApSecurityFlags::KEY_MGMT_802_1X)
+                || rsn_flags.contains(_80211ApSecurityFlags::KEY_MGMT_802_1X)
+            {
+                security.push_str("802.1X ");
+            }
+
+            security.pop();
+
+            access_points_data.push(AccessPointData {
+                ssid,
+                strength,
+                security,
+            });
         }
     }
 
@@ -139,6 +136,19 @@ fn main() {
     } else {
         None
     };
+
+    let connections = client.get_connections();
+
+    for connection in connections {
+        if let Some(setting_wireless) = connection.get_setting_wireless() {
+            if let Some(ssid) = ssid_to_string(setting_wireless.get_ssid()) {
+                if ssid == ap.ssid {
+                    println!("Deleting existing WiFi connection: {}", ssid);
+                    connection.delete(None).unwrap();
+                }
+            }
+        }
+    }
 
     let s_connection = SettingConnection::new();
     s_connection.set_property_type(Some(&SETTING_WIRELESS_SETTING_NAME));
@@ -196,6 +206,16 @@ fn main() {
     println!("Connectivity: {:?}", connectivity);
 
     context.pop_thread_default();
+}
+
+fn ssid_to_string(ssid: Option<glib::Bytes>) -> Option<String> {
+    if let Some(ssid) = ssid {
+        if let Ok(ssid) = str::from_utf8(&ssid) {
+            return Some(ssid.to_string());
+        }
+    }
+
+    None
 }
 
 fn read_input() -> String {
