@@ -172,7 +172,7 @@ fn main() {
 
                 match state {
                     ActiveConnectionState::Activated => {
-                        println!("Connection successfully activated.");
+                        println!("Connection successfully activated");
                         l_clone.quit();
                     }
                     ActiveConnectionState::Deactivated => {
@@ -191,6 +191,9 @@ fn main() {
     context.spawn_local(new_future);
 
     loop_.run();
+
+    let connectivity = client.check_connectivity(None).unwrap();
+    println!("Connectivity: {:?}", connectivity);
 
     context.pop_thread_default();
 }
