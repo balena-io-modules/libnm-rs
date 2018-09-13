@@ -77,34 +77,7 @@ fn main() {
             }
             let strength = ap.get_strength();
 
-            let mut security = String::new();
-
-            let flags = ap.get_flags();
-            let rsn_flags = ap.get_rsn_flags();
-            let wpa_flags = ap.get_wpa_flags();
-
-            if flags.contains(_80211ApFlags::PRIVACY)
-                && wpa_flags == _80211ApSecurityFlags::NONE
-                && rsn_flags == _80211ApSecurityFlags::NONE
-            {
-                security.push_str("WEP ");
-            }
-
-            if wpa_flags != _80211ApSecurityFlags::NONE {
-                security.push_str("WPA1 ");
-            }
-
-            if rsn_flags != _80211ApSecurityFlags::NONE {
-                security.push_str("WPA2 ");
-            }
-
-            if wpa_flags.contains(_80211ApSecurityFlags::KEY_MGMT_802_1X)
-                || rsn_flags.contains(_80211ApSecurityFlags::KEY_MGMT_802_1X)
-            {
-                security.push_str("802.1X ");
-            }
-
-            security.pop();
+            let security = get_access_point_security(&ap);
 
             access_points_data.push(AccessPointData {
                 ssid,
@@ -206,6 +179,39 @@ fn main() {
     println!("Connectivity: {:?}", connectivity);
 
     context.pop_thread_default();
+}
+
+fn get_access_point_security(ap: &AccessPoint) -> String {
+    let mut security = String::new();
+
+    let flags = ap.get_flags();
+    let rsn_flags = ap.get_rsn_flags();
+    let wpa_flags = ap.get_wpa_flags();
+
+    if flags.contains(_80211ApFlags::PRIVACY)
+        && wpa_flags == _80211ApSecurityFlags::NONE
+        && rsn_flags == _80211ApSecurityFlags::NONE
+    {
+        security.push_str("WEP ");
+    }
+
+    if wpa_flags != _80211ApSecurityFlags::NONE {
+        security.push_str("WPA1 ");
+    }
+
+    if rsn_flags != _80211ApSecurityFlags::NONE {
+        security.push_str("WPA2 ");
+    }
+
+    if wpa_flags.contains(_80211ApSecurityFlags::KEY_MGMT_802_1X)
+        || rsn_flags.contains(_80211ApSecurityFlags::KEY_MGMT_802_1X)
+    {
+        security.push_str("802.1X ");
+    }
+
+    security.pop();
+
+    security
 }
 
 fn ssid_to_string(ssid: Option<glib::Bytes>) -> Option<String> {
