@@ -124,15 +124,15 @@ fn main() {
     }
 
     let s_connection = SettingConnection::new();
-    s_connection.set_property_type(Some(&SETTING_WIRELESS_SETTING_NAME));
-    s_connection.set_property_id(Some(&ap.ssid));
+    s_connection.set_property_type(Some(&SETTING_WIRELESS_SETTING_NAME as &str));
+    s_connection.set_property_id(Some(&ap.ssid as &str));
 
     let s_wireless = SettingWireless::new();
     s_wireless.set_property_ssid(Some(&(ap.ssid.as_bytes().into())));
 
     let s_wireless_security = SettingWirelessSecurity::new();
     s_wireless_security.set_property_key_mgmt(Some("wpa-psk"));
-    s_wireless_security.set_property_psk(Some(&password.unwrap()));
+    s_wireless_security.set_property_psk(Some(&password.unwrap() as &str));
 
     let connection = SimpleConnection::new();
 

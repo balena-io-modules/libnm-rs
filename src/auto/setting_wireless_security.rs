@@ -117,20 +117,20 @@ pub trait SettingWirelessSecurityExt {
 
     fn set_wep_key(&self, idx: u32, key: &str);
 
-    fn set_property_auth_alg(&self, auth_alg: Option<&str>);
+    fn set_property_auth_alg<'a, P: Into<Option<&'a str>>>(&self, auth_alg: P);
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_fils(&self, fils: i32);
 
     fn set_property_group(&self, group: &[&str]);
 
-    fn set_property_key_mgmt(&self, key_mgmt: Option<&str>);
+    fn set_property_key_mgmt<'a, P: Into<Option<&'a str>>>(&self, key_mgmt: P);
 
-    fn set_property_leap_password(&self, leap_password: Option<&str>);
+    fn set_property_leap_password<'a, P: Into<Option<&'a str>>>(&self, leap_password: P);
 
     fn set_property_leap_password_flags(&self, leap_password_flags: SettingSecretFlags);
 
-    fn set_property_leap_username(&self, leap_username: Option<&str>);
+    fn set_property_leap_username<'a, P: Into<Option<&'a str>>>(&self, leap_username: P);
 
     fn set_property_pairwise(&self, pairwise: &[&str]);
 
@@ -139,7 +139,7 @@ pub trait SettingWirelessSecurityExt {
 
     fn set_property_proto(&self, proto: &[&str]);
 
-    fn set_property_psk(&self, psk: Option<&str>);
+    fn set_property_psk<'a, P: Into<Option<&'a str>>>(&self, psk: P);
 
     fn set_property_psk_flags(&self, psk_flags: SettingSecretFlags);
 
@@ -149,19 +149,19 @@ pub trait SettingWirelessSecurityExt {
 
     fn get_property_wep_key0(&self) -> Option<String>;
 
-    fn set_property_wep_key0(&self, wep_key0: Option<&str>);
+    fn set_property_wep_key0<'a, P: Into<Option<&'a str>>>(&self, wep_key0: P);
 
     fn get_property_wep_key1(&self) -> Option<String>;
 
-    fn set_property_wep_key1(&self, wep_key1: Option<&str>);
+    fn set_property_wep_key1<'a, P: Into<Option<&'a str>>>(&self, wep_key1: P);
 
     fn get_property_wep_key2(&self) -> Option<String>;
 
-    fn set_property_wep_key2(&self, wep_key2: Option<&str>);
+    fn set_property_wep_key2<'a, P: Into<Option<&'a str>>>(&self, wep_key2: P);
 
     fn get_property_wep_key3(&self) -> Option<String>;
 
-    fn set_property_wep_key3(&self, wep_key3: Option<&str>);
+    fn set_property_wep_key3<'a, P: Into<Option<&'a str>>>(&self, wep_key3: P);
 
     fn set_property_wep_tx_keyidx(&self, wep_tx_keyidx: u32);
 
@@ -479,7 +479,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn set_property_auth_alg(&self, auth_alg: Option<&str>) {
+    fn set_property_auth_alg<'a, P: Into<Option<&'a str>>>(&self, auth_alg: P) {
+        let auth_alg = auth_alg.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -510,7 +511,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn set_property_key_mgmt(&self, key_mgmt: Option<&str>) {
+    fn set_property_key_mgmt<'a, P: Into<Option<&'a str>>>(&self, key_mgmt: P) {
+        let key_mgmt = key_mgmt.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -520,7 +522,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn set_property_leap_password(&self, leap_password: Option<&str>) {
+    fn set_property_leap_password<'a, P: Into<Option<&'a str>>>(&self, leap_password: P) {
+        let leap_password = leap_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -540,7 +543,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn set_property_leap_username(&self, leap_username: Option<&str>) {
+    fn set_property_leap_username<'a, P: Into<Option<&'a str>>>(&self, leap_username: P) {
+        let leap_username = leap_username.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -581,7 +585,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn set_property_psk(&self, psk: Option<&str>) {
+    fn set_property_psk<'a, P: Into<Option<&'a str>>>(&self, psk: P) {
+        let psk = psk.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -633,7 +638,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn set_property_wep_key0(&self, wep_key0: Option<&str>) {
+    fn set_property_wep_key0<'a, P: Into<Option<&'a str>>>(&self, wep_key0: P) {
+        let wep_key0 = wep_key0.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -655,7 +661,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn set_property_wep_key1(&self, wep_key1: Option<&str>) {
+    fn set_property_wep_key1<'a, P: Into<Option<&'a str>>>(&self, wep_key1: P) {
+        let wep_key1 = wep_key1.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -677,7 +684,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn set_property_wep_key2(&self, wep_key2: Option<&str>) {
+    fn set_property_wep_key2<'a, P: Into<Option<&'a str>>>(&self, wep_key2: P) {
+        let wep_key2 = wep_key2.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -699,7 +707,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn set_property_wep_key3(&self, wep_key3: Option<&str>) {
+    fn set_property_wep_key3<'a, P: Into<Option<&'a str>>>(&self, wep_key3: P) {
+        let wep_key3 = wep_key3.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,

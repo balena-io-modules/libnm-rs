@@ -78,8 +78,8 @@ fn main() {
     let device = find_device(&client, &config.interface);
 
     let s_connection = SettingConnection::new();
-    s_connection.set_property_type(Some(&SETTING_WIRELESS_SETTING_NAME));
-    s_connection.set_property_id(Some(&config.ssid));
+    s_connection.set_property_type(Some(&SETTING_WIRELESS_SETTING_NAME as &str));
+    s_connection.set_property_id(Some(&config.ssid as &str));
     s_connection.set_property_autoconnect(false);
     s_connection.set_property_interface_name(device.get_iface().as_ref().map(String::as_str));
 
@@ -91,7 +91,7 @@ fn main() {
 
     let s_wireless_security = SettingWirelessSecurity::new();
     s_wireless_security.set_property_key_mgmt(Some("wpa-psk"));
-    s_wireless_security.set_property_psk(Some(&config.password.unwrap()));
+    s_wireless_security.set_property_psk(Some(&config.password.unwrap() as &str));
 
     let s_ip4 = SettingIP4Config::new();
     let address = IPAddress::new(libc::AF_INET, ADDRESS, 24).unwrap();

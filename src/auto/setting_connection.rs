@@ -137,13 +137,13 @@ pub trait SettingConnectionExt {
 
     fn set_property_gateway_ping_timeout(&self, gateway_ping_timeout: u32);
 
-    fn set_property_id(&self, id: Option<&str>);
+    fn set_property_id<'a, P: Into<Option<&'a str>>>(&self, id: P);
 
-    fn set_property_interface_name(&self, interface_name: Option<&str>);
+    fn set_property_interface_name<'a, P: Into<Option<&'a str>>>(&self, interface_name: P);
 
     fn set_property_lldp(&self, lldp: i32);
 
-    fn set_property_master(&self, master: Option<&str>);
+    fn set_property_master<'a, P: Into<Option<&'a str>>>(&self, master: P);
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_mdns(&self, mdns: i32);
@@ -160,20 +160,20 @@ pub trait SettingConnectionExt {
 
     fn set_property_secondaries(&self, secondaries: &[&str]);
 
-    fn set_property_slave_type(&self, slave_type: Option<&str>);
+    fn set_property_slave_type<'a, P: Into<Option<&'a str>>>(&self, slave_type: P);
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
-    fn set_property_stable_id(&self, stable_id: Option<&str>);
+    fn set_property_stable_id<'a, P: Into<Option<&'a str>>>(&self, stable_id: P);
 
     fn set_property_timestamp(&self, timestamp: u64);
 
     fn get_property_type(&self) -> Option<String>;
 
-    fn set_property_type(&self, type_: Option<&str>);
+    fn set_property_type<'a, P: Into<Option<&'a str>>>(&self, type_: P);
 
-    fn set_property_uuid(&self, uuid: Option<&str>);
+    fn set_property_uuid<'a, P: Into<Option<&'a str>>>(&self, uuid: P);
 
-    fn set_property_zone(&self, zone: Option<&str>);
+    fn set_property_zone<'a, P: Into<Option<&'a str>>>(&self, zone: P);
 
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn connect_property_auth_retries_notify<F: Fn(&Self) + 'static>(&self, f: F)
@@ -527,7 +527,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         }
     }
 
-    fn set_property_id(&self, id: Option<&str>) {
+    fn set_property_id<'a, P: Into<Option<&'a str>>>(&self, id: P) {
+        let id = id.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -537,7 +538,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         }
     }
 
-    fn set_property_interface_name(&self, interface_name: Option<&str>) {
+    fn set_property_interface_name<'a, P: Into<Option<&'a str>>>(&self, interface_name: P) {
+        let interface_name = interface_name.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -557,7 +559,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         }
     }
 
-    fn set_property_master(&self, master: Option<&str>) {
+    fn set_property_master<'a, P: Into<Option<&'a str>>>(&self, master: P) {
+        let master = master.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -642,7 +645,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         }
     }
 
-    fn set_property_slave_type(&self, slave_type: Option<&str>) {
+    fn set_property_slave_type<'a, P: Into<Option<&'a str>>>(&self, slave_type: P) {
+        let slave_type = slave_type.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -653,7 +657,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     }
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
-    fn set_property_stable_id(&self, stable_id: Option<&str>) {
+    fn set_property_stable_id<'a, P: Into<Option<&'a str>>>(&self, stable_id: P) {
+        let stable_id = stable_id.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -685,7 +690,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         }
     }
 
-    fn set_property_type(&self, type_: Option<&str>) {
+    fn set_property_type<'a, P: Into<Option<&'a str>>>(&self, type_: P) {
+        let type_ = type_.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -695,7 +701,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         }
     }
 
-    fn set_property_uuid(&self, uuid: Option<&str>) {
+    fn set_property_uuid<'a, P: Into<Option<&'a str>>>(&self, uuid: P) {
+        let uuid = uuid.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -705,7 +712,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         }
     }
 
-    fn set_property_zone(&self, zone: Option<&str>) {
+    fn set_property_zone<'a, P: Into<Option<&'a str>>>(&self, zone: P) {
+        let zone = zone.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,

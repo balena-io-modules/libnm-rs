@@ -94,23 +94,26 @@ pub trait SettingWiredExt {
 
     fn set_property_auto_negotiate(&self, auto_negotiate: bool);
 
-    fn set_property_cloned_mac_address(&self, cloned_mac_address: Option<&str>);
+    fn set_property_cloned_mac_address<'a, P: Into<Option<&'a str>>>(&self, cloned_mac_address: P);
 
-    fn set_property_duplex(&self, duplex: Option<&str>);
+    fn set_property_duplex<'a, P: Into<Option<&'a str>>>(&self, duplex: P);
 
     fn get_property_generate_mac_address_mask(&self) -> Option<String>;
 
-    fn set_property_generate_mac_address_mask(&self, generate_mac_address_mask: Option<&str>);
+    fn set_property_generate_mac_address_mask<'a, P: Into<Option<&'a str>>>(
+        &self,
+        generate_mac_address_mask: P,
+    );
 
-    fn set_property_mac_address(&self, mac_address: Option<&str>);
+    fn set_property_mac_address<'a, P: Into<Option<&'a str>>>(&self, mac_address: P);
 
     fn set_property_mac_address_blacklist(&self, mac_address_blacklist: &[&str]);
 
     fn set_property_mtu(&self, mtu: u32);
 
-    fn set_property_port(&self, port: Option<&str>);
+    fn set_property_port<'a, P: Into<Option<&'a str>>>(&self, port: P);
 
-    fn set_property_s390_nettype(&self, s390_nettype: Option<&str>);
+    fn set_property_s390_nettype<'a, P: Into<Option<&'a str>>>(&self, s390_nettype: P);
 
     //fn get_property_s390_options(&self) -> /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 };
 
@@ -122,7 +125,10 @@ pub trait SettingWiredExt {
 
     fn set_property_wake_on_lan(&self, wake_on_lan: u32);
 
-    fn set_property_wake_on_lan_password(&self, wake_on_lan_password: Option<&str>);
+    fn set_property_wake_on_lan_password<'a, P: Into<Option<&'a str>>>(
+        &self,
+        wake_on_lan_password: P,
+    );
 
     fn connect_property_auto_negotiate_notify<F: Fn(&Self) + 'static>(
         &self,
@@ -366,7 +372,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    fn set_property_cloned_mac_address(&self, cloned_mac_address: Option<&str>) {
+    fn set_property_cloned_mac_address<'a, P: Into<Option<&'a str>>>(&self, cloned_mac_address: P) {
+        let cloned_mac_address = cloned_mac_address.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -376,7 +383,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    fn set_property_duplex(&self, duplex: Option<&str>) {
+    fn set_property_duplex<'a, P: Into<Option<&'a str>>>(&self, duplex: P) {
+        let duplex = duplex.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -398,7 +406,11 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    fn set_property_generate_mac_address_mask(&self, generate_mac_address_mask: Option<&str>) {
+    fn set_property_generate_mac_address_mask<'a, P: Into<Option<&'a str>>>(
+        &self,
+        generate_mac_address_mask: P,
+    ) {
+        let generate_mac_address_mask = generate_mac_address_mask.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -408,7 +420,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    fn set_property_mac_address(&self, mac_address: Option<&str>) {
+    fn set_property_mac_address<'a, P: Into<Option<&'a str>>>(&self, mac_address: P) {
+        let mac_address = mac_address.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -438,7 +451,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    fn set_property_port(&self, port: Option<&str>) {
+    fn set_property_port<'a, P: Into<Option<&'a str>>>(&self, port: P) {
+        let port = port.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -448,7 +462,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    fn set_property_s390_nettype(&self, s390_nettype: Option<&str>) {
+    fn set_property_s390_nettype<'a, P: Into<Option<&'a str>>>(&self, s390_nettype: P) {
+        let s390_nettype = s390_nettype.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -502,7 +517,11 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    fn set_property_wake_on_lan_password(&self, wake_on_lan_password: Option<&str>) {
+    fn set_property_wake_on_lan_password<'a, P: Into<Option<&'a str>>>(
+        &self,
+        wake_on_lan_password: P,
+    ) {
+        let wake_on_lan_password = wake_on_lan_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,

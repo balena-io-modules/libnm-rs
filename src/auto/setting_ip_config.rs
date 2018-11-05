@@ -128,7 +128,7 @@ pub trait SettingIPConfigExt {
 
     fn set_property_dad_timeout(&self, dad_timeout: i32);
 
-    fn set_property_dhcp_hostname(&self, dhcp_hostname: Option<&str>);
+    fn set_property_dhcp_hostname<'a, P: Into<Option<&'a str>>>(&self, dhcp_hostname: P);
 
     fn set_property_dhcp_send_hostname(&self, dhcp_send_hostname: bool);
 
@@ -145,7 +145,7 @@ pub trait SettingIPConfigExt {
 
     fn set_property_dns_search(&self, dns_search: &[&str]);
 
-    fn set_property_gateway(&self, gateway: Option<&str>);
+    fn set_property_gateway<'a, P: Into<Option<&'a str>>>(&self, gateway: P);
 
     fn set_property_ignore_auto_dns(&self, ignore_auto_dns: bool);
 
@@ -153,7 +153,7 @@ pub trait SettingIPConfigExt {
 
     fn set_property_may_fail(&self, may_fail: bool);
 
-    fn set_property_method(&self, method: Option<&str>);
+    fn set_property_method<'a, P: Into<Option<&'a str>>>(&self, method: P);
 
     fn set_property_never_default(&self, never_default: bool);
 
@@ -553,7 +553,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
         }
     }
 
-    fn set_property_dhcp_hostname(&self, dhcp_hostname: Option<&str>) {
+    fn set_property_dhcp_hostname<'a, P: Into<Option<&'a str>>>(&self, dhcp_hostname: P) {
+        let dhcp_hostname = dhcp_hostname.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -636,7 +637,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
         }
     }
 
-    fn set_property_gateway(&self, gateway: Option<&str>) {
+    fn set_property_gateway<'a, P: Into<Option<&'a str>>>(&self, gateway: P) {
+        let gateway = gateway.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -676,7 +678,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
         }
     }
 
-    fn set_property_method(&self, method: Option<&str>) {
+    fn set_property_method<'a, P: Into<Option<&'a str>>>(&self, method: P) {
+        let method = method.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,

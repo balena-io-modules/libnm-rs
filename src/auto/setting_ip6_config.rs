@@ -55,12 +55,12 @@ pub trait SettingIP6ConfigExt {
     fn set_property_addr_gen_mode(&self, addr_gen_mode: i32);
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
-    fn set_property_dhcp_duid(&self, dhcp_duid: Option<&str>);
+    fn set_property_dhcp_duid<'a, P: Into<Option<&'a str>>>(&self, dhcp_duid: P);
 
     fn set_property_ip6_privacy(&self, ip6_privacy: SettingIP6ConfigPrivacy);
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
-    fn set_property_token(&self, token: Option<&str>);
+    fn set_property_token<'a, P: Into<Option<&'a str>>>(&self, token: P);
 
     fn connect_property_addr_gen_mode_notify<F: Fn(&Self) + 'static>(
         &self,
@@ -118,7 +118,8 @@ impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt f
     }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
-    fn set_property_dhcp_duid(&self, dhcp_duid: Option<&str>) {
+    fn set_property_dhcp_duid<'a, P: Into<Option<&'a str>>>(&self, dhcp_duid: P) {
+        let dhcp_duid = dhcp_duid.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -139,7 +140,8 @@ impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt f
     }
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
-    fn set_property_token(&self, token: Option<&str>) {
+    fn set_property_token<'a, P: Into<Option<&'a str>>>(&self, token: P) {
+        let token = token.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,

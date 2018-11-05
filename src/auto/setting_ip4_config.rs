@@ -44,9 +44,9 @@ pub trait SettingIP4ConfigExt {
 
     fn get_dhcp_fqdn(&self) -> Option<String>;
 
-    fn set_property_dhcp_client_id(&self, dhcp_client_id: Option<&str>);
+    fn set_property_dhcp_client_id<'a, P: Into<Option<&'a str>>>(&self, dhcp_client_id: P);
 
-    fn set_property_dhcp_fqdn(&self, dhcp_fqdn: Option<&str>);
+    fn set_property_dhcp_fqdn<'a, P: Into<Option<&'a str>>>(&self, dhcp_fqdn: P);
 
     fn connect_property_dhcp_client_id_notify<F: Fn(&Self) + 'static>(
         &self,
@@ -73,7 +73,8 @@ impl<O: IsA<SettingIP4Config> + IsA<glib::object::Object>> SettingIP4ConfigExt f
         }
     }
 
-    fn set_property_dhcp_client_id(&self, dhcp_client_id: Option<&str>) {
+    fn set_property_dhcp_client_id<'a, P: Into<Option<&'a str>>>(&self, dhcp_client_id: P) {
+        let dhcp_client_id = dhcp_client_id.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -83,7 +84,8 @@ impl<O: IsA<SettingIP4Config> + IsA<glib::object::Object>> SettingIP4ConfigExt f
         }
     }
 
-    fn set_property_dhcp_fqdn(&self, dhcp_fqdn: Option<&str>) {
+    fn set_property_dhcp_fqdn<'a, P: Into<Option<&'a str>>>(&self, dhcp_fqdn: P) {
+        let dhcp_fqdn = dhcp_fqdn.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,

@@ -108,28 +108,31 @@ pub trait SettingWirelessExt {
 
     fn remove_mac_blacklist_item_by_value(&self, mac: &str) -> bool;
 
-    fn set_property_band(&self, band: Option<&str>);
+    fn set_property_band<'a, P: Into<Option<&'a str>>>(&self, band: P);
 
-    fn set_property_bssid(&self, bssid: Option<&str>);
+    fn set_property_bssid<'a, P: Into<Option<&'a str>>>(&self, bssid: P);
 
     fn set_property_channel(&self, channel: u32);
 
-    fn set_property_cloned_mac_address(&self, cloned_mac_address: Option<&str>);
+    fn set_property_cloned_mac_address<'a, P: Into<Option<&'a str>>>(&self, cloned_mac_address: P);
 
     fn get_property_generate_mac_address_mask(&self) -> Option<String>;
 
-    fn set_property_generate_mac_address_mask(&self, generate_mac_address_mask: Option<&str>);
+    fn set_property_generate_mac_address_mask<'a, P: Into<Option<&'a str>>>(
+        &self,
+        generate_mac_address_mask: P,
+    );
 
     fn set_property_hidden(&self, hidden: bool);
 
-    fn set_property_mac_address(&self, mac_address: Option<&str>);
+    fn set_property_mac_address<'a, P: Into<Option<&'a str>>>(&self, mac_address: P);
 
     fn set_property_mac_address_blacklist(&self, mac_address_blacklist: &[&str]);
 
     #[cfg_attr(feature = "v1_4", deprecated)]
     fn set_property_mac_address_randomization(&self, mac_address_randomization: u32);
 
-    fn set_property_mode(&self, mode: Option<&str>);
+    fn set_property_mode<'a, P: Into<Option<&'a str>>>(&self, mode: P);
 
     fn set_property_mtu(&self, mtu: u32);
 
@@ -374,7 +377,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         }
     }
 
-    fn set_property_band(&self, band: Option<&str>) {
+    fn set_property_band<'a, P: Into<Option<&'a str>>>(&self, band: P) {
+        let band = band.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -384,7 +388,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         }
     }
 
-    fn set_property_bssid(&self, bssid: Option<&str>) {
+    fn set_property_bssid<'a, P: Into<Option<&'a str>>>(&self, bssid: P) {
+        let bssid = bssid.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -404,7 +409,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         }
     }
 
-    fn set_property_cloned_mac_address(&self, cloned_mac_address: Option<&str>) {
+    fn set_property_cloned_mac_address<'a, P: Into<Option<&'a str>>>(&self, cloned_mac_address: P) {
+        let cloned_mac_address = cloned_mac_address.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -426,7 +432,11 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         }
     }
 
-    fn set_property_generate_mac_address_mask(&self, generate_mac_address_mask: Option<&str>) {
+    fn set_property_generate_mac_address_mask<'a, P: Into<Option<&'a str>>>(
+        &self,
+        generate_mac_address_mask: P,
+    ) {
+        let generate_mac_address_mask = generate_mac_address_mask.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -446,7 +456,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         }
     }
 
-    fn set_property_mac_address(&self, mac_address: Option<&str>) {
+    fn set_property_mac_address<'a, P: Into<Option<&'a str>>>(&self, mac_address: P) {
+        let mac_address = mac_address.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -476,7 +487,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         }
     }
 
-    fn set_property_mode(&self, mode: Option<&str>) {
+    fn set_property_mode<'a, P: Into<Option<&'a str>>>(&self, mode: P) {
+        let mode = mode.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,

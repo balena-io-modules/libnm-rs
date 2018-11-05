@@ -227,7 +227,7 @@ pub trait Setting8021xExt {
 
     fn set_property_altsubject_matches(&self, altsubject_matches: &[&str]);
 
-    fn set_property_anonymous_identity(&self, anonymous_identity: Option<&str>);
+    fn set_property_anonymous_identity<'a, P: Into<Option<&'a str>>>(&self, anonymous_identity: P);
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_auth_timeout(&self, auth_timeout: i32);
@@ -237,19 +237,22 @@ pub trait Setting8021xExt {
     fn set_property_ca_cert(&self, ca_cert: Option<&glib::Bytes>);
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn set_property_ca_cert_password(&self, ca_cert_password: Option<&str>);
+    fn set_property_ca_cert_password<'a, P: Into<Option<&'a str>>>(&self, ca_cert_password: P);
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_ca_cert_password_flags(&self, ca_cert_password_flags: SettingSecretFlags);
 
-    fn set_property_ca_path(&self, ca_path: Option<&str>);
+    fn set_property_ca_path<'a, P: Into<Option<&'a str>>>(&self, ca_path: P);
 
     fn get_property_client_cert(&self) -> Option<glib::Bytes>;
 
     fn set_property_client_cert(&self, client_cert: Option<&glib::Bytes>);
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn set_property_client_cert_password(&self, client_cert_password: Option<&str>);
+    fn set_property_client_cert_password<'a, P: Into<Option<&'a str>>>(
+        &self,
+        client_cert_password: P,
+    );
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_client_cert_password_flags(
@@ -257,17 +260,20 @@ pub trait Setting8021xExt {
         client_cert_password_flags: SettingSecretFlags,
     );
 
-    fn set_property_domain_suffix_match(&self, domain_suffix_match: Option<&str>);
+    fn set_property_domain_suffix_match<'a, P: Into<Option<&'a str>>>(
+        &self,
+        domain_suffix_match: P,
+    );
 
     fn get_property_eap(&self) -> Vec<String>;
 
     fn set_property_eap(&self, eap: &[&str]);
 
-    fn set_property_identity(&self, identity: Option<&str>);
+    fn set_property_identity<'a, P: Into<Option<&'a str>>>(&self, identity: P);
 
-    fn set_property_pac_file(&self, pac_file: Option<&str>);
+    fn set_property_pac_file<'a, P: Into<Option<&'a str>>>(&self, pac_file: P);
 
-    fn set_property_password(&self, password: Option<&str>);
+    fn set_property_password<'a, P: Into<Option<&'a str>>>(&self, password: P);
 
     fn set_property_password_flags(&self, password_flags: SettingSecretFlags);
 
@@ -278,26 +284,32 @@ pub trait Setting8021xExt {
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_phase1_auth_flags(&self, phase1_auth_flags: u32);
 
-    fn set_property_phase1_fast_provisioning(&self, phase1_fast_provisioning: Option<&str>);
+    fn set_property_phase1_fast_provisioning<'a, P: Into<Option<&'a str>>>(
+        &self,
+        phase1_fast_provisioning: P,
+    );
 
-    fn set_property_phase1_peaplabel(&self, phase1_peaplabel: Option<&str>);
+    fn set_property_phase1_peaplabel<'a, P: Into<Option<&'a str>>>(&self, phase1_peaplabel: P);
 
-    fn set_property_phase1_peapver(&self, phase1_peapver: Option<&str>);
+    fn set_property_phase1_peapver<'a, P: Into<Option<&'a str>>>(&self, phase1_peapver: P);
 
     fn get_property_phase2_altsubject_matches(&self) -> Vec<String>;
 
     fn set_property_phase2_altsubject_matches(&self, phase2_altsubject_matches: &[&str]);
 
-    fn set_property_phase2_auth(&self, phase2_auth: Option<&str>);
+    fn set_property_phase2_auth<'a, P: Into<Option<&'a str>>>(&self, phase2_auth: P);
 
-    fn set_property_phase2_autheap(&self, phase2_autheap: Option<&str>);
+    fn set_property_phase2_autheap<'a, P: Into<Option<&'a str>>>(&self, phase2_autheap: P);
 
     fn get_property_phase2_ca_cert(&self) -> Option<glib::Bytes>;
 
     fn set_property_phase2_ca_cert(&self, phase2_ca_cert: Option<&glib::Bytes>);
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn set_property_phase2_ca_cert_password(&self, phase2_ca_cert_password: Option<&str>);
+    fn set_property_phase2_ca_cert_password<'a, P: Into<Option<&'a str>>>(
+        &self,
+        phase2_ca_cert_password: P,
+    );
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_phase2_ca_cert_password_flags(
@@ -305,14 +317,17 @@ pub trait Setting8021xExt {
         phase2_ca_cert_password_flags: SettingSecretFlags,
     );
 
-    fn set_property_phase2_ca_path(&self, phase2_ca_path: Option<&str>);
+    fn set_property_phase2_ca_path<'a, P: Into<Option<&'a str>>>(&self, phase2_ca_path: P);
 
     fn get_property_phase2_client_cert(&self) -> Option<glib::Bytes>;
 
     fn set_property_phase2_client_cert(&self, phase2_client_cert: Option<&glib::Bytes>);
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn set_property_phase2_client_cert_password(&self, phase2_client_cert_password: Option<&str>);
+    fn set_property_phase2_client_cert_password<'a, P: Into<Option<&'a str>>>(
+        &self,
+        phase2_client_cert_password: P,
+    );
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_phase2_client_cert_password_flags(
@@ -320,22 +335,31 @@ pub trait Setting8021xExt {
         phase2_client_cert_password_flags: SettingSecretFlags,
     );
 
-    fn set_property_phase2_domain_suffix_match(&self, phase2_domain_suffix_match: Option<&str>);
+    fn set_property_phase2_domain_suffix_match<'a, P: Into<Option<&'a str>>>(
+        &self,
+        phase2_domain_suffix_match: P,
+    );
 
     fn get_property_phase2_private_key(&self) -> Option<glib::Bytes>;
 
     fn set_property_phase2_private_key(&self, phase2_private_key: Option<&glib::Bytes>);
 
-    fn set_property_phase2_private_key_password(&self, phase2_private_key_password: Option<&str>);
+    fn set_property_phase2_private_key_password<'a, P: Into<Option<&'a str>>>(
+        &self,
+        phase2_private_key_password: P,
+    );
 
     fn set_property_phase2_private_key_password_flags(
         &self,
         phase2_private_key_password_flags: SettingSecretFlags,
     );
 
-    fn set_property_phase2_subject_match(&self, phase2_subject_match: Option<&str>);
+    fn set_property_phase2_subject_match<'a, P: Into<Option<&'a str>>>(
+        &self,
+        phase2_subject_match: P,
+    );
 
-    fn set_property_pin(&self, pin: Option<&str>);
+    fn set_property_pin<'a, P: Into<Option<&'a str>>>(&self, pin: P);
 
     fn set_property_pin_flags(&self, pin_flags: SettingSecretFlags);
 
@@ -343,14 +367,17 @@ pub trait Setting8021xExt {
 
     fn set_property_private_key(&self, private_key: Option<&glib::Bytes>);
 
-    fn set_property_private_key_password(&self, private_key_password: Option<&str>);
+    fn set_property_private_key_password<'a, P: Into<Option<&'a str>>>(
+        &self,
+        private_key_password: P,
+    );
 
     fn set_property_private_key_password_flags(
         &self,
         private_key_password_flags: SettingSecretFlags,
     );
 
-    fn set_property_subject_match(&self, subject_match: Option<&str>);
+    fn set_property_subject_match<'a, P: Into<Option<&'a str>>>(&self, subject_match: P);
 
     fn set_property_system_ca_certs(&self, system_ca_certs: bool);
 
@@ -1178,7 +1205,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_anonymous_identity(&self, anonymous_identity: Option<&str>) {
+    fn set_property_anonymous_identity<'a, P: Into<Option<&'a str>>>(&self, anonymous_identity: P) {
+        let anonymous_identity = anonymous_identity.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1222,7 +1250,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     }
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn set_property_ca_cert_password(&self, ca_cert_password: Option<&str>) {
+    fn set_property_ca_cert_password<'a, P: Into<Option<&'a str>>>(&self, ca_cert_password: P) {
+        let ca_cert_password = ca_cert_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1243,7 +1272,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_ca_path(&self, ca_path: Option<&str>) {
+    fn set_property_ca_path<'a, P: Into<Option<&'a str>>>(&self, ca_path: P) {
+        let ca_path = ca_path.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1276,7 +1306,11 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     }
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn set_property_client_cert_password(&self, client_cert_password: Option<&str>) {
+    fn set_property_client_cert_password<'a, P: Into<Option<&'a str>>>(
+        &self,
+        client_cert_password: P,
+    ) {
+        let client_cert_password = client_cert_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1300,7 +1334,11 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_domain_suffix_match(&self, domain_suffix_match: Option<&str>) {
+    fn set_property_domain_suffix_match<'a, P: Into<Option<&'a str>>>(
+        &self,
+        domain_suffix_match: P,
+    ) {
+        let domain_suffix_match = domain_suffix_match.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1332,7 +1370,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_identity(&self, identity: Option<&str>) {
+    fn set_property_identity<'a, P: Into<Option<&'a str>>>(&self, identity: P) {
+        let identity = identity.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1342,7 +1381,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_pac_file(&self, pac_file: Option<&str>) {
+    fn set_property_pac_file<'a, P: Into<Option<&'a str>>>(&self, pac_file: P) {
+        let pac_file = pac_file.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1352,7 +1392,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_password(&self, password: Option<&str>) {
+    fn set_property_password<'a, P: Into<Option<&'a str>>>(&self, password: P) {
+        let password = password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1403,7 +1444,11 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_phase1_fast_provisioning(&self, phase1_fast_provisioning: Option<&str>) {
+    fn set_property_phase1_fast_provisioning<'a, P: Into<Option<&'a str>>>(
+        &self,
+        phase1_fast_provisioning: P,
+    ) {
+        let phase1_fast_provisioning = phase1_fast_provisioning.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1413,7 +1458,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_phase1_peaplabel(&self, phase1_peaplabel: Option<&str>) {
+    fn set_property_phase1_peaplabel<'a, P: Into<Option<&'a str>>>(&self, phase1_peaplabel: P) {
+        let phase1_peaplabel = phase1_peaplabel.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1423,7 +1469,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_phase1_peapver(&self, phase1_peapver: Option<&str>) {
+    fn set_property_phase1_peapver<'a, P: Into<Option<&'a str>>>(&self, phase1_peapver: P) {
+        let phase1_peapver = phase1_peapver.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1455,7 +1502,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_phase2_auth(&self, phase2_auth: Option<&str>) {
+    fn set_property_phase2_auth<'a, P: Into<Option<&'a str>>>(&self, phase2_auth: P) {
+        let phase2_auth = phase2_auth.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1465,7 +1513,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_phase2_autheap(&self, phase2_autheap: Option<&str>) {
+    fn set_property_phase2_autheap<'a, P: Into<Option<&'a str>>>(&self, phase2_autheap: P) {
+        let phase2_autheap = phase2_autheap.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1498,7 +1547,11 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     }
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn set_property_phase2_ca_cert_password(&self, phase2_ca_cert_password: Option<&str>) {
+    fn set_property_phase2_ca_cert_password<'a, P: Into<Option<&'a str>>>(
+        &self,
+        phase2_ca_cert_password: P,
+    ) {
+        let phase2_ca_cert_password = phase2_ca_cert_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1522,7 +1575,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_phase2_ca_path(&self, phase2_ca_path: Option<&str>) {
+    fn set_property_phase2_ca_path<'a, P: Into<Option<&'a str>>>(&self, phase2_ca_path: P) {
+        let phase2_ca_path = phase2_ca_path.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1555,7 +1609,11 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     }
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn set_property_phase2_client_cert_password(&self, phase2_client_cert_password: Option<&str>) {
+    fn set_property_phase2_client_cert_password<'a, P: Into<Option<&'a str>>>(
+        &self,
+        phase2_client_cert_password: P,
+    ) {
+        let phase2_client_cert_password = phase2_client_cert_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1581,7 +1639,11 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_phase2_domain_suffix_match(&self, phase2_domain_suffix_match: Option<&str>) {
+    fn set_property_phase2_domain_suffix_match<'a, P: Into<Option<&'a str>>>(
+        &self,
+        phase2_domain_suffix_match: P,
+    ) {
+        let phase2_domain_suffix_match = phase2_domain_suffix_match.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1613,7 +1675,11 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_phase2_private_key_password(&self, phase2_private_key_password: Option<&str>) {
+    fn set_property_phase2_private_key_password<'a, P: Into<Option<&'a str>>>(
+        &self,
+        phase2_private_key_password: P,
+    ) {
+        let phase2_private_key_password = phase2_private_key_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1638,7 +1704,11 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_phase2_subject_match(&self, phase2_subject_match: Option<&str>) {
+    fn set_property_phase2_subject_match<'a, P: Into<Option<&'a str>>>(
+        &self,
+        phase2_subject_match: P,
+    ) {
+        let phase2_subject_match = phase2_subject_match.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1648,7 +1718,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_pin(&self, pin: Option<&str>) {
+    fn set_property_pin<'a, P: Into<Option<&'a str>>>(&self, pin: P) {
+        let pin = pin.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1690,7 +1761,11 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_private_key_password(&self, private_key_password: Option<&str>) {
+    fn set_property_private_key_password<'a, P: Into<Option<&'a str>>>(
+        &self,
+        private_key_password: P,
+    ) {
+        let private_key_password = private_key_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
@@ -1713,7 +1788,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn set_property_subject_match(&self, subject_match: Option<&str>) {
+    fn set_property_subject_match<'a, P: Into<Option<&'a str>>>(&self, subject_match: P) {
+        let subject_match = subject_match.into();
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
