@@ -11,6 +11,7 @@ use glib::value::Value;
 use glib::StaticType;
 use glib::Type;
 use gobject_ffi;
+use std::fmt;
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 pub enum _80211Mode {
@@ -20,6 +21,22 @@ pub enum _80211Mode {
     Ap,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+impl fmt::Display for _80211Mode {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "_80211Mode::{}",
+            match *self {
+                _80211Mode::Unknown => "Unknown",
+                _80211Mode::Adhoc => "Adhoc",
+                _80211Mode::Infra => "Infra",
+                _80211Mode::Ap => "Ap",
+                _ => "Unknown",
+            }
+        )
+    }
 }
 
 #[doc(hidden)]
@@ -83,6 +100,23 @@ pub enum ActiveConnectionState {
     Deactivated,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+impl fmt::Display for ActiveConnectionState {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "ActiveConnectionState::{}",
+            match *self {
+                ActiveConnectionState::Unknown => "Unknown",
+                ActiveConnectionState::Activating => "Activating",
+                ActiveConnectionState::Activated => "Activated",
+                ActiveConnectionState::Deactivating => "Deactivating",
+                ActiveConnectionState::Deactivated => "Deactivated",
+                _ => "Unknown",
+            }
+        )
+    }
 }
 
 #[doc(hidden)]
@@ -159,6 +193,34 @@ pub enum ActiveConnectionStateReason {
     DeviceRemoved,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+impl fmt::Display for ActiveConnectionStateReason {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "ActiveConnectionStateReason::{}",
+            match *self {
+                ActiveConnectionStateReason::Unknown => "Unknown",
+                ActiveConnectionStateReason::None => "None",
+                ActiveConnectionStateReason::UserDisconnected => "UserDisconnected",
+                ActiveConnectionStateReason::DeviceDisconnected => "DeviceDisconnected",
+                ActiveConnectionStateReason::ServiceStopped => "ServiceStopped",
+                ActiveConnectionStateReason::IpConfigInvalid => "IpConfigInvalid",
+                ActiveConnectionStateReason::ConnectTimeout => "ConnectTimeout",
+                ActiveConnectionStateReason::ServiceStartTimeout => "ServiceStartTimeout",
+                ActiveConnectionStateReason::ServiceStartFailed => "ServiceStartFailed",
+                ActiveConnectionStateReason::NoSecrets => "NoSecrets",
+                ActiveConnectionStateReason::LoginFailed => "LoginFailed",
+                ActiveConnectionStateReason::ConnectionRemoved => "ConnectionRemoved",
+                ActiveConnectionStateReason::DependencyFailed => "DependencyFailed",
+                ActiveConnectionStateReason::DeviceRealizeFailed => "DeviceRealizeFailed",
+                ActiveConnectionStateReason::DeviceRemoved => "DeviceRemoved",
+                _ => "Unknown",
+            }
+        )
+    }
 }
 
 #[cfg(any(feature = "v1_8", feature = "dox"))]
@@ -278,6 +340,23 @@ pub enum ConnectivityState {
     __Unknown(i32),
 }
 
+impl fmt::Display for ConnectivityState {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "ConnectivityState::{}",
+            match *self {
+                ConnectivityState::Unknown => "Unknown",
+                ConnectivityState::None => "None",
+                ConnectivityState::Portal => "Portal",
+                ConnectivityState::Limited => "Limited",
+                ConnectivityState::Full => "Full",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
 #[doc(hidden)]
 impl ToGlib for ConnectivityState {
     type GlibType = ffi::NMConnectivityState;
@@ -349,6 +428,31 @@ pub enum DeviceState {
     Failed,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+impl fmt::Display for DeviceState {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "DeviceState::{}",
+            match *self {
+                DeviceState::Unknown => "Unknown",
+                DeviceState::Unmanaged => "Unmanaged",
+                DeviceState::Unavailable => "Unavailable",
+                DeviceState::Disconnected => "Disconnected",
+                DeviceState::Prepare => "Prepare",
+                DeviceState::Config => "Config",
+                DeviceState::NeedAuth => "NeedAuth",
+                DeviceState::IpConfig => "IpConfig",
+                DeviceState::IpCheck => "IpCheck",
+                DeviceState::Secondaries => "Secondaries",
+                DeviceState::Activated => "Activated",
+                DeviceState::Deactivating => "Deactivating",
+                DeviceState::Failed => "Failed",
+                _ => "Unknown",
+            }
+        )
+    }
 }
 
 #[doc(hidden)]
@@ -491,6 +595,84 @@ pub enum DeviceStateReason {
     IpMethodUnsupported,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+impl fmt::Display for DeviceStateReason {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "DeviceStateReason::{}",
+            match *self {
+                DeviceStateReason::None => "None",
+                DeviceStateReason::Unknown => "Unknown",
+                DeviceStateReason::NowManaged => "NowManaged",
+                DeviceStateReason::NowUnmanaged => "NowUnmanaged",
+                DeviceStateReason::ConfigFailed => "ConfigFailed",
+                DeviceStateReason::IpConfigUnavailable => "IpConfigUnavailable",
+                DeviceStateReason::IpConfigExpired => "IpConfigExpired",
+                DeviceStateReason::NoSecrets => "NoSecrets",
+                DeviceStateReason::SupplicantDisconnect => "SupplicantDisconnect",
+                DeviceStateReason::SupplicantConfigFailed => "SupplicantConfigFailed",
+                DeviceStateReason::SupplicantFailed => "SupplicantFailed",
+                DeviceStateReason::SupplicantTimeout => "SupplicantTimeout",
+                DeviceStateReason::PppStartFailed => "PppStartFailed",
+                DeviceStateReason::PppDisconnect => "PppDisconnect",
+                DeviceStateReason::PppFailed => "PppFailed",
+                DeviceStateReason::DhcpStartFailed => "DhcpStartFailed",
+                DeviceStateReason::DhcpError => "DhcpError",
+                DeviceStateReason::DhcpFailed => "DhcpFailed",
+                DeviceStateReason::SharedStartFailed => "SharedStartFailed",
+                DeviceStateReason::SharedFailed => "SharedFailed",
+                DeviceStateReason::AutoipStartFailed => "AutoipStartFailed",
+                DeviceStateReason::AutoipError => "AutoipError",
+                DeviceStateReason::AutoipFailed => "AutoipFailed",
+                DeviceStateReason::ModemBusy => "ModemBusy",
+                DeviceStateReason::ModemNoDialTone => "ModemNoDialTone",
+                DeviceStateReason::ModemNoCarrier => "ModemNoCarrier",
+                DeviceStateReason::ModemDialTimeout => "ModemDialTimeout",
+                DeviceStateReason::ModemDialFailed => "ModemDialFailed",
+                DeviceStateReason::ModemInitFailed => "ModemInitFailed",
+                DeviceStateReason::GsmApnFailed => "GsmApnFailed",
+                DeviceStateReason::GsmRegistrationNotSearching => "GsmRegistrationNotSearching",
+                DeviceStateReason::GsmRegistrationDenied => "GsmRegistrationDenied",
+                DeviceStateReason::GsmRegistrationTimeout => "GsmRegistrationTimeout",
+                DeviceStateReason::GsmRegistrationFailed => "GsmRegistrationFailed",
+                DeviceStateReason::GsmPinCheckFailed => "GsmPinCheckFailed",
+                DeviceStateReason::FirmwareMissing => "FirmwareMissing",
+                DeviceStateReason::Removed => "Removed",
+                DeviceStateReason::Sleeping => "Sleeping",
+                DeviceStateReason::ConnectionRemoved => "ConnectionRemoved",
+                DeviceStateReason::UserRequested => "UserRequested",
+                DeviceStateReason::Carrier => "Carrier",
+                DeviceStateReason::ConnectionAssumed => "ConnectionAssumed",
+                DeviceStateReason::SupplicantAvailable => "SupplicantAvailable",
+                DeviceStateReason::ModemNotFound => "ModemNotFound",
+                DeviceStateReason::BtFailed => "BtFailed",
+                DeviceStateReason::GsmSimNotInserted => "GsmSimNotInserted",
+                DeviceStateReason::GsmSimPinRequired => "GsmSimPinRequired",
+                DeviceStateReason::GsmSimPukRequired => "GsmSimPukRequired",
+                DeviceStateReason::GsmSimWrong => "GsmSimWrong",
+                DeviceStateReason::InfinibandMode => "InfinibandMode",
+                DeviceStateReason::DependencyFailed => "DependencyFailed",
+                DeviceStateReason::Br2684Failed => "Br2684Failed",
+                DeviceStateReason::ModemManagerUnavailable => "ModemManagerUnavailable",
+                DeviceStateReason::SsidNotFound => "SsidNotFound",
+                DeviceStateReason::SecondaryConnectionFailed => "SecondaryConnectionFailed",
+                DeviceStateReason::DcbFcoeFailed => "DcbFcoeFailed",
+                DeviceStateReason::TeamdControlFailed => "TeamdControlFailed",
+                DeviceStateReason::ModemFailed => "ModemFailed",
+                DeviceStateReason::ModemAvailable => "ModemAvailable",
+                DeviceStateReason::SimPinIncorrect => "SimPinIncorrect",
+                DeviceStateReason::NewActivation => "NewActivation",
+                DeviceStateReason::ParentChanged => "ParentChanged",
+                DeviceStateReason::ParentManagedChanged => "ParentManagedChanged",
+                DeviceStateReason::OvsdbFailed => "OvsdbFailed",
+                DeviceStateReason::IpAddressDuplicate => "IpAddressDuplicate",
+                DeviceStateReason::IpMethodUnsupported => "IpMethodUnsupported",
+                _ => "Unknown",
+            }
+        )
+    }
 }
 
 #[doc(hidden)]
@@ -738,6 +920,45 @@ pub enum DeviceType {
     __Unknown(i32),
 }
 
+impl fmt::Display for DeviceType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "DeviceType::{}",
+            match *self {
+                DeviceType::Unknown => "Unknown",
+                DeviceType::Ethernet => "Ethernet",
+                DeviceType::Wifi => "Wifi",
+                DeviceType::Unused1 => "Unused1",
+                DeviceType::Unused2 => "Unused2",
+                DeviceType::Bt => "Bt",
+                DeviceType::OlpcMesh => "OlpcMesh",
+                DeviceType::Wimax => "Wimax",
+                DeviceType::Modem => "Modem",
+                DeviceType::Infiniband => "Infiniband",
+                DeviceType::Bond => "Bond",
+                DeviceType::Vlan => "Vlan",
+                DeviceType::Adsl => "Adsl",
+                DeviceType::Bridge => "Bridge",
+                DeviceType::Generic => "Generic",
+                DeviceType::Team => "Team",
+                DeviceType::Tun => "Tun",
+                DeviceType::IpTunnel => "IpTunnel",
+                DeviceType::Macvlan => "Macvlan",
+                DeviceType::Vxlan => "Vxlan",
+                DeviceType::Veth => "Veth",
+                DeviceType::Macsec => "Macsec",
+                DeviceType::Dummy => "Dummy",
+                DeviceType::Ppp => "Ppp",
+                DeviceType::OvsInterface => "OvsInterface",
+                DeviceType::OvsPort => "OvsPort",
+                DeviceType::OvsBridge => "OvsBridge",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
 #[doc(hidden)]
 impl ToGlib for DeviceType {
     type GlibType = ffi::NMDeviceType;
@@ -847,6 +1068,23 @@ pub enum Metered {
     __Unknown(i32),
 }
 
+impl fmt::Display for Metered {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "Metered::{}",
+            match *self {
+                Metered::Unknown => "Unknown",
+                Metered::Yes => "Yes",
+                Metered::No => "No",
+                Metered::GuessYes => "GuessYes",
+                Metered::GuessNo => "GuessNo",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
 #[doc(hidden)]
 impl ToGlib for Metered {
     type GlibType = ffi::NMMetered;
@@ -911,6 +1149,22 @@ pub enum Setting8021xCKFormat {
     __Unknown(i32),
 }
 
+impl fmt::Display for Setting8021xCKFormat {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "Setting8021xCKFormat::{}",
+            match *self {
+                Setting8021xCKFormat::Unknown => "Unknown",
+                Setting8021xCKFormat::X509 => "X509",
+                Setting8021xCKFormat::RawKey => "RawKey",
+                Setting8021xCKFormat::Pkcs12 => "Pkcs12",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
 #[doc(hidden)]
 impl ToGlib for Setting8021xCKFormat {
     type GlibType = ffi::NMSetting8021xCKFormat;
@@ -971,6 +1225,22 @@ pub enum Setting8021xCKScheme {
     Pkcs11,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+impl fmt::Display for Setting8021xCKScheme {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "Setting8021xCKScheme::{}",
+            match *self {
+                Setting8021xCKScheme::Unknown => "Unknown",
+                Setting8021xCKScheme::Blob => "Blob",
+                Setting8021xCKScheme::Path => "Path",
+                Setting8021xCKScheme::Pkcs11 => "Pkcs11",
+                _ => "Unknown",
+            }
+        )
+    }
 }
 
 #[doc(hidden)]
@@ -1038,6 +1308,27 @@ pub enum SettingCompareFlags {
     IgnoreTimestamp,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+impl fmt::Display for SettingCompareFlags {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "SettingCompareFlags::{}",
+            match *self {
+                SettingCompareFlags::Exact => "Exact",
+                SettingCompareFlags::Fuzzy => "Fuzzy",
+                SettingCompareFlags::IgnoreId => "IgnoreId",
+                SettingCompareFlags::IgnoreSecrets => "IgnoreSecrets",
+                SettingCompareFlags::IgnoreAgentOwnedSecrets => "IgnoreAgentOwnedSecrets",
+                SettingCompareFlags::IgnoreNotSavedSecrets => "IgnoreNotSavedSecrets",
+                SettingCompareFlags::DiffResultWithDefault => "DiffResultWithDefault",
+                SettingCompareFlags::DiffResultNoDefault => "DiffResultNoDefault",
+                SettingCompareFlags::IgnoreTimestamp => "IgnoreTimestamp",
+                _ => "Unknown",
+            }
+        )
+    }
 }
 
 #[doc(hidden)]
@@ -1119,6 +1410,21 @@ pub enum SettingConnectionAutoconnectSlaves {
     __Unknown(i32),
 }
 
+impl fmt::Display for SettingConnectionAutoconnectSlaves {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "SettingConnectionAutoconnectSlaves::{}",
+            match *self {
+                SettingConnectionAutoconnectSlaves::Default => "Default",
+                SettingConnectionAutoconnectSlaves::No => "No",
+                SettingConnectionAutoconnectSlaves::Yes => "Yes",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
 #[doc(hidden)]
 impl ToGlib for SettingConnectionAutoconnectSlaves {
     type GlibType = ffi::NMSettingConnectionAutoconnectSlaves;
@@ -1184,6 +1490,21 @@ pub enum SettingConnectionLldp {
     __Unknown(i32),
 }
 
+impl fmt::Display for SettingConnectionLldp {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "SettingConnectionLldp::{}",
+            match *self {
+                SettingConnectionLldp::Default => "Default",
+                SettingConnectionLldp::Disable => "Disable",
+                SettingConnectionLldp::EnableRx => "EnableRx",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
 #[doc(hidden)]
 impl ToGlib for SettingConnectionLldp {
     type GlibType = ffi::NMSettingConnectionLldp;
@@ -1243,6 +1564,23 @@ pub enum SettingConnectionMdns {
     Yes,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+impl fmt::Display for SettingConnectionMdns {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "SettingConnectionMdns::{}",
+            match *self {
+                SettingConnectionMdns::Default => "Default",
+                SettingConnectionMdns::No => "No",
+                SettingConnectionMdns::Resolve => "Resolve",
+                SettingConnectionMdns::Yes => "Yes",
+                _ => "Unknown",
+            }
+        )
+    }
 }
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]
@@ -1311,6 +1649,20 @@ pub enum SettingIP6ConfigAddrGenMode {
     __Unknown(i32),
 }
 
+impl fmt::Display for SettingIP6ConfigAddrGenMode {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "SettingIP6ConfigAddrGenMode::{}",
+            match *self {
+                SettingIP6ConfigAddrGenMode::Eui64 => "Eui64",
+                SettingIP6ConfigAddrGenMode::StablePrivacy => "StablePrivacy",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
 #[doc(hidden)]
 impl ToGlib for SettingIP6ConfigAddrGenMode {
     type GlibType = ffi::NMSettingIP6ConfigAddrGenMode;
@@ -1369,6 +1721,22 @@ pub enum SettingIP6ConfigPrivacy {
     PreferTempAddr,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+impl fmt::Display for SettingIP6ConfigPrivacy {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "SettingIP6ConfigPrivacy::{}",
+            match *self {
+                SettingIP6ConfigPrivacy::Unknown => "Unknown",
+                SettingIP6ConfigPrivacy::Disabled => "Disabled",
+                SettingIP6ConfigPrivacy::PreferPublicAddr => "PreferPublicAddr",
+                SettingIP6ConfigPrivacy::PreferTempAddr => "PreferTempAddr",
+                _ => "Unknown",
+            }
+        )
+    }
 }
 
 #[doc(hidden)]
@@ -1436,6 +1804,21 @@ pub enum SettingMacRandomization {
     __Unknown(i32),
 }
 
+impl fmt::Display for SettingMacRandomization {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "SettingMacRandomization::{}",
+            match *self {
+                SettingMacRandomization::Default => "Default",
+                SettingMacRandomization::Never => "Never",
+                SettingMacRandomization::Always => "Always",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
 #[doc(hidden)]
 impl ToGlib for SettingMacRandomization {
     type GlibType = ffi::NMSettingMacRandomization;
@@ -1495,6 +1878,23 @@ pub enum SettingWirelessSecurityFils {
     Required,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+impl fmt::Display for SettingWirelessSecurityFils {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "SettingWirelessSecurityFils::{}",
+            match *self {
+                SettingWirelessSecurityFils::Default => "Default",
+                SettingWirelessSecurityFils::Disable => "Disable",
+                SettingWirelessSecurityFils::Optional => "Optional",
+                SettingWirelessSecurityFils::Required => "Required",
+                _ => "Unknown",
+            }
+        )
+    }
 }
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]
@@ -1569,6 +1969,22 @@ pub enum SettingWirelessSecurityPmf {
     __Unknown(i32),
 }
 
+impl fmt::Display for SettingWirelessSecurityPmf {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "SettingWirelessSecurityPmf::{}",
+            match *self {
+                SettingWirelessSecurityPmf::Default => "Default",
+                SettingWirelessSecurityPmf::Disable => "Disable",
+                SettingWirelessSecurityPmf::Optional => "Optional",
+                SettingWirelessSecurityPmf::Required => "Required",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
 #[doc(hidden)]
 impl ToGlib for SettingWirelessSecurityPmf {
     type GlibType = ffi::NMSettingWirelessSecurityPmf;
@@ -1631,6 +2047,24 @@ pub enum SettingWirelessSecurityWpsMethod {
     Pin,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+impl fmt::Display for SettingWirelessSecurityWpsMethod {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "SettingWirelessSecurityWpsMethod::{}",
+            match *self {
+                SettingWirelessSecurityWpsMethod::Default => "Default",
+                SettingWirelessSecurityWpsMethod::Disabled => "Disabled",
+                SettingWirelessSecurityWpsMethod::Auto => "Auto",
+                SettingWirelessSecurityWpsMethod::Pbc => "Pbc",
+                SettingWirelessSecurityWpsMethod::Pin => "Pin",
+                _ => "Unknown",
+            }
+        )
+    }
 }
 
 #[cfg(any(feature = "v1_10", feature = "dox"))]
@@ -1717,6 +2151,26 @@ pub enum State {
     __Unknown(i32),
 }
 
+impl fmt::Display for State {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "State::{}",
+            match *self {
+                State::Unknown => "Unknown",
+                State::Asleep => "Asleep",
+                State::Disconnected => "Disconnected",
+                State::Disconnecting => "Disconnecting",
+                State::Connecting => "Connecting",
+                State::ConnectedLocal => "ConnectedLocal",
+                State::ConnectedSite => "ConnectedSite",
+                State::ConnectedGlobal => "ConnectedGlobal",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
 #[doc(hidden)]
 impl ToGlib for State {
     type GlibType = ffi::NMState;
@@ -1792,6 +2246,27 @@ pub enum UtilsSecurityType {
     __Unknown(i32),
 }
 
+impl fmt::Display for UtilsSecurityType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "UtilsSecurityType::{}",
+            match *self {
+                UtilsSecurityType::Invalid => "Invalid",
+                UtilsSecurityType::None => "None",
+                UtilsSecurityType::StaticWep => "StaticWep",
+                UtilsSecurityType::Leap => "Leap",
+                UtilsSecurityType::DynamicWep => "DynamicWep",
+                UtilsSecurityType::WpaPsk => "WpaPsk",
+                UtilsSecurityType::WpaEnterprise => "WpaEnterprise",
+                UtilsSecurityType::Wpa2Psk => "Wpa2Psk",
+                UtilsSecurityType::Wpa2Enterprise => "Wpa2Enterprise",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
 #[doc(hidden)]
 impl ToGlib for UtilsSecurityType {
     type GlibType = ffi::NMUtilsSecurityType;
@@ -1861,6 +2336,21 @@ pub enum WepKeyType {
     Passphrase,
     #[doc(hidden)]
     __Unknown(i32),
+}
+
+impl fmt::Display for WepKeyType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "WepKeyType::{}",
+            match *self {
+                WepKeyType::Unknown => "Unknown",
+                WepKeyType::Key => "Key",
+                WepKeyType::Passphrase => "Passphrase",
+                _ => "Unknown",
+            }
+        )
+    }
 }
 
 #[doc(hidden)]

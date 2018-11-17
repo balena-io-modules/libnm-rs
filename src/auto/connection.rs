@@ -13,6 +13,7 @@ use glib_ffi;
 use gobject_ffi;
 use libc;
 use std::boxed::Box as Box_;
+use std::fmt;
 use std::mem;
 use std::mem::transmute;
 use std::ptr;
@@ -646,4 +647,10 @@ unsafe extern "C" fn secrets_updated_trampoline<P>(
         &Connection::from_glib_borrow(this).downcast_unchecked(),
         &String::from_glib_none(setting_name),
     )
+}
+
+impl fmt::Display for Connection {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Connection")
+    }
 }
