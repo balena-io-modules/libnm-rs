@@ -3,24 +3,21 @@
 // DO NOT EDIT
 
 use ffi;
-use glib;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 use glib::object::Downcast;
 use glib::object::IsA;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
-use glib::signal::connect;
+use glib::signal::connect_raw;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
 use glib_ffi;
-use gobject_ffi;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 use std::mem::transmute;
-use std::ptr;
 use Device;
 
 glib_wrapper! {
@@ -31,19 +28,19 @@ glib_wrapper! {
     }
 }
 
-pub trait DeviceDummyExt {
+pub trait DeviceDummyExt: 'static {
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn connect_property_hw_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<DeviceDummy> + IsA<glib::object::Object>> DeviceDummyExt for O {
+impl<O: IsA<DeviceDummy>> DeviceDummyExt for O {
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn connect_property_hw_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::hw-address",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::hw-address\0".as_ptr() as *const _,
                 transmute(notify_hw_address_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

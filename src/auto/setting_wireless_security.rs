@@ -3,21 +3,19 @@
 // DO NOT EDIT
 
 use ffi;
-use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib::StaticType;
 use glib::Value;
 use glib_ffi;
 use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
-use std::ptr;
 use Setting;
 use SettingSecretFlags;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
@@ -49,7 +47,7 @@ impl Default for SettingWirelessSecurity {
     }
 }
 
-pub trait SettingWirelessSecurityExt {
+pub trait SettingWirelessSecurityExt: 'static {
     fn add_group(&self, group: &str) -> bool;
 
     fn add_pairwise(&self, pairwise: &str) -> bool;
@@ -62,20 +60,20 @@ pub trait SettingWirelessSecurityExt {
 
     fn clear_protos(&self);
 
-    fn get_auth_alg(&self) -> Option<String>;
+    fn get_auth_alg(&self) -> Option<GString>;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_fils(&self) -> SettingWirelessSecurityFils;
 
-    fn get_group(&self, i: u32) -> Option<String>;
+    fn get_group(&self, i: u32) -> Option<GString>;
 
-    fn get_key_mgmt(&self) -> Option<String>;
+    fn get_key_mgmt(&self) -> Option<GString>;
 
-    fn get_leap_password(&self) -> Option<String>;
+    fn get_leap_password(&self) -> Option<GString>;
 
     fn get_leap_password_flags(&self) -> SettingSecretFlags;
 
-    fn get_leap_username(&self) -> Option<String>;
+    fn get_leap_username(&self) -> Option<GString>;
 
     fn get_num_groups(&self) -> u32;
 
@@ -83,17 +81,17 @@ pub trait SettingWirelessSecurityExt {
 
     fn get_num_protos(&self) -> u32;
 
-    fn get_pairwise(&self, i: u32) -> Option<String>;
+    fn get_pairwise(&self, i: u32) -> Option<GString>;
 
     fn get_pmf(&self) -> SettingWirelessSecurityPmf;
 
-    fn get_proto(&self, i: u32) -> Option<String>;
+    fn get_proto(&self, i: u32) -> Option<GString>;
 
-    fn get_psk(&self) -> Option<String>;
+    fn get_psk(&self) -> Option<GString>;
 
     fn get_psk_flags(&self) -> SettingSecretFlags;
 
-    fn get_wep_key(&self, idx: u32) -> Option<String>;
+    fn get_wep_key(&self, idx: u32) -> Option<GString>;
 
     fn get_wep_key_flags(&self) -> SettingSecretFlags;
 
@@ -148,19 +146,19 @@ pub trait SettingWirelessSecurityExt {
 
     fn set_property_wep_key_type(&self, wep_key_type: WepKeyType);
 
-    fn get_property_wep_key0(&self) -> Option<String>;
+    fn get_property_wep_key0(&self) -> Option<GString>;
 
     fn set_property_wep_key0<'a, P: Into<Option<&'a str>>>(&self, wep_key0: P);
 
-    fn get_property_wep_key1(&self) -> Option<String>;
+    fn get_property_wep_key1(&self) -> Option<GString>;
 
     fn set_property_wep_key1<'a, P: Into<Option<&'a str>>>(&self, wep_key1: P);
 
-    fn get_property_wep_key2(&self) -> Option<String>;
+    fn get_property_wep_key2(&self) -> Option<GString>;
 
     fn set_property_wep_key2<'a, P: Into<Option<&'a str>>>(&self, wep_key2: P);
 
-    fn get_property_wep_key3(&self) -> Option<String>;
+    fn get_property_wep_key3(&self) -> Option<GString>;
 
     fn set_property_wep_key3<'a, P: Into<Option<&'a str>>>(&self, wep_key3: P);
 
@@ -229,7 +227,7 @@ pub trait SettingWirelessSecurityExt {
     fn connect_property_wps_method_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWirelessSecurityExt for O {
+impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
     fn add_group(&self, group: &str) -> bool {
         unsafe {
             from_glib(ffi::nm_setting_wireless_security_add_group(
@@ -275,7 +273,7 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn get_auth_alg(&self) -> Option<String> {
+    fn get_auth_alg(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wireless_security_get_auth_alg(
                 self.to_glib_none().0,
@@ -292,7 +290,7 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn get_group(&self, i: u32) -> Option<String> {
+    fn get_group(&self, i: u32) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wireless_security_get_group(
                 self.to_glib_none().0,
@@ -301,7 +299,7 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn get_key_mgmt(&self) -> Option<String> {
+    fn get_key_mgmt(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wireless_security_get_key_mgmt(
                 self.to_glib_none().0,
@@ -309,7 +307,7 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn get_leap_password(&self) -> Option<String> {
+    fn get_leap_password(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wireless_security_get_leap_password(
                 self.to_glib_none().0,
@@ -325,7 +323,7 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn get_leap_username(&self) -> Option<String> {
+    fn get_leap_username(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wireless_security_get_leap_username(
                 self.to_glib_none().0,
@@ -345,7 +343,7 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         unsafe { ffi::nm_setting_wireless_security_get_num_protos(self.to_glib_none().0) }
     }
 
-    fn get_pairwise(&self, i: u32) -> Option<String> {
+    fn get_pairwise(&self, i: u32) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wireless_security_get_pairwise(
                 self.to_glib_none().0,
@@ -362,7 +360,7 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn get_proto(&self, i: u32) -> Option<String> {
+    fn get_proto(&self, i: u32) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wireless_security_get_proto(
                 self.to_glib_none().0,
@@ -371,7 +369,7 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn get_psk(&self) -> Option<String> {
+    fn get_psk(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wireless_security_get_psk(
                 self.to_glib_none().0,
@@ -387,7 +385,7 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         }
     }
 
-    fn get_wep_key(&self, idx: u32) -> Option<String> {
+    fn get_wep_key(&self, idx: u32) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wireless_security_get_wep_key(
                 self.to_glib_none().0,
@@ -484,8 +482,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         let auth_alg = auth_alg.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "auth-alg".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"auth-alg\0".as_ptr() as *const _,
                 Value::from(auth_alg).to_glib_none().0,
             );
         }
@@ -495,8 +493,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn set_property_fils(&self, fils: i32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "fils".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"fils\0".as_ptr() as *const _,
                 Value::from(&fils).to_glib_none().0,
             );
         }
@@ -505,8 +503,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn set_property_group(&self, group: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "group".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"group\0".as_ptr() as *const _,
                 Value::from(group).to_glib_none().0,
             );
         }
@@ -516,8 +514,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         let key_mgmt = key_mgmt.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "key-mgmt".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"key-mgmt\0".as_ptr() as *const _,
                 Value::from(key_mgmt).to_glib_none().0,
             );
         }
@@ -527,8 +525,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         let leap_password = leap_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "leap-password".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"leap-password\0".as_ptr() as *const _,
                 Value::from(leap_password).to_glib_none().0,
             );
         }
@@ -537,8 +535,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn set_property_leap_password_flags(&self, leap_password_flags: SettingSecretFlags) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "leap-password-flags".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"leap-password-flags\0".as_ptr() as *const _,
                 Value::from(&leap_password_flags).to_glib_none().0,
             );
         }
@@ -548,8 +546,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         let leap_username = leap_username.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "leap-username".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"leap-username\0".as_ptr() as *const _,
                 Value::from(leap_username).to_glib_none().0,
             );
         }
@@ -558,8 +556,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn set_property_pairwise(&self, pairwise: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "pairwise".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"pairwise\0".as_ptr() as *const _,
                 Value::from(pairwise).to_glib_none().0,
             );
         }
@@ -569,8 +567,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn set_property_pmf(&self, pmf: i32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "pmf".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"pmf\0".as_ptr() as *const _,
                 Value::from(&pmf).to_glib_none().0,
             );
         }
@@ -579,8 +577,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn set_property_proto(&self, proto: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "proto".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"proto\0".as_ptr() as *const _,
                 Value::from(proto).to_glib_none().0,
             );
         }
@@ -590,8 +588,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         let psk = psk.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "psk".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"psk\0".as_ptr() as *const _,
                 Value::from(psk).to_glib_none().0,
             );
         }
@@ -600,8 +598,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn set_property_psk_flags(&self, psk_flags: SettingSecretFlags) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "psk-flags".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"psk-flags\0".as_ptr() as *const _,
                 Value::from(&psk_flags).to_glib_none().0,
             );
         }
@@ -610,8 +608,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn set_property_wep_key_flags(&self, wep_key_flags: SettingSecretFlags) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "wep-key-flags".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wep-key-flags\0".as_ptr() as *const _,
                 Value::from(&wep_key_flags).to_glib_none().0,
             );
         }
@@ -620,19 +618,19 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn set_property_wep_key_type(&self, wep_key_type: WepKeyType) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "wep-key-type".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wep-key-type\0".as_ptr() as *const _,
                 Value::from(&wep_key_type).to_glib_none().0,
             );
         }
     }
 
-    fn get_property_wep_key0(&self) -> Option<String> {
+    fn get_property_wep_key0(&self) -> Option<GString> {
         unsafe {
-            let mut value = Value::from_type(<String as StaticType>::static_type());
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "wep-key0".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wep-key0\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -643,19 +641,19 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         let wep_key0 = wep_key0.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "wep-key0".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wep-key0\0".as_ptr() as *const _,
                 Value::from(wep_key0).to_glib_none().0,
             );
         }
     }
 
-    fn get_property_wep_key1(&self) -> Option<String> {
+    fn get_property_wep_key1(&self) -> Option<GString> {
         unsafe {
-            let mut value = Value::from_type(<String as StaticType>::static_type());
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "wep-key1".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wep-key1\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -666,19 +664,19 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         let wep_key1 = wep_key1.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "wep-key1".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wep-key1\0".as_ptr() as *const _,
                 Value::from(wep_key1).to_glib_none().0,
             );
         }
     }
 
-    fn get_property_wep_key2(&self) -> Option<String> {
+    fn get_property_wep_key2(&self) -> Option<GString> {
         unsafe {
-            let mut value = Value::from_type(<String as StaticType>::static_type());
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "wep-key2".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wep-key2\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -689,19 +687,19 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         let wep_key2 = wep_key2.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "wep-key2".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wep-key2\0".as_ptr() as *const _,
                 Value::from(wep_key2).to_glib_none().0,
             );
         }
     }
 
-    fn get_property_wep_key3(&self) -> Option<String> {
+    fn get_property_wep_key3(&self) -> Option<GString> {
         unsafe {
-            let mut value = Value::from_type(<String as StaticType>::static_type());
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "wep-key3".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wep-key3\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -712,8 +710,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
         let wep_key3 = wep_key3.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "wep-key3".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wep-key3\0".as_ptr() as *const _,
                 Value::from(wep_key3).to_glib_none().0,
             );
         }
@@ -722,8 +720,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn set_property_wep_tx_keyidx(&self, wep_tx_keyidx: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "wep-tx-keyidx".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wep-tx-keyidx\0".as_ptr() as *const _,
                 Value::from(&wep_tx_keyidx).to_glib_none().0,
             );
         }
@@ -733,8 +731,8 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn set_property_wps_method(&self, wps_method: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "wps-method".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wps-method\0".as_ptr() as *const _,
                 Value::from(&wps_method).to_glib_none().0,
             );
         }
@@ -743,9 +741,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn connect_property_auth_alg_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::auth-alg",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::auth-alg\0".as_ptr() as *const _,
                 transmute(notify_auth_alg_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -756,9 +754,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn connect_property_fils_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::fils",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::fils\0".as_ptr() as *const _,
                 transmute(notify_fils_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -768,9 +766,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn connect_property_group_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::group",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::group\0".as_ptr() as *const _,
                 transmute(notify_group_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -780,9 +778,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn connect_property_key_mgmt_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::key-mgmt",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::key-mgmt\0".as_ptr() as *const _,
                 transmute(notify_key_mgmt_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -795,9 +793,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::leap-password",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::leap-password\0".as_ptr() as *const _,
                 transmute(notify_leap_password_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -810,9 +808,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::leap-password-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::leap-password-flags\0".as_ptr() as *const _,
                 transmute(notify_leap_password_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -825,9 +823,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::leap-username",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::leap-username\0".as_ptr() as *const _,
                 transmute(notify_leap_username_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -837,9 +835,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn connect_property_pairwise_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::pairwise",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::pairwise\0".as_ptr() as *const _,
                 transmute(notify_pairwise_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -850,9 +848,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn connect_property_pmf_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::pmf",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::pmf\0".as_ptr() as *const _,
                 transmute(notify_pmf_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -862,9 +860,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn connect_property_proto_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::proto",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::proto\0".as_ptr() as *const _,
                 transmute(notify_proto_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -874,9 +872,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn connect_property_psk_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::psk",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::psk\0".as_ptr() as *const _,
                 transmute(notify_psk_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -886,9 +884,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn connect_property_psk_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::psk-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::psk-flags\0".as_ptr() as *const _,
                 transmute(notify_psk_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -901,9 +899,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wep-key-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::wep-key-flags\0".as_ptr() as *const _,
                 transmute(notify_wep_key_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -916,9 +914,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wep-key-type",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::wep-key-type\0".as_ptr() as *const _,
                 transmute(notify_wep_key_type_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -928,9 +926,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn connect_property_wep_key0_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wep-key0",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::wep-key0\0".as_ptr() as *const _,
                 transmute(notify_wep_key0_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -940,9 +938,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn connect_property_wep_key1_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wep-key1",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::wep-key1\0".as_ptr() as *const _,
                 transmute(notify_wep_key1_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -952,9 +950,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn connect_property_wep_key2_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wep-key2",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::wep-key2\0".as_ptr() as *const _,
                 transmute(notify_wep_key2_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -964,9 +962,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn connect_property_wep_key3_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wep-key3",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::wep-key3\0".as_ptr() as *const _,
                 transmute(notify_wep_key3_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -979,9 +977,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wep-tx-keyidx",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::wep-tx-keyidx\0".as_ptr() as *const _,
                 transmute(notify_wep_tx_keyidx_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -992,9 +990,9 @@ impl<O: IsA<SettingWirelessSecurity> + IsA<glib::object::Object>> SettingWireles
     fn connect_property_wps_method_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wps-method",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::wps-method\0".as_ptr() as *const _,
                 transmute(notify_wps_method_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

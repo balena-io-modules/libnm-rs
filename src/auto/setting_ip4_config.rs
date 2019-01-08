@@ -3,20 +3,18 @@
 // DO NOT EDIT
 
 use ffi;
-use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib::Value;
 use glib_ffi;
 use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
-use std::ptr;
 use Setting;
 use SettingIPConfig;
 
@@ -40,10 +38,10 @@ impl Default for SettingIP4Config {
     }
 }
 
-pub trait SettingIP4ConfigExt {
-    fn get_dhcp_client_id(&self) -> Option<String>;
+pub trait SettingIP4ConfigExt: 'static {
+    fn get_dhcp_client_id(&self) -> Option<GString>;
 
-    fn get_dhcp_fqdn(&self) -> Option<String>;
+    fn get_dhcp_fqdn(&self) -> Option<GString>;
 
     fn set_property_dhcp_client_id<'a, P: Into<Option<&'a str>>>(&self, dhcp_client_id: P);
 
@@ -57,8 +55,8 @@ pub trait SettingIP4ConfigExt {
     fn connect_property_dhcp_fqdn_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<SettingIP4Config> + IsA<glib::object::Object>> SettingIP4ConfigExt for O {
-    fn get_dhcp_client_id(&self) -> Option<String> {
+impl<O: IsA<SettingIP4Config>> SettingIP4ConfigExt for O {
+    fn get_dhcp_client_id(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_ip4_config_get_dhcp_client_id(
                 self.to_glib_none().0,
@@ -66,7 +64,7 @@ impl<O: IsA<SettingIP4Config> + IsA<glib::object::Object>> SettingIP4ConfigExt f
         }
     }
 
-    fn get_dhcp_fqdn(&self) -> Option<String> {
+    fn get_dhcp_fqdn(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_ip4_config_get_dhcp_fqdn(
                 self.to_glib_none().0,
@@ -78,8 +76,8 @@ impl<O: IsA<SettingIP4Config> + IsA<glib::object::Object>> SettingIP4ConfigExt f
         let dhcp_client_id = dhcp_client_id.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "dhcp-client-id".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"dhcp-client-id\0".as_ptr() as *const _,
                 Value::from(dhcp_client_id).to_glib_none().0,
             );
         }
@@ -89,8 +87,8 @@ impl<O: IsA<SettingIP4Config> + IsA<glib::object::Object>> SettingIP4ConfigExt f
         let dhcp_fqdn = dhcp_fqdn.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "dhcp-fqdn".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"dhcp-fqdn\0".as_ptr() as *const _,
                 Value::from(dhcp_fqdn).to_glib_none().0,
             );
         }
@@ -102,9 +100,9 @@ impl<O: IsA<SettingIP4Config> + IsA<glib::object::Object>> SettingIP4ConfigExt f
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dhcp-client-id",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dhcp-client-id\0".as_ptr() as *const _,
                 transmute(notify_dhcp_client_id_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -114,9 +112,9 @@ impl<O: IsA<SettingIP4Config> + IsA<glib::object::Object>> SettingIP4ConfigExt f
     fn connect_property_dhcp_fqdn_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dhcp-fqdn",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dhcp-fqdn\0".as_ptr() as *const _,
                 transmute(notify_dhcp_fqdn_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

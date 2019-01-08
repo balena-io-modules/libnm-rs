@@ -3,19 +3,18 @@
 // DO NOT EDIT
 
 use ffi;
-use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib::StaticType;
 use glib::Value;
 use glib_ffi;
 use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Setting;
@@ -41,7 +40,7 @@ impl Default for SettingWired {
     }
 }
 
-pub trait SettingWiredExt {
+pub trait SettingWiredExt: 'static {
     fn add_mac_blacklist_item(&self, mac: &str) -> bool;
 
     fn add_s390_option(&self, key: &str, value: &str) -> bool;
@@ -50,18 +49,18 @@ pub trait SettingWiredExt {
 
     fn get_auto_negotiate(&self) -> bool;
 
-    fn get_cloned_mac_address(&self) -> Option<String>;
+    fn get_cloned_mac_address(&self) -> Option<GString>;
 
-    fn get_duplex(&self) -> Option<String>;
+    fn get_duplex(&self) -> Option<GString>;
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
-    fn get_generate_mac_address_mask(&self) -> Option<String>;
+    fn get_generate_mac_address_mask(&self) -> Option<GString>;
 
-    fn get_mac_address(&self) -> Option<String>;
+    fn get_mac_address(&self) -> Option<GString>;
 
-    fn get_mac_address_blacklist(&self) -> Vec<String>;
+    fn get_mac_address_blacklist(&self) -> Vec<GString>;
 
-    fn get_mac_blacklist_item(&self, idx: u32) -> Option<String>;
+    fn get_mac_blacklist_item(&self, idx: u32) -> Option<GString>;
 
     fn get_mtu(&self) -> u32;
 
@@ -69,23 +68,23 @@ pub trait SettingWiredExt {
 
     fn get_num_s390_options(&self) -> u32;
 
-    fn get_port(&self) -> Option<String>;
+    fn get_port(&self) -> Option<GString>;
 
-    fn get_s390_nettype(&self) -> Option<String>;
+    fn get_s390_nettype(&self) -> Option<GString>;
 
-    fn get_s390_option(&self, idx: u32) -> Option<(String, String)>;
+    fn get_s390_option(&self, idx: u32) -> Option<(GString, GString)>;
 
-    fn get_s390_option_by_key(&self, key: &str) -> Option<String>;
+    fn get_s390_option_by_key(&self, key: &str) -> Option<GString>;
 
-    fn get_s390_subchannels(&self) -> Vec<String>;
+    fn get_s390_subchannels(&self) -> Vec<GString>;
 
     fn get_speed(&self) -> u32;
 
-    fn get_valid_s390_options(&self) -> Vec<String>;
+    fn get_valid_s390_options(&self) -> Vec<GString>;
 
     fn get_wake_on_lan(&self) -> SettingWiredWakeOnLan;
 
-    fn get_wake_on_lan_password(&self) -> Option<String>;
+    fn get_wake_on_lan_password(&self) -> Option<GString>;
 
     fn remove_mac_blacklist_item(&self, idx: u32);
 
@@ -99,7 +98,7 @@ pub trait SettingWiredExt {
 
     fn set_property_duplex<'a, P: Into<Option<&'a str>>>(&self, duplex: P);
 
-    fn get_property_generate_mac_address_mask(&self) -> Option<String>;
+    fn get_property_generate_mac_address_mask(&self) -> Option<GString>;
 
     fn set_property_generate_mac_address_mask<'a, P: Into<Option<&'a str>>>(
         &self,
@@ -180,7 +179,7 @@ pub trait SettingWiredExt {
     ) -> SignalHandlerId;
 }
 
-impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
+impl<O: IsA<SettingWired>> SettingWiredExt for O {
     fn add_mac_blacklist_item(&self, mac: &str) -> bool {
         unsafe {
             from_glib(ffi::nm_setting_wired_add_mac_blacklist_item(
@@ -214,7 +213,7 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    fn get_cloned_mac_address(&self) -> Option<String> {
+    fn get_cloned_mac_address(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wired_get_cloned_mac_address(
                 self.to_glib_none().0,
@@ -222,12 +221,12 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    fn get_duplex(&self) -> Option<String> {
+    fn get_duplex(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_wired_get_duplex(self.to_glib_none().0)) }
     }
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
-    fn get_generate_mac_address_mask(&self) -> Option<String> {
+    fn get_generate_mac_address_mask(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wired_get_generate_mac_address_mask(
                 self.to_glib_none().0,
@@ -235,11 +234,11 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    fn get_mac_address(&self) -> Option<String> {
+    fn get_mac_address(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_wired_get_mac_address(self.to_glib_none().0)) }
     }
 
-    fn get_mac_address_blacklist(&self) -> Vec<String> {
+    fn get_mac_address_blacklist(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(ffi::nm_setting_wired_get_mac_address_blacklist(
                 self.to_glib_none().0,
@@ -247,7 +246,7 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    fn get_mac_blacklist_item(&self, idx: u32) -> Option<String> {
+    fn get_mac_blacklist_item(&self, idx: u32) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wired_get_mac_blacklist_item(
                 self.to_glib_none().0,
@@ -268,11 +267,11 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         unsafe { ffi::nm_setting_wired_get_num_s390_options(self.to_glib_none().0) }
     }
 
-    fn get_port(&self) -> Option<String> {
+    fn get_port(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_wired_get_port(self.to_glib_none().0)) }
     }
 
-    fn get_s390_nettype(&self) -> Option<String> {
+    fn get_s390_nettype(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wired_get_s390_nettype(
                 self.to_glib_none().0,
@@ -280,7 +279,7 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    fn get_s390_option(&self, idx: u32) -> Option<(String, String)> {
+    fn get_s390_option(&self, idx: u32) -> Option<(GString, GString)> {
         unsafe {
             let mut out_key = ptr::null();
             let mut out_value = ptr::null();
@@ -298,7 +297,7 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    fn get_s390_option_by_key(&self, key: &str) -> Option<String> {
+    fn get_s390_option_by_key(&self, key: &str) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wired_get_s390_option_by_key(
                 self.to_glib_none().0,
@@ -307,7 +306,7 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         }
     }
 
-    fn get_s390_subchannels(&self) -> Vec<String> {
+    fn get_s390_subchannels(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(ffi::nm_setting_wired_get_s390_subchannels(
                 self.to_glib_none().0,
@@ -319,7 +318,7 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         unsafe { ffi::nm_setting_wired_get_speed(self.to_glib_none().0) }
     }
 
-    fn get_valid_s390_options(&self) -> Vec<String> {
+    fn get_valid_s390_options(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(ffi::nm_setting_wired_get_valid_s390_options(
                 self.to_glib_none().0,
@@ -331,7 +330,7 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         unsafe { from_glib(ffi::nm_setting_wired_get_wake_on_lan(self.to_glib_none().0)) }
     }
 
-    fn get_wake_on_lan_password(&self) -> Option<String> {
+    fn get_wake_on_lan_password(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wired_get_wake_on_lan_password(
                 self.to_glib_none().0,
@@ -366,8 +365,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     fn set_property_auto_negotiate(&self, auto_negotiate: bool) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "auto-negotiate".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"auto-negotiate\0".as_ptr() as *const _,
                 Value::from(&auto_negotiate).to_glib_none().0,
             );
         }
@@ -377,8 +376,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         let cloned_mac_address = cloned_mac_address.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "cloned-mac-address".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"cloned-mac-address\0".as_ptr() as *const _,
                 Value::from(cloned_mac_address).to_glib_none().0,
             );
         }
@@ -388,19 +387,19 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         let duplex = duplex.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "duplex".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"duplex\0".as_ptr() as *const _,
                 Value::from(duplex).to_glib_none().0,
             );
         }
     }
 
-    fn get_property_generate_mac_address_mask(&self) -> Option<String> {
+    fn get_property_generate_mac_address_mask(&self) -> Option<GString> {
         unsafe {
-            let mut value = Value::from_type(<String as StaticType>::static_type());
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "generate-mac-address-mask".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"generate-mac-address-mask\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -414,8 +413,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         let generate_mac_address_mask = generate_mac_address_mask.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "generate-mac-address-mask".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"generate-mac-address-mask\0".as_ptr() as *const _,
                 Value::from(generate_mac_address_mask).to_glib_none().0,
             );
         }
@@ -425,8 +424,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         let mac_address = mac_address.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "mac-address".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"mac-address\0".as_ptr() as *const _,
                 Value::from(mac_address).to_glib_none().0,
             );
         }
@@ -435,8 +434,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     fn set_property_mac_address_blacklist(&self, mac_address_blacklist: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "mac-address-blacklist".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"mac-address-blacklist\0".as_ptr() as *const _,
                 Value::from(mac_address_blacklist).to_glib_none().0,
             );
         }
@@ -445,8 +444,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     fn set_property_mtu(&self, mtu: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "mtu".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"mtu\0".as_ptr() as *const _,
                 Value::from(&mtu).to_glib_none().0,
             );
         }
@@ -456,8 +455,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         let port = port.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "port".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"port\0".as_ptr() as *const _,
                 Value::from(port).to_glib_none().0,
             );
         }
@@ -467,8 +466,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         let s390_nettype = s390_nettype.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "s390-nettype".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"s390-nettype\0".as_ptr() as *const _,
                 Value::from(s390_nettype).to_glib_none().0,
             );
         }
@@ -477,22 +476,22 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     //fn get_property_s390_options(&self) -> /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 } {
     //    unsafe {
     //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "s390-options".to_glib_none().0, value.to_glib_none_mut().0);
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"s390-options\0".as_ptr() as *const _, value.to_glib_none_mut().0);
     //        value.get().unwrap()
     //    }
     //}
 
     //fn set_property_s390_options(&self, s390_options: /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 }) {
     //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "s390-options".to_glib_none().0, Value::from(&s390_options).to_glib_none().0);
+    //        gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"s390-options\0".as_ptr() as *const _, Value::from(&s390_options).to_glib_none().0);
     //    }
     //}
 
     fn set_property_s390_subchannels(&self, s390_subchannels: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "s390-subchannels".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"s390-subchannels\0".as_ptr() as *const _,
                 Value::from(s390_subchannels).to_glib_none().0,
             );
         }
@@ -501,8 +500,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     fn set_property_speed(&self, speed: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "speed".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"speed\0".as_ptr() as *const _,
                 Value::from(&speed).to_glib_none().0,
             );
         }
@@ -511,8 +510,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     fn set_property_wake_on_lan(&self, wake_on_lan: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "wake-on-lan".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wake-on-lan\0".as_ptr() as *const _,
                 Value::from(&wake_on_lan).to_glib_none().0,
             );
         }
@@ -525,8 +524,8 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
         let wake_on_lan_password = wake_on_lan_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "wake-on-lan-password".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wake-on-lan-password\0".as_ptr() as *const _,
                 Value::from(wake_on_lan_password).to_glib_none().0,
             );
         }
@@ -538,9 +537,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::auto-negotiate",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::auto-negotiate\0".as_ptr() as *const _,
                 transmute(notify_auto_negotiate_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -553,9 +552,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::cloned-mac-address",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::cloned-mac-address\0".as_ptr() as *const _,
                 transmute(notify_cloned_mac_address_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -565,9 +564,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     fn connect_property_duplex_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::duplex",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::duplex\0".as_ptr() as *const _,
                 transmute(notify_duplex_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -580,9 +579,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::generate-mac-address-mask",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::generate-mac-address-mask\0".as_ptr() as *const _,
                 transmute(notify_generate_mac_address_mask_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -592,9 +591,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     fn connect_property_mac_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::mac-address",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::mac-address\0".as_ptr() as *const _,
                 transmute(notify_mac_address_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -607,9 +606,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::mac-address-blacklist",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::mac-address-blacklist\0".as_ptr() as *const _,
                 transmute(notify_mac_address_blacklist_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -619,9 +618,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     fn connect_property_mtu_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::mtu",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::mtu\0".as_ptr() as *const _,
                 transmute(notify_mtu_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -631,9 +630,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     fn connect_property_port_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::port",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::port\0".as_ptr() as *const _,
                 transmute(notify_port_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -646,9 +645,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::s390-nettype",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::s390-nettype\0".as_ptr() as *const _,
                 transmute(notify_s390_nettype_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -661,9 +660,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::s390-options",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::s390-options\0".as_ptr() as *const _,
                 transmute(notify_s390_options_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -676,9 +675,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::s390-subchannels",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::s390-subchannels\0".as_ptr() as *const _,
                 transmute(notify_s390_subchannels_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -688,9 +687,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     fn connect_property_speed_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::speed",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::speed\0".as_ptr() as *const _,
                 transmute(notify_speed_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -700,9 +699,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     fn connect_property_wake_on_lan_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wake-on-lan",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::wake-on-lan\0".as_ptr() as *const _,
                 transmute(notify_wake_on_lan_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -715,9 +714,9 @@ impl<O: IsA<SettingWired> + IsA<glib::object::Object>> SettingWiredExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wake-on-lan-password",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::wake-on-lan-password\0".as_ptr() as *const _,
                 transmute(notify_wake_on_lan_password_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

@@ -6,18 +6,17 @@ use ffi;
 use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib::StaticType;
 use glib::Value;
 use glib_ffi;
 use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
-use std::ptr;
 use Setting;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
 use Setting8021xAuthFlags;
@@ -49,7 +48,7 @@ impl Default for Setting8021x {
     }
 }
 
-pub trait Setting8021xExt {
+pub trait Setting8021xExt: 'static {
     fn add_altsubject_match(&self, altsubject_match: &str) -> bool;
 
     fn add_eap_method(&self, eap: &str) -> bool;
@@ -62,9 +61,9 @@ pub trait Setting8021xExt {
 
     fn clear_phase2_altsubject_matches(&self);
 
-    fn get_altsubject_match(&self, i: u32) -> Option<String>;
+    fn get_altsubject_match(&self, i: u32) -> Option<GString>;
 
-    fn get_anonymous_identity(&self) -> Option<String>;
+    fn get_anonymous_identity(&self) -> Option<GString>;
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_auth_timeout(&self) -> i32;
@@ -72,40 +71,40 @@ pub trait Setting8021xExt {
     fn get_ca_cert_blob(&self) -> Option<glib::Bytes>;
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn get_ca_cert_password(&self) -> Option<String>;
+    fn get_ca_cert_password(&self) -> Option<GString>;
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_ca_cert_password_flags(&self) -> SettingSecretFlags;
 
-    fn get_ca_cert_path(&self) -> Option<String>;
+    fn get_ca_cert_path(&self) -> Option<GString>;
 
     fn get_ca_cert_scheme(&self) -> Setting8021xCKScheme;
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_ca_cert_uri(&self) -> Option<String>;
+    fn get_ca_cert_uri(&self) -> Option<GString>;
 
-    fn get_ca_path(&self) -> Option<String>;
+    fn get_ca_path(&self) -> Option<GString>;
 
     fn get_client_cert_blob(&self) -> Option<glib::Bytes>;
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn get_client_cert_password(&self) -> Option<String>;
+    fn get_client_cert_password(&self) -> Option<GString>;
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_client_cert_password_flags(&self) -> SettingSecretFlags;
 
-    fn get_client_cert_path(&self) -> Option<String>;
+    fn get_client_cert_path(&self) -> Option<GString>;
 
     fn get_client_cert_scheme(&self) -> Setting8021xCKScheme;
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_client_cert_uri(&self) -> Option<String>;
+    fn get_client_cert_uri(&self) -> Option<GString>;
 
-    fn get_domain_suffix_match(&self) -> Option<String>;
+    fn get_domain_suffix_match(&self) -> Option<GString>;
 
-    fn get_eap_method(&self, i: u32) -> Option<String>;
+    fn get_eap_method(&self, i: u32) -> Option<GString>;
 
-    fn get_identity(&self) -> Option<String>;
+    fn get_identity(&self) -> Option<GString>;
 
     fn get_num_altsubject_matches(&self) -> u32;
 
@@ -113,9 +112,9 @@ pub trait Setting8021xExt {
 
     fn get_num_phase2_altsubject_matches(&self) -> u32;
 
-    fn get_pac_file(&self) -> Option<String>;
+    fn get_pac_file(&self) -> Option<GString>;
 
-    fn get_password(&self) -> Option<String>;
+    fn get_password(&self) -> Option<GString>;
 
     fn get_password_flags(&self) -> SettingSecretFlags;
 
@@ -126,70 +125,70 @@ pub trait Setting8021xExt {
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_phase1_auth_flags(&self) -> Setting8021xAuthFlags;
 
-    fn get_phase1_fast_provisioning(&self) -> Option<String>;
+    fn get_phase1_fast_provisioning(&self) -> Option<GString>;
 
-    fn get_phase1_peaplabel(&self) -> Option<String>;
+    fn get_phase1_peaplabel(&self) -> Option<GString>;
 
-    fn get_phase1_peapver(&self) -> Option<String>;
+    fn get_phase1_peapver(&self) -> Option<GString>;
 
-    fn get_phase2_altsubject_match(&self, i: u32) -> Option<String>;
+    fn get_phase2_altsubject_match(&self, i: u32) -> Option<GString>;
 
-    fn get_phase2_auth(&self) -> Option<String>;
+    fn get_phase2_auth(&self) -> Option<GString>;
 
-    fn get_phase2_autheap(&self) -> Option<String>;
+    fn get_phase2_autheap(&self) -> Option<GString>;
 
     fn get_phase2_ca_cert_blob(&self) -> Option<glib::Bytes>;
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn get_phase2_ca_cert_password(&self) -> Option<String>;
+    fn get_phase2_ca_cert_password(&self) -> Option<GString>;
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_phase2_ca_cert_password_flags(&self) -> SettingSecretFlags;
 
-    fn get_phase2_ca_cert_path(&self) -> Option<String>;
+    fn get_phase2_ca_cert_path(&self) -> Option<GString>;
 
     fn get_phase2_ca_cert_scheme(&self) -> Setting8021xCKScheme;
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_phase2_ca_cert_uri(&self) -> Option<String>;
+    fn get_phase2_ca_cert_uri(&self) -> Option<GString>;
 
-    fn get_phase2_ca_path(&self) -> Option<String>;
+    fn get_phase2_ca_path(&self) -> Option<GString>;
 
     fn get_phase2_client_cert_blob(&self) -> Option<glib::Bytes>;
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn get_phase2_client_cert_password(&self) -> Option<String>;
+    fn get_phase2_client_cert_password(&self) -> Option<GString>;
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_phase2_client_cert_password_flags(&self) -> SettingSecretFlags;
 
-    fn get_phase2_client_cert_path(&self) -> Option<String>;
+    fn get_phase2_client_cert_path(&self) -> Option<GString>;
 
     fn get_phase2_client_cert_scheme(&self) -> Setting8021xCKScheme;
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_phase2_client_cert_uri(&self) -> Option<String>;
+    fn get_phase2_client_cert_uri(&self) -> Option<GString>;
 
-    fn get_phase2_domain_suffix_match(&self) -> Option<String>;
+    fn get_phase2_domain_suffix_match(&self) -> Option<GString>;
 
     fn get_phase2_private_key_blob(&self) -> Option<glib::Bytes>;
 
     fn get_phase2_private_key_format(&self) -> Setting8021xCKFormat;
 
-    fn get_phase2_private_key_password(&self) -> Option<String>;
+    fn get_phase2_private_key_password(&self) -> Option<GString>;
 
     fn get_phase2_private_key_password_flags(&self) -> SettingSecretFlags;
 
-    fn get_phase2_private_key_path(&self) -> Option<String>;
+    fn get_phase2_private_key_path(&self) -> Option<GString>;
 
     fn get_phase2_private_key_scheme(&self) -> Setting8021xCKScheme;
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_phase2_private_key_uri(&self) -> Option<String>;
+    fn get_phase2_private_key_uri(&self) -> Option<GString>;
 
-    fn get_phase2_subject_match(&self) -> Option<String>;
+    fn get_phase2_subject_match(&self) -> Option<GString>;
 
-    fn get_pin(&self) -> Option<String>;
+    fn get_pin(&self) -> Option<GString>;
 
     fn get_pin_flags(&self) -> SettingSecretFlags;
 
@@ -197,18 +196,18 @@ pub trait Setting8021xExt {
 
     fn get_private_key_format(&self) -> Setting8021xCKFormat;
 
-    fn get_private_key_password(&self) -> Option<String>;
+    fn get_private_key_password(&self) -> Option<GString>;
 
     fn get_private_key_password_flags(&self) -> SettingSecretFlags;
 
-    fn get_private_key_path(&self) -> Option<String>;
+    fn get_private_key_path(&self) -> Option<GString>;
 
     fn get_private_key_scheme(&self) -> Setting8021xCKScheme;
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_private_key_uri(&self) -> Option<String>;
+    fn get_private_key_uri(&self) -> Option<GString>;
 
-    fn get_subject_match(&self) -> Option<String>;
+    fn get_subject_match(&self) -> Option<GString>;
 
     fn get_system_ca_certs(&self) -> bool;
 
@@ -224,7 +223,7 @@ pub trait Setting8021xExt {
 
     fn remove_phase2_altsubject_match_by_value(&self, phase2_altsubject_match: &str) -> bool;
 
-    fn get_property_altsubject_matches(&self) -> Vec<String>;
+    fn get_property_altsubject_matches(&self) -> Vec<GString>;
 
     fn set_property_altsubject_matches(&self, altsubject_matches: &[&str]);
 
@@ -266,7 +265,7 @@ pub trait Setting8021xExt {
         domain_suffix_match: P,
     );
 
-    fn get_property_eap(&self) -> Vec<String>;
+    fn get_property_eap(&self) -> Vec<GString>;
 
     fn set_property_eap(&self, eap: &[&str]);
 
@@ -294,7 +293,7 @@ pub trait Setting8021xExt {
 
     fn set_property_phase1_peapver<'a, P: Into<Option<&'a str>>>(&self, phase1_peapver: P);
 
-    fn get_property_phase2_altsubject_matches(&self) -> Vec<String>;
+    fn get_property_phase2_altsubject_matches(&self) -> Vec<GString>;
 
     fn set_property_phase2_altsubject_matches(&self, phase2_altsubject_matches: &[&str]);
 
@@ -576,7 +575,7 @@ pub trait Setting8021xExt {
     ) -> SignalHandlerId;
 }
 
-impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
+impl<O: IsA<Setting8021x>> Setting8021xExt for O {
     fn add_altsubject_match(&self, altsubject_match: &str) -> bool {
         unsafe {
             from_glib(ffi::nm_setting_802_1x_add_altsubject_match(
@@ -622,7 +621,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_altsubject_match(&self, i: u32) -> Option<String> {
+    fn get_altsubject_match(&self, i: u32) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_altsubject_match(
                 self.to_glib_none().0,
@@ -631,7 +630,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_anonymous_identity(&self) -> Option<String> {
+    fn get_anonymous_identity(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_anonymous_identity(
                 self.to_glib_none().0,
@@ -653,7 +652,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     }
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn get_ca_cert_password(&self) -> Option<String> {
+    fn get_ca_cert_password(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_ca_cert_password(
                 self.to_glib_none().0,
@@ -670,7 +669,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_ca_cert_path(&self) -> Option<String> {
+    fn get_ca_cert_path(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_ca_cert_path(
                 self.to_glib_none().0,
@@ -687,7 +686,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_ca_cert_uri(&self) -> Option<String> {
+    fn get_ca_cert_uri(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_ca_cert_uri(
                 self.to_glib_none().0,
@@ -695,7 +694,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_ca_path(&self) -> Option<String> {
+    fn get_ca_path(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_802_1x_get_ca_path(self.to_glib_none().0)) }
     }
 
@@ -708,7 +707,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     }
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn get_client_cert_password(&self) -> Option<String> {
+    fn get_client_cert_password(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_client_cert_password(
                 self.to_glib_none().0,
@@ -725,7 +724,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_client_cert_path(&self) -> Option<String> {
+    fn get_client_cert_path(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_client_cert_path(
                 self.to_glib_none().0,
@@ -742,7 +741,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_client_cert_uri(&self) -> Option<String> {
+    fn get_client_cert_uri(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_client_cert_uri(
                 self.to_glib_none().0,
@@ -750,7 +749,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_domain_suffix_match(&self) -> Option<String> {
+    fn get_domain_suffix_match(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_domain_suffix_match(
                 self.to_glib_none().0,
@@ -758,7 +757,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_eap_method(&self, i: u32) -> Option<String> {
+    fn get_eap_method(&self, i: u32) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_eap_method(
                 self.to_glib_none().0,
@@ -767,7 +766,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_identity(&self) -> Option<String> {
+    fn get_identity(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_802_1x_get_identity(self.to_glib_none().0)) }
     }
 
@@ -783,11 +782,11 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         unsafe { ffi::nm_setting_802_1x_get_num_phase2_altsubject_matches(self.to_glib_none().0) }
     }
 
-    fn get_pac_file(&self) -> Option<String> {
+    fn get_pac_file(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_802_1x_get_pac_file(self.to_glib_none().0)) }
     }
 
-    fn get_password(&self) -> Option<String> {
+    fn get_password(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_802_1x_get_password(self.to_glib_none().0)) }
     }
 
@@ -824,7 +823,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_phase1_fast_provisioning(&self) -> Option<String> {
+    fn get_phase1_fast_provisioning(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase1_fast_provisioning(
                 self.to_glib_none().0,
@@ -832,7 +831,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_phase1_peaplabel(&self) -> Option<String> {
+    fn get_phase1_peaplabel(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase1_peaplabel(
                 self.to_glib_none().0,
@@ -840,7 +839,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_phase1_peapver(&self) -> Option<String> {
+    fn get_phase1_peapver(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase1_peapver(
                 self.to_glib_none().0,
@@ -848,7 +847,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_phase2_altsubject_match(&self, i: u32) -> Option<String> {
+    fn get_phase2_altsubject_match(&self, i: u32) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_altsubject_match(
                 self.to_glib_none().0,
@@ -857,7 +856,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_phase2_auth(&self) -> Option<String> {
+    fn get_phase2_auth(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_auth(
                 self.to_glib_none().0,
@@ -865,7 +864,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_phase2_autheap(&self) -> Option<String> {
+    fn get_phase2_autheap(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_autheap(
                 self.to_glib_none().0,
@@ -882,7 +881,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     }
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn get_phase2_ca_cert_password(&self) -> Option<String> {
+    fn get_phase2_ca_cert_password(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_ca_cert_password(
                 self.to_glib_none().0,
@@ -899,7 +898,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_phase2_ca_cert_path(&self) -> Option<String> {
+    fn get_phase2_ca_cert_path(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_ca_cert_path(
                 self.to_glib_none().0,
@@ -916,7 +915,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_phase2_ca_cert_uri(&self) -> Option<String> {
+    fn get_phase2_ca_cert_uri(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_ca_cert_uri(
                 self.to_glib_none().0,
@@ -924,7 +923,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_phase2_ca_path(&self) -> Option<String> {
+    fn get_phase2_ca_path(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_ca_path(
                 self.to_glib_none().0,
@@ -941,7 +940,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     }
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
-    fn get_phase2_client_cert_password(&self) -> Option<String> {
+    fn get_phase2_client_cert_password(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_client_cert_password(
                 self.to_glib_none().0,
@@ -958,7 +957,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_phase2_client_cert_path(&self) -> Option<String> {
+    fn get_phase2_client_cert_path(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_client_cert_path(
                 self.to_glib_none().0,
@@ -975,7 +974,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_phase2_client_cert_uri(&self) -> Option<String> {
+    fn get_phase2_client_cert_uri(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_client_cert_uri(
                 self.to_glib_none().0,
@@ -983,7 +982,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_phase2_domain_suffix_match(&self) -> Option<String> {
+    fn get_phase2_domain_suffix_match(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_domain_suffix_match(
                 self.to_glib_none().0,
@@ -1007,7 +1006,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_phase2_private_key_password(&self) -> Option<String> {
+    fn get_phase2_private_key_password(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_private_key_password(
                 self.to_glib_none().0,
@@ -1023,7 +1022,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_phase2_private_key_path(&self) -> Option<String> {
+    fn get_phase2_private_key_path(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_private_key_path(
                 self.to_glib_none().0,
@@ -1040,7 +1039,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_phase2_private_key_uri(&self) -> Option<String> {
+    fn get_phase2_private_key_uri(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_private_key_uri(
                 self.to_glib_none().0,
@@ -1048,7 +1047,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_phase2_subject_match(&self) -> Option<String> {
+    fn get_phase2_subject_match(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_phase2_subject_match(
                 self.to_glib_none().0,
@@ -1056,7 +1055,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_pin(&self) -> Option<String> {
+    fn get_pin(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_802_1x_get_pin(self.to_glib_none().0)) }
     }
 
@@ -1080,7 +1079,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_private_key_password(&self) -> Option<String> {
+    fn get_private_key_password(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_private_key_password(
                 self.to_glib_none().0,
@@ -1096,7 +1095,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_private_key_path(&self) -> Option<String> {
+    fn get_private_key_path(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_private_key_path(
                 self.to_glib_none().0,
@@ -1113,7 +1112,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
-    fn get_private_key_uri(&self) -> Option<String> {
+    fn get_private_key_uri(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_private_key_uri(
                 self.to_glib_none().0,
@@ -1121,7 +1120,7 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_subject_match(&self) -> Option<String> {
+    fn get_subject_match(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_802_1x_get_subject_match(
                 self.to_glib_none().0,
@@ -1184,12 +1183,12 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         }
     }
 
-    fn get_property_altsubject_matches(&self) -> Vec<String> {
+    fn get_property_altsubject_matches(&self) -> Vec<GString> {
         unsafe {
-            let mut value = Value::from_type(<Vec<String> as StaticType>::static_type());
+            let mut value = Value::from_type(<Vec<GString> as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "altsubject-matches".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"altsubject-matches\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -1199,8 +1198,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_altsubject_matches(&self, altsubject_matches: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "altsubject-matches".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"altsubject-matches\0".as_ptr() as *const _,
                 Value::from(altsubject_matches).to_glib_none().0,
             );
         }
@@ -1210,8 +1209,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let anonymous_identity = anonymous_identity.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "anonymous-identity".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"anonymous-identity\0".as_ptr() as *const _,
                 Value::from(anonymous_identity).to_glib_none().0,
             );
         }
@@ -1221,8 +1220,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_auth_timeout(&self, auth_timeout: i32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "auth-timeout".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"auth-timeout\0".as_ptr() as *const _,
                 Value::from(&auth_timeout).to_glib_none().0,
             );
         }
@@ -1232,8 +1231,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         unsafe {
             let mut value = Value::from_type(<glib::Bytes as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "ca-cert".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"ca-cert\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -1243,8 +1242,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_ca_cert(&self, ca_cert: Option<&glib::Bytes>) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "ca-cert".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"ca-cert\0".as_ptr() as *const _,
                 Value::from(ca_cert).to_glib_none().0,
             );
         }
@@ -1255,8 +1254,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let ca_cert_password = ca_cert_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "ca-cert-password".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"ca-cert-password\0".as_ptr() as *const _,
                 Value::from(ca_cert_password).to_glib_none().0,
             );
         }
@@ -1266,8 +1265,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_ca_cert_password_flags(&self, ca_cert_password_flags: SettingSecretFlags) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "ca-cert-password-flags".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"ca-cert-password-flags\0".as_ptr() as *const _,
                 Value::from(&ca_cert_password_flags).to_glib_none().0,
             );
         }
@@ -1277,8 +1276,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let ca_path = ca_path.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "ca-path".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"ca-path\0".as_ptr() as *const _,
                 Value::from(ca_path).to_glib_none().0,
             );
         }
@@ -1288,8 +1287,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         unsafe {
             let mut value = Value::from_type(<glib::Bytes as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "client-cert".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"client-cert\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -1299,8 +1298,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_client_cert(&self, client_cert: Option<&glib::Bytes>) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "client-cert".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"client-cert\0".as_ptr() as *const _,
                 Value::from(client_cert).to_glib_none().0,
             );
         }
@@ -1314,8 +1313,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let client_cert_password = client_cert_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "client-cert-password".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"client-cert-password\0".as_ptr() as *const _,
                 Value::from(client_cert_password).to_glib_none().0,
             );
         }
@@ -1328,8 +1327,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "client-cert-password-flags".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"client-cert-password-flags\0".as_ptr() as *const _,
                 Value::from(&client_cert_password_flags).to_glib_none().0,
             );
         }
@@ -1342,19 +1341,19 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let domain_suffix_match = domain_suffix_match.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "domain-suffix-match".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"domain-suffix-match\0".as_ptr() as *const _,
                 Value::from(domain_suffix_match).to_glib_none().0,
             );
         }
     }
 
-    fn get_property_eap(&self) -> Vec<String> {
+    fn get_property_eap(&self) -> Vec<GString> {
         unsafe {
-            let mut value = Value::from_type(<Vec<String> as StaticType>::static_type());
+            let mut value = Value::from_type(<Vec<GString> as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "eap".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"eap\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -1364,8 +1363,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_eap(&self, eap: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "eap".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"eap\0".as_ptr() as *const _,
                 Value::from(eap).to_glib_none().0,
             );
         }
@@ -1375,8 +1374,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let identity = identity.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "identity".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"identity\0".as_ptr() as *const _,
                 Value::from(identity).to_glib_none().0,
             );
         }
@@ -1386,8 +1385,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let pac_file = pac_file.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "pac-file".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"pac-file\0".as_ptr() as *const _,
                 Value::from(pac_file).to_glib_none().0,
             );
         }
@@ -1397,8 +1396,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let password = password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "password".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"password\0".as_ptr() as *const _,
                 Value::from(password).to_glib_none().0,
             );
         }
@@ -1407,8 +1406,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_password_flags(&self, password_flags: SettingSecretFlags) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "password-flags".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"password-flags\0".as_ptr() as *const _,
                 Value::from(&password_flags).to_glib_none().0,
             );
         }
@@ -1417,8 +1416,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_password_raw(&self, password_raw: Option<&glib::Bytes>) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "password-raw".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"password-raw\0".as_ptr() as *const _,
                 Value::from(password_raw).to_glib_none().0,
             );
         }
@@ -1427,8 +1426,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_password_raw_flags(&self, password_raw_flags: SettingSecretFlags) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "password-raw-flags".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"password-raw-flags\0".as_ptr() as *const _,
                 Value::from(&password_raw_flags).to_glib_none().0,
             );
         }
@@ -1438,8 +1437,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_phase1_auth_flags(&self, phase1_auth_flags: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase1-auth-flags".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase1-auth-flags\0".as_ptr() as *const _,
                 Value::from(&phase1_auth_flags).to_glib_none().0,
             );
         }
@@ -1452,8 +1451,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let phase1_fast_provisioning = phase1_fast_provisioning.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase1-fast-provisioning".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase1-fast-provisioning\0".as_ptr() as *const _,
                 Value::from(phase1_fast_provisioning).to_glib_none().0,
             );
         }
@@ -1463,8 +1462,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let phase1_peaplabel = phase1_peaplabel.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase1-peaplabel".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase1-peaplabel\0".as_ptr() as *const _,
                 Value::from(phase1_peaplabel).to_glib_none().0,
             );
         }
@@ -1474,19 +1473,19 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let phase1_peapver = phase1_peapver.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase1-peapver".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase1-peapver\0".as_ptr() as *const _,
                 Value::from(phase1_peapver).to_glib_none().0,
             );
         }
     }
 
-    fn get_property_phase2_altsubject_matches(&self) -> Vec<String> {
+    fn get_property_phase2_altsubject_matches(&self) -> Vec<GString> {
         unsafe {
-            let mut value = Value::from_type(<Vec<String> as StaticType>::static_type());
+            let mut value = Value::from_type(<Vec<GString> as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "phase2-altsubject-matches".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-altsubject-matches\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -1496,8 +1495,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_phase2_altsubject_matches(&self, phase2_altsubject_matches: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-altsubject-matches".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-altsubject-matches\0".as_ptr() as *const _,
                 Value::from(phase2_altsubject_matches).to_glib_none().0,
             );
         }
@@ -1507,8 +1506,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let phase2_auth = phase2_auth.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-auth".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-auth\0".as_ptr() as *const _,
                 Value::from(phase2_auth).to_glib_none().0,
             );
         }
@@ -1518,8 +1517,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let phase2_autheap = phase2_autheap.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-autheap".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-autheap\0".as_ptr() as *const _,
                 Value::from(phase2_autheap).to_glib_none().0,
             );
         }
@@ -1529,8 +1528,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         unsafe {
             let mut value = Value::from_type(<glib::Bytes as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "phase2-ca-cert".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-ca-cert\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -1540,8 +1539,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_phase2_ca_cert(&self, phase2_ca_cert: Option<&glib::Bytes>) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-ca-cert".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-ca-cert\0".as_ptr() as *const _,
                 Value::from(phase2_ca_cert).to_glib_none().0,
             );
         }
@@ -1555,8 +1554,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let phase2_ca_cert_password = phase2_ca_cert_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-ca-cert-password".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-ca-cert-password\0".as_ptr() as *const _,
                 Value::from(phase2_ca_cert_password).to_glib_none().0,
             );
         }
@@ -1569,8 +1568,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-ca-cert-password-flags".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-ca-cert-password-flags\0".as_ptr() as *const _,
                 Value::from(&phase2_ca_cert_password_flags).to_glib_none().0,
             );
         }
@@ -1580,8 +1579,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let phase2_ca_path = phase2_ca_path.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-ca-path".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-ca-path\0".as_ptr() as *const _,
                 Value::from(phase2_ca_path).to_glib_none().0,
             );
         }
@@ -1591,8 +1590,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         unsafe {
             let mut value = Value::from_type(<glib::Bytes as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "phase2-client-cert".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-client-cert\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -1602,8 +1601,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_phase2_client_cert(&self, phase2_client_cert: Option<&glib::Bytes>) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-client-cert".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-client-cert\0".as_ptr() as *const _,
                 Value::from(phase2_client_cert).to_glib_none().0,
             );
         }
@@ -1617,8 +1616,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let phase2_client_cert_password = phase2_client_cert_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-client-cert-password".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-client-cert-password\0".as_ptr() as *const _,
                 Value::from(phase2_client_cert_password).to_glib_none().0,
             );
         }
@@ -1631,8 +1630,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-client-cert-password-flags".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-client-cert-password-flags\0".as_ptr() as *const _,
                 Value::from(&phase2_client_cert_password_flags)
                     .to_glib_none()
                     .0,
@@ -1647,8 +1646,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let phase2_domain_suffix_match = phase2_domain_suffix_match.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-domain-suffix-match".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-domain-suffix-match\0".as_ptr() as *const _,
                 Value::from(phase2_domain_suffix_match).to_glib_none().0,
             );
         }
@@ -1658,8 +1657,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         unsafe {
             let mut value = Value::from_type(<glib::Bytes as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "phase2-private-key".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-private-key\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -1669,8 +1668,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_phase2_private_key(&self, phase2_private_key: Option<&glib::Bytes>) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-private-key".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-private-key\0".as_ptr() as *const _,
                 Value::from(phase2_private_key).to_glib_none().0,
             );
         }
@@ -1683,8 +1682,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let phase2_private_key_password = phase2_private_key_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-private-key-password".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-private-key-password\0".as_ptr() as *const _,
                 Value::from(phase2_private_key_password).to_glib_none().0,
             );
         }
@@ -1696,8 +1695,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-private-key-password-flags".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-private-key-password-flags\0".as_ptr() as *const _,
                 Value::from(&phase2_private_key_password_flags)
                     .to_glib_none()
                     .0,
@@ -1712,8 +1711,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let phase2_subject_match = phase2_subject_match.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "phase2-subject-match".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"phase2-subject-match\0".as_ptr() as *const _,
                 Value::from(phase2_subject_match).to_glib_none().0,
             );
         }
@@ -1723,8 +1722,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let pin = pin.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "pin".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"pin\0".as_ptr() as *const _,
                 Value::from(pin).to_glib_none().0,
             );
         }
@@ -1733,8 +1732,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_pin_flags(&self, pin_flags: SettingSecretFlags) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "pin-flags".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"pin-flags\0".as_ptr() as *const _,
                 Value::from(&pin_flags).to_glib_none().0,
             );
         }
@@ -1744,8 +1743,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         unsafe {
             let mut value = Value::from_type(<glib::Bytes as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "private-key".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"private-key\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -1755,8 +1754,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_private_key(&self, private_key: Option<&glib::Bytes>) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "private-key".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"private-key\0".as_ptr() as *const _,
                 Value::from(private_key).to_glib_none().0,
             );
         }
@@ -1769,8 +1768,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let private_key_password = private_key_password.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "private-key-password".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"private-key-password\0".as_ptr() as *const _,
                 Value::from(private_key_password).to_glib_none().0,
             );
         }
@@ -1782,8 +1781,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "private-key-password-flags".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"private-key-password-flags\0".as_ptr() as *const _,
                 Value::from(&private_key_password_flags).to_glib_none().0,
             );
         }
@@ -1793,8 +1792,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
         let subject_match = subject_match.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "subject-match".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"subject-match\0".as_ptr() as *const _,
                 Value::from(subject_match).to_glib_none().0,
             );
         }
@@ -1803,8 +1802,8 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn set_property_system_ca_certs(&self, system_ca_certs: bool) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "system-ca-certs".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"system-ca-certs\0".as_ptr() as *const _,
                 Value::from(&system_ca_certs).to_glib_none().0,
             );
         }
@@ -1816,9 +1815,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::altsubject-matches",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::altsubject-matches\0".as_ptr() as *const _,
                 transmute(notify_altsubject_matches_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1831,9 +1830,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::anonymous-identity",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::anonymous-identity\0".as_ptr() as *const _,
                 transmute(notify_anonymous_identity_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1847,9 +1846,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::auth-timeout",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::auth-timeout\0".as_ptr() as *const _,
                 transmute(notify_auth_timeout_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1859,9 +1858,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn connect_property_ca_cert_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::ca-cert",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::ca-cert\0".as_ptr() as *const _,
                 transmute(notify_ca_cert_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1875,9 +1874,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::ca-cert-password",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::ca-cert-password\0".as_ptr() as *const _,
                 transmute(notify_ca_cert_password_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1891,9 +1890,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::ca-cert-password-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::ca-cert-password-flags\0".as_ptr() as *const _,
                 transmute(notify_ca_cert_password_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1903,9 +1902,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn connect_property_ca_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::ca-path",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::ca-path\0".as_ptr() as *const _,
                 transmute(notify_ca_path_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1915,9 +1914,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn connect_property_client_cert_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::client-cert",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::client-cert\0".as_ptr() as *const _,
                 transmute(notify_client_cert_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1931,9 +1930,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::client-cert-password",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::client-cert-password\0".as_ptr() as *const _,
                 transmute(notify_client_cert_password_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1947,9 +1946,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::client-cert-password-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::client-cert-password-flags\0".as_ptr() as *const _,
                 transmute(notify_client_cert_password_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1962,9 +1961,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::domain-suffix-match",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::domain-suffix-match\0".as_ptr() as *const _,
                 transmute(notify_domain_suffix_match_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1974,9 +1973,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn connect_property_eap_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::eap",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::eap\0".as_ptr() as *const _,
                 transmute(notify_eap_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1986,9 +1985,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn connect_property_identity_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::identity",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::identity\0".as_ptr() as *const _,
                 transmute(notify_identity_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1998,9 +1997,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn connect_property_pac_file_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::pac-file",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::pac-file\0".as_ptr() as *const _,
                 transmute(notify_pac_file_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2010,9 +2009,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn connect_property_password_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::password",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::password\0".as_ptr() as *const _,
                 transmute(notify_password_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2025,9 +2024,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::password-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::password-flags\0".as_ptr() as *const _,
                 transmute(notify_password_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2040,9 +2039,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::password-raw",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::password-raw\0".as_ptr() as *const _,
                 transmute(notify_password_raw_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2055,9 +2054,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::password-raw-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::password-raw-flags\0".as_ptr() as *const _,
                 transmute(notify_password_raw_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2071,9 +2070,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase1-auth-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase1-auth-flags\0".as_ptr() as *const _,
                 transmute(notify_phase1_auth_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2086,9 +2085,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase1-fast-provisioning",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase1-fast-provisioning\0".as_ptr() as *const _,
                 transmute(notify_phase1_fast_provisioning_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2101,9 +2100,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase1-peaplabel",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase1-peaplabel\0".as_ptr() as *const _,
                 transmute(notify_phase1_peaplabel_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2116,9 +2115,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase1-peapver",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase1-peapver\0".as_ptr() as *const _,
                 transmute(notify_phase1_peapver_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2131,9 +2130,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-altsubject-matches",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-altsubject-matches\0".as_ptr() as *const _,
                 transmute(notify_phase2_altsubject_matches_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2143,9 +2142,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn connect_property_phase2_auth_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-auth",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-auth\0".as_ptr() as *const _,
                 transmute(notify_phase2_auth_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2158,9 +2157,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-autheap",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-autheap\0".as_ptr() as *const _,
                 transmute(notify_phase2_autheap_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2173,9 +2172,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-ca-cert",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-ca-cert\0".as_ptr() as *const _,
                 transmute(notify_phase2_ca_cert_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2189,9 +2188,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-ca-cert-password",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-ca-cert-password\0".as_ptr() as *const _,
                 transmute(notify_phase2_ca_cert_password_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2205,9 +2204,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-ca-cert-password-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-ca-cert-password-flags\0".as_ptr() as *const _,
                 transmute(notify_phase2_ca_cert_password_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2220,9 +2219,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-ca-path",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-ca-path\0".as_ptr() as *const _,
                 transmute(notify_phase2_ca_path_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2235,9 +2234,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-client-cert",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-client-cert\0".as_ptr() as *const _,
                 transmute(notify_phase2_client_cert_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2251,9 +2250,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-client-cert-password",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-client-cert-password\0".as_ptr() as *const _,
                 transmute(notify_phase2_client_cert_password_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2267,9 +2266,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-client-cert-password-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-client-cert-password-flags\0".as_ptr() as *const _,
                 transmute(notify_phase2_client_cert_password_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2282,9 +2281,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-domain-suffix-match",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-domain-suffix-match\0".as_ptr() as *const _,
                 transmute(notify_phase2_domain_suffix_match_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2297,9 +2296,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-private-key",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-private-key\0".as_ptr() as *const _,
                 transmute(notify_phase2_private_key_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2312,9 +2311,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-private-key-password",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-private-key-password\0".as_ptr() as *const _,
                 transmute(notify_phase2_private_key_password_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2327,9 +2326,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-private-key-password-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-private-key-password-flags\0".as_ptr() as *const _,
                 transmute(notify_phase2_private_key_password_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2342,9 +2341,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::phase2-subject-match",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::phase2-subject-match\0".as_ptr() as *const _,
                 transmute(notify_phase2_subject_match_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2354,9 +2353,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn connect_property_pin_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::pin",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::pin\0".as_ptr() as *const _,
                 transmute(notify_pin_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2366,9 +2365,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn connect_property_pin_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::pin-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::pin-flags\0".as_ptr() as *const _,
                 transmute(notify_pin_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2378,9 +2377,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     fn connect_property_private_key_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::private-key",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::private-key\0".as_ptr() as *const _,
                 transmute(notify_private_key_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2393,9 +2392,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::private-key-password",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::private-key-password\0".as_ptr() as *const _,
                 transmute(notify_private_key_password_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2408,9 +2407,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::private-key-password-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::private-key-password-flags\0".as_ptr() as *const _,
                 transmute(notify_private_key_password_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2423,9 +2422,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::subject-match",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::subject-match\0".as_ptr() as *const _,
                 transmute(notify_subject_match_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -2438,9 +2437,9 @@ impl<O: IsA<Setting8021x> + IsA<glib::object::Object>> Setting8021xExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::system-ca-certs",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::system-ca-certs\0".as_ptr() as *const _,
                 transmute(notify_system_ca_certs_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

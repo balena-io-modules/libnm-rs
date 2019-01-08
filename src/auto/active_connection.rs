@@ -3,12 +3,12 @@
 // DO NOT EDIT
 
 use ffi;
-use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib::StaticType;
 use glib::Value;
 use glib_ffi;
@@ -16,9 +16,7 @@ use gobject_ffi;
 use libc;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
-use std::ptr;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 use ActivationStateFlags;
 use ActiveConnectionState;
@@ -37,10 +35,10 @@ glib_wrapper! {
     }
 }
 
-pub trait ActiveConnectionExt {
+pub trait ActiveConnectionExt: 'static {
     fn get_connection(&self) -> Option<RemoteConnection>;
 
-    fn get_connection_type(&self) -> Option<String>;
+    fn get_connection_type(&self) -> Option<GString>;
 
     fn get_default(&self) -> bool;
 
@@ -52,7 +50,7 @@ pub trait ActiveConnectionExt {
 
     fn get_dhcp6_config(&self) -> Option<DhcpConfig>;
 
-    fn get_id(&self) -> Option<String>;
+    fn get_id(&self) -> Option<GString>;
 
     fn get_ip4_config(&self) -> Option<IPConfig>;
 
@@ -60,7 +58,7 @@ pub trait ActiveConnectionExt {
 
     fn get_master(&self) -> Option<Device>;
 
-    fn get_specific_object_path(&self) -> Option<String>;
+    fn get_specific_object_path(&self) -> Option<GString>;
 
     fn get_state(&self) -> ActiveConnectionState;
 
@@ -70,11 +68,11 @@ pub trait ActiveConnectionExt {
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_state_reason(&self) -> ActiveConnectionStateReason;
 
-    fn get_uuid(&self) -> Option<String>;
+    fn get_uuid(&self) -> Option<GString>;
 
     fn get_vpn(&self) -> bool;
 
-    fn get_property_type(&self) -> Option<String>;
+    fn get_property_type(&self) -> Option<GString>;
 
     fn connect_state_changed<F: Fn(&Self, u32, u32) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -117,7 +115,7 @@ pub trait ActiveConnectionExt {
     fn connect_property_vpn_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt for O {
+impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
     fn get_connection(&self) -> Option<RemoteConnection> {
         unsafe {
             from_glib_none(ffi::nm_active_connection_get_connection(
@@ -126,7 +124,7 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
         }
     }
 
-    fn get_connection_type(&self) -> Option<String> {
+    fn get_connection_type(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_active_connection_get_connection_type(
                 self.to_glib_none().0,
@@ -166,7 +164,7 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
         }
     }
 
-    fn get_id(&self) -> Option<String> {
+    fn get_id(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_active_connection_get_id(self.to_glib_none().0)) }
     }
 
@@ -190,7 +188,7 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
         unsafe { from_glib_none(ffi::nm_active_connection_get_master(self.to_glib_none().0)) }
     }
 
-    fn get_specific_object_path(&self) -> Option<String> {
+    fn get_specific_object_path(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_active_connection_get_specific_object_path(
                 self.to_glib_none().0,
@@ -220,7 +218,7 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
         }
     }
 
-    fn get_uuid(&self) -> Option<String> {
+    fn get_uuid(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_active_connection_get_uuid(self.to_glib_none().0)) }
     }
 
@@ -228,12 +226,12 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
         unsafe { from_glib(ffi::nm_active_connection_get_vpn(self.to_glib_none().0)) }
     }
 
-    fn get_property_type(&self) -> Option<String> {
+    fn get_property_type(&self) -> Option<GString> {
         unsafe {
-            let mut value = Value::from_type(<String as StaticType>::static_type());
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "type".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"type\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -243,9 +241,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     fn connect_state_changed<F: Fn(&Self, u32, u32) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self, u32, u32) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "state-changed",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"state-changed\0".as_ptr() as *const _,
                 transmute(state_changed_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -255,9 +253,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     fn connect_property_connection_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::connection",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::connection\0".as_ptr() as *const _,
                 transmute(notify_connection_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -267,9 +265,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     fn connect_property_default_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::default",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::default\0".as_ptr() as *const _,
                 transmute(notify_default_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -279,9 +277,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     fn connect_property_default6_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::default6",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::default6\0".as_ptr() as *const _,
                 transmute(notify_default6_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -291,9 +289,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     fn connect_property_devices_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::devices",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::devices\0".as_ptr() as *const _,
                 transmute(notify_devices_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -306,9 +304,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dhcp4-config",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dhcp4-config\0".as_ptr() as *const _,
                 transmute(notify_dhcp4_config_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -321,9 +319,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dhcp6-config",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dhcp6-config\0".as_ptr() as *const _,
                 transmute(notify_dhcp6_config_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -333,9 +331,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     fn connect_property_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::id",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::id\0".as_ptr() as *const _,
                 transmute(notify_id_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -345,9 +343,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     fn connect_property_ip4_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::ip4-config",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::ip4-config\0".as_ptr() as *const _,
                 transmute(notify_ip4_config_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -357,9 +355,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     fn connect_property_ip6_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::ip6-config",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::ip6-config\0".as_ptr() as *const _,
                 transmute(notify_ip6_config_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -369,9 +367,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     fn connect_property_master_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::master",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::master\0".as_ptr() as *const _,
                 transmute(notify_master_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -384,9 +382,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::specific-object-path",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::specific-object-path\0".as_ptr() as *const _,
                 transmute(notify_specific_object_path_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -396,9 +394,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     fn connect_property_state_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::state",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::state\0".as_ptr() as *const _,
                 transmute(notify_state_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -409,9 +407,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     fn connect_property_state_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::state-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::state-flags\0".as_ptr() as *const _,
                 transmute(notify_state_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -421,9 +419,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     fn connect_property_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::type",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::type\0".as_ptr() as *const _,
                 transmute(notify_type_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -433,9 +431,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     fn connect_property_uuid_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::uuid",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::uuid\0".as_ptr() as *const _,
                 transmute(notify_uuid_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -445,9 +443,9 @@ impl<O: IsA<ActiveConnection> + IsA<glib::object::Object>> ActiveConnectionExt f
     fn connect_property_vpn_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::vpn",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::vpn\0".as_ptr() as *const _,
                 transmute(notify_vpn_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

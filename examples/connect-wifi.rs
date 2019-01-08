@@ -33,7 +33,8 @@ fn get_config() -> Config {
                 .value_name("interface")
                 .help("WiFi interface name")
                 .takes_value(true),
-        ).get_matches();
+        )
+        .get_matches();
 
     let interface: Option<String> = matches.value_of("interface").map(str::to_string);
 
@@ -167,9 +168,11 @@ fn main() {
                     _ => {}
                 }
             });
-        }).map_err(|(_con, e)| {
+        })
+        .map_err(|(_con, e)| {
             eprintln!("{:?}", e);
-        }).then(move |_| Ok(()));
+        })
+        .then(move |_| Ok(()));
 
     context.spawn_local(new_future);
 

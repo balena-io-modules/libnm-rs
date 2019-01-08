@@ -3,21 +3,19 @@
 // DO NOT EDIT
 
 use ffi;
-use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib::StaticType;
 use glib::Value;
 use glib_ffi;
 use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
-use std::ptr;
 use IPAddress;
 use IPRoute;
 use Setting;
@@ -30,7 +28,7 @@ glib_wrapper! {
     }
 }
 
-pub trait SettingIPConfigExt {
+pub trait SettingIPConfigExt: 'static {
     fn add_address(&self, address: &IPAddress) -> bool;
 
     fn add_dns(&self, dns: &str) -> bool;
@@ -55,22 +53,22 @@ pub trait SettingIPConfigExt {
 
     fn get_dad_timeout(&self) -> i32;
 
-    fn get_dhcp_hostname(&self) -> Option<String>;
+    fn get_dhcp_hostname(&self) -> Option<GString>;
 
     fn get_dhcp_send_hostname(&self) -> bool;
 
     fn get_dhcp_timeout(&self) -> i32;
 
-    fn get_dns(&self, idx: i32) -> Option<String>;
+    fn get_dns(&self, idx: i32) -> Option<GString>;
 
-    fn get_dns_option(&self, idx: u32) -> Option<String>;
+    fn get_dns_option(&self, idx: u32) -> Option<GString>;
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn get_dns_priority(&self) -> i32;
 
-    fn get_dns_search(&self, idx: i32) -> Option<String>;
+    fn get_dns_search(&self, idx: i32) -> Option<GString>;
 
-    fn get_gateway(&self) -> Option<String>;
+    fn get_gateway(&self) -> Option<GString>;
 
     fn get_ignore_auto_dns(&self) -> bool;
 
@@ -78,7 +76,7 @@ pub trait SettingIPConfigExt {
 
     fn get_may_fail(&self) -> bool;
 
-    fn get_method(&self) -> Option<String>;
+    fn get_method(&self) -> Option<GString>;
 
     fn get_never_default(&self) -> bool;
 
@@ -137,7 +135,7 @@ pub trait SettingIPConfigExt {
 
     fn set_property_dns(&self, dns: &[&str]);
 
-    fn get_property_dns_options(&self) -> Vec<String>;
+    fn get_property_dns_options(&self) -> Vec<GString>;
 
     fn set_property_dns_options(&self, dns_options: &[&str]);
 
@@ -224,7 +222,7 @@ pub trait SettingIPConfigExt {
     fn connect_property_routes_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for O {
+impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
     fn add_address(&self, address: &IPAddress) -> bool {
         unsafe {
             from_glib(ffi::nm_setting_ip_config_add_address(
@@ -313,7 +311,7 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
         unsafe { ffi::nm_setting_ip_config_get_dad_timeout(self.to_glib_none().0) }
     }
 
-    fn get_dhcp_hostname(&self) -> Option<String> {
+    fn get_dhcp_hostname(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_ip_config_get_dhcp_hostname(
                 self.to_glib_none().0,
@@ -333,7 +331,7 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
         unsafe { ffi::nm_setting_ip_config_get_dhcp_timeout(self.to_glib_none().0) }
     }
 
-    fn get_dns(&self, idx: i32) -> Option<String> {
+    fn get_dns(&self, idx: i32) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_ip_config_get_dns(
                 self.to_glib_none().0,
@@ -342,7 +340,7 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
         }
     }
 
-    fn get_dns_option(&self, idx: u32) -> Option<String> {
+    fn get_dns_option(&self, idx: u32) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_ip_config_get_dns_option(
                 self.to_glib_none().0,
@@ -356,7 +354,7 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
         unsafe { ffi::nm_setting_ip_config_get_dns_priority(self.to_glib_none().0) }
     }
 
-    fn get_dns_search(&self, idx: i32) -> Option<String> {
+    fn get_dns_search(&self, idx: i32) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_ip_config_get_dns_search(
                 self.to_glib_none().0,
@@ -365,7 +363,7 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
         }
     }
 
-    fn get_gateway(&self) -> Option<String> {
+    fn get_gateway(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_ip_config_get_gateway(self.to_glib_none().0)) }
     }
 
@@ -393,7 +391,7 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
         }
     }
 
-    fn get_method(&self) -> Option<String> {
+    fn get_method(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_ip_config_get_method(self.to_glib_none().0)) }
     }
 
@@ -533,22 +531,22 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     //fn get_property_addresses(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 137 } {
     //    unsafe {
     //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "addresses".to_glib_none().0, value.to_glib_none_mut().0);
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"addresses\0".as_ptr() as *const _, value.to_glib_none_mut().0);
     //        value.get().unwrap()
     //    }
     //}
 
     //fn set_property_addresses(&self, addresses: /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 137 }) {
     //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "addresses".to_glib_none().0, Value::from(&addresses).to_glib_none().0);
+    //        gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"addresses\0".as_ptr() as *const _, Value::from(&addresses).to_glib_none().0);
     //    }
     //}
 
     fn set_property_dad_timeout(&self, dad_timeout: i32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "dad-timeout".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"dad-timeout\0".as_ptr() as *const _,
                 Value::from(&dad_timeout).to_glib_none().0,
             );
         }
@@ -558,8 +556,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
         let dhcp_hostname = dhcp_hostname.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "dhcp-hostname".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"dhcp-hostname\0".as_ptr() as *const _,
                 Value::from(dhcp_hostname).to_glib_none().0,
             );
         }
@@ -568,8 +566,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn set_property_dhcp_send_hostname(&self, dhcp_send_hostname: bool) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "dhcp-send-hostname".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"dhcp-send-hostname\0".as_ptr() as *const _,
                 Value::from(&dhcp_send_hostname).to_glib_none().0,
             );
         }
@@ -578,8 +576,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn set_property_dhcp_timeout(&self, dhcp_timeout: i32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "dhcp-timeout".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"dhcp-timeout\0".as_ptr() as *const _,
                 Value::from(&dhcp_timeout).to_glib_none().0,
             );
         }
@@ -588,19 +586,19 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn set_property_dns(&self, dns: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "dns".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"dns\0".as_ptr() as *const _,
                 Value::from(dns).to_glib_none().0,
             );
         }
     }
 
-    fn get_property_dns_options(&self) -> Vec<String> {
+    fn get_property_dns_options(&self) -> Vec<GString> {
         unsafe {
-            let mut value = Value::from_type(<Vec<String> as StaticType>::static_type());
+            let mut value = Value::from_type(<Vec<GString> as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "dns-options".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"dns-options\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -610,8 +608,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn set_property_dns_options(&self, dns_options: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "dns-options".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"dns-options\0".as_ptr() as *const _,
                 Value::from(dns_options).to_glib_none().0,
             );
         }
@@ -621,8 +619,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn set_property_dns_priority(&self, dns_priority: i32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "dns-priority".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"dns-priority\0".as_ptr() as *const _,
                 Value::from(&dns_priority).to_glib_none().0,
             );
         }
@@ -631,8 +629,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn set_property_dns_search(&self, dns_search: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "dns-search".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"dns-search\0".as_ptr() as *const _,
                 Value::from(dns_search).to_glib_none().0,
             );
         }
@@ -642,8 +640,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
         let gateway = gateway.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "gateway".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"gateway\0".as_ptr() as *const _,
                 Value::from(gateway).to_glib_none().0,
             );
         }
@@ -652,8 +650,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn set_property_ignore_auto_dns(&self, ignore_auto_dns: bool) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "ignore-auto-dns".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"ignore-auto-dns\0".as_ptr() as *const _,
                 Value::from(&ignore_auto_dns).to_glib_none().0,
             );
         }
@@ -662,8 +660,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn set_property_ignore_auto_routes(&self, ignore_auto_routes: bool) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "ignore-auto-routes".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"ignore-auto-routes\0".as_ptr() as *const _,
                 Value::from(&ignore_auto_routes).to_glib_none().0,
             );
         }
@@ -672,8 +670,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn set_property_may_fail(&self, may_fail: bool) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "may-fail".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"may-fail\0".as_ptr() as *const _,
                 Value::from(&may_fail).to_glib_none().0,
             );
         }
@@ -683,8 +681,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
         let method = method.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "method".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"method\0".as_ptr() as *const _,
                 Value::from(method).to_glib_none().0,
             );
         }
@@ -693,8 +691,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn set_property_never_default(&self, never_default: bool) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "never-default".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"never-default\0".as_ptr() as *const _,
                 Value::from(&never_default).to_glib_none().0,
             );
         }
@@ -703,8 +701,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn set_property_route_metric(&self, route_metric: i64) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "route-metric".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"route-metric\0".as_ptr() as *const _,
                 Value::from(&route_metric).to_glib_none().0,
             );
         }
@@ -714,8 +712,8 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn set_property_route_table(&self, route_table: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "route-table".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"route-table\0".as_ptr() as *const _,
                 Value::from(&route_table).to_glib_none().0,
             );
         }
@@ -724,23 +722,23 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     //fn get_property_routes(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 138 } {
     //    unsafe {
     //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "routes".to_glib_none().0, value.to_glib_none_mut().0);
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"routes\0".as_ptr() as *const _, value.to_glib_none_mut().0);
     //        value.get().unwrap()
     //    }
     //}
 
     //fn set_property_routes(&self, routes: /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 138 }) {
     //    unsafe {
-    //        gobject_ffi::g_object_set_property(self.to_glib_none().0, "routes".to_glib_none().0, Value::from(&routes).to_glib_none().0);
+    //        gobject_ffi::g_object_set_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"routes\0".as_ptr() as *const _, Value::from(&routes).to_glib_none().0);
     //    }
     //}
 
     fn connect_property_addresses_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::addresses",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::addresses\0".as_ptr() as *const _,
                 transmute(notify_addresses_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -750,9 +748,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn connect_property_dad_timeout_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dad-timeout",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dad-timeout\0".as_ptr() as *const _,
                 transmute(notify_dad_timeout_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -765,9 +763,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dhcp-hostname",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dhcp-hostname\0".as_ptr() as *const _,
                 transmute(notify_dhcp_hostname_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -780,9 +778,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dhcp-send-hostname",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dhcp-send-hostname\0".as_ptr() as *const _,
                 transmute(notify_dhcp_send_hostname_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -795,9 +793,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dhcp-timeout",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dhcp-timeout\0".as_ptr() as *const _,
                 transmute(notify_dhcp_timeout_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -807,9 +805,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn connect_property_dns_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dns",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dns\0".as_ptr() as *const _,
                 transmute(notify_dns_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -819,9 +817,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn connect_property_dns_options_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dns-options",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dns-options\0".as_ptr() as *const _,
                 transmute(notify_dns_options_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -835,9 +833,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dns-priority",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dns-priority\0".as_ptr() as *const _,
                 transmute(notify_dns_priority_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -847,9 +845,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn connect_property_dns_search_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dns-search",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dns-search\0".as_ptr() as *const _,
                 transmute(notify_dns_search_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -859,9 +857,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn connect_property_gateway_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::gateway",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::gateway\0".as_ptr() as *const _,
                 transmute(notify_gateway_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -874,9 +872,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::ignore-auto-dns",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::ignore-auto-dns\0".as_ptr() as *const _,
                 transmute(notify_ignore_auto_dns_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -889,9 +887,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::ignore-auto-routes",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::ignore-auto-routes\0".as_ptr() as *const _,
                 transmute(notify_ignore_auto_routes_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -901,9 +899,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn connect_property_may_fail_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::may-fail",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::may-fail\0".as_ptr() as *const _,
                 transmute(notify_may_fail_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -913,9 +911,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn connect_property_method_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::method",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::method\0".as_ptr() as *const _,
                 transmute(notify_method_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -928,9 +926,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::never-default",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::never-default\0".as_ptr() as *const _,
                 transmute(notify_never_default_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -943,9 +941,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::route-metric",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::route-metric\0".as_ptr() as *const _,
                 transmute(notify_route_metric_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -956,9 +954,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn connect_property_route_table_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::route-table",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::route-table\0".as_ptr() as *const _,
                 transmute(notify_route_table_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -968,9 +966,9 @@ impl<O: IsA<SettingIPConfig> + IsA<glib::object::Object>> SettingIPConfigExt for
     fn connect_property_routes_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::routes",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::routes\0".as_ptr() as *const _,
                 transmute(notify_routes_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

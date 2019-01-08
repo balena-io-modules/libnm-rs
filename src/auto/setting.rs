@@ -6,14 +6,13 @@ use ffi;
 use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib_ffi;
-use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Connection;
@@ -35,7 +34,7 @@ impl Setting {
     }
 }
 
-pub trait SettingExt {
+pub trait SettingExt: 'static {
     fn compare<P: IsA<Setting>>(&self, b: &P, flags: SettingCompareFlags) -> bool;
 
     //fn diff<P: IsA<Setting>>(&self, b: &P, flags: SettingCompareFlags, invert_results: bool, results: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }) -> bool;
@@ -46,11 +45,11 @@ pub trait SettingExt {
 
     fn get_dbus_property_type(&self, property_name: &str) -> Option<glib::VariantType>;
 
-    fn get_name(&self) -> Option<String>;
+    fn get_name(&self) -> Option<GString>;
 
     fn set_secret_flags(&self, secret_name: &str, flags: SettingSecretFlags) -> Result<(), Error>;
 
-    fn to_string(&self) -> String;
+    fn to_string(&self) -> GString;
 
     fn verify<'a, P: IsA<Connection> + 'a, Q: Into<Option<&'a P>>>(
         &self,
@@ -65,7 +64,7 @@ pub trait SettingExt {
     fn connect_property_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<Setting> + IsA<glib::object::Object>> SettingExt for O {
+impl<O: IsA<Setting>> SettingExt for O {
     fn compare<P: IsA<Setting>>(&self, b: &P, flags: SettingCompareFlags) -> bool {
         unsafe {
             from_glib(ffi::nm_setting_compare(
@@ -97,7 +96,7 @@ impl<O: IsA<Setting> + IsA<glib::object::Object>> SettingExt for O {
         }
     }
 
-    fn get_name(&self) -> Option<String> {
+    fn get_name(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_get_name(self.to_glib_none().0)) }
     }
 
@@ -118,7 +117,7 @@ impl<O: IsA<Setting> + IsA<glib::object::Object>> SettingExt for O {
         }
     }
 
-    fn to_string(&self) -> String {
+    fn to_string(&self) -> GString {
         unsafe { from_glib_full(ffi::nm_setting_to_string(self.to_glib_none().0)) }
     }
 
@@ -159,9 +158,9 @@ impl<O: IsA<Setting> + IsA<glib::object::Object>> SettingExt for O {
     fn connect_property_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::name",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::name\0".as_ptr() as *const _,
                 transmute(notify_name_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

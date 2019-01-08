@@ -34,21 +34,24 @@ fn get_config() -> Config {
                 .value_name("ssid")
                 .help(&format!("Access point SSID (default: {})", DEFAULT_SSID))
                 .takes_value(true),
-        ).arg(
+        )
+        .arg(
             Arg::with_name("password")
                 .short("p")
                 .long("password")
                 .value_name("password")
                 .help("Access point password (default: none)")
                 .takes_value(true),
-        ).arg(
+        )
+        .arg(
             Arg::with_name("interface")
                 .short("i")
                 .long("interface")
                 .value_name("interface")
                 .help("WiFi interface name")
                 .takes_value(true),
-        ).get_matches();
+        )
+        .get_matches();
 
     let ssid: String = matches
         .value_of("ssid")
@@ -81,7 +84,7 @@ fn main() {
     s_connection.set_property_type(Some(&SETTING_WIRELESS_SETTING_NAME as &str));
     s_connection.set_property_id(Some(&config.ssid as &str));
     s_connection.set_property_autoconnect(false);
-    s_connection.set_property_interface_name(device.get_iface().as_ref().map(String::as_str));
+    s_connection.set_property_interface_name(device.get_iface().as_ref().map(glib::GString::as_str));
 
     let s_wireless = SettingWireless::new();
     s_wireless.set_property_ssid(Some(&(config.ssid.as_bytes().into())));
@@ -132,9 +135,11 @@ fn main() {
                     _ => {}
                 }
             });
-        }).map_err(|(_con, e)| {
+        })
+        .map_err(|(_con, e)| {
             eprintln!("{:?}", e);
-        }).then(move |_| Ok(()));
+        })
+        .then(move |_| Ok(()));
 
     context.spawn_local(new_future);
 

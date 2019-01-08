@@ -10,14 +10,15 @@ use gio_ffi;
 use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use glib::GString;
 use glib_ffi;
 use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use Connection;
@@ -35,7 +36,7 @@ glib_wrapper! {
     }
 }
 
-pub trait RemoteConnectionExt: Sized {
+pub trait RemoteConnectionExt: 'static {
     fn commit_changes<'a, P: Into<Option<&'a gio::Cancellable>>>(
         &self,
         save_to_disk: bool,
@@ -57,7 +58,9 @@ pub trait RemoteConnectionExt: Sized {
     fn commit_changes_async_future(
         &self,
         save_to_disk: bool,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone;
 
     fn delete<'a, P: Into<Option<&'a gio::Cancellable>>>(
         &self,
@@ -77,10 +80,12 @@ pub trait RemoteConnectionExt: Sized {
     #[cfg(feature = "futures")]
     fn delete_async_future(
         &self,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
-    fn get_filename(&self) -> Option<String>;
+    fn get_filename(&self) -> Option<GString>;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_flags(&self) -> SettingsConnectionFlags;
@@ -106,7 +111,9 @@ pub trait RemoteConnectionExt: Sized {
     fn get_secrets_async_future(
         &self,
         setting_name: &str,
-    ) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>>;
+    ) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone;
 
     fn get_unsaved(&self) -> bool;
 
@@ -127,7 +134,9 @@ pub trait RemoteConnectionExt: Sized {
     #[cfg(feature = "futures")]
     fn save_async_future(
         &self,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn update2<
@@ -159,7 +168,9 @@ pub trait RemoteConnectionExt: Sized {
         settings: P,
         flags: SettingsUpdate2Flags,
         args: Q,
-    ) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>>;
+    ) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn connect_property_filename_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -172,9 +183,7 @@ pub trait RemoteConnectionExt: Sized {
     fn connect_property_visible_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> RemoteConnectionExt
-    for O
-{
+impl<O: IsA<RemoteConnection>> RemoteConnectionExt for O {
     fn commit_changes<'a, P: Into<Option<&'a gio::Cancellable>>>(
         &self,
         save_to_disk: bool,
@@ -248,7 +257,10 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
     fn commit_changes_async_future(
         &self,
         save_to_disk: bool,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -328,7 +340,10 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
     #[cfg(feature = "futures")]
     fn delete_async_future(
         &self,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -347,7 +362,7 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
     }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
-    fn get_filename(&self) -> Option<String> {
+    fn get_filename(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_remote_connection_get_filename(
                 self.to_glib_none().0,
@@ -433,7 +448,10 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
     fn get_secrets_async_future(
         &self,
         setting_name: &str,
-    ) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -519,7 +537,10 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
     #[cfg(feature = "futures")]
     fn save_async_future(
         &self,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -605,7 +626,10 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
         settings: P,
         flags: SettingsUpdate2Flags,
         args: Q,
-    ) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, glib::Variant), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -637,9 +661,9 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
     fn connect_property_filename_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::filename",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::filename\0".as_ptr() as *const _,
                 transmute(notify_filename_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -650,9 +674,9 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
     fn connect_property_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::flags\0".as_ptr() as *const _,
                 transmute(notify_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -662,9 +686,9 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
     fn connect_property_unsaved_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::unsaved",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::unsaved\0".as_ptr() as *const _,
                 transmute(notify_unsaved_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -674,9 +698,9 @@ impl<O: IsA<RemoteConnection> + IsA<glib::object::Object> + Clone + 'static> Rem
     fn connect_property_visible_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::visible",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::visible\0".as_ptr() as *const _,
                 transmute(notify_visible_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

@@ -9,18 +9,17 @@ use ffi;
 use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib::StaticType;
 use glib::Value;
 use glib_ffi;
 use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
-use std::ptr;
 use Connection;
 
 glib_wrapper! {
@@ -31,12 +30,12 @@ glib_wrapper! {
     }
 }
 
-pub trait AccessPointExt {
+pub trait AccessPointExt: 'static {
     fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool;
 
     //fn filter_connections(&self, connections: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 4 }) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 4 };
 
-    fn get_bssid(&self) -> Option<String>;
+    fn get_bssid(&self) -> Option<GString>;
 
     fn get_flags(&self) -> _80211ApFlags;
 
@@ -57,7 +56,7 @@ pub trait AccessPointExt {
     fn get_wpa_flags(&self) -> _80211ApSecurityFlags;
 
     #[deprecated]
-    fn get_property_hw_address(&self) -> Option<String>;
+    fn get_property_hw_address(&self) -> Option<GString>;
 
     fn connect_property_bssid_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -83,7 +82,7 @@ pub trait AccessPointExt {
     fn connect_property_wpa_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
+impl<O: IsA<AccessPoint>> AccessPointExt for O {
     fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool {
         unsafe {
             from_glib(ffi::nm_access_point_connection_valid(
@@ -97,7 +96,7 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
     //    unsafe { TODO: call ffi::nm_access_point_filter_connections() }
     //}
 
-    fn get_bssid(&self) -> Option<String> {
+    fn get_bssid(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_access_point_get_bssid(self.to_glib_none().0)) }
     }
 
@@ -137,12 +136,12 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
         unsafe { from_glib(ffi::nm_access_point_get_wpa_flags(self.to_glib_none().0)) }
     }
 
-    fn get_property_hw_address(&self) -> Option<String> {
+    fn get_property_hw_address(&self) -> Option<GString> {
         unsafe {
-            let mut value = Value::from_type(<String as StaticType>::static_type());
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "hw-address".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"hw-address\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -152,9 +151,9 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
     fn connect_property_bssid_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::bssid",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::bssid\0".as_ptr() as *const _,
                 transmute(notify_bssid_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -164,9 +163,9 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
     fn connect_property_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::flags\0".as_ptr() as *const _,
                 transmute(notify_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -176,9 +175,9 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
     fn connect_property_frequency_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::frequency",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::frequency\0".as_ptr() as *const _,
                 transmute(notify_frequency_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -188,9 +187,9 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
     fn connect_property_hw_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::hw-address",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::hw-address\0".as_ptr() as *const _,
                 transmute(notify_hw_address_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -200,9 +199,9 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
     fn connect_property_last_seen_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::last-seen",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::last-seen\0".as_ptr() as *const _,
                 transmute(notify_last_seen_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -212,9 +211,9 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
     fn connect_property_max_bitrate_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::max-bitrate",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::max-bitrate\0".as_ptr() as *const _,
                 transmute(notify_max_bitrate_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -224,9 +223,9 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
     fn connect_property_mode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::mode",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::mode\0".as_ptr() as *const _,
                 transmute(notify_mode_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -236,9 +235,9 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
     fn connect_property_rsn_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::rsn-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::rsn-flags\0".as_ptr() as *const _,
                 transmute(notify_rsn_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -248,9 +247,9 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
     fn connect_property_ssid_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::ssid",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::ssid\0".as_ptr() as *const _,
                 transmute(notify_ssid_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -260,9 +259,9 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
     fn connect_property_strength_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::strength",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::strength\0".as_ptr() as *const _,
                 transmute(notify_strength_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -272,9 +271,9 @@ impl<O: IsA<AccessPoint> + IsA<glib::object::Object>> AccessPointExt for O {
     fn connect_property_wpa_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wpa-flags",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::wpa-flags\0".as_ptr() as *const _,
                 transmute(notify_wpa_flags_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

@@ -7,6 +7,7 @@ use _80211ApSecurityFlags;
 use ffi;
 use glib;
 use glib::translate::*;
+use glib::GString;
 use std::mem;
 use std::ptr;
 use DeviceWifiCapabilities;
@@ -26,7 +27,7 @@ pub fn utils_ap_mode_security_valid(
     }
 }
 
-pub fn utils_bond_mode_int_to_string(mode: i32) -> Option<String> {
+pub fn utils_bond_mode_int_to_string(mode: i32) -> Option<GString> {
     unsafe { from_glib_none(ffi::nm_utils_bond_mode_int_to_string(mode)) }
 }
 
@@ -46,7 +47,7 @@ pub fn utils_check_virtual_device_compatibility(
     }
 }
 
-pub fn utils_enum_from_str(type_: glib::types::Type, str: &str) -> Option<(i32, String)> {
+pub fn utils_enum_from_str(type_: glib::types::Type, str: &str) -> Option<(i32, GString)> {
     unsafe {
         let mut out_value = mem::uninitialized();
         let mut err_token = ptr::null_mut();
@@ -64,7 +65,7 @@ pub fn utils_enum_from_str(type_: glib::types::Type, str: &str) -> Option<(i32, 
     }
 }
 
-pub fn utils_enum_get_values(type_: glib::types::Type, from: i32, to: i32) -> Vec<String> {
+pub fn utils_enum_get_values(type_: glib::types::Type, from: i32, to: i32) -> Vec<GString> {
     unsafe {
         FromGlibPtrContainer::from_glib_container(ffi::nm_utils_enum_get_values(
             type_.to_glib(),
@@ -74,11 +75,11 @@ pub fn utils_enum_get_values(type_: glib::types::Type, from: i32, to: i32) -> Ve
     }
 }
 
-pub fn utils_enum_to_str(type_: glib::types::Type, value: i32) -> Option<String> {
+pub fn utils_enum_to_str(type_: glib::types::Type, value: i32) -> Option<GString> {
     unsafe { from_glib_full(ffi::nm_utils_enum_to_str(type_.to_glib(), value)) }
 }
 
-pub fn utils_escape_ssid(ssid: &[u8]) -> Option<String> {
+pub fn utils_escape_ssid(ssid: &[u8]) -> Option<GString> {
     let len = ssid.len() as usize;
     unsafe { from_glib_none(ffi::nm_utils_escape_ssid(ssid.to_glib_none().0, len)) }
 }
@@ -106,11 +107,11 @@ pub fn utils_file_is_private_key(filename: &str) -> Option<bool> {
     }
 }
 
-//pub fn utils_file_search_in_paths<'a, 'b, P: Into<Option<&'a str>>, Q: Into<Option<&'b str>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>>(progname: &str, try_first: P, paths: Q, file_test_flags: glib::FileTest, predicate: /*Unknown conversion*//*Unimplemented*/UtilsFileSearchInPathsPredicate, user_data: R) -> Result<String, Error> {
+//pub fn utils_file_search_in_paths<'a, 'b, P: Into<Option<&'a str>>, Q: Into<Option<&'b str>>, R: Into<Option</*Unimplemented*/Fundamental: Pointer>>>(progname: &str, try_first: P, paths: Q, file_test_flags: glib::FileTest, predicate: /*Unknown conversion*//*Unimplemented*/UtilsFileSearchInPathsPredicate, user_data: R) -> Result<GString, Error> {
 //    unsafe { TODO: call ffi::nm_utils_file_search_in_paths() }
 //}
 
-//pub fn utils_format_variant_attributes(attributes: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 25 }/TypeId { ns_id: 0, id: 25 }, attr_separator: glib::Char, key_value_separator: glib::Char) -> Option<String> {
+//pub fn utils_format_variant_attributes(attributes: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 25 }/TypeId { ns_id: 0, id: 25 }, attr_separator: glib::Char, key_value_separator: glib::Char) -> Option<GString> {
 //    unsafe { TODO: call ffi::nm_utils_format_variant_attributes() }
 //}
 
@@ -126,7 +127,7 @@ pub fn utils_hexstr2bin(hex: &str) -> Option<glib::Bytes> {
 //    unsafe { TODO: call ffi::nm_utils_hwaddr_atoba() }
 //}
 
-pub fn utils_hwaddr_canonical(asc: &str) -> Option<String> {
+pub fn utils_hwaddr_canonical(asc: &str) -> Option<GString> {
     let length = asc.len() as isize;
     unsafe { from_glib_full(ffi::nm_utils_hwaddr_canonical(asc.to_glib_none().0, length)) }
 }
@@ -149,7 +150,7 @@ pub fn utils_iface_valid_name(name: &str) -> bool {
     unsafe { from_glib(ffi::nm_utils_iface_valid_name(name.to_glib_none().0)) }
 }
 
-//pub fn utils_ip4_addresses_from_variant(value: &glib::Variant) -> (/*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 137 }, String) {
+//pub fn utils_ip4_addresses_from_variant(value: &glib::Variant) -> (/*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 137 }, GString) {
 //    unsafe { TODO: call ffi::nm_utils_ip4_addresses_from_variant() }
 //}
 
@@ -177,7 +178,7 @@ pub fn utils_ip4_prefix_to_netmask(prefix: u32) -> u32 {
 //    unsafe { TODO: call ffi::nm_utils_ip4_routes_to_variant() }
 //}
 
-//pub fn utils_ip6_addresses_from_variant(value: &glib::Variant) -> (/*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 137 }, String) {
+//pub fn utils_ip6_addresses_from_variant(value: &glib::Variant) -> (/*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 137 }, GString) {
 //    unsafe { TODO: call ffi::nm_utils_ip6_addresses_from_variant() }
 //}
 
@@ -288,7 +289,7 @@ pub fn utils_security_valid(
     }
 }
 
-pub fn utils_ssid_to_utf8(ssid: &[u8]) -> Option<String> {
+pub fn utils_ssid_to_utf8(ssid: &[u8]) -> Option<GString> {
     let len = ssid.len() as usize;
     unsafe { from_glib_full(ffi::nm_utils_ssid_to_utf8(ssid.to_glib_none().0, len)) }
 }
@@ -299,7 +300,7 @@ pub fn utils_ssid_to_utf8(ssid: &[u8]) -> Option<String> {
 //}
 
 //#[cfg(any(feature = "v1_12", feature = "dox"))]
-//pub fn utils_tc_action_to_str(action: /*Ignored*/&TCAction) -> Result<String, Error> {
+//pub fn utils_tc_action_to_str(action: /*Ignored*/&TCAction) -> Result<GString, Error> {
 //    unsafe { TODO: call ffi::nm_utils_tc_action_to_str() }
 //}
 
@@ -309,7 +310,7 @@ pub fn utils_ssid_to_utf8(ssid: &[u8]) -> Option<String> {
 //}
 
 //#[cfg(any(feature = "v1_12", feature = "dox"))]
-//pub fn utils_tc_qdisc_to_str(qdisc: /*Ignored*/&TCQdisc) -> Result<String, Error> {
+//pub fn utils_tc_qdisc_to_str(qdisc: /*Ignored*/&TCQdisc) -> Result<GString, Error> {
 //    unsafe { TODO: call ffi::nm_utils_tc_qdisc_to_str() }
 //}
 
@@ -319,7 +320,7 @@ pub fn utils_ssid_to_utf8(ssid: &[u8]) -> Option<String> {
 //}
 
 //#[cfg(any(feature = "v1_12", feature = "dox"))]
-//pub fn utils_tc_tfilter_to_str(tfilter: /*Ignored*/&TCTfilter) -> Result<String, Error> {
+//pub fn utils_tc_tfilter_to_str(tfilter: /*Ignored*/&TCTfilter) -> Result<GString, Error> {
 //    unsafe { TODO: call ffi::nm_utils_tc_tfilter_to_str() }
 //}
 
@@ -358,7 +359,7 @@ pub fn utils_wifi_is_channel_valid(channel: u32, band: &str) -> bool {
     }
 }
 
-pub fn utils_wifi_strength_bars(strength: u8) -> Option<String> {
+pub fn utils_wifi_strength_bars(strength: u8) -> Option<GString> {
     unsafe { from_glib_none(ffi::nm_utils_wifi_strength_bars(strength)) }
 }
 

@@ -5,8 +5,8 @@
 use ffi;
 use glib;
 use glib::translate::*;
-use glib_ffi;
-use gobject_ffi;
+use glib::GString;
+#[cfg(any(feature = "v1_8", feature = "dox"))]
 use std::mem;
 use std::ptr;
 use Error;
@@ -87,7 +87,7 @@ impl IPRoute {
         }
     }
 
-    pub fn get_attribute_names(&self) -> Vec<String> {
+    pub fn get_attribute_names(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_full(ffi::nm_ip_route_get_attribute_names(
                 self.to_glib_none().0,
@@ -95,7 +95,7 @@ impl IPRoute {
         }
     }
 
-    pub fn get_dest(&self) -> Option<String> {
+    pub fn get_dest(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_ip_route_get_dest(self.to_glib_none().0)) }
     }
 
@@ -111,7 +111,7 @@ impl IPRoute {
         unsafe { ffi::nm_ip_route_get_metric(self.to_glib_none().0) }
     }
 
-    pub fn get_next_hop(&self) -> Option<String> {
+    pub fn get_next_hop(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_ip_route_get_next_hop(self.to_glib_none().0)) }
     }
 

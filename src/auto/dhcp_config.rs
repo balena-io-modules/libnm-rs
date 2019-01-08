@@ -3,19 +3,16 @@
 // DO NOT EDIT
 
 use ffi;
-use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib_ffi;
-use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
-use std::ptr;
 
 glib_wrapper! {
     pub struct DhcpConfig(Object<ffi::NMDhcpConfig, ffi::NMDhcpConfigClass>);
@@ -25,10 +22,10 @@ glib_wrapper! {
     }
 }
 
-pub trait DhcpConfigExt {
+pub trait DhcpConfigExt: 'static {
     fn get_family(&self) -> i32;
 
-    fn get_one_option(&self, option: &str) -> Option<String>;
+    fn get_one_option(&self, option: &str) -> Option<GString>;
 
     //fn get_options(&self) -> /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 };
 
@@ -37,12 +34,12 @@ pub trait DhcpConfigExt {
     fn connect_property_options_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<DhcpConfig> + IsA<glib::object::Object>> DhcpConfigExt for O {
+impl<O: IsA<DhcpConfig>> DhcpConfigExt for O {
     fn get_family(&self) -> i32 {
         unsafe { ffi::nm_dhcp_config_get_family(self.to_glib_none().0) }
     }
 
-    fn get_one_option(&self, option: &str) -> Option<String> {
+    fn get_one_option(&self, option: &str) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_dhcp_config_get_one_option(
                 self.to_glib_none().0,
@@ -58,9 +55,9 @@ impl<O: IsA<DhcpConfig> + IsA<glib::object::Object>> DhcpConfigExt for O {
     fn connect_property_family_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::family",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::family\0".as_ptr() as *const _,
                 transmute(notify_family_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -70,9 +67,9 @@ impl<O: IsA<DhcpConfig> + IsA<glib::object::Object>> DhcpConfigExt for O {
     fn connect_property_options_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::options",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::options\0".as_ptr() as *const _,
                 transmute(notify_options_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

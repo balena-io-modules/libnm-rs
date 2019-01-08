@@ -3,21 +3,19 @@
 // DO NOT EDIT
 
 use ffi;
-use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib::StaticType;
 use glib::Value;
 use glib_ffi;
 use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
-use std::ptr;
 use Metered;
 use Setting;
 use SettingConnectionAutoconnectSlaves;
@@ -45,7 +43,7 @@ impl Default for SettingConnection {
     }
 }
 
-pub trait SettingConnectionExt {
+pub trait SettingConnectionExt: 'static {
     fn add_permission<'a, P: Into<Option<&'a str>>>(
         &self,
         ptype: &str,
@@ -67,17 +65,17 @@ pub trait SettingConnectionExt {
 
     fn get_autoconnect_slaves(&self) -> SettingConnectionAutoconnectSlaves;
 
-    fn get_connection_type(&self) -> Option<String>;
+    fn get_connection_type(&self) -> Option<GString>;
 
     fn get_gateway_ping_timeout(&self) -> u32;
 
-    fn get_id(&self) -> Option<String>;
+    fn get_id(&self) -> Option<GString>;
 
-    fn get_interface_name(&self) -> Option<String>;
+    fn get_interface_name(&self) -> Option<GString>;
 
     fn get_lldp(&self) -> SettingConnectionLldp;
 
-    fn get_master(&self) -> Option<String>;
+    fn get_master(&self) -> Option<GString>;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_mdns(&self) -> SettingConnectionMdns;
@@ -90,18 +88,18 @@ pub trait SettingConnectionExt {
 
     fn get_read_only(&self) -> bool;
 
-    fn get_secondary(&self, idx: u32) -> Option<String>;
+    fn get_secondary(&self, idx: u32) -> Option<GString>;
 
-    fn get_slave_type(&self) -> Option<String>;
+    fn get_slave_type(&self) -> Option<GString>;
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
-    fn get_stable_id(&self) -> Option<String>;
+    fn get_stable_id(&self) -> Option<GString>;
 
     fn get_timestamp(&self) -> u64;
 
-    fn get_uuid(&self) -> Option<String>;
+    fn get_uuid(&self) -> Option<GString>;
 
-    fn get_zone(&self) -> Option<String>;
+    fn get_zone(&self) -> Option<GString>;
 
     fn is_slave_type(&self, type_: &str) -> bool;
 
@@ -151,13 +149,13 @@ pub trait SettingConnectionExt {
 
     fn set_property_metered(&self, metered: Metered);
 
-    fn get_property_permissions(&self) -> Vec<String>;
+    fn get_property_permissions(&self) -> Vec<GString>;
 
     fn set_property_permissions(&self, permissions: &[&str]);
 
     fn set_property_read_only(&self, read_only: bool);
 
-    fn get_property_secondaries(&self) -> Vec<String>;
+    fn get_property_secondaries(&self) -> Vec<GString>;
 
     fn set_property_secondaries(&self, secondaries: &[&str]);
 
@@ -168,7 +166,7 @@ pub trait SettingConnectionExt {
 
     fn set_property_timestamp(&self, timestamp: u64);
 
-    fn get_property_type(&self) -> Option<String>;
+    fn get_property_type(&self) -> Option<GString>;
 
     fn set_property_type<'a, P: Into<Option<&'a str>>>(&self, type_: P);
 
@@ -238,7 +236,7 @@ pub trait SettingConnectionExt {
     fn connect_property_zone_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt for O {
+impl<O: IsA<SettingConnection>> SettingConnectionExt for O {
     fn add_permission<'a, P: Into<Option<&'a str>>>(
         &self,
         ptype: &str,
@@ -296,7 +294,7 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         }
     }
 
-    fn get_connection_type(&self) -> Option<String> {
+    fn get_connection_type(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_connection_get_connection_type(
                 self.to_glib_none().0,
@@ -308,11 +306,11 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         unsafe { ffi::nm_setting_connection_get_gateway_ping_timeout(self.to_glib_none().0) }
     }
 
-    fn get_id(&self) -> Option<String> {
+    fn get_id(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_connection_get_id(self.to_glib_none().0)) }
     }
 
-    fn get_interface_name(&self) -> Option<String> {
+    fn get_interface_name(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_connection_get_interface_name(
                 self.to_glib_none().0,
@@ -324,7 +322,7 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         unsafe { from_glib(ffi::nm_setting_connection_get_lldp(self.to_glib_none().0)) }
     }
 
-    fn get_master(&self) -> Option<String> {
+    fn get_master(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_connection_get_master(self.to_glib_none().0)) }
     }
 
@@ -357,7 +355,7 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         }
     }
 
-    fn get_secondary(&self, idx: u32) -> Option<String> {
+    fn get_secondary(&self, idx: u32) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_connection_get_secondary(
                 self.to_glib_none().0,
@@ -366,7 +364,7 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         }
     }
 
-    fn get_slave_type(&self) -> Option<String> {
+    fn get_slave_type(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_connection_get_slave_type(
                 self.to_glib_none().0,
@@ -375,7 +373,7 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     }
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
-    fn get_stable_id(&self) -> Option<String> {
+    fn get_stable_id(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_connection_get_stable_id(
                 self.to_glib_none().0,
@@ -387,11 +385,11 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         unsafe { ffi::nm_setting_connection_get_timestamp(self.to_glib_none().0) }
     }
 
-    fn get_uuid(&self) -> Option<String> {
+    fn get_uuid(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_connection_get_uuid(self.to_glib_none().0)) }
     }
 
-    fn get_zone(&self) -> Option<String> {
+    fn get_zone(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_connection_get_zone(self.to_glib_none().0)) }
     }
 
@@ -456,8 +454,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn set_property_auth_retries(&self, auth_retries: i32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "auth-retries".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"auth-retries\0".as_ptr() as *const _,
                 Value::from(&auth_retries).to_glib_none().0,
             );
         }
@@ -466,8 +464,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn set_property_autoconnect(&self, autoconnect: bool) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "autoconnect".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"autoconnect\0".as_ptr() as *const _,
                 Value::from(&autoconnect).to_glib_none().0,
             );
         }
@@ -476,8 +474,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn set_property_autoconnect_priority(&self, autoconnect_priority: i32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "autoconnect-priority".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"autoconnect-priority\0".as_ptr() as *const _,
                 Value::from(&autoconnect_priority).to_glib_none().0,
             );
         }
@@ -487,8 +485,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         unsafe {
             let mut value = Value::from_type(<i32 as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "autoconnect-retries".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"autoconnect-retries\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -498,8 +496,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn set_property_autoconnect_retries(&self, autoconnect_retries: i32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "autoconnect-retries".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"autoconnect-retries\0".as_ptr() as *const _,
                 Value::from(&autoconnect_retries).to_glib_none().0,
             );
         }
@@ -511,8 +509,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     ) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "autoconnect-slaves".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"autoconnect-slaves\0".as_ptr() as *const _,
                 Value::from(&autoconnect_slaves).to_glib_none().0,
             );
         }
@@ -521,8 +519,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn set_property_gateway_ping_timeout(&self, gateway_ping_timeout: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "gateway-ping-timeout".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"gateway-ping-timeout\0".as_ptr() as *const _,
                 Value::from(&gateway_ping_timeout).to_glib_none().0,
             );
         }
@@ -532,8 +530,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         let id = id.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "id".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"id\0".as_ptr() as *const _,
                 Value::from(id).to_glib_none().0,
             );
         }
@@ -543,8 +541,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         let interface_name = interface_name.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "interface-name".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"interface-name\0".as_ptr() as *const _,
                 Value::from(interface_name).to_glib_none().0,
             );
         }
@@ -553,8 +551,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn set_property_lldp(&self, lldp: i32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "lldp".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"lldp\0".as_ptr() as *const _,
                 Value::from(&lldp).to_glib_none().0,
             );
         }
@@ -564,8 +562,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         let master = master.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "master".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"master\0".as_ptr() as *const _,
                 Value::from(master).to_glib_none().0,
             );
         }
@@ -575,8 +573,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn set_property_mdns(&self, mdns: i32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "mdns".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"mdns\0".as_ptr() as *const _,
                 Value::from(&mdns).to_glib_none().0,
             );
         }
@@ -585,19 +583,19 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn set_property_metered(&self, metered: Metered) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "metered".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"metered\0".as_ptr() as *const _,
                 Value::from(&metered).to_glib_none().0,
             );
         }
     }
 
-    fn get_property_permissions(&self) -> Vec<String> {
+    fn get_property_permissions(&self) -> Vec<GString> {
         unsafe {
-            let mut value = Value::from_type(<Vec<String> as StaticType>::static_type());
+            let mut value = Value::from_type(<Vec<GString> as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "permissions".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"permissions\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -607,8 +605,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn set_property_permissions(&self, permissions: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "permissions".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"permissions\0".as_ptr() as *const _,
                 Value::from(permissions).to_glib_none().0,
             );
         }
@@ -617,19 +615,19 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn set_property_read_only(&self, read_only: bool) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "read-only".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"read-only\0".as_ptr() as *const _,
                 Value::from(&read_only).to_glib_none().0,
             );
         }
     }
 
-    fn get_property_secondaries(&self) -> Vec<String> {
+    fn get_property_secondaries(&self) -> Vec<GString> {
         unsafe {
-            let mut value = Value::from_type(<Vec<String> as StaticType>::static_type());
+            let mut value = Value::from_type(<Vec<GString> as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "secondaries".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"secondaries\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -639,8 +637,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn set_property_secondaries(&self, secondaries: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "secondaries".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"secondaries\0".as_ptr() as *const _,
                 Value::from(secondaries).to_glib_none().0,
             );
         }
@@ -650,8 +648,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         let slave_type = slave_type.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "slave-type".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"slave-type\0".as_ptr() as *const _,
                 Value::from(slave_type).to_glib_none().0,
             );
         }
@@ -662,8 +660,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         let stable_id = stable_id.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "stable-id".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"stable-id\0".as_ptr() as *const _,
                 Value::from(stable_id).to_glib_none().0,
             );
         }
@@ -672,19 +670,19 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn set_property_timestamp(&self, timestamp: u64) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "timestamp".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"timestamp\0".as_ptr() as *const _,
                 Value::from(&timestamp).to_glib_none().0,
             );
         }
     }
 
-    fn get_property_type(&self) -> Option<String> {
+    fn get_property_type(&self) -> Option<GString> {
         unsafe {
-            let mut value = Value::from_type(<String as StaticType>::static_type());
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "type".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"type\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -695,8 +693,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         let type_ = type_.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "type".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"type\0".as_ptr() as *const _,
                 Value::from(type_).to_glib_none().0,
             );
         }
@@ -706,8 +704,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         let uuid = uuid.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "uuid".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"uuid\0".as_ptr() as *const _,
                 Value::from(uuid).to_glib_none().0,
             );
         }
@@ -717,8 +715,8 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
         let zone = zone.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "zone".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"zone\0".as_ptr() as *const _,
                 Value::from(zone).to_glib_none().0,
             );
         }
@@ -731,9 +729,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::auth-retries",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::auth-retries\0".as_ptr() as *const _,
                 transmute(notify_auth_retries_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -743,9 +741,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_autoconnect_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::autoconnect",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::autoconnect\0".as_ptr() as *const _,
                 transmute(notify_autoconnect_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -758,9 +756,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::autoconnect-priority",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::autoconnect-priority\0".as_ptr() as *const _,
                 transmute(notify_autoconnect_priority_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -773,9 +771,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::autoconnect-retries",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::autoconnect-retries\0".as_ptr() as *const _,
                 transmute(notify_autoconnect_retries_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -788,9 +786,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::autoconnect-slaves",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::autoconnect-slaves\0".as_ptr() as *const _,
                 transmute(notify_autoconnect_slaves_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -803,9 +801,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::gateway-ping-timeout",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::gateway-ping-timeout\0".as_ptr() as *const _,
                 transmute(notify_gateway_ping_timeout_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -815,9 +813,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::id",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::id\0".as_ptr() as *const _,
                 transmute(notify_id_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -830,9 +828,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::interface-name",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::interface-name\0".as_ptr() as *const _,
                 transmute(notify_interface_name_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -842,9 +840,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_lldp_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::lldp",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::lldp\0".as_ptr() as *const _,
                 transmute(notify_lldp_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -854,9 +852,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_master_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::master",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::master\0".as_ptr() as *const _,
                 transmute(notify_master_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -867,9 +865,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_mdns_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::mdns",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::mdns\0".as_ptr() as *const _,
                 transmute(notify_mdns_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -879,9 +877,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_metered_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::metered",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::metered\0".as_ptr() as *const _,
                 transmute(notify_metered_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -891,9 +889,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_permissions_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::permissions",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::permissions\0".as_ptr() as *const _,
                 transmute(notify_permissions_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -903,9 +901,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_read_only_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::read-only",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::read-only\0".as_ptr() as *const _,
                 transmute(notify_read_only_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -915,9 +913,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_secondaries_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::secondaries",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::secondaries\0".as_ptr() as *const _,
                 transmute(notify_secondaries_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -927,9 +925,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_slave_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::slave-type",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::slave-type\0".as_ptr() as *const _,
                 transmute(notify_slave_type_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -940,9 +938,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_stable_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::stable-id",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::stable-id\0".as_ptr() as *const _,
                 transmute(notify_stable_id_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -952,9 +950,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_timestamp_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::timestamp",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::timestamp\0".as_ptr() as *const _,
                 transmute(notify_timestamp_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -964,9 +962,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::type",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::type\0".as_ptr() as *const _,
                 transmute(notify_type_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -976,9 +974,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_uuid_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::uuid",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::uuid\0".as_ptr() as *const _,
                 transmute(notify_uuid_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -988,9 +986,9 @@ impl<O: IsA<SettingConnection> + IsA<glib::object::Object>> SettingConnectionExt
     fn connect_property_zone_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::zone",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::zone\0".as_ptr() as *const _,
                 transmute(notify_zone_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

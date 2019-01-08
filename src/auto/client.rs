@@ -8,9 +8,10 @@ use futures_core;
 use gio;
 use gio_ffi;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib::StaticType;
 use glib::Value;
 use glib_ffi;
@@ -18,7 +19,6 @@ use gobject_ffi;
 use libc;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use ActiveConnection;
@@ -131,7 +131,10 @@ impl Client {
         connection: Q,
         device: S,
         specific_object: T,
-    ) -> Box_<futures_core::Future<Item = (Self, ActiveConnection), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ActiveConnection), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -234,7 +237,10 @@ impl Client {
         partial: Q,
         device: &R,
         specific_object: S,
-    ) -> Box_<futures_core::Future<Item = (Self, ActiveConnection), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ActiveConnection), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -314,7 +320,10 @@ impl Client {
         &self,
         connection: &P,
         save_to_disk: bool,
-    ) -> Box_<futures_core::Future<Item = (Self, RemoteConnection), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, RemoteConnection), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -395,7 +404,10 @@ impl Client {
     #[cfg(feature = "futures")]
     pub fn check_connectivity_async_future(
         &self,
-    ) -> Box_<futures_core::Future<Item = (Self, ConnectivityState), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ConnectivityState), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -468,7 +480,10 @@ impl Client {
         &self,
         checkpoint_path: &str,
         add_timeout: u32,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -499,7 +514,7 @@ impl Client {
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //pub fn checkpoint_create_future(&self, devices: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 }, rollback_timeout: u32, flags: /*Ignored*/CheckpointCreateFlags) -> Box_<futures_core::Future<Item = (Self, /*Ignored*/Checkpoint), Error = (Self, Error)>> {
+    //pub fn checkpoint_create_future(&self, devices: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 }, rollback_timeout: u32, flags: /*Ignored*/CheckpointCreateFlags) -> Box_<futures_core::Future<Item = (Self, /*Ignored*/Checkpoint), Error = (Self, Error)>> where Self: Sized + Clone {
     //use gio::GioFuture;
     //use fragile::Fragile;
 
@@ -572,7 +587,10 @@ impl Client {
     pub fn checkpoint_destroy_future(
         &self,
         checkpoint_path: &str,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -598,7 +616,7 @@ impl Client {
 
     //#[cfg(feature = "futures")]
     //#[cfg(any(feature = "v1_12", feature = "dox"))]
-    //pub fn checkpoint_rollback_future(&self, checkpoint_path: &str) -> Box_<futures_core::Future<Item = (Self, /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }), Error = (Self, Error)>> {
+    //pub fn checkpoint_rollback_future(&self, checkpoint_path: &str) -> Box_<futures_core::Future<Item = (Self, /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }), Error = (Self, Error)>> where Self: Sized + Clone {
     //use gio::GioFuture;
     //use fragile::Fragile;
 
@@ -724,7 +742,10 @@ impl Client {
     pub fn deactivate_connection_async_future<P: IsA<ActiveConnection> + Clone + 'static>(
         &self,
         active: &P,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -801,12 +822,12 @@ impl Client {
     }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
-    pub fn get_dns_mode(&self) -> Option<String> {
+    pub fn get_dns_mode(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_client_get_dns_mode(self.to_glib_none().0)) }
     }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
-    pub fn get_dns_rc_manager(&self) -> Option<String> {
+    pub fn get_dns_rc_manager(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_client_get_dns_rc_manager(self.to_glib_none().0)) }
     }
 
@@ -830,7 +851,7 @@ impl Client {
         unsafe { from_glib(ffi::nm_client_get_state(self.to_glib_none().0)) }
     }
 
-    pub fn get_version(&self) -> Option<String> {
+    pub fn get_version(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_client_get_version(self.to_glib_none().0)) }
     }
 
@@ -916,7 +937,10 @@ impl Client {
     #[cfg(feature = "futures")]
     pub fn reload_connections_async_future(
         &self,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -1014,7 +1038,10 @@ impl Client {
     pub fn save_hostname_async_future<'a, P: Into<Option<&'a str>>>(
         &self,
         hostname: P,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -1116,7 +1143,7 @@ impl Client {
     //pub fn get_property_active_connections(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 10 } {
     //    unsafe {
     //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "active-connections".to_glib_none().0, value.to_glib_none_mut().0);
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, b"active-connections\0".as_ptr() as *const _, value.to_glib_none_mut().0);
     //        value.get().unwrap()
     //    }
     //}
@@ -1124,7 +1151,7 @@ impl Client {
     //pub fn get_property_all_devices(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 } {
     //    unsafe {
     //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "all-devices".to_glib_none().0, value.to_glib_none_mut().0);
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, b"all-devices\0".as_ptr() as *const _, value.to_glib_none_mut().0);
     //        value.get().unwrap()
     //    }
     //}
@@ -1134,7 +1161,7 @@ impl Client {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
                 self.to_glib_none().0,
-                "can-modify".to_glib_none().0,
+                b"can-modify\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -1145,7 +1172,7 @@ impl Client {
     //pub fn get_property_checkpoints(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 20 } {
     //    unsafe {
     //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "checkpoints".to_glib_none().0, value.to_glib_none_mut().0);
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, b"checkpoints\0".as_ptr() as *const _, value.to_glib_none_mut().0);
     //        value.get().unwrap()
     //    }
     //}
@@ -1153,7 +1180,7 @@ impl Client {
     //pub fn get_property_connections(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 9 } {
     //    unsafe {
     //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "connections".to_glib_none().0, value.to_glib_none_mut().0);
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, b"connections\0".as_ptr() as *const _, value.to_glib_none_mut().0);
     //        value.get().unwrap()
     //    }
     //}
@@ -1163,7 +1190,7 @@ impl Client {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
                 self.to_glib_none().0,
-                "connectivity-check-available".to_glib_none().0,
+                b"connectivity-check-available\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -1175,7 +1202,7 @@ impl Client {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
                 self.to_glib_none().0,
-                "connectivity-check-enabled".to_glib_none().0,
+                b"connectivity-check-enabled\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -1186,7 +1213,7 @@ impl Client {
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
-                "connectivity-check-enabled".to_glib_none().0,
+                b"connectivity-check-enabled\0".as_ptr() as *const _,
                 Value::from(&connectivity_check_enabled).to_glib_none().0,
             );
         }
@@ -1195,7 +1222,7 @@ impl Client {
     //pub fn get_property_devices(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 11 } {
     //    unsafe {
     //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "devices".to_glib_none().0, value.to_glib_none_mut().0);
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, b"devices\0".as_ptr() as *const _, value.to_glib_none_mut().0);
     //        value.get().unwrap()
     //    }
     //}
@@ -1204,17 +1231,17 @@ impl Client {
     //pub fn get_property_dns_configuration(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 2, id: 179 } {
     //    unsafe {
     //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "dns-configuration".to_glib_none().0, value.to_glib_none_mut().0);
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, b"dns-configuration\0".as_ptr() as *const _, value.to_glib_none_mut().0);
     //        value.get().unwrap()
     //    }
     //}
 
-    pub fn get_property_hostname(&self) -> Option<String> {
+    pub fn get_property_hostname(&self) -> Option<GString> {
         unsafe {
-            let mut value = Value::from_type(<String as StaticType>::static_type());
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
                 self.to_glib_none().0,
-                "hostname".to_glib_none().0,
+                b"hostname\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -1226,7 +1253,7 @@ impl Client {
             let mut value = Value::from_type(<u32 as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
                 self.to_glib_none().0,
-                "metered".to_glib_none().0,
+                b"metered\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -1238,7 +1265,7 @@ impl Client {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
                 self.to_glib_none().0,
-                "networking-enabled".to_glib_none().0,
+                b"networking-enabled\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -1249,7 +1276,7 @@ impl Client {
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
-                "networking-enabled".to_glib_none().0,
+                b"networking-enabled\0".as_ptr() as *const _,
                 Value::from(&networking_enabled).to_glib_none().0,
             );
         }
@@ -1260,7 +1287,7 @@ impl Client {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
                 self.to_glib_none().0,
-                "wireless-enabled".to_glib_none().0,
+                b"wireless-enabled\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -1271,7 +1298,7 @@ impl Client {
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
-                "wireless-enabled".to_glib_none().0,
+                b"wireless-enabled\0".as_ptr() as *const _,
                 Value::from(&wireless_enabled).to_glib_none().0,
             );
         }
@@ -1282,7 +1309,7 @@ impl Client {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
                 self.to_glib_none().0,
-                "wireless-hardware-enabled".to_glib_none().0,
+                b"wireless-hardware-enabled\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -1294,7 +1321,7 @@ impl Client {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
                 self.to_glib_none().0,
-                "wwan-enabled".to_glib_none().0,
+                b"wwan-enabled\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -1305,7 +1332,7 @@ impl Client {
         unsafe {
             gobject_ffi::g_object_set_property(
                 self.to_glib_none().0,
-                "wwan-enabled".to_glib_none().0,
+                b"wwan-enabled\0".as_ptr() as *const _,
                 Value::from(&wwan_enabled).to_glib_none().0,
             );
         }
@@ -1316,7 +1343,7 @@ impl Client {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
                 self.to_glib_none().0,
-                "wwan-hardware-enabled".to_glib_none().0,
+                b"wwan-hardware-enabled\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -1383,9 +1410,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client, &ActiveConnection) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "active-connection-added",
+                b"active-connection-added\0".as_ptr() as *const _,
                 transmute(active_connection_added_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1398,9 +1425,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client, &ActiveConnection) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "active-connection-removed",
+                b"active-connection-removed\0".as_ptr() as *const _,
                 transmute(active_connection_removed_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1413,9 +1440,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client, &Device) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "any-device-added",
+                b"any-device-added\0".as_ptr() as *const _,
                 transmute(any_device_added_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1428,9 +1455,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client, &Device) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "any-device-removed",
+                b"any-device-removed\0".as_ptr() as *const _,
                 transmute(any_device_removed_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1443,9 +1470,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client, &RemoteConnection) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "connection-added",
+                b"connection-added\0".as_ptr() as *const _,
                 transmute(connection_added_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1458,9 +1485,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client, &RemoteConnection) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "connection-removed",
+                b"connection-removed\0".as_ptr() as *const _,
                 transmute(connection_removed_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1470,9 +1497,9 @@ impl Client {
     pub fn connect_device_added<F: Fn(&Client, &Device) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client, &Device) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "device-added",
+                b"device-added\0".as_ptr() as *const _,
                 transmute(device_added_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1485,9 +1512,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client, &Device) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "device-removed",
+                b"device-removed\0".as_ptr() as *const _,
                 transmute(device_removed_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1500,9 +1527,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client, u32, u32) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "permission-changed",
+                b"permission-changed\0".as_ptr() as *const _,
                 transmute(permission_changed_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1515,9 +1542,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::activating-connection",
+                b"notify::activating-connection\0".as_ptr() as *const _,
                 transmute(notify_activating_connection_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1530,9 +1557,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::active-connections",
+                b"notify::active-connections\0".as_ptr() as *const _,
                 transmute(notify_active_connections_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1545,9 +1572,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::all-devices",
+                b"notify::all-devices\0".as_ptr() as *const _,
                 transmute(notify_all_devices_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1560,9 +1587,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::can-modify",
+                b"notify::can-modify\0".as_ptr() as *const _,
                 transmute(notify_can_modify_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1576,9 +1603,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::checkpoints",
+                b"notify::checkpoints\0".as_ptr() as *const _,
                 transmute(notify_checkpoints_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1591,9 +1618,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::connections",
+                b"notify::connections\0".as_ptr() as *const _,
                 transmute(notify_connections_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1606,9 +1633,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::connectivity",
+                b"notify::connectivity\0".as_ptr() as *const _,
                 transmute(notify_connectivity_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1621,9 +1648,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::connectivity-check-available",
+                b"notify::connectivity-check-available\0".as_ptr() as *const _,
                 transmute(notify_connectivity_check_available_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1636,9 +1663,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::connectivity-check-enabled",
+                b"notify::connectivity-check-enabled\0".as_ptr() as *const _,
                 transmute(notify_connectivity_check_enabled_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1651,9 +1678,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::devices",
+                b"notify::devices\0".as_ptr() as *const _,
                 transmute(notify_devices_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1667,9 +1694,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::dns-configuration",
+                b"notify::dns-configuration\0".as_ptr() as *const _,
                 transmute(notify_dns_configuration_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1683,9 +1710,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::dns-mode",
+                b"notify::dns-mode\0".as_ptr() as *const _,
                 transmute(notify_dns_mode_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1699,9 +1726,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::dns-rc-manager",
+                b"notify::dns-rc-manager\0".as_ptr() as *const _,
                 transmute(notify_dns_rc_manager_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1714,9 +1741,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::hostname",
+                b"notify::hostname\0".as_ptr() as *const _,
                 transmute(notify_hostname_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1729,9 +1756,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::metered",
+                b"notify::metered\0".as_ptr() as *const _,
                 transmute(notify_metered_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1744,9 +1771,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::networking-enabled",
+                b"notify::networking-enabled\0".as_ptr() as *const _,
                 transmute(notify_networking_enabled_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1759,9 +1786,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::nm-running",
+                b"notify::nm-running\0".as_ptr() as *const _,
                 transmute(notify_nm_running_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1774,9 +1801,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::primary-connection",
+                b"notify::primary-connection\0".as_ptr() as *const _,
                 transmute(notify_primary_connection_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1789,9 +1816,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::startup",
+                b"notify::startup\0".as_ptr() as *const _,
                 transmute(notify_startup_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1801,9 +1828,9 @@ impl Client {
     pub fn connect_property_state_notify<F: Fn(&Client) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::state",
+                b"notify::state\0".as_ptr() as *const _,
                 transmute(notify_state_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1816,9 +1843,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::version",
+                b"notify::version\0".as_ptr() as *const _,
                 transmute(notify_version_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1831,9 +1858,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::wireless-enabled",
+                b"notify::wireless-enabled\0".as_ptr() as *const _,
                 transmute(notify_wireless_enabled_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1846,9 +1873,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::wireless-hardware-enabled",
+                b"notify::wireless-hardware-enabled\0".as_ptr() as *const _,
                 transmute(notify_wireless_hardware_enabled_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1861,9 +1888,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::wwan-enabled",
+                b"notify::wwan-enabled\0".as_ptr() as *const _,
                 transmute(notify_wwan_enabled_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1876,9 +1903,9 @@ impl Client {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Client) + 'static>> = Box_::new(Box_::new(f));
-            connect(
+            connect_raw(
                 self.to_glib_none().0,
-                "notify::wwan-hardware-enabled",
+                b"notify::wwan-hardware-enabled\0".as_ptr() as *const _,
                 transmute(notify_wwan_hardware_enabled_trampoline as usize),
                 Box_::into_raw(f) as *mut _,
             )

@@ -10,16 +10,16 @@ use gio_ffi;
 use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib::StaticType;
 use glib::Value;
 use glib_ffi;
 use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
 use std::ptr;
 use AccessPoint;
@@ -36,7 +36,7 @@ glib_wrapper! {
     }
 }
 
-pub trait DeviceWifiExt: Sized {
+pub trait DeviceWifiExt: 'static {
     fn get_access_point_by_path(&self, path: &str) -> Option<AccessPoint>;
 
     fn get_active_access_point(&self) -> Option<AccessPoint>;
@@ -50,7 +50,7 @@ pub trait DeviceWifiExt: Sized {
 
     fn get_mode(&self) -> _80211Mode;
 
-    fn get_permanent_hw_address(&self) -> Option<String>;
+    fn get_permanent_hw_address(&self) -> Option<GString>;
 
     fn request_scan<'a, P: Into<Option<&'a gio::Cancellable>>>(
         &self,
@@ -70,7 +70,9 @@ pub trait DeviceWifiExt: Sized {
     #[cfg(feature = "futures")]
     fn request_scan_async_future(
         &self,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone;
 
     fn request_scan_options<'a, P: Into<Option<&'a gio::Cancellable>>>(
         &self,
@@ -82,7 +84,7 @@ pub trait DeviceWifiExt: Sized {
 
     //fn get_property_access_points(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 3 };
 
-    fn get_property_perm_hw_address(&self) -> Option<String>;
+    fn get_property_perm_hw_address(&self) -> Option<GString>;
 
     fn get_property_wireless_capabilities(&self) -> DeviceWifiCapabilities;
 
@@ -126,7 +128,7 @@ pub trait DeviceWifiExt: Sized {
     ) -> SignalHandlerId;
 }
 
-impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWifiExt for O {
+impl<O: IsA<DeviceWifi>> DeviceWifiExt for O {
     fn get_access_point_by_path(&self, path: &str) -> Option<AccessPoint> {
         unsafe {
             from_glib_none(ffi::nm_device_wifi_get_access_point_by_path(
@@ -161,7 +163,7 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
         unsafe { from_glib(ffi::nm_device_wifi_get_mode(self.to_glib_none().0)) }
     }
 
-    fn get_permanent_hw_address(&self) -> Option<String> {
+    fn get_permanent_hw_address(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_device_wifi_get_permanent_hw_address(
                 self.to_glib_none().0,
@@ -231,7 +233,10 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
     #[cfg(feature = "futures")]
     fn request_scan_async_future(
         &self,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -279,17 +284,17 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
     //fn get_property_access_points(&self) -> /*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 3 } {
     //    unsafe {
     //        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        gobject_ffi::g_object_get_property(self.to_glib_none().0, "access-points".to_glib_none().0, value.to_glib_none_mut().0);
+    //        gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut gobject_ffi::GObject, b"access-points\0".as_ptr() as *const _, value.to_glib_none_mut().0);
     //        value.get().unwrap()
     //    }
     //}
 
-    fn get_property_perm_hw_address(&self) -> Option<String> {
+    fn get_property_perm_hw_address(&self) -> Option<GString> {
         unsafe {
-            let mut value = Value::from_type(<String as StaticType>::static_type());
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "perm-hw-address".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"perm-hw-address\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -300,8 +305,8 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
         unsafe {
             let mut value = Value::from_type(<DeviceWifiCapabilities as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "wireless-capabilities".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wireless-capabilities\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -314,9 +319,9 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self, &glib::Object) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "access-point-added",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"access-point-added\0".as_ptr() as *const _,
                 transmute(access_point_added_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -329,9 +334,9 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self, &glib::Object) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "access-point-removed",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"access-point-removed\0".as_ptr() as *const _,
                 transmute(access_point_removed_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -344,9 +349,9 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::access-points",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::access-points\0".as_ptr() as *const _,
                 transmute(notify_access_points_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -359,9 +364,9 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::active-access-point",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::active-access-point\0".as_ptr() as *const _,
                 transmute(notify_active_access_point_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -371,9 +376,9 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
     fn connect_property_bitrate_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::bitrate",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::bitrate\0".as_ptr() as *const _,
                 transmute(notify_bitrate_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -383,9 +388,9 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
     fn connect_property_hw_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::hw-address",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::hw-address\0".as_ptr() as *const _,
                 transmute(notify_hw_address_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -396,9 +401,9 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
     fn connect_property_last_scan_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::last-scan",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::last-scan\0".as_ptr() as *const _,
                 transmute(notify_last_scan_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -408,9 +413,9 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
     fn connect_property_mode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::mode",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::mode\0".as_ptr() as *const _,
                 transmute(notify_mode_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -423,9 +428,9 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::perm-hw-address",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::perm-hw-address\0".as_ptr() as *const _,
                 transmute(notify_perm_hw_address_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -438,9 +443,9 @@ impl<O: IsA<DeviceWifi> + IsA<glib::object::Object> + Clone + 'static> DeviceWif
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wireless-capabilities",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::wireless-capabilities\0".as_ptr() as *const _,
                 transmute(notify_wireless_capabilities_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

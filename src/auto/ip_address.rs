@@ -5,9 +5,7 @@
 use ffi;
 use glib;
 use glib::translate::*;
-use glib_ffi;
-use gobject_ffi;
-use std::mem;
+use glib::GString;
 use std::ptr;
 use Error;
 
@@ -52,7 +50,7 @@ impl IPAddress {
         }
     }
 
-    pub fn get_address(&self) -> Option<String> {
+    pub fn get_address(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_ip_address_get_address(self.to_glib_none().0)) }
     }
 
@@ -69,7 +67,7 @@ impl IPAddress {
         }
     }
 
-    pub fn get_attribute_names(&self) -> Vec<String> {
+    pub fn get_attribute_names(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_full(ffi::nm_ip_address_get_attribute_names(
                 self.to_glib_none().0,

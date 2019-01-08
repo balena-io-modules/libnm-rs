@@ -6,14 +6,15 @@ use ffi;
 use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib_ffi;
-use gobject_ffi;
 use libc;
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
 use std::mem;
 use std::mem::transmute;
 use std::ptr;
@@ -40,7 +41,7 @@ glib_wrapper! {
     }
 }
 
-pub trait ConnectionExt {
+pub trait ConnectionExt: 'static {
     fn add_setting<P: IsA<Setting>>(&self, setting: &P);
 
     fn clear_secrets(&self);
@@ -57,13 +58,13 @@ pub trait ConnectionExt {
 
     //fn for_each_setting_value<P: Into<Option</*Unimplemented*/Fundamental: Pointer>>>(&self, func: /*Unknown conversion*//*Unimplemented*/SettingValueIterFn, user_data: P);
 
-    fn get_connection_type(&self) -> Option<String>;
+    fn get_connection_type(&self) -> Option<GString>;
 
-    fn get_id(&self) -> Option<String>;
+    fn get_id(&self) -> Option<GString>;
 
-    fn get_interface_name(&self) -> Option<String>;
+    fn get_interface_name(&self) -> Option<GString>;
 
-    fn get_path(&self) -> Option<String>;
+    fn get_path(&self) -> Option<GString>;
 
     fn get_setting(&self, setting_type: glib::types::Type) -> Option<Setting>;
 
@@ -154,15 +155,15 @@ pub trait ConnectionExt {
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn get_settings(&self) -> Vec<Setting>;
 
-    fn get_uuid(&self) -> Option<String>;
+    fn get_uuid(&self) -> Option<GString>;
 
-    fn get_virtual_device_description(&self) -> Option<String>;
+    fn get_virtual_device_description(&self) -> Option<GString>;
 
     fn is_type(&self, type_: &str) -> bool;
 
     fn is_virtual(&self) -> bool;
 
-    //fn need_secrets(&self, hints: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 0, id: 28 }) -> Option<String>;
+    //fn need_secrets(&self, hints: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 0, id: 28 }) -> Option<GString>;
 
     fn remove_setting(&self, setting_type: glib::types::Type);
 
@@ -187,7 +188,7 @@ pub trait ConnectionExt {
     fn connect_secrets_updated<F: Fn(&Self, &str) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
+impl<O: IsA<Connection>> ConnectionExt for O {
     fn add_setting<P: IsA<Setting>>(&self, setting: &P) {
         unsafe {
             ffi::nm_connection_add_setting(self.to_glib_none().0, setting.to_glib_full());
@@ -234,7 +235,7 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     //    unsafe { TODO: call ffi::nm_connection_for_each_setting_value() }
     //}
 
-    fn get_connection_type(&self) -> Option<String> {
+    fn get_connection_type(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_connection_get_connection_type(
                 self.to_glib_none().0,
@@ -242,15 +243,15 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
         }
     }
 
-    fn get_id(&self) -> Option<String> {
+    fn get_id(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_connection_get_id(self.to_glib_none().0)) }
     }
 
-    fn get_interface_name(&self) -> Option<String> {
+    fn get_interface_name(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_connection_get_interface_name(self.to_glib_none().0)) }
     }
 
-    fn get_path(&self) -> Option<String> {
+    fn get_path(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_connection_get_path(self.to_glib_none().0)) }
     }
 
@@ -464,11 +465,11 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
         }
     }
 
-    fn get_uuid(&self) -> Option<String> {
+    fn get_uuid(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_connection_get_uuid(self.to_glib_none().0)) }
     }
 
-    fn get_virtual_device_description(&self) -> Option<String> {
+    fn get_virtual_device_description(&self) -> Option<GString> {
         unsafe {
             from_glib_full(ffi::nm_connection_get_virtual_device_description(
                 self.to_glib_none().0,
@@ -489,7 +490,7 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
         unsafe { from_glib(ffi::nm_connection_is_virtual(self.to_glib_none().0)) }
     }
 
-    //fn need_secrets(&self, hints: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 0, id: 28 }) -> Option<String> {
+    //fn need_secrets(&self, hints: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 0, id: 28 }) -> Option<GString> {
     //    unsafe { TODO: call ffi::nm_connection_need_secrets() }
     //}
 
@@ -583,9 +584,9 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "changed",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"changed\0".as_ptr() as *const _,
                 transmute(changed_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -595,9 +596,9 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     fn connect_secrets_cleared<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "secrets-cleared",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"secrets-cleared\0".as_ptr() as *const _,
                 transmute(secrets_cleared_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -607,9 +608,9 @@ impl<O: IsA<Connection> + IsA<glib::object::Object>> ConnectionExt for O {
     fn connect_secrets_updated<F: Fn(&Self, &str) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self, &str) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "secrets-updated",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"secrets-updated\0".as_ptr() as *const _,
                 transmute(secrets_updated_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -645,7 +646,7 @@ unsafe extern "C" fn secrets_updated_trampoline<P>(
     let f: &&(Fn(&P, &str) + 'static) = transmute(f);
     f(
         &Connection::from_glib_borrow(this).downcast_unchecked(),
-        &String::from_glib_none(setting_name),
+        &GString::from_glib_borrow(setting_name),
     )
 }
 

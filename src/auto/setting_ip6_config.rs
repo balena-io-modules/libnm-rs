@@ -3,20 +3,19 @@
 // DO NOT EDIT
 
 use ffi;
-use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+#[cfg(any(feature = "v1_4", feature = "dox"))]
+use glib::GString;
 use glib::Value;
 use glib_ffi;
 use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
-use std::ptr;
 use Setting;
 use SettingIP6ConfigAddrGenMode;
 use SettingIP6ConfigPrivacy;
@@ -42,16 +41,16 @@ impl Default for SettingIP6Config {
     }
 }
 
-pub trait SettingIP6ConfigExt {
+pub trait SettingIP6ConfigExt: 'static {
     fn get_addr_gen_mode(&self) -> SettingIP6ConfigAddrGenMode;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
-    fn get_dhcp_duid(&self) -> Option<String>;
+    fn get_dhcp_duid(&self) -> Option<GString>;
 
     fn get_ip6_privacy(&self) -> SettingIP6ConfigPrivacy;
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
-    fn get_token(&self) -> Option<String>;
+    fn get_token(&self) -> Option<GString>;
 
     fn set_property_addr_gen_mode(&self, addr_gen_mode: i32);
 
@@ -77,7 +76,7 @@ pub trait SettingIP6ConfigExt {
     fn connect_property_token_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt for O {
+impl<O: IsA<SettingIP6Config>> SettingIP6ConfigExt for O {
     fn get_addr_gen_mode(&self) -> SettingIP6ConfigAddrGenMode {
         unsafe {
             from_glib(ffi::nm_setting_ip6_config_get_addr_gen_mode(
@@ -87,7 +86,7 @@ impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt f
     }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
-    fn get_dhcp_duid(&self) -> Option<String> {
+    fn get_dhcp_duid(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_ip6_config_get_dhcp_duid(
                 self.to_glib_none().0,
@@ -104,15 +103,15 @@ impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt f
     }
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
-    fn get_token(&self) -> Option<String> {
+    fn get_token(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_ip6_config_get_token(self.to_glib_none().0)) }
     }
 
     fn set_property_addr_gen_mode(&self, addr_gen_mode: i32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "addr-gen-mode".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"addr-gen-mode\0".as_ptr() as *const _,
                 Value::from(&addr_gen_mode).to_glib_none().0,
             );
         }
@@ -123,8 +122,8 @@ impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt f
         let dhcp_duid = dhcp_duid.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "dhcp-duid".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"dhcp-duid\0".as_ptr() as *const _,
                 Value::from(dhcp_duid).to_glib_none().0,
             );
         }
@@ -133,8 +132,8 @@ impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt f
     fn set_property_ip6_privacy(&self, ip6_privacy: SettingIP6ConfigPrivacy) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "ip6-privacy".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"ip6-privacy\0".as_ptr() as *const _,
                 Value::from(&ip6_privacy).to_glib_none().0,
             );
         }
@@ -145,8 +144,8 @@ impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt f
         let token = token.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "token".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"token\0".as_ptr() as *const _,
                 Value::from(token).to_glib_none().0,
             );
         }
@@ -158,9 +157,9 @@ impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt f
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::addr-gen-mode",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::addr-gen-mode\0".as_ptr() as *const _,
                 transmute(notify_addr_gen_mode_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -171,9 +170,9 @@ impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt f
     fn connect_property_dhcp_duid_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dhcp-duid",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dhcp-duid\0".as_ptr() as *const _,
                 transmute(notify_dhcp_duid_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -183,9 +182,9 @@ impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt f
     fn connect_property_ip6_privacy_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::ip6-privacy",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::ip6-privacy\0".as_ptr() as *const _,
                 transmute(notify_ip6_privacy_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -196,9 +195,9 @@ impl<O: IsA<SettingIP6Config> + IsA<glib::object::Object>> SettingIP6ConfigExt f
     fn connect_property_token_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::token",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::token\0".as_ptr() as *const _,
                 transmute(notify_token_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

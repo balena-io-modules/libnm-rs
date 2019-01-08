@@ -10,9 +10,10 @@ use gio_ffi;
 use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib::StaticType;
 use glib::Value;
 use glib_ffi;
@@ -43,7 +44,7 @@ glib_wrapper! {
 }
 
 impl Device {
-    pub fn disambiguate_names(devices: &[Device]) -> Vec<String> {
+    pub fn disambiguate_names(devices: &[Device]) -> Vec<GString> {
         let num_devices = devices.len() as i32;
         unsafe {
             FromGlibPtrContainer::from_glib_full(ffi::nm_device_disambiguate_names(
@@ -54,7 +55,7 @@ impl Device {
     }
 }
 
-pub trait DeviceExt: Sized {
+pub trait DeviceExt: 'static {
     fn connection_compatible<P: IsA<Connection>>(&self, connection: &P) -> Result<(), Error>;
 
     fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool;
@@ -77,7 +78,9 @@ pub trait DeviceExt: Sized {
     #[cfg(feature = "futures")]
     fn delete_async_future(
         &self,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone;
 
     fn disconnect<'a, P: Into<Option<&'a gio::Cancellable>>>(
         &self,
@@ -97,7 +100,9 @@ pub trait DeviceExt: Sized {
     #[cfg(feature = "futures")]
     fn disconnect_async_future(
         &self,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone;
 
     //fn filter_connections(&self, connections: /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 4 }) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 4 };
 
@@ -124,7 +129,9 @@ pub trait DeviceExt: Sized {
     fn get_applied_connection_async_future(
         &self,
         flags: u32,
-    ) -> Box_<futures_core::Future<Item = (Self, (Connection, u64)), Error = (Self, Error)>>;
+    ) -> Box_<futures_core::Future<Item = (Self, (Connection, u64)), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone;
 
     fn get_autoconnect(&self) -> bool;
 
@@ -132,7 +139,7 @@ pub trait DeviceExt: Sized {
 
     fn get_capabilities(&self) -> DeviceCapabilities;
 
-    fn get_description(&self) -> Option<String>;
+    fn get_description(&self) -> Option<GString>;
 
     fn get_device_type(&self) -> DeviceType;
 
@@ -140,23 +147,23 @@ pub trait DeviceExt: Sized {
 
     fn get_dhcp6_config(&self) -> Option<DhcpConfig>;
 
-    fn get_driver(&self) -> Option<String>;
+    fn get_driver(&self) -> Option<GString>;
 
-    fn get_driver_version(&self) -> Option<String>;
+    fn get_driver_version(&self) -> Option<GString>;
 
     fn get_firmware_missing(&self) -> bool;
 
-    fn get_firmware_version(&self) -> Option<String>;
+    fn get_firmware_version(&self) -> Option<GString>;
 
-    fn get_hw_address(&self) -> Option<String>;
+    fn get_hw_address(&self) -> Option<GString>;
 
-    fn get_iface(&self) -> Option<String>;
+    fn get_iface(&self) -> Option<GString>;
 
     fn get_ip4_config(&self) -> Option<IPConfig>;
 
     fn get_ip6_config(&self) -> Option<IPConfig>;
 
-    fn get_ip_iface(&self) -> Option<String>;
+    fn get_ip_iface(&self) -> Option<GString>;
 
     //fn get_lldp_neighbors(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 79 };
 
@@ -168,9 +175,9 @@ pub trait DeviceExt: Sized {
 
     fn get_nm_plugin_missing(&self) -> bool;
 
-    fn get_physical_port_id(&self) -> Option<String>;
+    fn get_physical_port_id(&self) -> Option<GString>;
 
-    fn get_product(&self) -> Option<String>;
+    fn get_product(&self) -> Option<GString>;
 
     fn get_setting_type(&self) -> glib::types::Type;
 
@@ -178,11 +185,11 @@ pub trait DeviceExt: Sized {
 
     fn get_state_reason(&self) -> DeviceStateReason;
 
-    fn get_type_description(&self) -> Option<String>;
+    fn get_type_description(&self) -> Option<GString>;
 
-    fn get_udi(&self) -> Option<String>;
+    fn get_udi(&self) -> Option<GString>;
 
-    fn get_vendor(&self) -> Option<String>;
+    fn get_vendor(&self) -> Option<GString>;
 
     fn is_real(&self) -> bool;
 
@@ -224,15 +231,17 @@ pub trait DeviceExt: Sized {
         connection: Q,
         version_id: u64,
         flags: u32,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>;
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone;
 
     fn set_autoconnect(&self, autoconnect: bool);
 
     fn set_managed(&self, managed: bool);
 
-    fn get_property_interface(&self) -> Option<String>;
+    fn get_property_interface(&self) -> Option<GString>;
 
-    fn get_property_ip_interface(&self) -> Option<String>;
+    fn get_property_ip_interface(&self) -> Option<GString>;
 
     fn get_property_real(&self) -> bool;
 
@@ -323,7 +332,7 @@ pub trait DeviceExt: Sized {
     fn connect_property_vendor_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for O {
+impl<O: IsA<Device>> DeviceExt for O {
     fn connection_compatible<P: IsA<Connection>>(&self, connection: &P) -> Result<(), Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -409,7 +418,10 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     #[cfg(feature = "futures")]
     fn delete_async_future(
         &self,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -487,7 +499,10 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     #[cfg(feature = "futures")]
     fn disconnect_async_future(
         &self,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -590,7 +605,10 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn get_applied_connection_async_future(
         &self,
         flags: u32,
-    ) -> Box_<futures_core::Future<Item = (Self, (Connection, u64)), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, (Connection, u64)), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -620,7 +638,7 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
         unsafe { from_glib(ffi::nm_device_get_capabilities(self.to_glib_none().0)) }
     }
 
-    fn get_description(&self) -> Option<String> {
+    fn get_description(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_device_get_description(self.to_glib_none().0)) }
     }
 
@@ -636,11 +654,11 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
         unsafe { from_glib_none(ffi::nm_device_get_dhcp6_config(self.to_glib_none().0)) }
     }
 
-    fn get_driver(&self) -> Option<String> {
+    fn get_driver(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_device_get_driver(self.to_glib_none().0)) }
     }
 
-    fn get_driver_version(&self) -> Option<String> {
+    fn get_driver_version(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_device_get_driver_version(self.to_glib_none().0)) }
     }
 
@@ -648,15 +666,15 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
         unsafe { from_glib(ffi::nm_device_get_firmware_missing(self.to_glib_none().0)) }
     }
 
-    fn get_firmware_version(&self) -> Option<String> {
+    fn get_firmware_version(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_device_get_firmware_version(self.to_glib_none().0)) }
     }
 
-    fn get_hw_address(&self) -> Option<String> {
+    fn get_hw_address(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_device_get_hw_address(self.to_glib_none().0)) }
     }
 
-    fn get_iface(&self) -> Option<String> {
+    fn get_iface(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_device_get_iface(self.to_glib_none().0)) }
     }
 
@@ -668,7 +686,7 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
         unsafe { from_glib_none(ffi::nm_device_get_ip6_config(self.to_glib_none().0)) }
     }
 
-    fn get_ip_iface(&self) -> Option<String> {
+    fn get_ip_iface(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_device_get_ip_iface(self.to_glib_none().0)) }
     }
 
@@ -692,11 +710,11 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
         unsafe { from_glib(ffi::nm_device_get_nm_plugin_missing(self.to_glib_none().0)) }
     }
 
-    fn get_physical_port_id(&self) -> Option<String> {
+    fn get_physical_port_id(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_device_get_physical_port_id(self.to_glib_none().0)) }
     }
 
-    fn get_product(&self) -> Option<String> {
+    fn get_product(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_device_get_product(self.to_glib_none().0)) }
     }
 
@@ -712,15 +730,15 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
         unsafe { from_glib(ffi::nm_device_get_state_reason(self.to_glib_none().0)) }
     }
 
-    fn get_type_description(&self) -> Option<String> {
+    fn get_type_description(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_device_get_type_description(self.to_glib_none().0)) }
     }
 
-    fn get_udi(&self) -> Option<String> {
+    fn get_udi(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_device_get_udi(self.to_glib_none().0)) }
     }
 
-    fn get_vendor(&self) -> Option<String> {
+    fn get_vendor(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_device_get_vendor(self.to_glib_none().0)) }
     }
 
@@ -824,7 +842,10 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
         connection: Q,
         version_id: u64,
         flags: u32,
-    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>> {
+    ) -> Box_<futures_core::Future<Item = (Self, ()), Error = (Self, Error)>>
+    where
+        Self: Sized + Clone,
+    {
         use fragile::Fragile;
         use gio::GioFuture;
 
@@ -862,24 +883,24 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
         }
     }
 
-    fn get_property_interface(&self) -> Option<String> {
+    fn get_property_interface(&self) -> Option<GString> {
         unsafe {
-            let mut value = Value::from_type(<String as StaticType>::static_type());
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "interface".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"interface\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
         }
     }
 
-    fn get_property_ip_interface(&self) -> Option<String> {
+    fn get_property_ip_interface(&self) -> Option<GString> {
         unsafe {
-            let mut value = Value::from_type(<String as StaticType>::static_type());
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "ip-interface".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"ip-interface\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -890,8 +911,8 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "real".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"real\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -904,9 +925,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self, u32, u32, u32) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "state-changed",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"state-changed\0".as_ptr() as *const _,
                 transmute(state_changed_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -919,9 +940,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::active-connection",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::active-connection\0".as_ptr() as *const _,
                 transmute(notify_active_connection_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -931,9 +952,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn connect_property_autoconnect_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::autoconnect",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::autoconnect\0".as_ptr() as *const _,
                 transmute(notify_autoconnect_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -946,9 +967,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::available-connections",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::available-connections\0".as_ptr() as *const _,
                 transmute(notify_available_connections_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -961,9 +982,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::capabilities",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::capabilities\0".as_ptr() as *const _,
                 transmute(notify_capabilities_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -973,9 +994,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn connect_property_device_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::device-type",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::device-type\0".as_ptr() as *const _,
                 transmute(notify_device_type_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -988,9 +1009,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dhcp4-config",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dhcp4-config\0".as_ptr() as *const _,
                 transmute(notify_dhcp4_config_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1003,9 +1024,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::dhcp6-config",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::dhcp6-config\0".as_ptr() as *const _,
                 transmute(notify_dhcp6_config_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1015,9 +1036,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn connect_property_driver_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::driver",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::driver\0".as_ptr() as *const _,
                 transmute(notify_driver_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1030,9 +1051,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::driver-version",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::driver-version\0".as_ptr() as *const _,
                 transmute(notify_driver_version_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1045,9 +1066,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::firmware-missing",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::firmware-missing\0".as_ptr() as *const _,
                 transmute(notify_firmware_missing_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1060,9 +1081,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::firmware-version",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::firmware-version\0".as_ptr() as *const _,
                 transmute(notify_firmware_version_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1072,9 +1093,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn connect_property_interface_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::interface",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::interface\0".as_ptr() as *const _,
                 transmute(notify_interface_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1087,9 +1108,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::ip-interface",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::ip-interface\0".as_ptr() as *const _,
                 transmute(notify_ip_interface_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1099,9 +1120,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn connect_property_ip4_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::ip4-config",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::ip4-config\0".as_ptr() as *const _,
                 transmute(notify_ip4_config_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1111,9 +1132,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn connect_property_ip6_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::ip6-config",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::ip6-config\0".as_ptr() as *const _,
                 transmute(notify_ip6_config_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1126,9 +1147,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::lldp-neighbors",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::lldp-neighbors\0".as_ptr() as *const _,
                 transmute(notify_lldp_neighbors_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1138,9 +1159,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn connect_property_managed_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::managed",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::managed\0".as_ptr() as *const _,
                 transmute(notify_managed_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1150,9 +1171,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn connect_property_metered_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::metered",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::metered\0".as_ptr() as *const _,
                 transmute(notify_metered_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1162,9 +1183,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn connect_property_mtu_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::mtu",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::mtu\0".as_ptr() as *const _,
                 transmute(notify_mtu_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1177,9 +1198,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::nm-plugin-missing",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::nm-plugin-missing\0".as_ptr() as *const _,
                 transmute(notify_nm_plugin_missing_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1192,9 +1213,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::physical-port-id",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::physical-port-id\0".as_ptr() as *const _,
                 transmute(notify_physical_port_id_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1204,9 +1225,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn connect_property_product_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::product",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::product\0".as_ptr() as *const _,
                 transmute(notify_product_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1216,9 +1237,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn connect_property_real_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::real",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::real\0".as_ptr() as *const _,
                 transmute(notify_real_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1228,9 +1249,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn connect_property_state_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::state",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::state\0".as_ptr() as *const _,
                 transmute(notify_state_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1243,9 +1264,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::state-reason",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::state-reason\0".as_ptr() as *const _,
                 transmute(notify_state_reason_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1255,9 +1276,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn connect_property_udi_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::udi",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::udi\0".as_ptr() as *const _,
                 transmute(notify_udi_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -1267,9 +1288,9 @@ impl<O: IsA<Device> + IsA<glib::object::Object> + Clone + 'static> DeviceExt for
     fn connect_property_vendor_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::vendor",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::vendor\0".as_ptr() as *const _,
                 transmute(notify_vendor_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

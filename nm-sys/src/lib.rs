@@ -3,7 +3,7 @@
 // DO NOT EDIT
 
 #![allow(non_camel_case_types, non_upper_case_globals, non_snake_case)]
-#![cfg_attr(feature = "cargo-clippy", allow(approx_constant, type_complexity, unreadable_literal))]
+#![allow(clippy::approx_constant, clippy::type_complexity, clippy::unreadable_literal)]
 
 extern crate libc;
 extern crate glib_sys as glib;
@@ -57,9 +57,8 @@ pub const NM_AGENT_MANAGER_ERROR_NOT_REGISTERED: NMAgentManagerError = 3;
 pub const NM_AGENT_MANAGER_ERROR_NO_SECRETS: NMAgentManagerError = 4;
 pub const NM_AGENT_MANAGER_ERROR_USER_CANCELED: NMAgentManagerError = 5;
 
-pub type Capability = c_int;
-pub const NM_CAPABILITY_TEAM: Capability = 1;
-pub type NMCapability = Capability;
+pub type NMCapability = c_int;
+pub const NM_CAPABILITY_TEAM: NMCapability = 1;
 
 pub type NMClientError = c_int;
 pub const NM_CLIENT_ERROR_FAILED: NMClientError = 0;

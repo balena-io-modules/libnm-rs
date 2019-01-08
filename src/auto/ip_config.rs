@@ -3,19 +3,16 @@
 // DO NOT EDIT
 
 use ffi;
-use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib_ffi;
-use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
-use std::ptr;
 
 glib_wrapper! {
     pub struct IPConfig(Object<ffi::NMIPConfig, ffi::NMIPConfigClass>);
@@ -25,22 +22,22 @@ glib_wrapper! {
     }
 }
 
-pub trait IPConfigExt {
+pub trait IPConfigExt: 'static {
     //fn get_addresses(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 137 };
 
-    fn get_domains(&self) -> Vec<String>;
+    fn get_domains(&self) -> Vec<GString>;
 
     fn get_family(&self) -> i32;
 
-    fn get_gateway(&self) -> Option<String>;
+    fn get_gateway(&self) -> Option<GString>;
 
-    fn get_nameservers(&self) -> Vec<String>;
+    fn get_nameservers(&self) -> Vec<GString>;
 
     //fn get_routes(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 138 };
 
-    fn get_searches(&self) -> Vec<String>;
+    fn get_searches(&self) -> Vec<GString>;
 
-    fn get_wins_servers(&self) -> Vec<String>;
+    fn get_wins_servers(&self) -> Vec<GString>;
 
     fn connect_property_addresses_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -60,12 +57,12 @@ pub trait IPConfigExt {
         -> SignalHandlerId;
 }
 
-impl<O: IsA<IPConfig> + IsA<glib::object::Object>> IPConfigExt for O {
+impl<O: IsA<IPConfig>> IPConfigExt for O {
     //fn get_addresses(&self) -> /*Unknown conversion*//*Unimplemented*/PtrArray TypeId { ns_id: 1, id: 137 } {
     //    unsafe { TODO: call ffi::nm_ip_config_get_addresses() }
     //}
 
-    fn get_domains(&self) -> Vec<String> {
+    fn get_domains(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(ffi::nm_ip_config_get_domains(
                 self.to_glib_none().0,
@@ -77,11 +74,11 @@ impl<O: IsA<IPConfig> + IsA<glib::object::Object>> IPConfigExt for O {
         unsafe { ffi::nm_ip_config_get_family(self.to_glib_none().0) }
     }
 
-    fn get_gateway(&self) -> Option<String> {
+    fn get_gateway(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_ip_config_get_gateway(self.to_glib_none().0)) }
     }
 
-    fn get_nameservers(&self) -> Vec<String> {
+    fn get_nameservers(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(ffi::nm_ip_config_get_nameservers(
                 self.to_glib_none().0,
@@ -93,7 +90,7 @@ impl<O: IsA<IPConfig> + IsA<glib::object::Object>> IPConfigExt for O {
     //    unsafe { TODO: call ffi::nm_ip_config_get_routes() }
     //}
 
-    fn get_searches(&self) -> Vec<String> {
+    fn get_searches(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(ffi::nm_ip_config_get_searches(
                 self.to_glib_none().0,
@@ -101,7 +98,7 @@ impl<O: IsA<IPConfig> + IsA<glib::object::Object>> IPConfigExt for O {
         }
     }
 
-    fn get_wins_servers(&self) -> Vec<String> {
+    fn get_wins_servers(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(ffi::nm_ip_config_get_wins_servers(
                 self.to_glib_none().0,
@@ -112,9 +109,9 @@ impl<O: IsA<IPConfig> + IsA<glib::object::Object>> IPConfigExt for O {
     fn connect_property_addresses_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::addresses",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::addresses\0".as_ptr() as *const _,
                 transmute(notify_addresses_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -124,9 +121,9 @@ impl<O: IsA<IPConfig> + IsA<glib::object::Object>> IPConfigExt for O {
     fn connect_property_domains_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::domains",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::domains\0".as_ptr() as *const _,
                 transmute(notify_domains_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -136,9 +133,9 @@ impl<O: IsA<IPConfig> + IsA<glib::object::Object>> IPConfigExt for O {
     fn connect_property_family_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::family",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::family\0".as_ptr() as *const _,
                 transmute(notify_family_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -148,9 +145,9 @@ impl<O: IsA<IPConfig> + IsA<glib::object::Object>> IPConfigExt for O {
     fn connect_property_gateway_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::gateway",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::gateway\0".as_ptr() as *const _,
                 transmute(notify_gateway_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -160,9 +157,9 @@ impl<O: IsA<IPConfig> + IsA<glib::object::Object>> IPConfigExt for O {
     fn connect_property_nameservers_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::nameservers",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::nameservers\0".as_ptr() as *const _,
                 transmute(notify_nameservers_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -172,9 +169,9 @@ impl<O: IsA<IPConfig> + IsA<glib::object::Object>> IPConfigExt for O {
     fn connect_property_routes_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::routes",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::routes\0".as_ptr() as *const _,
                 transmute(notify_routes_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -184,9 +181,9 @@ impl<O: IsA<IPConfig> + IsA<glib::object::Object>> IPConfigExt for O {
     fn connect_property_searches_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::searches",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::searches\0".as_ptr() as *const _,
                 transmute(notify_searches_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -199,9 +196,9 @@ impl<O: IsA<IPConfig> + IsA<glib::object::Object>> IPConfigExt for O {
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wins-servers",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::wins-servers\0".as_ptr() as *const _,
                 transmute(notify_wins_servers_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

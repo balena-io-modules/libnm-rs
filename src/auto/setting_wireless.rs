@@ -9,18 +9,17 @@ use ffi;
 use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib::StaticType;
 use glib::Value;
 use glib_ffi;
 use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
-use std::ptr;
 use Setting;
 use SettingMacRandomization;
 use SettingWirelessSecurity;
@@ -47,7 +46,7 @@ impl Default for SettingWireless {
     }
 }
 
-pub trait SettingWirelessExt {
+pub trait SettingWirelessExt: 'static {
     fn add_mac_blacklist_item(&self, mac: &str) -> bool;
 
     fn add_seen_bssid(&self, bssid: &str) -> bool;
@@ -63,28 +62,28 @@ pub trait SettingWirelessExt {
 
     fn clear_mac_blacklist_items(&self);
 
-    fn get_band(&self) -> Option<String>;
+    fn get_band(&self) -> Option<GString>;
 
-    fn get_bssid(&self) -> Option<String>;
+    fn get_bssid(&self) -> Option<GString>;
 
     fn get_channel(&self) -> u32;
 
-    fn get_cloned_mac_address(&self) -> Option<String>;
+    fn get_cloned_mac_address(&self) -> Option<GString>;
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
-    fn get_generate_mac_address_mask(&self) -> Option<String>;
+    fn get_generate_mac_address_mask(&self) -> Option<GString>;
 
     fn get_hidden(&self) -> bool;
 
-    fn get_mac_address(&self) -> Option<String>;
+    fn get_mac_address(&self) -> Option<GString>;
 
-    fn get_mac_address_blacklist(&self) -> Vec<String>;
+    fn get_mac_address_blacklist(&self) -> Vec<GString>;
 
     fn get_mac_address_randomization(&self) -> SettingMacRandomization;
 
-    fn get_mac_blacklist_item(&self, idx: u32) -> Option<String>;
+    fn get_mac_blacklist_item(&self, idx: u32) -> Option<GString>;
 
-    fn get_mode(&self) -> Option<String>;
+    fn get_mode(&self) -> Option<GString>;
 
     fn get_mtu(&self) -> u32;
 
@@ -96,7 +95,7 @@ pub trait SettingWirelessExt {
 
     fn get_rate(&self) -> u32;
 
-    fn get_seen_bssid(&self, i: u32) -> Option<String>;
+    fn get_seen_bssid(&self, i: u32) -> Option<GString>;
 
     fn get_ssid(&self) -> Option<glib::Bytes>;
 
@@ -117,7 +116,7 @@ pub trait SettingWirelessExt {
 
     fn set_property_cloned_mac_address<'a, P: Into<Option<&'a str>>>(&self, cloned_mac_address: P);
 
-    fn get_property_generate_mac_address_mask(&self) -> Option<String>;
+    fn get_property_generate_mac_address_mask(&self) -> Option<GString>;
 
     fn set_property_generate_mac_address_mask<'a, P: Into<Option<&'a str>>>(
         &self,
@@ -141,7 +140,7 @@ pub trait SettingWirelessExt {
 
     fn set_property_rate(&self, rate: u32);
 
-    fn get_property_seen_bssids(&self) -> Vec<String>;
+    fn get_property_seen_bssids(&self) -> Vec<GString>;
 
     fn set_property_seen_bssids(&self, seen_bssids: &[&str]);
 
@@ -202,7 +201,7 @@ pub trait SettingWirelessExt {
         -> SignalHandlerId;
 }
 
-impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for O {
+impl<O: IsA<SettingWireless>> SettingWirelessExt for O {
     fn add_mac_blacklist_item(&self, mac: &str) -> bool {
         unsafe {
             from_glib(ffi::nm_setting_wireless_add_mac_blacklist_item(
@@ -247,11 +246,11 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         }
     }
 
-    fn get_band(&self) -> Option<String> {
+    fn get_band(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_wireless_get_band(self.to_glib_none().0)) }
     }
 
-    fn get_bssid(&self) -> Option<String> {
+    fn get_bssid(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_wireless_get_bssid(self.to_glib_none().0)) }
     }
 
@@ -259,7 +258,7 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         unsafe { ffi::nm_setting_wireless_get_channel(self.to_glib_none().0) }
     }
 
-    fn get_cloned_mac_address(&self) -> Option<String> {
+    fn get_cloned_mac_address(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wireless_get_cloned_mac_address(
                 self.to_glib_none().0,
@@ -268,7 +267,7 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     }
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
-    fn get_generate_mac_address_mask(&self) -> Option<String> {
+    fn get_generate_mac_address_mask(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wireless_get_generate_mac_address_mask(
                 self.to_glib_none().0,
@@ -280,7 +279,7 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         unsafe { from_glib(ffi::nm_setting_wireless_get_hidden(self.to_glib_none().0)) }
     }
 
-    fn get_mac_address(&self) -> Option<String> {
+    fn get_mac_address(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wireless_get_mac_address(
                 self.to_glib_none().0,
@@ -288,7 +287,7 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         }
     }
 
-    fn get_mac_address_blacklist(&self) -> Vec<String> {
+    fn get_mac_address_blacklist(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(
                 ffi::nm_setting_wireless_get_mac_address_blacklist(self.to_glib_none().0),
@@ -304,7 +303,7 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         }
     }
 
-    fn get_mac_blacklist_item(&self, idx: u32) -> Option<String> {
+    fn get_mac_blacklist_item(&self, idx: u32) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wireless_get_mac_blacklist_item(
                 self.to_glib_none().0,
@@ -313,7 +312,7 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         }
     }
 
-    fn get_mode(&self) -> Option<String> {
+    fn get_mode(&self) -> Option<GString> {
         unsafe { from_glib_none(ffi::nm_setting_wireless_get_mode(self.to_glib_none().0)) }
     }
 
@@ -337,7 +336,7 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         unsafe { ffi::nm_setting_wireless_get_rate(self.to_glib_none().0) }
     }
 
-    fn get_seen_bssid(&self, i: u32) -> Option<String> {
+    fn get_seen_bssid(&self, i: u32) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_wireless_get_seen_bssid(
                 self.to_glib_none().0,
@@ -382,8 +381,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         let band = band.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "band".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"band\0".as_ptr() as *const _,
                 Value::from(band).to_glib_none().0,
             );
         }
@@ -393,8 +392,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         let bssid = bssid.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "bssid".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"bssid\0".as_ptr() as *const _,
                 Value::from(bssid).to_glib_none().0,
             );
         }
@@ -403,8 +402,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn set_property_channel(&self, channel: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "channel".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"channel\0".as_ptr() as *const _,
                 Value::from(&channel).to_glib_none().0,
             );
         }
@@ -414,19 +413,19 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         let cloned_mac_address = cloned_mac_address.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "cloned-mac-address".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"cloned-mac-address\0".as_ptr() as *const _,
                 Value::from(cloned_mac_address).to_glib_none().0,
             );
         }
     }
 
-    fn get_property_generate_mac_address_mask(&self) -> Option<String> {
+    fn get_property_generate_mac_address_mask(&self) -> Option<GString> {
         unsafe {
-            let mut value = Value::from_type(<String as StaticType>::static_type());
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "generate-mac-address-mask".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"generate-mac-address-mask\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -440,8 +439,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         let generate_mac_address_mask = generate_mac_address_mask.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "generate-mac-address-mask".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"generate-mac-address-mask\0".as_ptr() as *const _,
                 Value::from(generate_mac_address_mask).to_glib_none().0,
             );
         }
@@ -450,8 +449,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn set_property_hidden(&self, hidden: bool) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "hidden".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"hidden\0".as_ptr() as *const _,
                 Value::from(&hidden).to_glib_none().0,
             );
         }
@@ -461,8 +460,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         let mac_address = mac_address.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "mac-address".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"mac-address\0".as_ptr() as *const _,
                 Value::from(mac_address).to_glib_none().0,
             );
         }
@@ -471,8 +470,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn set_property_mac_address_blacklist(&self, mac_address_blacklist: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "mac-address-blacklist".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"mac-address-blacklist\0".as_ptr() as *const _,
                 Value::from(mac_address_blacklist).to_glib_none().0,
             );
         }
@@ -481,8 +480,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn set_property_mac_address_randomization(&self, mac_address_randomization: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "mac-address-randomization".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"mac-address-randomization\0".as_ptr() as *const _,
                 Value::from(&mac_address_randomization).to_glib_none().0,
             );
         }
@@ -492,8 +491,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
         let mode = mode.into();
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "mode".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"mode\0".as_ptr() as *const _,
                 Value::from(mode).to_glib_none().0,
             );
         }
@@ -502,8 +501,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn set_property_mtu(&self, mtu: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "mtu".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"mtu\0".as_ptr() as *const _,
                 Value::from(&mtu).to_glib_none().0,
             );
         }
@@ -512,8 +511,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn set_property_powersave(&self, powersave: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "powersave".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"powersave\0".as_ptr() as *const _,
                 Value::from(&powersave).to_glib_none().0,
             );
         }
@@ -522,19 +521,19 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn set_property_rate(&self, rate: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "rate".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"rate\0".as_ptr() as *const _,
                 Value::from(&rate).to_glib_none().0,
             );
         }
     }
 
-    fn get_property_seen_bssids(&self) -> Vec<String> {
+    fn get_property_seen_bssids(&self) -> Vec<GString> {
         unsafe {
-            let mut value = Value::from_type(<Vec<String> as StaticType>::static_type());
+            let mut value = Value::from_type(<Vec<GString> as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "seen-bssids".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"seen-bssids\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get().unwrap()
@@ -544,8 +543,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn set_property_seen_bssids(&self, seen_bssids: &[&str]) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "seen-bssids".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"seen-bssids\0".as_ptr() as *const _,
                 Value::from(seen_bssids).to_glib_none().0,
             );
         }
@@ -554,8 +553,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn set_property_ssid(&self, ssid: Option<&glib::Bytes>) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "ssid".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"ssid\0".as_ptr() as *const _,
                 Value::from(ssid).to_glib_none().0,
             );
         }
@@ -564,8 +563,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn set_property_tx_power(&self, tx_power: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "tx-power".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"tx-power\0".as_ptr() as *const _,
                 Value::from(&tx_power).to_glib_none().0,
             );
         }
@@ -575,8 +574,8 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn set_property_wake_on_wlan(&self, wake_on_wlan: u32) {
         unsafe {
             gobject_ffi::g_object_set_property(
-                self.to_glib_none().0,
-                "wake-on-wlan".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"wake-on-wlan\0".as_ptr() as *const _,
                 Value::from(&wake_on_wlan).to_glib_none().0,
             );
         }
@@ -585,9 +584,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn connect_property_band_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::band",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::band\0".as_ptr() as *const _,
                 transmute(notify_band_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -597,9 +596,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn connect_property_bssid_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::bssid",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::bssid\0".as_ptr() as *const _,
                 transmute(notify_bssid_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -609,9 +608,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn connect_property_channel_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::channel",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::channel\0".as_ptr() as *const _,
                 transmute(notify_channel_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -624,9 +623,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::cloned-mac-address",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::cloned-mac-address\0".as_ptr() as *const _,
                 transmute(notify_cloned_mac_address_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -639,9 +638,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::generate-mac-address-mask",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::generate-mac-address-mask\0".as_ptr() as *const _,
                 transmute(notify_generate_mac_address_mask_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -651,9 +650,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn connect_property_hidden_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::hidden",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::hidden\0".as_ptr() as *const _,
                 transmute(notify_hidden_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -663,9 +662,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn connect_property_mac_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::mac-address",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::mac-address\0".as_ptr() as *const _,
                 transmute(notify_mac_address_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -678,9 +677,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::mac-address-blacklist",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::mac-address-blacklist\0".as_ptr() as *const _,
                 transmute(notify_mac_address_blacklist_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -693,9 +692,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::mac-address-randomization",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::mac-address-randomization\0".as_ptr() as *const _,
                 transmute(notify_mac_address_randomization_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -705,9 +704,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn connect_property_mode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::mode",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::mode\0".as_ptr() as *const _,
                 transmute(notify_mode_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -717,9 +716,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn connect_property_mtu_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::mtu",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::mtu\0".as_ptr() as *const _,
                 transmute(notify_mtu_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -729,9 +728,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn connect_property_powersave_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::powersave",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::powersave\0".as_ptr() as *const _,
                 transmute(notify_powersave_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -741,9 +740,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn connect_property_rate_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::rate",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::rate\0".as_ptr() as *const _,
                 transmute(notify_rate_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -753,9 +752,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn connect_property_seen_bssids_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::seen-bssids",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::seen-bssids\0".as_ptr() as *const _,
                 transmute(notify_seen_bssids_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -765,9 +764,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn connect_property_ssid_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::ssid",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::ssid\0".as_ptr() as *const _,
                 transmute(notify_ssid_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -777,9 +776,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     fn connect_property_tx_power_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::tx-power",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::tx-power\0".as_ptr() as *const _,
                 transmute(notify_tx_power_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -793,9 +792,9 @@ impl<O: IsA<SettingWireless> + IsA<glib::object::Object>> SettingWirelessExt for
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::wake-on-wlan",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::wake-on-wlan\0".as_ptr() as *const _,
                 transmute(notify_wake_on_wlan_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )

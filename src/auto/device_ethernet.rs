@@ -3,21 +3,19 @@
 // DO NOT EDIT
 
 use ffi;
-use glib;
 use glib::object::Downcast;
 use glib::object::IsA;
-use glib::signal::connect;
+use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib::StaticType;
 use glib::Value;
 use glib_ffi;
 use gobject_ffi;
 use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem;
 use std::mem::transmute;
-use std::ptr;
 use Device;
 
 glib_wrapper! {
@@ -28,16 +26,16 @@ glib_wrapper! {
     }
 }
 
-pub trait DeviceEthernetExt {
+pub trait DeviceEthernetExt: 'static {
     fn get_carrier(&self) -> bool;
 
-    fn get_permanent_hw_address(&self) -> Option<String>;
+    fn get_permanent_hw_address(&self) -> Option<GString>;
 
-    fn get_s390_subchannels(&self) -> Vec<String>;
+    fn get_s390_subchannels(&self) -> Vec<GString>;
 
     fn get_speed(&self) -> u32;
 
-    fn get_property_perm_hw_address(&self) -> Option<String>;
+    fn get_property_perm_hw_address(&self) -> Option<GString>;
 
     fn connect_property_carrier_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -56,12 +54,12 @@ pub trait DeviceEthernetExt {
     fn connect_property_speed_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<DeviceEthernet> + IsA<glib::object::Object>> DeviceEthernetExt for O {
+impl<O: IsA<DeviceEthernet>> DeviceEthernetExt for O {
     fn get_carrier(&self) -> bool {
         unsafe { from_glib(ffi::nm_device_ethernet_get_carrier(self.to_glib_none().0)) }
     }
 
-    fn get_permanent_hw_address(&self) -> Option<String> {
+    fn get_permanent_hw_address(&self) -> Option<GString> {
         unsafe {
             from_glib_none(ffi::nm_device_ethernet_get_permanent_hw_address(
                 self.to_glib_none().0,
@@ -69,7 +67,7 @@ impl<O: IsA<DeviceEthernet> + IsA<glib::object::Object>> DeviceEthernetExt for O
         }
     }
 
-    fn get_s390_subchannels(&self) -> Vec<String> {
+    fn get_s390_subchannels(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(ffi::nm_device_ethernet_get_s390_subchannels(
                 self.to_glib_none().0,
@@ -81,12 +79,12 @@ impl<O: IsA<DeviceEthernet> + IsA<glib::object::Object>> DeviceEthernetExt for O
         unsafe { ffi::nm_device_ethernet_get_speed(self.to_glib_none().0) }
     }
 
-    fn get_property_perm_hw_address(&self) -> Option<String> {
+    fn get_property_perm_hw_address(&self) -> Option<GString> {
         unsafe {
-            let mut value = Value::from_type(<String as StaticType>::static_type());
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
             gobject_ffi::g_object_get_property(
-                self.to_glib_none().0,
-                "perm-hw-address".to_glib_none().0,
+                self.to_glib_none().0 as *mut gobject_ffi::GObject,
+                b"perm-hw-address\0".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value.get()
@@ -96,9 +94,9 @@ impl<O: IsA<DeviceEthernet> + IsA<glib::object::Object>> DeviceEthernetExt for O
     fn connect_property_carrier_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::carrier",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::carrier\0".as_ptr() as *const _,
                 transmute(notify_carrier_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -108,9 +106,9 @@ impl<O: IsA<DeviceEthernet> + IsA<glib::object::Object>> DeviceEthernetExt for O
     fn connect_property_hw_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::hw-address",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::hw-address\0".as_ptr() as *const _,
                 transmute(notify_hw_address_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -123,9 +121,9 @@ impl<O: IsA<DeviceEthernet> + IsA<glib::object::Object>> DeviceEthernetExt for O
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::perm-hw-address",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::perm-hw-address\0".as_ptr() as *const _,
                 transmute(notify_perm_hw_address_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -138,9 +136,9 @@ impl<O: IsA<DeviceEthernet> + IsA<glib::object::Object>> DeviceEthernetExt for O
     ) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::s390-subchannels",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::s390-subchannels\0".as_ptr() as *const _,
                 transmute(notify_s390_subchannels_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
@@ -150,9 +148,9 @@ impl<O: IsA<DeviceEthernet> + IsA<glib::object::Object>> DeviceEthernetExt for O
     fn connect_property_speed_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe {
             let f: Box_<Box_<Fn(&Self) + 'static>> = Box_::new(Box_::new(f));
-            connect(
-                self.to_glib_none().0,
-                "notify::speed",
+            connect_raw(
+                self.to_glib_none().0 as *mut _,
+                b"notify::speed\0".as_ptr() as *const _,
                 transmute(notify_speed_trampoline::<Self> as usize),
                 Box_::into_raw(f) as *mut _,
             )
