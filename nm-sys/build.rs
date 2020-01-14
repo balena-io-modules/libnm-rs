@@ -2,14 +2,24 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+#[cfg(not(feature = "dox"))]
 extern crate pkg_config;
 
+#[cfg(not(feature = "dox"))]
 use pkg_config::{Config, Error};
+#[cfg(not(feature = "dox"))]
 use std::env;
+#[cfg(not(feature = "dox"))]
 use std::io::prelude::*;
+#[cfg(not(feature = "dox"))]
 use std::io;
+#[cfg(not(feature = "dox"))]
 use std::process;
 
+#[cfg(feature = "dox")]
+fn main() {} // prevent linking libraries to avoid documentation failure
+
+#[cfg(not(feature = "dox"))]
 fn main() {
     if let Err(s) = find() {
         let _ = writeln!(io::stderr(), "{}", s);
@@ -17,11 +27,22 @@ fn main() {
     }
 }
 
+#[cfg(not(feature = "dox"))]
 fn find() -> Result<(), Error> {
     let package_name = "libnm";
     let shared_libs = ["nm"];
-    let version = if cfg!(feature = "v1_12_2") {
-        "1.12.2"
+    let version = if cfg!(feature = "v1_24") {
+        "1.24"
+    } else if cfg!(feature = "v1_22") {
+        "1.22"
+    } else if cfg!(feature = "v1_20") {
+        "1.20"
+    } else if cfg!(feature = "v1_18") {
+        "1.18"
+    } else if cfg!(feature = "v1_16") {
+        "1.16"
+    } else if cfg!(feature = "v1_14") {
+        "1.14"
     } else if cfg!(feature = "v1_12") {
         "1.12"
     } else if cfg!(feature = "v1_10") {
@@ -32,8 +53,10 @@ fn find() -> Result<(), Error> {
         "1.6"
     } else if cfg!(feature = "v1_4") {
         "1.4"
-    } else {
+    } else if cfg!(feature = "v1_2") {
         "1.2"
+    } else {
+        "0.0"
     };
 
     if let Ok(inc_dir) = env::var("GTK_INCLUDE_DIR") {

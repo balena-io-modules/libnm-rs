@@ -1,13 +1,12 @@
 extern crate nm;
 
-fn main() {
-    let client = nm::Client::new(None).unwrap();
-    let connectivity = client.get_connectivity();
-    println!("Connectivity: {:?}", connectivity);
+use nm::*;
 
-    let connectivity_check_enabled = client.get_property_connectivity_check_enabled();
-    println!(
-        "Connectivity check enabled: {:?}",
-        connectivity_check_enabled
-    );
+fn main() {
+    let client = Client::new(NONE_CANCELLABLE).unwrap();
+    let connectivity = client.get_connectivity();
+    let check_enabled = client.connectivity_check_get_enabled();
+
+    println!("Connectivity: {:?}", connectivity);
+    println!("Connectivity check enabled: {:?}", check_enabled);
 }
