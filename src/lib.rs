@@ -30,9 +30,12 @@ extern crate futures_core;
 
 extern crate nm_sys;
 
-pub use glib::Error;
-
 pub use gio::NONE_CANCELLABLE;
+
+pub use glib::prelude::*;
+
+pub use functions::*;
+pub use traits::*;
 
 mod access_point;
 pub use self::access_point::{AccessPoint, AccessPointClass};
@@ -1623,7 +1626,3 @@ pub mod traits {
     pub use super::VpnPluginOldExt;
     pub use super::VpnServicePluginExt;
 }
-
-pub use glib::prelude::*;
-
-pub use traits::*;
