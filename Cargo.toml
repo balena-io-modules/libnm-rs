@@ -1,10 +1,10 @@
 [package]
 name = 'nm'
-version = '0.2.2'
+version = '0.2.3'
 authors = ['majorz']
 
 [dependencies]
-lazy_static = '1.2'
+once_cell = '1.3'
 bitflags = '1.0'
 futures-core = '0.3'
 futures-task = '0.3'

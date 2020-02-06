@@ -3,6 +3,7 @@
 // DO NOT EDIT
 
 use glib;
+use glib::object::Cast;
 use glib::object::IsA;
 use glib::translate::*;
 use nm_sys;
@@ -19,8 +20,8 @@ glib_wrapper! {
 }
 
 impl SimpleConnection {
-    pub fn new() -> Option<Connection> {
-        unsafe { from_glib_full(nm_sys::nm_simple_connection_new()) }
+    pub fn new() -> SimpleConnection {
+        unsafe { Connection::from_glib_full(nm_sys::nm_simple_connection_new()).unsafe_cast() }
     }
 
     pub fn new_clone<P: IsA<Connection>>(connection: &P) -> Option<Connection> {
@@ -41,6 +42,12 @@ impl SimpleConnection {
                 Err(from_glib_full(error))
             }
         }
+    }
+}
+
+impl Default for SimpleConnection {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

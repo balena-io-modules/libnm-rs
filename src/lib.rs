@@ -11,8 +11,7 @@
 #[macro_use]
 extern crate bitflags;
 
-#[macro_use]
-extern crate lazy_static;
+extern crate once_cell;
 
 extern crate gio_sys;
 extern crate glib_sys;
