@@ -163,6 +163,9 @@ mod device_wire_guard;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 pub use self::device_wire_guard::{DeviceWireGuard, DeviceWireGuardClass};
 
+mod device_wpan;
+pub use self::device_wpan::{DeviceWpan, DeviceWpanClass};
+
 mod dhcp_config;
 pub use self::dhcp_config::{DhcpConfig, DhcpConfigClass};
 

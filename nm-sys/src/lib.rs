@@ -2898,6 +2898,16 @@ impl ::std::fmt::Debug for NMDeviceWireGuard {
 }
 
 #[repr(C)]
+pub struct NMDeviceWpan(c_void);
+
+impl ::std::fmt::Debug for NMDeviceWpan {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("NMDeviceWpan @ {:?}", self as *const _))
+         .finish()
+    }
+}
+
+#[repr(C)]
 pub struct NMDhcpConfig(c_void);
 
 impl ::std::fmt::Debug for NMDhcpConfig {
@@ -4946,6 +4956,12 @@ extern "C" {
     pub fn nm_device_wireguard_get_listen_port(device: *mut NMDeviceWireGuard) -> u16;
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn nm_device_wireguard_get_public_key(device: *mut NMDeviceWireGuard) -> *mut glib::GBytes;
+
+    //=========================================================================
+    // NMDeviceWpan
+    //=========================================================================
+    pub fn nm_device_wpan_get_type() -> GType;
+    pub fn nm_device_wpan_get_hw_address(device: *mut NMDeviceWpan) -> *const c_char;
 
     //=========================================================================
     // NMDhcpConfig
