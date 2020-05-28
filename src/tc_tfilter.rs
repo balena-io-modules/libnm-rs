@@ -11,6 +11,8 @@ use glib::GString;
 use nm_sys;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 use std::ptr;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use TCAction;
 
 glib_wrapper! {
     #[derive(Debug, PartialOrd, Ord, Hash)]
@@ -53,6 +55,11 @@ impl TCTfilter {
     }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn get_action(&self) -> Option<TCAction> {
+        unsafe { from_glib_full(nm_sys::nm_tc_tfilter_get_action(self.to_glib_none().0)) }
+    }
+
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_handle(&self) -> u32 {
         unsafe { nm_sys::nm_tc_tfilter_get_handle(self.to_glib_none().0) }
     }
@@ -65,6 +72,13 @@ impl TCTfilter {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_parent(&self) -> u32 {
         unsafe { nm_sys::nm_tc_tfilter_get_parent(self.to_glib_none().0) }
+    }
+
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn set_action(&self, action: &TCAction) {
+        unsafe {
+            nm_sys::nm_tc_tfilter_set_action(self.to_glib_none().0, action.to_glib_none().0);
+        }
     }
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]

@@ -16,6 +16,8 @@ use IPRoute;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use SriovVF;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+use TCAction;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
 use TCQdisc;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 use TCTfilter;
@@ -378,6 +380,32 @@ pub fn utils_sriov_vf_to_str(vf: &SriovVF, omit_index: bool) -> Result<GString, 
 pub fn utils_ssid_to_utf8(ssid: &[u8]) -> Option<GString> {
     let len = ssid.len() as usize;
     unsafe { from_glib_full(nm_sys::nm_utils_ssid_to_utf8(ssid.to_glib_none().0, len)) }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+pub fn utils_tc_action_from_str(str: &str) -> Result<TCAction, glib::Error> {
+    unsafe {
+        let mut error = ptr::null_mut();
+        let ret = nm_sys::nm_utils_tc_action_from_str(str.to_glib_none().0, &mut error);
+        if error.is_null() {
+            Ok(from_glib_full(ret))
+        } else {
+            Err(from_glib_full(error))
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+pub fn utils_tc_action_to_str(action: &TCAction) -> Result<GString, glib::Error> {
+    unsafe {
+        let mut error = ptr::null_mut();
+        let ret = nm_sys::nm_utils_tc_action_to_str(action.to_glib_none().0, &mut error);
+        if error.is_null() {
+            Ok(from_glib_full(ret))
+        } else {
+            Err(from_glib_full(error))
+        }
+    }
 }
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]

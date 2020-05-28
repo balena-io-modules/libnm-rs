@@ -2467,6 +2467,16 @@ impl ::std::fmt::Debug for NMSriovVF {
 }
 
 #[repr(C)]
+pub struct NMTCAction(c_void);
+
+impl ::std::fmt::Debug for NMTCAction {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("NMTCAction @ {:?}", self as *const _))
+         .finish()
+    }
+}
+
+#[repr(C)]
 pub struct NMTCQdisc(c_void);
 
 impl ::std::fmt::Debug for NMTCQdisc {
@@ -4232,6 +4242,25 @@ extern "C" {
     pub fn nm_sriov_vf_attribute_validate(name: *const c_char, value: *mut glib::GVariant, known: *mut gboolean, error: *mut *mut glib::GError) -> gboolean;
 
     //=========================================================================
+    // NMTCAction
+    //=========================================================================
+    pub fn nm_tc_action_get_type() -> GType;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_tc_action_new(kind: *const c_char, error: *mut *mut glib::GError) -> *mut NMTCAction;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_tc_action_dup(action: *mut NMTCAction) -> *mut NMTCAction;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_tc_action_equal(action: *mut NMTCAction, other: *mut NMTCAction) -> gboolean;
+    pub fn nm_tc_action_get_attribute(action: *mut NMTCAction, name: *const c_char) -> *mut glib::GVariant;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_tc_action_get_kind(action: *mut NMTCAction) -> *const c_char;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_tc_action_ref(action: *mut NMTCAction);
+    pub fn nm_tc_action_set_attribute(action: *mut NMTCAction, name: *const c_char, value: *mut glib::GVariant);
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_tc_action_unref(action: *mut NMTCAction);
+
+    //=========================================================================
     // NMTCQdisc
     //=========================================================================
     pub fn nm_tc_qdisc_get_type() -> GType;
@@ -4271,6 +4300,8 @@ extern "C" {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_equal(tfilter: *mut NMTCTfilter, other: *mut NMTCTfilter) -> gboolean;
     #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_tc_tfilter_get_action(tfilter: *mut NMTCTfilter) -> *mut NMTCAction;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_get_handle(tfilter: *mut NMTCTfilter) -> u32;
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_get_kind(tfilter: *mut NMTCTfilter) -> *const c_char;
@@ -4278,6 +4309,8 @@ extern "C" {
     pub fn nm_tc_tfilter_get_parent(tfilter: *mut NMTCTfilter) -> u32;
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_ref(tfilter: *mut NMTCTfilter);
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_tc_tfilter_set_action(tfilter: *mut NMTCTfilter, action: *mut NMTCAction);
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_tc_tfilter_set_handle(tfilter: *mut NMTCTfilter, handle: u32);
     #[cfg(any(feature = "v1_12", feature = "dox"))]
@@ -6493,6 +6526,10 @@ extern "C" {
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn nm_utils_sriov_vf_to_str(vf: *const NMSriovVF, omit_index: gboolean, error: *mut *mut glib::GError) -> *mut c_char;
     pub fn nm_utils_ssid_to_utf8(ssid: *const u8, len: size_t) -> *mut c_char;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_utils_tc_action_from_str(str: *const c_char, error: *mut *mut glib::GError) -> *mut NMTCAction;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    pub fn nm_utils_tc_action_to_str(action: *mut NMTCAction, error: *mut *mut glib::GError) -> *mut c_char;
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_utils_tc_qdisc_from_str(str: *const c_char, error: *mut *mut glib::GError) -> *mut NMTCQdisc;
     #[cfg(any(feature = "v1_12", feature = "dox"))]

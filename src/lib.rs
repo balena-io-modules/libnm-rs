@@ -494,6 +494,9 @@ mod sriov_vf;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 pub use self::sriov_vf::SriovVF;
 
+mod tc_action;
+pub use self::tc_action::TCAction;
+
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 mod tc_qdisc;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
