@@ -123,7 +123,9 @@ impl AccessPoint {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::bssid\0".as_ptr() as *const _,
-                Some(transmute(notify_bssid_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_bssid_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -146,7 +148,9 @@ impl AccessPoint {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::flags\0".as_ptr() as *const _,
-                Some(transmute(notify_flags_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_flags_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -169,7 +173,9 @@ impl AccessPoint {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::frequency\0".as_ptr() as *const _,
-                Some(transmute(notify_frequency_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_frequency_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -193,7 +199,9 @@ impl AccessPoint {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::hw-address\0".as_ptr() as *const _,
-                Some(transmute(notify_hw_address_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_hw_address_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -217,7 +225,9 @@ impl AccessPoint {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::last-seen\0".as_ptr() as *const _,
-                Some(transmute(notify_last_seen_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_last_seen_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -240,7 +250,9 @@ impl AccessPoint {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::max-bitrate\0".as_ptr() as *const _,
-                Some(transmute(notify_max_bitrate_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_max_bitrate_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -263,7 +275,9 @@ impl AccessPoint {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mode\0".as_ptr() as *const _,
-                Some(transmute(notify_mode_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mode_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -286,7 +300,9 @@ impl AccessPoint {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::rsn-flags\0".as_ptr() as *const _,
-                Some(transmute(notify_rsn_flags_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_rsn_flags_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -309,7 +325,9 @@ impl AccessPoint {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ssid\0".as_ptr() as *const _,
-                Some(transmute(notify_ssid_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ssid_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -332,7 +350,9 @@ impl AccessPoint {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::strength\0".as_ptr() as *const _,
-                Some(transmute(notify_strength_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_strength_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -355,7 +375,9 @@ impl AccessPoint {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wpa-flags\0".as_ptr() as *const _,
-                Some(transmute(notify_wpa_flags_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wpa_flags_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

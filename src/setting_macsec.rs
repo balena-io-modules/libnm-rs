@@ -329,14 +329,16 @@ impl<O: IsA<SettingMacsec>> SettingMacsecExt for O {
             P: IsA<SettingMacsec>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast())
+            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::encrypt\0".as_ptr() as *const _,
-                Some(transmute(notify_encrypt_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_encrypt_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -352,14 +354,16 @@ impl<O: IsA<SettingMacsec>> SettingMacsecExt for O {
             P: IsA<SettingMacsec>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast())
+            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mka-cak\0".as_ptr() as *const _,
-                Some(transmute(notify_mka_cak_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mka_cak_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -378,15 +382,15 @@ impl<O: IsA<SettingMacsec>> SettingMacsecExt for O {
             P: IsA<SettingMacsec>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast())
+            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mka-cak-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_mka_cak_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mka_cak_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -403,14 +407,16 @@ impl<O: IsA<SettingMacsec>> SettingMacsecExt for O {
             P: IsA<SettingMacsec>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast())
+            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mka-ckn\0".as_ptr() as *const _,
-                Some(transmute(notify_mka_ckn_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mka_ckn_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -426,14 +432,16 @@ impl<O: IsA<SettingMacsec>> SettingMacsecExt for O {
             P: IsA<SettingMacsec>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast())
+            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mode\0".as_ptr() as *const _,
-                Some(transmute(notify_mode_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mode_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -449,14 +457,16 @@ impl<O: IsA<SettingMacsec>> SettingMacsecExt for O {
             P: IsA<SettingMacsec>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast())
+            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::parent\0".as_ptr() as *const _,
-                Some(transmute(notify_parent_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_parent_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -472,14 +482,16 @@ impl<O: IsA<SettingMacsec>> SettingMacsecExt for O {
             P: IsA<SettingMacsec>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast())
+            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::port\0".as_ptr() as *const _,
-                Some(transmute(notify_port_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_port_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -495,14 +507,16 @@ impl<O: IsA<SettingMacsec>> SettingMacsecExt for O {
             P: IsA<SettingMacsec>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast())
+            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::send-sci\0".as_ptr() as *const _,
-                Some(transmute(notify_send_sci_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_send_sci_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -518,14 +532,16 @@ impl<O: IsA<SettingMacsec>> SettingMacsecExt for O {
             P: IsA<SettingMacsec>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast())
+            f(&SettingMacsec::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::validation\0".as_ptr() as *const _,
-                Some(transmute(notify_validation_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_validation_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

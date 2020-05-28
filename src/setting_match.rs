@@ -119,7 +119,9 @@ impl SettingMatch {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::interface-name\0".as_ptr() as *const _,
-                Some(transmute(notify_interface_name_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_interface_name_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

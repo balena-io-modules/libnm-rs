@@ -176,14 +176,16 @@ impl<O: IsA<SettingInfiniband>> SettingInfinibandExt for O {
             P: IsA<SettingInfiniband>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingInfiniband::from_glib_borrow(this).unsafe_cast())
+            f(&SettingInfiniband::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mac-address\0".as_ptr() as *const _,
-                Some(transmute(notify_mac_address_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mac_address_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -198,14 +200,16 @@ impl<O: IsA<SettingInfiniband>> SettingInfinibandExt for O {
             P: IsA<SettingInfiniband>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingInfiniband::from_glib_borrow(this).unsafe_cast())
+            f(&SettingInfiniband::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mtu\0".as_ptr() as *const _,
-                Some(transmute(notify_mtu_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mtu_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -220,14 +224,16 @@ impl<O: IsA<SettingInfiniband>> SettingInfinibandExt for O {
             P: IsA<SettingInfiniband>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingInfiniband::from_glib_borrow(this).unsafe_cast())
+            f(&SettingInfiniband::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::p-key\0".as_ptr() as *const _,
-                Some(transmute(notify_p_key_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_p_key_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -242,14 +248,16 @@ impl<O: IsA<SettingInfiniband>> SettingInfinibandExt for O {
             P: IsA<SettingInfiniband>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingInfiniband::from_glib_borrow(this).unsafe_cast())
+            f(&SettingInfiniband::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::parent\0".as_ptr() as *const _,
-                Some(transmute(notify_parent_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_parent_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -267,15 +275,15 @@ impl<O: IsA<SettingInfiniband>> SettingInfinibandExt for O {
             P: IsA<SettingInfiniband>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingInfiniband::from_glib_borrow(this).unsafe_cast())
+            f(&SettingInfiniband::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::transport-mode\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_transport_mode_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_transport_mode_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

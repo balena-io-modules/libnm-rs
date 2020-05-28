@@ -758,14 +758,16 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::auth-alg\0".as_ptr() as *const _,
-                Some(transmute(notify_auth_alg_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_auth_alg_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -781,14 +783,16 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::fils\0".as_ptr() as *const _,
-                Some(transmute(notify_fils_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_fils_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -803,14 +807,16 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::group\0".as_ptr() as *const _,
-                Some(transmute(notify_group_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_group_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -825,14 +831,16 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::key-mgmt\0".as_ptr() as *const _,
-                Some(transmute(notify_key_mgmt_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_key_mgmt_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -850,15 +858,15 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::leap-password\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_leap_password_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_leap_password_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -877,15 +885,15 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::leap-password-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_leap_password_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_leap_password_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -904,15 +912,15 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::leap-username\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_leap_username_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_leap_username_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -928,14 +936,16 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::pairwise\0".as_ptr() as *const _,
-                Some(transmute(notify_pairwise_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_pairwise_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -951,14 +961,16 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::pmf\0".as_ptr() as *const _,
-                Some(transmute(notify_pmf_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_pmf_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -973,14 +985,16 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::proto\0".as_ptr() as *const _,
-                Some(transmute(notify_proto_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_proto_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -995,14 +1009,16 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::psk\0".as_ptr() as *const _,
-                Some(transmute(notify_psk_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_psk_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1017,14 +1033,16 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::psk-flags\0".as_ptr() as *const _,
-                Some(transmute(notify_psk_flags_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_psk_flags_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1042,15 +1060,15 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wep-key-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_wep_key_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wep_key_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1069,15 +1087,15 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wep-key-type\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_wep_key_type_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wep_key_type_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1093,14 +1111,16 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wep-key0\0".as_ptr() as *const _,
-                Some(transmute(notify_wep_key0_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wep_key0_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1115,14 +1135,16 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wep-key1\0".as_ptr() as *const _,
-                Some(transmute(notify_wep_key1_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wep_key1_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1137,14 +1159,16 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wep-key2\0".as_ptr() as *const _,
-                Some(transmute(notify_wep_key2_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wep_key2_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1159,14 +1183,16 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wep-key3\0".as_ptr() as *const _,
-                Some(transmute(notify_wep_key3_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wep_key3_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1184,15 +1210,15 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wep-tx-keyidx\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_wep_tx_keyidx_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wep_tx_keyidx_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1209,14 +1235,16 @@ impl<O: IsA<SettingWirelessSecurity>> SettingWirelessSecurityExt for O {
             P: IsA<SettingWirelessSecurity>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWirelessSecurity::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wps-method\0".as_ptr() as *const _,
-                Some(transmute(notify_wps_method_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wps_method_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

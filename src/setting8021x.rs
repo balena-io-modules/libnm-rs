@@ -1909,15 +1909,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::altsubject-matches\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_altsubject_matches_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_altsubject_matches_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1936,15 +1936,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::anonymous-identity\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_anonymous_identity_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_anonymous_identity_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1964,15 +1964,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::auth-timeout\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_auth_timeout_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_auth_timeout_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1988,14 +1988,16 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ca-cert\0".as_ptr() as *const _,
-                Some(transmute(notify_ca_cert_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ca_cert_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2014,15 +2016,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ca-cert-password\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_ca_cert_password_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ca_cert_password_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2042,15 +2044,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ca-cert-password-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_ca_cert_password_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ca_cert_password_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2066,14 +2068,16 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ca-path\0".as_ptr() as *const _,
-                Some(transmute(notify_ca_path_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ca_path_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2088,14 +2092,16 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::client-cert\0".as_ptr() as *const _,
-                Some(transmute(notify_client_cert_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_client_cert_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2114,15 +2120,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::client-cert-password\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_client_cert_password_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_client_cert_password_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2142,15 +2148,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::client-cert-password-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_client_cert_password_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_client_cert_password_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2170,15 +2176,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::domain-match\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_domain_match_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_domain_match_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2198,15 +2204,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::domain-suffix-match\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_domain_suffix_match_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_domain_suffix_match_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2222,14 +2228,16 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::eap\0".as_ptr() as *const _,
-                Some(transmute(notify_eap_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_eap_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2244,14 +2252,16 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::identity\0".as_ptr() as *const _,
-                Some(transmute(notify_identity_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_identity_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2267,14 +2277,16 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::optional\0".as_ptr() as *const _,
-                Some(transmute(notify_optional_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_optional_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2289,14 +2301,16 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::pac-file\0".as_ptr() as *const _,
-                Some(transmute(notify_pac_file_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_pac_file_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2311,14 +2325,16 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::password\0".as_ptr() as *const _,
-                Some(transmute(notify_password_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_password_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2336,15 +2352,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::password-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_password_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_password_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2363,15 +2379,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::password-raw\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_password_raw_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_password_raw_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2390,15 +2406,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::password-raw-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_password_raw_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_password_raw_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2418,15 +2434,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase1-auth-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase1_auth_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase1_auth_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2445,15 +2461,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase1-fast-provisioning\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase1_fast_provisioning_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase1_fast_provisioning_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2472,15 +2488,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase1-peaplabel\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase1_peaplabel_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase1_peaplabel_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2499,15 +2515,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase1-peapver\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase1_peapver_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase1_peapver_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2526,15 +2542,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-altsubject-matches\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_altsubject_matches_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_altsubject_matches_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2550,14 +2566,16 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-auth\0".as_ptr() as *const _,
-                Some(transmute(notify_phase2_auth_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_auth_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2575,15 +2593,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-autheap\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_autheap_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_autheap_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2602,15 +2620,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-ca-cert\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_ca_cert_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_ca_cert_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2630,15 +2648,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-ca-cert-password\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_ca_cert_password_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_ca_cert_password_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2661,15 +2679,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-ca-cert-password-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_ca_cert_password_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_ca_cert_password_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2688,15 +2706,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-ca-path\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_ca_path_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_ca_path_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2715,15 +2733,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-client-cert\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_client_cert_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_client_cert_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2743,15 +2761,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-client-cert-password\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_client_cert_password_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_client_cert_password_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2774,15 +2792,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-client-cert-password-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_client_cert_password_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_client_cert_password_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2802,15 +2820,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-domain-match\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_domain_match_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_domain_match_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2830,15 +2848,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-domain-suffix-match\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_domain_suffix_match_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_domain_suffix_match_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2857,15 +2875,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-private-key\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_private_key_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_private_key_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2884,15 +2902,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-private-key-password\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_private_key_password_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_private_key_password_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2914,15 +2932,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-private-key-password-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_private_key_password_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_private_key_password_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2941,15 +2959,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::phase2-subject-match\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_phase2_subject_match_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_phase2_subject_match_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2965,14 +2983,16 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::pin\0".as_ptr() as *const _,
-                Some(transmute(notify_pin_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_pin_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2987,14 +3007,16 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::pin-flags\0".as_ptr() as *const _,
-                Some(transmute(notify_pin_flags_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_pin_flags_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -3009,14 +3031,16 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::private-key\0".as_ptr() as *const _,
-                Some(transmute(notify_private_key_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_private_key_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -3034,15 +3058,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::private-key-password\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_private_key_password_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_private_key_password_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -3061,15 +3085,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::private-key-password-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_private_key_password_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_private_key_password_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -3088,15 +3112,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::subject-match\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_subject_match_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_subject_match_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -3115,15 +3139,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
             P: IsA<Setting8021x>,
         {
             let f: &F = &*(f as *const F);
-            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::system-ca-certs\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_system_ca_certs_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_system_ca_certs_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

@@ -54,14 +54,16 @@ impl<O: IsA<Object>> ObjectExt for O {
             P: IsA<Object>,
         {
             let f: &F = &*(f as *const F);
-            f(&Object::from_glib_borrow(this).unsafe_cast())
+            f(&Object::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::path\0".as_ptr() as *const _,
-                Some(transmute(notify_path_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_path_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

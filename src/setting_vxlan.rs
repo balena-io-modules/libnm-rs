@@ -504,14 +504,16 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ageing\0".as_ptr() as *const _,
-                Some(transmute(notify_ageing_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ageing_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -530,15 +532,15 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::destination-port\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_destination_port_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_destination_port_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -555,14 +557,16 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::id\0".as_ptr() as *const _,
-                Some(transmute(notify_id_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_id_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -578,14 +582,16 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::l2-miss\0".as_ptr() as *const _,
-                Some(transmute(notify_l2_miss_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_l2_miss_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -601,14 +607,16 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::l3-miss\0".as_ptr() as *const _,
-                Some(transmute(notify_l3_miss_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_l3_miss_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -624,14 +632,16 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::learning\0".as_ptr() as *const _,
-                Some(transmute(notify_learning_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_learning_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -647,14 +657,16 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::limit\0".as_ptr() as *const _,
-                Some(transmute(notify_limit_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_limit_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -670,14 +682,16 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::local\0".as_ptr() as *const _,
-                Some(transmute(notify_local_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_local_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -693,14 +707,16 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::parent\0".as_ptr() as *const _,
-                Some(transmute(notify_parent_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_parent_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -716,14 +732,16 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::proxy\0".as_ptr() as *const _,
-                Some(transmute(notify_proxy_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_proxy_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -739,14 +757,16 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::remote\0".as_ptr() as *const _,
-                Some(transmute(notify_remote_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_remote_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -762,14 +782,16 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::rsc\0".as_ptr() as *const _,
-                Some(transmute(notify_rsc_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_rsc_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -788,15 +810,15 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::source-port-max\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_source_port_max_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_source_port_max_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -816,15 +838,15 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::source-port-min\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_source_port_min_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_source_port_min_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -841,14 +863,16 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::tos\0".as_ptr() as *const _,
-                Some(transmute(notify_tos_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_tos_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -864,14 +888,16 @@ impl<O: IsA<SettingVxlan>> SettingVxlanExt for O {
             P: IsA<SettingVxlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVxlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ttl\0".as_ptr() as *const _,
-                Some(transmute(notify_ttl_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ttl_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

@@ -57,7 +57,9 @@ impl DhcpConfig {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::family\0".as_ptr() as *const _,
-                Some(transmute(notify_family_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_family_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -80,7 +82,9 @@ impl DhcpConfig {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::options\0".as_ptr() as *const _,
-                Some(transmute(notify_options_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_options_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

@@ -460,15 +460,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::app-fcoe-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_app_fcoe_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_app_fcoe_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -487,15 +487,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::app-fcoe-mode\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_app_fcoe_mode_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_app_fcoe_mode_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -514,15 +514,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::app-fcoe-priority\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_app_fcoe_priority_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_app_fcoe_priority_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -541,15 +541,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::app-fip-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_app_fip_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_app_fip_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -568,15 +568,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::app-fip-priority\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_app_fip_priority_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_app_fip_priority_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -595,15 +595,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::app-iscsi-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_app_iscsi_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_app_iscsi_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -622,15 +622,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::app-iscsi-priority\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_app_iscsi_priority_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_app_iscsi_priority_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -649,15 +649,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::priority-bandwidth\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_priority_bandwidth_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_priority_bandwidth_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -676,15 +676,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::priority-flow-control\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_priority_flow_control_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_priority_flow_control_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -703,15 +703,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::priority-flow-control-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_priority_flow_control_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_priority_flow_control_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -730,15 +730,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::priority-group-bandwidth\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_priority_group_bandwidth_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_priority_group_bandwidth_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -757,15 +757,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::priority-group-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_priority_group_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_priority_group_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -784,15 +784,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::priority-group-id\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_priority_group_id_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_priority_group_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -811,15 +811,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::priority-strict-bandwidth\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_priority_strict_bandwidth_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_priority_strict_bandwidth_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -838,15 +838,15 @@ impl<O: IsA<SettingDcb>> SettingDcbExt for O {
             P: IsA<SettingDcb>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingDcb::from_glib_borrow(this).unsafe_cast())
+            f(&SettingDcb::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::priority-traffic-class\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_priority_traffic_class_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_priority_traffic_class_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

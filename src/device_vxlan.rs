@@ -134,7 +134,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ageing\0".as_ptr() as *const _,
-                Some(transmute(notify_ageing_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ageing_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -158,7 +160,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::carrier\0".as_ptr() as *const _,
-                Some(transmute(notify_carrier_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_carrier_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -182,7 +186,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dst-port\0".as_ptr() as *const _,
-                Some(transmute(notify_dst_port_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dst_port_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -206,7 +212,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::group\0".as_ptr() as *const _,
-                Some(transmute(notify_group_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_group_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -230,7 +238,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::id\0".as_ptr() as *const _,
-                Some(transmute(notify_id_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_id_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -254,7 +264,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::l2miss\0".as_ptr() as *const _,
-                Some(transmute(notify_l2miss_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_l2miss_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -278,7 +290,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::l3miss\0".as_ptr() as *const _,
-                Some(transmute(notify_l3miss_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_l3miss_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -302,7 +316,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::learning\0".as_ptr() as *const _,
-                Some(transmute(notify_learning_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_learning_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -326,7 +342,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::limit\0".as_ptr() as *const _,
-                Some(transmute(notify_limit_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_limit_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -350,7 +368,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::local\0".as_ptr() as *const _,
-                Some(transmute(notify_local_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_local_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -374,7 +394,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::parent\0".as_ptr() as *const _,
-                Some(transmute(notify_parent_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_parent_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -398,7 +420,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::proxy\0".as_ptr() as *const _,
-                Some(transmute(notify_proxy_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_proxy_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -422,7 +446,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::rsc\0".as_ptr() as *const _,
-                Some(transmute(notify_rsc_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_rsc_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -446,7 +472,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::src-port-max\0".as_ptr() as *const _,
-                Some(transmute(notify_src_port_max_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_src_port_max_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -470,7 +498,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::src-port-min\0".as_ptr() as *const _,
-                Some(transmute(notify_src_port_min_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_src_port_min_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -494,7 +524,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::tos\0".as_ptr() as *const _,
-                Some(transmute(notify_tos_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_tos_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -518,7 +550,9 @@ impl DeviceVxlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ttl\0".as_ptr() as *const _,
-                Some(transmute(notify_ttl_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ttl_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

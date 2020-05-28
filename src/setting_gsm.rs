@@ -418,14 +418,16 @@ impl<O: IsA<SettingGsm>> SettingGsmExt for O {
             P: IsA<SettingGsm>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingGsm::from_glib_borrow(this).unsafe_cast())
+            f(&SettingGsm::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::apn\0".as_ptr() as *const _,
-                Some(transmute(notify_apn_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_apn_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -441,14 +443,16 @@ impl<O: IsA<SettingGsm>> SettingGsmExt for O {
             P: IsA<SettingGsm>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingGsm::from_glib_borrow(this).unsafe_cast())
+            f(&SettingGsm::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::auto-config\0".as_ptr() as *const _,
-                Some(transmute(notify_auto_config_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_auto_config_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -464,14 +468,16 @@ impl<O: IsA<SettingGsm>> SettingGsmExt for O {
             P: IsA<SettingGsm>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingGsm::from_glib_borrow(this).unsafe_cast())
+            f(&SettingGsm::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::device-id\0".as_ptr() as *const _,
-                Some(transmute(notify_device_id_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_device_id_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -486,14 +492,16 @@ impl<O: IsA<SettingGsm>> SettingGsmExt for O {
             P: IsA<SettingGsm>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingGsm::from_glib_borrow(this).unsafe_cast())
+            f(&SettingGsm::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::home-only\0".as_ptr() as *const _,
-                Some(transmute(notify_home_only_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_home_only_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -509,14 +517,16 @@ impl<O: IsA<SettingGsm>> SettingGsmExt for O {
             P: IsA<SettingGsm>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingGsm::from_glib_borrow(this).unsafe_cast())
+            f(&SettingGsm::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mtu\0".as_ptr() as *const _,
-                Some(transmute(notify_mtu_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mtu_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -531,14 +541,16 @@ impl<O: IsA<SettingGsm>> SettingGsmExt for O {
             P: IsA<SettingGsm>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingGsm::from_glib_borrow(this).unsafe_cast())
+            f(&SettingGsm::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::network-id\0".as_ptr() as *const _,
-                Some(transmute(notify_network_id_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_network_id_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -553,14 +565,16 @@ impl<O: IsA<SettingGsm>> SettingGsmExt for O {
             P: IsA<SettingGsm>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingGsm::from_glib_borrow(this).unsafe_cast())
+            f(&SettingGsm::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::number\0".as_ptr() as *const _,
-                Some(transmute(notify_number_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_number_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -575,14 +589,16 @@ impl<O: IsA<SettingGsm>> SettingGsmExt for O {
             P: IsA<SettingGsm>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingGsm::from_glib_borrow(this).unsafe_cast())
+            f(&SettingGsm::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::password\0".as_ptr() as *const _,
-                Some(transmute(notify_password_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_password_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -600,15 +616,15 @@ impl<O: IsA<SettingGsm>> SettingGsmExt for O {
             P: IsA<SettingGsm>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingGsm::from_glib_borrow(this).unsafe_cast())
+            f(&SettingGsm::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::password-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_password_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_password_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -624,14 +640,16 @@ impl<O: IsA<SettingGsm>> SettingGsmExt for O {
             P: IsA<SettingGsm>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingGsm::from_glib_borrow(this).unsafe_cast())
+            f(&SettingGsm::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::pin\0".as_ptr() as *const _,
-                Some(transmute(notify_pin_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_pin_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -646,14 +664,16 @@ impl<O: IsA<SettingGsm>> SettingGsmExt for O {
             P: IsA<SettingGsm>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingGsm::from_glib_borrow(this).unsafe_cast())
+            f(&SettingGsm::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::pin-flags\0".as_ptr() as *const _,
-                Some(transmute(notify_pin_flags_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_pin_flags_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -669,14 +689,16 @@ impl<O: IsA<SettingGsm>> SettingGsmExt for O {
             P: IsA<SettingGsm>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingGsm::from_glib_borrow(this).unsafe_cast())
+            f(&SettingGsm::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::sim-id\0".as_ptr() as *const _,
-                Some(transmute(notify_sim_id_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_sim_id_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -695,15 +717,15 @@ impl<O: IsA<SettingGsm>> SettingGsmExt for O {
             P: IsA<SettingGsm>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingGsm::from_glib_borrow(this).unsafe_cast())
+            f(&SettingGsm::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::sim-operator-id\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_sim_operator_id_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_sim_operator_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -719,14 +741,16 @@ impl<O: IsA<SettingGsm>> SettingGsmExt for O {
             P: IsA<SettingGsm>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingGsm::from_glib_borrow(this).unsafe_cast())
+            f(&SettingGsm::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::username\0".as_ptr() as *const _,
-                Some(transmute(notify_username_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_username_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

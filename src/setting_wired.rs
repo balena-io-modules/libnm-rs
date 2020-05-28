@@ -536,15 +536,15 @@ impl<O: IsA<SettingWired>> SettingWiredExt for O {
             P: IsA<SettingWired>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWired::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWired::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::auto-negotiate\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_auto_negotiate_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_auto_negotiate_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -563,15 +563,15 @@ impl<O: IsA<SettingWired>> SettingWiredExt for O {
             P: IsA<SettingWired>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWired::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWired::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::cloned-mac-address\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_cloned_mac_address_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_cloned_mac_address_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -587,14 +587,16 @@ impl<O: IsA<SettingWired>> SettingWiredExt for O {
             P: IsA<SettingWired>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWired::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWired::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::duplex\0".as_ptr() as *const _,
-                Some(transmute(notify_duplex_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_duplex_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -612,15 +614,15 @@ impl<O: IsA<SettingWired>> SettingWiredExt for O {
             P: IsA<SettingWired>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWired::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWired::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::generate-mac-address-mask\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_generate_mac_address_mask_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_generate_mac_address_mask_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -636,14 +638,16 @@ impl<O: IsA<SettingWired>> SettingWiredExt for O {
             P: IsA<SettingWired>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWired::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWired::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mac-address\0".as_ptr() as *const _,
-                Some(transmute(notify_mac_address_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mac_address_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -661,15 +665,15 @@ impl<O: IsA<SettingWired>> SettingWiredExt for O {
             P: IsA<SettingWired>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWired::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWired::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mac-address-blacklist\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_mac_address_blacklist_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mac_address_blacklist_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -685,14 +689,16 @@ impl<O: IsA<SettingWired>> SettingWiredExt for O {
             P: IsA<SettingWired>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWired::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWired::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mtu\0".as_ptr() as *const _,
-                Some(transmute(notify_mtu_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mtu_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -707,14 +713,16 @@ impl<O: IsA<SettingWired>> SettingWiredExt for O {
             P: IsA<SettingWired>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWired::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWired::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::port\0".as_ptr() as *const _,
-                Some(transmute(notify_port_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_port_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -732,15 +740,15 @@ impl<O: IsA<SettingWired>> SettingWiredExt for O {
             P: IsA<SettingWired>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWired::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWired::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::s390-nettype\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_s390_nettype_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_s390_nettype_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -759,15 +767,15 @@ impl<O: IsA<SettingWired>> SettingWiredExt for O {
             P: IsA<SettingWired>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWired::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWired::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::s390-options\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_s390_options_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_s390_options_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -786,15 +794,15 @@ impl<O: IsA<SettingWired>> SettingWiredExt for O {
             P: IsA<SettingWired>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWired::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWired::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::s390-subchannels\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_s390_subchannels_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_s390_subchannels_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -810,14 +818,16 @@ impl<O: IsA<SettingWired>> SettingWiredExt for O {
             P: IsA<SettingWired>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWired::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWired::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::speed\0".as_ptr() as *const _,
-                Some(transmute(notify_speed_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_speed_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -833,14 +843,16 @@ impl<O: IsA<SettingWired>> SettingWiredExt for O {
             P: IsA<SettingWired>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWired::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWired::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wake-on-lan\0".as_ptr() as *const _,
-                Some(transmute(notify_wake_on_lan_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wake_on_lan_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -859,15 +871,15 @@ impl<O: IsA<SettingWired>> SettingWiredExt for O {
             P: IsA<SettingWired>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingWired::from_glib_borrow(this).unsafe_cast())
+            f(&SettingWired::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wake-on-lan-password\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_wake_on_lan_password_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wake_on_lan_password_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

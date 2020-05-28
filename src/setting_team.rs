@@ -608,14 +608,16 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::config\0".as_ptr() as *const _,
-                Some(transmute(notify_config_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_config_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -634,15 +636,15 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mcast-rejoin-count\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_mcast_rejoin_count_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mcast_rejoin_count_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -662,15 +664,15 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mcast-rejoin-interval\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_mcast_rejoin_interval_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mcast_rejoin_interval_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -690,15 +692,15 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::notify-peers-count\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_notify_peers_count_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_notify_peers_count_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -718,15 +720,15 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::notify-peers-interval\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_notify_peers_interval_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_notify_peers_interval_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -743,14 +745,16 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::runner\0".as_ptr() as *const _,
-                Some(transmute(notify_runner_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_runner_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -769,15 +773,15 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::runner-active\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_runner_active_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_runner_active_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -797,15 +801,15 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::runner-agg-select-policy\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_runner_agg_select_policy_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_runner_agg_select_policy_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -825,15 +829,15 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::runner-fast-rate\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_runner_fast_rate_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_runner_fast_rate_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -853,15 +857,15 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::runner-hwaddr-policy\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_runner_hwaddr_policy_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_runner_hwaddr_policy_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -881,15 +885,15 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::runner-min-ports\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_runner_min_ports_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_runner_min_ports_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -909,15 +913,15 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::runner-sys-prio\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_runner_sys_prio_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_runner_sys_prio_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -937,15 +941,15 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::runner-tx-balancer\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_runner_tx_balancer_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_runner_tx_balancer_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -965,15 +969,15 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::runner-tx-balancer-interval\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_runner_tx_balancer_interval_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_runner_tx_balancer_interval_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -993,15 +997,15 @@ impl<O: IsA<SettingTeam>> SettingTeamExt for O {
             P: IsA<SettingTeam>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingTeam::from_glib_borrow(this).unsafe_cast())
+            f(&SettingTeam::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::runner-tx-hash\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_runner_tx_hash_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_runner_tx_hash_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

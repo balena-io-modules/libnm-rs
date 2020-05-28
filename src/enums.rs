@@ -16,6 +16,7 @@ use nm_sys;
 use std::fmt;
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum ActiveConnectionState {
     Unknown,
     Activating,
@@ -99,6 +100,7 @@ impl SetValue for ActiveConnectionState {
 
 #[cfg(any(feature = "v1_8", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum ActiveConnectionStateReason {
     Unknown,
     None,
@@ -256,6 +258,7 @@ impl SetValue for ActiveConnectionStateReason {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum AgentManagerError {
     Failed,
     PermissionDenied,
@@ -366,6 +369,7 @@ impl SetValue for AgentManagerError {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum Capability {
     Team,
     Ovs,
@@ -436,6 +440,7 @@ impl SetValue for Capability {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum ClientError {
     Failed,
     ManagerNotRunning,
@@ -529,6 +534,7 @@ impl SetValue for ClientError {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum ClientPermission {
     None,
     EnableDisableNetwork,
@@ -682,6 +688,7 @@ impl SetValue for ClientPermission {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum ClientPermissionResult {
     Unknown,
     Yes,
@@ -760,6 +767,7 @@ impl SetValue for ClientPermissionResult {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum ConnectionError {
     Failed,
     SettingNotFound,
@@ -879,6 +887,7 @@ impl SetValue for ConnectionError {
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum ConnectionMultiConnect {
     Default,
     Single,
@@ -966,6 +975,7 @@ impl SetValue for ConnectionMultiConnect {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum ConnectivityState {
     Unknown,
     None,
@@ -1048,6 +1058,7 @@ impl SetValue for ConnectivityState {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum CryptoError {
     Failed,
     InvalidData,
@@ -1156,6 +1167,7 @@ impl SetValue for CryptoError {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum DeviceError {
     Failed,
     CreationFailed,
@@ -1291,6 +1303,7 @@ impl SetValue for DeviceError {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum DeviceState {
     Unknown,
     Unmanaged,
@@ -1405,6 +1418,7 @@ impl SetValue for DeviceState {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum DeviceStateReason {
     None,
     Unknown,
@@ -1789,6 +1803,7 @@ impl SetValue for DeviceStateReason {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum DeviceType {
     Unknown,
     Ethernet,
@@ -1980,6 +1995,7 @@ impl SetValue for DeviceType {
 
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum IPTunnelMode {
     Unknown,
     Ipip,
@@ -2097,6 +2113,7 @@ impl SetValue for IPTunnelMode {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum ManagerError {
     Failed,
     PermissionDenied,
@@ -2252,6 +2269,7 @@ impl SetValue for ManagerError {
 
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum Metered {
     Unknown,
     Yes,
@@ -2342,6 +2360,7 @@ impl SetValue for Metered {
 
 #[cfg(any(feature = "v1_4", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum RollbackResult {
     Ok,
     ErrNoDevice,
@@ -2399,6 +2418,7 @@ impl FromGlib<nm_sys::NMRollbackResult> for RollbackResult {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SecretAgentError {
     Failed,
     PermissionDenied,
@@ -2507,6 +2527,7 @@ impl SetValue for SecretAgentError {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum Setting8021xCKFormat {
     Unknown,
     X509,
@@ -2585,6 +2606,7 @@ impl SetValue for Setting8021xCKFormat {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum Setting8021xCKScheme {
     Unknown,
     Blob,
@@ -2663,6 +2685,7 @@ impl SetValue for Setting8021xCKScheme {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingCompareFlags {
     Exact,
     Fuzzy,
@@ -2771,6 +2794,7 @@ impl SetValue for SettingCompareFlags {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingConnectionAutoconnectSlaves {
     Default,
     No,
@@ -2851,6 +2875,7 @@ impl SetValue for SettingConnectionAutoconnectSlaves {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingConnectionLldp {
     Default,
     Disable,
@@ -2926,6 +2951,7 @@ impl SetValue for SettingConnectionLldp {
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingConnectionLlmnr {
     Default,
     No,
@@ -3012,6 +3038,7 @@ impl SetValue for SettingConnectionLlmnr {
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingConnectionMdns {
     Default,
     No,
@@ -3097,6 +3124,7 @@ impl SetValue for SettingConnectionMdns {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingDiffResult {
     Unknown,
     InA,
@@ -3180,6 +3208,7 @@ impl SetValue for SettingDiffResult {
 
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingIP6ConfigAddrGenMode {
     Eui64,
     StablePrivacy,
@@ -3259,6 +3288,7 @@ impl SetValue for SettingIP6ConfigAddrGenMode {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingIP6ConfigPrivacy {
     Unknown,
     Disabled,
@@ -3341,6 +3371,7 @@ impl SetValue for SettingIP6ConfigPrivacy {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingMacRandomization {
     Default,
     Never,
@@ -3416,6 +3447,7 @@ impl SetValue for SettingMacRandomization {
 
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingMacsecMode {
     Psk,
     Eap,
@@ -3494,6 +3526,7 @@ impl SetValue for SettingMacsecMode {
 
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingMacsecValidation {
     Disable,
     Check,
@@ -3575,6 +3608,7 @@ impl SetValue for SettingMacsecValidation {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingMacvlanMode {
     Unknown,
     Vepa,
@@ -3662,6 +3696,7 @@ impl SetValue for SettingMacvlanMode {
 
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingProxyMethod {
     None,
     Auto,
@@ -3739,6 +3774,7 @@ impl SetValue for SettingProxyMethod {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingSerialParity {
     None,
     Even,
@@ -3813,6 +3849,7 @@ impl SetValue for SettingSerialParity {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingTunMode {
     Unknown,
     Tun,
@@ -3887,6 +3924,7 @@ impl SetValue for SettingTunMode {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingWirelessPowersave {
     Default,
     Ignore,
@@ -3966,6 +4004,7 @@ impl SetValue for SettingWirelessPowersave {
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingWirelessSecurityFils {
     Default,
     Disable,
@@ -4059,6 +4098,7 @@ impl SetValue for SettingWirelessSecurityFils {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingWirelessSecurityPmf {
     Default,
     Disable,
@@ -4141,6 +4181,7 @@ impl SetValue for SettingWirelessSecurityPmf {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SettingsError {
     Failed,
     PermissionDenied,
@@ -4260,6 +4301,7 @@ impl SetValue for SettingsError {
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum SriovVFVlanProtocol {
     _1q,
     _1ad,
@@ -4337,6 +4379,7 @@ impl SetValue for SriovVFVlanProtocol {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum State {
     Unknown,
     Asleep,
@@ -4432,6 +4475,7 @@ impl SetValue for State {
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum Ternary {
     Default,
     False,
@@ -4513,6 +4557,7 @@ impl SetValue for Ternary {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum UtilsSecurityType {
     Invalid,
     None,
@@ -4619,6 +4664,7 @@ impl SetValue for UtilsSecurityType {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum VlanPriorityMap {
     IngressMap,
     EgressMap,
@@ -4689,6 +4735,7 @@ impl SetValue for VlanPriorityMap {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum VpnConnectionState {
     Unknown,
     Prepare,
@@ -4783,6 +4830,7 @@ impl SetValue for VpnConnectionState {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum VpnConnectionStateReason {
     Unknown,
     None,
@@ -4913,6 +4961,7 @@ impl SetValue for VpnConnectionStateReason {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum VpnPluginError {
     Failed,
     StartingInProgress,
@@ -5043,6 +5092,7 @@ impl SetValue for VpnPluginError {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum VpnPluginFailure {
     LoginFailed,
     ConnectFailed,
@@ -5117,6 +5167,7 @@ impl SetValue for VpnPluginFailure {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum VpnServiceState {
     Unknown,
     Init,
@@ -5207,6 +5258,7 @@ impl SetValue for VpnServiceState {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum WepKeyType {
     Unknown,
     Key,
@@ -5281,6 +5333,7 @@ impl SetValue for WepKeyType {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum WimaxNspNetworkType {
     Unknown,
     Home,
@@ -5361,6 +5414,7 @@ impl SetValue for WimaxNspNetworkType {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum _80211Mode {
     Unknown,
     Adhoc,

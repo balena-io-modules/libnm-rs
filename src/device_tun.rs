@@ -78,7 +78,9 @@ impl DeviceTun {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::group\0".as_ptr() as *const _,
-                Some(transmute(notify_group_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_group_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -102,7 +104,9 @@ impl DeviceTun {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mode\0".as_ptr() as *const _,
-                Some(transmute(notify_mode_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mode_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -126,7 +130,9 @@ impl DeviceTun {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::multi-queue\0".as_ptr() as *const _,
-                Some(transmute(notify_multi_queue_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_multi_queue_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -150,7 +156,9 @@ impl DeviceTun {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::no-pi\0".as_ptr() as *const _,
-                Some(transmute(notify_no_pi_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_no_pi_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -174,7 +182,9 @@ impl DeviceTun {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::owner\0".as_ptr() as *const _,
-                Some(transmute(notify_owner_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_owner_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -198,7 +208,9 @@ impl DeviceTun {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::vnet-hdr\0".as_ptr() as *const _,
-                Some(transmute(notify_vnet_hdr_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_vnet_hdr_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

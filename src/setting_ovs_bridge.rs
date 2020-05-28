@@ -159,7 +159,9 @@ impl SettingOvsBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::datapath-type\0".as_ptr() as *const _,
-                Some(transmute(notify_datapath_type_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_datapath_type_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -183,7 +185,9 @@ impl SettingOvsBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::fail-mode\0".as_ptr() as *const _,
-                Some(transmute(notify_fail_mode_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_fail_mode_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -209,8 +213,8 @@ impl SettingOvsBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mcast-snooping-enable\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_mcast_snooping_enable_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mcast_snooping_enable_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -235,7 +239,9 @@ impl SettingOvsBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::rstp-enable\0".as_ptr() as *const _,
-                Some(transmute(notify_rstp_enable_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_rstp_enable_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -259,7 +265,9 @@ impl SettingOvsBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::stp-enable\0".as_ptr() as *const _,
-                Some(transmute(notify_stp_enable_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_stp_enable_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

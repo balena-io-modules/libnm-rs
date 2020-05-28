@@ -882,14 +882,16 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dad-timeout\0".as_ptr() as *const _,
-                Some(transmute(notify_dad_timeout_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dad_timeout_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -907,15 +909,15 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dhcp-hostname\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_dhcp_hostname_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dhcp_hostname_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -935,15 +937,15 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dhcp-hostname-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_dhcp_hostname_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dhcp_hostname_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -960,14 +962,16 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dhcp-iaid\0".as_ptr() as *const _,
-                Some(transmute(notify_dhcp_iaid_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dhcp_iaid_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -985,15 +989,15 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dhcp-send-hostname\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_dhcp_send_hostname_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dhcp_send_hostname_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1012,15 +1016,15 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dhcp-timeout\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_dhcp_timeout_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dhcp_timeout_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1036,14 +1040,16 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dns\0".as_ptr() as *const _,
-                Some(transmute(notify_dns_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dns_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1059,14 +1065,16 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dns-options\0".as_ptr() as *const _,
-                Some(transmute(notify_dns_options_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dns_options_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1085,15 +1093,15 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dns-priority\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_dns_priority_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dns_priority_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1109,14 +1117,16 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dns-search\0".as_ptr() as *const _,
-                Some(transmute(notify_dns_search_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dns_search_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1131,14 +1141,16 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::gateway\0".as_ptr() as *const _,
-                Some(transmute(notify_gateway_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_gateway_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1156,15 +1168,15 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ignore-auto-dns\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_ignore_auto_dns_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ignore_auto_dns_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1183,15 +1195,15 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ignore-auto-routes\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_ignore_auto_routes_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ignore_auto_routes_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1207,14 +1219,16 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::may-fail\0".as_ptr() as *const _,
-                Some(transmute(notify_may_fail_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_may_fail_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1229,14 +1243,16 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::method\0".as_ptr() as *const _,
-                Some(transmute(notify_method_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_method_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1254,15 +1270,15 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::never-default\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_never_default_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_never_default_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1281,15 +1297,15 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::route-metric\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_route_metric_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_route_metric_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1306,14 +1322,16 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             P: IsA<SettingIPConfig>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::route-table\0".as_ptr() as *const _,
-                Some(transmute(notify_route_table_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_route_table_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

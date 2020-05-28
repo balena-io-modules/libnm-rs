@@ -481,14 +481,16 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::baud\0".as_ptr() as *const _,
-                Some(transmute(notify_baud_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_baud_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -503,14 +505,16 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::crtscts\0".as_ptr() as *const _,
-                Some(transmute(notify_crtscts_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_crtscts_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -528,15 +532,15 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::lcp-echo-failure\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_lcp_echo_failure_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_lcp_echo_failure_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -555,15 +559,15 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::lcp-echo-interval\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_lcp_echo_interval_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_lcp_echo_interval_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -582,15 +586,15 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mppe-stateful\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_mppe_stateful_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mppe_stateful_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -606,14 +610,16 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mru\0".as_ptr() as *const _,
-                Some(transmute(notify_mru_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mru_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -628,14 +634,16 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mtu\0".as_ptr() as *const _,
-                Some(transmute(notify_mtu_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mtu_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -650,14 +658,16 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::no-vj-comp\0".as_ptr() as *const _,
-                Some(transmute(notify_no_vj_comp_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_no_vj_comp_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -672,14 +682,16 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::noauth\0".as_ptr() as *const _,
-                Some(transmute(notify_noauth_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_noauth_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -694,14 +706,16 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::nobsdcomp\0".as_ptr() as *const _,
-                Some(transmute(notify_nobsdcomp_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_nobsdcomp_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -716,14 +730,16 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::nodeflate\0".as_ptr() as *const _,
-                Some(transmute(notify_nodeflate_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_nodeflate_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -738,14 +754,16 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::refuse-chap\0".as_ptr() as *const _,
-                Some(transmute(notify_refuse_chap_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_refuse_chap_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -760,14 +778,16 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::refuse-eap\0".as_ptr() as *const _,
-                Some(transmute(notify_refuse_eap_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_refuse_eap_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -785,15 +805,15 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::refuse-mschap\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_refuse_mschap_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_refuse_mschap_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -812,15 +832,15 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::refuse-mschapv2\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_refuse_mschapv2_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_refuse_mschapv2_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -836,14 +856,16 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::refuse-pap\0".as_ptr() as *const _,
-                Some(transmute(notify_refuse_pap_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_refuse_pap_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -861,15 +883,15 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::require-mppe\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_require_mppe_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_require_mppe_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -888,15 +910,15 @@ impl<O: IsA<SettingPpp>> SettingPppExt for O {
             P: IsA<SettingPpp>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPpp::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPpp::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::require-mppe-128\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_require_mppe_128_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_require_mppe_128_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

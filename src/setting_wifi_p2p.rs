@@ -119,7 +119,9 @@ impl SettingWifiP2P {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::peer\0".as_ptr() as *const _,
-                Some(transmute(notify_peer_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_peer_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -143,7 +145,9 @@ impl SettingWifiP2P {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wfd-ies\0".as_ptr() as *const _,
-                Some(transmute(notify_wfd_ies_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wfd_ies_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -167,7 +171,9 @@ impl SettingWifiP2P {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wps-method\0".as_ptr() as *const _,
-                Some(transmute(notify_wps_method_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wps_method_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

@@ -240,7 +240,9 @@ impl DeviceWifi {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"access-point-added\0".as_ptr() as *const _,
-                Some(transmute(access_point_added_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    access_point_added_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -265,7 +267,9 @@ impl DeviceWifi {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"access-point-removed\0".as_ptr() as *const _,
-                Some(transmute(access_point_removed_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    access_point_removed_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -288,7 +292,9 @@ impl DeviceWifi {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::access-points\0".as_ptr() as *const _,
-                Some(transmute(notify_access_points_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_access_points_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -311,8 +317,8 @@ impl DeviceWifi {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::active-access-point\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_active_access_point_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_active_access_point_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -336,7 +342,9 @@ impl DeviceWifi {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::bitrate\0".as_ptr() as *const _,
-                Some(transmute(notify_bitrate_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_bitrate_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -360,7 +368,9 @@ impl DeviceWifi {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::last-scan\0".as_ptr() as *const _,
-                Some(transmute(notify_last_scan_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_last_scan_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -383,7 +393,9 @@ impl DeviceWifi {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mode\0".as_ptr() as *const _,
-                Some(transmute(notify_mode_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mode_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -406,7 +418,9 @@ impl DeviceWifi {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::perm-hw-address\0".as_ptr() as *const _,
-                Some(transmute(notify_perm_hw_address_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_perm_hw_address_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -431,8 +445,8 @@ impl DeviceWifi {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wireless-capabilities\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_wireless_capabilities_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wireless_capabilities_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

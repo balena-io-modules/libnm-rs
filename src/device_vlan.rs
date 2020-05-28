@@ -52,7 +52,9 @@ impl DeviceVlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::carrier\0".as_ptr() as *const _,
-                Some(transmute(notify_carrier_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_carrier_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -75,7 +77,9 @@ impl DeviceVlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::parent\0".as_ptr() as *const _,
-                Some(transmute(notify_parent_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_parent_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -98,7 +102,9 @@ impl DeviceVlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::vlan-id\0".as_ptr() as *const _,
-                Some(transmute(notify_vlan_id_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_vlan_id_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

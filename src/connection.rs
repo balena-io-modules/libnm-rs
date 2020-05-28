@@ -815,14 +815,16 @@ impl<O: IsA<Connection>> ConnectionExt for O {
             P: IsA<Connection>,
         {
             let f: &F = &*(f as *const F);
-            f(&Connection::from_glib_borrow(this).unsafe_cast())
+            f(&Connection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"changed\0".as_ptr() as *const _,
-                Some(transmute(changed_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    changed_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -836,14 +838,16 @@ impl<O: IsA<Connection>> ConnectionExt for O {
             P: IsA<Connection>,
         {
             let f: &F = &*(f as *const F);
-            f(&Connection::from_glib_borrow(this).unsafe_cast())
+            f(&Connection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"secrets-cleared\0".as_ptr() as *const _,
-                Some(transmute(secrets_cleared_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    secrets_cleared_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -859,7 +863,7 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &Connection::from_glib_borrow(this).unsafe_cast(),
+                &Connection::from_glib_borrow(this).unsafe_cast_ref(),
                 &GString::from_glib_borrow(setting_name),
             )
         }
@@ -868,7 +872,9 @@ impl<O: IsA<Connection>> ConnectionExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"secrets-updated\0".as_ptr() as *const _,
-                Some(transmute(secrets_updated_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    secrets_updated_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

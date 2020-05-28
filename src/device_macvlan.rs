@@ -73,7 +73,9 @@ impl DeviceMacvlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mode\0".as_ptr() as *const _,
-                Some(transmute(notify_mode_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mode_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -97,7 +99,9 @@ impl DeviceMacvlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::no-promisc\0".as_ptr() as *const _,
-                Some(transmute(notify_no_promisc_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_no_promisc_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -121,7 +125,9 @@ impl DeviceMacvlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::parent\0".as_ptr() as *const _,
-                Some(transmute(notify_parent_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_parent_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -145,7 +151,9 @@ impl DeviceMacvlan {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::tap\0".as_ptr() as *const _,
-                Some(transmute(notify_tap_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_tap_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

@@ -1741,7 +1741,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"active-connection-added\0".as_ptr() as *const _,
-                Some(transmute(active_connection_added_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    active_connection_added_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1769,8 +1771,8 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"active-connection-removed\0".as_ptr() as *const _,
-                Some(transmute(
-                    active_connection_removed_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    active_connection_removed_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1794,7 +1796,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"any-device-added\0".as_ptr() as *const _,
-                Some(transmute(any_device_added_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    any_device_added_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1817,7 +1821,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"any-device-removed\0".as_ptr() as *const _,
-                Some(transmute(any_device_removed_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    any_device_removed_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1842,7 +1848,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"connection-added\0".as_ptr() as *const _,
-                Some(transmute(connection_added_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    connection_added_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1867,7 +1875,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"connection-removed\0".as_ptr() as *const _,
-                Some(transmute(connection_removed_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    connection_removed_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1887,7 +1897,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"device-added\0".as_ptr() as *const _,
-                Some(transmute(device_added_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    device_added_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1910,7 +1922,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"device-removed\0".as_ptr() as *const _,
-                Some(transmute(device_removed_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    device_removed_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1934,7 +1948,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"permission-changed\0".as_ptr() as *const _,
-                Some(transmute(permission_changed_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    permission_changed_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1957,8 +1973,8 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::activating-connection\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_activating_connection_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_activating_connection_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1982,8 +1998,8 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::active-connections\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_active_connections_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_active_connections_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2008,7 +2024,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::all-devices\0".as_ptr() as *const _,
-                Some(transmute(notify_all_devices_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_all_devices_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2031,7 +2049,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::can-modify\0".as_ptr() as *const _,
-                Some(transmute(notify_can_modify_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_can_modify_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2055,7 +2075,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::capabilities\0".as_ptr() as *const _,
-                Some(transmute(notify_capabilities_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_capabilities_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2079,7 +2101,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::checkpoints\0".as_ptr() as *const _,
-                Some(transmute(notify_checkpoints_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_checkpoints_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2102,7 +2126,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::connections\0".as_ptr() as *const _,
-                Some(transmute(notify_connections_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_connections_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2125,7 +2151,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::connectivity\0".as_ptr() as *const _,
-                Some(transmute(notify_connectivity_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_connectivity_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2150,8 +2178,8 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::connectivity-check-available\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_connectivity_check_available_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_connectivity_check_available_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2177,8 +2205,8 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::connectivity-check-enabled\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_connectivity_check_enabled_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_connectivity_check_enabled_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2203,8 +2231,8 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::connectivity-check-uri\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_connectivity_check_uri_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_connectivity_check_uri_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2229,7 +2257,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dbus-name-owner\0".as_ptr() as *const _,
-                Some(transmute(notify_dbus_name_owner_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dbus_name_owner_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2252,7 +2282,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::devices\0".as_ptr() as *const _,
-                Some(transmute(notify_devices_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_devices_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2276,7 +2308,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dns-configuration\0".as_ptr() as *const _,
-                Some(transmute(notify_dns_configuration_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dns_configuration_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2300,7 +2334,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dns-mode\0".as_ptr() as *const _,
-                Some(transmute(notify_dns_mode_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dns_mode_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2324,7 +2360,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dns-rc-manager\0".as_ptr() as *const _,
-                Some(transmute(notify_dns_rc_manager_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dns_rc_manager_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2347,7 +2385,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::hostname\0".as_ptr() as *const _,
-                Some(transmute(notify_hostname_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_hostname_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2371,7 +2411,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::instance-flags\0".as_ptr() as *const _,
-                Some(transmute(notify_instance_flags_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_instance_flags_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2395,7 +2437,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::metered\0".as_ptr() as *const _,
-                Some(transmute(notify_metered_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_metered_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2418,8 +2462,8 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::networking-enabled\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_networking_enabled_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_networking_enabled_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2443,7 +2487,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::nm-running\0".as_ptr() as *const _,
-                Some(transmute(notify_nm_running_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_nm_running_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2467,7 +2513,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::permissions-state\0".as_ptr() as *const _,
-                Some(transmute(notify_permissions_state_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_permissions_state_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2490,8 +2538,8 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::primary-connection\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_primary_connection_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_primary_connection_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2515,7 +2563,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::startup\0".as_ptr() as *const _,
-                Some(transmute(notify_startup_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_startup_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2535,7 +2585,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::state\0".as_ptr() as *const _,
-                Some(transmute(notify_state_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_state_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2558,7 +2610,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::version\0".as_ptr() as *const _,
-                Some(transmute(notify_version_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_version_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2582,7 +2636,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wimax-enabled\0".as_ptr() as *const _,
-                Some(transmute(notify_wimax_enabled_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wimax_enabled_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2606,8 +2662,8 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wimax-hardware-enabled\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_wimax_hardware_enabled_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wimax_hardware_enabled_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2631,7 +2687,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wireless-enabled\0".as_ptr() as *const _,
-                Some(transmute(notify_wireless_enabled_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wireless_enabled_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2656,8 +2714,8 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wireless-hardware-enabled\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_wireless_hardware_enabled_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wireless_hardware_enabled_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -2681,7 +2739,9 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wwan-enabled\0".as_ptr() as *const _,
-                Some(transmute(notify_wwan_enabled_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wwan_enabled_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -2704,8 +2764,8 @@ impl Client {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wwan-hardware-enabled\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_wwan_hardware_enabled_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wwan_hardware_enabled_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

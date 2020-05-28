@@ -86,6 +86,7 @@ pub const NM_CLIENT_PERMISSION_CHECKPOINT_ROLLBACK: NMClientPermission = 14;
 pub const NM_CLIENT_PERMISSION_ENABLE_DISABLE_STATISTICS: NMClientPermission = 15;
 pub const NM_CLIENT_PERMISSION_ENABLE_DISABLE_CONNECTIVITY_CHECK: NMClientPermission = 16;
 pub const NM_CLIENT_PERMISSION_WIFI_SCAN: NMClientPermission = 17;
+pub const NM_CLIENT_PERMISSION_LAST: NMClientPermission = 17;
 
 pub type NMClientPermissionResult = c_int;
 pub const NM_CLIENT_PERMISSION_RESULT_UNKNOWN: NMClientPermissionResult = 0;
@@ -5932,8 +5933,6 @@ extern "C" {
     pub fn nm_setting_vpn_new() -> *mut NMSetting;
     pub fn nm_setting_vpn_add_data_item(setting: *mut NMSettingVpn, key: *const c_char, item: *const c_char);
     pub fn nm_setting_vpn_add_secret(setting: *mut NMSettingVpn, key: *const c_char, secret: *const c_char);
-    pub fn nm_setting_vpn_foreach_data_item(setting: *mut NMSettingVpn, func: NMVpnIterFunc, user_data: gpointer);
-    pub fn nm_setting_vpn_foreach_secret(setting: *mut NMSettingVpn, func: NMVpnIterFunc, user_data: gpointer);
     pub fn nm_setting_vpn_get_data_item(setting: *mut NMSettingVpn, key: *const c_char) -> *const c_char;
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_vpn_get_data_keys(setting: *mut NMSettingVpn, out_length: *mut c_uint) -> *mut *const c_char;

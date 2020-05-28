@@ -432,15 +432,15 @@ impl<O: IsA<SettingIPTunnel>> SettingIPTunnelExt for O {
             P: IsA<SettingIPTunnel>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::encapsulation-limit\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_encapsulation_limit_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_encapsulation_limit_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -457,14 +457,16 @@ impl<O: IsA<SettingIPTunnel>> SettingIPTunnelExt for O {
             P: IsA<SettingIPTunnel>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::flags\0".as_ptr() as *const _,
-                Some(transmute(notify_flags_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_flags_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -480,14 +482,16 @@ impl<O: IsA<SettingIPTunnel>> SettingIPTunnelExt for O {
             P: IsA<SettingIPTunnel>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::flow-label\0".as_ptr() as *const _,
-                Some(transmute(notify_flow_label_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_flow_label_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -503,14 +507,16 @@ impl<O: IsA<SettingIPTunnel>> SettingIPTunnelExt for O {
             P: IsA<SettingIPTunnel>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::input-key\0".as_ptr() as *const _,
-                Some(transmute(notify_input_key_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_input_key_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -526,14 +532,16 @@ impl<O: IsA<SettingIPTunnel>> SettingIPTunnelExt for O {
             P: IsA<SettingIPTunnel>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::local\0".as_ptr() as *const _,
-                Some(transmute(notify_local_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_local_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -549,14 +557,16 @@ impl<O: IsA<SettingIPTunnel>> SettingIPTunnelExt for O {
             P: IsA<SettingIPTunnel>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mode\0".as_ptr() as *const _,
-                Some(transmute(notify_mode_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mode_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -572,14 +582,16 @@ impl<O: IsA<SettingIPTunnel>> SettingIPTunnelExt for O {
             P: IsA<SettingIPTunnel>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mtu\0".as_ptr() as *const _,
-                Some(transmute(notify_mtu_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mtu_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -595,14 +607,16 @@ impl<O: IsA<SettingIPTunnel>> SettingIPTunnelExt for O {
             P: IsA<SettingIPTunnel>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::output-key\0".as_ptr() as *const _,
-                Some(transmute(notify_output_key_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_output_key_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -618,14 +632,16 @@ impl<O: IsA<SettingIPTunnel>> SettingIPTunnelExt for O {
             P: IsA<SettingIPTunnel>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::parent\0".as_ptr() as *const _,
-                Some(transmute(notify_parent_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_parent_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -644,15 +660,15 @@ impl<O: IsA<SettingIPTunnel>> SettingIPTunnelExt for O {
             P: IsA<SettingIPTunnel>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::path-mtu-discovery\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_path_mtu_discovery_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_path_mtu_discovery_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -669,14 +685,16 @@ impl<O: IsA<SettingIPTunnel>> SettingIPTunnelExt for O {
             P: IsA<SettingIPTunnel>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::remote\0".as_ptr() as *const _,
-                Some(transmute(notify_remote_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_remote_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -692,14 +710,16 @@ impl<O: IsA<SettingIPTunnel>> SettingIPTunnelExt for O {
             P: IsA<SettingIPTunnel>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::tos\0".as_ptr() as *const _,
-                Some(transmute(notify_tos_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_tos_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -715,14 +735,16 @@ impl<O: IsA<SettingIPTunnel>> SettingIPTunnelExt for O {
             P: IsA<SettingIPTunnel>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast())
+            f(&SettingIPTunnel::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ttl\0".as_ptr() as *const _,
-                Some(transmute(notify_ttl_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ttl_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

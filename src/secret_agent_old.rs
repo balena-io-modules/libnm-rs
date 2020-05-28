@@ -530,15 +530,15 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
             P: IsA<SecretAgentOld>,
         {
             let f: &F = &*(f as *const F);
-            f(&SecretAgentOld::from_glib_borrow(this).unsafe_cast())
+            f(&SecretAgentOld::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::auto-register\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_auto_register_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_auto_register_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -557,15 +557,15 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
             P: IsA<SecretAgentOld>,
         {
             let f: &F = &*(f as *const F);
-            f(&SecretAgentOld::from_glib_borrow(this).unsafe_cast())
+            f(&SecretAgentOld::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::capabilities\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_capabilities_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_capabilities_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -581,14 +581,16 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
             P: IsA<SecretAgentOld>,
         {
             let f: &F = &*(f as *const F);
-            f(&SecretAgentOld::from_glib_borrow(this).unsafe_cast())
+            f(&SecretAgentOld::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::registered\0".as_ptr() as *const _,
-                Some(transmute(notify_registered_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_registered_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

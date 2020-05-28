@@ -185,15 +185,15 @@ impl<O: IsA<SettingProxy>> SettingProxyExt for O {
             P: IsA<SettingProxy>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingProxy::from_glib_borrow(this).unsafe_cast())
+            f(&SettingProxy::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::browser-only\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_browser_only_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_browser_only_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -210,14 +210,16 @@ impl<O: IsA<SettingProxy>> SettingProxyExt for O {
             P: IsA<SettingProxy>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingProxy::from_glib_borrow(this).unsafe_cast())
+            f(&SettingProxy::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::method\0".as_ptr() as *const _,
-                Some(transmute(notify_method_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_method_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -233,14 +235,16 @@ impl<O: IsA<SettingProxy>> SettingProxyExt for O {
             P: IsA<SettingProxy>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingProxy::from_glib_borrow(this).unsafe_cast())
+            f(&SettingProxy::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::pac-script\0".as_ptr() as *const _,
-                Some(transmute(notify_pac_script_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_pac_script_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -256,14 +260,16 @@ impl<O: IsA<SettingProxy>> SettingProxyExt for O {
             P: IsA<SettingProxy>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingProxy::from_glib_borrow(this).unsafe_cast())
+            f(&SettingProxy::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::pac-url\0".as_ptr() as *const _,
-                Some(transmute(notify_pac_url_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_pac_url_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

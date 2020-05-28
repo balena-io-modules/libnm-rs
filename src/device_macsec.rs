@@ -126,7 +126,9 @@ impl DeviceMacsec {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::cipher-suite\0".as_ptr() as *const _,
-                Some(transmute(notify_cipher_suite_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_cipher_suite_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -150,7 +152,9 @@ impl DeviceMacsec {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::encoding-sa\0".as_ptr() as *const _,
-                Some(transmute(notify_encoding_sa_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_encoding_sa_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -174,7 +178,9 @@ impl DeviceMacsec {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::encrypt\0".as_ptr() as *const _,
-                Some(transmute(notify_encrypt_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_encrypt_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -198,7 +204,9 @@ impl DeviceMacsec {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::es\0".as_ptr() as *const _,
-                Some(transmute(notify_es_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_es_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -222,7 +230,9 @@ impl DeviceMacsec {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::icv-length\0".as_ptr() as *const _,
-                Some(transmute(notify_icv_length_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_icv_length_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -246,7 +256,9 @@ impl DeviceMacsec {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::include-sci\0".as_ptr() as *const _,
-                Some(transmute(notify_include_sci_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_include_sci_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -270,7 +282,9 @@ impl DeviceMacsec {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::parent\0".as_ptr() as *const _,
-                Some(transmute(notify_parent_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_parent_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -294,7 +308,9 @@ impl DeviceMacsec {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::protect\0".as_ptr() as *const _,
-                Some(transmute(notify_protect_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_protect_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -318,7 +334,9 @@ impl DeviceMacsec {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::replay-protect\0".as_ptr() as *const _,
-                Some(transmute(notify_replay_protect_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_replay_protect_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -342,7 +360,9 @@ impl DeviceMacsec {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::scb\0".as_ptr() as *const _,
-                Some(transmute(notify_scb_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_scb_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -366,7 +386,9 @@ impl DeviceMacsec {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::sci\0".as_ptr() as *const _,
-                Some(transmute(notify_sci_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_sci_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -390,7 +412,9 @@ impl DeviceMacsec {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::validation\0".as_ptr() as *const _,
-                Some(transmute(notify_validation_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_validation_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -414,7 +438,9 @@ impl DeviceMacsec {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::window\0".as_ptr() as *const _,
-                Some(transmute(notify_window_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_window_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

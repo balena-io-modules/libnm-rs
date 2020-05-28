@@ -98,7 +98,9 @@ impl DeviceWimax {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"nsp-added\0".as_ptr() as *const _,
-                Some(transmute(nsp_added_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    nsp_added_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -124,7 +126,9 @@ impl DeviceWimax {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"nsp-removed\0".as_ptr() as *const _,
-                Some(transmute(nsp_removed_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    nsp_removed_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -148,7 +152,9 @@ impl DeviceWimax {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::active-nsp\0".as_ptr() as *const _,
-                Some(transmute(notify_active_nsp_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_active_nsp_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -172,7 +178,9 @@ impl DeviceWimax {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::bsid\0".as_ptr() as *const _,
-                Some(transmute(notify_bsid_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_bsid_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -196,7 +204,9 @@ impl DeviceWimax {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::center-frequency\0".as_ptr() as *const _,
-                Some(transmute(notify_center_frequency_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_center_frequency_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -220,7 +230,9 @@ impl DeviceWimax {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::cinr\0".as_ptr() as *const _,
-                Some(transmute(notify_cinr_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_cinr_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -244,7 +256,9 @@ impl DeviceWimax {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::hw-address\0".as_ptr() as *const _,
-                Some(transmute(notify_hw_address_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_hw_address_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -267,7 +281,9 @@ impl DeviceWimax {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::nsps\0".as_ptr() as *const _,
-                Some(transmute(notify_nsps_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_nsps_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -291,7 +307,9 @@ impl DeviceWimax {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::rssi\0".as_ptr() as *const _,
-                Some(transmute(notify_rssi_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_rssi_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -315,7 +333,9 @@ impl DeviceWimax {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::tx-power\0".as_ptr() as *const _,
-                Some(transmute(notify_tx_power_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_tx_power_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

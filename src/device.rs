@@ -1087,7 +1087,7 @@ impl<O: IsA<Device>> DeviceExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &Device::from_glib_borrow(this).unsafe_cast(),
+                &Device::from_glib_borrow(this).unsafe_cast_ref(),
                 new_state,
                 old_state,
                 reason,
@@ -1098,7 +1098,9 @@ impl<O: IsA<Device>> DeviceExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"state-changed\0".as_ptr() as *const _,
-                Some(transmute(state_changed_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    state_changed_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1116,15 +1118,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::active-connection\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_active_connection_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_active_connection_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1140,14 +1142,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::autoconnect\0".as_ptr() as *const _,
-                Some(transmute(notify_autoconnect_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_autoconnect_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1165,15 +1169,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::available-connections\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_available_connections_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_available_connections_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1192,15 +1196,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::capabilities\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_capabilities_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_capabilities_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1216,14 +1220,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::device-type\0".as_ptr() as *const _,
-                Some(transmute(notify_device_type_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_device_type_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1241,15 +1247,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dhcp4-config\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_dhcp4_config_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dhcp4_config_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1268,15 +1274,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dhcp6-config\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_dhcp6_config_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dhcp6_config_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1292,14 +1298,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::driver\0".as_ptr() as *const _,
-                Some(transmute(notify_driver_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_driver_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1317,15 +1325,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::driver-version\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_driver_version_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_driver_version_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1344,15 +1352,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::firmware-missing\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_firmware_missing_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_firmware_missing_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1371,15 +1379,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::firmware-version\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_firmware_version_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_firmware_version_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1396,14 +1404,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::hw-address\0".as_ptr() as *const _,
-                Some(transmute(notify_hw_address_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_hw_address_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1418,14 +1428,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::interface\0".as_ptr() as *const _,
-                Some(transmute(notify_interface_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_interface_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1444,15 +1456,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::interface-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_interface_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_interface_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1471,15 +1483,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ip-interface\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_ip_interface_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ip_interface_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1495,14 +1507,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ip4-config\0".as_ptr() as *const _,
-                Some(transmute(notify_ip4_config_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ip4_config_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1521,15 +1535,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ip4-connectivity\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_ip4_connectivity_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ip4_connectivity_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1545,14 +1559,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ip6-config\0".as_ptr() as *const _,
-                Some(transmute(notify_ip6_config_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ip6_config_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1571,15 +1587,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ip6-connectivity\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_ip6_connectivity_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ip6_connectivity_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1598,15 +1614,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::lldp-neighbors\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_lldp_neighbors_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_lldp_neighbors_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1622,14 +1638,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::managed\0".as_ptr() as *const _,
-                Some(transmute(notify_managed_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_managed_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1645,14 +1663,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::metered\0".as_ptr() as *const _,
-                Some(transmute(notify_metered_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_metered_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1667,14 +1687,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mtu\0".as_ptr() as *const _,
-                Some(transmute(notify_mtu_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mtu_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1693,15 +1715,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::nm-plugin-missing\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_nm_plugin_missing_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_nm_plugin_missing_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1720,15 +1742,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::physical-port-id\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_physical_port_id_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_physical_port_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1744,14 +1766,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::product\0".as_ptr() as *const _,
-                Some(transmute(notify_product_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_product_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1767,14 +1791,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::real\0".as_ptr() as *const _,
-                Some(transmute(notify_real_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_real_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1789,14 +1815,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::state\0".as_ptr() as *const _,
-                Some(transmute(notify_state_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_state_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1814,15 +1842,15 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::state-reason\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_state_reason_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_state_reason_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -1838,14 +1866,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::udi\0".as_ptr() as *const _,
-                Some(transmute(notify_udi_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_udi_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -1860,14 +1890,16 @@ impl<O: IsA<Device>> DeviceExt for O {
             P: IsA<Device>,
         {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast())
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::vendor\0".as_ptr() as *const _,
-                Some(transmute(notify_vendor_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_vendor_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

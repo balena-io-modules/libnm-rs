@@ -79,7 +79,9 @@ impl DeviceModem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::apn\0".as_ptr() as *const _,
-                Some(transmute(notify_apn_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_apn_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -104,8 +106,8 @@ impl DeviceModem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::current-capabilities\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_current_capabilities_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_current_capabilities_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -130,7 +132,9 @@ impl DeviceModem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::device-id\0".as_ptr() as *const _,
-                Some(transmute(notify_device_id_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_device_id_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -153,8 +157,8 @@ impl DeviceModem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::modem-capabilities\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_modem_capabilities_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_modem_capabilities_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -179,7 +183,9 @@ impl DeviceModem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::operator-code\0".as_ptr() as *const _,
-                Some(transmute(notify_operator_code_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_operator_code_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

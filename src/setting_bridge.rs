@@ -381,7 +381,9 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ageing-time\0".as_ptr() as *const _,
-                Some(transmute(notify_ageing_time_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ageing_time_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -404,7 +406,9 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::forward-delay\0".as_ptr() as *const _,
-                Some(transmute(notify_forward_delay_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_forward_delay_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -428,7 +432,9 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::group-address\0".as_ptr() as *const _,
-                Some(transmute(notify_group_address_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_group_address_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -454,8 +460,8 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::group-forward-mask\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_group_forward_mask_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_group_forward_mask_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -479,7 +485,9 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::hello-time\0".as_ptr() as *const _,
-                Some(transmute(notify_hello_time_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_hello_time_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -503,7 +511,9 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mac-address\0".as_ptr() as *const _,
-                Some(transmute(notify_mac_address_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mac_address_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -526,7 +536,9 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::max-age\0".as_ptr() as *const _,
-                Some(transmute(notify_max_age_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_max_age_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -551,7 +563,9 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::multicast-querier\0".as_ptr() as *const _,
-                Some(transmute(notify_multicast_querier_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_multicast_querier_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -576,8 +590,8 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::multicast-query-use-ifaddr\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_multicast_query_use_ifaddr_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_multicast_query_use_ifaddr_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -601,7 +615,9 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::multicast-router\0".as_ptr() as *const _,
-                Some(transmute(notify_multicast_router_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_multicast_router_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -627,8 +643,8 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::multicast-snooping\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_multicast_snooping_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_multicast_snooping_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -652,7 +668,9 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::priority\0".as_ptr() as *const _,
-                Some(transmute(notify_priority_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_priority_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -675,7 +693,9 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::stp\0".as_ptr() as *const _,
-                Some(transmute(notify_stp_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_stp_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -701,7 +721,9 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::vlan-default-pvid\0".as_ptr() as *const _,
-                Some(transmute(notify_vlan_default_pvid_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_vlan_default_pvid_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -725,7 +747,9 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::vlan-filtering\0".as_ptr() as *const _,
-                Some(transmute(notify_vlan_filtering_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_vlan_filtering_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -749,7 +773,9 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::vlan-protocol\0".as_ptr() as *const _,
-                Some(transmute(notify_vlan_protocol_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_vlan_protocol_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -774,8 +800,8 @@ impl SettingBridge {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::vlan-stats-enabled\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_vlan_stats_enabled_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_vlan_stats_enabled_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

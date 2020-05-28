@@ -58,7 +58,9 @@ impl VpnConnection {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"vpn-state-changed\0".as_ptr() as *const _,
-                Some(transmute(vpn_state_changed_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    vpn_state_changed_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -81,7 +83,9 @@ impl VpnConnection {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::banner\0".as_ptr() as *const _,
-                Some(transmute(notify_banner_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_banner_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -104,7 +108,9 @@ impl VpnConnection {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::vpn-state\0".as_ptr() as *const _,
-                Some(transmute(notify_vpn_state_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_vpn_state_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

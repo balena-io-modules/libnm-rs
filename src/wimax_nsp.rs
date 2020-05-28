@@ -79,7 +79,9 @@ impl WimaxNsp {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::name\0".as_ptr() as *const _,
-                Some(transmute(notify_name_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_name_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -103,7 +105,9 @@ impl WimaxNsp {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::network-type\0".as_ptr() as *const _,
-                Some(transmute(notify_network_type_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_network_type_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -127,7 +131,9 @@ impl WimaxNsp {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::signal-quality\0".as_ptr() as *const _,
-                Some(transmute(notify_signal_quality_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_signal_quality_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

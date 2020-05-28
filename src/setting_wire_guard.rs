@@ -277,7 +277,9 @@ impl SettingWireGuard {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::fwmark\0".as_ptr() as *const _,
-                Some(transmute(notify_fwmark_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_fwmark_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -303,8 +305,8 @@ impl SettingWireGuard {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ip4-auto-default-route\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_ip4_auto_default_route_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ip4_auto_default_route_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -331,8 +333,8 @@ impl SettingWireGuard {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ip6-auto-default-route\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_ip6_auto_default_route_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ip6_auto_default_route_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -357,7 +359,9 @@ impl SettingWireGuard {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::listen-port\0".as_ptr() as *const _,
-                Some(transmute(notify_listen_port_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_listen_port_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -381,7 +385,9 @@ impl SettingWireGuard {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mtu\0".as_ptr() as *const _,
-                Some(transmute(notify_mtu_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mtu_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -405,7 +411,9 @@ impl SettingWireGuard {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::peer-routes\0".as_ptr() as *const _,
-                Some(transmute(notify_peer_routes_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_peer_routes_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -429,7 +437,9 @@ impl SettingWireGuard {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::private-key\0".as_ptr() as *const _,
-                Some(transmute(notify_private_key_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_private_key_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -455,7 +465,9 @@ impl SettingWireGuard {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::private-key-flags\0".as_ptr() as *const _,
-                Some(transmute(notify_private_key_flags_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_private_key_flags_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

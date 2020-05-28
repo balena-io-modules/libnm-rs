@@ -181,14 +181,16 @@ impl<O: IsA<SettingPppoe>> SettingPppoeExt for O {
             P: IsA<SettingPppoe>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPppoe::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPppoe::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::parent\0".as_ptr() as *const _,
-                Some(transmute(notify_parent_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_parent_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -203,14 +205,16 @@ impl<O: IsA<SettingPppoe>> SettingPppoeExt for O {
             P: IsA<SettingPppoe>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPppoe::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPppoe::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::password\0".as_ptr() as *const _,
-                Some(transmute(notify_password_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_password_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -228,15 +232,15 @@ impl<O: IsA<SettingPppoe>> SettingPppoeExt for O {
             P: IsA<SettingPppoe>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPppoe::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPppoe::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::password-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_password_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_password_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -252,14 +256,16 @@ impl<O: IsA<SettingPppoe>> SettingPppoeExt for O {
             P: IsA<SettingPppoe>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPppoe::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPppoe::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::service\0".as_ptr() as *const _,
-                Some(transmute(notify_service_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_service_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -274,14 +280,16 @@ impl<O: IsA<SettingPppoe>> SettingPppoeExt for O {
             P: IsA<SettingPppoe>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingPppoe::from_glib_borrow(this).unsafe_cast())
+            f(&SettingPppoe::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::username\0".as_ptr() as *const _,
-                Some(transmute(notify_username_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_username_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

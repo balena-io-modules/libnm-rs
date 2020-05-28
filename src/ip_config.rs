@@ -98,7 +98,9 @@ impl IPConfig {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::addresses\0".as_ptr() as *const _,
-                Some(transmute(notify_addresses_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_addresses_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -121,7 +123,9 @@ impl IPConfig {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::domains\0".as_ptr() as *const _,
-                Some(transmute(notify_domains_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_domains_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -144,7 +148,9 @@ impl IPConfig {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::family\0".as_ptr() as *const _,
-                Some(transmute(notify_family_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_family_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -167,7 +173,9 @@ impl IPConfig {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::gateway\0".as_ptr() as *const _,
-                Some(transmute(notify_gateway_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_gateway_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -190,7 +198,9 @@ impl IPConfig {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::nameservers\0".as_ptr() as *const _,
-                Some(transmute(notify_nameservers_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_nameservers_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -213,7 +223,9 @@ impl IPConfig {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::searches\0".as_ptr() as *const _,
-                Some(transmute(notify_searches_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_searches_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -236,7 +248,9 @@ impl IPConfig {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wins-servers\0".as_ptr() as *const _,
-                Some(transmute(notify_wins_servers_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wins_servers_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

@@ -229,7 +229,7 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &VpnServicePlugin::from_glib_borrow(this).unsafe_cast(),
+                &VpnServicePlugin::from_glib_borrow(this).unsafe_cast_ref(),
                 &from_glib_borrow(object),
             )
         }
@@ -238,7 +238,9 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"config\0".as_ptr() as *const _,
-                Some(transmute(config_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    config_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -254,7 +256,7 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &VpnServicePlugin::from_glib_borrow(this).unsafe_cast(),
+                &VpnServicePlugin::from_glib_borrow(this).unsafe_cast_ref(),
                 object,
             )
         }
@@ -263,7 +265,9 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"failure\0".as_ptr() as *const _,
-                Some(transmute(failure_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    failure_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -279,7 +283,7 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &VpnServicePlugin::from_glib_borrow(this).unsafe_cast(),
+                &VpnServicePlugin::from_glib_borrow(this).unsafe_cast_ref(),
                 &from_glib_borrow(object),
             )
         }
@@ -288,7 +292,9 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"ip4-config\0".as_ptr() as *const _,
-                Some(transmute(ip4_config_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    ip4_config_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -304,7 +310,7 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &VpnServicePlugin::from_glib_borrow(this).unsafe_cast(),
+                &VpnServicePlugin::from_glib_borrow(this).unsafe_cast_ref(),
                 &from_glib_borrow(object),
             )
         }
@@ -313,7 +319,9 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"ip6-config\0".as_ptr() as *const _,
-                Some(transmute(ip6_config_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    ip6_config_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -329,7 +337,7 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &VpnServicePlugin::from_glib_borrow(this).unsafe_cast(),
+                &VpnServicePlugin::from_glib_borrow(this).unsafe_cast_ref(),
                 &GString::from_glib_borrow(object),
             )
         }
@@ -338,7 +346,9 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"login-banner\0".as_ptr() as *const _,
-                Some(transmute(login_banner_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    login_banner_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -352,14 +362,16 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
             P: IsA<VpnServicePlugin>,
         {
             let f: &F = &*(f as *const F);
-            f(&VpnServicePlugin::from_glib_borrow(this).unsafe_cast())
+            f(&VpnServicePlugin::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"quit\0".as_ptr() as *const _,
-                Some(transmute(quit_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    quit_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -379,7 +391,7 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &VpnServicePlugin::from_glib_borrow(this).unsafe_cast(),
+                &VpnServicePlugin::from_glib_borrow(this).unsafe_cast_ref(),
                 object,
             )
         }
@@ -388,7 +400,9 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"state-changed\0".as_ptr() as *const _,
-                Some(transmute(state_changed_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    state_changed_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -404,14 +418,16 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
             P: IsA<VpnServicePlugin>,
         {
             let f: &F = &*(f as *const F);
-            f(&VpnServicePlugin::from_glib_borrow(this).unsafe_cast())
+            f(&VpnServicePlugin::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::state\0".as_ptr() as *const _,
-                Some(transmute(notify_state_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_state_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

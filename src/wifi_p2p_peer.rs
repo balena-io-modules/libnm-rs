@@ -138,7 +138,9 @@ impl WifiP2PPeer {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::flags\0".as_ptr() as *const _,
-                Some(transmute(notify_flags_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_flags_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -162,7 +164,9 @@ impl WifiP2PPeer {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::hw-address\0".as_ptr() as *const _,
-                Some(transmute(notify_hw_address_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_hw_address_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -186,7 +190,9 @@ impl WifiP2PPeer {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::last-seen\0".as_ptr() as *const _,
-                Some(transmute(notify_last_seen_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_last_seen_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -210,7 +216,9 @@ impl WifiP2PPeer {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::manufacturer\0".as_ptr() as *const _,
-                Some(transmute(notify_manufacturer_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_manufacturer_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -234,7 +242,9 @@ impl WifiP2PPeer {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::model\0".as_ptr() as *const _,
-                Some(transmute(notify_model_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_model_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -258,7 +268,9 @@ impl WifiP2PPeer {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::model-number\0".as_ptr() as *const _,
-                Some(transmute(notify_model_number_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_model_number_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -282,7 +294,9 @@ impl WifiP2PPeer {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::name\0".as_ptr() as *const _,
-                Some(transmute(notify_name_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_name_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -306,7 +320,9 @@ impl WifiP2PPeer {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::serial\0".as_ptr() as *const _,
-                Some(transmute(notify_serial_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_serial_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -330,7 +346,9 @@ impl WifiP2PPeer {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::strength\0".as_ptr() as *const _,
-                Some(transmute(notify_strength_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_strength_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -354,7 +372,9 @@ impl WifiP2PPeer {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::wfd-ies\0".as_ptr() as *const _,
-                Some(transmute(notify_wfd_ies_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wfd_ies_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

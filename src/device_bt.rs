@@ -68,7 +68,9 @@ impl DeviceBt {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::bt-capabilities\0".as_ptr() as *const _,
-                Some(transmute(notify_bt_capabilities_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_bt_capabilities_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -91,7 +93,9 @@ impl DeviceBt {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::name\0".as_ptr() as *const _,
-                Some(transmute(notify_name_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_name_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

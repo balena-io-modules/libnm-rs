@@ -294,15 +294,15 @@ impl<O: IsA<SettingVlan>> SettingVlanExt for O {
             P: IsA<SettingVlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::egress-priority-map\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_egress_priority_map_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_egress_priority_map_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -318,14 +318,16 @@ impl<O: IsA<SettingVlan>> SettingVlanExt for O {
             P: IsA<SettingVlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::flags\0".as_ptr() as *const _,
-                Some(transmute(notify_flags_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_flags_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -340,14 +342,16 @@ impl<O: IsA<SettingVlan>> SettingVlanExt for O {
             P: IsA<SettingVlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::id\0".as_ptr() as *const _,
-                Some(transmute(notify_id_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_id_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -365,15 +369,15 @@ impl<O: IsA<SettingVlan>> SettingVlanExt for O {
             P: IsA<SettingVlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ingress-priority-map\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_ingress_priority_map_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ingress_priority_map_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -389,14 +393,16 @@ impl<O: IsA<SettingVlan>> SettingVlanExt for O {
             P: IsA<SettingVlan>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVlan::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVlan::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::parent\0".as_ptr() as *const _,
-                Some(transmute(notify_parent_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_parent_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

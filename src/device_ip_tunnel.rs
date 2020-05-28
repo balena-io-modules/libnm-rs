@@ -135,8 +135,8 @@ impl DeviceIPTunnel {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::encapsulation-limit\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_encapsulation_limit_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_encapsulation_limit_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -161,7 +161,9 @@ impl DeviceIPTunnel {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::flags\0".as_ptr() as *const _,
-                Some(transmute(notify_flags_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_flags_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -185,7 +187,9 @@ impl DeviceIPTunnel {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::flow-label\0".as_ptr() as *const _,
-                Some(transmute(notify_flow_label_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_flow_label_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -209,7 +213,9 @@ impl DeviceIPTunnel {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::input-key\0".as_ptr() as *const _,
-                Some(transmute(notify_input_key_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_input_key_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -233,7 +239,9 @@ impl DeviceIPTunnel {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::local\0".as_ptr() as *const _,
-                Some(transmute(notify_local_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_local_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -257,7 +265,9 @@ impl DeviceIPTunnel {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mode\0".as_ptr() as *const _,
-                Some(transmute(notify_mode_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mode_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -281,7 +291,9 @@ impl DeviceIPTunnel {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::output-key\0".as_ptr() as *const _,
-                Some(transmute(notify_output_key_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_output_key_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -305,7 +317,9 @@ impl DeviceIPTunnel {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::parent\0".as_ptr() as *const _,
-                Some(transmute(notify_parent_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_parent_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -331,8 +345,8 @@ impl DeviceIPTunnel {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::path-mtu-discovery\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_path_mtu_discovery_trampoline::<F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_path_mtu_discovery_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -357,7 +371,9 @@ impl DeviceIPTunnel {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::remote\0".as_ptr() as *const _,
-                Some(transmute(notify_remote_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_remote_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -381,7 +397,9 @@ impl DeviceIPTunnel {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::tos\0".as_ptr() as *const _,
-                Some(transmute(notify_tos_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_tos_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -405,7 +423,9 @@ impl DeviceIPTunnel {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ttl\0".as_ptr() as *const _,
-                Some(transmute(notify_ttl_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ttl_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

@@ -46,10 +46,6 @@ pub trait SettingVpnExt: 'static {
 
     fn add_secret(&self, key: &str, secret: Option<&str>);
 
-    fn foreach_data_item<P: FnMut(&str, &str)>(&self, func: P);
-
-    fn foreach_secret<P: FnMut(&str, &str)>(&self, func: P);
-
     fn get_data_item(&self, key: &str) -> Option<GString>;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
@@ -126,52 +122,6 @@ impl<O: IsA<SettingVpn>> SettingVpnExt for O {
                 self.as_ref().to_glib_none().0,
                 key.to_glib_none().0,
                 secret.to_glib_none().0,
-            );
-        }
-    }
-
-    fn foreach_data_item<P: FnMut(&str, &str)>(&self, func: P) {
-        let func_data: P = func;
-        unsafe extern "C" fn func_func<P: FnMut(&str, &str)>(
-            key: *const libc::c_char,
-            value: *const libc::c_char,
-            user_data: glib_sys::gpointer,
-        ) {
-            let key: GString = from_glib_borrow(key);
-            let value: GString = from_glib_borrow(value);
-            let callback: *mut P = user_data as *const _ as usize as *mut P;
-            (*callback)(key.as_str(), value.as_str());
-        }
-        let func = Some(func_func::<P> as _);
-        let super_callback0: &P = &func_data;
-        unsafe {
-            nm_sys::nm_setting_vpn_foreach_data_item(
-                self.as_ref().to_glib_none().0,
-                func,
-                super_callback0 as *const _ as usize as *mut _,
-            );
-        }
-    }
-
-    fn foreach_secret<P: FnMut(&str, &str)>(&self, func: P) {
-        let func_data: P = func;
-        unsafe extern "C" fn func_func<P: FnMut(&str, &str)>(
-            key: *const libc::c_char,
-            value: *const libc::c_char,
-            user_data: glib_sys::gpointer,
-        ) {
-            let key: GString = from_glib_borrow(key);
-            let value: GString = from_glib_borrow(value);
-            let callback: *mut P = user_data as *const _ as usize as *mut P;
-            (*callback)(key.as_str(), value.as_str());
-        }
-        let func = Some(func_func::<P> as _);
-        let super_callback0: &P = &func_data;
-        unsafe {
-            nm_sys::nm_setting_vpn_foreach_secret(
-                self.as_ref().to_glib_none().0,
-                func,
-                super_callback0 as *const _ as usize as *mut _,
             );
         }
     }
@@ -357,14 +307,16 @@ impl<O: IsA<SettingVpn>> SettingVpnExt for O {
             P: IsA<SettingVpn>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVpn::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVpn::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::data\0".as_ptr() as *const _,
-                Some(transmute(notify_data_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_data_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -379,14 +331,16 @@ impl<O: IsA<SettingVpn>> SettingVpnExt for O {
             P: IsA<SettingVpn>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVpn::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVpn::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::persistent\0".as_ptr() as *const _,
-                Some(transmute(notify_persistent_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_persistent_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -401,14 +355,16 @@ impl<O: IsA<SettingVpn>> SettingVpnExt for O {
             P: IsA<SettingVpn>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVpn::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVpn::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::secrets\0".as_ptr() as *const _,
-                Some(transmute(notify_secrets_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_secrets_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -426,15 +382,15 @@ impl<O: IsA<SettingVpn>> SettingVpnExt for O {
             P: IsA<SettingVpn>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVpn::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVpn::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::service-type\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_service_type_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_service_type_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -451,14 +407,16 @@ impl<O: IsA<SettingVpn>> SettingVpnExt for O {
             P: IsA<SettingVpn>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVpn::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVpn::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::timeout\0".as_ptr() as *const _,
-                Some(transmute(notify_timeout_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_timeout_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -473,14 +431,16 @@ impl<O: IsA<SettingVpn>> SettingVpnExt for O {
             P: IsA<SettingVpn>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingVpn::from_glib_borrow(this).unsafe_cast())
+            f(&SettingVpn::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::user-name\0".as_ptr() as *const _,
-                Some(transmute(notify_user_name_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_user_name_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

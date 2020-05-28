@@ -282,7 +282,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         {
             let f: &F = &*(f as *const F);
             f(
-                &ActiveConnection::from_glib_borrow(this).unsafe_cast(),
+                &ActiveConnection::from_glib_borrow(this).unsafe_cast_ref(),
                 state,
                 reason,
             )
@@ -292,7 +292,9 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"state-changed\0".as_ptr() as *const _,
-                Some(transmute(state_changed_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    state_changed_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -307,14 +309,16 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::connection\0".as_ptr() as *const _,
-                Some(transmute(notify_connection_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_connection_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -329,14 +333,16 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::default\0".as_ptr() as *const _,
-                Some(transmute(notify_default_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_default_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -351,14 +357,16 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::default6\0".as_ptr() as *const _,
-                Some(transmute(notify_default6_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_default6_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -373,14 +381,16 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::devices\0".as_ptr() as *const _,
-                Some(transmute(notify_devices_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_devices_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -398,15 +408,15 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dhcp4-config\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_dhcp4_config_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dhcp4_config_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -425,15 +435,15 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dhcp6-config\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_dhcp6_config_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dhcp6_config_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -449,14 +459,16 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::id\0".as_ptr() as *const _,
-                Some(transmute(notify_id_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_id_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -471,14 +483,16 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ip4-config\0".as_ptr() as *const _,
-                Some(transmute(notify_ip4_config_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ip4_config_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -493,14 +507,16 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::ip6-config\0".as_ptr() as *const _,
-                Some(transmute(notify_ip6_config_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ip6_config_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -515,14 +531,16 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::master\0".as_ptr() as *const _,
-                Some(transmute(notify_master_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_master_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -540,15 +558,15 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::specific-object-path\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_specific_object_path_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_specific_object_path_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -564,14 +582,16 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::state\0".as_ptr() as *const _,
-                Some(transmute(notify_state_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_state_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -587,14 +607,16 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::state-flags\0".as_ptr() as *const _,
-                Some(transmute(notify_state_flags_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_state_flags_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -609,14 +631,16 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::type\0".as_ptr() as *const _,
-                Some(transmute(notify_type_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_type_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -631,14 +655,16 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::uuid\0".as_ptr() as *const _,
-                Some(transmute(notify_uuid_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_uuid_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -653,14 +679,16 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             P: IsA<ActiveConnection>,
         {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast())
+            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::vpn\0".as_ptr() as *const _,
-                Some(transmute(notify_vpn_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_vpn_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

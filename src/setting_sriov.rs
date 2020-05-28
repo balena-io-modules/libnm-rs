@@ -138,7 +138,9 @@ impl SettingSriov {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::autoprobe-drivers\0".as_ptr() as *const _,
-                Some(transmute(notify_autoprobe_drivers_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_autoprobe_drivers_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -162,7 +164,9 @@ impl SettingSriov {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::total-vfs\0".as_ptr() as *const _,
-                Some(transmute(notify_total_vfs_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_total_vfs_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

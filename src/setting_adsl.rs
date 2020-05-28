@@ -221,15 +221,15 @@ impl<O: IsA<SettingAdsl>> SettingAdslExt for O {
             P: IsA<SettingAdsl>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingAdsl::from_glib_borrow(this).unsafe_cast())
+            f(&SettingAdsl::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::encapsulation\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_encapsulation_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_encapsulation_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -245,14 +245,16 @@ impl<O: IsA<SettingAdsl>> SettingAdslExt for O {
             P: IsA<SettingAdsl>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingAdsl::from_glib_borrow(this).unsafe_cast())
+            f(&SettingAdsl::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::password\0".as_ptr() as *const _,
-                Some(transmute(notify_password_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_password_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -270,15 +272,15 @@ impl<O: IsA<SettingAdsl>> SettingAdslExt for O {
             P: IsA<SettingAdsl>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingAdsl::from_glib_borrow(this).unsafe_cast())
+            f(&SettingAdsl::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::password-flags\0".as_ptr() as *const _,
-                Some(transmute(
-                    notify_password_flags_trampoline::<Self, F> as usize,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_password_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -294,14 +296,16 @@ impl<O: IsA<SettingAdsl>> SettingAdslExt for O {
             P: IsA<SettingAdsl>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingAdsl::from_glib_borrow(this).unsafe_cast())
+            f(&SettingAdsl::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::protocol\0".as_ptr() as *const _,
-                Some(transmute(notify_protocol_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_protocol_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -316,14 +320,16 @@ impl<O: IsA<SettingAdsl>> SettingAdslExt for O {
             P: IsA<SettingAdsl>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingAdsl::from_glib_borrow(this).unsafe_cast())
+            f(&SettingAdsl::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::username\0".as_ptr() as *const _,
-                Some(transmute(notify_username_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_username_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -338,14 +344,16 @@ impl<O: IsA<SettingAdsl>> SettingAdslExt for O {
             P: IsA<SettingAdsl>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingAdsl::from_glib_borrow(this).unsafe_cast())
+            f(&SettingAdsl::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::vci\0".as_ptr() as *const _,
-                Some(transmute(notify_vci_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_vci_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -360,14 +368,16 @@ impl<O: IsA<SettingAdsl>> SettingAdslExt for O {
             P: IsA<SettingAdsl>,
         {
             let f: &F = &*(f as *const F);
-            f(&SettingAdsl::from_glib_borrow(this).unsafe_cast())
+            f(&SettingAdsl::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::vpi\0".as_ptr() as *const _,
-                Some(transmute(notify_vpi_trampoline::<Self, F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_vpi_trampoline::<Self, F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }

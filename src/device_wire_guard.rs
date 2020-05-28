@@ -68,7 +68,9 @@ impl DeviceWireGuard {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::fwmark\0".as_ptr() as *const _,
-                Some(transmute(notify_fwmark_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_fwmark_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -92,7 +94,9 @@ impl DeviceWireGuard {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::listen-port\0".as_ptr() as *const _,
-                Some(transmute(notify_listen_port_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_listen_port_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
@@ -116,7 +120,9 @@ impl DeviceWireGuard {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::public-key\0".as_ptr() as *const _,
-                Some(transmute(notify_public_key_trampoline::<F> as usize)),
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_public_key_trampoline::<F> as *const (),
+                )),
                 Box_::into_raw(f),
             )
         }
