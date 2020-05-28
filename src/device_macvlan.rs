@@ -31,11 +31,28 @@ glib_wrapper! {
 }
 
 impl DeviceMacvlan {
+    /// Gets the MACVLAN mode of the device.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the MACVLAN mode. This is the internal string used by the
+    /// device, and must not be modified.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_mode(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_device_macvlan_get_mode(self.to_glib_none().0)) }
     }
 
+    /// Gets the no-promiscuous flag of the device.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the no-promiscuous flag of the device.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_no_promisc(&self) -> bool {
         unsafe {
@@ -45,11 +62,26 @@ impl DeviceMacvlan {
         }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the device's parent device
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_parent(&self) -> Option<Device> {
         unsafe { from_glib_none(nm_sys::nm_device_macvlan_get_parent(self.to_glib_none().0)) }
     }
 
+    /// Gets the device type (MACVLAN or MACVTAP).
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// `true` if the device is a MACVTAP, `false` if it is a MACVLAN.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_tap(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_macvlan_get_tap(self.to_glib_none().0)) }

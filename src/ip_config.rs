@@ -25,6 +25,14 @@ glib_wrapper! {
 }
 
 impl IPConfig {
+    /// Gets the IP addresses (containing the address, prefix, and gateway).
+    ///
+    /// # Returns
+    ///
+    /// the `glib::PtrArray`
+    /// containing `IPAddress`<!-- -->es. This is the internal copy used by the
+    /// configuration and must not be modified. The library never modifies the
+    /// returned array and thus it is safe for callers to reference and keep using it.
     pub fn get_addresses(&self) -> Vec<IPAddress> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(nm_sys::nm_ip_config_get_addresses(
@@ -33,6 +41,12 @@ impl IPConfig {
         }
     }
 
+    /// Gets the domain names.
+    ///
+    /// # Returns
+    ///
+    /// the array of domains.
+    /// (This is never `None`, though it may be 0-length).
     pub fn get_domains(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(nm_sys::nm_ip_config_get_domains(
@@ -41,14 +55,30 @@ impl IPConfig {
         }
     }
 
+    /// Gets the IP address family
+    ///
+    /// # Returns
+    ///
+    /// the IP address family; either `<literal>`AF_INET`</literal>` or
+    /// `<literal>`AF_INET6`</literal>`
     pub fn get_family(&self) -> i32 {
         unsafe { nm_sys::nm_ip_config_get_family(self.to_glib_none().0) }
     }
 
+    /// Gets the IP gateway address.
+    ///
+    /// # Returns
+    ///
+    /// the IP address of the gateway.
     pub fn get_gateway(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_ip_config_get_gateway(self.to_glib_none().0)) }
     }
 
+    /// Gets the domain name servers (DNS).
+    ///
+    /// # Returns
+    ///
+    /// the array of nameserver IP addresses
     pub fn get_nameservers(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(nm_sys::nm_ip_config_get_nameservers(
@@ -57,6 +87,14 @@ impl IPConfig {
         }
     }
 
+    /// Gets the routes.
+    ///
+    /// # Returns
+    ///
+    /// the `glib::PtrArray` containing
+    /// `IPRoute`<!-- -->s. This is the internal copy used by the configuration, and must
+    /// not be modified. The library never modifies the returned array and thus it is
+    /// safe for callers to reference and keep using it.
     pub fn get_routes(&self) -> Vec<IPRoute> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(nm_sys::nm_ip_config_get_routes(
@@ -65,6 +103,12 @@ impl IPConfig {
         }
     }
 
+    /// Gets the DNS searches.
+    ///
+    /// # Returns
+    ///
+    /// the array of DNS search strings.
+    /// (This is never `None`, though it may be 0-length).
     pub fn get_searches(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(nm_sys::nm_ip_config_get_searches(
@@ -73,6 +117,12 @@ impl IPConfig {
         }
     }
 
+    /// Gets the Windows Internet Name Service servers (WINS).
+    ///
+    /// # Returns
+    ///
+    /// the arry of WINS server IP address strings.
+    /// (This is never `None`, though it may be 0-length.)
     pub fn get_wins_servers(&self) -> Vec<GString> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(nm_sys::nm_ip_config_get_wins_servers(

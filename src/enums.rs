@@ -15,6 +15,9 @@ use gobject_sys;
 use nm_sys;
 use std::fmt;
 
+/// `ActiveConnectionState` values indicate the state of a connection to a
+/// specific network while it is starting, connected, or disconnecting from that
+/// network.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum ActiveConnectionState {
@@ -98,6 +101,7 @@ impl SetValue for ActiveConnectionState {
     }
 }
 
+/// Active connection state reasons.
 #[cfg(any(feature = "v1_8", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -257,6 +261,11 @@ impl SetValue for ActiveConnectionStateReason {
     }
 }
 
+/// Errors returned from the secret-agent manager.
+///
+/// These errors may be returned from operations that could cause secrets to be
+/// requested (such as `nm_client_activate_connection`), and correspond to D-Bus
+/// errors in the "org.freedesktop.NetworkManager.AgentManager" namespace.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum AgentManagerError {
@@ -368,6 +377,13 @@ impl SetValue for AgentManagerError {
     }
 }
 
+/// `Capability` names the numbers in the Capabilities property.
+/// Capabilities are positive numbers. They are part of stable API
+/// and a certain capability number is guaranteed not to change.
+///
+/// The range 0x7000 - 0x7FFF of capabilities is guaranteed not to be
+/// used by upstream NetworkManager. It could thus be used for downstream
+/// extensions.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum Capability {
@@ -439,6 +455,10 @@ impl SetValue for Capability {
     }
 }
 
+/// Describes errors that may result from operations involving a `Client`.
+///
+/// D-Bus operations may also return errors from other domains, including
+/// `ManagerError`, `SettingsError`, `AgentManagerError`, and `ConnectionError`.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum ClientError {
@@ -533,6 +553,8 @@ impl SetValue for ClientError {
     }
 }
 
+/// `ClientPermission` values indicate various permissions that NetworkManager
+/// clients can obtain to perform certain tasks on behalf of the current user.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum ClientPermission {
@@ -687,6 +709,8 @@ impl SetValue for ClientPermission {
     }
 }
 
+/// `ClientPermissionResult` values indicate what authorizations and permissions
+/// the user requires to obtain a given `ClientPermission`
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum ClientPermissionResult {
@@ -766,6 +790,13 @@ impl SetValue for ClientPermissionResult {
     }
 }
 
+/// Describes errors that may result from operations involving a `Connection`
+/// or its `NMSettings`.
+///
+/// These errors may be returned directly from `Connection` and `Setting`
+/// methods, or may be returned from D-Bus operations (eg on `Client` or
+/// `Device`), where they correspond to errors in the
+/// "org.freedesktop.NetworkManager.Settings.Connection" namespace.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum ConnectionError {
@@ -1057,6 +1088,8 @@ impl SetValue for ConnectivityState {
     }
 }
 
+/// Cryptography-related errors that can be returned from some nm-utils methods,
+/// and some `Setting8021x` operations.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum CryptoError {
@@ -1166,6 +1199,11 @@ impl SetValue for CryptoError {
     }
 }
 
+/// Device-related errors.
+///
+/// These errors may be returned directly from `Device` methods, or may be
+/// returned from D-Bus operations (where they correspond to errors in the
+/// "org.freedesktop.NetworkManager.Device" namespace).
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum DeviceError {
@@ -1417,6 +1455,7 @@ impl SetValue for DeviceState {
     }
 }
 
+/// Device state change reason codes
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum DeviceStateReason {
@@ -1802,6 +1841,8 @@ impl SetValue for DeviceStateReason {
     }
 }
 
+/// `DeviceType` values indicate the type of hardware represented by a
+/// device object.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum DeviceType {
@@ -1993,6 +2034,7 @@ impl SetValue for DeviceType {
     }
 }
 
+/// The tunneling mode.
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -2112,6 +2154,10 @@ impl SetValue for IPTunnelMode {
     }
 }
 
+/// Errors related to the main "network management" interface of NetworkManager.
+/// These may be returned from `Client` methods that invoke D-Bus operations on
+/// the "org.freedesktop.NetworkManager" interface, and correspond to D-Bus
+/// errors in that namespace.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum ManagerError {
@@ -2267,6 +2313,32 @@ impl SetValue for ManagerError {
     }
 }
 
+/// The NMMetered enum has two different purposes: one is to configure
+/// "connection.metered" setting of a connection profile in `SettingConnection`, and
+/// the other is to express the actual metered state of the `Device` at a given moment.
+///
+/// For the connection profile only `Metered::Unknown`, `Metered::No`
+/// and `Metered::Yes` are allowed.
+///
+/// The device's metered state at runtime is determined by the profile
+/// which is currently active. If the profile explicitly specifies `Metered::No`
+/// or `Metered::Yes`, then the device's metered state is as such.
+/// If the connection profile leaves it undecided at `Metered::Unknown` (the default),
+/// then NetworkManager tries to guess the metered state, for example based on the
+/// device type or on DHCP options (like Android devices exposing a "ANDROID_METERED"
+/// DHCP vendor option). This then leads to either `Metered::GuessNo` or `Metered::GuessYes`.
+///
+/// Most applications probably should treat the runtime state `Metered::GuessYes`
+/// like `Metered::Yes`, and all other states as not metered.
+///
+/// Note that the per-device metered states are then combined to a global metered
+/// state. This is basically the metered state of the device with the best default
+/// route. However, that generalization of a global metered state may not be correct
+/// if the default routes for IPv4 and IPv6 are on different devices, or if policy
+/// routing is configured. In general, the global metered state tries to express whether
+/// the traffic is likely metered, but since that depends on the traffic itself,
+/// there is not one answer in all cases. Hence, an application may want to consider
+/// the per-device's metered states.
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -2358,6 +2430,7 @@ impl SetValue for Metered {
     }
 }
 
+/// The result of a checkpoint Rollback() operation for a specific device.
 #[cfg(any(feature = "v1_4", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -2417,6 +2490,14 @@ impl FromGlib<nm_sys::NMRollbackResult> for RollbackResult {
     }
 }
 
+/// `SecretAgentError` values are passed by secret agents back to NetworkManager
+/// when they encounter problems retrieving secrets on behalf of NM. They
+/// correspond to errors in the "org.freedesktop.NetworkManager.SecretManager"
+/// namespace.
+///
+/// Client APIs such as `nm_client_activate_connection` will not see these error
+/// codes; instead, the secret agent manager will translate them to the
+/// corresponding `AgentManagerError` codes.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SecretAgentError {
@@ -2526,6 +2607,8 @@ impl SetValue for SecretAgentError {
     }
 }
 
+/// `Setting8021xCKFormat` values indicate the general type of a certificate
+/// or private key
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum Setting8021xCKFormat {
@@ -2605,6 +2688,9 @@ impl SetValue for Setting8021xCKFormat {
     }
 }
 
+/// `Setting8021xCKScheme` values indicate how a certificate or private key is
+/// stored in the setting properties, either as a blob of the item's data, or as
+/// a path to a certificate or private key file on the filesystem
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum Setting8021xCKScheme {
@@ -2684,6 +2770,8 @@ impl SetValue for Setting8021xCKScheme {
     }
 }
 
+/// These flags modify the comparison behavior when comparing two settings or
+/// two connections.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SettingCompareFlags {
@@ -2793,6 +2881,8 @@ impl SetValue for SettingCompareFlags {
     }
 }
 
+/// `SettingConnectionAutoconnectSlaves` values indicate whether slave connections
+/// should be activated when master is activated.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SettingConnectionAutoconnectSlaves {
@@ -2874,6 +2964,7 @@ impl SetValue for SettingConnectionAutoconnectSlaves {
     }
 }
 
+/// `SettingConnectionLldp` values indicate whether LLDP should be enabled.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SettingConnectionLldp {
@@ -2949,6 +3040,7 @@ impl SetValue for SettingConnectionLldp {
     }
 }
 
+/// `SettingConnectionLlmnr` values indicate whether LLMNR should be enabled.
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -3036,6 +3128,7 @@ impl SetValue for SettingConnectionLlmnr {
     }
 }
 
+/// `SettingConnectionMdns` values indicate whether mDNS should be enabled.
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -3123,6 +3216,7 @@ impl SetValue for SettingConnectionMdns {
     }
 }
 
+/// These values indicate the result of a setting difference operation.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SettingDiffResult {
@@ -3206,6 +3300,8 @@ impl SetValue for SettingDiffResult {
     }
 }
 
+/// `SettingIP6ConfigAddrGenMode` controls how the Interface Identifier for
+/// RFC4862 Stateless Address Autoconfiguration is created.
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -3287,6 +3383,8 @@ impl SetValue for SettingIP6ConfigAddrGenMode {
     }
 }
 
+/// `SettingIP6ConfigPrivacy` values indicate if and how IPv6 Privacy
+/// Extensions are used (RFC4941).
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SettingIP6ConfigPrivacy {
@@ -3370,6 +3468,7 @@ impl SetValue for SettingIP6ConfigPrivacy {
     }
 }
 
+/// Controls if and how the MAC address of a device is randomzied.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SettingMacRandomization {
@@ -3445,6 +3544,8 @@ impl SetValue for SettingMacRandomization {
     }
 }
 
+/// `SettingMacsecMode` controls how the CAK (Connectivity Association Key) used
+/// in MKA (MACsec Key Agreement) is obtained.
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -3524,6 +3625,7 @@ impl SetValue for SettingMacsecMode {
     }
 }
 
+/// `SettingMacsecValidation` specifies a validation mode for incoming frames.
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -3694,6 +3796,7 @@ impl SetValue for SettingMacvlanMode {
     }
 }
 
+/// The Proxy method.
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -3773,6 +3876,7 @@ impl SetValue for SettingProxyMethod {
     }
 }
 
+/// The parity setting of a serial port.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SettingSerialParity {
@@ -3848,6 +3952,7 @@ impl SetValue for SettingSerialParity {
     }
 }
 
+/// `SettingTunMode` values indicate the device type (TUN/TAP)
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SettingTunMode {
@@ -3923,6 +4028,7 @@ impl SetValue for SettingTunMode {
     }
 }
 
+/// These flags indicate whether wireless powersave must be enabled.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SettingWirelessPowersave {
@@ -4002,6 +4108,7 @@ impl SetValue for SettingWirelessPowersave {
     }
 }
 
+/// These flags indicate whether FILS must be enabled.
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -4097,6 +4204,7 @@ impl SetValue for SettingWirelessSecurityFils {
     }
 }
 
+/// These flags indicate whether PMF must be enabled.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SettingWirelessSecurityPmf {
@@ -4180,6 +4288,12 @@ impl SetValue for SettingWirelessSecurityPmf {
     }
 }
 
+/// Errors related to the settings/persistent configuration interface of
+/// NetworkManager.
+///
+/// These may be returned from `Client` methods that invoke D-Bus operations on
+/// the "org.freedesktop.NetworkManager.Settings" interface, and correspond to
+/// D-Bus errors in that namespace.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SettingsError {
@@ -4299,6 +4413,7 @@ impl SetValue for SettingsError {
     }
 }
 
+/// `SriovVFVlanProtocol` indicates the VLAN protocol to use.
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -4378,6 +4493,7 @@ impl SetValue for SriovVFVlanProtocol {
     }
 }
 
+/// `State` values indicate the current overall networking state.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum State {
@@ -4473,6 +4589,7 @@ impl SetValue for State {
     }
 }
 
+/// An boolean value that can be overridden by a default.
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -4556,6 +4673,9 @@ impl SetValue for Ternary {
     }
 }
 
+/// Describes generic security mechanisms that 802.11 access points may offer.
+/// Used with `nm_utils_security_valid` for checking whether a given access
+/// point is compatible with a network device.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum UtilsSecurityType {
@@ -4663,6 +4783,8 @@ impl SetValue for UtilsSecurityType {
     }
 }
 
+/// A selector for traffic priority maps; these map Linux SKB priorities
+/// to 802.1p priorities used in VLANs.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum VlanPriorityMap {
@@ -4734,6 +4856,7 @@ impl SetValue for VlanPriorityMap {
     }
 }
 
+/// VPN connection states
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum VpnConnectionState {
@@ -4829,6 +4952,7 @@ impl SetValue for VpnConnectionState {
     }
 }
 
+/// VPN connection state reasons
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum VpnConnectionStateReason {
@@ -4960,6 +5084,8 @@ impl SetValue for VpnConnectionStateReason {
     }
 }
 
+/// Returned by the VPN service plugin to indicate errors. These codes correspond
+/// to errors in the "org.freedesktop.NetworkManager.VPN.Error" namespace.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum VpnPluginError {
@@ -5091,6 +5217,7 @@ impl SetValue for VpnPluginError {
     }
 }
 
+/// VPN plugin failure reasons
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum VpnPluginFailure {
@@ -5166,6 +5293,7 @@ impl SetValue for VpnPluginFailure {
     }
 }
 
+/// VPN daemon states
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum VpnServiceState {
@@ -5257,6 +5385,15 @@ impl SetValue for VpnServiceState {
     }
 }
 
+/// The `WepKeyType` values specify how any WEP keys present in the setting
+/// are interpreted. There are no standards governing how to hash the various WEP
+/// key/passphrase formats into the actual WEP key. Unfortunately some WEP keys
+/// can be interpreted in multiple ways, requiring the setting to specify how to
+/// interpret the any WEP keys. For example, the key "732f2d712e4a394a375d366931"
+/// is both a valid Hexadecimal WEP key and a WEP passphrase. Further, many
+/// ASCII keys are also valid WEP passphrases, but since passphrases and ASCII
+/// keys are hashed differently to determine the actual WEP key the type must be
+/// specified.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum WepKeyType {
@@ -5332,6 +5469,7 @@ impl SetValue for WepKeyType {
     }
 }
 
+/// WiMAX network type.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum WimaxNspNetworkType {
@@ -5413,6 +5551,7 @@ impl SetValue for WimaxNspNetworkType {
     }
 }
 
+/// Indicates the 802.11 mode an access point or device is currently in.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum _80211Mode {

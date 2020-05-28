@@ -27,6 +27,11 @@ glib_wrapper! {
 }
 
 impl SettingGsm {
+    /// Creates a new `SettingGsm` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingGsm` object
     pub fn new() -> SettingGsm {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_gsm_new()).unsafe_cast() }
     }
@@ -40,73 +45,216 @@ impl Default for SettingGsm {
 
 pub const NONE_SETTING_GSM: Option<&SettingGsm> = None;
 
+/// Trait containing all `SettingGsm` methods.
+///
+/// # Implementors
+///
+/// [`SettingGsm`](struct.SettingGsm.html)
 pub trait SettingGsmExt: 'static {
+    ///
+    /// # Returns
+    ///
+    /// the `SettingGsm:apn` property of the setting
     fn get_apn(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_22`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingGsm:auto-config` property of the setting
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     fn get_auto_config(&self) -> bool;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingGsm:device-id` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_device_id(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingGsm:home-only` property of the setting
     fn get_home_only(&self) -> bool;
 
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingGsm:mtu` property of the setting
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_mtu(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingGsm:network-id` property of the setting
     fn get_network_id(&self) -> Option<GString>;
 
+    ///
+    /// # Deprecated since 1.16
+    ///
+    /// User-provided values for this setting are no longer used.
+    ///
+    /// # Returns
+    ///
+    /// the `SettingGsm:number` property of the setting
     #[cfg_attr(feature = "v1_16", deprecated)]
     fn get_number(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingGsm:password` property of the setting
     fn get_password(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the `SettingGsm:password`
     fn get_password_flags(&self) -> SettingSecretFlags;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingGsm:pin` property of the setting
     fn get_pin(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the `SettingGsm:pin`
     fn get_pin_flags(&self) -> SettingSecretFlags;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingGsm:sim-id` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_sim_id(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingGsm:sim-operator-id` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_sim_operator_id(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingGsm:username` property of the setting
     fn get_username(&self) -> Option<GString>;
 
+    /// The GPRS Access Point Name specifying the APN used when establishing a
+    /// data session with the GSM-based network. The APN often determines how
+    /// the user will be billed for their network usage and whether the user has
+    /// access to the Internet or just a provider-specific walled-garden, so it
+    /// is important to use the correct APN for the user's mobile broadband plan.
+    /// The APN may only be composed of the characters a-z, 0-9, ., and - per GSM
+    /// 03.60 Section 14.9.
     fn set_property_apn(&self, apn: Option<&str>);
 
+    /// When `true`, the settings such as APN, username, or password will
+    /// default to values that match the network the modem will register
+    /// to in the Mobile Broadband Provider database.
+    ///
+    /// Feature: `v1_22`
+    ///
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     fn set_property_auto_config(&self, auto_config: bool);
 
+    /// The device unique identifier (as given by the WWAN management service)
+    /// which this connection applies to. If given, the connection will only
+    /// apply to the specified device.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_device_id(&self, device_id: Option<&str>);
 
+    /// When `true`, only connections to the home network will be allowed.
+    /// Connections to roaming networks will not be made.
     fn set_property_home_only(&self, home_only: bool);
 
+    /// If non-zero, only transmit packets of the specified size or smaller,
+    /// breaking larger packets up into multiple frames.
+    ///
+    /// Feature: `v1_8`
+    ///
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_mtu(&self, mtu: u32);
 
+    /// The Network ID (GSM LAI format, ie MCC-MNC) to force specific network
+    /// registration. If the Network ID is specified, NetworkManager will
+    /// attempt to force the device to register only on the specified network.
+    /// This can be used to ensure that the device does not roam when direct
+    /// roaming control of the device is not otherwise possible.
     fn set_property_network_id(&self, network_id: Option<&str>);
 
+    /// Legacy setting that used to help establishing PPP data sessions for
+    /// GSM-based modems.
+    ///
+    /// # Deprecated since 1.16
+    ///
+    /// User-provided values for this setting are no longer used.
     #[cfg_attr(feature = "v1_16", deprecated)]
     fn set_property_number(&self, number: Option<&str>);
 
+    /// The password used to authenticate with the network, if required. Many
+    /// providers do not require a password, or accept any password. But if a
+    /// password is required, it is specified here.
     fn set_property_password(&self, password: Option<&str>);
 
+    /// Flags indicating how to handle the `SettingGsm:password` property.
     fn set_property_password_flags(&self, password_flags: SettingSecretFlags);
 
+    /// If the SIM is locked with a PIN it must be unlocked before any other
+    /// operations are requested. Specify the PIN here to allow operation of the
+    /// device.
     fn set_property_pin(&self, pin: Option<&str>);
 
+    /// Flags indicating how to handle the `SettingGsm:pin` property.
     fn set_property_pin_flags(&self, pin_flags: SettingSecretFlags);
 
+    /// The SIM card unique identifier (as given by the WWAN management service)
+    /// which this connection applies to. If given, the connection will apply
+    /// to any device also allowed by `SettingGsm:device-id` which contains a
+    /// SIM card matching the given identifier.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_sim_id(&self, sim_id: Option<&str>);
 
+    /// A MCC/MNC string like "310260" or "21601" identifying the specific
+    /// mobile network operator which this connection applies to. If given,
+    /// the connection will apply to any device also allowed by
+    /// `SettingGsm:device-id` and `SettingGsm:sim-id` which contains a SIM
+    /// card provisioned by the given operator.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_sim_operator_id(&self, sim_operator_id: Option<&str>);
 
+    /// The username used to authenticate with the network, if required. Many
+    /// providers do not require a username, or accept any username. But if a
+    /// username is required, it is specified here.
     fn set_property_username(&self, username: Option<&str>);
 
     fn connect_property_apn_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;

@@ -31,86 +31,208 @@ glib_wrapper! {
 }
 
 impl DeviceVxlan {
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the lifetime in seconds of FDB entries learnt by the kernel
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_ageing(&self) -> u32 {
         unsafe { nm_sys::nm_device_vxlan_get_ageing(self.to_glib_none().0) }
     }
 
+    /// Whether the device has carrier.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// `true` if the device has carrier.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_carrier(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_vxlan_get_carrier(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the UDP destination port
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_dst_port(&self) -> u32 {
         unsafe { nm_sys::nm_device_vxlan_get_dst_port(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// The unicast destination IP address or the multicast
+    /// IP address joined
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_group(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_device_vxlan_get_group(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the device's VXLAN ID.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_id(&self) -> u32 {
         unsafe { nm_sys::nm_device_vxlan_get_id(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether netlink LL ADDR miss notifications are generated
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_l2miss(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_vxlan_get_l2miss(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether netlink IP ADDR miss notifications are generated
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_l3miss(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_vxlan_get_l3miss(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether address learning is enabled
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_learning(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_vxlan_get_learning(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the maximum number of entries that can be added to the
+    /// forwarding table
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_limit(&self) -> u32 {
         unsafe { nm_sys::nm_device_vxlan_get_limit(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the source IP address to use in outgoing packets
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_local(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_device_vxlan_get_local(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the device's parent device
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_parent(&self) -> Option<Device> {
         unsafe { from_glib_none(nm_sys::nm_device_vxlan_get_parent(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether ARP proxy is turned on
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_proxy(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_vxlan_get_proxy(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether route short circuit is turned on
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_rsc(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_vxlan_get_rsc(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the maximum UDP source port
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_src_port_max(&self) -> u32 {
         unsafe { nm_sys::nm_device_vxlan_get_src_port_max(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the minimum UDP source port
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_src_port_min(&self) -> u32 {
         unsafe { nm_sys::nm_device_vxlan_get_src_port_min(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the TOS value to use in outgoing packets
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_tos(&self) -> u32 {
         unsafe { nm_sys::nm_device_vxlan_get_tos(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the time-to-live value to use in outgoing packets
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_ttl(&self) -> u32 {
         unsafe { nm_sys::nm_device_vxlan_get_ttl(self.to_glib_none().0) }

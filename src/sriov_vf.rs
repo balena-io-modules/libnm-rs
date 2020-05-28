@@ -28,21 +28,61 @@ glib_wrapper! {
 }
 
 impl SriovVF {
+    /// Creates a new `SriovVF` object.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `index`
+    /// the VF index
+    ///
+    /// # Returns
+    ///
+    /// the new `SriovVF` object.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn new(index: u32) -> SriovVF {
         unsafe { from_glib_full(nm_sys::nm_sriov_vf_new(index)) }
     }
 
+    /// Adds a VLAN to the VF.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `vlan_id`
+    /// the VLAN id
+    ///
+    /// # Returns
+    ///
+    /// `true` if the VLAN was added; `false` if it already existed
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn add_vlan(&self, vlan_id: u32) -> bool {
         unsafe { from_glib(nm_sys::nm_sriov_vf_add_vlan(self.to_glib_none().0, vlan_id)) }
     }
 
+    /// Creates a copy of `self`.
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// a copy of `self`
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn dup(&self) -> Option<SriovVF> {
         unsafe { from_glib_full(nm_sys::nm_sriov_vf_dup(self.to_glib_none().0)) }
     }
 
+    /// Determines if two `SriovVF` objects have the same index,
+    /// attributes and VLANs.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `other`
+    /// the `SriovVF` to compare `self` to.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the objects contain the same values, `false`
+    ///  if they do not.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     fn equal(&self, other: &SriovVF) -> bool {
         unsafe {
@@ -53,6 +93,17 @@ impl SriovVF {
         }
     }
 
+    /// Gets the value of the attribute with name `name` on `self`
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `name`
+    /// the name of a VF attribute
+    ///
+    /// # Returns
+    ///
+    /// the value of the attribute with name `name` on
+    ///  `self`, or `None` if `self` has no such attribute.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_attribute(&self, name: &str) -> Option<glib::Variant> {
         unsafe {
@@ -63,6 +114,14 @@ impl SriovVF {
         }
     }
 
+    /// Gets an array of attribute names defined on `self`.
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// a `None`-terminated array of attribute names
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_attribute_names(&self) -> Vec<GString> {
         unsafe {
@@ -72,11 +131,29 @@ impl SriovVF {
         }
     }
 
+    /// Gets the index property of this VF object.
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the VF index
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_index(&self) -> u32 {
         unsafe { nm_sys::nm_sriov_vf_get_index(self.to_glib_none().0) }
     }
 
+    /// Returns the VLANs currently configured on the VF.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `length`
+    /// on return, the number of VLANs configured
+    ///
+    /// # Returns
+    ///
+    /// a list of VLAN ids configured on the VF.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_vlan_ids(&self) -> Vec<u32> {
         unsafe {
@@ -99,11 +176,32 @@ impl SriovVF {
         }
     }
 
+    /// Returns the QoS value for the given VLAN.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `vlan_id`
+    /// the VLAN id
+    ///
+    /// # Returns
+    ///
+    /// the QoS value
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_vlan_qos(&self, vlan_id: u32) -> u32 {
         unsafe { nm_sys::nm_sriov_vf_get_vlan_qos(self.to_glib_none().0, vlan_id) }
     }
 
+    /// Removes a VLAN from a VF.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `vlan_id`
+    /// the VLAN id
+    ///
+    /// # Returns
+    ///
+    /// `true` if the VLAN was removed, `false` if the VLAN `vlan_id`
+    ///  did not belong to the VF.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn remove_vlan(&self, vlan_id: u32) -> bool {
         unsafe {
@@ -114,6 +212,14 @@ impl SriovVF {
         }
     }
 
+    /// Sets the named attribute on `self` to the given value.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `name`
+    /// the name of a route attribute
+    /// ## `value`
+    /// the value
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn set_attribute(&self, name: &str, value: Option<&glib::Variant>) {
         unsafe {
@@ -125,6 +231,14 @@ impl SriovVF {
         }
     }
 
+    /// Sets the protocol for the given VLAN.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `vlan_id`
+    /// the VLAN id
+    /// ## `protocol`
+    /// the VLAN protocol
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn set_vlan_protocol(&self, vlan_id: u32, protocol: SriovVFVlanProtocol) {
         unsafe {
@@ -136,6 +250,14 @@ impl SriovVF {
         }
     }
 
+    /// Sets a QoS value for the given VLAN.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `vlan_id`
+    /// the VLAN id
+    /// ## `qos`
+    /// a QoS (priority) value
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn set_vlan_qos(&self, vlan_id: u32, qos: u32) {
         unsafe {
@@ -143,6 +265,21 @@ impl SriovVF {
         }
     }
 
+    /// Validates a VF attribute, i.e. checks that the attribute is a known one,
+    /// the value is of the correct type and well-formed.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `name`
+    /// the attribute name
+    /// ## `value`
+    /// the attribute value
+    /// ## `known`
+    /// on return, whether the attribute name is a known one
+    ///
+    /// # Returns
+    ///
+    /// `true` if the attribute is valid, `false` otherwise
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn attribute_validate(name: &str, value: &glib::Variant) -> Result<bool, glib::Error> {
         unsafe {

@@ -23,10 +23,24 @@ glib_wrapper! {
 }
 
 impl DhcpConfig {
+    /// Gets the IP address family of the configuration
+    ///
+    /// # Returns
+    ///
+    /// the IP address family; either `<literal>`AF_INET`</literal>` or
+    ///  `<literal>`AF_INET6`</literal>`
     pub fn get_family(&self) -> i32 {
         unsafe { nm_sys::nm_dhcp_config_get_family(self.to_glib_none().0) }
     }
 
+    /// Gets one option by option name.
+    /// ## `option`
+    /// the option to retrieve
+    ///
+    /// # Returns
+    ///
+    /// the configuration option's value. This is the internal string used by the
+    /// configuration, and must not be modified.
     pub fn get_one_option(&self, option: &str) -> Option<GString> {
         unsafe {
             from_glib_none(nm_sys::nm_dhcp_config_get_one_option(

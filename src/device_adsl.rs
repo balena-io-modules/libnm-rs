@@ -23,6 +23,11 @@ glib_wrapper! {
 }
 
 impl DeviceAdsl {
+    /// Whether the device has carrier.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the device has carrier
     pub fn get_carrier(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_adsl_get_carrier(self.to_glib_none().0)) }
     }

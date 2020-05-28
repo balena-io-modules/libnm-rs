@@ -27,6 +27,11 @@ glib_wrapper! {
 }
 
 impl SettingBridgePort {
+    /// Creates a new `SettingBridgePort` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingBridgePort` object
     pub fn new() -> SettingBridgePort {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_bridge_port_new()).unsafe_cast() }
     }
@@ -40,35 +45,104 @@ impl Default for SettingBridgePort {
 
 pub const NONE_SETTING_BRIDGE_PORT: Option<&SettingBridgePort> = None;
 
+/// Trait containing all `SettingBridgePort` methods.
+///
+/// # Implementors
+///
+/// [`SettingBridgePort`](struct.SettingBridgePort.html)
 pub trait SettingBridgePortExt: 'static {
+    /// Appends a new vlan and associated information to the setting. The
+    /// given vlan gets sealed and a reference to it is added.
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `vlan`
+    /// the vlan to add
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     fn add_vlan(&self, vlan: &BridgeVlan);
 
+    /// Removes all configured VLANs.
+    ///
+    /// Feature: `v1_18`
+    ///
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     fn clear_vlans(&self);
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridgePort:hairpin-mode` property of the setting
     fn get_hairpin_mode(&self) -> bool;
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of VLANs
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     fn get_num_vlans(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridgePort:path-cost` property of the setting
     fn get_path_cost(&self) -> u16;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridgePort:priority` property of the setting
     fn get_priority(&self) -> u16;
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `idx`
+    /// index number of the VLAN to return
+    ///
+    /// # Returns
+    ///
+    /// the VLAN at index `idx`
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     fn get_vlan(&self, idx: u32) -> Option<BridgeVlan>;
 
+    /// Removes the vlan at index `idx`.
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `idx`
+    /// index number of the VLAN.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     fn remove_vlan(&self, idx: u32);
 
+    /// Remove the VLAN with range `vid_start` to `vid_end`.
+    /// If `vid_end` is zero, it is assumed to be equal to `vid_start`
+    /// and so the single-id VLAN with id `vid_start` is removed.
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `vid_start`
+    /// the vlan start index
+    /// ## `vid_end`
+    /// the vlan end index
+    ///
+    /// # Returns
+    ///
+    /// `true` if the vlan was found and removed; `false` otherwise
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     fn remove_vlan_by_vid(&self, vid_start: u16, vid_end: u16) -> bool;
 
+    /// Enables or disables "hairpin mode" for the port, which allows frames to
+    /// be sent back out through the port the frame was received on.
     fn set_property_hairpin_mode(&self, hairpin_mode: bool);
 
+    /// The Spanning Tree Protocol (STP) port cost for destinations via this
+    /// port.
     fn set_property_path_cost(&self, path_cost: u32);
 
+    /// The Spanning Tree Protocol (STP) priority of this bridge port.
     fn set_property_priority(&self, priority: u32);
 
     fn connect_property_hairpin_mode_notify<F: Fn(&Self) + 'static>(&self, f: F)

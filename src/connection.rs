@@ -82,161 +82,612 @@ glib_wrapper! {
 
 pub const NONE_CONNECTION: Option<&Connection> = None;
 
+/// Trait containing all `Connection` methods.
+///
+/// # Implementors
+///
+/// [`Connection`](struct.Connection.html), [`RemoteConnection`](struct.RemoteConnection.html), [`SimpleConnection`](struct.SimpleConnection.html)
 pub trait ConnectionExt: 'static {
+    /// Adds a `Setting` to the connection, replacing any previous `Setting` of the
+    /// same name which has previously been added to the `Connection`. The
+    /// connection takes ownership of the `Setting` object and does not increase
+    /// the setting object's reference count.
+    /// ## `setting`
+    /// the `Setting` to add to the connection object
     fn add_setting<P: IsA<Setting>>(&self, setting: &P);
 
+    /// Clears and frees any secrets that may be stored in the connection, to avoid
+    /// keeping secret data in memory when not needed.
     fn clear_secrets(&self);
 
+    /// Deletes all of `self`'s settings.
     fn clear_settings(&self);
 
+    /// Compares two `Connection` objects for similarity, with comparison behavior
+    /// modified by a set of flags. See `SettingExt::compare` for a description of
+    /// each flag's behavior.
+    /// ## `b`
+    /// a second `Connection` to compare with the first
+    /// ## `flags`
+    /// compare flags, e.g. `SettingCompareFlags::Exact`
+    ///
+    /// # Returns
+    ///
+    /// `true` if the comparison succeeds, `false` if it does not
     fn compare<P: IsA<Connection>>(&self, b: &P, flags: SettingCompareFlags) -> bool;
 
     //fn diff<P: IsA<Connection>>(&self, b: &P, flags: SettingCompareFlags, out_settings: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 40 }) -> bool;
 
+    /// Print the connection (including secrets!) to stdout. For debugging
+    /// purposes ONLY, should NOT be used for serialization of the setting,
+    /// or machine-parsed in any way. The output format is not guaranteed to
+    /// be stable and may change at any time.
     fn dump(&self);
 
     //fn for_each_setting_value(&self, func: /*Unimplemented*/FnMut(&Setting, &str, /*Ignored*/glib::Value, /*Ignored*/glib::ParamFlags), user_data: /*Unimplemented*/Option<Fundamental: Pointer>);
 
+    /// A shortcut to return the type from the connection's `SettingConnection`.
+    ///
+    /// # Returns
+    ///
+    /// the type from the connection's 'connection' setting
     fn get_connection_type(&self) -> Option<GString>;
 
+    /// A shortcut to return the ID from the connection's `SettingConnection`.
+    ///
+    /// # Returns
+    ///
+    /// the ID from the connection's 'connection' setting
     fn get_id(&self) -> Option<GString>;
 
+    /// Returns the interface name as stored in NMSettingConnection:interface_name.
+    /// If the connection contains no NMSettingConnection, it will return `None`.
+    ///
+    /// For hardware devices and software devices created outside of NetworkManager,
+    /// this name is used to match the device. for software devices created by
+    /// NetworkManager, this is the name of the created interface.
+    ///
+    /// # Returns
+    ///
+    /// Name of the kernel interface or `None`
     fn get_interface_name(&self) -> Option<GString>;
 
+    /// Returns the connection's D-Bus path.
+    ///
+    /// # Returns
+    ///
+    /// the D-Bus path of the connection, previously set by a call to
+    /// `Connection::set_path`.
     fn get_path(&self) -> Option<GString>;
 
+    /// Gets the `Setting` with the given `glib::Type`, if one has been previously added
+    /// to the `Connection`.
+    /// ## `setting_type`
+    /// the `glib::Type` of the setting object to return
+    ///
+    /// # Returns
+    ///
+    /// the `Setting`, or `None` if no setting of that type was previously
+    /// added to the `Connection`
     fn get_setting(&self, setting_type: glib::types::Type) -> Option<Setting>;
 
+    /// A shortcut to return any `Setting8021x` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `Setting8021x` if the connection contains one, otherwise `None`
     fn get_setting_802_1x(&self) -> Option<Setting8021x>;
 
+    /// A shortcut to return any `SettingAdsl` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingAdsl` if the connection contains one, otherwise `None`
     fn get_setting_adsl(&self) -> Option<SettingAdsl>;
 
+    /// A shortcut to return any `SettingBluetooth` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingBluetooth` if the connection contains one, otherwise `None`
     fn get_setting_bluetooth(&self) -> Option<SettingBluetooth>;
 
+    /// A shortcut to return any `SettingBond` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingBond` if the connection contains one, otherwise `None`
     fn get_setting_bond(&self) -> Option<SettingBond>;
 
+    /// A shortcut to return any `SettingBridge` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingBridge` if the connection contains one, otherwise `None`
     fn get_setting_bridge(&self) -> Option<SettingBridge>;
 
+    /// A shortcut to return any `SettingBridgePort` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingBridgePort` if the connection contains one, otherwise `None`
     fn get_setting_bridge_port(&self) -> Option<SettingBridgePort>;
 
+    /// Gets the `Setting` with the given name, if one has been previously added
+    /// the `Connection`.
+    /// ## `name`
+    /// a setting name
+    ///
+    /// # Returns
+    ///
+    /// the `Setting`, or `None` if no setting with that name was previously
+    /// added to the `Connection`
     fn get_setting_by_name(&self, name: &str) -> Option<Setting>;
 
+    /// A shortcut to return any `SettingCdma` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingCdma` if the connection contains one, otherwise `None`
     fn get_setting_cdma(&self) -> Option<SettingCdma>;
 
+    /// A shortcut to return any `SettingConnection` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingConnection` if the connection contains one, otherwise `None`
     fn get_setting_connection(&self) -> Option<SettingConnection>;
 
+    /// A shortcut to return any `SettingDcb` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingDcb` if the connection contains one, otherwise NULL
     fn get_setting_dcb(&self) -> Option<SettingDcb>;
 
+    /// A shortcut to return any `SettingDummy` the connection might contain.
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// an `SettingDummy` if the connection contains one, otherwise `None`
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_setting_dummy(&self) -> Option<SettingDummy>;
 
+    /// A shortcut to return any `SettingGeneric` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingGeneric` if the connection contains one, otherwise NULL
     fn get_setting_generic(&self) -> Option<SettingGeneric>;
 
+    /// A shortcut to return any `SettingGsm` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingGsm` if the connection contains one, otherwise `None`
     fn get_setting_gsm(&self) -> Option<SettingGsm>;
 
+    /// A shortcut to return any `SettingInfiniband` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingInfiniband` if the connection contains one, otherwise `None`
     fn get_setting_infiniband(&self) -> Option<SettingInfiniband>;
 
+    /// A shortcut to return any `SettingIP4Config` the connection might contain.
+    ///
+    /// Note that it returns the value as type `SettingIPConfig`, since the vast
+    /// majority of IPv4-setting-related methods are on that type, not
+    /// `SettingIP4Config`.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingIP4Config` if the
+    /// connection contains one, otherwise `None`
     fn get_setting_ip4_config(&self) -> Option<SettingIP4Config>;
 
+    /// A shortcut to return any `SettingIP6Config` the connection might contain.
+    ///
+    /// Note that it returns the value as type `SettingIPConfig`, since the vast
+    /// majority of IPv6-setting-related methods are on that type, not
+    /// `SettingIP6Config`.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingIP6Config` if the
+    /// connection contains one, otherwise `None`
     fn get_setting_ip6_config(&self) -> Option<SettingIP6Config>;
 
+    /// A shortcut to return any `SettingIPTunnel` the connection might contain.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// an `SettingIPTunnel` if the connection contains one, otherwise `None`
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_setting_ip_tunnel(&self) -> Option<SettingIPTunnel>;
 
+    /// A shortcut to return any `SettingMacsec` the connection might contain.
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// an `SettingMacsec` if the connection contains one, otherwise `None`
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_setting_macsec(&self) -> Option<SettingMacsec>;
 
+    /// A shortcut to return any `SettingMacvlan` the connection might contain.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// an `SettingMacvlan` if the connection contains one, otherwise `None`
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_setting_macvlan(&self) -> Option<SettingMacvlan>;
 
+    /// A shortcut to return any `SettingOlpcMesh` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingOlpcMesh` if the connection contains one, otherwise `None`
     fn get_setting_olpc_mesh(&self) -> Option<SettingOlpcMesh>;
 
+    /// A shortcut to return any `SettingOvsBridge` the connection might contain.
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// an `SettingOvsBridge` if the connection contains one, otherwise `None`
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn get_setting_ovs_bridge(&self) -> Option<SettingOvsBridge>;
 
+    /// A shortcut to return any `SettingOvsInterface` the connection might contain.
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// an `SettingOvsInterface` if the connection contains one, otherwise `None`
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn get_setting_ovs_interface(&self) -> Option<SettingOvsInterface>;
 
+    /// A shortcut to return any `SettingOvsPatch` the connection might contain.
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// an `SettingOvsPatch` if the connection contains one, otherwise `None`
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn get_setting_ovs_patch(&self) -> Option<SettingOvsPatch>;
 
+    /// A shortcut to return any `SettingOvsPort` the connection might contain.
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// an `SettingOvsPort` if the connection contains one, otherwise `None`
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn get_setting_ovs_port(&self) -> Option<SettingOvsPort>;
 
+    /// A shortcut to return any `SettingPpp` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingPpp` if the connection contains one, otherwise `None`
     fn get_setting_ppp(&self) -> Option<SettingPpp>;
 
+    /// A shortcut to return any `SettingPppoe` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingPppoe` if the connection contains one, otherwise `None`
     fn get_setting_pppoe(&self) -> Option<SettingPppoe>;
 
+    /// A shortcut to return any `SettingProxy` the connection might contain.
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// an `SettingProxy` if the connection contains one, otherwise `None`
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_setting_proxy(&self) -> Option<SettingProxy>;
 
+    /// A shortcut to return any `SettingSerial` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingSerial` if the connection contains one, otherwise `None`
     fn get_setting_serial(&self) -> Option<SettingSerial>;
 
+    /// A shortcut to return any `SettingTCConfig` the connection might contain.
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// an `SettingTCConfig` if the connection contains one, otherwise `None`
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_setting_tc_config(&self) -> Option<SettingTCConfig>;
 
+    /// A shortcut to return any `SettingTeam` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingTeam` if the connection contains one, otherwise `None`
     fn get_setting_team(&self) -> Option<SettingTeam>;
 
+    /// A shortcut to return any `SettingTeamPort` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingTeamPort` if the connection contains one, otherwise `None`
     fn get_setting_team_port(&self) -> Option<SettingTeamPort>;
 
+    /// A shortcut to return any `SettingTun` the connection might contain.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// an `SettingTun` if the connection contains one, otherwise `None`
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_setting_tun(&self) -> Option<SettingTun>;
 
+    /// A shortcut to return any `SettingVlan` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingVlan` if the connection contains one, otherwise `None`
     fn get_setting_vlan(&self) -> Option<SettingVlan>;
 
+    /// A shortcut to return any `SettingVpn` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingVpn` if the connection contains one, otherwise `None`
     fn get_setting_vpn(&self) -> Option<SettingVpn>;
 
+    /// A shortcut to return any `SettingVxlan` the connection might contain.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// an `SettingVxlan` if the connection contains one, otherwise `None`
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_setting_vxlan(&self) -> Option<SettingVxlan>;
 
+    /// A shortcut to return any `SettingWimax` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingWimax` if the connection contains one, otherwise `None`
     fn get_setting_wimax(&self) -> Option<SettingWimax>;
 
+    /// A shortcut to return any `SettingWired` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingWired` if the connection contains one, otherwise `None`
     fn get_setting_wired(&self) -> Option<SettingWired>;
 
+    /// A shortcut to return any `SettingWireless` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingWireless` if the connection contains one, otherwise `None`
     fn get_setting_wireless(&self) -> Option<SettingWireless>;
 
+    /// A shortcut to return any `SettingWirelessSecurity` the connection might contain.
+    ///
+    /// # Returns
+    ///
+    /// an `SettingWirelessSecurity` if the connection contains one, otherwise `None`
     fn get_setting_wireless_security(&self) -> Option<SettingWirelessSecurity>;
 
+    /// Retrieves the settings in `self`.
+    ///
+    /// The returned array is `None`-terminated.
+    ///
+    /// Feature: `v1_10`
+    ///
+    /// ## `out_length`
+    /// the length of the returned array
+    ///
+    /// # Returns
+    ///
+    /// a
+    ///  `None`-terminated array containing every setting of
+    ///  `self`.
+    ///  If the connection has no settings, `None` is returned.
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn get_settings(&self) -> Vec<Setting>;
 
+    /// A shortcut to return the UUID from the connection's `SettingConnection`.
+    ///
+    /// # Returns
+    ///
+    /// the UUID from the connection's 'connection' setting
     fn get_uuid(&self) -> Option<GString>;
 
+    /// Returns the name that `Device::disambiguate_names` would
+    /// return for the virtual device that would be created for `self`.
+    /// Eg, "VLAN (eth1.1)".
+    ///
+    /// # Returns
+    ///
+    /// the name of `self`'s device,
+    ///  or `None` if `self` is not a virtual connection type
     fn get_virtual_device_description(&self) -> Option<GString>;
 
+    /// A convenience function to check if the given `self` is a particular
+    /// type (ie wired, Wi-Fi, ppp, etc). Checks the `SettingConnection:type`
+    /// property of the connection and matches that against `type_`.
+    /// ## `type_`
+    /// a setting name to check the connection's type against (like
+    /// `NM_SETTING_WIRELESS_SETTING_NAME` or `NM_SETTING_WIRED_SETTING_NAME`)
+    ///
+    /// # Returns
+    ///
+    /// `true` if the connection is of the given `type_`, `false` if not
     fn is_type(&self, type_: &str) -> bool;
 
+    /// Checks if `self` refers to a virtual device (and thus can potentially be
+    /// activated even if the device it refers to doesn't exist).
+    ///
+    /// # Returns
+    ///
+    /// whether `self` refers to a virtual device
     fn is_virtual(&self) -> bool;
 
+    /// Returns the name of the first setting object in the connection which would
+    /// need secrets to make a successful connection. The returned hints are only
+    /// intended as a guide to what secrets may be required, because in some
+    /// circumstances, there is no way to conclusively determine exactly which
+    /// secrets are needed.
+    /// ## `hints`
+    ///
+    ///  the address of a pointer to a `glib::PtrArray`, initialized to `None`, which on
+    ///  return points to an allocated `glib::PtrArray` containing the property names of
+    ///  secrets of the `Setting` which may be required; the caller owns the array
+    ///  and must free the array itself with `glib::PtrArray::free`, but not free its
+    ///  elements
+    ///
+    /// # Returns
+    ///
+    /// the setting name of the `Setting` object which has invalid or
+    ///  missing secrets
     fn need_secrets(&self) -> (GString, Vec<GString>);
 
     //fn normalize(&self, parameters: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 25 }) -> Result<bool, glib::Error>;
 
+    /// Removes the `Setting` with the given `glib::Type` from the `Connection`. This
+    /// operation dereferences the `Setting` object.
+    /// ## `setting_type`
+    /// the `glib::Type` of the setting object to remove
     fn remove_setting(&self, setting_type: glib::types::Type);
 
+    /// Replaces `self`'s settings with `new_settings` (which must be
+    /// syntactically valid, and describe a known type of connection, but does not
+    /// need to result in a connection that passes `Connection::verify`).
+    /// ## `new_settings`
+    /// a `glib::Variant` of type `NM_VARIANT_TYPE_CONNECTION`, with the new settings
+    ///
+    /// # Returns
+    ///
+    /// `true` if connection was updated, `false` if `new_settings` could not
+    ///  be deserialized (in which case `self` will be unchanged).
     fn replace_settings(&self, new_settings: &glib::Variant) -> Result<(), glib::Error>;
 
+    /// Deep-copies the settings of `new_connection` and replaces the settings of `self`
+    /// with the copied settings.
+    /// ## `new_connection`
+    /// a `Connection` to replace the settings of `self` with
     fn replace_settings_from_connection<P: IsA<Connection>>(&self, new_connection: &P);
 
+    /// Sets the D-Bus path of the connection. This property is not serialized, and
+    /// is only for the reference of the caller. Sets the `Connection:path`
+    /// property.
+    /// ## `path`
+    /// the D-Bus path of the connection as given by the settings service
+    /// which provides the connection
     fn set_path(&self, path: &str);
 
+    /// Converts the `Connection` into a `glib::Variant` of type
+    /// `NM_VARIANT_TYPE_CONNECTION` describing the connection, suitable for
+    /// marshalling over D-Bus or otherwise serializing.
+    /// ## `flags`
+    /// serialization flags, e.g. `ConnectionSerializationFlags::All`
+    ///
+    /// # Returns
+    ///
+    /// a new floating `glib::Variant` describing the connection,
+    /// its settings, and each setting's properties.
     fn to_dbus(&self, flags: ConnectionSerializationFlags) -> Option<glib::Variant>;
 
+    /// Update the specified setting's secrets, given a dictionary of secrets
+    /// intended for that setting (deserialized from D-Bus for example). Will also
+    /// extract the given setting's secrets hash if given a connection dictionary.
+    /// If `setting_name` is `None`, expects a fully serialized `Connection` as
+    /// returned by `Connection::to_dbus` and will update all secrets from all
+    /// settings contained in `secrets`.
+    /// ## `setting_name`
+    /// the setting object name to which the secrets apply
+    /// ## `secrets`
+    /// a `glib::Variant` of secrets, of type `NM_VARIANT_TYPE_CONNECTION`
+    ///  or `NM_VARIANT_TYPE_SETTING`
+    ///
+    /// # Returns
+    ///
+    /// `true` if the secrets were successfully updated, `false` if the update
+    /// failed (tried to update secrets for a setting that doesn't exist, etc)
     fn update_secrets(
         &self,
         setting_name: &str,
         secrets: &glib::Variant,
     ) -> Result<(), glib::Error>;
 
+    /// Validates the connection and all its settings. Each setting's properties
+    /// have allowed values, and some values are dependent on other values. For
+    /// example, if a Wi-Fi connection is security enabled, the `SettingWireless`
+    /// setting object's 'security' property must contain the setting name of the
+    /// `SettingWirelessSecurity` object, which must also be present in the
+    /// connection for the connection to be valid. As another example, the
+    /// `SettingWired` object's 'mac-address' property must be a validly formatted
+    /// MAC address. The returned `glib::Error` contains information about which
+    /// setting and which property failed validation, and how it failed validation.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the connection is valid, `false` if it is not
     fn verify(&self) -> Result<(), glib::Error>;
 
+    /// Verifies the secrets in the connection.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// `true` if the secrets are valid, `false` if they are not
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn verify_secrets(&self) -> Result<(), glib::Error>;
 
+    /// The ::changed signal is emitted when any property of any property
+    /// (including secrets) of any setting of the connection is modified,
+    /// or when settings are added or removed.
     fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
+    /// The ::secrets-cleared signal is emitted when the secrets of a connection
+    /// are cleared.
     fn connect_secrets_cleared<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
+    /// The ::secrets-updated signal is emitted when the secrets of a setting
+    /// have been changed.
+    /// ## `setting_name`
+    /// the setting name of the `Setting` for which secrets were
+    /// updated
     fn connect_secrets_updated<F: Fn(&Self, &str) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 

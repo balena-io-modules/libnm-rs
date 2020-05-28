@@ -45,6 +45,16 @@ glib_wrapper! {
 }
 
 impl DeviceWifiP2P {
+    /// Gets a `WifiP2PPeer` by path.
+    ///
+    /// Feature: `v1_16`
+    ///
+    /// ## `path`
+    /// the object path of the peer
+    ///
+    /// # Returns
+    ///
+    /// the peer or `None` if none is found.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_peer_by_path(&self, path: &str) -> Option<WifiP2PPeer> {
         unsafe {
@@ -55,6 +65,16 @@ impl DeviceWifiP2P {
         }
     }
 
+    /// Gets all the found peers of the `DeviceWifiP2P`.
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// a `glib::PtrArray` containing all the
+    ///  found `NMWifiP2PPeers`.
+    /// The returned array is owned by the client and should not be modified.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_peers(&self) -> Vec<WifiP2PPeer> {
         unsafe {
@@ -64,6 +84,23 @@ impl DeviceWifiP2P {
         }
     }
 
+    /// Request NM to search for Wi-Fi P2P peers on `self`. Note that the call
+    /// returns immediately after requesting the find, and it may take some time
+    /// after that for peers to be found.
+    ///
+    /// The find operation will run for 30s by default. You can stop it earlier
+    /// using `nm_device_p2p_wifi_stop_find`.
+    ///
+    /// Feature: `v1_16`
+    ///
+    /// ## `options`
+    /// optional options passed to StartFind.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    /// ## `callback`
+    /// a `GAsyncReadyCallback`, or `None`
+    /// ## `user_data`
+    /// user_data for `callback`
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn start_find<
         P: IsA<gio::Cancellable>,
@@ -128,6 +165,16 @@ impl DeviceWifiP2P {
         }))
     }
 
+    /// Request NM to stop any ongoing find operation for Wi-Fi P2P peers on `self`.
+    ///
+    /// Feature: `v1_16`
+    ///
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    /// ## `callback`
+    /// a `GAsyncReadyCallback`, or `None`
+    /// ## `user_data`
+    /// user_data for `callback`
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn stop_find<
         P: IsA<gio::Cancellable>,
@@ -184,6 +231,12 @@ impl DeviceWifiP2P {
         }))
     }
 
+    /// Notifies that a `WifiP2PPeer` is added to the Wi-Fi P2P device.
+    ///
+    /// Feature: `v1_16`
+    ///
+    /// ## `peer`
+    /// the new access point
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn connect_peer_added<F: Fn(&DeviceWifiP2P, &glib::Object) + 'static>(
         &self,
@@ -212,6 +265,12 @@ impl DeviceWifiP2P {
         }
     }
 
+    /// Notifies that a `WifiP2PPeer` is removed from the Wi-Fi P2P device.
+    ///
+    /// Feature: `v1_16`
+    ///
+    /// ## `peer`
+    /// the removed access point
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn connect_peer_removed<F: Fn(&DeviceWifiP2P, &glib::Object) + 'static>(
         &self,

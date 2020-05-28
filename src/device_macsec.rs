@@ -31,31 +31,82 @@ glib_wrapper! {
 }
 
 impl DeviceMacsec {
+    /// Gets the set of cryptographic algorithms in use
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the set of cryptographic algorithms in use
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_cipher_suite(&self) -> u64 {
         unsafe { nm_sys::nm_device_macsec_get_cipher_suite(self.to_glib_none().0) }
     }
 
+    /// Gets the value of the Association Number (0..3) for the Security
+    /// Association in use.
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the current Security Association
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_encoding_sa(&self) -> u8 {
         unsafe { nm_sys::nm_device_macsec_get_encoding_sa(self.to_glib_none().0) }
     }
 
+    /// Gets whether encryption of transmitted frames is enabled
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether encryption is enabled
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_encrypt(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_macsec_get_encrypt(self.to_glib_none().0)) }
     }
 
+    /// Gets whether the ES (End station) bit is enabled in SecTAG for
+    /// transmitted frames
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether the ES (End station) bit is enabled
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_es(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_macsec_get_es(self.to_glib_none().0)) }
     }
 
+    /// Gets the length of ICV (Integrity Check Value)
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the length of ICV
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_icv_length(&self) -> u8 {
         unsafe { nm_sys::nm_device_macsec_get_icv_length(self.to_glib_none().0) }
     }
 
+    /// Gets whether the SCI is always included in SecTAG for transmitted
+    /// frames
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether the SCI is always included
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_include_sci(&self) -> bool {
         unsafe {
@@ -65,16 +116,39 @@ impl DeviceMacsec {
         }
     }
 
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the device's parent device
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_parent(&self) -> Option<Device> {
         unsafe { from_glib_none(nm_sys::nm_device_macsec_get_parent(self.to_glib_none().0)) }
     }
 
+    /// Gets whether protection of transmitted frames is enabled
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether protection is enabled
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_protect(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_macsec_get_protect(self.to_glib_none().0)) }
     }
 
+    /// Gets whether replay protection is enabled
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether replay protection is enabled
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_replay_protect(&self) -> bool {
         unsafe {
@@ -84,16 +158,42 @@ impl DeviceMacsec {
         }
     }
 
+    /// Gets whether the SCB (Single Copy Broadcast) bit is enabled in
+    /// SecTAG for transmitted frames
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether the SCB (Single Copy Broadcast) bit is enabled
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_scb(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_macsec_get_scb(self.to_glib_none().0)) }
     }
 
+    /// Gets the Secure Channel Identifier in use
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the SCI
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_sci(&self) -> u64 {
         unsafe { nm_sys::nm_device_macsec_get_sci(self.to_glib_none().0) }
     }
 
+    /// Gets the validation mode for incoming packets (strict, check,
+    /// disabled)
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the validation mode
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_validation(&self) -> Option<GString> {
         unsafe {
@@ -103,6 +203,14 @@ impl DeviceMacsec {
         }
     }
 
+    /// Gets the size of the replay window
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// size of the replay window
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_window(&self) -> u32 {
         unsafe { nm_sys::nm_device_macsec_get_window(self.to_glib_none().0) }

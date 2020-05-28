@@ -35,21 +35,49 @@ glib_wrapper! {
 }
 
 impl DeviceIPTunnel {
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the maximum permitted encapsulation level
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_encapsulation_limit(&self) -> u8 {
         unsafe { nm_sys::nm_device_ip_tunnel_get_encapsulation_limit(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the tunnel flags
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_flags(&self) -> IPTunnelFlags {
         unsafe { from_glib(nm_sys::nm_device_ip_tunnel_get_flags(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the flow label assigned to tunnel packets
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_flow_label(&self) -> u32 {
         unsafe { nm_sys::nm_device_ip_tunnel_get_flow_label(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the key used for incoming packets
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_input_key(&self) -> Option<GString> {
         unsafe {
@@ -59,16 +87,37 @@ impl DeviceIPTunnel {
         }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the local endpoint of the tunnel
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_local(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_device_ip_tunnel_get_local(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the tunneling mode
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_mode(&self) -> IPTunnelMode {
         unsafe { from_glib(nm_sys::nm_device_ip_tunnel_get_mode(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the key used for outgoing packets
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_output_key(&self) -> Option<GString> {
         unsafe {
@@ -78,6 +127,13 @@ impl DeviceIPTunnel {
         }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the device's parent device
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_parent(&self) -> Option<Device> {
         unsafe {
@@ -87,6 +143,13 @@ impl DeviceIPTunnel {
         }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether path MTU discovery is enabled
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_path_mtu_discovery(&self) -> bool {
         unsafe {
@@ -96,6 +159,13 @@ impl DeviceIPTunnel {
         }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the remote endpoint of the tunnel
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_remote(&self) -> Option<GString> {
         unsafe {
@@ -105,11 +175,26 @@ impl DeviceIPTunnel {
         }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// type of service (IPv4) or traffic class (IPv6) assigned
+    /// to tunneled packets.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_tos(&self) -> u8 {
         unsafe { nm_sys::nm_device_ip_tunnel_get_tos(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the TTL assigned to tunneled packets
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_ttl(&self) -> u8 {
         unsafe { nm_sys::nm_device_ip_tunnel_get_ttl(self.to_glib_none().0) }

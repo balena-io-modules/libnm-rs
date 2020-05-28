@@ -38,11 +38,25 @@ glib_wrapper! {
 }
 
 impl SettingMatch {
+    /// Creates a new `SettingMatch` object with default values.
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingMatch` object
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn new() -> SettingMatch {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_match_new()).unsafe_cast() }
     }
 
+    /// Adds a new interface name to the setting.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `interface_name`
+    /// the interface name to add
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn add_interface_name(&self, interface_name: &str) {
         unsafe {
@@ -53,6 +67,10 @@ impl SettingMatch {
         }
     }
 
+    /// Removes all configured interface names.
+    ///
+    /// Feature: `v1_14`
+    ///
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn clear_interface_names(&self) {
         unsafe {
@@ -60,6 +78,15 @@ impl SettingMatch {
         }
     }
 
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `idx`
+    /// index number of the DNS search domain to return
+    ///
+    /// # Returns
+    ///
+    /// the interface name at index `idx`
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_interface_name(&self, idx: i32) -> Option<GString> {
         unsafe {
@@ -70,6 +97,16 @@ impl SettingMatch {
         }
     }
 
+    /// Returns all the interface names.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `length`
+    /// the length of the returned interface names array.
+    ///
+    /// # Returns
+    ///
+    /// the configured interface names.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_interface_names(&self) -> Vec<GString> {
         unsafe {
@@ -85,11 +122,24 @@ impl SettingMatch {
         }
     }
 
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of configured interface names
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_num_interface_names(&self) -> u32 {
         unsafe { nm_sys::nm_setting_match_get_num_interface_names(self.to_glib_none().0) }
     }
 
+    /// Removes the interface name at index `idx`.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `idx`
+    /// index number of the interface name
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn remove_interface_name(&self, idx: i32) {
         unsafe {
@@ -97,6 +147,16 @@ impl SettingMatch {
         }
     }
 
+    /// Removes `interface_name`.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `interface_name`
+    /// the interface name to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the interface name was found and removed; `false` if it was not.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn remove_interface_name_by_value(&self, interface_name: &str) -> bool {
         unsafe {
@@ -107,6 +167,17 @@ impl SettingMatch {
         }
     }
 
+    /// A list of interface names to match. Each element is a shell wildcard
+    /// pattern. When an element is prefixed with exclamation mark (!) the
+    /// condition is inverted.
+    ///
+    /// A candidate interface name is considered matching when both these
+    /// conditions are satisfied: (a) any of the elements not prefixed with '!'
+    /// matches or there aren't such elements; (b) none of the elements
+    /// prefixed with '!' match.
+    ///
+    /// Feature: `v1_14`
+    ///
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn set_property_interface_name(&self, interface_name: &[&str]) {
         unsafe {

@@ -36,16 +36,36 @@ glib_wrapper! {
 }
 
 impl SettingOvsPatch {
+    /// Creates a new `SettingOvsPatch` object with default values.
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingOvsPatch` object
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn new() -> SettingOvsPatch {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_ovs_patch_new()).unsafe_cast() }
     }
 
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingOvsPatch:peer` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn get_peer(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_setting_ovs_patch_get_peer(self.to_glib_none().0)) }
     }
 
+    /// Specifies the unicast destination IP address of a remote Open vSwitch
+    /// bridge port to connect to.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn set_property_peer(&self, peer: Option<&str>) {
         unsafe {

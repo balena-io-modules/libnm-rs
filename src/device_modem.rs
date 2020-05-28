@@ -26,11 +26,27 @@ glib_wrapper! {
 }
 
 impl DeviceModem {
+    /// The access point name the modem is connected to.
+    ///
+    /// Feature: `v1_20`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the APN name or `None` if disconnected
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn get_apn(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_device_modem_get_apn(self.to_glib_none().0)) }
     }
 
+    /// Returns a bitfield of the generic access technology families the modem
+    /// supports without a firmware reload or reinitialization. This value
+    /// represents the network types the modem can immediately connect to.
+    ///
+    /// # Returns
+    ///
+    /// the generic access technology families the modem supports without
+    /// a firmware reload or other reinitialization
     pub fn get_current_capabilities(&self) -> DeviceModemCapabilities {
         unsafe {
             from_glib(nm_sys::nm_device_modem_get_current_capabilities(
@@ -39,11 +55,28 @@ impl DeviceModem {
         }
     }
 
+    /// An identifier used by the modem backend (ModemManager) that aims to
+    /// uniquely identify the a device. Can be used to match a connection to a
+    /// particular device.
+    ///
+    /// Feature: `v1_20`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// a device-id string
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn get_device_id(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_device_modem_get_device_id(self.to_glib_none().0)) }
     }
 
+    /// Returns a bitfield of the generic access technology families the modem
+    /// supports. Not all capabilities are available concurrently however; some
+    /// may require a firmware reload or reinitialization.
+    ///
+    /// # Returns
+    ///
+    /// the generic access technology families the modem supports
     pub fn get_modem_capabilities(&self) -> DeviceModemCapabilities {
         unsafe {
             from_glib(nm_sys::nm_device_modem_get_modem_capabilities(
@@ -52,6 +85,14 @@ impl DeviceModem {
         }
     }
 
+    /// The MCC and MNC (concatenated) of the network the modem is connected to.
+    ///
+    /// Feature: `v1_20`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the operator code or `None` if disconnected or not a 3GPP modem.
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn get_operator_code(&self) -> Option<GString> {
         unsafe {

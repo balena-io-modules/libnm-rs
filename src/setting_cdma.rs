@@ -27,6 +27,11 @@ glib_wrapper! {
 }
 
 impl SettingCdma {
+    /// Creates a new `SettingCdma` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingCdma` object
     pub fn new() -> SettingCdma {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_cdma_new()).unsafe_cast() }
     }
@@ -40,27 +45,70 @@ impl Default for SettingCdma {
 
 pub const NONE_SETTING_CDMA: Option<&SettingCdma> = None;
 
+/// Trait containing all `SettingCdma` methods.
+///
+/// # Implementors
+///
+/// [`SettingCdma`](struct.SettingCdma.html)
 pub trait SettingCdmaExt: 'static {
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingCdma:mtu` property of the setting
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_mtu(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingCdma:number` property of the setting
     fn get_number(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingCdma:password` property of the setting
     fn get_password(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the `SettingCdma:password`
     fn get_password_flags(&self) -> SettingSecretFlags;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingCdma:username` property of the setting
     fn get_username(&self) -> Option<GString>;
 
+    /// If non-zero, only transmit packets of the specified size or smaller,
+    /// breaking larger packets up into multiple frames.
+    ///
+    /// Feature: `v1_8`
+    ///
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_mtu(&self, mtu: u32);
 
+    /// The number to dial to establish the connection to the CDMA-based mobile
+    /// broadband network, if any. If not specified, the default number (`777`)
+    /// is used when required.
     fn set_property_number(&self, number: Option<&str>);
 
+    /// The password used to authenticate with the network, if required. Many
+    /// providers do not require a password, or accept any password. But if a
+    /// password is required, it is specified here.
     fn set_property_password(&self, password: Option<&str>);
 
+    /// Flags indicating how to handle the `SettingCdma:password` property.
     fn set_property_password_flags(&self, password_flags: SettingSecretFlags);
 
+    /// The username used to authenticate with the network, if required. Many
+    /// providers do not require a username, or accept any username. But if a
+    /// username is required, it is specified here.
     fn set_property_username(&self, username: Option<&str>);
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]

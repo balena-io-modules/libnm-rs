@@ -37,6 +37,14 @@ glib_wrapper! {
 }
 
 impl SettingProxy {
+    /// Creates a new `SettingProxy` object.
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingProxy` object
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn new() -> SettingProxy {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_proxy_new()).unsafe_cast() }
@@ -52,28 +60,83 @@ impl Default for SettingProxy {
 
 pub const NONE_SETTING_PROXY: Option<&SettingProxy> = None;
 
+/// Trait containing all `SettingProxy` methods.
+///
+/// Feature: `v1_6`
+///
+/// # Implementors
+///
+/// [`SettingProxy`](struct.SettingProxy.html)
 pub trait SettingProxyExt: 'static {
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// `true` if this proxy configuration is only for browser
+    /// clients/schemes, `false` otherwise.
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_browser_only(&self) -> bool;
 
+    /// Returns the proxy configuration method. By default the value is `SettingProxyMethod::None`.
+    /// `SettingProxyMethod::None` should be selected for a connection intended for direct network
+    /// access.
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the proxy configuration method
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_method(&self) -> SettingProxyMethod;
 
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the PAC script
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_pac_script(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the PAC URL for obtaining PAC file
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_pac_url(&self) -> Option<GString>;
 
+    /// Whether the proxy configuration is for browser only.
+    ///
+    /// Feature: `v1_6`
+    ///
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_browser_only(&self, browser_only: bool);
 
+    /// Method for proxy configuration, Default is `SettingProxyMethod::None`
+    ///
+    /// Feature: `v1_6`
+    ///
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_method(&self, method: i32);
 
+    /// PAC script for the connection.
+    ///
+    /// Feature: `v1_6`
+    ///
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_pac_script(&self, pac_script: Option<&str>);
 
+    /// PAC URL for obtaining PAC file.
+    ///
+    /// Feature: `v1_6`
+    ///
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_pac_url(&self, pac_url: Option<&str>);
 

@@ -18,6 +18,14 @@ glib_wrapper! {
 }
 
 impl SettingDummy {
+    /// Creates a new `SettingDummy` object with default values.
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingDummy` object
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     pub fn new() -> SettingDummy {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_dummy_new()).unsafe_cast() }

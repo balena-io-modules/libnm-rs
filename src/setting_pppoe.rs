@@ -27,6 +27,11 @@ glib_wrapper! {
 }
 
 impl SettingPppoe {
+    /// Creates a new `SettingPppoe` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingPppoe` object
     pub fn new() -> SettingPppoe {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_pppoe_new()).unsafe_cast() }
     }
@@ -40,27 +45,69 @@ impl Default for SettingPppoe {
 
 pub const NONE_SETTING_PPPOE: Option<&SettingPppoe> = None;
 
+/// Trait containing all `SettingPppoe` methods.
+///
+/// # Implementors
+///
+/// [`SettingPppoe`](struct.SettingPppoe.html)
 pub trait SettingPppoeExt: 'static {
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingPppoe:parent` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn get_parent(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingPppoe:password` property of the setting
     fn get_password(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the `SettingPppoe:password`
     fn get_password_flags(&self) -> SettingSecretFlags;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingPppoe:service` property of the setting
     fn get_service(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingPppoe:username` property of the setting
     fn get_username(&self) -> Option<GString>;
 
+    /// If given, specifies the parent interface name on which this PPPoE
+    /// connection should be created. If this property is not specified,
+    /// the connection is activated on the interface specified in
+    /// `SettingConnection:interface-name` of `SettingConnection`.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn set_property_parent(&self, parent: Option<&str>);
 
+    /// Password used to authenticate with the PPPoE service.
     fn set_property_password(&self, password: Option<&str>);
 
+    /// Flags indicating how to handle the `SettingPppoe:password` property.
     fn set_property_password_flags(&self, password_flags: SettingSecretFlags);
 
+    /// If specified, instruct PPPoE to only initiate sessions with access
+    /// concentrators that provide the specified service. For most providers,
+    /// this should be left blank. It is only required if there are multiple
+    /// access concentrators or a specific service is known to be required.
     fn set_property_service(&self, service: Option<&str>);
 
+    /// Username used to authenticate with the PPPoE service.
     fn set_property_username(&self, username: Option<&str>);
 
     #[cfg(any(feature = "v1_10", feature = "dox"))]

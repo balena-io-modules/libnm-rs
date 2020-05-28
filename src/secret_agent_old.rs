@@ -35,7 +35,20 @@ glib_wrapper! {
 
 pub const NONE_SECRET_AGENT_OLD: Option<&SecretAgentOld> = None;
 
+/// Trait containing all `SecretAgentOld` methods.
+///
+/// # Implementors
+///
+/// [`SecretAgentOld`](struct.SecretAgentOld.html)
 pub trait SecretAgentOldExt: 'static {
+    /// Asynchronously asks the agent to delete all saved secrets belonging to
+    /// `connection`.
+    /// ## `connection`
+    /// a `Connection`
+    /// ## `callback`
+    /// a callback, to be invoked when the operation is done
+    /// ## `user_data`
+    /// caller-specific data to be passed to `callback`
     fn delete_secrets<
         P: IsA<Connection>,
         Q: FnOnce(&SecretAgentOld, &Connection, &glib::Error) + 'static,
@@ -45,23 +58,103 @@ pub trait SecretAgentOldExt: 'static {
         callback: Q,
     );
 
+    /// Since 1.24, the instance will already register a D-Bus object on the
+    /// D-Bus connection during initialization. That object will stay registered
+    /// until `self` gets unrefed (destroyed) or this function is called. This
+    /// function performs the necessary cleanup to tear down the instance. Afterwards,
+    /// the function can not longer be used. This is optional, but necessary to
+    /// ensure unregistering the D-Bus object at a define point, when other users
+    /// might still have a reference on `self`.
+    ///
+    /// You may call this function any time and repeatedly. However, after destroying
+    /// the instance, it is a bug to still use the instance for other purposes. The
+    /// instance becomes defunct and cannot re-register.
+    ///
+    /// Feature: `v1_24`
+    ///
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     fn destroy(&self);
 
+    /// This has the same effect as setting `NM_SECRET_AGENT_OLD_AUTO_REGISTER`
+    /// property.
+    ///
+    /// Unlike most other functions, you may already call this function before
+    /// initialization completes.
+    ///
+    /// Feature: `v1_24`
+    ///
+    /// ## `enable`
+    /// whether to enable or disable the listener.
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     fn enable(&self, enable: bool);
 
+    /// Returns a `gobject::Object` that stays alive as long as there are pending
+    /// requests in the `gio::DBusConnection`. Such requests keep the `glib::MainContext`
+    /// alive, and thus you may want to keep iterating the context as long
+    /// until a weak reference indicates that this object is gone. This is
+    /// useful because even when you destroy the instance right away (and all
+    /// the internally pending requests get cancelled), any pending `gio::DBusConnection::call`
+    /// requests will still invoke the result on the `glib::MainContext`. Hence, this
+    /// allows you to know how long you must iterate the context to know
+    /// that all remains are cleaned up.
+    ///
+    /// Feature: `v1_24`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// a `gobject::Object` that you may register a weak pointer
+    ///  to know that the `glib::MainContext` is still kept busy by `self`.
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     fn get_context_busy_watcher(&self) -> Option<glib::Object>;
 
+    ///
+    /// Feature: `v1_24`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the current D-Bus name owner. While this property
+    ///  is set while registering, it really only makes sense when
+    ///  the `SecretAgentOldExt::get_registered` indicates that
+    ///  registration is successfull.
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     fn get_dbus_name_owner(&self) -> Option<GString>;
 
     //#[cfg(any(feature = "v1_24", feature = "dox"))]
     //fn get_main_context(&self) -> /*Ignored*/Option<glib::MainContext>;
 
+    /// Note that the secret agent transparently registers and re-registers
+    /// as the D-Bus name owner appears. Hence, this property is not really
+    /// useful. Also, to be graceful against races during registration, the
+    /// instance will already accept requests while being in the process of
+    /// registering.
+    /// If you need to avoid races and want to wait until `self` is registered,
+    /// call `SecretAgentOldExt::register_async`. If that function completes
+    /// with success, you know the instance is registered.
+    ///
+    /// # Returns
+    ///
+    /// a `true` if the agent is registered, `false` if it is not.
     fn get_registered(&self) -> bool;
 
+    /// Asynchronously retrieves secrets belonging to `connection` for the
+    /// setting `setting_name`. `flags` indicate specific behavior that the secret
+    /// agent should use when performing the request, for example returning only
+    /// existing secrets without user interaction, or requesting entirely new
+    /// secrets from the user.
+    /// ## `connection`
+    /// the `Connection` for which we're asked secrets
+    /// ## `setting_name`
+    /// the name of the secret setting
+    /// ## `hints`
+    /// hints to the agent
+    /// ## `flags`
+    /// flags that modify the behavior of the request
+    /// ## `callback`
+    /// a callback, to be invoked when the operation is done
+    /// ## `user_data`
+    /// caller-specific data to be passed to `callback`
     fn get_secrets<
         P: IsA<Connection>,
         Q: FnOnce(&SecretAgentOld, &Connection, &glib::Variant, &glib::Error) + 'static,
@@ -74,12 +167,53 @@ pub trait SecretAgentOldExt: 'static {
         callback: Q,
     );
 
+    /// Registers the `SecretAgentOld` with the NetworkManager secret manager,
+    /// indicating to NetworkManager that the agent is able to provide and save
+    /// secrets for connections on behalf of its user.
+    ///
+    /// # Deprecated since 1.24
+    ///
+    /// Use `SecretAgentOldExt::enable` or `SecretAgentOldExt::register_async`.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    ///
+    /// # Returns
+    ///
+    /// `true` if registration was successful, `false` on error.
+    ///
+    /// Since 1.24, this can no longer fail unless the `cancellable` gets
+    /// cancelled. Contrary to `SecretAgentOldExt::register_async`, this also
+    /// does not wait for the registration to succeed. You cannot synchronously
+    /// (without iterating the caller's GMainContext) wait for registration.
+    ///
+    /// Since 1.24, registration is idempotent. It has the same effect as setting
+    /// `NM_SECRET_AGENT_OLD_AUTO_REGISTER` to `true` or `SecretAgentOldExt::enable`.
     #[cfg_attr(feature = "v1_24", deprecated)]
     fn register<P: IsA<gio::Cancellable>>(
         &self,
         cancellable: Option<&P>,
     ) -> Result<(), glib::Error>;
 
+    /// Asynchronously registers the `SecretAgentOld` with the NetworkManager secret
+    /// manager, indicating to NetworkManager that the agent is able to provide and
+    /// save secrets for connections on behalf of its user.
+    ///
+    /// Since 1.24, registration cannot fail and is idempotent. It has
+    /// the same effect as setting `NM_SECRET_AGENT_OLD_AUTO_REGISTER` to `true`
+    /// or `SecretAgentOldExt::enable`.
+    ///
+    /// Since 1.24, the asynchronous result indicates whether the instance is successfully
+    /// registered. In any case, this call enables the agent and it will automatically
+    /// try to register and handle secret requests. A failure of this function only indicates
+    /// that currently the instance might not be ready (but since it will automatically
+    /// try to recover, it might be ready in a moment afterwards). Use this function if
+    /// you want to check and ensure that the agent is registered.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    /// ## `callback`
+    /// callback to call when the agent is registered
+    /// ## `user_data`
+    /// data for `callback`
     fn register_async<
         P: IsA<gio::Cancellable>,
         Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
@@ -93,6 +227,14 @@ pub trait SecretAgentOldExt: 'static {
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
 
+    /// Asynchronously ensures that all secrets inside `connection` are stored to
+    /// disk.
+    /// ## `connection`
+    /// a `Connection`
+    /// ## `callback`
+    /// a callback, to be invoked when the operation is done
+    /// ## `user_data`
+    /// caller-specific data to be passed to `callback`
     fn save_secrets<
         P: IsA<Connection>,
         Q: FnOnce(&SecretAgentOld, &Connection, &glib::Error) + 'static,
@@ -102,12 +244,46 @@ pub trait SecretAgentOldExt: 'static {
         callback: Q,
     );
 
+    /// Unregisters the `SecretAgentOld` with the NetworkManager secret manager,
+    /// indicating to NetworkManager that the agent will no longer provide or
+    /// store secrets on behalf of this user.
+    ///
+    /// # Deprecated since 1.24
+    ///
+    /// Use `SecretAgentOldExt::enable`.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    ///
+    /// # Returns
+    ///
+    /// `true` if unregistration was successful, `false` on error
+    ///
+    /// Since 1.24, registration cannot fail and is idempotent. It has
+    /// the same effect as setting `NM_SECRET_AGENT_OLD_AUTO_REGISTER` to `false`
+    /// or `SecretAgentOldExt::enable`.
     #[cfg_attr(feature = "v1_24", deprecated)]
     fn unregister<P: IsA<gio::Cancellable>>(
         &self,
         cancellable: Option<&P>,
     ) -> Result<(), glib::Error>;
 
+    /// Asynchronously unregisters the `SecretAgentOld` with the NetworkManager secret
+    /// manager, indicating to NetworkManager that the agent will no longer provide
+    /// or store secrets on behalf of this user.
+    ///
+    /// Since 1.24, registration cannot fail and is idempotent. It has
+    /// the same effect as setting `NM_SECRET_AGENT_OLD_AUTO_REGISTER` to `false`
+    /// or `SecretAgentOldExt::enable`.
+    ///
+    /// # Deprecated since 1.24
+    ///
+    /// Use `SecretAgentOldExt::enable`.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    /// ## `callback`
+    /// callback to call when the agent is unregistered
+    /// ## `user_data`
+    /// data for `callback`
     #[cfg_attr(feature = "v1_24", deprecated)]
     fn unregister_async<
         P: IsA<gio::Cancellable>,
@@ -124,14 +300,63 @@ pub trait SecretAgentOldExt: 'static {
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
 
+    /// If `true` (the default), the agent will always be registered when
+    /// NetworkManager is running; if NetworkManager exits and restarts, the
+    /// agent will re-register itself automatically.
+    ///
+    /// In particular, if this property is `true` at construct time, then the
+    /// agent will register itself with NetworkManager during
+    /// construction/initialization and initialization will only complete
+    /// after registration is completed (either successfully or unsucessfully).
+    /// Since 1.24, a failure to register will no longer cause initialization
+    /// of `SecretAgentOld` to fail.
+    ///
+    /// If the property is `false`, the agent will not automatically register with
+    /// NetworkManager, and `SecretAgentOldExt::enable` or
+    /// `SecretAgentOldExt::register_async` must be called to register it.
+    ///
+    /// Calling `SecretAgentOldExt::enable` has the same effect as setting this
+    /// property.
     fn get_property_auto_register(&self) -> bool;
 
+    /// If `true` (the default), the agent will always be registered when
+    /// NetworkManager is running; if NetworkManager exits and restarts, the
+    /// agent will re-register itself automatically.
+    ///
+    /// In particular, if this property is `true` at construct time, then the
+    /// agent will register itself with NetworkManager during
+    /// construction/initialization and initialization will only complete
+    /// after registration is completed (either successfully or unsucessfully).
+    /// Since 1.24, a failure to register will no longer cause initialization
+    /// of `SecretAgentOld` to fail.
+    ///
+    /// If the property is `false`, the agent will not automatically register with
+    /// NetworkManager, and `SecretAgentOldExt::enable` or
+    /// `SecretAgentOldExt::register_async` must be called to register it.
+    ///
+    /// Calling `SecretAgentOldExt::enable` has the same effect as setting this
+    /// property.
     fn set_property_auto_register(&self, auto_register: bool);
 
+    /// A bitfield of `SecretAgentCapabilities`.
+    ///
+    /// Changing this property is possible at any time. In case the secret
+    /// agent is currently registered, this will cause a re-registration.
     fn get_property_capabilities(&self) -> SecretAgentCapabilities;
 
+    /// A bitfield of `SecretAgentCapabilities`.
+    ///
+    /// Changing this property is possible at any time. In case the secret
+    /// agent is currently registered, this will cause a re-registration.
     fn set_property_capabilities(&self, capabilities: SecretAgentCapabilities);
 
+    /// Identifies this agent; only one agent in each user session may use the
+    /// same identifier. Identifier formatting follows the same rules as
+    /// D-Bus bus names with the exception that the ':' character is not
+    /// allowed. The valid set of characters is "[A-Z][a-z][0-9]_-." and the
+    /// identifier is limited in length to 255 characters with a minimum
+    /// of 3 characters. An example valid identifier is 'org.gnome.nm-applet'
+    /// (without quotes).
     fn get_property_identifier(&self) -> Option<GString>;
 
     fn connect_property_auto_register_notify<F: Fn(&Self) + 'static>(

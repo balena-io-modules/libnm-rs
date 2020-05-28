@@ -26,10 +26,21 @@ glib_wrapper! {
 }
 
 impl VpnConnection {
+    /// Gets the VPN login banner of the active `VpnConnection`.
+    ///
+    /// # Returns
+    ///
+    /// the VPN login banner of the VPN connection. This is the internal
+    /// string used by the connection, and must not be modified.
     pub fn get_banner(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_vpn_connection_get_banner(self.to_glib_none().0)) }
     }
 
+    /// Gets the current `VpnConnection` state.
+    ///
+    /// # Returns
+    ///
+    /// the VPN state of the active VPN connection.
     pub fn get_vpn_state(&self) -> VpnConnectionState {
         unsafe {
             from_glib(nm_sys::nm_vpn_connection_get_vpn_state(

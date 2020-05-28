@@ -28,6 +28,11 @@ glib_wrapper! {
 }
 
 impl SettingTeam {
+    /// Creates a new `SettingTeam` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingTeam` object
     pub fn new() -> SettingTeam {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_team_new()).unsafe_cast() }
     }
@@ -41,122 +46,374 @@ impl Default for SettingTeam {
 
 pub const NONE_SETTING_TEAM: Option<&SettingTeam> = None;
 
+/// Trait containing all `SettingTeam` methods.
+///
+/// # Implementors
+///
+/// [`SettingTeam`](struct.SettingTeam.html)
 pub trait SettingTeamExt: 'static {
+    /// Appends a new link watcher to the setting.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `link_watcher`
+    /// the link watcher to add
+    ///
+    /// # Returns
+    ///
+    /// `true` if the link watcher is added; `false` if an identical link
+    /// watcher was already there.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn add_link_watcher(&self, link_watcher: &TeamLinkWatcher) -> bool;
 
+    /// Adds a new txhash element to the setting.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `txhash`
+    /// the element to add to txhash
+    ///
+    /// # Returns
+    ///
+    /// `true` if the txhash element was added; `false` if the element
+    /// was already knnown.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn add_runner_tx_hash(&self, txhash: &str) -> bool;
 
+    /// Removes all configured link watchers.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn clear_link_watchers(&self);
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingTeam:config` property of the setting
     fn get_config(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `idx`
+    /// index number of the link watcher to return
+    ///
+    /// # Returns
+    ///
+    /// the link watcher at index `idx`.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_link_watcher(&self, idx: u32) -> Option<TeamLinkWatcher>;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the #`SettingTeam:mcast-rejoin-count` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_mcast_rejoin_count(&self) -> i32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the #`SettingTeam:mcast-rejoin-interval` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_mcast_rejoin_interval(&self) -> i32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the #`SettingTeam:notify-peers-count` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_notify_peers_count(&self) -> i32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the #`SettingTeam:notify-peers-interval` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_notify_peers_interval(&self) -> i32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of configured link watchers
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_num_link_watchers(&self) -> u32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of elements in txhash
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_num_runner_tx_hash(&self) -> u32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the #`SettingTeam:runner` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_runner(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the #`SettingTeam:runner_active` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_runner_active(&self) -> bool;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the #`SettingTeam:runner-agg-select-policy` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_runner_agg_select_policy(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the #`SettingTeam:runner-fast-rate` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_runner_fast_rate(&self) -> bool;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the #`SettingTeam:runner-hwaddr-policy` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_runner_hwaddr_policy(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the #`SettingTeam:runner-min-ports` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_runner_min_ports(&self) -> i32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the #`SettingTeam:runner-sys-prio` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_runner_sys_prio(&self) -> i32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the #`SettingTeam:runner-tx-balancer` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_runner_tx_balancer(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the #`SettingTeam:runner-tx-balancer_interval` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_runner_tx_balancer_interval(&self) -> i32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `idx`
+    /// index number of the txhash element to return
+    ///
+    /// # Returns
+    ///
+    /// the txhash element at index `idx`
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_runner_tx_hash(&self, idx: u32) -> Option<GString>;
 
+    /// Removes the link watcher at index `idx`.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `idx`
+    /// index number of the link watcher to remove
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn remove_link_watcher(&self, idx: u32);
 
+    /// Removes the link watcher entry matching link_watcher.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `link_watcher`
+    /// the link watcher to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the link watcher was found and removed, `false` otherwise.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn remove_link_watcher_by_value(&self, link_watcher: &TeamLinkWatcher) -> bool;
 
+    /// Removes the txhash element at index `idx`.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `idx`
+    /// index number of the element to remove from txhash
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn remove_runner_tx_hash(&self, idx: u32);
 
+    /// Removes the txhash element `txhash`
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `txhash`
+    /// the txhash element to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the txhash element was found and removed; `false` if it was not.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn remove_runner_tx_hash_by_value(&self, txhash: &str) -> bool;
 
+    /// The JSON configuration for the team network interface. The property
+    /// should contain raw JSON configuration data suitable for teamd, because
+    /// the value is passed directly to teamd. If not specified, the default
+    /// configuration is used. See man teamd.conf for the format details.
     fn set_property_config(&self, config: Option<&str>);
 
+    /// Corresponds to the teamd mcast_rejoin.count.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_mcast_rejoin_count(&self, mcast_rejoin_count: i32);
 
+    /// Corresponds to the teamd mcast_rejoin.interval.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_mcast_rejoin_interval(&self, mcast_rejoin_interval: i32);
 
+    /// Corresponds to the teamd notify_peers.count.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_notify_peers_count(&self, notify_peers_count: i32);
 
+    /// Corresponds to the teamd notify_peers.interval.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_notify_peers_interval(&self, notify_peers_interval: i32);
 
+    /// Corresponds to the teamd runner.name.
+    /// Permitted values are: "roundrobin", "broadcast", "activebackup",
+    /// "loadbalance", "lacp", "random".
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_runner(&self, runner: Option<&str>);
 
+    /// Corresponds to the teamd runner.active.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_runner_active(&self, runner_active: bool);
 
+    /// Corresponds to the teamd runner.agg_select_policy.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_runner_agg_select_policy(&self, runner_agg_select_policy: Option<&str>);
 
+    /// Corresponds to the teamd runner.fast_rate.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_runner_fast_rate(&self, runner_fast_rate: bool);
 
+    /// Corresponds to the teamd runner.hwaddr_policy.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_runner_hwaddr_policy(&self, runner_hwaddr_policy: Option<&str>);
 
+    /// Corresponds to the teamd runner.min_ports.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_runner_min_ports(&self, runner_min_ports: i32);
 
+    /// Corresponds to the teamd runner.sys_prio.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_runner_sys_prio(&self, runner_sys_prio: i32);
 
+    /// Corresponds to the teamd runner.tx_balancer.name.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_runner_tx_balancer(&self, runner_tx_balancer: Option<&str>);
 
+    /// Corresponds to the teamd runner.tx_balancer.interval.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_runner_tx_balancer_interval(&self, runner_tx_balancer_interval: i32);
 
+    /// Corresponds to the teamd runner.tx_hash.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_runner_tx_hash(&self, runner_tx_hash: &[&str]);
 

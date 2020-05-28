@@ -41,6 +41,14 @@ glib_wrapper! {
 }
 
 impl SettingMacsec {
+    /// Creates a new `SettingMacsec` object with default values.
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingMacsec` object
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn new() -> SettingMacsec {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_macsec_new()).unsafe_cast() }
@@ -56,58 +64,172 @@ impl Default for SettingMacsec {
 
 pub const NONE_SETTING_MACSEC: Option<&SettingMacsec> = None;
 
+/// Trait containing all `SettingMacsec` methods.
+///
+/// Feature: `v1_6`
+///
+/// # Implementors
+///
+/// [`SettingMacsec`](struct.SettingMacsec.html)
 pub trait SettingMacsecExt: 'static {
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingMacsec:encrypt` property of the setting
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_encrypt(&self) -> bool;
 
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingMacsec:mka-cak` property of the setting
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_mka_cak(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the `SettingMacsec:mka-cak`
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_mka_cak_flags(&self) -> SettingSecretFlags;
 
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingMacsec:mka-ckn` property of the setting
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_mka_ckn(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingMacsec:mode` property of the setting
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_mode(&self) -> SettingMacsecMode;
 
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingMacsec:parent` property of the setting
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_parent(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingMacsec:port` property of the setting
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_port(&self) -> i32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingMacsec:send-sci` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_send_sci(&self) -> bool;
 
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingMacsec:validation` property of the setting
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_validation(&self) -> SettingMacsecValidation;
 
+    /// Whether the transmitted traffic must be encrypted.
+    ///
+    /// Feature: `v1_6`
+    ///
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_encrypt(&self, encrypt: bool);
 
+    /// The pre-shared CAK (Connectivity Association Key) for MACsec
+    /// Key Agreement.
+    ///
+    /// Feature: `v1_6`
+    ///
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_mka_cak(&self, mka_cak: Option<&str>);
 
+    /// Flags indicating how to handle the `SettingMacsec:mka-cak`
+    /// property.
+    ///
+    /// Feature: `v1_6`
+    ///
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_mka_cak_flags(&self, mka_cak_flags: SettingSecretFlags);
 
+    /// The pre-shared CKN (Connectivity-association Key Name) for
+    /// MACsec Key Agreement.
+    ///
+    /// Feature: `v1_6`
+    ///
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_mka_ckn(&self, mka_ckn: Option<&str>);
 
+    /// Specifies how the CAK (Connectivity Association Key) for MKA (MACsec Key
+    /// Agreement) is obtained.
+    ///
+    /// Feature: `v1_6`
+    ///
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_mode(&self, mode: i32);
 
+    /// If given, specifies the parent interface name or parent connection UUID
+    /// from which this MACSEC interface should be created. If this property is
+    /// not specified, the connection must contain an `SettingWired` setting
+    /// with a `SettingWired:mac-address` property.
+    ///
+    /// Feature: `v1_6`
+    ///
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_parent(&self, parent: Option<&str>);
 
+    /// The port component of the SCI (Secure Channel Identifier), between 1 and 65534.
+    ///
+    /// Feature: `v1_6`
+    ///
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_port(&self, port: i32);
 
+    /// Specifies whether the SCI (Secure Channel Identifier) is included
+    /// in every packet.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_send_sci(&self, send_sci: bool);
 
+    /// Specifies the validation mode for incoming frames.
+    ///
+    /// Feature: `v1_6`
+    ///
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn set_property_validation(&self, validation: i32);
 

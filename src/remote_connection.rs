@@ -36,6 +36,21 @@ glib_wrapper! {
 }
 
 impl RemoteConnection {
+    /// Send any local changes to the settings and properties of `self` to
+    /// NetworkManager. If `save_to_disk` is `true`, the updated connection will be saved to
+    /// disk; if `false`, then only the in-memory representation will be changed.
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// Use `RemoteConnection::commit_changes_async` or GDBusConnection.
+    /// ## `save_to_disk`
+    /// whether to persist the changes to disk
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    ///
+    /// # Returns
+    ///
+    /// `true` on success, `false` on error, in which case `error` will be set.
     #[cfg_attr(feature = "v1_22", deprecated)]
     pub fn commit_changes<P: IsA<gio::Cancellable>>(
         &self,
@@ -58,6 +73,18 @@ impl RemoteConnection {
         }
     }
 
+    /// Asynchronously sends any local changes to the settings and properties of
+    /// `self` to NetworkManager. If `save` is `true`, the updated connection will
+    /// be saved to disk; if `false`, then only the in-memory representation will be
+    /// changed.
+    /// ## `save_to_disk`
+    /// whether to save the changes to persistent storage
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    /// ## `callback`
+    /// callback to be called when the commit operation completes
+    /// ## `user_data`
+    /// caller-specific data passed to `callback`
     pub fn commit_changes_async<
         P: IsA<gio::Cancellable>,
         Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
@@ -115,6 +142,17 @@ impl RemoteConnection {
         }))
     }
 
+    /// Deletes the connection.
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// Use `RemoteConnection::delete_async` or GDBusConnection.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    ///
+    /// # Returns
+    ///
+    /// `true` on success, `false` on error, in which case `error` will be set.
     #[cfg_attr(feature = "v1_22", deprecated)]
     pub fn delete<P: IsA<gio::Cancellable>>(
         &self,
@@ -135,6 +173,13 @@ impl RemoteConnection {
         }
     }
 
+    /// Asynchronously deletes the connection.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    /// ## `callback`
+    /// callback to be called when the delete operation completes
+    /// ## `user_data`
+    /// caller-specific data passed to `callback`
     pub fn delete_async<
         P: IsA<gio::Cancellable>,
         Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
@@ -189,6 +234,13 @@ impl RemoteConnection {
         }))
     }
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// file that stores the connection in case the connection is file-backed.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_filename(&self) -> Option<GString> {
         unsafe {
@@ -198,6 +250,13 @@ impl RemoteConnection {
         }
     }
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the flags of the connection of type `SettingsConnectionFlags`.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_flags(&self) -> SettingsConnectionFlags {
         unsafe {
@@ -207,6 +266,21 @@ impl RemoteConnection {
         }
     }
 
+    /// Request the connection's secrets. Note that this is a blocking D-Bus call,
+    /// not a simple property accessor.
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// Use `RemoteConnection::get_secrets_async` or GDBusConnection.
+    /// ## `setting_name`
+    /// the `Setting` object name to get secrets for
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    ///
+    /// # Returns
+    ///
+    /// a `glib::Variant` of type `NM_VARIANT_TYPE_CONNECTION` containing
+    /// `self`'s secrets, or `None` on error.
     #[cfg_attr(feature = "v1_22", deprecated)]
     pub fn get_secrets<P: IsA<gio::Cancellable>>(
         &self,
@@ -229,6 +303,15 @@ impl RemoteConnection {
         }
     }
 
+    /// Asynchronously requests the connection's secrets.
+    /// ## `setting_name`
+    /// the `Setting` object name to get secrets for
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    /// ## `callback`
+    /// callback to be called when the secret request completes
+    /// ## `user_data`
+    /// caller-specific data passed to `callback`
     pub fn get_secrets_async<
         P: IsA<gio::Cancellable>,
         Q: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
@@ -288,6 +371,12 @@ impl RemoteConnection {
         }))
     }
 
+    ///
+    /// # Returns
+    ///
+    /// `true` if the remote connection contains changes that have not
+    /// been saved to disk, `false` if the connection is the same as its on-disk
+    /// representation.
     pub fn get_unsaved(&self) -> bool {
         unsafe {
             from_glib(nm_sys::nm_remote_connection_get_unsaved(
@@ -296,6 +385,19 @@ impl RemoteConnection {
         }
     }
 
+    /// Checks if the connection is visible to the current user. If the
+    /// connection is not visible then it is essentially useless; it will
+    /// not contain any settings, and operations such as
+    /// `RemoteConnection::save` and `RemoteConnection::delete` will
+    /// always fail. (`NMRemoteSettings` will not normally return
+    /// non-visible connections to callers, but it is possible for a
+    /// connection's visibility to change after you already have a
+    /// reference to it.)
+    ///
+    /// # Returns
+    ///
+    /// `true` if the remote connection is visible to the current
+    /// user, `false` if not.
     pub fn get_visible(&self) -> bool {
         unsafe {
             from_glib(nm_sys::nm_remote_connection_get_visible(
@@ -304,6 +406,18 @@ impl RemoteConnection {
         }
     }
 
+    /// Saves the connection to disk if the connection has changes that have not yet
+    /// been written to disk, or if the connection has never been saved.
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// Use `RemoteConnection::save_async` or GDBusConnection.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    ///
+    /// # Returns
+    ///
+    /// `true` on success, `false` on error, in which case `error` will be set.
     #[cfg_attr(feature = "v1_22", deprecated)]
     pub fn save<P: IsA<gio::Cancellable>>(
         &self,
@@ -324,6 +438,14 @@ impl RemoteConnection {
         }
     }
 
+    /// Saves the connection to disk if the connection has changes that have not yet
+    /// been written to disk, or if the connection has never been saved.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    /// ## `callback`
+    /// callback to be called when the save operation completes
+    /// ## `user_data`
+    /// caller-specific data passed to `callback`
     pub fn save_async<
         P: IsA<gio::Cancellable>,
         Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
@@ -375,6 +497,22 @@ impl RemoteConnection {
         }))
     }
 
+    /// Asynchronously calls the Update2() D-Bus method.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `settings`
+    /// optional connection to update the settings.
+    /// ## `flags`
+    /// update-flags
+    /// ## `args`
+    /// optional arguments.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    /// ## `callback`
+    /// callback to be called when the commit operation completes
+    /// ## `user_data`
+    /// caller-specific data passed to `callback`
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn update2<
         P: IsA<gio::Cancellable>,

@@ -24,10 +24,26 @@ glib_wrapper! {
 }
 
 impl SettingBond {
+    /// Creates a new `SettingBond` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingBond` object
     pub fn new() -> SettingBond {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_bond_new()).unsafe_cast() }
     }
 
+    /// Checks whether `name` is a valid bond option and `value` is a valid value for
+    /// the `name`. If `value` is `None`, the function only validates the option name.
+    /// ## `name`
+    /// the name of the option to validate
+    /// ## `value`
+    /// the value of the option to validate
+    ///
+    /// # Returns
+    ///
+    /// `true`, if the `value` is valid for the given name.
+    /// If the `name` is not a valid option, `false` will be returned.
     pub fn validate_option(name: &str, value: &str) -> bool {
         unsafe {
             from_glib(nm_sys::nm_setting_bond_validate_option(
@@ -46,20 +62,91 @@ impl Default for SettingBond {
 
 pub const NONE_SETTING_BOND: Option<&SettingBond> = None;
 
+/// Trait containing all `SettingBond` methods.
+///
+/// # Implementors
+///
+/// [`SettingBond`](struct.SettingBond.html)
 pub trait SettingBondExt: 'static {
+    /// Add an option to the table. The option is compared to an internal list
+    /// of allowed options. Option names may contain only alphanumeric characters
+    /// (ie [a-zA-Z0-9]). Adding a new name replaces any existing name/value pair
+    /// that may already exist.
+    ///
+    /// The order of how to set several options is relevant because there are options
+    /// that conflict with each other.
+    /// ## `name`
+    /// name for the option
+    /// ## `value`
+    /// value for the option
+    ///
+    /// # Returns
+    ///
+    /// `true` if the option was valid and was added to the internal option
+    /// list, `false` if it was not.
     fn add_option(&self, name: &str, value: &str) -> bool;
 
+    /// Returns the number of options that should be set for this bond when it
+    /// is activated. This can be used to retrieve each option individually
+    /// using `nm_setting_bond_get_option`.
+    ///
+    /// # Returns
+    ///
+    /// the number of bonding options
     fn get_num_options(&self) -> u32;
 
+    /// Returns the value associated with the bonding option specified by
+    /// `name`, if it exists.
+    /// ## `name`
+    /// the option name for which to retrieve the value
+    ///
+    /// # Returns
+    ///
+    /// the value, or `None` if the key/value pair was never added to the
+    /// setting; the value is owned by the setting and must not be modified
     fn get_option_by_name(&self, name: &str) -> Option<GString>;
 
+    /// ## `name`
+    /// the name of the option
+    ///
+    /// # Returns
+    ///
+    /// the value of the bond option if not overridden by an entry in
+    ///  the `SettingBond:options` property.
     fn get_option_default(&self, name: &str) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_24`
+    ///
+    /// ## `name`
+    /// the name of the option
+    ///
+    /// # Returns
+    ///
+    /// the value of the bond option after normalization, which is what NetworkManager
+    ///  will actually apply when activating the connection. `None` if the option won't be applied
+    ///  to the connection.
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     fn get_option_normalized(&self, name: &str) -> Option<GString>;
 
+    /// Returns a list of valid bond options.
+    ///
+    /// The `self` argument is unused and may be passed as `None`.
+    ///
+    /// # Returns
+    ///
+    /// a `None`-terminated array of strings of valid bond options.
     fn get_valid_options(&self) -> Vec<GString>;
 
+    /// Remove the bonding option referenced by `name` from the internal option
+    /// list.
+    /// ## `name`
+    /// name of the option to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the option was found and removed from the internal option
+    /// list, `false` if it was not.
     fn remove_option(&self, name: &str) -> bool;
 
     //fn get_property_options(&self) -> /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 };

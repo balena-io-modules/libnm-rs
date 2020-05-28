@@ -23,6 +23,11 @@ glib_wrapper! {
 }
 
 impl DeviceInfiniband {
+    /// Whether the device has carrier.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the device has carrier
     pub fn get_carrier(&self) -> bool {
         unsafe {
             from_glib(nm_sys::nm_device_infiniband_get_carrier(

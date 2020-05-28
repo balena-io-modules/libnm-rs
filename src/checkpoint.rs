@@ -30,11 +30,30 @@ glib_wrapper! {
 }
 
 impl Checkpoint {
+    /// Gets the timestamp (in CLOCK_BOOTTIME milliseconds) of checkpoint creation.
+    ///
+    /// Use `nm_utils_get_timestamp_msec` to obtain current time value suitable for
+    /// comparing to this value.
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the timestamp of checkpoint creation.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_created(&self) -> i64 {
         unsafe { nm_sys::nm_checkpoint_get_created(self.to_glib_none().0) }
     }
 
+    /// The devices that are part of this checkpoint.
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the devices list.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_devices(&self) -> Vec<Device> {
         unsafe {
@@ -44,6 +63,14 @@ impl Checkpoint {
         }
     }
 
+    /// Gets the timeout in seconds for automatic rollback.
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the rollback timeout.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_rollback_timeout(&self) -> u32 {
         unsafe { nm_sys::nm_checkpoint_get_rollback_timeout(self.to_glib_none().0) }

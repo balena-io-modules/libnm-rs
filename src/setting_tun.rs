@@ -37,6 +37,14 @@ glib_wrapper! {
 }
 
 impl SettingTun {
+    /// Creates a new `SettingTun` object with default values.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingTun` object
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn new() -> SettingTun {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_tun_new()).unsafe_cast() }
@@ -52,40 +60,123 @@ impl Default for SettingTun {
 
 pub const NONE_SETTING_TUN: Option<&SettingTun> = None;
 
+/// Trait containing all `SettingTun` methods.
+///
+/// Feature: `v1_2`
+///
+/// # Implementors
+///
+/// [`SettingTun`](struct.SettingTun.html)
 pub trait SettingTunExt: 'static {
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingTun:group` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_group(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingTun:mode` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_mode(&self) -> SettingTunMode;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingTun:multi-queue` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_multi_queue(&self) -> bool;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingTun:owner` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_owner(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingTun:pi` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_pi(&self) -> bool;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingTun:vnet_hdr` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_vnet_hdr(&self) -> bool;
 
+    /// The group ID which will own the device. If set to `None` everyone
+    /// will be able to use the device.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_group(&self, group: Option<&str>);
 
+    /// The operating mode of the virtual device. Allowed values are
+    /// `SettingTunMode::Tun` to create a layer 3 device and
+    /// `SettingTunMode::Tap` to create an Ethernet-like layer 2
+    /// one.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_mode(&self, mode: u32);
 
+    /// If the property is set to `true`, the interface will support
+    /// multiple file descriptors (queues) to parallelize packet
+    /// sending or receiving. Otherwise, the interface will only
+    /// support a single queue.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_multi_queue(&self, multi_queue: bool);
 
+    /// The user ID which will own the device. If set to `None` everyone
+    /// will be able to use the device.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_owner(&self, owner: Option<&str>);
 
+    /// If `true` the interface will prepend a 4 byte header describing the
+    /// physical interface to the packets.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_pi(&self, pi: bool);
 
+    /// If `true` the IFF_VNET_HDR the tunnel packets will include a virtio
+    /// network header.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_vnet_hdr(&self, vnet_hdr: bool);
 

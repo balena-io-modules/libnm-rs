@@ -36,11 +36,26 @@ glib_wrapper! {
 }
 
 impl SettingOvsBridge {
+    /// Creates a new `SettingOvsBridge` object with default values.
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingOvsBridge` object
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn new() -> SettingOvsBridge {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_ovs_bridge_new()).unsafe_cast() }
     }
 
+    ///
+    /// Feature: `v1_20`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingOvsBridge:datapath_type` property of the setting
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn get_datapath_type(&self) -> Option<GString> {
         unsafe {
@@ -50,6 +65,13 @@ impl SettingOvsBridge {
         }
     }
 
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingOvsBridge:fail_mode` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn get_fail_mode(&self) -> Option<GString> {
         unsafe {
@@ -59,6 +81,13 @@ impl SettingOvsBridge {
         }
     }
 
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingOvsBridge:mcast_snooping_enable` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn get_mcast_snooping_enable(&self) -> bool {
         unsafe {
@@ -68,6 +97,13 @@ impl SettingOvsBridge {
         }
     }
 
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingOvsBridge:rstp_enable` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn get_rstp_enable(&self) -> bool {
         unsafe {
@@ -77,6 +113,13 @@ impl SettingOvsBridge {
         }
     }
 
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingOvsBridge:stp_enable` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn get_stp_enable(&self) -> bool {
         unsafe {
@@ -86,6 +129,10 @@ impl SettingOvsBridge {
         }
     }
 
+    /// The data path type. One of "system", "netdev" or empty.
+    ///
+    /// Feature: `v1_20`
+    ///
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn set_property_datapath_type(&self, datapath_type: Option<&str>) {
         unsafe {
@@ -97,6 +144,10 @@ impl SettingOvsBridge {
         }
     }
 
+    /// The bridge failure mode. One of "secure", "standalone" or empty.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn set_property_fail_mode(&self, fail_mode: Option<&str>) {
         unsafe {
@@ -108,6 +159,10 @@ impl SettingOvsBridge {
         }
     }
 
+    /// Enable or disable multicast snooping.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn set_property_mcast_snooping_enable(&self, mcast_snooping_enable: bool) {
         unsafe {
@@ -119,6 +174,10 @@ impl SettingOvsBridge {
         }
     }
 
+    /// Enable or disable RSTP.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn set_property_rstp_enable(&self, rstp_enable: bool) {
         unsafe {
@@ -130,6 +189,10 @@ impl SettingOvsBridge {
         }
     }
 
+    /// Enable or disable STP.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn set_property_stp_enable(&self, stp_enable: bool) {
         unsafe {

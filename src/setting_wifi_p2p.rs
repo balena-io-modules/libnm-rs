@@ -40,16 +40,38 @@ glib_wrapper! {
 }
 
 impl SettingWifiP2P {
+    /// Creates a new `SettingWifiP2P` object with default values.
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingWifiP2P` object
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn new() -> SettingWifiP2P {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_wifi_p2p_new()).unsafe_cast() }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWifiP2P:peer` property of the setting
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_peer(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_setting_wifi_p2p_get_peer(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `NMSettingWiFiP2P:wfd-ies` property of the setting
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_wfd_ies(&self) -> Option<glib::Bytes> {
         unsafe {
@@ -59,6 +81,13 @@ impl SettingWifiP2P {
         }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWifiP2P:wps-method` property of the setting
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_wps_method(&self) -> SettingWirelessSecurityWpsMethod {
         unsafe {
@@ -68,6 +97,11 @@ impl SettingWifiP2P {
         }
     }
 
+    /// The P2P device that should be connected to. Currently this is the only
+    /// way to create or join a group.
+    ///
+    /// Feature: `v1_16`
+    ///
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn set_property_peer(&self, peer: Option<&str>) {
         unsafe {
@@ -79,6 +113,15 @@ impl SettingWifiP2P {
         }
     }
 
+    /// The Wi-Fi Display (WFD) Information Elements (IEs) to set.
+    ///
+    /// Wi-Fi Display requires a protocol specific information element to be
+    /// set in certain Wi-Fi frames. These can be specified here for the
+    /// purpose of establishing a connection.
+    /// This setting is only useful when implementing a Wi-Fi Display client.
+    ///
+    /// Feature: `v1_16`
+    ///
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn set_property_wfd_ies(&self, wfd_ies: Option<&glib::Bytes>) {
         unsafe {
@@ -90,6 +133,13 @@ impl SettingWifiP2P {
         }
     }
 
+    /// Flags indicating which mode of WPS is to be used.
+    ///
+    /// There's little point in changing the default setting as NetworkManager will
+    /// automatically determine the best method to use.
+    ///
+    /// Feature: `v1_16`
+    ///
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn set_property_wps_method(&self, wps_method: u32) {
         unsafe {

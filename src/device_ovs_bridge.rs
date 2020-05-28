@@ -29,6 +29,16 @@ glib_wrapper! {
 }
 
 impl DeviceOvsBridge {
+    /// Gets the ports currently enslaved to `self`.
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `glib::PtrArray` containing
+    /// `NMDevices` that are slaves of `self`. This is the internal
+    /// copy used by the device, and must not be modified.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_slaves(&self) -> Vec<Device> {
         unsafe {

@@ -26,6 +26,20 @@ glib_wrapper! {
 }
 
 impl WimaxNsp {
+    /// Validates a given connection against a given WiMAX NSP to ensure that the
+    /// connection may be activated with that NSP. The connection must match the
+    /// `self`'s network name and other attributes.
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// WiMAX is no longer supported by NetworkManager since 1.2.0.
+    /// ## `connection`
+    /// an `Connection` to validate against `self`
+    ///
+    /// # Returns
+    ///
+    /// `true` if the connection may be activated with this WiMAX NSP,
+    /// `false` if it cannot be.
     #[cfg_attr(feature = "v1_22", deprecated)]
     pub fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool {
         unsafe {
@@ -36,6 +50,22 @@ impl WimaxNsp {
         }
     }
 
+    /// Filters a given array of connections for a given `WimaxNsp` object and
+    /// return connections which may be activated with the NSP. Any returned
+    /// connections will match the `self`'s network name and other attributes.
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// WiMAX is no longer supported by NetworkManager since 1.2.0.
+    /// ## `connections`
+    /// an array of `NMConnections` to
+    /// filter
+    ///
+    /// # Returns
+    ///
+    /// an array of
+    /// `NMConnections` that could be activated with the given `self`. The array should
+    /// be freed with `glib::PtrArray::unref` when it is no longer required.
     #[cfg_attr(feature = "v1_22", deprecated)]
     pub fn filter_connections(&self, connections: &[Connection]) -> Vec<Connection> {
         unsafe {
@@ -46,16 +76,43 @@ impl WimaxNsp {
         }
     }
 
+    /// Gets the name of the wimax NSP
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// WiMAX is no longer supported by NetworkManager since 1.2.0.
+    ///
+    /// # Returns
+    ///
+    /// the name
     #[cfg_attr(feature = "v1_22", deprecated)]
     pub fn get_name(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_wimax_nsp_get_name(self.to_glib_none().0)) }
     }
 
+    /// Gets the network type of the wimax NSP.
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// WiMAX is no longer supported by NetworkManager since 1.2.0.
+    ///
+    /// # Returns
+    ///
+    /// the network type
     #[cfg_attr(feature = "v1_22", deprecated)]
     pub fn get_network_type(&self) -> WimaxNspNetworkType {
         unsafe { from_glib(nm_sys::nm_wimax_nsp_get_network_type(self.to_glib_none().0)) }
     }
 
+    /// Gets the WPA signal quality of the wimax NSP.
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// WiMAX is no longer supported by NetworkManager since 1.2.0.
+    ///
+    /// # Returns
+    ///
+    /// the signal quality
     #[cfg_attr(feature = "v1_22", deprecated)]
     pub fn get_signal_quality(&self) -> u32 {
         unsafe { nm_sys::nm_wimax_nsp_get_signal_quality(self.to_glib_none().0) }

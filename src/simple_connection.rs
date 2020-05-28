@@ -20,10 +20,23 @@ glib_wrapper! {
 }
 
 impl SimpleConnection {
+    /// Creates a new `SimpleConnection` object with no `Setting` objects.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `Connection` object
     pub fn new() -> SimpleConnection {
         unsafe { Connection::from_glib_full(nm_sys::nm_simple_connection_new()).unsafe_cast() }
     }
 
+    /// Clones an `Connection` as an `SimpleConnection`.
+    /// ## `connection`
+    /// the `Connection` to clone
+    ///
+    /// # Returns
+    ///
+    /// a new `Connection` containing the same settings
+    /// and properties as the source `Connection`
     pub fn new_clone<P: IsA<Connection>>(connection: &P) -> Option<Connection> {
         unsafe {
             from_glib_full(nm_sys::nm_simple_connection_new_clone(
@@ -32,6 +45,17 @@ impl SimpleConnection {
         }
     }
 
+    /// Creates a new `SimpleConnection` from a hash table describing the
+    /// connection and normalize the connection. See `Connection::to_dbus` for a
+    /// description of the expected hash table.
+    /// ## `dict`
+    /// a `glib::Variant` of type `NM_VARIANT_TYPE_CONNECTION` describing the connection
+    ///
+    /// # Returns
+    ///
+    /// the new `SimpleConnection` object, populated with
+    /// settings created from the values in the hash table, or `None` if the
+    /// connection failed to normalize.
     pub fn new_from_dbus(dict: &glib::Variant) -> Result<Connection, glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();

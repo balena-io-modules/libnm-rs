@@ -22,11 +22,32 @@ glib_wrapper! {
 }
 
 impl SettingTCConfig {
+    /// Creates a new `SettingTCConfig` object with default values.
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingTCConfig` object
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn new() -> SettingTCConfig {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_tc_config_new()).unsafe_cast() }
     }
 
+    /// Appends a new qdisc and associated information to the setting. The
+    /// given qdisc is duplicated internally and is not changed by this function.
+    /// If an identical qdisc (considering attributes as well) already exists, the
+    /// qdisc is not added and the function returns `false`.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `qdisc`
+    /// the qdisc to add
+    ///
+    /// # Returns
+    ///
+    /// `true` if the qdisc was added; `false` if the qdisc was already known.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn add_qdisc(&self, qdisc: &TCQdisc) -> bool {
         unsafe {
@@ -37,6 +58,19 @@ impl SettingTCConfig {
         }
     }
 
+    /// Appends a new tfilter and associated information to the setting. The
+    /// given tfilter is duplicated internally and is not changed by this function.
+    /// If an identical tfilter (considering attributes as well) already exists, the
+    /// tfilter is not added and the function returns `false`.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `tfilter`
+    /// the tfilter to add
+    ///
+    /// # Returns
+    ///
+    /// `true` if the tfilter was added; `false` if the tfilter was already known.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn add_tfilter(&self, tfilter: &TCTfilter) -> bool {
         unsafe {
@@ -47,6 +81,10 @@ impl SettingTCConfig {
         }
     }
 
+    /// Removes all configured queueing disciplines.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn clear_qdiscs(&self) {
         unsafe {
@@ -54,6 +92,10 @@ impl SettingTCConfig {
         }
     }
 
+    /// Removes all configured queueing disciplines.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn clear_tfilters(&self) {
         unsafe {
@@ -61,16 +103,39 @@ impl SettingTCConfig {
         }
     }
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of configured queueing disciplines
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_num_qdiscs(&self) -> u32 {
         unsafe { nm_sys::nm_setting_tc_config_get_num_qdiscs(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of configured queueing disciplines
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_num_tfilters(&self) -> u32 {
         unsafe { nm_sys::nm_setting_tc_config_get_num_tfilters(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `idx`
+    /// index number of the qdisc to return
+    ///
+    /// # Returns
+    ///
+    /// the qdisc at index `idx`
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_qdisc(&self, idx: u32) -> Option<TCQdisc> {
         unsafe {
@@ -81,6 +146,15 @@ impl SettingTCConfig {
         }
     }
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `idx`
+    /// index number of the tfilter to return
+    ///
+    /// # Returns
+    ///
+    /// the tfilter at index `idx`
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_tfilter(&self, idx: u32) -> Option<TCTfilter> {
         unsafe {
@@ -91,6 +165,12 @@ impl SettingTCConfig {
         }
     }
 
+    /// Removes the qdisc at index `idx`.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `idx`
+    /// index number of the qdisc
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn remove_qdisc(&self, idx: u32) {
         unsafe {
@@ -98,6 +178,16 @@ impl SettingTCConfig {
         }
     }
 
+    /// Removes the first matching qdisc that matches `qdisc`.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `qdisc`
+    /// the qdisc to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the qdisc was found and removed; `false` if it was not.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn remove_qdisc_by_value(&self, qdisc: &TCQdisc) -> bool {
         unsafe {
@@ -108,6 +198,12 @@ impl SettingTCConfig {
         }
     }
 
+    /// Removes the tfilter at index `idx`.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `idx`
+    /// index number of the tfilter
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn remove_tfilter(&self, idx: u32) {
         unsafe {
@@ -115,6 +211,16 @@ impl SettingTCConfig {
         }
     }
 
+    /// Removes the first matching tfilter that matches `tfilter`.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `tfilter`
+    /// the tfilter to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the tfilter was found and removed; `false` if it was not.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn remove_tfilter_by_value(&self, tfilter: &TCTfilter) -> bool {
         unsafe {

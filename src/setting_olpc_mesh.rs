@@ -27,6 +27,11 @@ glib_wrapper! {
 }
 
 impl SettingOlpcMesh {
+    /// Creates a new `SettingOlpcMesh` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingOlpcMesh` object
     pub fn new() -> SettingOlpcMesh {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_olpc_mesh_new()).unsafe_cast() }
     }
@@ -40,6 +45,11 @@ impl Default for SettingOlpcMesh {
 
 pub const NONE_SETTING_OLPC_MESH: Option<&SettingOlpcMesh> = None;
 
+/// Trait containing all `SettingOlpcMesh` methods.
+///
+/// # Implementors
+///
+/// [`SettingOlpcMesh`](struct.SettingOlpcMesh.html)
 pub trait SettingOlpcMeshExt: 'static {
     fn get_channel(&self) -> u32;
 
@@ -47,10 +57,15 @@ pub trait SettingOlpcMeshExt: 'static {
 
     fn get_ssid(&self) -> Option<glib::Bytes>;
 
+    /// Channel on which the mesh network to join is located.
     fn set_property_channel(&self, channel: u32);
 
+    /// Anycast DHCP MAC address used when requesting an IP address via DHCP.
+    /// The specific anycast address used determines which DHCP server class
+    /// answers the request.
     fn set_property_dhcp_anycast_address(&self, dhcp_anycast_address: Option<&str>);
 
+    /// SSID of the mesh network to join.
     fn set_property_ssid(&self, ssid: Option<&glib::Bytes>);
 
     fn connect_property_channel_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;

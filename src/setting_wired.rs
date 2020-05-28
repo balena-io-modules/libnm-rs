@@ -29,6 +29,11 @@ glib_wrapper! {
 }
 
 impl SettingWired {
+    /// Creates a new `SettingWired` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingWired` object
     pub fn new() -> SettingWired {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_wired_new()).unsafe_cast() }
     }
@@ -42,89 +47,386 @@ impl Default for SettingWired {
 
 pub const NONE_SETTING_WIRED: Option<&SettingWired> = None;
 
+/// Trait containing all `SettingWired` methods.
+///
+/// # Implementors
+///
+/// [`SettingWired`](struct.SettingWired.html)
 pub trait SettingWiredExt: 'static {
+    /// Adds a new MAC address to the `SettingWired:mac-address-blacklist` property.
+    /// ## `mac`
+    /// the MAC address string (hex-digits-and-colons notation) to blacklist
+    ///
+    /// # Returns
+    ///
+    /// `true` if the MAC address was added; `false` if the MAC address
+    /// is invalid or was already present
     fn add_mac_blacklist_item(&self, mac: &str) -> bool;
 
+    /// Add an option to the table. The option is compared to an internal list
+    /// of allowed options. Key names may contain only alphanumeric characters
+    /// (ie [a-zA-Z0-9]). Adding a new key replaces any existing key/value pair that
+    /// may already exist.
+    /// ## `key`
+    /// key name for the option
+    /// ## `value`
+    /// value for the option
+    ///
+    /// # Returns
+    ///
+    /// `true` if the option was valid and was added to the internal option
+    /// list, `false` if it was not.
     fn add_s390_option(&self, key: &str, value: &str) -> bool;
 
+    /// Removes all blacklisted MAC addresses.
     fn clear_mac_blacklist_items(&self);
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWired:auto-negotiate` property of the setting
     fn get_auto_negotiate(&self) -> bool;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWired:cloned-mac-address` property of the setting
     fn get_cloned_mac_address(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWired:duplex` property of the setting
     fn get_duplex(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_4`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWired:generate-mac-address-mask` property of the setting
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn get_generate_mac_address_mask(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWired:mac-address` property of the setting
     fn get_mac_address(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWired:mac-address-blacklist` property of the setting
     fn get_mac_address_blacklist(&self) -> Vec<GString>;
 
+    /// ## `idx`
+    /// the zero-based index of the MAC address entry
+    ///
+    /// # Returns
+    ///
+    /// the blacklisted MAC address string (hex-digits-and-colons notation)
+    /// at index `idx`
     fn get_mac_blacklist_item(&self, idx: u32) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWired:mtu` property of the setting
     fn get_mtu(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the number of blacklisted MAC addresses
     fn get_num_mac_blacklist_items(&self) -> u32;
 
+    /// Returns the number of s390-specific options that should be set for this
+    /// device when it is activated. This can be used to retrieve each s390
+    /// option individually using `nm_setting_wired_get_s390_option`.
+    ///
+    /// # Returns
+    ///
+    /// the number of s390-specific device options
     fn get_num_s390_options(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWired:port` property of the setting
     fn get_port(&self) -> Option<GString>;
 
+    /// Returns the s390 device type this connection should apply to. Will be one
+    /// of 'qeth', 'lcs', or 'ctc'.
+    ///
+    /// # Returns
+    ///
+    /// the s390 device type
     fn get_s390_nettype(&self) -> Option<GString>;
 
+    /// Returns the value associated with the s390-specific option specified by
+    /// `key`, if it exists.
+    /// ## `key`
+    /// the key for which to retrieve the value
+    ///
+    /// # Returns
+    ///
+    /// the value, or `None` if the key/value pair was never added to the
+    /// setting; the value is owned by the setting and must not be modified
     fn get_s390_option_by_key(&self, key: &str) -> Option<GString>;
 
+    /// Return the list of s390 subchannels that identify the device that this
+    /// connection is applicable to. The connection should only be used in
+    /// conjunction with that device.
+    ///
+    /// # Returns
+    ///
+    /// array of strings, each specifying
+    ///  one subchannel the s390 device uses to communicate to the host.
     fn get_s390_subchannels(&self) -> Vec<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWired:speed` property of the setting
     fn get_speed(&self) -> u32;
 
+    /// Returns a list of valid s390 options.
+    ///
+    /// The `self` argument is unused and `None` may be passed instead.
+    ///
+    /// # Returns
+    ///
+    /// a `None`-terminated array of strings of valid s390 options.
     fn get_valid_s390_options(&self) -> Vec<GString>;
 
+    /// Returns the Wake-on-LAN options enabled for the connection
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the Wake-on-LAN options
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_wake_on_lan(&self) -> SettingWiredWakeOnLan;
 
+    /// Returns the Wake-on-LAN password. This only applies to
+    /// `SettingWiredWakeOnLan::Magic`.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the Wake-on-LAN setting password, or `None` if there is no password.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_wake_on_lan_password(&self) -> Option<GString>;
 
+    /// Removes the MAC address at index `idx` from the blacklist.
+    /// ## `idx`
+    /// index number of the MAC address
     fn remove_mac_blacklist_item(&self, idx: u32);
 
+    /// Removes the MAC address `mac` from the blacklist.
+    /// ## `mac`
+    /// the MAC address string (hex-digits-and-colons notation) to remove from
+    /// the blacklist
+    ///
+    /// # Returns
+    ///
+    /// `true` if the MAC address was found and removed; `false` if it was not.
     fn remove_mac_blacklist_item_by_value(&self, mac: &str) -> bool;
 
+    /// Remove the s390-specific option referenced by `key` from the internal option
+    /// list.
+    /// ## `key`
+    /// key name for the option to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the option was found and removed from the internal option
+    /// list, `false` if it was not.
     fn remove_s390_option(&self, key: &str) -> bool;
 
+    /// When `true`, enforce auto-negotiation of speed and duplex mode.
+    /// If "speed" and "duplex" properties are both specified, only that
+    /// single mode will be advertised and accepted during the link
+    /// auto-negotiation process: this works only for BASE-T 802.3 specifications
+    /// and is useful for enforcing gigabits modes, as in these cases link
+    /// negotiation is mandatory.
+    /// When `false`, "speed" and "duplex" properties should be both set or
+    /// link configuration will be skipped.
     fn set_property_auto_negotiate(&self, auto_negotiate: bool);
 
+    /// If specified, request that the device use this MAC address instead.
+    /// This is known as MAC cloning or spoofing.
+    ///
+    /// Beside explicitly specifying a MAC address, the special values "preserve", "permanent",
+    /// "random" and "stable" are supported.
+    /// "preserve" means not to touch the MAC address on activation.
+    /// "permanent" means to use the permanent hardware address if the device
+    /// has one (otherwise this is treated as "preserve").
+    /// "random" creates a random MAC address on each connect.
+    /// "stable" creates a hashed MAC address based on connection.stable-id and a
+    /// machine dependent key.
+    ///
+    /// If unspecified, the value can be overwritten via global defaults, see manual
+    /// of NetworkManager.conf. If still unspecified, it defaults to "preserve"
+    /// (older versions of NetworkManager may use a different default value).
+    ///
+    /// On D-Bus, this field is expressed as "assigned-mac-address" or the deprecated
+    /// "cloned-mac-address".
     fn set_property_cloned_mac_address(&self, cloned_mac_address: Option<&str>);
 
+    /// When a value is set, either "half" or "full", configures the device
+    /// to use the specified duplex mode. If "auto-negotiate" is "yes" the
+    /// specified duplex mode will be the only one advertised during link
+    /// negotiation: this works only for BASE-T 802.3 specifications and is
+    /// useful for enforcing gigabits modes, as in these cases link negotiation
+    /// is mandatory.
+    /// If the value is unset (the default), the link configuration will be
+    /// either skipped (if "auto-negotiate" is "no", the default) or will
+    /// be auto-negotiated (if "auto-negotiate" is "yes") and the local device
+    /// will advertise all the supported duplex modes.
+    /// Must be set together with the "speed" property if specified.
+    /// Before specifying a duplex mode be sure your device supports it.
     fn set_property_duplex(&self, duplex: Option<&str>);
 
+    /// With `SettingWired:cloned-mac-address` setting "random" or "stable",
+    /// by default all bits of the MAC address are scrambled and a locally-administered,
+    /// unicast MAC address is created. This property allows to specify that certain bits
+    /// are fixed. Note that the least significant bit of the first MAC address will
+    /// always be unset to create a unicast MAC address.
+    ///
+    /// If the property is `None`, it is eligible to be overwritten by a default
+    /// connection setting. If the value is still `None` or an empty string, the
+    /// default is to create a locally-administered, unicast MAC address.
+    ///
+    /// If the value contains one MAC address, this address is used as mask. The set
+    /// bits of the mask are to be filled with the current MAC address of the device,
+    /// while the unset bits are subject to randomization.
+    /// Setting "FE:FF:FF:00:00:00" means to preserve the OUI of the current MAC address
+    /// and only randomize the lower 3 bytes using the "random" or "stable" algorithm.
+    ///
+    /// If the value contains one additional MAC address after the mask,
+    /// this address is used instead of the current MAC address to fill the bits
+    /// that shall not be randomized. For example, a value of
+    /// "FE:FF:FF:00:00:00 68:F7:28:00:00:00" will set the OUI of the MAC address
+    /// to 68:F7:28, while the lower bits are randomized. A value of
+    /// "02:00:00:00:00:00 00:00:00:00:00:00" will create a fully scrambled
+    /// globally-administered, burned-in MAC address.
+    ///
+    /// If the value contains more than one additional MAC addresses, one of
+    /// them is chosen randomly. For example, "02:00:00:00:00:00 00:00:00:00:00:00 02:00:00:00:00:00"
+    /// will create a fully scrambled MAC address, randomly locally or globally
+    /// administered.
     fn get_property_generate_mac_address_mask(&self) -> Option<GString>;
 
+    /// With `SettingWired:cloned-mac-address` setting "random" or "stable",
+    /// by default all bits of the MAC address are scrambled and a locally-administered,
+    /// unicast MAC address is created. This property allows to specify that certain bits
+    /// are fixed. Note that the least significant bit of the first MAC address will
+    /// always be unset to create a unicast MAC address.
+    ///
+    /// If the property is `None`, it is eligible to be overwritten by a default
+    /// connection setting. If the value is still `None` or an empty string, the
+    /// default is to create a locally-administered, unicast MAC address.
+    ///
+    /// If the value contains one MAC address, this address is used as mask. The set
+    /// bits of the mask are to be filled with the current MAC address of the device,
+    /// while the unset bits are subject to randomization.
+    /// Setting "FE:FF:FF:00:00:00" means to preserve the OUI of the current MAC address
+    /// and only randomize the lower 3 bytes using the "random" or "stable" algorithm.
+    ///
+    /// If the value contains one additional MAC address after the mask,
+    /// this address is used instead of the current MAC address to fill the bits
+    /// that shall not be randomized. For example, a value of
+    /// "FE:FF:FF:00:00:00 68:F7:28:00:00:00" will set the OUI of the MAC address
+    /// to 68:F7:28, while the lower bits are randomized. A value of
+    /// "02:00:00:00:00:00 00:00:00:00:00:00" will create a fully scrambled
+    /// globally-administered, burned-in MAC address.
+    ///
+    /// If the value contains more than one additional MAC addresses, one of
+    /// them is chosen randomly. For example, "02:00:00:00:00:00 00:00:00:00:00:00 02:00:00:00:00:00"
+    /// will create a fully scrambled MAC address, randomly locally or globally
+    /// administered.
     fn set_property_generate_mac_address_mask(&self, generate_mac_address_mask: Option<&str>);
 
+    /// If specified, this connection will only apply to the Ethernet device
+    /// whose permanent MAC address matches. This property does not change the
+    /// MAC address of the device (i.e. MAC spoofing).
     fn set_property_mac_address(&self, mac_address: Option<&str>);
 
+    /// If specified, this connection will never apply to the Ethernet device
+    /// whose permanent MAC address matches an address in the list. Each MAC
+    /// address is in the standard hex-digits-and-colons notation
+    /// (00:11:22:33:44:55).
     fn set_property_mac_address_blacklist(&self, mac_address_blacklist: &[&str]);
 
+    /// If non-zero, only transmit packets of the specified size or smaller,
+    /// breaking larger packets up into multiple Ethernet frames.
     fn set_property_mtu(&self, mtu: u32);
 
+    /// Specific port type to use if the device supports multiple
+    /// attachment methods. One of "tp" (Twisted Pair), "aui" (Attachment Unit
+    /// Interface), "bnc" (Thin Ethernet) or "mii" (Media Independent Interface).
+    /// If the device supports only one port type, this setting is ignored.
     fn set_property_port(&self, port: Option<&str>);
 
+    /// s390 network device type; one of "qeth", "lcs", or "ctc", representing
+    /// the different types of virtual network devices available on s390 systems.
     fn set_property_s390_nettype(&self, s390_nettype: Option<&str>);
 
     //fn get_property_s390_options(&self) -> /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 };
 
     //fn set_property_s390_options(&self, s390_options: /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 });
 
+    /// Identifies specific subchannels that this network device uses for
+    /// communication with z/VM or s390 host. Like the
+    /// `SettingWired:mac-address` property for non-z/VM devices, this property
+    /// can be used to ensure this connection only applies to the network device
+    /// that uses these subchannels. The list should contain exactly 3 strings,
+    /// and each string may only be composed of hexadecimal characters and the
+    /// period (.) character.
     fn set_property_s390_subchannels(&self, s390_subchannels: &[&str]);
 
+    /// When a value greater than 0 is set, configures the device to use
+    /// the specified speed. If "auto-negotiate" is "yes" the specified
+    /// speed will be the only one advertised during link negotiation:
+    /// this works only for BASE-T 802.3 specifications and is useful for
+    /// enforcing gigabit speeds, as in this case link negotiation is
+    /// mandatory.
+    /// If the value is unset (0, the default), the link configuration will be
+    /// either skipped (if "auto-negotiate" is "no", the default) or will
+    /// be auto-negotiated (if "auto-negotiate" is "yes") and the local device
+    /// will advertise all the supported speeds.
+    /// In Mbit/s, ie 100 == 100Mbit/s.
+    /// Must be set together with the "duplex" property when non-zero.
+    /// Before specifying a speed value be sure your device supports it.
     fn set_property_speed(&self, speed: u32);
 
+    /// The `SettingWiredWakeOnLan` options to enable. Not all devices support all options.
+    /// May be any combination of `SettingWiredWakeOnLan::Phy`,
+    /// `SettingWiredWakeOnLan::Unicast`, `SettingWiredWakeOnLan::Multicast`,
+    /// `SettingWiredWakeOnLan::Broadcast`, `SettingWiredWakeOnLan::Arp`,
+    /// `SettingWiredWakeOnLan::Magic` or the special values
+    /// `SettingWiredWakeOnLan::Default` (to use global settings) and
+    /// `SettingWiredWakeOnLan::Ignore` (to disable management of Wake-on-LAN in
+    /// NetworkManager).
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_wake_on_lan(&self, wake_on_lan: u32);
 
+    /// If specified, the password used with magic-packet-based
+    /// Wake-on-LAN, represented as an Ethernet MAC address. If `None`,
+    /// no password will be required.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_wake_on_lan_password(&self, wake_on_lan_password: Option<&str>);
 

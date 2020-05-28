@@ -29,6 +29,13 @@ glib_wrapper! {
 }
 
 impl DeviceVrf {
+    ///
+    /// Feature: `v1_24`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the device's VRF routing table.
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     pub fn get_table(&self) -> u32 {
         unsafe { nm_sys::nm_device_vrf_get_table(self.to_glib_none().0) }

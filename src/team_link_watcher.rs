@@ -26,6 +26,28 @@ glib_wrapper! {
 }
 
 impl TeamLinkWatcher {
+    /// Creates a new arp_ping `TeamLinkWatcher` object
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `init_wait`
+    /// init_wait value
+    /// ## `interval`
+    /// interval value
+    /// ## `missed_max`
+    /// missed_max value
+    /// ## `target_host`
+    /// the host name or the ip address that will be used as destination
+    ///  address in the arp request
+    /// ## `source_host`
+    /// the host name or the ip address that will be used as source
+    ///  address in the arp request
+    /// ## `flags`
+    /// the watcher `TeamLinkWatcherArpPingFlags`
+    ///
+    /// # Returns
+    ///
+    /// the new `TeamLinkWatcher` object, or `None` on error
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn new_arp_ping(
         init_wait: i32,
@@ -54,6 +76,30 @@ impl TeamLinkWatcher {
         }
     }
 
+    /// Creates a new arp_ping `TeamLinkWatcher` object
+    ///
+    /// Feature: `v1_16`
+    ///
+    /// ## `init_wait`
+    /// init_wait value
+    /// ## `interval`
+    /// interval value
+    /// ## `missed_max`
+    /// missed_max value
+    /// ## `vlanid`
+    /// vlanid value
+    /// ## `target_host`
+    /// the host name or the ip address that will be used as destination
+    ///  address in the arp request
+    /// ## `source_host`
+    /// the host name or the ip address that will be used as source
+    ///  address in the arp request
+    /// ## `flags`
+    /// the watcher `TeamLinkWatcherArpPingFlags`
+    ///
+    /// # Returns
+    ///
+    /// the new `TeamLinkWatcher` object, or `None` on error
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn new_arp_ping2(
         init_wait: i32,
@@ -84,6 +130,18 @@ impl TeamLinkWatcher {
         }
     }
 
+    /// Creates a new ethtool `TeamLinkWatcher` object
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `delay_up`
+    /// delay_up value
+    /// ## `delay_down`
+    /// delay_down value
+    ///
+    /// # Returns
+    ///
+    /// the new `TeamLinkWatcher` object
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn new_ethtool(delay_up: i32, delay_down: i32) -> Result<TeamLinkWatcher, glib::Error> {
         unsafe {
@@ -97,6 +155,23 @@ impl TeamLinkWatcher {
         }
     }
 
+    /// Creates a new nsna_ping `TeamLinkWatcher` object
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `init_wait`
+    /// init_wait value
+    /// ## `interval`
+    /// interval value
+    /// ## `missed_max`
+    /// missed_max value
+    /// ## `target_host`
+    /// the host name or the ipv6 address that will be used as
+    ///  target address in the NS packet
+    ///
+    /// # Returns
+    ///
+    /// the new `TeamLinkWatcher` object, or `None` on error
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn new_nsna_ping(
         init_wait: i32,
@@ -121,11 +196,30 @@ impl TeamLinkWatcher {
         }
     }
 
+    /// Creates a copy of `self`
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// a copy of `self`
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn dup(&self) -> Option<TeamLinkWatcher> {
         unsafe { from_glib_full(nm_sys::nm_team_link_watcher_dup(self.to_glib_none().0)) }
     }
 
+    /// Determines if two `TeamLinkWatcher` objects contain the same values
+    /// in all the properties.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `other`
+    /// the `TeamLinkWatcher` to compare `self` to.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the objects contain the same values, `false` if they do not.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn equal(&self, other: &TeamLinkWatcher) -> bool {
         unsafe {
@@ -136,16 +230,30 @@ impl TeamLinkWatcher {
         }
     }
 
+    /// Gets the delay_down interval (in milliseconds) that elapses between the link
+    /// going down and the runner being notified about it.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_delay_down(&self) -> i32 {
         unsafe { nm_sys::nm_team_link_watcher_get_delay_down(self.to_glib_none().0) }
     }
 
+    /// Gets the delay_up interval (in milliseconds) that elapses between the link
+    /// coming up and the runner being notified about it.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_delay_up(&self) -> i32 {
         unsafe { nm_sys::nm_team_link_watcher_get_delay_up(self.to_glib_none().0) }
     }
 
+    /// Gets the arp ping watcher flags.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_flags(&self) -> TeamLinkWatcherArpPingFlags {
         unsafe {
@@ -155,26 +263,48 @@ impl TeamLinkWatcher {
         }
     }
 
+    /// Gets the init_wait interval (in milliseconds) that the team slave should
+    /// wait before sending the first packet to the target host.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_init_wait(&self) -> i32 {
         unsafe { nm_sys::nm_team_link_watcher_get_init_wait(self.to_glib_none().0) }
     }
 
+    /// Gets the interval (in milliseconds) that the team slave should wait between
+    /// sending two check packets to the target host.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_interval(&self) -> i32 {
         unsafe { nm_sys::nm_team_link_watcher_get_interval(self.to_glib_none().0) }
     }
 
+    /// Gets the number of missed replies after which the link is considered down.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_missed_max(&self) -> i32 {
         unsafe { nm_sys::nm_team_link_watcher_get_missed_max(self.to_glib_none().0) }
     }
 
+    /// Gets the name of the link watcher to be used.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_name(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_team_link_watcher_get_name(self.to_glib_none().0)) }
     }
 
+    /// Gets the ip address to be used as source for the link probing packets.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_source_host(&self) -> Option<GString> {
         unsafe {
@@ -184,6 +314,11 @@ impl TeamLinkWatcher {
         }
     }
 
+    /// Gets the host name/ip address to be used as destination for the link probing
+    /// packets.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_target_host(&self) -> Option<GString> {
         unsafe {
@@ -193,6 +328,10 @@ impl TeamLinkWatcher {
         }
     }
 
+    /// Gets the VLAN tag ID to be used to outgoing link probes
+    ///
+    /// Feature: `v1_16`
+    ///
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_vlanid(&self) -> i32 {
         unsafe { nm_sys::nm_team_link_watcher_get_vlanid(self.to_glib_none().0) }

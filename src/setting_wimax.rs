@@ -26,6 +26,15 @@ glib_wrapper! {
 }
 
 impl SettingWimax {
+    /// Creates a new `SettingWimax` object with default values.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingWimax` object
     #[cfg_attr(feature = "v1_2", deprecated)]
     pub fn new() -> SettingWimax {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_wimax_new()).unsafe_cast() }
@@ -41,16 +50,54 @@ impl Default for SettingWimax {
 
 pub const NONE_SETTING_WIMAX: Option<&SettingWimax> = None;
 
+/// `[Deprecated since 1.2]` Trait containing all `SettingWimax` methods.
+///
+/// # Implementors
+///
+/// [`SettingWimax`](struct.SettingWimax.html)
 pub trait SettingWimaxExt: 'static {
+    /// Returns the MAC address of a WiMAX device which this connection is locked
+    /// to.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
+    ///
+    /// # Returns
+    ///
+    /// the MAC address
     #[cfg_attr(feature = "v1_2", deprecated)]
     fn get_mac_address(&self) -> Option<GString>;
 
+    /// Returns the WiMAX NSP name (ex "Sprint" or "CLEAR") which identifies the
+    /// specific WiMAX network this setting describes a connection to.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
+    ///
+    /// # Returns
+    ///
+    /// the WiMAX NSP name
     #[cfg_attr(feature = "v1_2", deprecated)]
     fn get_network_name(&self) -> Option<GString>;
 
+    /// If specified, this connection will only apply to the WiMAX device whose
+    /// MAC address matches. This property does not change the MAC address of the
+    /// device (known as MAC spoofing).
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
     #[cfg_attr(feature = "v1_2", deprecated)]
     fn set_property_mac_address(&self, mac_address: Option<&str>);
 
+    /// Network Service Provider (NSP) name of the WiMAX network this connection
+    /// should use.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
     #[cfg_attr(feature = "v1_2", deprecated)]
     fn set_property_network_name(&self, network_name: Option<&str>);
 

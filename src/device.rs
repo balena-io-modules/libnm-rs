@@ -52,6 +52,16 @@ glib_wrapper! {
 }
 
 impl Device {
+    /// Generates a list of short-ish unique presentation names for the
+    /// devices in `devices`.
+    /// ## `devices`
+    /// an array of `Device`
+    /// ## `num_devices`
+    /// length of `devices`
+    ///
+    /// # Returns
+    ///
+    /// the device names
     pub fn disambiguate_names(devices: &[Device]) -> Vec<GString> {
         let num_devices = devices.len() as i32;
         unsafe {
@@ -65,14 +75,71 @@ impl Device {
 
 pub const NONE_DEVICE: Option<&Device> = None;
 
+/// Trait containing all `Device` methods.
+///
+/// # Implementors
+///
+/// [`Device6Lowpan`](struct.Device6Lowpan.html), [`DeviceAdsl`](struct.DeviceAdsl.html), [`DeviceBond`](struct.DeviceBond.html), [`DeviceBridge`](struct.DeviceBridge.html), [`DeviceBt`](struct.DeviceBt.html), [`DeviceDummy`](struct.DeviceDummy.html), [`DeviceEthernet`](struct.DeviceEthernet.html), [`DeviceGeneric`](struct.DeviceGeneric.html), [`DeviceIPTunnel`](struct.DeviceIPTunnel.html), [`DeviceInfiniband`](struct.DeviceInfiniband.html), [`DeviceMacsec`](struct.DeviceMacsec.html), [`DeviceMacvlan`](struct.DeviceMacvlan.html), [`DeviceModem`](struct.DeviceModem.html), [`DeviceOlpcMesh`](struct.DeviceOlpcMesh.html), [`DeviceOvsBridge`](struct.DeviceOvsBridge.html), [`DeviceOvsInterface`](struct.DeviceOvsInterface.html), [`DeviceOvsPort`](struct.DeviceOvsPort.html), [`DevicePpp`](struct.DevicePpp.html), [`DeviceTeam`](struct.DeviceTeam.html), [`DeviceTun`](struct.DeviceTun.html), [`DeviceVlan`](struct.DeviceVlan.html), [`DeviceVrf`](struct.DeviceVrf.html), [`DeviceVxlan`](struct.DeviceVxlan.html), [`DeviceWifiP2P`](struct.DeviceWifiP2P.html), [`DeviceWifi`](struct.DeviceWifi.html), [`DeviceWimax`](struct.DeviceWimax.html), [`DeviceWireGuard`](struct.DeviceWireGuard.html), [`DeviceWpan`](struct.DeviceWpan.html), [`Device`](struct.Device.html)
 pub trait DeviceExt: 'static {
+    /// Validates a given connection for a given `Device` object and returns
+    /// whether the connection may be activated with the device. For example if
+    /// `self` is a Wi-Fi device that supports only WEP encryption, the connection
+    /// will only be valid if it is a Wi-Fi connection which describes a WEP or open
+    /// network, and will not be valid if it describes a WPA network, or if it is
+    /// an Ethernet, Bluetooth, WWAN, etc connection that is incompatible with the
+    /// device.
+    ///
+    /// This function does the same as `DeviceExt::connection_valid`, i.e. checking
+    /// compatibility of the given device and connection. But, in addition, it sets
+    /// GError when FALSE is returned.
+    /// ## `connection`
+    /// an `Connection` to validate against `self`
+    ///
+    /// # Returns
+    ///
+    /// `true` if the connection may be activated with this device, `false`
+    /// if is incompatible with the device's capabilities and characteristics.
     fn connection_compatible<P: IsA<Connection>>(&self, connection: &P) -> Result<(), glib::Error>;
 
+    /// Validates a given connection for a given `Device` object and returns
+    /// whether the connection may be activated with the device. For example if
+    /// `self` is a Wi-Fi device that supports only WEP encryption, the connection
+    /// will only be valid if it is a Wi-Fi connection which describes a WEP or open
+    /// network, and will not be valid if it describes a WPA network, or if it is
+    /// an Ethernet, Bluetooth, WWAN, etc connection that is incompatible with the
+    /// device.
+    /// ## `connection`
+    /// an `Connection` to validate against `self`
+    ///
+    /// # Returns
+    ///
+    /// `true` if the connection may be activated with this device, `false`
+    /// if is incompatible with the device's capabilities and characteristics.
     fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool;
 
+    /// Deletes the software device. Hardware devices can't be deleted.
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// Use `DeviceExt::delete_async` or GDBusConnection.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    ///
+    /// # Returns
+    ///
+    /// `true` on success, `false` on error, in which case `error`
+    /// will be set.
     #[cfg_attr(feature = "v1_22", deprecated)]
     fn delete<P: IsA<gio::Cancellable>>(&self, cancellable: Option<&P>) -> Result<(), glib::Error>;
 
+    /// Asynchronously begins deleting the software device. Hardware devices can't
+    /// be deleted.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    /// ## `callback`
+    /// callback to be called when delete operation completes
+    /// ## `user_data`
+    /// caller-specific data passed to `callback`
     fn delete_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
         cancellable: Option<&P>,
@@ -83,12 +150,34 @@ pub trait DeviceExt: 'static {
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
 
+    /// Disconnects the device if currently connected, and prevents the device from
+    /// automatically connecting to networks until the next manual network connection
+    /// request.
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// Use `DeviceExt::disconnect_async` or GDBusConnection.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    ///
+    /// # Returns
+    ///
+    /// `true` on success, `false` on error, in which case `error` will be set.
     #[cfg_attr(feature = "v1_22", deprecated)]
     fn disconnect<P: IsA<gio::Cancellable>>(
         &self,
         cancellable: Option<&P>,
     ) -> Result<(), glib::Error>;
 
+    /// Asynchronously begins disconnecting the device if currently connected, and
+    /// prevents the device from automatically connecting to networks until the next
+    /// manual network connection request.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    /// ## `callback`
+    /// callback to be called when the disconnect operation completes
+    /// ## `user_data`
+    /// caller-specific data passed to `callback`
     fn disconnect_async<
         P: IsA<gio::Cancellable>,
         Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
@@ -102,10 +191,55 @@ pub trait DeviceExt: 'static {
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
 
+    /// Filters a given array of connections for a given `Device` object and returns
+    /// connections which may be activated with the device. For example if `self`
+    /// is a Wi-Fi device that supports only WEP encryption, the returned array will
+    /// contain any Wi-Fi connections in `connections` that allow connection to
+    /// unencrypted or WEP-enabled SSIDs. The returned array will not contain
+    /// Ethernet, Bluetooth, Wi-Fi WPA connections, or any other connection that is
+    /// incompatible with the device. To get the full list of connections see
+    /// `Client::get_connections`.
+    /// ## `connections`
+    /// an array of `NMConnections` to filter
+    ///
+    /// # Returns
+    ///
+    /// an array of
+    /// `NMConnections` that could be activated with the given `self`. The array
+    /// should be freed with `glib::PtrArray::unref` when it is no longer required.
     fn filter_connections(&self, connections: &[Connection]) -> Vec<Connection>;
 
+    /// Gets the `ActiveConnection` object which owns this device during activation.
+    ///
+    /// # Returns
+    ///
+    /// the `ActiveConnection` or `None` if the device is
+    /// not part of an active connection
     fn get_active_connection(&self) -> Option<ActiveConnection>;
 
+    /// Fetch the currently applied connection on the device.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// Use `DeviceExt::get_applied_connection_async` or GDBusConnection.
+    /// ## `flags`
+    /// the flags argument. Currently this value must always be zero.
+    /// ## `version_id`
+    /// returns the current version id of
+    ///  the applied connection
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    ///
+    /// # Returns
+    ///
+    /// a `Connection` with the currently applied settings
+    ///  or `None` on error.
+    ///
+    /// The connection is as received from D-Bus and might not validate according
+    /// to `Connection::verify`.
     #[cfg_attr(feature = "v1_22", deprecated)]
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_applied_connection<P: IsA<gio::Cancellable>>(
@@ -114,6 +248,18 @@ pub trait DeviceExt: 'static {
         cancellable: Option<&P>,
     ) -> Result<(Connection, u64), glib::Error>;
 
+    /// Asynchronously begins and gets the currently applied connection.
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `flags`
+    /// the flags argument. Currently this value must always be zero.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    /// ## `callback`
+    /// callback to be called when the reapply operation completes
+    /// ## `user_data`
+    /// caller-specific data passed to `callback`
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_applied_connection_async<
         P: IsA<gio::Cancellable>,
@@ -131,78 +277,339 @@ pub trait DeviceExt: 'static {
         flags: u32,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(Connection, u64), glib::Error>> + 'static>>;
 
+    /// Whether the `Device` can be autoconnected.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the device is allowed to be autoconnected
     fn get_autoconnect(&self) -> bool;
 
+    /// Gets the `NMRemoteConnections` currently known to the daemon that could
+    /// be activated on `self`.
+    ///
+    /// # Returns
+    ///
+    /// the `glib::PtrArray`
+    /// containing `NMRemoteConnections`. This is the internal copy used by
+    /// the connection, and must not be modified.
     fn get_available_connections(&self) -> Vec<RemoteConnection>;
 
+    /// Gets the device' capabilities.
+    ///
+    /// # Returns
+    ///
+    /// the capabilities
     fn get_capabilities(&self) -> DeviceCapabilities;
 
+    /// The connectivity state of the device for given address family.
+    /// Supported address families are `AF_INET` for IPv4, `AF_INET6`
+    /// for IPv6 or `AF_UNSPEC` for any.
+    ///
+    /// Feature: `v1_16`
+    ///
+    /// ## `addr_family`
+    /// network address family
+    ///
+    /// # Returns
+    ///
+    /// the current connectivity state
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     fn get_connectivity(&self, addr_family: i32) -> ConnectivityState;
 
+    /// Gets a description of `self`, based on its vendor and product names.
+    ///
+    /// # Returns
+    ///
+    /// a description of `self`. If either the vendor or the
+    ///  product name is unknown, this returns the interface name.
     fn get_description(&self) -> Option<GString>;
 
+    /// Returns the numeric type of the `Device`, ie Ethernet, Wi-Fi, etc.
+    ///
+    /// # Returns
+    ///
+    /// the device type
     fn get_device_type(&self) -> DeviceType;
 
+    /// Gets the current IPv4 `DhcpConfig` associated with the `Device`.
+    ///
+    /// You can alternatively use `ActiveConnectionExt::get_dhcp4_config`, which also
+    /// works with VPN connections.
+    ///
+    /// # Returns
+    ///
+    /// the IPv4 `DhcpConfig`, or `None` if the device is
+    /// not activated or not using DHCP.
     fn get_dhcp4_config(&self) -> Option<DhcpConfig>;
 
+    /// Gets the current IPv6 `DhcpConfig` associated with the `Device`.
+    ///
+    /// You can alternatively use `ActiveConnectionExt::get_dhcp6_config`, which also
+    /// works with VPN connections.
+    ///
+    /// # Returns
+    ///
+    /// the IPv6 `DhcpConfig`, or `None` if the device is
+    /// not activated or not using DHCPv6.
     fn get_dhcp6_config(&self) -> Option<DhcpConfig>;
 
+    /// Gets the driver of the `Device`.
+    ///
+    /// # Returns
+    ///
+    /// the driver of the device. This is the internal string used by the
+    /// device, and must not be modified.
     fn get_driver(&self) -> Option<GString>;
 
+    /// Gets the driver version of the `Device`.
+    ///
+    /// # Returns
+    ///
+    /// the version of the device driver. This is the internal string used by the
+    /// device, and must not be modified.
     fn get_driver_version(&self) -> Option<GString>;
 
+    /// Indicates that firmware required for the device's operation is likely
+    /// to be missing.
+    ///
+    /// # Returns
+    ///
+    /// `true` if firmware required for the device's operation is likely
+    /// to be missing.
     fn get_firmware_missing(&self) -> bool;
 
+    /// Gets the firmware version of the `Device`.
+    ///
+    /// # Returns
+    ///
+    /// the firmware version of the device. This is the internal string used by the
+    /// device, and must not be modified.
     fn get_firmware_version(&self) -> Option<GString>;
 
+    /// Gets the current a hardware address (MAC) for the `self`.
+    ///
+    /// # Returns
+    ///
+    /// the current MAC of the device, or `None`.
+    /// This is the internal string used by the device, and must not be modified.
     fn get_hw_address(&self) -> Option<GString>;
 
+    /// Gets the interface name of the `Device`.
+    ///
+    /// # Returns
+    ///
+    /// the interface of the device. This is the internal string used by the
+    /// device, and must not be modified.
     fn get_iface(&self) -> Option<GString>;
 
+    /// Gets the interface flags of the device.
+    ///
+    /// Feature: `v1_22`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the flags
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     fn get_interface_flags(&self) -> DeviceInterfaceFlags;
 
+    /// Gets the current IPv4 `IPConfig` associated with the `Device`.
+    ///
+    /// You can alternatively use `ActiveConnectionExt::get_ip4_config`, which also
+    /// works with VPN connections.
+    ///
+    /// # Returns
+    ///
+    /// the IPv4 `IPConfig`, or `None` if the device is not
+    /// activated.
     fn get_ip4_config(&self) -> Option<IPConfig>;
 
+    /// Gets the current IPv6 `IPConfig` associated with the `Device`.
+    ///
+    /// You can alternatively use `ActiveConnectionExt::get_ip6_config`, which also
+    /// works with VPN connections.
+    ///
+    /// # Returns
+    ///
+    /// the IPv6 `IPConfig` or `None` if the device is not activated.
     fn get_ip6_config(&self) -> Option<IPConfig>;
 
+    /// Gets the IP interface name of the `Device` over which IP traffic flows
+    /// when the device is in the ACTIVATED state.
+    ///
+    /// # Returns
+    ///
+    /// the IP traffic interface of the device. This is the internal string
+    /// used by the device, and must not be modified.
     fn get_ip_iface(&self) -> Option<GString>;
 
+    /// Gets the list of neighbors discovered through LLDP.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `glib::PtrArray`
+    /// containing `LldpNeighbor`<!-- -->s. This is the internal copy used by the
+    /// device and must not be modified. The library never modifies the returned
+    /// array and thus it is safe for callers to reference and keep using it.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_lldp_neighbors(&self) -> Vec<LldpNeighbor>;
 
+    /// Whether the `Device` is managed by NetworkManager.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the device is managed by NetworkManager
     fn get_managed(&self) -> bool;
 
+    /// Gets the metered setting of a `Device`.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the metered setting.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_metered(&self) -> Metered;
 
+    /// Gets the MTU of the `Device`.
+    ///
+    /// # Returns
+    ///
+    /// the MTU of the device in bytes.
     fn get_mtu(&self) -> u32;
 
+    /// Indicates that the NetworkManager plugin for the device is not installed.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// `true` if the device plugin not installed.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_nm_plugin_missing(&self) -> bool;
 
+    /// Gets the physical port ID of the `Device`. If non-`None`, this is
+    /// an opaque string that can be used to recognize when
+    /// seemingly-unrelated `NMDevices` are actually just different virtual
+    /// ports on a single physical port. (Eg, NPAR / SR-IOV.)
+    ///
+    /// # Returns
+    ///
+    /// the physical port ID of the device, or `None` if the port
+    ///  ID is unknown. This is the internal string used by the device and
+    ///  must not be modified.
     fn get_physical_port_id(&self) -> Option<GString>;
 
+    /// Gets the product string of the `Device`.
+    ///
+    /// # Returns
+    ///
+    /// the product name of the device. This is the internal string used by the
+    /// device, and must not be modified.
+    ///
+    /// The string is backslash escaped (C escaping) for invalid characters. The escaping
+    /// can be reverted with `g_strcompress`, however the result may not be valid UTF-8.
     fn get_product(&self) -> Option<GString>;
 
+    /// Gets the (primary) `Setting` subtype associated with connections
+    /// that can be used on `self`.
+    ///
+    /// # Returns
+    ///
+    /// `self`'s associated `Setting` type
     fn get_setting_type(&self) -> glib::types::Type;
 
+    /// Gets the current `Device` state.
+    ///
+    /// # Returns
+    ///
+    /// the current device state
     fn get_state(&self) -> DeviceState;
 
+    /// Gets the reason for entering the current `Device` state.
+    ///
+    /// # Returns
+    ///
+    /// the reason for entering the current device state
     fn get_state_reason(&self) -> DeviceStateReason;
 
+    /// Gets a (non-localized) description of the type of device that
+    /// `self` is.
+    ///
+    /// # Returns
+    ///
+    /// the type description of the device. This is the internal
+    /// string used by the device, and must not be modified.
     fn get_type_description(&self) -> Option<GString>;
 
+    /// Gets the Unique Device Identifier of the `Device`.
+    ///
+    /// # Returns
+    ///
+    /// the Unique Device Identifier of the device. This identifier may be
+    /// used to gather more information about the device from various operating
+    /// system services like udev or sysfs.
     fn get_udi(&self) -> Option<GString>;
 
+    /// Gets the vendor string of the `Device`.
+    ///
+    /// # Returns
+    ///
+    /// the vendor name of the device. This is the internal string used by the
+    /// device, and must not be modified.
+    ///
+    /// The string is backslash escaped (C escaping) for invalid characters. The escaping
+    /// can be reverted with `g_strcompress`, however the result may not be valid UTF-8.
     fn get_vendor(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// `true` if the device exists, or `false` if it is a placeholder device
+    /// that could be automatically created by NetworkManager if one of its
+    /// `Device:available-connections` was activated.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn is_real(&self) -> bool;
 
+    /// Whether the device is a software device.
+    ///
+    /// # Returns
+    ///
+    /// `true` if `self` is a software device, `false` if it is a hardware device.
     fn is_software(&self) -> bool;
 
+    /// Attempts to update device with changes to the currently active connection
+    /// made since it was last applied.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// Use `DeviceExt::reapply_async` or GDBusConnection.
+    /// ## `connection`
+    /// the `Connection` to replace the applied
+    ///  settings with or `None` to reuse existing
+    /// ## `version_id`
+    /// zero or the expected version id of the applied connection.
+    ///  If specified and the version id mismatches, the call fails without
+    ///  modification. This allows to catch concurrent accesses.
+    /// ## `flags`
+    /// always set this to zero
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    ///
+    /// # Returns
+    ///
+    /// `true` on success, `false` on error, in which case `error` will be set.
     #[cfg_attr(feature = "v1_22", deprecated)]
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn reapply<P: IsA<Connection>, Q: IsA<gio::Cancellable>>(
@@ -213,6 +620,27 @@ pub trait DeviceExt: 'static {
         cancellable: Option<&Q>,
     ) -> Result<(), glib::Error>;
 
+    /// Asynchronously begins an attempt to update device with changes to the
+    /// currently active connection made since it was last applied.
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `connection`
+    /// the `Connection` to replace the applied
+    ///  settings with or `None` to reuse existing
+    /// ## `version_id`
+    /// zero or the expected version id of the applied
+    ///  connection. If specified and the version id mismatches, the call
+    ///  fails without modification. This allows to catch concurrent
+    ///  accesses.
+    /// ## `flags`
+    /// always set this to zero
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    /// ## `callback`
+    /// callback to be called when the reapply operation completes
+    /// ## `user_data`
+    /// caller-specific data passed to `callback`
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn reapply_async<
         P: IsA<Connection>,
@@ -235,28 +663,77 @@ pub trait DeviceExt: 'static {
         flags: u32,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
 
+    /// Enables or disables automatic activation of the `Device`.
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// Use the async command `Client::dbus_set_property` on
+    /// `ObjectExt::get_path`, `NM_DBUS_INTERFACE_DEVICE` to set "AutoConnect" property to a "(b)" value.
+    /// This function is deprecated because it calls a synchronous D-Bus method
+    /// and modifies the content of the NMClient cache client side.
+    /// ## `autoconnect`
+    /// `true` to enable autoconnecting
     #[cfg_attr(feature = "v1_22", deprecated)]
     fn set_autoconnect(&self, autoconnect: bool);
 
+    /// Enables or disables management of `Device` by NetworkManager.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// Use the async command `Client::dbus_set_property` on
+    /// `ObjectExt::get_path`, interface `NM_DBUS_INTERFACE_DEVICE` to set the
+    /// "Managed" property to a "(b)" boolean value.
+    /// This function is deprecated because it calls a synchronous D-Bus method
+    /// and modifies the content of the NMClient cache client side. Also, it does
+    /// not emit a property changed signal.
+    /// ## `managed`
+    /// `true` to make the device managed by NetworkManager.
     #[cfg_attr(feature = "v1_22", deprecated)]
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_managed(&self, managed: bool);
 
+    /// The interface of the device.
     fn get_property_interface(&self) -> Option<GString>;
 
+    /// The IP interface of the device which should be used for all IP-related
+    /// operations like addressing and routing.
     fn get_property_ip_interface(&self) -> Option<GString>;
 
+    /// The IPv4 connectivity state of the device.
+    ///
+    /// Feature: `v1_16`
+    ///
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     fn get_property_ip4_connectivity(&self) -> ConnectivityState;
 
+    /// The IPv6 connectivity state of the device.
+    ///
+    /// Feature: `v1_16`
+    ///
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     fn get_property_ip6_connectivity(&self) -> ConnectivityState;
 
     //fn get_property_lldp_neighbors(&self) -> /*Unimplemented*/Vec<Fundamental: Pointer>;
 
+    /// Whether the device is real or is a placeholder device that could
+    /// be created automatically by NetworkManager if one of its
+    /// `Device:available-connections` was activated.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_property_real(&self) -> bool;
 
+    /// Notifies the state change of a `Device`.
+    /// ## `new_state`
+    /// the new state of the device
+    /// ## `old_state`
+    /// the previous state of the device
+    /// ## `reason`
+    /// the reason describing the state change
     fn connect_state_changed<F: Fn(&Self, u32, u32, u32) + 'static>(&self, f: F)
         -> SignalHandlerId;
 

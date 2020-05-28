@@ -38,6 +38,19 @@ glib_wrapper! {
 }
 
 impl WifiP2PPeer {
+    /// Validates a given connection against a given Wi-Fi P2P peer to ensure that
+    /// the connection may be activated with that peer. The connection must match the
+    /// `self`'s address and in the future possibly other attributes.
+    ///
+    /// Feature: `v1_16`
+    ///
+    /// ## `connection`
+    /// an `Connection` to validate against `self`
+    ///
+    /// # Returns
+    ///
+    /// `true` if the connection may be activated with this Wi-Fi P2P Peer,
+    /// `false` if it cannot be.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool {
         unsafe {
@@ -48,6 +61,27 @@ impl WifiP2PPeer {
         }
     }
 
+    /// Filters a given array of connections for a given `WifiP2PPeer` object and
+    /// returns connections which may be activated with the P2P peer. Any
+    /// returned connections will match the `peers`'s HW address and in the future
+    /// possibly other attributes.
+    ///
+    /// To obtain the list of connections that are compatible with this P2P peer,
+    /// use `Client::get_connections` and then filter the returned list for a given
+    /// `Device` using `DeviceExt::filter_connections` and finally filter that list
+    /// with this function.
+    ///
+    /// Feature: `v1_16`
+    ///
+    /// ## `connections`
+    /// an array of `NMConnections` to
+    /// filter
+    ///
+    /// # Returns
+    ///
+    /// an array of
+    /// `NMConnections` that could be activated with the given `self`. The array should
+    /// be freed with `glib::PtrArray::unref` when it is no longer required.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn filter_connections(&self, connections: &[Connection]) -> Vec<Connection> {
         unsafe {
@@ -58,11 +92,27 @@ impl WifiP2PPeer {
         }
     }
 
+    /// Gets the flags of the P2P peer.
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the flags
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_flags(&self) -> _80211ApFlags {
         unsafe { from_glib(nm_sys::nm_wifi_p2p_peer_get_flags(self.to_glib_none().0)) }
     }
 
+    /// Gets the hardware address of the P2P peer.
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the hardware address
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_hw_address(&self) -> Option<GString> {
         unsafe {
@@ -72,11 +122,28 @@ impl WifiP2PPeer {
         }
     }
 
+    /// Returns the timestamp (in CLOCK_BOOTTIME seconds) for the last time the
+    /// P2P peer was seen. A value of -1 means the P2P peer has never been seen.
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the last seen time in seconds
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_last_seen(&self) -> i32 {
         unsafe { nm_sys::nm_wifi_p2p_peer_get_last_seen(self.to_glib_none().0) }
     }
 
+    /// Gets the manufacturer of the P2P peer.
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the manufacturer
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_manufacturer(&self) -> Option<GString> {
         unsafe {
@@ -86,11 +153,27 @@ impl WifiP2PPeer {
         }
     }
 
+    /// Gets the model of the P2P peer.
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the model
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_model(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_wifi_p2p_peer_get_model(self.to_glib_none().0)) }
     }
 
+    /// Gets the model number of the P2P peer.
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the model number
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_model_number(&self) -> Option<GString> {
         unsafe {
@@ -100,21 +183,53 @@ impl WifiP2PPeer {
         }
     }
 
+    /// Gets the name of the P2P peer.
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the name
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_name(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_wifi_p2p_peer_get_name(self.to_glib_none().0)) }
     }
 
+    /// Gets the serial number of the P2P peer.
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the serial number
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_serial(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_wifi_p2p_peer_get_serial(self.to_glib_none().0)) }
     }
 
+    /// Gets the current signal strength of the P2P peer as a percentage.
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the signal strength (0 to 100)
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_strength(&self) -> u8 {
         unsafe { nm_sys::nm_wifi_p2p_peer_get_strength(self.to_glib_none().0) }
     }
 
+    /// Gets the WFD information elements of the P2P peer.
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `glib::Bytes` containing the WFD IEs, or `None`.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_wfd_ies(&self) -> Option<glib::Bytes> {
         unsafe { from_glib_none(nm_sys::nm_wifi_p2p_peer_get_wfd_ies(self.to_glib_none().0)) }

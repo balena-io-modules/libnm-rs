@@ -39,6 +39,11 @@ glib_wrapper! {
 }
 
 impl SettingConnection {
+    /// Creates a new `SettingConnection` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingConnection` object
     pub fn new() -> SettingConnection {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_connection_new()).unsafe_cast() }
     }
@@ -52,149 +57,601 @@ impl Default for SettingConnection {
 
 pub const NONE_SETTING_CONNECTION: Option<&SettingConnection> = None;
 
+/// Trait containing all `SettingConnection` methods.
+///
+/// # Implementors
+///
+/// [`SettingConnection`](struct.SettingConnection.html)
 pub trait SettingConnectionExt: 'static {
+    /// Adds a permission to the connection's permission list. At this time, only
+    /// the "user" permission type is supported, and `pitem` must be a username. See
+    /// `SettingConnection:permissions`: for more details.
+    /// ## `ptype`
+    /// the permission type; at this time only "user" is supported
+    /// ## `pitem`
+    /// the permission item formatted as required for `ptype`
+    /// ## `detail`
+    /// unused at this time; must be `None`
+    ///
+    /// # Returns
+    ///
+    /// `true` if the permission was unique and was successfully added to the
+    /// list, `false` if `ptype` or `pitem` was invalid or it the permission was already
+    /// present in the list
     fn add_permission(&self, ptype: &str, pitem: &str, detail: Option<&str>) -> bool;
 
+    /// Adds a new secondary connection UUID to the setting.
+    /// ## `sec_uuid`
+    /// the secondary connection UUID to add
+    ///
+    /// # Returns
+    ///
+    /// `true` if the secondary connection UUID was added; `false` if the UUID
+    /// was already present
     fn add_secondary(&self, sec_uuid: &str) -> bool;
 
+    /// Returns the value contained in the `SettingConnection:auth-retries` property.
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the configured authentication retries. Zero means
+    /// infinity and -1 means a global default value.
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn get_auth_retries(&self) -> i32;
 
+    /// Returns the `SettingConnection:autoconnect` property of the connection.
+    ///
+    /// # Returns
+    ///
+    /// the connection's autoconnect behavior
     fn get_autoconnect(&self) -> bool;
 
+    /// Returns the `SettingConnection:autoconnect-priority` property of the connection.
+    /// The higher number, the higher priority.
+    ///
+    /// # Returns
+    ///
+    /// the connection's autoconnect priority
     fn get_autoconnect_priority(&self) -> i32;
 
+    /// Returns the `SettingConnection:autoconnect-retries` property of the connection.
+    /// Zero means infinite, -1 means the global default value.
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the connection's autoconnect retries
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_autoconnect_retries(&self) -> i32;
 
+    /// Returns the `SettingConnection:autoconnect-slaves` property of the connection.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether slaves of the connection should be activated together
+    ///  with the connection.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_autoconnect_slaves(&self) -> SettingConnectionAutoconnectSlaves;
 
+    /// Returns the `SettingConnection:type` property of the connection.
+    ///
+    /// # Returns
+    ///
+    /// the connection type
     fn get_connection_type(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the value contained in the `SettingConnection:gateway-ping-timeout`
+    /// property.
     fn get_gateway_ping_timeout(&self) -> u32;
 
+    /// Returns the `SettingConnection:id` property of the connection.
+    ///
+    /// # Returns
+    ///
+    /// the connection ID
     fn get_id(&self) -> Option<GString>;
 
+    /// Returns the `SettingConnection:interface-name` property of the connection.
+    ///
+    /// # Returns
+    ///
+    /// the connection's interface name
     fn get_interface_name(&self) -> Option<GString>;
 
+    /// Returns the `SettingConnection:lldp` property of the connection.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// a `SettingConnectionLldp` which indicates whether LLDP must be
+    /// enabled for the connection.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_lldp(&self) -> SettingConnectionLldp;
 
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingConnection:llmnr` property of the setting.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     fn get_llmnr(&self) -> SettingConnectionLlmnr;
 
+    /// Returns the `SettingConnection:master` property of the connection.
+    ///
+    /// # Returns
+    ///
+    /// interface name of the master device or UUID of the master
+    /// connection.
     fn get_master(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingConnection:mdns` property of the setting.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_mdns(&self) -> SettingConnectionMdns;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingConnection:metered` property of the setting.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_metered(&self) -> Metered;
 
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingConnection:multi-connect` property of the connection.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     fn get_multi_connect(&self) -> ConnectionMultiConnect;
 
+    /// Returns the number of entries in the `SettingConnection:permissions`
+    /// property of this setting.
+    ///
+    /// # Returns
+    ///
+    /// the number of permissions entries
     fn get_num_permissions(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the number of configured secondary connection UUIDs
     fn get_num_secondaries(&self) -> u32;
 
+    /// Returns the `SettingConnection:read-only` property of the connection.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the connection is read-only, `false` if it is not
     fn get_read_only(&self) -> bool;
 
+    /// ## `idx`
+    /// the zero-based index of the secondary connection UUID entry
+    ///
+    /// # Returns
+    ///
+    /// the secondary connection UUID at index `idx`
     fn get_secondary(&self, idx: u32) -> Option<GString>;
 
+    /// Returns the `SettingConnection:slave-type` property of the connection.
+    ///
+    /// # Returns
+    ///
+    /// the type of slave this connection is, if any
     fn get_slave_type(&self) -> Option<GString>;
 
+    /// Returns the `SettingConnection:stable_id` property of the connection.
+    ///
+    /// Feature: `v1_4`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the stable-id for the connection
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn get_stable_id(&self) -> Option<GString>;
 
+    /// Returns the `SettingConnection:timestamp` property of the connection.
+    ///
+    /// # Returns
+    ///
+    /// the connection's timestamp
     fn get_timestamp(&self) -> u64;
 
+    /// Returns the `SettingConnection:uuid` property of the connection.
+    ///
+    /// # Returns
+    ///
+    /// the connection UUID
     fn get_uuid(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_20`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `NM_SETTING_CONNECTION_WAIT_DEVICE_TIMEOUT` property with
+    ///  the timeout in milli seconds. -1 is the default.
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     fn get_wait_device_timeout(&self) -> i32;
 
+    /// Returns the `SettingConnection:zone` property of the connection.
+    ///
+    /// # Returns
+    ///
+    /// the trust level of a connection
     fn get_zone(&self) -> Option<GString>;
 
+    /// ## `type_`
+    /// the setting name (ie `NM_SETTING_BOND_SETTING_NAME`) to be matched
+    /// against `self`'s slave type
+    ///
+    /// # Returns
+    ///
+    /// `true` if connection is of the given slave `type_`
     fn is_slave_type(&self, type_: &str) -> bool;
 
+    /// Checks whether the given username is allowed to view/access this connection.
+    /// ## `uname`
+    /// the user name to check permissions for
+    ///
+    /// # Returns
+    ///
+    /// `true` if the requested user is allowed to view this connection,
+    /// `false` if the given user is not allowed to view this connection
     fn permissions_user_allowed(&self, uname: &str) -> bool;
 
+    /// Removes the permission at index `idx` from the connection.
+    /// ## `idx`
+    /// the zero-based index of the permission to remove
     fn remove_permission(&self, idx: u32);
 
+    /// Removes the permission from the connection.
+    /// At this time, only the "user" permission type is supported, and `pitem` must
+    /// be a username. See `SettingConnection:permissions`: for more details.
+    /// ## `ptype`
+    /// the permission type; at this time only "user" is supported
+    /// ## `pitem`
+    /// the permission item formatted as required for `ptype`
+    /// ## `detail`
+    /// unused at this time; must be `None`
+    ///
+    /// # Returns
+    ///
+    /// `true` if the permission was found and removed; `false` if it was not.
     fn remove_permission_by_value(&self, ptype: &str, pitem: &str, detail: Option<&str>) -> bool;
 
+    /// Removes the secondary coonnection UUID at index `idx`.
+    /// ## `idx`
+    /// index number of the secondary connection UUID
     fn remove_secondary(&self, idx: u32);
 
+    /// Removes the secondary coonnection UUID `sec_uuid`.
+    /// ## `sec_uuid`
+    /// the secondary connection UUID to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the secondary connection UUID was found and removed; `false` if it was not.
     fn remove_secondary_by_value(&self, sec_uuid: &str) -> bool;
 
+    /// The number of retries for the authentication. Zero means to try indefinitely; -1 means
+    /// to use a global default. If the global default is not set, the authentication
+    /// retries for 3 times before failing the connection.
+    ///
+    /// Currently this only applies to 802-1x authentication.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn set_property_auth_retries(&self, auth_retries: i32);
 
+    /// Whether or not the connection should be automatically connected by
+    /// NetworkManager when the resources for the connection are available.
+    /// `true` to automatically activate the connection, `false` to require manual
+    /// intervention to activate the connection.
+    ///
+    /// Note that autoconnect is not implemented for VPN profiles. See
+    /// `SettingConnection:secondaries` as an alternative to automatically
+    /// connect VPN profiles.
     fn set_property_autoconnect(&self, autoconnect: bool);
 
+    /// The autoconnect priority. If the connection is set to autoconnect,
+    /// connections with higher priority will be preferred. Defaults to 0.
+    /// The higher number means higher priority.
     fn set_property_autoconnect_priority(&self, autoconnect_priority: i32);
 
+    /// The number of times a connection should be tried when autoactivating before
+    /// giving up. Zero means forever, -1 means the global default (4 times if not
+    /// overridden). Setting this to 1 means to try activation only once before
+    /// blocking autoconnect. Note that after a timeout, NetworkManager will try
+    /// to autoconnect again.
     fn get_property_autoconnect_retries(&self) -> i32;
 
+    /// The number of times a connection should be tried when autoactivating before
+    /// giving up. Zero means forever, -1 means the global default (4 times if not
+    /// overridden). Setting this to 1 means to try activation only once before
+    /// blocking autoconnect. Note that after a timeout, NetworkManager will try
+    /// to autoconnect again.
     fn set_property_autoconnect_retries(&self, autoconnect_retries: i32);
 
+    /// Whether or not slaves of this connection should be automatically brought up
+    /// when NetworkManager activates this connection. This only has a real effect
+    /// for master connections. The properties `SettingConnection:autoconnect`,
+    /// `SettingConnection:autoconnect-priority` and `SettingConnection:autoconnect-retries`
+    /// are unrelated to this setting.
+    /// The permitted values are: 0: leave slave connections untouched,
+    /// 1: activate all the slave connections with this connection, -1: default.
+    /// If -1 (default) is set, global connection.autoconnect-slaves is read to
+    /// determine the real value. If it is default as well, this fallbacks to 0.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_autoconnect_slaves(
         &self,
         autoconnect_slaves: SettingConnectionAutoconnectSlaves,
     );
 
+    /// If greater than zero, delay success of IP addressing until either the
+    /// timeout is reached, or an IP gateway replies to a ping.
     fn set_property_gateway_ping_timeout(&self, gateway_ping_timeout: u32);
 
+    /// A human readable unique identifier for the connection, like "Work Wi-Fi"
+    /// or "T-Mobile 3G".
     fn set_property_id(&self, id: Option<&str>);
 
+    /// The name of the network interface this connection is bound to. If not
+    /// set, then the connection can be attached to any interface of the
+    /// appropriate type (subject to restrictions imposed by other settings).
+    ///
+    /// For software devices this specifies the name of the created device.
+    ///
+    /// For connection types where interface names cannot easily be made
+    /// persistent (e.g. mobile broadband or USB Ethernet), this property should
+    /// not be used. Setting this property restricts the interfaces a connection
+    /// can be used with, and if interface names change or are reordered the
+    /// connection may be applied to the wrong interface.
     fn set_property_interface_name(&self, interface_name: Option<&str>);
 
+    /// Whether LLDP is enabled for the connection.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_lldp(&self, lldp: i32);
 
+    /// Whether Link-Local Multicast Name Resolution (LLMNR) is enabled
+    /// for the connection. LLMNR is a protocol based on the Domain Name
+    /// System (DNS) packet format that allows both IPv4 and IPv6 hosts
+    /// to perform name resolution for hosts on the same local link.
+    ///
+    /// The permitted values are: "yes" (2) register hostname and resolving
+    /// for the connection, "no" (0) disable LLMNR for the interface, "resolve"
+    /// (1) do not register hostname but allow resolving of LLMNR host names
+    /// If unspecified, "default" ultimately depends on the DNS plugin (which
+    /// for systemd-resolved currently means "yes").
+    ///
+    /// This feature requires a plugin which supports LLMNR. Otherwise the
+    /// setting has no effect. One such plugin is dns-systemd-resolved.
+    ///
+    /// Feature: `v1_14`
+    ///
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     fn set_property_llmnr(&self, llmnr: i32);
 
+    /// Interface name of the master device or UUID of the master connection.
     fn set_property_master(&self, master: Option<&str>);
 
+    /// Whether mDNS is enabled for the connection.
+    ///
+    /// The permitted values are: "yes" (2) register hostname and resolving
+    /// for the connection, "no" (0) disable mDNS for the interface, "resolve"
+    /// (1) do not register hostname but allow resolving of mDNS host names
+    /// and "default" (-1) to allow lookup of a global default in NetworkManager.conf.
+    /// If unspecified, "default" ultimately depends on the DNS plugin (which
+    /// for systemd-resolved currently means "no").
+    ///
+    /// This feature requires a plugin which supports mDNS. Otherwise the
+    /// setting has no effect. One such plugin is dns-systemd-resolved.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_mdns(&self, mdns: i32);
 
+    /// Whether the connection is metered.
+    ///
+    /// When updating this property on a currently activated connection,
+    /// the change takes effect immediately.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_metered(&self, metered: Metered);
 
+    /// Specifies whether the profile can be active multiple times at a particular
+    /// moment. The value is of type `ConnectionMultiConnect`.
+    ///
+    /// Feature: `v1_14`
+    ///
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     fn set_property_multi_connect(&self, multi_connect: i32);
 
+    /// An array of strings defining what access a given user has to this
+    /// connection. If this is `None` or empty, all users are allowed to access
+    /// this connection; otherwise users are allowed if and only if they are in
+    /// this list. When this is not empty, the connection can be active only when
+    /// one of the specified users is logged into an active session. Each entry
+    /// is of the form "[type]:[id]:[reserved]"; for example, "user:dcbw:blah".
+    ///
+    /// At this time only the "user" [type] is allowed. Any other values are
+    /// ignored and reserved for future use. [id] is the username that this
+    /// permission refers to, which may not contain the ":" character. Any
+    /// [reserved] information present must be ignored and is reserved for future
+    /// use. All of [type], [id], and [reserved] must be valid UTF-8.
     fn get_property_permissions(&self) -> Vec<GString>;
 
+    /// An array of strings defining what access a given user has to this
+    /// connection. If this is `None` or empty, all users are allowed to access
+    /// this connection; otherwise users are allowed if and only if they are in
+    /// this list. When this is not empty, the connection can be active only when
+    /// one of the specified users is logged into an active session. Each entry
+    /// is of the form "[type]:[id]:[reserved]"; for example, "user:dcbw:blah".
+    ///
+    /// At this time only the "user" [type] is allowed. Any other values are
+    /// ignored and reserved for future use. [id] is the username that this
+    /// permission refers to, which may not contain the ":" character. Any
+    /// [reserved] information present must be ignored and is reserved for future
+    /// use. All of [type], [id], and [reserved] must be valid UTF-8.
     fn set_property_permissions(&self, permissions: &[&str]);
 
+    /// `false` if the connection can be modified using the provided settings
+    /// service's D-Bus interface with the right privileges, or `true` if the
+    /// connection is read-only and cannot be modified.
     fn set_property_read_only(&self, read_only: bool);
 
+    /// List of connection UUIDs that should be activated when the base
+    /// connection itself is activated. Currently only VPN connections are
+    /// supported.
     fn get_property_secondaries(&self) -> Vec<GString>;
 
+    /// List of connection UUIDs that should be activated when the base
+    /// connection itself is activated. Currently only VPN connections are
+    /// supported.
     fn set_property_secondaries(&self, secondaries: &[&str]);
 
+    /// Setting name of the device type of this slave's master connection (eg,
+    /// `NM_SETTING_BOND_SETTING_NAME`), or `None` if this connection is not a
+    /// slave.
     fn set_property_slave_type(&self, slave_type: Option<&str>);
 
+    /// This represents the identity of the connection used for various purposes.
+    /// It allows to configure multiple profiles to share the identity. Also,
+    /// the stable-id can contain placeholders that are substituted dynamically and
+    /// deterministically depending on the context.
+    ///
+    /// The stable-id is used for generating IPv6 stable private addresses
+    /// with ipv6.addr-gen-mode=stable-privacy. It is also used to seed the
+    /// generated cloned MAC address for ethernet.cloned-mac-address=stable
+    /// and wifi.cloned-mac-address=stable. It is also used as DHCP client
+    /// identifier with ipv4.dhcp-client-id=stable and to derive the DHCP
+    /// DUID with ipv6.dhcp-duid=stable-[llt,ll,uuid].
+    ///
+    /// Note that depending on the context where it is used, other parameters are
+    /// also seeded into the generation algorithm. For example, a per-host key
+    /// is commonly also included, so that different systems end up generating
+    /// different IDs. Or with ipv6.addr-gen-mode=stable-privacy, also the device's
+    /// name is included, so that different interfaces yield different addresses.
+    ///
+    /// The '$' character is treated special to perform dynamic substitutions
+    /// at runtime. Currently supported are "${CONNECTION}", "${DEVICE}", "${MAC}",
+    /// "${BOOT}", "${RANDOM}".
+    /// These effectively create unique IDs per-connection, per-device, per-boot,
+    /// or every time. Note that "${DEVICE}" corresponds to the interface name of the
+    /// device and "${MAC}" is the permanent MAC address of the device.
+    /// Any unrecognized patterns following '$' are treated verbatim, however
+    /// are reserved for future use. You are thus advised to avoid '$' or
+    /// escape it as "$$".
+    /// For example, set it to "${CONNECTION}-${BOOT}-${DEVICE}" to create a unique id for
+    /// this connection that changes with every reboot and differs depending on the
+    /// interface where the profile activates.
+    ///
+    /// If the value is unset, a global connection default is consulted. If the
+    /// value is still unset, the default is similar to "${CONNECTION}" and uses
+    /// a unique, fixed ID for the connection.
+    ///
+    /// Feature: `v1_4`
+    ///
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn set_property_stable_id(&self, stable_id: Option<&str>);
 
+    /// The time, in seconds since the Unix Epoch, that the connection was last
+    /// _successfully_ fully activated.
+    ///
+    /// NetworkManager updates the connection timestamp periodically when the
+    /// connection is active to ensure that an active connection has the latest
+    /// timestamp. The property is only meant for reading (changes to this
+    /// property will not be preserved).
     fn set_property_timestamp(&self, timestamp: u64);
 
+    /// Base type of the connection. For hardware-dependent connections, should
+    /// contain the setting name of the hardware-type specific setting (ie,
+    /// "802-3-ethernet" or "802-11-wireless" or "bluetooth", etc), and for
+    /// non-hardware dependent connections like VPN or otherwise, should contain
+    /// the setting name of that setting type (ie, "vpn" or "bridge", etc).
     fn get_property_type(&self) -> Option<GString>;
 
+    /// Base type of the connection. For hardware-dependent connections, should
+    /// contain the setting name of the hardware-type specific setting (ie,
+    /// "802-3-ethernet" or "802-11-wireless" or "bluetooth", etc), and for
+    /// non-hardware dependent connections like VPN or otherwise, should contain
+    /// the setting name of that setting type (ie, "vpn" or "bridge", etc).
     fn set_property_type(&self, type_: Option<&str>);
 
+    /// A universally unique identifier for the connection, for example generated
+    /// with libuuid. It should be assigned when the connection is created, and
+    /// never changed as long as the connection still applies to the same
+    /// network. For example, it should not be changed when the
+    /// `SettingConnection:id` property or `SettingIP4Config` changes, but
+    /// might need to be re-created when the Wi-Fi SSID, mobile broadband network
+    /// provider, or `SettingConnection:type` property changes.
+    ///
+    /// The UUID must be in the format "2815492f-7e56-435e-b2e9-246bd7cdc664"
+    /// (ie, contains only hexadecimal characters and "-"). A suitable UUID may
+    /// be generated by `nm_utils_uuid_generate` or
+    /// `nm_utils_uuid_generate_from_string`.
     fn set_property_uuid(&self, uuid: Option<&str>);
 
+    /// Timeout in milliseconds to wait for device at startup.
+    /// During boot, devices may take a while to be detected by the driver.
+    /// This property will cause to delay NetworkManager-wait-online.service
+    /// and nm-online to give the device a chance to appear.
+    ///
+    /// Note that this property only works together with NMSettingConnection:interface-name
+    /// to identify the device that will be waited for.
+    ///
+    /// The value 0 means no wait time. The default value is -1, which
+    /// currently has the same meaning as no wait time.
+    ///
+    /// Feature: `v1_20`
+    ///
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     fn set_property_wait_device_timeout(&self, wait_device_timeout: i32);
 
+    /// The trust level of a the connection. Free form case-insensitive string
+    /// (for example "Home", "Work", "Public"). `None` or unspecified zone means
+    /// the connection will be placed in the default zone as defined by the
+    /// firewall.
+    ///
+    /// When updating this property on a currently activated connection,
+    /// the change takes effect immediately.
     fn set_property_zone(&self, zone: Option<&str>);
 
     #[cfg(any(feature = "v1_10", feature = "dox"))]

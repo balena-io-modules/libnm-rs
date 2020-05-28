@@ -29,6 +29,13 @@ glib_wrapper! {
 }
 
 impl Device6Lowpan {
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the device's parent device
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_parent(&self) -> Option<Device> {
         unsafe { from_glib_none(nm_sys::nm_device_6lowpan_get_parent(self.to_glib_none().0)) }

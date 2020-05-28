@@ -38,11 +38,26 @@ glib_wrapper! {
 }
 
 impl SettingOvsInterface {
+    /// Creates a new `SettingOvsInterface` object with default values.
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingOvsInterface` object
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn new() -> SettingOvsInterface {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_ovs_interface_new()).unsafe_cast() }
     }
 
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingOvsInterface:type` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn get_interface_type(&self) -> Option<GString> {
         unsafe {
@@ -52,6 +67,10 @@ impl SettingOvsInterface {
         }
     }
 
+    /// The interface type. Either "internal", "system", "patch", "dpdk", or empty.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn get_property_type(&self) -> Option<GString> {
         unsafe {
@@ -67,6 +86,10 @@ impl SettingOvsInterface {
         }
     }
 
+    /// The interface type. Either "internal", "system", "patch", "dpdk", or empty.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn set_property_type(&self, type_: Option<&str>) {
         unsafe {

@@ -38,11 +38,26 @@ glib_wrapper! {
 }
 
 impl SettingSriov {
+    /// Creates a new `SettingSriov` object with default values.
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingSriov` object
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn new() -> SettingSriov {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_sriov_new()).unsafe_cast() }
     }
 
+    /// Appends a new VF and associated information to the setting. The
+    /// given VF is duplicated internally and is not changed by this function.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `vf`
+    /// the VF to add
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn add_vf(&self, vf: &SriovVF) {
         unsafe {
@@ -50,6 +65,10 @@ impl SettingSriov {
         }
     }
 
+    /// Removes all configured VFs.
+    ///
+    /// Feature: `v1_14`
+    ///
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn clear_vfs(&self) {
         unsafe {
@@ -57,6 +76,15 @@ impl SettingSriov {
         }
     }
 
+    /// Returns the value contained in the `SettingSriov:autoprobe-drivers`
+    /// property.
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the autoprobe-drivers property value
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_autoprobe_drivers(&self) -> Ternary {
         unsafe {
@@ -66,21 +94,52 @@ impl SettingSriov {
         }
     }
 
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of configured VFs
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_num_vfs(&self) -> u32 {
         unsafe { nm_sys::nm_setting_sriov_get_num_vfs(self.to_glib_none().0) }
     }
 
+    /// Returns the value contained in the `SettingSriov:total-vfs`
+    /// property.
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the total number of SR-IOV virtual functions to create
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_total_vfs(&self) -> u32 {
         unsafe { nm_sys::nm_setting_sriov_get_total_vfs(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `idx`
+    /// index number of the VF to return
+    ///
+    /// # Returns
+    ///
+    /// the VF at index `idx`
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_vf(&self, idx: u32) -> Option<SriovVF> {
         unsafe { from_glib_none(nm_sys::nm_setting_sriov_get_vf(self.to_glib_none().0, idx)) }
     }
 
+    /// Removes the VF at index `idx`.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `idx`
+    /// index number of the VF
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn remove_vf(&self, idx: u32) {
         unsafe {
@@ -88,6 +147,16 @@ impl SettingSriov {
         }
     }
 
+    /// Removes the VF with VF index `index`.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `index`
+    /// the VF index of the VF to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the VF was found and removed; `false` if it was not
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn remove_vf_by_index(&self, index: u32) -> bool {
         unsafe {
@@ -98,6 +167,21 @@ impl SettingSriov {
         }
     }
 
+    /// Whether to autoprobe virtual functions by a compatible driver.
+    ///
+    /// If set to `Ternary::True`, the kernel will try to bind VFs to
+    /// a compatible driver and if this succeeds a new network
+    /// interface will be instantiated for each VF.
+    ///
+    /// If set to `Ternary::False`, VFs will not be claimed and no
+    /// network interfaces will be created for them.
+    ///
+    /// When set to `Ternary::Default`, the global default is used; in
+    /// case the global default is unspecified it is assumed to be
+    /// `Ternary::True`.
+    ///
+    /// Feature: `v1_14`
+    ///
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn set_property_autoprobe_drivers(&self, autoprobe_drivers: Ternary) {
         unsafe {
@@ -109,6 +193,16 @@ impl SettingSriov {
         }
     }
 
+    /// The total number of virtual functions to create.
+    ///
+    /// Note that when the sriov setting is present NetworkManager
+    /// enforces the number of virtual functions on the interface
+    /// (also when it is zero) during activation and resets it
+    /// upon deactivation. To prevent any changes to SR-IOV
+    /// parameters don't add a sriov setting to the connection.
+    ///
+    /// Feature: `v1_14`
+    ///
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn set_property_total_vfs(&self, total_vfs: u32) {
         unsafe {

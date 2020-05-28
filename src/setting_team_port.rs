@@ -28,6 +28,11 @@ glib_wrapper! {
 }
 
 impl SettingTeamPort {
+    /// Creates a new `SettingTeamPort` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingTeamPort` object
     pub fn new() -> SettingTeamPort {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_team_port_new()).unsafe_cast() }
     }
@@ -41,56 +46,172 @@ impl Default for SettingTeamPort {
 
 pub const NONE_SETTING_TEAM_PORT: Option<&SettingTeamPort> = None;
 
+/// Trait containing all `SettingTeamPort` methods.
+///
+/// # Implementors
+///
+/// [`SettingTeamPort`](struct.SettingTeamPort.html)
 pub trait SettingTeamPortExt: 'static {
+    /// Appends a new link watcher to the setting.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `link_watcher`
+    /// the link watcher to add
+    ///
+    /// # Returns
+    ///
+    /// `true` if the link watcher is added; `false` if an identical link
+    /// watcher was already there.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn add_link_watcher(&self, link_watcher: &TeamLinkWatcher) -> bool;
 
+    /// Removes all configured link watchers.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn clear_link_watchers(&self);
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingTeamPort:config` property of the setting
     fn get_config(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingTeamPort:lacp-key` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_lacp_key(&self) -> i32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingTeamPort:lacp-prio` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_lacp_prio(&self) -> i32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `idx`
+    /// index number of the link watcher to return
+    ///
+    /// # Returns
+    ///
+    /// the link watcher at index `idx`.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_link_watcher(&self, idx: u32) -> Option<TeamLinkWatcher>;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of configured link watchers
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_num_link_watchers(&self) -> u32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingTeamPort:prio` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_prio(&self) -> i32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingTeamPort:queue_id` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_queue_id(&self) -> i32;
 
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingTeamPort:sticky` property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_sticky(&self) -> bool;
 
+    /// Removes the link watcher at index `idx`.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `idx`
+    /// index number of the link watcher to remove
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn remove_link_watcher(&self, idx: u32);
 
+    /// Removes the link watcher entry matching link_watcher.
+    ///
+    /// Feature: `v1_12`
+    ///
+    /// ## `link_watcher`
+    /// the link watcher to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the link watcher was found and removed, `false` otherwise.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn remove_link_watcher_by_value(&self, link_watcher: &TeamLinkWatcher) -> bool;
 
+    /// The JSON configuration for the team port. The property should contain raw
+    /// JSON configuration data suitable for teamd, because the value is passed
+    /// directly to teamd. If not specified, the default configuration is
+    /// used. See man teamd.conf for the format details.
     fn set_property_config(&self, config: Option<&str>);
 
+    /// Corresponds to the teamd ports.PORTIFNAME.lacp_key.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_lacp_key(&self, lacp_key: i32);
 
+    /// Corresponds to the teamd ports.PORTIFNAME.lacp_prio.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_lacp_prio(&self, lacp_prio: i32);
 
+    /// Corresponds to the teamd ports.PORTIFNAME.prio.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_prio(&self, prio: i32);
 
+    /// Corresponds to the teamd ports.PORTIFNAME.queue_id.
+    /// When set to -1 means the parameter is skipped from the json config.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_queue_id(&self, queue_id: i32);
 
+    /// Corresponds to the teamd ports.PORTIFNAME.sticky.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_sticky(&self, sticky: bool);
 

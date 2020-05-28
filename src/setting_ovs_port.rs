@@ -36,16 +36,38 @@ glib_wrapper! {
 }
 
 impl SettingOvsPort {
+    /// Creates a new `SettingOvsPort` object with default values.
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingOvsPort` object
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn new() -> SettingOvsPort {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_ovs_port_new()).unsafe_cast() }
     }
 
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingOvsPort:bond-downdelay` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn get_bond_downdelay(&self) -> u32 {
         unsafe { nm_sys::nm_setting_ovs_port_get_bond_downdelay(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingOvsPort:bond-mode` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn get_bond_mode(&self) -> Option<GString> {
         unsafe {
@@ -55,21 +77,49 @@ impl SettingOvsPort {
         }
     }
 
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingOvsPort:bond-updelay` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn get_bond_updelay(&self) -> u32 {
         unsafe { nm_sys::nm_setting_ovs_port_get_bond_updelay(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingOvsPort:lacp` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn get_lacp(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_setting_ovs_port_get_lacp(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingOvsPort:tag` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn get_tag(&self) -> u32 {
         unsafe { nm_sys::nm_setting_ovs_port_get_tag(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingOvsPort:vlan-mode` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn get_vlan_mode(&self) -> Option<GString> {
         unsafe {
@@ -79,6 +129,10 @@ impl SettingOvsPort {
         }
     }
 
+    /// The time port must be inactive in order to be considered down.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn set_property_bond_downdelay(&self, bond_downdelay: u32) {
         unsafe {
@@ -90,6 +144,10 @@ impl SettingOvsPort {
         }
     }
 
+    /// Bonding mode. One of "active-backup", "balance-slb", or "balance-tcp".
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn set_property_bond_mode(&self, bond_mode: Option<&str>) {
         unsafe {
@@ -101,6 +159,10 @@ impl SettingOvsPort {
         }
     }
 
+    /// The time port must be active before it starts forwarding traffic.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn set_property_bond_updelay(&self, bond_updelay: u32) {
         unsafe {
@@ -112,6 +174,10 @@ impl SettingOvsPort {
         }
     }
 
+    /// LACP mode. One of "active", "off", or "passive".
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn set_property_lacp(&self, lacp: Option<&str>) {
         unsafe {
@@ -123,6 +189,10 @@ impl SettingOvsPort {
         }
     }
 
+    /// The VLAN tag in the range 0-4095.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn set_property_tag(&self, tag: u32) {
         unsafe {
@@ -134,6 +204,11 @@ impl SettingOvsPort {
         }
     }
 
+    /// The VLAN mode. One of "access", "native-tagged", "native-untagged",
+    /// "trunk" or unset.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn set_property_vlan_mode(&self, vlan_mode: Option<&str>) {
         unsafe {

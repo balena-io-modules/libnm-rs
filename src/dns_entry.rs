@@ -21,6 +21,14 @@ glib_wrapper! {
 }
 
 impl DnsEntry {
+    /// Gets the list of DNS domains.
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the list of DNS domains
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_domains(&mut self) -> Vec<GString> {
         unsafe {
@@ -30,6 +38,14 @@ impl DnsEntry {
         }
     }
 
+    /// Gets the interface on which name servers are contacted.
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the interface name
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_interface(&mut self) -> Option<GString> {
         unsafe {
@@ -39,6 +55,14 @@ impl DnsEntry {
         }
     }
 
+    /// Gets the list of name servers for this entry.
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the list of name servers
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_nameservers(&mut self) -> Vec<GString> {
         unsafe {
@@ -48,11 +72,27 @@ impl DnsEntry {
         }
     }
 
+    /// Gets the priority of the entry
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the priority of the entry
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_priority(&mut self) -> i32 {
         unsafe { nm_sys::nm_dns_entry_get_priority(self.to_glib_none_mut().0) }
     }
 
+    /// Gets whether the entry refers to VPN name servers.
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// `true` if the entry refers to VPN name servers
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn get_vpn(&mut self) -> bool {
         unsafe { from_glib(nm_sys::nm_dns_entry_get_vpn(self.to_glib_none_mut().0)) }

@@ -27,6 +27,11 @@ glib_wrapper! {
 }
 
 impl DeviceEthernet {
+    /// Whether the device has carrier.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the device has carrier
     pub fn get_carrier(&self) -> bool {
         unsafe {
             from_glib(nm_sys::nm_device_ethernet_get_carrier(
@@ -35,6 +40,12 @@ impl DeviceEthernet {
         }
     }
 
+    /// Gets the permanent hardware (MAC) address of the `DeviceEthernet`
+    ///
+    /// # Returns
+    ///
+    /// the permanent hardware address. This is the internal string used by the
+    /// device, and must not be modified.
     pub fn get_permanent_hw_address(&self) -> Option<GString> {
         unsafe {
             from_glib_none(nm_sys::nm_device_ethernet_get_permanent_hw_address(
@@ -43,6 +54,15 @@ impl DeviceEthernet {
         }
     }
 
+    /// Return the list of s390 subchannels if the device supports them.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// array of strings, each specifying
+    ///  one subchannel the s390 device uses to communicate to the host.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_s390_subchannels(&self) -> Vec<GString> {
         unsafe {
@@ -52,10 +72,16 @@ impl DeviceEthernet {
         }
     }
 
+    /// Gets the speed of the `DeviceEthernet` in Mbit/s.
+    ///
+    /// # Returns
+    ///
+    /// the speed of the device in Mbit/s
     pub fn get_speed(&self) -> u32 {
         unsafe { nm_sys::nm_device_ethernet_get_speed(self.to_glib_none().0) }
     }
 
+    /// The permanent hardware (MAC) address of the device.
     pub fn get_property_perm_hw_address(&self) -> Option<GString> {
         unsafe {
             let mut value = Value::from_type(<GString as StaticType>::static_type());

@@ -36,6 +36,11 @@ glib_wrapper! {
 }
 
 impl SettingWireless {
+    /// Creates a new `SettingWireless` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingWireless` object
     pub fn new() -> SettingWireless {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_wireless_new()).unsafe_cast() }
     }
@@ -49,11 +54,57 @@ impl Default for SettingWireless {
 
 pub const NONE_SETTING_WIRELESS: Option<&SettingWireless> = None;
 
+/// Trait containing all `SettingWireless` methods.
+///
+/// # Implementors
+///
+/// [`SettingWireless`](struct.SettingWireless.html)
 pub trait SettingWirelessExt: 'static {
+    /// Adds a new MAC address to the `SettingWireless:mac-address-blacklist` property.
+    /// ## `mac`
+    /// the MAC address string (hex-digits-and-colons notation) to blacklist
+    ///
+    /// # Returns
+    ///
+    /// `true` if the MAC address was added; `false` if the MAC address
+    /// is invalid or was already present
     fn add_mac_blacklist_item(&self, mac: &str) -> bool;
 
+    /// Adds a new Wi-Fi AP's BSSID to the previously seen BSSID list of the setting.
+    /// NetworkManager now tracks previously seen BSSIDs internally so this function
+    /// no longer has much use. Actually, changes you make using this function will
+    /// not be preserved.
+    /// ## `bssid`
+    /// the new BSSID to add to the list
+    ///
+    /// # Returns
+    ///
+    /// `true` if `bssid` was already known, `false` if not
     fn add_seen_bssid(&self, bssid: &str) -> bool;
 
+    /// Given a `SettingWireless` and an optional `SettingWirelessSecurity`,
+    /// determine if the configuration given by the settings is compatible with
+    /// the security of an access point using that access point's capability flags
+    /// and mode. Useful for clients that wish to filter a set of connections
+    /// against a set of access points and determine which connections are
+    /// compatible with which access points.
+    /// ## `s_wireless_sec`
+    /// a `SettingWirelessSecurity` or `None`
+    /// ## `ap_flags`
+    /// the `_80211ApFlags` of the given access point
+    /// ## `ap_wpa`
+    /// the `_80211ApSecurityFlags` of the given access point's WPA
+    /// capabilities
+    /// ## `ap_rsn`
+    /// the `_80211ApSecurityFlags` of the given access point's WPA2/RSN
+    /// capabilities
+    /// ## `ap_mode`
+    /// the 802.11 mode of the AP, either Ad-Hoc or Infrastructure
+    ///
+    /// # Returns
+    ///
+    /// `true` if the given settings are compatible with the access point's
+    /// security flags and mode, `false` if they are not.
     fn ap_security_compatible<P: IsA<SettingWirelessSecurity>>(
         &self,
         s_wireless_sec: &P,
@@ -63,95 +114,372 @@ pub trait SettingWirelessExt: 'static {
         ap_mode: _80211Mode,
     ) -> bool;
 
+    /// Removes all blacklisted MAC addresses.
     fn clear_mac_blacklist_items(&self);
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:band` property of the setting
     fn get_band(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:bssid` property of the setting
     fn get_bssid(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:channel` property of the setting
     fn get_channel(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:cloned-mac-address` property of the setting
     fn get_cloned_mac_address(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_4`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:generate-mac-address-mask` property of the setting
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn get_generate_mac_address_mask(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:hidden` property of the setting
     fn get_hidden(&self) -> bool;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:mac-address` property of the setting
     fn get_mac_address(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:mac-address-blacklist` property of the setting
     fn get_mac_address_blacklist(&self) -> Vec<GString>;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:mac-address-randomization` property of the
+    /// setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_mac_address_randomization(&self) -> SettingMacRandomization;
 
+    /// ## `idx`
+    /// the zero-based index of the MAC address entry
+    ///
+    /// # Returns
+    ///
+    /// the blacklisted MAC address string (hex-digits-and-colons notation)
+    /// at index `idx`
     fn get_mac_blacklist_item(&self, idx: u32) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:mode` property of the setting
     fn get_mode(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:mtu` property of the setting
     fn get_mtu(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the number of blacklisted MAC addresses
     fn get_num_mac_blacklist_items(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the number of BSSIDs in the previously seen BSSID list
     fn get_num_seen_bssids(&self) -> u32;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:powersave` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_powersave(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:rate` property of the setting
     fn get_rate(&self) -> u32;
 
+    /// ## `i`
+    /// index of a BSSID in the previously seen BSSID list
+    ///
+    /// # Returns
+    ///
+    /// the BSSID at index `i`
     fn get_seen_bssid(&self, i: u32) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:ssid` property of the setting
     fn get_ssid(&self) -> Option<glib::Bytes>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWireless:tx-power` property of the setting
     fn get_tx_power(&self) -> u32;
 
+    /// Returns the Wake-on-WLAN options enabled for the connection
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the Wake-on-WLAN options
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_wake_on_wlan(&self) -> SettingWirelessWakeOnWLan;
 
+    /// Removes the MAC address at index `idx` from the blacklist.
+    /// ## `idx`
+    /// index number of the MAC address
     fn remove_mac_blacklist_item(&self, idx: u32);
 
+    /// Removes the MAC address `mac` from the blacklist.
+    /// ## `mac`
+    /// the MAC address string (hex-digits-and-colons notation) to remove from
+    /// the blacklist
+    ///
+    /// # Returns
+    ///
+    /// `true` if the MAC address was found and removed; `false` if it was not.
     fn remove_mac_blacklist_item_by_value(&self, mac: &str) -> bool;
 
+    /// 802.11 frequency band of the network. One of "a" for 5GHz 802.11a or
+    /// "bg" for 2.4GHz 802.11. This will lock associations to the Wi-Fi network
+    /// to the specific band, i.e. if "a" is specified, the device will not
+    /// associate with the same network in the 2.4GHz band even if the network's
+    /// settings are compatible. This setting depends on specific driver
+    /// capability and may not work with all drivers.
     fn set_property_band(&self, band: Option<&str>);
 
+    /// If specified, directs the device to only associate with the given access
+    /// point. This capability is highly driver dependent and not supported by
+    /// all devices. Note: this property does not control the BSSID used when
+    /// creating an Ad-Hoc network and is unlikely to in the future.
     fn set_property_bssid(&self, bssid: Option<&str>);
 
+    /// Wireless channel to use for the Wi-Fi connection. The device will only
+    /// join (or create for Ad-Hoc networks) a Wi-Fi network on the specified
+    /// channel. Because channel numbers overlap between bands, this property
+    /// also requires the "band" property to be set.
     fn set_property_channel(&self, channel: u32);
 
+    /// If specified, request that the device use this MAC address instead.
+    /// This is known as MAC cloning or spoofing.
+    ///
+    /// Beside explicitly specifying a MAC address, the special values "preserve", "permanent",
+    /// "random" and "stable" are supported.
+    /// "preserve" means not to touch the MAC address on activation.
+    /// "permanent" means to use the permanent hardware address of the device.
+    /// "random" creates a random MAC address on each connect.
+    /// "stable" creates a hashed MAC address based on connection.stable-id and a
+    /// machine dependent key.
+    ///
+    /// If unspecified, the value can be overwritten via global defaults, see manual
+    /// of NetworkManager.conf. If still unspecified, it defaults to "preserve"
+    /// (older versions of NetworkManager may use a different default value).
+    ///
+    /// On D-Bus, this field is expressed as "assigned-mac-address" or the deprecated
+    /// "cloned-mac-address".
     fn set_property_cloned_mac_address(&self, cloned_mac_address: Option<&str>);
 
+    /// With `SettingWireless:cloned-mac-address` setting "random" or "stable",
+    /// by default all bits of the MAC address are scrambled and a locally-administered,
+    /// unicast MAC address is created. This property allows to specify that certain bits
+    /// are fixed. Note that the least significant bit of the first MAC address will
+    /// always be unset to create a unicast MAC address.
+    ///
+    /// If the property is `None`, it is eligible to be overwritten by a default
+    /// connection setting. If the value is still `None` or an empty string, the
+    /// default is to create a locally-administered, unicast MAC address.
+    ///
+    /// If the value contains one MAC address, this address is used as mask. The set
+    /// bits of the mask are to be filled with the current MAC address of the device,
+    /// while the unset bits are subject to randomization.
+    /// Setting "FE:FF:FF:00:00:00" means to preserve the OUI of the current MAC address
+    /// and only randomize the lower 3 bytes using the "random" or "stable" algorithm.
+    ///
+    /// If the value contains one additional MAC address after the mask,
+    /// this address is used instead of the current MAC address to fill the bits
+    /// that shall not be randomized. For example, a value of
+    /// "FE:FF:FF:00:00:00 68:F7:28:00:00:00" will set the OUI of the MAC address
+    /// to 68:F7:28, while the lower bits are randomized. A value of
+    /// "02:00:00:00:00:00 00:00:00:00:00:00" will create a fully scrambled
+    /// globally-administered, burned-in MAC address.
+    ///
+    /// If the value contains more than one additional MAC addresses, one of
+    /// them is chosen randomly. For example, "02:00:00:00:00:00 00:00:00:00:00:00 02:00:00:00:00:00"
+    /// will create a fully scrambled MAC address, randomly locally or globally
+    /// administered.
     fn get_property_generate_mac_address_mask(&self) -> Option<GString>;
 
+    /// With `SettingWireless:cloned-mac-address` setting "random" or "stable",
+    /// by default all bits of the MAC address are scrambled and a locally-administered,
+    /// unicast MAC address is created. This property allows to specify that certain bits
+    /// are fixed. Note that the least significant bit of the first MAC address will
+    /// always be unset to create a unicast MAC address.
+    ///
+    /// If the property is `None`, it is eligible to be overwritten by a default
+    /// connection setting. If the value is still `None` or an empty string, the
+    /// default is to create a locally-administered, unicast MAC address.
+    ///
+    /// If the value contains one MAC address, this address is used as mask. The set
+    /// bits of the mask are to be filled with the current MAC address of the device,
+    /// while the unset bits are subject to randomization.
+    /// Setting "FE:FF:FF:00:00:00" means to preserve the OUI of the current MAC address
+    /// and only randomize the lower 3 bytes using the "random" or "stable" algorithm.
+    ///
+    /// If the value contains one additional MAC address after the mask,
+    /// this address is used instead of the current MAC address to fill the bits
+    /// that shall not be randomized. For example, a value of
+    /// "FE:FF:FF:00:00:00 68:F7:28:00:00:00" will set the OUI of the MAC address
+    /// to 68:F7:28, while the lower bits are randomized. A value of
+    /// "02:00:00:00:00:00 00:00:00:00:00:00" will create a fully scrambled
+    /// globally-administered, burned-in MAC address.
+    ///
+    /// If the value contains more than one additional MAC addresses, one of
+    /// them is chosen randomly. For example, "02:00:00:00:00:00 00:00:00:00:00:00 02:00:00:00:00:00"
+    /// will create a fully scrambled MAC address, randomly locally or globally
+    /// administered.
     fn set_property_generate_mac_address_mask(&self, generate_mac_address_mask: Option<&str>);
 
+    /// If `true`, indicates that the network is a non-broadcasting network that
+    /// hides its SSID. This works both in infrastructure and AP mode.
+    ///
+    /// In infrastructure mode, various workarounds are used for a more reliable
+    /// discovery of hidden networks, such as probe-scanning the SSID. However,
+    /// these workarounds expose inherent insecurities with hidden SSID networks,
+    /// and thus hidden SSID networks should be used with caution.
+    ///
+    /// In AP mode, the created network does not broadcast its SSID.
+    ///
+    /// Note that marking the network as hidden may be a privacy issue for you
+    /// (in infrastructure mode) or client stations (in AP mode), as the explicit
+    /// probe-scans are distinctly recognizable on the air.
     fn set_property_hidden(&self, hidden: bool);
 
+    /// If specified, this connection will only apply to the Wi-Fi device whose
+    /// permanent MAC address matches. This property does not change the MAC
+    /// address of the device (i.e. MAC spoofing).
     fn set_property_mac_address(&self, mac_address: Option<&str>);
 
+    /// A list of permanent MAC addresses of Wi-Fi devices to which this
+    /// connection should never apply. Each MAC address should be given in the
+    /// standard hex-digits-and-colons notation (eg "00:11:22:33:44:55").
     fn set_property_mac_address_blacklist(&self, mac_address_blacklist: &[&str]);
 
+    /// One of `SettingMacRandomization::Default` (never randomize unless
+    /// the user has set a global default to randomize and the supplicant
+    /// supports randomization), `SettingMacRandomization::Never` (never
+    /// randomize the MAC address), or `SettingMacRandomization::Always`
+    /// (always randomize the MAC address). This property is deprecated for
+    /// 'cloned-mac-address'.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Deprecated since 1.4
+    ///
+    /// Deprecated by NMSettingWireless:cloned-mac-address property.
     #[cfg_attr(feature = "v1_4", deprecated)]
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_mac_address_randomization(&self, mac_address_randomization: u32);
 
+    /// Wi-Fi network mode; one of "infrastructure", "mesh", "adhoc" or "ap". If blank,
+    /// infrastructure is assumed.
     fn set_property_mode(&self, mode: Option<&str>);
 
+    /// If non-zero, only transmit packets of the specified size or smaller,
+    /// breaking larger packets up into multiple Ethernet frames.
     fn set_property_mtu(&self, mtu: u32);
 
+    /// One of `SettingWirelessPowersave::Disable` (disable Wi-Fi power
+    /// saving), `SettingWirelessPowersave::Enable` (enable Wi-Fi power
+    /// saving), `SettingWirelessPowersave::Ignore` (don't touch currently
+    /// configure setting) or `SettingWirelessPowersave::Default` (use the
+    /// globally configured value). All other values are reserved.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_powersave(&self, powersave: u32);
 
+    /// If non-zero, directs the device to only use the specified bitrate for
+    /// communication with the access point. Units are in Kb/s, ie 5500 = 5.5
+    /// Mbit/s. This property is highly driver dependent and not all devices
+    /// support setting a static bitrate.
     fn set_property_rate(&self, rate: u32);
 
+    /// A list of BSSIDs (each BSSID formatted as a MAC address like
+    /// "00:11:22:33:44:55") that have been detected as part of the Wi-Fi
+    /// network. NetworkManager internally tracks previously seen BSSIDs. The
+    /// property is only meant for reading and reflects the BSSID list of
+    /// NetworkManager. The changes you make to this property will not be
+    /// preserved.
     fn get_property_seen_bssids(&self) -> Vec<GString>;
 
+    /// A list of BSSIDs (each BSSID formatted as a MAC address like
+    /// "00:11:22:33:44:55") that have been detected as part of the Wi-Fi
+    /// network. NetworkManager internally tracks previously seen BSSIDs. The
+    /// property is only meant for reading and reflects the BSSID list of
+    /// NetworkManager. The changes you make to this property will not be
+    /// preserved.
     fn set_property_seen_bssids(&self, seen_bssids: &[&str]);
 
+    /// SSID of the Wi-Fi network. Must be specified.
     fn set_property_ssid(&self, ssid: Option<&glib::Bytes>);
 
+    /// If non-zero, directs the device to use the specified transmit power.
+    /// Units are dBm. This property is highly driver dependent and not all
+    /// devices support setting a static transmit power.
     fn set_property_tx_power(&self, tx_power: u32);
 
+    /// The `SettingWirelessWakeOnWLan` options to enable. Not all devices support all options.
+    /// May be any combination of `SettingWirelessWakeOnWLan::Any`,
+    /// `SettingWirelessWakeOnWLan::Disconnect`,
+    /// `SettingWirelessWakeOnWLan::Magic`,
+    /// `SettingWirelessWakeOnWLan::`GtkRekeyFailure``,
+    /// `SettingWirelessWakeOnWLan::EapIdentityRequest`,
+    /// `SettingWirelessWakeOnWLan::4wayHandshake`,
+    /// `SettingWirelessWakeOnWLan::RfkillRelease`,
+    /// `SettingWirelessWakeOnWLan::Tcp` or the special values
+    /// `SettingWirelessWakeOnWLan::Default` (to use global settings) and
+    /// `SettingWirelessWakeOnWLan::Ignore` (to disable management of Wake-on-LAN in
+    /// NetworkManager).
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_wake_on_wlan(&self, wake_on_wlan: u32);
 

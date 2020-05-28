@@ -26,6 +26,11 @@ glib_wrapper! {
 }
 
 impl SettingSerial {
+    /// Creates a new `SettingSerial` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingSerial` object
     pub fn new() -> SettingSerial {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_serial_new()).unsafe_cast() }
     }
@@ -39,25 +44,58 @@ impl Default for SettingSerial {
 
 pub const NONE_SETTING_SERIAL: Option<&SettingSerial> = None;
 
+/// Trait containing all `SettingSerial` methods.
+///
+/// # Implementors
+///
+/// [`SettingSerial`](struct.SettingSerial.html)
 pub trait SettingSerialExt: 'static {
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSerial:baud` property of the setting
     fn get_baud(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSerial:bits` property of the setting
     fn get_bits(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSerial:parity` property of the setting
     fn get_parity(&self) -> SettingSerialParity;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSerial:send-delay` property of the setting
     fn get_send_delay(&self) -> u64;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSerial:stopbits` property of the setting
     fn get_stopbits(&self) -> u32;
 
+    /// Speed to use for communication over the serial port. Note that this
+    /// value usually has no effect for mobile broadband modems as they generally
+    /// ignore speed settings and use the highest available speed.
     fn set_property_baud(&self, baud: u32);
 
+    /// Byte-width of the serial communication. The 8 in "8n1" for example.
     fn set_property_bits(&self, bits: u32);
 
+    /// Parity setting of the serial port.
     fn set_property_parity(&self, parity: SettingSerialParity);
 
+    /// Time to delay between each byte sent to the modem, in microseconds.
     fn set_property_send_delay(&self, send_delay: u64);
 
+    /// Number of stop bits for communication on the serial port. Either 1 or 2.
+    /// The 1 in "8n1" for example.
     fn set_property_stopbits(&self, stopbits: u32);
 
     fn connect_property_baud_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;

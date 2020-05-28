@@ -37,6 +37,19 @@ glib_wrapper! {
 }
 
 impl VpnPluginInfo {
+    /// Read the plugin info from file `filename`. Does not do
+    /// any further verification on the file. You might want to check
+    /// file permissions and ownership of the file.
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `filename`
+    /// filename to read.
+    ///
+    /// # Returns
+    ///
+    /// `None` if there is any error or a newly created
+    /// `VpnPluginInfo` instance.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn new_from_file(filename: &str) -> Result<VpnPluginInfo, glib::Error> {
         unsafe {
@@ -51,6 +64,23 @@ impl VpnPluginInfo {
         }
     }
 
+    /// This has the same effect as doing a full `nm_vpn_plugin_info_list_load`
+    /// followed by a search for the first matching VPN plugin info that has the
+    /// given `name` and/or `service`.
+    ///
+    /// Feature: `v1_4`
+    ///
+    /// ## `name`
+    /// the name to search for. Either `name` or `service`
+    ///  must be present.
+    /// ## `service`
+    /// the service to search for. Either `name` or
+    ///  `service` must be present.
+    ///
+    /// # Returns
+    ///
+    /// a newly created instance of plugin info
+    ///  or `None` if no matching value was found.
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn new_search_file(name: Option<&str>, service: Option<&str>) -> VpnPluginInfo {
         unsafe {
@@ -61,6 +91,19 @@ impl VpnPluginInfo {
         }
     }
 
+    /// This constructor does not read any data from file but
+    /// takes instead a `keyfile` argument.
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `filename`
+    /// optional filename.
+    /// ## `keyfile`
+    /// inject data for the plugin info instance.
+    ///
+    /// # Returns
+    ///
+    /// new plugin info instance.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn new_with_data(
         filename: &str,
@@ -81,6 +124,14 @@ impl VpnPluginInfo {
         }
     }
 
+    ///
+    /// Feature: `v1_4`
+    ///
+    ///
+    /// # Returns
+    ///
+    ///
+    ///  the aliases from the name-file.
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn get_aliases(&self) -> Vec<GString> {
         unsafe {
@@ -90,6 +141,13 @@ impl VpnPluginInfo {
         }
     }
 
+    ///
+    /// Feature: `v1_4`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the absolute path to the auth-dialog helper or `None`.
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn get_auth_dialog(&self) -> Option<GString> {
         unsafe {
@@ -99,6 +157,13 @@ impl VpnPluginInfo {
         }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the cached `VpnEditorPlugin` instance.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_editor_plugin(&self) -> Option<VpnEditorPlugin> {
         unsafe {
@@ -108,6 +173,13 @@ impl VpnPluginInfo {
         }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the filename. Can be `None`.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_filename(&self) -> Option<GString> {
         unsafe {
@@ -117,16 +189,37 @@ impl VpnPluginInfo {
         }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the name. Cannot be `None`.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_name(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_vpn_plugin_info_get_name(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the plugin. Can be `None`.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_plugin(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_vpn_plugin_info_get_plugin(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the program. Can be `None`.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_program(&self) -> Option<GString> {
         unsafe {
@@ -136,6 +229,13 @@ impl VpnPluginInfo {
         }
     }
 
+    ///
+    /// Feature: `v1_4`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the service. Cannot be `None`.
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn get_service(&self) -> Option<GString> {
         unsafe {
@@ -145,6 +245,17 @@ impl VpnPluginInfo {
         }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// loads the plugin and returns the newly created
+    ///  instance. The plugin is owned by `self` and can be later retrieved again
+    ///  via `VpnPluginInfo::get_editor_plugin`. You can load the
+    ///  plugin only once, unless you reset the state via
+    ///  `VpnPluginInfo::set_editor_plugin`.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn load_editor_plugin(&self) -> Result<VpnEditorPlugin, glib::Error> {
         unsafe {
@@ -159,6 +270,18 @@ impl VpnPluginInfo {
         }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `group`
+    /// group name
+    /// ## `key`
+    /// name of the property
+    ///
+    /// # Returns
+    ///
+    /// `VpnPluginInfo` is internally a `glib::KeyFile`. Returns the matching
+    /// property.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn lookup_property(&self, group: &str, key: &str) -> Option<GString> {
         unsafe {
@@ -170,6 +293,12 @@ impl VpnPluginInfo {
         }
     }
 
+    /// Set the internal plugin instance. If `None`, only clear the previous instance.
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `plugin`
+    /// plugin instance
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn set_editor_plugin<P: IsA<VpnEditorPlugin>>(&self, plugin: Option<&P>) {
         unsafe {
@@ -180,6 +309,13 @@ impl VpnPluginInfo {
         }
     }
 
+    ///
+    /// Feature: `v1_4`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// `true` if the supports hints for secret requests, otherwise `false`
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn supports_hints(&self) -> bool {
         unsafe {
@@ -189,6 +325,13 @@ impl VpnPluginInfo {
         }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// `true` if the service supports multiple instances with different bus names, otherwise `false`
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn supports_multiple(&self) -> bool {
         unsafe {
@@ -198,6 +341,14 @@ impl VpnPluginInfo {
         }
     }
 
+    /// Regular name files have a certain pattern. That basically means
+    /// they have the file extension "name". Check if `filename`
+    /// is valid according to that pattern.
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `filename`
+    /// the filename to check
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn validate_filename(filename: &str) -> bool {
         unsafe {

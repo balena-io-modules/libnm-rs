@@ -27,6 +27,11 @@ glib_wrapper! {
 }
 
 impl SettingBluetooth {
+    /// Creates a new `SettingBluetooth` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingBluetooth` object
     pub fn new() -> SettingBluetooth {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_bluetooth_new()).unsafe_cast() }
     }
@@ -40,15 +45,38 @@ impl Default for SettingBluetooth {
 
 pub const NONE_SETTING_BLUETOOTH: Option<&SettingBluetooth> = None;
 
+/// Trait containing all `SettingBluetooth` methods.
+///
+/// # Implementors
+///
+/// [`SettingBluetooth`](struct.SettingBluetooth.html)
 pub trait SettingBluetoothExt: 'static {
+    /// Gets the Bluetooth address of the remote device which this setting
+    /// describes a connection to.
+    ///
+    /// # Returns
+    ///
+    /// the Bluetooth address
     fn get_bdaddr(&self) -> Option<GString>;
 
+    /// Returns the connection method for communicating with the remote device (i.e.
+    /// either DUN to a DUN-capable device or PANU to a NAP-capable device).
+    ///
+    /// # Returns
+    ///
+    /// the type, either `NM_SETTING_BLUETOOTH_TYPE_PANU`,
+    /// `NM_SETTING_BLUETOOTH_TYPE_NAP` or `NM_SETTING_BLUETOOTH_TYPE_DUN`
     fn get_connection_type(&self) -> Option<GString>;
 
+    /// The Bluetooth address of the device.
     fn set_property_bdaddr(&self, bdaddr: Option<&str>);
 
+    /// Either "dun" for Dial-Up Networking connections or "panu" for Personal
+    /// Area Networking connections to devices supporting the NAP profile.
     fn get_property_type(&self) -> Option<GString>;
 
+    /// Either "dun" for Dial-Up Networking connections or "panu" for Personal
+    /// Area Networking connections to devices supporting the NAP profile.
     fn set_property_type(&self, type_: Option<&str>);
 
     fn connect_property_bdaddr_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;

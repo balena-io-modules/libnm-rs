@@ -28,14 +28,25 @@ glib_wrapper! {
 }
 
 impl DeviceBt {
+    /// Returns the Bluetooth device's usable capabilities.
+    ///
+    /// # Returns
+    ///
+    /// a combination of `BluetoothCapabilities`
     pub fn get_capabilities(&self) -> BluetoothCapabilities {
         unsafe { from_glib(nm_sys::nm_device_bt_get_capabilities(self.to_glib_none().0)) }
     }
 
+    /// Gets the name of the `DeviceBt`.
+    ///
+    /// # Returns
+    ///
+    /// the name of the device
     pub fn get_name(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_device_bt_get_name(self.to_glib_none().0)) }
     }
 
+    /// The device's bluetooth capabilities, a combination of `BluetoothCapabilities`.
     pub fn get_property_bt_capabilities(&self) -> BluetoothCapabilities {
         unsafe {
             let mut value = Value::from_type(<BluetoothCapabilities as StaticType>::static_type());

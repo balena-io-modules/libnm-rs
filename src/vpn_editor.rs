@@ -26,6 +26,11 @@ glib_wrapper! {
 
 pub const NONE_VPN_EDITOR: Option<&VpnEditor> = None;
 
+/// Trait containing all `VpnEditor` methods.
+///
+/// # Implementors
+///
+/// [`VpnEditor`](struct.VpnEditor.html)
 pub trait VpnEditorExt: 'static {
     fn get_widget(&self) -> Option<glib::Object>;
 

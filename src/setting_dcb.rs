@@ -27,6 +27,11 @@ glib_wrapper! {
 }
 
 impl SettingDcb {
+    /// Creates a new `SettingDcb` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingDcb` object
     pub fn new() -> SettingDcb {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_dcb_new()).unsafe_cast() }
     }
@@ -40,68 +45,215 @@ impl Default for SettingDcb {
 
 pub const NONE_SETTING_DCB: Option<&SettingDcb> = None;
 
+/// Trait containing all `SettingDcb` methods.
+///
+/// # Implementors
+///
+/// [`SettingDcb`](struct.SettingDcb.html)
 pub trait SettingDcbExt: 'static {
+    ///
+    /// # Returns
+    ///
+    /// the `SettingDcb:app-fcoe-flags` property of the setting
     fn get_app_fcoe_flags(&self) -> SettingDcbFlags;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingDcb:app-fcoe-mode` property of the setting
     fn get_app_fcoe_mode(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingDcb:app-fcoe-priority` property of the setting
     fn get_app_fcoe_priority(&self) -> i32;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingDcb:app-fip-flags` property of the setting
     fn get_app_fip_flags(&self) -> SettingDcbFlags;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingDcb:app-fip-priority` property of the setting
     fn get_app_fip_priority(&self) -> i32;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingDcb:app-iscsi-flags` property of the setting
     fn get_app_iscsi_flags(&self) -> SettingDcbFlags;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingDcb:app-iscsi-priority` property of the setting
     fn get_app_iscsi_priority(&self) -> i32;
 
+    /// ## `user_priority`
+    /// the User Priority (0 - 7) to retrieve the group bandwidth percentage for
+    ///
+    /// # Returns
+    ///
+    /// the allowed bandwidth percentage of `user_priority` in its priority group.
+    /// These values are only valid when `SettingDcb:priority-group-flags` includes the
+    /// `SettingDcbFlags::Enable` flag.
     fn get_priority_bandwidth(&self, user_priority: u32) -> u32;
 
+    /// ## `user_priority`
+    /// the User Priority (0 - 7) to retrieve flow control for
+    ///
+    /// # Returns
+    ///
+    /// `true` if flow control is enabled for the given `user_priority`,
+    /// `false` if not enabled
     fn get_priority_flow_control(&self, user_priority: u32) -> bool;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingDcb:priority-flow-control-flags` property of the setting
     fn get_priority_flow_control_flags(&self) -> SettingDcbFlags;
 
+    /// ## `group_id`
+    /// the priority group (0 - 7) to retrieve the bandwidth percentage for
+    ///
+    /// # Returns
+    ///
+    /// the bandwidth percentage assigned to `group_id`. These values are
+    /// only valid when `SettingDcb:priority-group-flags` includes the
+    /// `SettingDcbFlags::Enable` flag.
     fn get_priority_group_bandwidth(&self, group_id: u32) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingDcb:priority-group-flags` property of the setting
     fn get_priority_group_flags(&self) -> SettingDcbFlags;
 
+    /// ## `user_priority`
+    /// the User Priority (0 - 7) to retrieve the group ID for
+    ///
+    /// # Returns
+    ///
+    /// the group number `user_priority` is assigned to. These values are
+    /// only valid when `SettingDcb:priority-group-flags` includes the
+    /// `SettingDcbFlags::Enable` flag.
     fn get_priority_group_id(&self, user_priority: u32) -> u32;
 
+    /// ## `user_priority`
+    /// the User Priority (0 - 7) to retrieve strict bandwidth for
+    ///
+    /// # Returns
+    ///
+    /// `true` if `user_priority` may use all of the bandwidth allocated to its
+    /// assigned group, or `false` if not. These values are only valid when
+    /// `SettingDcb:priority-group-flags` includes the `SettingDcbFlags::Enable` flag.
     fn get_priority_strict_bandwidth(&self, user_priority: u32) -> bool;
 
+    /// ## `user_priority`
+    /// the User Priority (0 - 7) to retrieve the traffic class for
+    ///
+    /// # Returns
+    ///
+    /// the traffic class assigned to `user_priority`. These values are only
+    /// valid when `SettingDcb:priority-group-flags` includes the
+    /// `SettingDcbFlags::Enable` flag.
     fn get_priority_traffic_class(&self, user_priority: u32) -> u32;
 
+    /// These values are only valid when `SettingDcb:priority-group-flags` includes
+    /// the `SettingDcbFlags::Enable` flag.
+    /// ## `user_priority`
+    /// the User Priority (0 - 7) to set the bandwidth percentage for
+    /// ## `bandwidth_percent`
+    /// the bandwidth percentage (0 - 100) that `user_priority` is
+    /// allowed to use within its priority group
     fn set_priority_bandwidth(&self, user_priority: u32, bandwidth_percent: u32);
 
+    /// These values are only valid when `SettingDcb:priority-flow-control` includes
+    /// the `SettingDcbFlags::Enable` flag.
+    /// ## `user_priority`
+    /// the User Priority (0 - 7) to set flow control for
+    /// ## `enabled`
+    /// `true` to enable flow control for this priority, `false` to disable it
     fn set_priority_flow_control(&self, user_priority: u32, enabled: bool);
 
+    /// These values are only valid when `SettingDcb:priority-group-flags` includes
+    /// the `SettingDcbFlags::Enable` flag.
+    /// ## `group_id`
+    /// the priority group (0 - 7) to set the bandwidth percentage for
+    /// ## `bandwidth_percent`
+    /// the bandwidth percentage (0 - 100) to assign to `group_id` to
     fn set_priority_group_bandwidth(&self, group_id: u32, bandwidth_percent: u32);
 
+    /// These values are only valid when `SettingDcb:priority-group-flags` includes
+    /// the `SettingDcbFlags::Enable` flag.
+    /// ## `user_priority`
+    /// the User Priority (0 - 7) to set flow control for
+    /// ## `group_id`
+    /// the group (0 - 7) to assign `user_priority` to, or 15 for the
+    /// unrestricted group.
     fn set_priority_group_id(&self, user_priority: u32, group_id: u32);
 
+    /// These values are only valid when `SettingDcb:priority-group-flags` includes
+    /// the `SettingDcbFlags::Enable` flag.
+    /// ## `user_priority`
+    /// the User Priority (0 - 7) to set strict bandwidth for
+    /// ## `strict`
+    /// `true` to allow `user_priority` to use all the bandwidth allocated to
+    /// its priority group, or `false` if not
     fn set_priority_strict_bandwidth(&self, user_priority: u32, strict: bool);
 
     fn set_priority_traffic_class(&self, user_priority: u32, traffic_class: u32);
 
+    /// Specifies the `SettingDcbFlags` for the DCB FCoE application. Flags may
+    /// be any combination of `SettingDcbFlags::Enable`,
+    /// `SettingDcbFlags::Advertise`, and `SettingDcbFlags::Willing`.
     fn set_property_app_fcoe_flags(&self, app_fcoe_flags: SettingDcbFlags);
 
+    /// The FCoE controller mode; either `NM_SETTING_DCB_FCOE_MODE_FABRIC`
+    /// (default) or `NM_SETTING_DCB_FCOE_MODE_VN2VN`.
     fn set_property_app_fcoe_mode(&self, app_fcoe_mode: Option<&str>);
 
+    /// The highest User Priority (0 - 7) which FCoE frames should use, or -1 for
+    /// default priority. Only used when the `SettingDcb:app-fcoe-flags`
+    /// property includes the `SettingDcbFlags::Enable` flag.
     fn set_property_app_fcoe_priority(&self, app_fcoe_priority: i32);
 
+    /// Specifies the `SettingDcbFlags` for the DCB FIP application. Flags may
+    /// be any combination of `SettingDcbFlags::Enable`,
+    /// `SettingDcbFlags::Advertise`, and `SettingDcbFlags::Willing`.
     fn set_property_app_fip_flags(&self, app_fip_flags: SettingDcbFlags);
 
+    /// The highest User Priority (0 - 7) which FIP frames should use, or -1 for
+    /// default priority. Only used when the `SettingDcb:app-fip-flags`
+    /// property includes the `SettingDcbFlags::Enable` flag.
     fn set_property_app_fip_priority(&self, app_fip_priority: i32);
 
+    /// Specifies the `SettingDcbFlags` for the DCB iSCSI application. Flags
+    /// may be any combination of `SettingDcbFlags::Enable`,
+    /// `SettingDcbFlags::Advertise`, and `SettingDcbFlags::Willing`.
     fn set_property_app_iscsi_flags(&self, app_iscsi_flags: SettingDcbFlags);
 
+    /// The highest User Priority (0 - 7) which iSCSI frames should use, or -1
+    /// for default priority. Only used when the `SettingDcb:app-iscsi-flags`
+    /// property includes the `SettingDcbFlags::Enable` flag.
     fn set_property_app_iscsi_priority(&self, app_iscsi_priority: i32);
 
+    /// Specifies the `SettingDcbFlags` for DCB Priority Flow Control (PFC).
+    /// Flags may be any combination of `SettingDcbFlags::Enable`,
+    /// `SettingDcbFlags::Advertise`, and `SettingDcbFlags::Willing`.
     fn set_property_priority_flow_control_flags(
         &self,
         priority_flow_control_flags: SettingDcbFlags,
     );
 
+    /// Specifies the `SettingDcbFlags` for DCB Priority Groups. Flags may be
+    /// any combination of `SettingDcbFlags::Enable`,
+    /// `SettingDcbFlags::Advertise`, and `SettingDcbFlags::Willing`.
     fn set_property_priority_group_flags(&self, priority_group_flags: SettingDcbFlags);
 
     fn connect_property_app_fcoe_flags_notify<F: Fn(&Self) + 'static>(

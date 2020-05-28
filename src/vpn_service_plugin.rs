@@ -48,6 +48,11 @@ impl VpnServicePlugin {
 
 pub const NONE_VPN_SERVICE_PLUGIN: Option<&VpnServicePlugin> = None;
 
+/// Trait containing all `VpnServicePlugin` methods.
+///
+/// # Implementors
+///
+/// [`VpnServicePlugin`](struct.VpnServicePlugin.html)
 pub trait VpnServicePluginExt: 'static {
     fn disconnect(&self) -> Result<(), glib::Error>;
 
@@ -61,18 +66,43 @@ pub trait VpnServicePluginExt: 'static {
 
     fn set_login_banner(&self, banner: &str);
 
+    /// Shutdown the `self` and disconnect from D-Bus. After this,
+    /// the plugin instance is dead and should no longer be used.
+    /// It ensures to get no more requests from D-Bus. In principle,
+    /// you don't need to shutdown the plugin, disposing the instance
+    /// has the same effect. However, this gives a way to deactivate
+    /// the plugin before giving up the last reference.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn shutdown(&self);
 
+    /// The D-Bus service name of this plugin.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_property_service_name(&self) -> Option<GString>;
 
+    /// The state of the plugin.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_property_state(&self) -> VpnServiceState;
 
+    /// The state of the plugin.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_state(&self, state: VpnServiceState);
 
+    /// Whether to watch for D-Bus peer's changes.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_property_watch_peer(&self) -> bool;
 

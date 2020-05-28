@@ -38,6 +38,14 @@ glib_wrapper! {
 }
 
 impl SettingIPTunnel {
+    /// Creates a new `SettingIPTunnel` object with default values.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingIPTunnel` object
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn new() -> SettingIPTunnel {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_ip_tunnel_new()).unsafe_cast() }
@@ -53,81 +61,250 @@ impl Default for SettingIPTunnel {
 
 pub const NONE_SETTING_IP_TUNNEL: Option<&SettingIPTunnel> = None;
 
+/// Trait containing all `SettingIPTunnel` methods.
+///
+/// # Implementors
+///
+/// [`SettingIPTunnel`](struct.SettingIPTunnel.html)
 pub trait SettingIPTunnelExt: 'static {
+    /// Returns the `SettingIPTunnel:encapsulation-limit` property of the setting.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the encapsulation limit value
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_encapsulation_limit(&self) -> u32;
 
     fn get_flags(&self) -> IPTunnelFlags;
 
+    /// Returns the `SettingIPTunnel:flow-label` property of the setting.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the flow label value
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_flow_label(&self) -> u32;
 
+    /// Returns the `SettingIPTunnel:input-key` property of the setting.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the input key
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_input_key(&self) -> Option<GString>;
 
+    /// Returns the `SettingIPTunnel:local` property of the setting.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the local endpoint
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_local(&self) -> Option<GString>;
 
+    /// Returns the `SettingIPTunnel:mode` property of the setting.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the tunnel mode
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_mode(&self) -> IPTunnelMode;
 
+    /// Returns the `SettingIPTunnel:mtu` property of the setting.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the MTU
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_mtu(&self) -> u32;
 
+    /// Returns the `SettingIPTunnel:output-key` property of the setting.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the output key
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_output_key(&self) -> Option<GString>;
 
+    /// Returns the `SettingIPTunnel:parent` property of the setting
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the parent device
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_parent(&self) -> Option<GString>;
 
+    /// Returns the `SettingIPTunnel:path-mtu-discovery` property of the setting.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether path MTU discovery is enabled
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_path_mtu_discovery(&self) -> bool;
 
+    /// Returns the `SettingIPTunnel:remote` property of the setting.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the remote endpoint
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_remote(&self) -> Option<GString>;
 
+    /// Returns the `SettingIPTunnel:tos` property of the setting.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the TOS value
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_tos(&self) -> u32;
 
+    /// Returns the `SettingIPTunnel:ttl` property of the setting.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the Time-to-live value
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_ttl(&self) -> u32;
 
+    /// How many additional levels of encapsulation are permitted to be prepended
+    /// to packets. This property applies only to IPv6 tunnels.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_encapsulation_limit(&self, encapsulation_limit: u32);
 
+    /// Tunnel flags. Currently the following values are supported:
+    /// `IPTunnelFlags::Ip6IgnEncapLimit`, `IPTunnelFlags::Ip6UseOrigTclass`,
+    /// `IPTunnelFlags::Ip6UseOrigFlowlabel`, `IPTunnelFlags::Ip6Mip6Dev`,
+    /// `IPTunnelFlags::Ip6RcvDscpCopy`, `IPTunnelFlags::Ip6UseOrigFwmark`.
+    /// They are valid only for IPv6 tunnels.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_flags(&self, flags: u32);
 
+    /// The flow label to assign to tunnel packets. This property applies only to
+    /// IPv6 tunnels.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_flow_label(&self, flow_label: u32);
 
+    /// The key used for tunnel input packets; the property is valid only for
+    /// certain tunnel modes (GRE, IP6GRE). If empty, no key is used.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_input_key(&self, input_key: Option<&str>);
 
+    /// The local endpoint of the tunnel; the value can be empty, otherwise it
+    /// must contain an IPv4 or IPv6 address.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_local(&self, local: Option<&str>);
 
+    /// The tunneling mode, for example `IPTunnelMode::Ipip` or
+    /// `IPTunnelMode::Gre`.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_mode(&self, mode: u32);
 
+    /// If non-zero, only transmit packets of the specified size or smaller,
+    /// breaking larger packets up into multiple fragments.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_mtu(&self, mtu: u32);
 
+    /// The key used for tunnel output packets; the property is valid only for
+    /// certain tunnel modes (GRE, IP6GRE). If empty, no key is used.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_output_key(&self, output_key: Option<&str>);
 
+    /// If given, specifies the parent interface name or parent connection UUID
+    /// the new device will be bound to so that tunneled packets will only be
+    /// routed via that interface.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_parent(&self, parent: Option<&str>);
 
+    /// Whether to enable Path MTU Discovery on this tunnel.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_path_mtu_discovery(&self, path_mtu_discovery: bool);
 
+    /// The remote endpoint of the tunnel; the value must contain an IPv4 or IPv6
+    /// address.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_remote(&self, remote: Option<&str>);
 
+    /// The type of service (IPv4) or traffic class (IPv6) field to be set on
+    /// tunneled packets.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_tos(&self, tos: u32);
 
+    /// The TTL to assign to tunneled packets. 0 is a special value meaning that
+    /// packets inherit the TTL value.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_ttl(&self, ttl: u32);
 

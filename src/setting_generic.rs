@@ -17,6 +17,11 @@ glib_wrapper! {
 }
 
 impl SettingGeneric {
+    /// Creates a new `SettingGeneric` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingGeneric` object
     pub fn new() -> SettingGeneric {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_generic_new()).unsafe_cast() }
     }

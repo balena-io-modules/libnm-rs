@@ -34,173 +34,731 @@ glib_wrapper! {
 
 pub const NONE_SETTING_IP_CONFIG: Option<&SettingIPConfig> = None;
 
+/// Trait containing all `SettingIPConfig` methods.
+///
+/// # Implementors
+///
+/// [`SettingIP4Config`](struct.SettingIP4Config.html), [`SettingIP6Config`](struct.SettingIP6Config.html), [`SettingIPConfig`](struct.SettingIPConfig.html)
 pub trait SettingIPConfigExt: 'static {
+    /// Adds a new IP address and associated information to the setting. The
+    /// given address is duplicated internally and is not changed by this function.
+    /// ## `address`
+    /// the new address to add
+    ///
+    /// # Returns
+    ///
+    /// `true` if the address was added; `false` if the address was already
+    /// known.
     fn add_address(&self, address: &IPAddress) -> bool;
 
+    /// Adds a new DNS server to the setting.
+    /// ## `dns`
+    /// the IP address of the DNS server to add
+    ///
+    /// # Returns
+    ///
+    /// `true` if the DNS server was added; `false` if the server was already
+    /// known
     fn add_dns(&self, dns: &str) -> bool;
 
+    /// Adds a new DNS option to the setting.
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `dns_option`
+    /// the DNS option to add
+    ///
+    /// # Returns
+    ///
+    /// `true` if the DNS option was added; `false` otherwise
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn add_dns_option(&self, dns_option: &str) -> bool;
 
+    /// Adds a new DNS search domain to the setting.
+    /// ## `dns_search`
+    /// the search domain to add
+    ///
+    /// # Returns
+    ///
+    /// `true` if the DNS search domain was added; `false` if the search
+    /// domain was already known
     fn add_dns_search(&self, dns_search: &str) -> bool;
 
+    /// Appends a new route and associated information to the setting. The
+    /// given route is duplicated internally and is not changed by this function.
+    /// If an identical route (considering attributes as well) already exists, the
+    /// route is not added and the function returns `false`.
+    ///
+    /// Note that before 1.10, this function would not consider route attributes
+    /// and not add a route that has an existing route with same dest/prefix,next_hop,metric
+    /// parameters.
+    /// ## `route`
+    /// the route to add
+    ///
+    /// # Returns
+    ///
+    /// `true` if the route was added; `false` if the route was already known.
     fn add_route(&self, route: &IPRoute) -> bool;
 
+    /// Appends a new routing-rule and associated information to the setting. The
+    /// given routing rules gets sealed and the reference count is incremented.
+    /// The function does not check whether an identical rule already exists
+    /// and always appends the rule to the end of the list.
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `routing_rule`
+    /// the `IPRoutingRule` to add. The address family
+    ///  of the added rule must be compatible with the setting.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     fn add_routing_rule(&self, routing_rule: &IPRoutingRule);
 
+    /// Removes all configured addresses.
     fn clear_addresses(&self);
 
+    /// Removes all configured DNS servers.
     fn clear_dns(&self);
 
+    /// Removes all configured DNS options.
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `is_set`
+    /// the dns-options can be either empty or unset (default).
+    ///  Specify how to clear the options.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn clear_dns_options(&self, is_set: bool);
 
+    /// Removes all configured DNS search domains.
     fn clear_dns_searches(&self);
 
+    /// Removes all configured routes.
     fn clear_routes(&self);
 
+    /// Removes all configured routing rules.
+    ///
+    /// Feature: `v1_18`
+    ///
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     fn clear_routing_rules(&self);
 
+    /// ## `idx`
+    /// index number of the address to return
+    ///
+    /// # Returns
+    ///
+    /// the address at index `idx`
     fn get_address(&self, idx: i32) -> Option<IPAddress>;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingIPConfig:dad-timeout` property.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_dad_timeout(&self) -> i32;
 
+    /// Returns the value contained in the `SettingIPConfig:dhcp-hostname`
+    /// property.
+    ///
+    /// # Returns
+    ///
+    /// the configured hostname to send to the DHCP server
     fn get_dhcp_hostname(&self) -> Option<GString>;
 
+    /// Returns the value contained in the `SettingIPConfig:dhcp-hostname-flags`
+    /// property.
+    ///
+    /// Feature: `v1_22`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// flags for the DHCP hostname and FQDN
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     fn get_dhcp_hostname_flags(&self) -> DhcpHostnameFlags;
 
+    /// Returns the value contained in the `SettingIPConfig:dhcp-iaid`
+    /// property.
+    ///
+    /// Feature: `v1_22`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the configured DHCP IAID (Identity Association Identifier)
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     fn get_dhcp_iaid(&self) -> Option<GString>;
 
+    /// Returns the value contained in the `SettingIPConfig:dhcp-send-hostname`
+    /// property.
+    ///
+    /// # Returns
+    ///
+    /// `true` if NetworkManager should send the machine hostname to the
+    /// DHCP server when requesting addresses to allow the server to automatically
+    /// update DNS information for this machine.
     fn get_dhcp_send_hostname(&self) -> bool;
 
+    /// Returns the value contained in the `SettingIPConfig:dhcp-timeout`
+    /// property.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the configured DHCP timeout in seconds. 0 = default for
+    /// the particular kind of device.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_dhcp_timeout(&self) -> i32;
 
+    /// ## `idx`
+    /// index number of the DNS server to return
+    ///
+    /// # Returns
+    ///
+    /// the IP address of the DNS server at index `idx`
     fn get_dns(&self, idx: i32) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `idx`
+    /// index number of the DNS option
+    ///
+    /// # Returns
+    ///
+    /// the DNS option at index `idx`
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_dns_option(&self, idx: u32) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_4`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the priority of DNS servers
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn get_dns_priority(&self) -> i32;
 
+    /// ## `idx`
+    /// index number of the DNS search domain to return
+    ///
+    /// # Returns
+    ///
+    /// the DNS search domain at index `idx`
     fn get_dns_search(&self, idx: i32) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the IP address of the gateway associated with this configuration, or
+    /// `None`.
     fn get_gateway(&self) -> Option<GString>;
 
+    /// Returns the value contained in the `SettingIPConfig:ignore-auto-dns`
+    /// property.
+    ///
+    /// # Returns
+    ///
+    /// `true` if automatically configured (ie via DHCP) DNS information
+    /// should be ignored.
     fn get_ignore_auto_dns(&self) -> bool;
 
+    /// Returns the value contained in the `SettingIPConfig:ignore-auto-routes`
+    /// property.
+    ///
+    /// # Returns
+    ///
+    /// `true` if automatically configured (ie via DHCP) routes should be
+    /// ignored.
     fn get_ignore_auto_routes(&self) -> bool;
 
+    /// Returns the value contained in the `SettingIPConfig:may-fail`
+    /// property.
+    ///
+    /// # Returns
+    ///
+    /// `true` if this connection doesn't require this type of IP
+    /// addressing to complete for the connection to succeed.
     fn get_may_fail(&self) -> bool;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingIPConfig:method` property of the setting; see
+    /// `SettingIP4Config` and `SettingIP6Config` for details of the
+    /// methods available with each type.
     fn get_method(&self) -> Option<GString>;
 
+    /// Returns the value contained in the `SettingIPConfig:never-default`
+    /// property.
+    ///
+    /// # Returns
+    ///
+    /// `true` if this connection should never be the default
+    ///  connection
     fn get_never_default(&self) -> bool;
 
+    ///
+    /// # Returns
+    ///
+    /// the number of configured addresses
     fn get_num_addresses(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the number of configured DNS servers
     fn get_num_dns(&self) -> u32;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of configured DNS options
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_num_dns_options(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the number of configured DNS search domains
     fn get_num_dns_searches(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the number of configured routes
     fn get_num_routes(&self) -> u32;
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of configured routing rules
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     fn get_num_routing_rules(&self) -> u32;
 
+    /// ## `idx`
+    /// index number of the route to return
+    ///
+    /// # Returns
+    ///
+    /// the route at index `idx`
     fn get_route(&self, idx: i32) -> Option<IPRoute>;
 
+    /// Returns the value contained in the `SettingIPConfig:route-metric`
+    /// property.
+    ///
+    /// # Returns
+    ///
+    /// the route metric that is used for routes that don't explicitly
+    /// specify a metric. See `SettingIPConfig:route-metric` for more details.
     fn get_route_metric(&self) -> i64;
 
+    /// Returns the value contained in the `SettingIPConfig:route-table`
+    /// property.
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the configured route-table.
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn get_route_table(&self) -> u32;
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `idx`
+    /// index number of the routing_rule to return
+    ///
+    /// # Returns
+    ///
+    /// the routing rule at index `idx`
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     fn get_routing_rule(&self, idx: u32) -> Option<IPRoutingRule>;
 
+    /// NMSettingIPConfig can have a list of dns-options. If the list
+    /// is empty, there are two similar (but differentiated) states.
+    /// Either the options are explicitly set to have no values,
+    /// or the options are left undefined. The latter means to use
+    /// a default configuration, while the former explicitly means "no-options".
+    ///
+    /// # Returns
+    ///
+    /// whether DNS options are initialized or left unset (the default).
     fn has_dns_options(&self) -> bool;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `idx`
+    /// index to start the search from
+    ///
+    /// # Returns
+    ///
+    /// the index, greater or equal than `idx`, of the first valid
+    /// DNS option, or -1 if no valid option is found
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn next_valid_dns_option(&self, idx: u32) -> i32;
 
+    /// Removes the address at index `idx`.
+    /// ## `idx`
+    /// index number of the address to remove
     fn remove_address(&self, idx: i32);
 
+    /// Removes the address `address`.
+    /// ## `address`
+    /// the IP address to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the address was found and removed; `false` if it was not.
     fn remove_address_by_value(&self, address: &IPAddress) -> bool;
 
+    /// Removes the DNS server at index `idx`.
+    /// ## `idx`
+    /// index number of the DNS server to remove
     fn remove_dns(&self, idx: i32);
 
+    /// Removes the DNS server `dns`.
+    /// ## `dns`
+    /// the DNS server to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the DNS server was found and removed; `false` if it was not.
     fn remove_dns_by_value(&self, dns: &str) -> bool;
 
+    /// Removes the DNS option at index `idx`.
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `idx`
+    /// index number of the DNS option
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn remove_dns_option(&self, idx: i32);
 
+    /// Removes the DNS option `dns_option`.
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `dns_option`
+    /// the DNS option to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the DNS option was found and removed; `false` if it was not.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn remove_dns_option_by_value(&self, dns_option: &str) -> bool;
 
+    /// Removes the DNS search domain at index `idx`.
+    /// ## `idx`
+    /// index number of the DNS search domain
     fn remove_dns_search(&self, idx: i32);
 
+    /// Removes the DNS search domain `dns_search`.
+    /// ## `dns_search`
+    /// the search domain to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the DNS search domain was found and removed; `false` if it was not.
     fn remove_dns_search_by_value(&self, dns_search: &str) -> bool;
 
+    /// Removes the route at index `idx`.
+    /// ## `idx`
+    /// index number of the route
     fn remove_route(&self, idx: i32);
 
+    /// Removes the first matching route that matches `route`.
+    /// Note that before 1.10, this function would only compare dest/prefix,next_hop,metric
+    /// and ignore route attributes. Now, `route` must match exactly.
+    /// ## `route`
+    /// the route to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the route was found and removed; `false` if it was not.
     fn remove_route_by_value(&self, route: &IPRoute) -> bool;
 
+    /// Removes the routing_rule at index `idx`.
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `idx`
+    /// index number of the routing_rule
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     fn remove_routing_rule(&self, idx: u32);
 
+    /// Timeout in milliseconds used to check for the presence of duplicate IP
+    /// addresses on the network. If an address conflict is detected, the
+    /// activation will fail. A zero value means that no duplicate address
+    /// detection is performed, -1 means the default value (either configuration
+    /// ipvx.dad-timeout override or zero). A value greater than zero is a
+    /// timeout in milliseconds.
+    ///
+    /// The property is currently implemented only for IPv4.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_dad_timeout(&self, dad_timeout: i32);
 
+    /// If the `SettingIPConfig:dhcp-send-hostname` property is `true`, then the
+    /// specified name will be sent to the DHCP server when acquiring a lease.
+    /// This property and `SettingIP4Config:dhcp-fqdn` are mutually exclusive and
+    /// cannot be set at the same time.
     fn set_property_dhcp_hostname(&self, dhcp_hostname: Option<&str>);
 
+    /// Flags for the DHCP hostname and FQDN.
+    ///
+    /// Currently this property only includes flags to control the FQDN flags
+    /// set in the DHCP FQDN option. Supported FQDN flags are
+    /// `DhcpHostnameFlags::FqdnServUpdate`,
+    /// `DhcpHostnameFlags::FqdnEncoded` and
+    /// `DhcpHostnameFlags::FqdnNoUpdate`. When no FQDN flag is set and
+    /// `DhcpHostnameFlags::FqdnClearFlags` is set, the DHCP FQDN option will
+    /// contain no flag. Otherwise, if no FQDN flag is set and
+    /// `DhcpHostnameFlags::FqdnClearFlags` is not set, the standard FQDN flags
+    /// are set in the request:
+    /// `DhcpHostnameFlags::FqdnServUpdate`,
+    /// `DhcpHostnameFlags::FqdnEncoded` for IPv4 and
+    /// `DhcpHostnameFlags::FqdnServUpdate` for IPv6.
+    ///
+    /// When this property is set to the default value `DhcpHostnameFlags::None`,
+    /// a global default is looked up in NetworkManager configuration. If that value
+    /// is unset or also `DhcpHostnameFlags::None`, then the standard FQDN flags
+    /// described above are sent in the DHCP requests.
+    ///
+    /// Feature: `v1_22`
+    ///
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     fn set_property_dhcp_hostname_flags(&self, dhcp_hostname_flags: u32);
 
+    /// A string containing the "Identity Association Identifier" (IAID) used
+    /// by the DHCP client. The property is a 32-bit decimal value or a
+    /// special value among "mac", "perm-mac", "ifname" and "stable". When
+    /// set to "mac" (or "perm-mac"), the last 4 bytes of the current (or
+    /// permanent) MAC address are used as IAID. When set to "ifname", the
+    /// IAID is computed by hashing the interface name. The special value
+    /// "stable" can be used to generate an IAID based on the stable-id (see
+    /// connection.stable-id), a per-host key and the interface name. When
+    /// the property is unset, the value from global configuration is used;
+    /// if no global default is set then the IAID is assumed to be
+    /// "ifname". Note that at the moment this property is ignored for IPv6
+    /// by dhclient, which always derives the IAID from the MAC address.
+    ///
+    /// Feature: `v1_22`
+    ///
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     fn set_property_dhcp_iaid(&self, dhcp_iaid: Option<&str>);
 
+    /// If `true`, a hostname is sent to the DHCP server when acquiring a lease.
+    /// Some DHCP servers use this hostname to update DNS databases, essentially
+    /// providing a static hostname for the computer. If the
+    /// `SettingIPConfig:dhcp-hostname` property is `None` and this property is
+    /// `true`, the current persistent hostname of the computer is sent.
     fn set_property_dhcp_send_hostname(&self, dhcp_send_hostname: bool);
 
+    /// A timeout for a DHCP transaction in seconds. If zero (the default), a
+    /// globally configured default is used. If still unspecified, a device specific
+    /// timeout is used (usually 45 seconds).
+    ///
+    /// Set to 2147483647 (MAXINT32) for infinity.
     fn get_property_dhcp_timeout(&self) -> i32;
 
+    /// A timeout for a DHCP transaction in seconds. If zero (the default), a
+    /// globally configured default is used. If still unspecified, a device specific
+    /// timeout is used (usually 45 seconds).
+    ///
+    /// Set to 2147483647 (MAXINT32) for infinity.
     fn set_property_dhcp_timeout(&self, dhcp_timeout: i32);
 
+    /// Array of IP addresses of DNS servers.
     fn set_property_dns(&self, dns: &[&str]);
 
+    /// Array of DNS options as described in man 5 resolv.conf.
+    ///
+    /// `None` means that the options are unset and left at the default.
+    /// In this case NetworkManager will use default options. This is
+    /// distinct from an empty list of properties.
+    ///
+    /// The currently supported options are "attempts", "debug", "edns0",
+    /// "inet6", "ip6-bytestring", "ip6-dotint", "ndots", "no-check-names",
+    /// "no-ip6-dotint", "no-reload", "no-tld-query", "rotate", "single-request",
+    /// "single-request-reopen", "timeout", "trust-ad", "use-vc".
+    ///
+    /// The "trust-ad" setting is only honored if the profile contributes
+    /// name servers to resolv.conf, and if all contributing profiles have
+    /// "trust-ad" enabled.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_property_dns_options(&self) -> Vec<GString>;
 
+    /// Array of DNS options as described in man 5 resolv.conf.
+    ///
+    /// `None` means that the options are unset and left at the default.
+    /// In this case NetworkManager will use default options. This is
+    /// distinct from an empty list of properties.
+    ///
+    /// The currently supported options are "attempts", "debug", "edns0",
+    /// "inet6", "ip6-bytestring", "ip6-dotint", "ndots", "no-check-names",
+    /// "no-ip6-dotint", "no-reload", "no-tld-query", "rotate", "single-request",
+    /// "single-request-reopen", "timeout", "trust-ad", "use-vc".
+    ///
+    /// The "trust-ad" setting is only honored if the profile contributes
+    /// name servers to resolv.conf, and if all contributing profiles have
+    /// "trust-ad" enabled.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_dns_options(&self, dns_options: &[&str]);
 
+    /// DNS servers priority.
+    ///
+    /// The relative priority for DNS servers specified by this setting. A lower
+    /// value is better (higher priority). Zero selects a globally configured
+    /// default value. If the latter is missing or zero too, it defaults to
+    /// 50 for VPNs (including WireGuard) and 100 for other connections.
+    ///
+    /// Note that the priority is to order DNS settings for multiple active
+    /// connections. It does not disambiguate multiple DNS servers within the
+    /// same connection profile.
+    ///
+    /// When using dns=default, servers with higher priority will be on top of
+    /// resolv.conf. To prioritize a given server over another one within the
+    /// same connection, just specify them in the desired order. When multiple
+    /// devices have configurations with the same priority, VPNs will be
+    /// considered first, then devices with the best (lowest metric) default
+    /// route and then all other devices. Negative values have the special
+    /// effect of excluding other configurations with a greater priority value;
+    /// so in presence of at least one negative priority, only DNS servers from
+    /// connections with the lowest priority value will be used.
+    ///
+    /// When using a DNS resolver that supports Conditional Forwarding as dns=dnsmasq or
+    /// dns=systemd-resolved, each connection is used to query domains in its
+    /// search list. Queries for domains not present in any search list are
+    /// routed through connections having the '~.' special wildcard domain, which
+    /// is added automatically to connections with the default route (or can be
+    /// added manually). When multiple connections specify the same domain, the
+    /// one with the highest priority (lowest numerical value) wins. If a
+    /// connection specifies a domain which is subdomain of another domain with a
+    /// negative DNS priority value, the subdomain is ignored.
+    ///
+    /// Feature: `v1_4`
+    ///
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn set_property_dns_priority(&self, dns_priority: i32);
 
+    /// Array of DNS search domains. Domains starting with a tilde ('~')
+    /// are considered 'routing' domains and are used only to decide the
+    /// interface over which a query must be forwarded; they are not used
+    /// to complete unqualified host names.
     fn set_property_dns_search(&self, dns_search: &[&str]);
 
+    /// The gateway associated with this configuration. This is only meaningful
+    /// if `SettingIPConfig:addresses` is also set.
+    ///
+    /// The gateway's main purpose is to control the next hop of the standard default route on the device.
+    /// Hence, the gateway property conflicts with `SettingIPConfig:never-default` and will be
+    /// automatically dropped if the IP configuration is set to never-default.
+    ///
+    /// As an alternative to set the gateway, configure a static default route with /0 as prefix
+    /// length.
     fn set_property_gateway(&self, gateway: Option<&str>);
 
+    /// When `SettingIPConfig:method` is set to "auto" and this property to
+    /// `true`, automatically configured nameservers and search domains are
+    /// ignored and only nameservers and search domains specified in the
+    /// `SettingIPConfig:dns` and `SettingIPConfig:dns-search` properties, if
+    /// any, are used.
     fn set_property_ignore_auto_dns(&self, ignore_auto_dns: bool);
 
+    /// When `SettingIPConfig:method` is set to "auto" and this property to
+    /// `true`, automatically configured routes are ignored and only routes
+    /// specified in the `SettingIPConfig:routes` property, if any, are used.
     fn set_property_ignore_auto_routes(&self, ignore_auto_routes: bool);
 
+    /// If `true`, allow overall network configuration to proceed even if the
+    /// configuration specified by this property times out. Note that at least
+    /// one IP configuration must succeed or overall network configuration will
+    /// still fail. For example, in IPv6-only networks, setting this property to
+    /// `true` on the `SettingIP4Config` allows the overall network configuration
+    /// to succeed if IPv4 configuration fails but IPv6 configuration completes
+    /// successfully.
     fn set_property_may_fail(&self, may_fail: bool);
 
+    /// IP configuration method.
+    ///
+    /// `SettingIP4Config` and `SettingIP6Config` both support "disabled",
+    /// "auto", "manual", and "link-local". See the subclass-specific
+    /// documentation for other values.
+    ///
+    /// In general, for the "auto" method, properties such as
+    /// `SettingIPConfig:dns` and `SettingIPConfig:routes` specify information
+    /// that is added on to the information returned from automatic
+    /// configuration. The `SettingIPConfig:ignore-auto-routes` and
+    /// `SettingIPConfig:ignore-auto-dns` properties modify this behavior.
+    ///
+    /// For methods that imply no upstream network, such as "shared" or
+    /// "link-local", these properties must be empty.
+    ///
+    /// For IPv4 method "shared", the IP subnet can be configured by adding one
+    /// manual IPv4 address or otherwise 10.42.x.0/24 is chosen. Note that the
+    /// shared method must be configured on the interface which shares the internet
+    /// to a subnet, not on the uplink which is shared.
     fn set_property_method(&self, method: Option<&str>);
 
+    /// If `true`, this connection will never be the default connection for this
+    /// IP type, meaning it will never be assigned the default route by
+    /// NetworkManager.
     fn set_property_never_default(&self, never_default: bool);
 
+    /// The default metric for routes that don't explicitly specify a metric.
+    /// The default value -1 means that the metric is chosen automatically
+    /// based on the device type.
+    /// The metric applies to dynamic routes, manual (static) routes that
+    /// don't have an explicit metric setting, address prefix routes, and
+    /// the default route.
+    /// Note that for IPv6, the kernel accepts zero (0) but coerces it to
+    /// 1024 (user default). Hence, setting this property to zero effectively
+    /// mean setting it to 1024.
+    /// For IPv4, zero is a regular value for the metric.
     fn set_property_route_metric(&self, route_metric: i64);
 
+    /// Enable policy routing (source routing) and set the routing table used when adding routes.
+    ///
+    /// This affects all routes, including device-routes, IPv4LL, DHCP, SLAAC, default-routes
+    /// and static routes. But note that static routes can individually overwrite the setting
+    /// by explicitly specifying a non-zero routing table.
+    ///
+    /// If the table setting is left at zero, it is eligible to be overwritten via global
+    /// configuration. If the property is zero even after applying the global configuration
+    /// value, policy routing is disabled for the address family of this connection.
+    ///
+    /// Policy routing disabled means that NetworkManager will add all routes to the main
+    /// table (except static routes that explicitly configure a different table). Additionally,
+    /// NetworkManager will not delete any extraneous routes from tables except the main table.
+    /// This is to preserve backward compatibility for users who manage routing tables outside
+    /// of NetworkManager.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn set_property_route_table(&self, route_table: u32);
 

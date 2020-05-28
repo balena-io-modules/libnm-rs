@@ -27,6 +27,15 @@ glib_wrapper! {
 }
 
 impl DeviceWimax {
+    /// Gets the active `WimaxNsp`.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
+    ///
+    /// # Returns
+    ///
+    /// the access point or `None` if none is active
     #[cfg_attr(feature = "v1_2", deprecated)]
     pub fn get_active_nsp(&self) -> Option<WimaxNsp> {
         unsafe {
@@ -36,21 +45,63 @@ impl DeviceWimax {
         }
     }
 
+    /// Gets the ID of the serving Base Station when the device is connected.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
+    ///
+    /// # Returns
+    ///
+    /// the ID of the serving Base Station, or `None`
     #[cfg_attr(feature = "v1_2", deprecated)]
     pub fn get_bsid(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_device_wimax_get_bsid(self.to_glib_none().0)) }
     }
 
+    /// Gets the center frequency (in KHz) of the radio channel the device is using
+    /// to communicate with the network when connected. Has no meaning when the
+    /// device is not connected.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
+    ///
+    /// # Returns
+    ///
+    /// the center frequency in KHz, or 0
     #[cfg_attr(feature = "v1_2", deprecated)]
     pub fn get_center_frequency(&self) -> u32 {
         unsafe { nm_sys::nm_device_wimax_get_center_frequency(self.to_glib_none().0) }
     }
 
+    /// Gets the CINR (Carrier to Interference + Noise Ratio) of the current radio
+    /// link in dB. CINR is a more accurate measure of radio link quality. Has no
+    /// meaning when the device is not connected.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
+    ///
+    /// # Returns
+    ///
+    /// the CINR in dB, or 0
     #[cfg_attr(feature = "v1_2", deprecated)]
     pub fn get_cinr(&self) -> i32 {
         unsafe { nm_sys::nm_device_wimax_get_cinr(self.to_glib_none().0) }
     }
 
+    /// Gets a `WimaxNsp` by path.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
+    /// ## `path`
+    /// the object path of the NSP
+    ///
+    /// # Returns
+    ///
+    /// the access point or `None` if none is found.
     #[cfg_attr(feature = "v1_2", deprecated)]
     pub fn get_nsp_by_path(&self, path: &str) -> Option<WimaxNsp> {
         unsafe {
@@ -61,6 +112,17 @@ impl DeviceWimax {
         }
     }
 
+    /// Gets all the scanned NSPs of the `DeviceWimax`.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
+    ///
+    /// # Returns
+    ///
+    /// a `glib::PtrArray` containing
+    ///  all the scanned `NMWimaxNsps`.
+    /// The returned array is owned by the client and should not be modified.
     #[cfg_attr(feature = "v1_2", deprecated)]
     pub fn get_nsps(&self) -> Vec<WimaxNsp> {
         unsafe {
@@ -70,16 +132,46 @@ impl DeviceWimax {
         }
     }
 
+    /// Gets the RSSI of the current radio link in dBm. This value indicates how
+    /// strong the raw received RF signal from the base station is, but does not
+    /// indicate the overall quality of the radio link. Has no meaning when the
+    /// device is not connected.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
+    ///
+    /// # Returns
+    ///
+    /// the RSSI in dBm, or 0
     #[cfg_attr(feature = "v1_2", deprecated)]
     pub fn get_rssi(&self) -> i32 {
         unsafe { nm_sys::nm_device_wimax_get_rssi(self.to_glib_none().0) }
     }
 
+    /// Average power of the last burst transmitted by the device, in units of
+    /// 0.5 dBm. i.e. a TxPower of -11 represents an actual device TX power of
+    /// -5.5 dBm. Has no meaning when the device is not connected.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
+    ///
+    /// # Returns
+    ///
+    /// the TX power in dBm, or 0
     #[cfg_attr(feature = "v1_2", deprecated)]
     pub fn get_tx_power(&self) -> i32 {
         unsafe { nm_sys::nm_device_wimax_get_tx_power(self.to_glib_none().0) }
     }
 
+    /// Notifies that a `WimaxNsp` is added to the wimax device.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
+    /// ## `nsp`
+    /// the new NSP
     #[cfg_attr(feature = "v1_2", deprecated)]
     pub fn connect_nsp_added<F: Fn(&DeviceWimax, &glib::Object) + 'static>(
         &self,
@@ -106,6 +198,13 @@ impl DeviceWimax {
         }
     }
 
+    /// Notifies that a `WimaxNsp` is removed from the wimax device.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
+    /// ## `nsp`
+    /// the removed NSP
     #[cfg_attr(feature = "v1_2", deprecated)]
     pub fn connect_nsp_removed<F: Fn(&DeviceWimax, &glib::Object) + 'static>(
         &self,

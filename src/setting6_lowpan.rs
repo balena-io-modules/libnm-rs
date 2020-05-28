@@ -36,16 +36,36 @@ glib_wrapper! {
 }
 
 impl Setting6Lowpan {
+    /// Creates a new `Setting6Lowpan` object with default values.
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `Setting6Lowpan` object
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn new() -> Setting6Lowpan {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_6lowpan_new()).unsafe_cast() }
     }
 
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `Setting6Lowpan:parent` property of the setting
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_parent(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_setting_6lowpan_get_parent(self.to_glib_none().0)) }
     }
 
+    /// If given, specifies the parent interface name or parent connection UUID
+    /// from which this 6LowPAN interface should be created.
+    ///
+    /// Feature: `v1_14`
+    ///
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn set_property_parent(&self, parent: Option<&str>) {
         unsafe {

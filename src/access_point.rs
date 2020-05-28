@@ -32,6 +32,17 @@ glib_wrapper! {
 }
 
 impl AccessPoint {
+    /// Validates a given connection against a given Wi-Fi access point to ensure that
+    /// the connection may be activated with that AP. The connection must match the
+    /// `self`'s SSID, (if given) BSSID, and other attributes like security settings,
+    /// channel, band, etc.
+    /// ## `connection`
+    /// an `Connection` to validate against `self`
+    ///
+    /// # Returns
+    ///
+    /// `true` if the connection may be activated with this Wi-Fi AP,
+    /// `false` if it cannot be.
     pub fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool {
         unsafe {
             from_glib(nm_sys::nm_access_point_connection_valid(
@@ -41,6 +52,24 @@ impl AccessPoint {
         }
     }
 
+    /// Filters a given array of connections for a given `AccessPoint` object and
+    /// returns connections which may be activated with the access point. Any
+    /// returned connections will match the `self`'s SSID and (if given) BSSID and
+    /// other attributes like security settings, channel, etc.
+    ///
+    /// To obtain the list of connections that are compatible with this access point,
+    /// use `Client::get_connections` and then filter the returned list for a given
+    /// `Device` using `DeviceExt::filter_connections` and finally filter that list
+    /// with this function.
+    /// ## `connections`
+    /// an array of `NMConnections` to
+    /// filter
+    ///
+    /// # Returns
+    ///
+    /// an array of
+    /// `NMConnections` that could be activated with the given `self`. The array should
+    /// be freed with `glib::PtrArray::unref` when it is no longer required.
     pub fn filter_connections(&self, connections: &[Connection]) -> Vec<Connection> {
         unsafe {
             FromGlibPtrContainer::from_glib_full(nm_sys::nm_access_point_filter_connections(
@@ -50,47 +79,110 @@ impl AccessPoint {
         }
     }
 
+    /// Gets the Basic Service Set ID (BSSID) of the Wi-Fi access point.
+    ///
+    /// # Returns
+    ///
+    /// the BSSID of the access point. This is an internal string and must
+    /// not be modified or freed.
     pub fn get_bssid(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_access_point_get_bssid(self.to_glib_none().0)) }
     }
 
+    /// Gets the flags of the access point.
+    ///
+    /// # Returns
+    ///
+    /// the flags
     pub fn get_flags(&self) -> _80211ApFlags {
         unsafe { from_glib(nm_sys::nm_access_point_get_flags(self.to_glib_none().0)) }
     }
 
+    /// Gets the frequency of the access point in MHz.
+    ///
+    /// # Returns
+    ///
+    /// the frequency in MHz
     pub fn get_frequency(&self) -> u32 {
         unsafe { nm_sys::nm_access_point_get_frequency(self.to_glib_none().0) }
     }
 
+    /// Returns the timestamp (in CLOCK_BOOTTIME seconds) for the last time the
+    /// access point was found in scan results. A value of -1 means the access
+    /// point has not been found in a scan.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the last seen time in seconds
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_last_seen(&self) -> i32 {
         unsafe { nm_sys::nm_access_point_get_last_seen(self.to_glib_none().0) }
     }
 
+    /// Gets the maximum bit rate of the access point in kbit/s.
+    ///
+    /// # Returns
+    ///
+    /// the maximum bit rate (kbit/s)
     pub fn get_max_bitrate(&self) -> u32 {
         unsafe { nm_sys::nm_access_point_get_max_bitrate(self.to_glib_none().0) }
     }
 
+    /// Gets the mode of the access point.
+    ///
+    /// # Returns
+    ///
+    /// the mode
     pub fn get_mode(&self) -> _80211Mode {
         unsafe { from_glib(nm_sys::nm_access_point_get_mode(self.to_glib_none().0)) }
     }
 
+    /// Gets the RSN (Robust Secure Network, ie WPA version 2) flags of the access
+    /// point.
+    ///
+    /// # Returns
+    ///
+    /// the RSN flags
     pub fn get_rsn_flags(&self) -> _80211ApSecurityFlags {
         unsafe { from_glib(nm_sys::nm_access_point_get_rsn_flags(self.to_glib_none().0)) }
     }
 
+    /// Gets the SSID of the access point.
+    ///
+    /// # Returns
+    ///
+    /// the `glib::Bytes` containing the SSID, or `None` if the
+    ///  SSID is unknown.
     pub fn get_ssid(&self) -> Option<glib::Bytes> {
         unsafe { from_glib_none(nm_sys::nm_access_point_get_ssid(self.to_glib_none().0)) }
     }
 
+    /// Gets the current signal strength of the access point as a percentage.
+    ///
+    /// # Returns
+    ///
+    /// the signal strength (0 to 100)
     pub fn get_strength(&self) -> u8 {
         unsafe { nm_sys::nm_access_point_get_strength(self.to_glib_none().0) }
     }
 
+    /// Gets the WPA (version 1) flags of the access point.
+    ///
+    /// # Returns
+    ///
+    /// the WPA flags
     pub fn get_wpa_flags(&self) -> _80211ApSecurityFlags {
         unsafe { from_glib(nm_sys::nm_access_point_get_wpa_flags(self.to_glib_none().0)) }
     }
 
+    /// Alias for `AccessPoint:bssid`.
+    ///
+    /// # Deprecated since 1.0
+    ///
+    /// Use `AccessPoint:bssid`.
     #[cfg_attr(feature = "v1_0", deprecated)]
     pub fn get_property_hw_address(&self) -> Option<GString> {
         unsafe {

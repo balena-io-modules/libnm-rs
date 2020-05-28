@@ -34,6 +34,11 @@ glib_wrapper! {
 }
 
 impl SettingWirelessSecurity {
+    /// Creates a new `SettingWirelessSecurity` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingWirelessSecurity` object
     pub fn new() -> SettingWirelessSecurity {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_wireless_security_new()).unsafe_cast() }
     }
@@ -47,123 +52,397 @@ impl Default for SettingWirelessSecurity {
 
 pub const NONE_SETTING_WIRELESS_SECURITY: Option<&SettingWirelessSecurity> = None;
 
+/// Trait containing all `SettingWirelessSecurity` methods.
+///
+/// # Implementors
+///
+/// [`SettingWirelessSecurity`](struct.SettingWirelessSecurity.html)
 pub trait SettingWirelessSecurityExt: 'static {
+    /// Adds an encryption algorithm to the list of allowed groupwise encryption
+    /// algorithms. If the list is not empty, then only access points that support
+    /// one or more of the encryption algorithms in the list will be considered
+    /// compatible with this connection.
+    /// ## `group`
+    /// the encryption algorithm to add, one of "wep40", "wep104",
+    /// "tkip", or "ccmp"
+    ///
+    /// # Returns
+    ///
+    /// `true` if the algorithm was added to the list, `false` if it was
+    /// already in the list
     fn add_group(&self, group: &str) -> bool;
 
+    /// Adds an encryption algorithm to the list of allowed pairwise encryption
+    /// algorithms. If the list is not empty, then only access points that support
+    /// one or more of the encryption algorithms in the list will be considered
+    /// compatible with this connection.
+    /// ## `pairwise`
+    /// the encryption algorithm to add, one of "tkip" or "ccmp"
+    ///
+    /// # Returns
+    ///
+    /// `true` if the algorithm was added to the list, `false` if it was
+    /// already in the list
     fn add_pairwise(&self, pairwise: &str) -> bool;
 
+    /// Adds a Wi-Fi security protocol (one of "wpa" or "rsn") to the allowed list;
+    /// only protocols in this list will be used when finding and connecting to
+    /// the Wi-Fi network specified by this connection. For example, if the
+    /// protocol list contains only "wpa" but the access point for the SSID specified
+    /// by this connection only supports WPA2/RSN, the connection cannot be used
+    /// with the access point.
+    /// ## `proto`
+    /// the protocol to add, one of "wpa" or "rsn"
+    ///
+    /// # Returns
+    ///
+    /// `true` if the protocol was new and was added to the allowed
+    /// protocol list, or `false` if it was already in the list
     fn add_proto(&self, proto: &str) -> bool;
 
+    /// Removes all algorithms from the allowed list. If there are no algorithms
+    /// specified then all groupwise encryption algorithms are allowed.
     fn clear_groups(&self);
 
+    /// Removes all algorithms from the allowed list. If there are no algorithms
+    /// specified then all pairwise encryption algorithms are allowed.
     fn clear_pairwise(&self);
 
+    /// Removes all protocols from the allowed list. If there are no protocols
+    /// specified then all protocols are allowed.
     fn clear_protos(&self);
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWirelessSecurity:auth-alg` property of the setting
     fn get_auth_alg(&self) -> Option<GString>;
 
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn get_fils(&self) -> SettingWirelessSecurityFils;
 
+    /// Returns the allowed groupwise encryption algorithm from allowed algorithm
+    /// list.
+    /// ## `i`
+    /// index of an item in the allowed groupwise encryption algorithm list
+    ///
+    /// # Returns
+    ///
+    /// the groupwise encryption algorithm at index `i`
     fn get_group(&self, i: u32) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWirelessSecurity:key-mgmt` property of the setting
     fn get_key_mgmt(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWirelessSecurity:leap-password` property of the setting
     fn get_leap_password(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the
+    /// `SettingWirelessSecurity:leap-password`
     fn get_leap_password_flags(&self) -> SettingSecretFlags;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWirelessSecurity:leap-username` property of the setting
     fn get_leap_username(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the number of groupwise encryption algorithms in the allowed list
     fn get_num_groups(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the number of pairwise encryption algorithms in the allowed list
     fn get_num_pairwise(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the number of security protocols this connection allows when
+    /// connecting to secure Wi-Fi networks
     fn get_num_protos(&self) -> u32;
 
+    /// Returns the allowed pairwise encryption algorithm from allowed algorithm
+    /// list.
+    /// ## `i`
+    /// index of an item in the allowed pairwise encryption algorithm list
+    ///
+    /// # Returns
+    ///
+    /// the pairwise encryption algorithm at index `i`
     fn get_pairwise(&self, i: u32) -> Option<GString>;
 
     fn get_pmf(&self) -> SettingWirelessSecurityPmf;
 
+    /// ## `i`
+    /// an index into the protocol list
+    ///
+    /// # Returns
+    ///
+    /// the protocol at index `i`
     fn get_proto(&self, i: u32) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWirelessSecurity:psk` property of the setting
     fn get_psk(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the
+    /// `SettingWirelessSecurity:psk`
     fn get_psk_flags(&self) -> SettingSecretFlags;
 
+    /// ## `idx`
+    /// the WEP key index (0..3 inclusive)
+    ///
+    /// # Returns
+    ///
+    /// the WEP key at the given index
     fn get_wep_key(&self, idx: u32) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the all WEP keys
     fn get_wep_key_flags(&self) -> SettingSecretFlags;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWirelessSecurity:wep-key-type` property of the setting
     fn get_wep_key_type(&self) -> WepKeyType;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWirelessSecurity:wep-tx-keyidx` property of the setting
     fn get_wep_tx_keyidx(&self) -> u32;
 
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWirelessSecurity:wps-method` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn get_wps_method(&self) -> SettingWirelessSecurityWpsMethod;
 
+    /// Removes an encryption algorithm from the allowed groupwise encryption
+    /// algorithm list.
+    /// ## `i`
+    /// the index of an item in the allowed groupwise encryption algorithm list
     fn remove_group(&self, i: u32);
 
+    /// Removes an encryption algorithm from the allowed groupwise encryption
+    /// algorithm list.
+    /// ## `group`
+    /// the encryption algorithm to remove, one of "wep40", "wep104",
+    /// "tkip", or "ccmp"
+    ///
+    /// # Returns
+    ///
+    /// `true` if the algorithm was found and removed; `false` if it was not.
     fn remove_group_by_value(&self, group: &str) -> bool;
 
+    /// Removes an encryption algorithm from the allowed pairwise encryption
+    /// algorithm list.
+    /// ## `i`
+    /// the index of an item in the allowed pairwise encryption algorithm list
     fn remove_pairwise(&self, i: u32);
 
+    /// Removes an encryption algorithm from the allowed pairwise encryption
+    /// algorithm list.
+    /// ## `pairwise`
+    /// the encryption algorithm to remove, one of "tkip" or "ccmp"
+    ///
+    /// # Returns
+    ///
+    /// `true` if the encryption algorithm was found and removed; `false` if it was not.
     fn remove_pairwise_by_value(&self, pairwise: &str) -> bool;
 
+    /// Removes a protocol from the allowed protocol list.
+    /// ## `i`
+    /// index of the protocol to remove
     fn remove_proto(&self, i: u32);
 
+    /// Removes a protocol from the allowed protocol list.
+    /// ## `proto`
+    /// the protocol to remove, one of "wpa" or "rsn"
+    ///
+    /// # Returns
+    ///
+    /// `true` if the protocol was found and removed; `false` if it was not.
     fn remove_proto_by_value(&self, proto: &str) -> bool;
 
+    /// Sets a WEP key in the given index.
+    /// ## `idx`
+    /// the index of the key (0..3 inclusive)
+    /// ## `key`
+    /// the WEP key as a string, in either hexadecimal, ASCII, or passphrase
+    /// form as determiend by the value of the `SettingWirelessSecurity:wep-key-type`
+    /// property.
     fn set_wep_key(&self, idx: u32, key: &str);
 
+    /// When WEP is used (ie, key-mgmt = "none" or "ieee8021x") indicate the
+    /// 802.11 authentication algorithm required by the AP here. One of "open"
+    /// for Open System, "shared" for Shared Key, or "leap" for Cisco LEAP. When
+    /// using Cisco LEAP (ie, key-mgmt = "ieee8021x" and auth-alg = "leap") the
+    /// "leap-username" and "leap-password" properties must be specified.
     fn set_property_auth_alg(&self, auth_alg: Option<&str>);
 
+    /// Indicates whether Fast Initial Link Setup (802.11ai) must be enabled for
+    /// the connection. One of `SettingWirelessSecurityFils::Default` (use
+    /// global default value), `SettingWirelessSecurityFils::Disable`
+    /// (disable FILS), `SettingWirelessSecurityFils::Optional` (enable FILS
+    /// if the supplicant and the access point support it) or
+    /// `SettingWirelessSecurityFils::Required` (enable FILS and fail if not
+    /// supported). When set to `SettingWirelessSecurityFils::Default` and
+    /// no global default is set, FILS will be optionally enabled.
+    ///
+    /// Feature: `v1_12`
+    ///
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     fn set_property_fils(&self, fils: i32);
 
+    /// A list of group/broadcast encryption algorithms which prevents
+    /// connections to Wi-Fi networks that do not utilize one of the algorithms
+    /// in the list. For maximum compatibility leave this property empty. Each
+    /// list element may be one of "wep40", "wep104", "tkip", or "ccmp".
     fn set_property_group(&self, group: &[&str]);
 
+    /// Key management used for the connection. One of "none" (WEP),
+    /// "ieee8021x" (Dynamic WEP), "wpa-psk" (infrastructure WPA-PSK), "sae"
+    /// (SAE), "owe" (Opportunistic Wireless Encryption) or "wpa-eap"
+    /// (WPA-Enterprise). This property must be set for
+    /// any Wi-Fi connection that uses security.
     fn set_property_key_mgmt(&self, key_mgmt: Option<&str>);
 
+    /// The login password for legacy LEAP connections (ie, key-mgmt =
+    /// "ieee8021x" and auth-alg = "leap").
     fn set_property_leap_password(&self, leap_password: Option<&str>);
 
+    /// Flags indicating how to handle the
+    /// `SettingWirelessSecurity:leap-password` property.
     fn set_property_leap_password_flags(&self, leap_password_flags: SettingSecretFlags);
 
+    /// The login username for legacy LEAP connections (ie, key-mgmt =
+    /// "ieee8021x" and auth-alg = "leap").
     fn set_property_leap_username(&self, leap_username: Option<&str>);
 
+    /// A list of pairwise encryption algorithms which prevents connections to
+    /// Wi-Fi networks that do not utilize one of the algorithms in the list.
+    /// For maximum compatibility leave this property empty. Each list element
+    /// may be one of "tkip" or "ccmp".
     fn set_property_pairwise(&self, pairwise: &[&str]);
 
+    /// Indicates whether Protected Management Frames (802.11w) must be enabled
+    /// for the connection. One of `SettingWirelessSecurityPmf::Default`
+    /// (use global default value), `SettingWirelessSecurityPmf::Disable`
+    /// (disable PMF), `SettingWirelessSecurityPmf::Optional` (enable PMF if
+    /// the supplicant and the access point support it) or
+    /// `SettingWirelessSecurityPmf::Required` (enable PMF and fail if not
+    /// supported). When set to `SettingWirelessSecurityPmf::Default` and no
+    /// global default is set, PMF will be optionally enabled.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn set_property_pmf(&self, pmf: i32);
 
+    /// List of strings specifying the allowed WPA protocol versions to use.
+    /// Each element may be one "wpa" (allow WPA) or "rsn" (allow WPA2/RSN). If
+    /// not specified, both WPA and RSN connections are allowed.
     fn set_property_proto(&self, proto: &[&str]);
 
+    /// Pre-Shared-Key for WPA networks. For WPA-PSK, it's either an ASCII
+    /// passphrase of 8 to 63 characters that is (as specified in the 802.11i
+    /// standard) hashed to derive the actual key, or the key in form of 64
+    /// hexadecimal character. The WPA3-Personal networks use a passphrase
+    /// of any length for SAE authentication.
     fn set_property_psk(&self, psk: Option<&str>);
 
+    /// Flags indicating how to handle the `SettingWirelessSecurity:psk`
+    /// property.
     fn set_property_psk_flags(&self, psk_flags: SettingSecretFlags);
 
+    /// Flags indicating how to handle the `SettingWirelessSecurity:wep-key0`,
+    /// `SettingWirelessSecurity:wep-key1`, `SettingWirelessSecurity:wep-key2`,
+    /// and `SettingWirelessSecurity:wep-key3` properties.
     fn set_property_wep_key_flags(&self, wep_key_flags: SettingSecretFlags);
 
+    /// Controls the interpretation of WEP keys. Allowed values are
+    /// `WepKeyType::Key`, in which case the key is either a 10- or
+    /// 26-character hexadecimal string, or a 5- or 13-character ASCII password;
+    /// or `WepKeyType::Passphrase`, in which case the passphrase is provided
+    /// as a string and will be hashed using the de-facto MD5 method to derive
+    /// the actual WEP key.
     fn set_property_wep_key_type(&self, wep_key_type: WepKeyType);
 
+    /// Index 0 WEP key. This is the WEP key used in most networks. See the
+    /// "wep-key-type" property for a description of how this key is interpreted.
     fn get_property_wep_key0(&self) -> Option<GString>;
 
+    /// Index 0 WEP key. This is the WEP key used in most networks. See the
+    /// "wep-key-type" property for a description of how this key is interpreted.
     fn set_property_wep_key0(&self, wep_key0: Option<&str>);
 
+    /// Index 1 WEP key. This WEP index is not used by most networks. See the
+    /// "wep-key-type" property for a description of how this key is interpreted.
     fn get_property_wep_key1(&self) -> Option<GString>;
 
+    /// Index 1 WEP key. This WEP index is not used by most networks. See the
+    /// "wep-key-type" property for a description of how this key is interpreted.
     fn set_property_wep_key1(&self, wep_key1: Option<&str>);
 
+    /// Index 2 WEP key. This WEP index is not used by most networks. See the
+    /// "wep-key-type" property for a description of how this key is interpreted.
     fn get_property_wep_key2(&self) -> Option<GString>;
 
+    /// Index 2 WEP key. This WEP index is not used by most networks. See the
+    /// "wep-key-type" property for a description of how this key is interpreted.
     fn set_property_wep_key2(&self, wep_key2: Option<&str>);
 
+    /// Index 3 WEP key. This WEP index is not used by most networks. See the
+    /// "wep-key-type" property for a description of how this key is interpreted.
     fn get_property_wep_key3(&self) -> Option<GString>;
 
+    /// Index 3 WEP key. This WEP index is not used by most networks. See the
+    /// "wep-key-type" property for a description of how this key is interpreted.
     fn set_property_wep_key3(&self, wep_key3: Option<&str>);
 
+    /// When static WEP is used (ie, key-mgmt = "none") and a non-default WEP key
+    /// index is used by the AP, put that WEP key index here. Valid values are 0
+    /// (default key) through 3. Note that some consumer access points (like the
+    /// Linksys WRT54G) number the keys 1 - 4.
     fn set_property_wep_tx_keyidx(&self, wep_tx_keyidx: u32);
 
+    /// Flags indicating which mode of WPS is to be used if any.
+    ///
+    /// There's little point in changing the default setting as NetworkManager will
+    /// automatically determine whether it's feasible to start WPS enrollment from
+    /// the Access Point capabilities.
+    ///
+    /// WPS can be disabled by setting this property to a value of 1.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn set_property_wps_method(&self, wps_method: u32);
 

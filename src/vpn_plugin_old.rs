@@ -44,31 +44,73 @@ impl VpnPluginOld {
 
 pub const NONE_VPN_PLUGIN_OLD: Option<&VpnPluginOld> = None;
 
+/// `[Deprecated since 1.2]` Trait containing all `VpnPluginOld` methods.
+///
+/// # Implementors
+///
+/// [`VpnPluginOld`](struct.VpnPluginOld.html)
 pub trait VpnPluginOldExt: 'static {
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
     #[cfg_attr(feature = "v1_2", deprecated)]
     fn disconnect(&self) -> Result<(), glib::Error>;
 
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
     #[cfg_attr(feature = "v1_2", deprecated)]
     fn failure(&self, reason: VpnPluginFailure);
 
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
     #[cfg_attr(feature = "v1_2", deprecated)]
     fn get_state(&self) -> VpnServiceState;
 
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
     #[cfg_attr(feature = "v1_2", deprecated)]
     fn set_config(&self, config: &glib::Variant);
 
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
     #[cfg_attr(feature = "v1_2", deprecated)]
     fn set_ip4_config(&self, ip4_config: &glib::Variant);
 
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
     #[cfg_attr(feature = "v1_2", deprecated)]
     fn set_ip6_config(&self, ip6_config: &glib::Variant);
 
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
     #[cfg_attr(feature = "v1_2", deprecated)]
     fn set_login_banner(&self, banner: &str);
 
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
     #[cfg_attr(feature = "v1_2", deprecated)]
     fn set_state(&self, state: VpnServiceState);
 
+    /// The D-Bus service name of this plugin.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
     #[cfg_attr(feature = "v1_2", deprecated)]
     fn get_property_service_name(&self) -> Option<GString>;
 

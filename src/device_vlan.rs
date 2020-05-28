@@ -23,14 +23,27 @@ glib_wrapper! {
 }
 
 impl DeviceVlan {
+    /// Whether the device has carrier.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the device has carrier
     pub fn get_carrier(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_vlan_get_carrier(self.to_glib_none().0)) }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the device's parent device
     pub fn get_parent(&self) -> Option<Device> {
         unsafe { from_glib_none(nm_sys::nm_device_vlan_get_parent(self.to_glib_none().0)) }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the device's VLAN ID
     pub fn get_vlan_id(&self) -> u32 {
         unsafe { nm_sys::nm_device_vlan_get_vlan_id(self.to_glib_none().0) }
     }

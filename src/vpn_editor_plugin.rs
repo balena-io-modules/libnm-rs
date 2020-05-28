@@ -33,6 +33,28 @@ glib_wrapper! {
 }
 
 impl VpnEditorPlugin {
+    /// Load the shared library `plugin_name` and create a new
+    /// `VpnEditorPlugin` instance via the `NMVpnEditorPluginFactory`
+    /// function.
+    ///
+    /// This is similar to `VpnEditorPlugin::load_from_file`, but
+    /// it does no validation of the plugin name, instead passes it directly
+    /// to `dlopen`. If you have the full path to a plugin file,
+    /// `VpnEditorPlugin::load_from_file` is preferred.
+    ///
+    /// Feature: `v1_4`
+    ///
+    /// ## `plugin_name`
+    /// The name of the shared library to load.
+    ///  This path will be directly passed to `dlopen` without
+    ///  further checks.
+    /// ## `check_service`
+    /// if not-null, check that the loaded plugin advertises
+    ///  the given service.
+    ///
+    /// # Returns
+    ///
+    /// a new plugin instance or `None` on error.
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn load(plugin_name: &str, check_service: &str) -> Result<VpnEditorPlugin, glib::Error> {
         unsafe {
@@ -58,13 +80,31 @@ impl VpnEditorPlugin {
 
 pub const NONE_VPN_EDITOR_PLUGIN: Option<&VpnEditorPlugin> = None;
 
+/// Trait containing all `VpnEditorPlugin` methods.
+///
+/// # Implementors
+///
+/// [`VpnEditorPlugin`](struct.VpnEditorPlugin.html)
 pub trait VpnEditorPluginExt: 'static {
     fn export<P: IsA<Connection>>(&self, path: &str, connection: &P) -> Result<(), glib::Error>;
 
     fn get_capabilities(&self) -> VpnEditorPluginCapability;
 
+    /// ## `connection`
+    /// the `Connection` to be edited
+    ///
+    /// # Returns
+    ///
+    /// a new `VpnEditor` or `None` on error
     fn get_editor<P: IsA<Connection>>(&self, connection: &P) -> Result<VpnEditor, glib::Error>;
 
+    ///
+    /// Feature: `v1_4`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// if set, return the `VpnPluginInfo` instance.
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn get_plugin_info(&self) -> Option<VpnPluginInfo>;
 
@@ -73,15 +113,33 @@ pub trait VpnEditorPluginExt: 'static {
     //#[cfg(any(feature = "v1_4", feature = "dox"))]
     //fn get_vt(&self, vt: /*Ignored*/VpnEditorPluginVT, vt_size: usize) -> usize;
 
+    /// ## `path`
+    /// full path to the file to attempt to read into a new `Connection`
+    ///
+    /// # Returns
+    ///
+    /// a new `Connection` imported from `path`, or `None`
+    /// on error or if the file at `path` was not recognized by this plugin
     fn import(&self, path: &str) -> Result<Connection, glib::Error>;
 
+    /// Set or clear the plugin-info instance.
+    /// This takes a weak reference on `plugin_info`, to avoid circular
+    /// reference as the plugin-info might also reference the editor-plugin.
+    ///
+    /// Feature: `v1_4`
+    ///
+    /// ## `plugin_info`
+    /// a `VpnPluginInfo` instance or `None`
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn set_plugin_info(&self, plugin_info: Option<&VpnPluginInfo>);
 
+    /// Longer description of the VPN plugin.
     fn get_property_description(&self) -> Option<GString>;
 
+    /// Short display name of the VPN plugin.
     fn get_property_name(&self) -> Option<GString>;
 
+    /// D-Bus service name of the plugin's VPN service.
     fn get_property_service(&self) -> Option<GString>;
 
     fn connect_property_description_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;

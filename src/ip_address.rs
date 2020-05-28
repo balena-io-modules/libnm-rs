@@ -22,6 +22,18 @@ glib_wrapper! {
 }
 
 impl IPAddress {
+    /// Creates a new `IPAddress` object.
+    /// ## `family`
+    /// the IP address family (`<literal>`AF_INET`</literal>` or
+    ///  `<literal>`AF_INET6`</literal>`)
+    /// ## `addr`
+    /// the IP address
+    /// ## `prefix`
+    /// the address prefix length
+    ///
+    /// # Returns
+    ///
+    /// the new `IPAddress` object, or `None` on error
     pub fn new(family: i32, addr: &str, prefix: u32) -> Result<IPAddress, glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -38,6 +50,22 @@ impl IPAddress {
     //    unsafe { TODO: call nm_sys:nm_ip_address_new_binary() }
     //}
 
+    /// Note that with `cmp_flags` `IPAddressCmpFlags::WithAttrs`, there
+    /// is no total order for comparing GVariant. That means, if the two addresses
+    /// only differ by their attributes, the sort order is undefined and the return
+    /// value only indicates equality.
+    ///
+    /// Feature: `v1_22`
+    ///
+    /// ## `b`
+    /// the `IPAddress` to compare `address` to.
+    /// ## `cmp_flags`
+    /// the `IPAddressCmpFlags` that indicate what to compare.
+    ///
+    /// # Returns
+    ///
+    /// 0 if the two objects have the same values (according to their flags)
+    ///  or a integer indicating the compare order.
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     pub fn cmp_full(&self, b: &IPAddress, cmp_flags: IPAddressCmpFlags) -> i32 {
         unsafe {
@@ -49,10 +77,23 @@ impl IPAddress {
         }
     }
 
+    /// Creates a copy of `self`
+    ///
+    /// # Returns
+    ///
+    /// a copy of `self`
     pub fn dup(&self) -> Option<IPAddress> {
         unsafe { from_glib_full(nm_sys::nm_ip_address_dup(self.to_glib_none().0)) }
     }
 
+    /// Determines if two `IPAddress` objects contain the same address and prefix
+    /// (attributes are not compared).
+    /// ## `other`
+    /// the `IPAddress` to compare `self` to.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the objects contain the same values, `false` if they do not.
     fn equal(&self, other: &IPAddress) -> bool {
         unsafe {
             from_glib(nm_sys::nm_ip_address_equal(
@@ -62,6 +103,11 @@ impl IPAddress {
         }
     }
 
+    /// Gets the IP address property of this address object.
+    ///
+    /// # Returns
+    ///
+    /// the IP address
     pub fn get_address(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_ip_address_get_address(self.to_glib_none().0)) }
     }
@@ -70,6 +116,14 @@ impl IPAddress {
     //    unsafe { TODO: call nm_sys:nm_ip_address_get_address_binary() }
     //}
 
+    /// Gets the value of the attribute with name `name` on `self`
+    /// ## `name`
+    /// the name of an address attribute
+    ///
+    /// # Returns
+    ///
+    /// the value of the attribute with name `name` on
+    ///  `self`, or `None` if `self` has no such attribute.
     pub fn get_attribute(&self, name: &str) -> Option<glib::Variant> {
         unsafe {
             from_glib_none(nm_sys::nm_ip_address_get_attribute(
@@ -79,14 +133,32 @@ impl IPAddress {
         }
     }
 
+    /// Gets the IP address family (eg, AF_INET) property of this address
+    /// object.
+    ///
+    /// # Returns
+    ///
+    /// the IP address family
     pub fn get_family(&self) -> i32 {
         unsafe { nm_sys::nm_ip_address_get_family(self.to_glib_none().0) }
     }
 
+    /// Gets the IP address prefix (ie "24" or "30" etc) property of this address
+    /// object.
+    ///
+    /// # Returns
+    ///
+    /// the IP address prefix
     pub fn get_prefix(&self) -> u32 {
         unsafe { nm_sys::nm_ip_address_get_prefix(self.to_glib_none().0) }
     }
 
+    /// Sets the IP address property of this address object.
+    ///
+    /// `addr` must be a valid address of `self`'s family. If you aren't sure you
+    /// have a valid address, use `nm_utils_ipaddr_valid` to check it.
+    /// ## `addr`
+    /// the IP address, as a string
     pub fn set_address(&self, addr: &str) {
         unsafe {
             nm_sys::nm_ip_address_set_address(self.to_glib_none().0, addr.to_glib_none().0);
@@ -97,6 +169,11 @@ impl IPAddress {
     //    unsafe { TODO: call nm_sys:nm_ip_address_set_address_binary() }
     //}
 
+    /// Sets or clears the named attribute on `self` to the given value.
+    /// ## `name`
+    /// the name of an address attribute
+    /// ## `value`
+    /// the value
     pub fn set_attribute(&self, name: &str, value: Option<&glib::Variant>) {
         unsafe {
             nm_sys::nm_ip_address_set_attribute(
@@ -107,6 +184,9 @@ impl IPAddress {
         }
     }
 
+    /// Sets the IP address prefix property of this address object.
+    /// ## `prefix`
+    /// the IP address prefix
     pub fn set_prefix(&self, prefix: u32) {
         unsafe {
             nm_sys::nm_ip_address_set_prefix(self.to_glib_none().0, prefix);

@@ -26,10 +26,38 @@ glib_wrapper! {
 
 pub const NONE_OBJECT: Option<&Object> = None;
 
+/// Trait containing all `Object` methods.
+///
+/// # Implementors
+///
+/// [`AccessPoint`](struct.AccessPoint.html), [`ActiveConnection`](struct.ActiveConnection.html), [`Checkpoint`](struct.Checkpoint.html), [`Device`](struct.Device.html), [`DhcpConfig`](struct.DhcpConfig.html), [`IPConfig`](struct.IPConfig.html), [`Object`](struct.Object.html), [`RemoteConnection`](struct.RemoteConnection.html), [`WifiP2PPeer`](struct.WifiP2PPeer.html), [`WimaxNsp`](struct.WimaxNsp.html)
 pub trait ObjectExt: 'static {
+    /// Returns the `Client` instance in which object is cached.
+    /// Also, if the object got removed from the client cached,
+    /// this returns `None`. So it can be used to check whether the
+    /// object is still alive.
+    ///
+    /// Feature: `v1_24`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `Client` cache in which the
+    /// object can be found, or `None` if the object is no longer
+    /// cached.
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     fn get_client(&self) -> Option<Client>;
 
+    /// Gets the DBus path of the `Object`.
+    ///
+    /// # Returns
+    ///
+    /// the object's path. This is the internal string used by the
+    /// object, and must not be modified.
+    ///
+    /// Note that the D-Bus path of an NMObject never changes, even
+    /// if the instance gets removed from the cache. To find out
+    /// whether the object is still alive/cached, check `ObjectExt::get_client`.
     fn get_path(&self) -> Option<GString>;
 
     fn connect_property_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;

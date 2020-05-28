@@ -31,16 +31,42 @@ glib_wrapper! {
 }
 
 impl DeviceWireGuard {
+    /// Gets the fwmark (firewall mark) for this interface.
+    /// It can be used to set routing policy for outgoing encrypted packets.
+    /// See: ip-rule(8)
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// 0 if fwmark not in use, 32-bit fwmark value otherwise
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_fwmark(&self) -> u32 {
         unsafe { nm_sys::nm_device_wireguard_get_fwmark(self.to_glib_none().0) }
     }
 
+    /// Gets the local UDP port this interface listens on
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// UDP listen port
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_listen_port(&self) -> u16 {
         unsafe { nm_sys::nm_device_wireguard_get_listen_port(self.to_glib_none().0) }
     }
 
+    /// Gets the public key for this interface
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `glib::Bytes` containing the 32-byte public key
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_public_key(&self) -> Option<glib::Bytes> {
         unsafe {

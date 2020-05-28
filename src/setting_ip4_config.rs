@@ -27,6 +27,11 @@ glib_wrapper! {
 }
 
 impl SettingIP4Config {
+    /// Creates a new `SettingIP4Config` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingIP4Config` object
     pub fn new() -> SettingIP4Config {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_ip4_config_new()).unsafe_cast() }
     }
@@ -40,14 +45,67 @@ impl Default for SettingIP4Config {
 
 pub const NONE_SETTING_IP4_CONFIG: Option<&SettingIP4Config> = None;
 
+/// Trait containing all `SettingIP4Config` methods.
+///
+/// # Implementors
+///
+/// [`SettingIP4Config`](struct.SettingIP4Config.html)
 pub trait SettingIP4ConfigExt: 'static {
+    /// Returns the value contained in the `SettingIP4Config:dhcp-client-id`
+    /// property.
+    ///
+    /// # Returns
+    ///
+    /// the configured Client ID to send to the DHCP server when requesting
+    /// addresses via DHCP.
     fn get_dhcp_client_id(&self) -> Option<GString>;
 
+    /// Returns the value contained in the `SettingIP4Config:dhcp-fqdn`
+    /// property.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the configured FQDN to send to the DHCP server
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_dhcp_fqdn(&self) -> Option<GString>;
 
+    /// A string sent to the DHCP server to identify the local machine which the
+    /// DHCP server may use to customize the DHCP lease and options.
+    /// When the property is a hex string ('aa:bb:cc') it is interpreted as a
+    /// binary client ID, in which case the first byte is assumed to be the
+    /// 'type' field as per RFC 2132 section 9.14 and the remaining bytes may be
+    /// an hardware address (e.g. '01:xx:xx:xx:xx:xx:xx' where 1 is the Ethernet
+    /// ARP type and the rest is a MAC address).
+    /// If the property is not a hex string it is considered as a
+    /// non-hardware-address client ID and the 'type' field is set to 0.
+    ///
+    /// The special values "mac" and "perm-mac" are supported, which use the
+    /// current or permanent MAC address of the device to generate a client identifier
+    /// with type ethernet (01). Currently, these options only work for ethernet
+    /// type of links.
+    ///
+    /// The special value "duid" generates a RFC4361-compliant client identifier based
+    /// on a hash of the interface name as IAID and /etc/machine-id.
+    ///
+    /// The special value "stable" is supported to generate a type 0 client identifier based
+    /// on the stable-id (see connection.stable-id) and a per-host key. If you set the
+    /// stable-id, you may want to include the "${DEVICE}" or "${MAC}" specifier to get a
+    /// per-device key.
+    ///
+    /// If unset, a globally configured default is used. If still unset, the default
+    /// depends on the DHCP plugin.
     fn set_property_dhcp_client_id(&self, dhcp_client_id: Option<&str>);
 
+    /// If the `SettingIPConfig:dhcp-send-hostname` property is `true`, then the
+    /// specified FQDN will be sent to the DHCP server when acquiring a lease. This
+    /// property and `SettingIPConfig:dhcp-hostname` are mutually exclusive and
+    /// cannot be set at the same time.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_dhcp_fqdn(&self, dhcp_fqdn: Option<&str>);
 

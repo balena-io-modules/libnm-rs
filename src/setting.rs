@@ -28,6 +28,14 @@ glib_wrapper! {
 }
 
 impl Setting {
+    /// Returns the `glib::Type` of the setting's class for a given setting name.
+    /// ## `name`
+    /// a setting name
+    ///
+    /// # Returns
+    ///
+    /// the `glib::Type` of the setting's class, or `G_TYPE_INVALID` if
+    ///  `name` is not recognized.
     pub fn lookup_type(name: &str) -> glib::types::Type {
         unsafe { from_glib(nm_sys::nm_setting_lookup_type(name.to_glib_none().0)) }
     }
@@ -35,29 +43,112 @@ impl Setting {
 
 pub const NONE_SETTING: Option<&Setting> = None;
 
+/// Trait containing all `Setting` methods.
+///
+/// # Implementors
+///
+/// [`Setting6Lowpan`](struct.Setting6Lowpan.html), [`Setting8021x`](struct.Setting8021x.html), [`SettingAdsl`](struct.SettingAdsl.html), [`SettingBluetooth`](struct.SettingBluetooth.html), [`SettingBond`](struct.SettingBond.html), [`SettingBridgePort`](struct.SettingBridgePort.html), [`SettingBridge`](struct.SettingBridge.html), [`SettingCdma`](struct.SettingCdma.html), [`SettingConnection`](struct.SettingConnection.html), [`SettingDcb`](struct.SettingDcb.html), [`SettingDummy`](struct.SettingDummy.html), [`SettingEthtool`](struct.SettingEthtool.html), [`SettingGeneric`](struct.SettingGeneric.html), [`SettingGsm`](struct.SettingGsm.html), [`SettingIPConfig`](struct.SettingIPConfig.html), [`SettingIPTunnel`](struct.SettingIPTunnel.html), [`SettingInfiniband`](struct.SettingInfiniband.html), [`SettingMacsec`](struct.SettingMacsec.html), [`SettingMacvlan`](struct.SettingMacvlan.html), [`SettingMatch`](struct.SettingMatch.html), [`SettingOlpcMesh`](struct.SettingOlpcMesh.html), [`SettingOvsBridge`](struct.SettingOvsBridge.html), [`SettingOvsDpdk`](struct.SettingOvsDpdk.html), [`SettingOvsInterface`](struct.SettingOvsInterface.html), [`SettingOvsPatch`](struct.SettingOvsPatch.html), [`SettingOvsPort`](struct.SettingOvsPort.html), [`SettingPpp`](struct.SettingPpp.html), [`SettingPppoe`](struct.SettingPppoe.html), [`SettingProxy`](struct.SettingProxy.html), [`SettingSerial`](struct.SettingSerial.html), [`SettingSriov`](struct.SettingSriov.html), [`SettingTCConfig`](struct.SettingTCConfig.html), [`SettingTeamPort`](struct.SettingTeamPort.html), [`SettingTeam`](struct.SettingTeam.html), [`SettingTun`](struct.SettingTun.html), [`SettingUser`](struct.SettingUser.html), [`SettingVlan`](struct.SettingVlan.html), [`SettingVpn`](struct.SettingVpn.html), [`SettingVrf`](struct.SettingVrf.html), [`SettingVxlan`](struct.SettingVxlan.html), [`SettingWifiP2P`](struct.SettingWifiP2P.html), [`SettingWimax`](struct.SettingWimax.html), [`SettingWireGuard`](struct.SettingWireGuard.html), [`SettingWired`](struct.SettingWired.html), [`SettingWirelessSecurity`](struct.SettingWirelessSecurity.html), [`SettingWireless`](struct.SettingWireless.html), [`SettingWpan`](struct.SettingWpan.html), [`Setting`](struct.Setting.html)
 pub trait SettingExt: 'static {
+    /// Compares two `Setting` objects for similarity, with comparison behavior
+    /// modified by a set of flags. See the documentation for `SettingCompareFlags`
+    /// for a description of each flag's behavior.
+    /// ## `b`
+    /// a second `Setting` to compare with the first
+    /// ## `flags`
+    /// compare flags, e.g. `SettingCompareFlags::Exact`
+    ///
+    /// # Returns
+    ///
+    /// `true` if the comparison succeeds, `false` if it does not
     fn compare<P: IsA<Setting>>(&self, b: &P, flags: SettingCompareFlags) -> bool;
 
     //fn diff<P: IsA<Setting>>(&self, b: &P, flags: SettingCompareFlags, invert_results: bool, results: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }) -> bool;
 
+    /// Duplicates a `Setting`.
+    ///
+    /// # Returns
+    ///
+    /// a new `Setting` containing the same properties and values as the
+    /// source `Setting`
     fn duplicate(&self) -> Option<Setting>;
 
     //fn enumerate_values(&self, func: /*Unimplemented*/FnMut(&Setting, &str, /*Ignored*/glib::Value, /*Ignored*/glib::ParamFlags), user_data: /*Unimplemented*/Option<Fundamental: Pointer>);
 
+    /// Gets the D-Bus marshalling type of a property. `property_name` is a D-Bus
+    /// property name, which may not necessarily be a `gobject::Object` property.
+    /// ## `property_name`
+    /// the property of `self` to get the type of
+    ///
+    /// # Returns
+    ///
+    /// the D-Bus marshalling type of `property` on `self`.
     fn get_dbus_property_type(&self, property_name: &str) -> Option<glib::VariantType>;
 
+    /// Returns the type name of the `Setting` object
+    ///
+    /// # Returns
+    ///
+    /// a string containing the type name of the `Setting` object,
+    /// like 'ppp' or 'wireless' or 'wired'.
     fn get_name(&self) -> Option<GString>;
 
+    /// For a given secret, stores the `SettingSecretFlags` describing how to
+    /// handle that secret.
+    /// ## `secret_name`
+    /// the secret key name to set flags for
+    /// ## `flags`
+    /// the `SettingSecretFlags` for the secret
+    ///
+    /// # Returns
+    ///
+    /// `true` on success (if the given secret name was a valid property of
+    /// this setting, and if that property is secret), `false` if not
     fn set_secret_flags(
         &self,
         secret_name: &str,
         flags: SettingSecretFlags,
     ) -> Result<(), glib::Error>;
 
+    /// Convert the setting (including secrets!) into a string. For debugging
+    /// purposes ONLY, should NOT be used for serialization of the setting,
+    /// or machine-parsed in any way. The output format is not guaranteed to
+    /// be stable and may change at any time.
+    ///
+    /// # Returns
+    ///
+    /// an allocated string containing a textual representation of the
+    /// setting's properties and values, which the caller should
+    /// free with `g_free`
     fn to_string(&self) -> GString;
 
+    /// Validates the setting. Each setting's properties have allowed values, and
+    /// some are dependent on other values (hence the need for `connection`). The
+    /// returned `glib::Error` contains information about which property of the setting
+    /// failed validation, and in what way that property failed validation.
+    /// ## `connection`
+    /// the `Connection` that `self` came from, or
+    ///  `None` if `self` is being verified in isolation.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the setting is valid, `false` if it is not
     fn verify<P: IsA<Connection>>(&self, connection: Option<&P>) -> Result<(), glib::Error>;
 
+    /// Verifies the secrets in the setting.
+    /// The returned `glib::Error` contains information about which secret of the setting
+    /// failed validation, and in what way that secret failed validation.
+    /// The secret validation is done separately from main setting validation, because
+    /// in some cases connection failure is not desired just for the secrets.
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `connection`
+    /// the `Connection` that `self` came from, or
+    ///  `None` if `self` is being verified in isolation.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the setting secrets are valid, `false` if they are not
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn verify_secrets<P: IsA<Connection>>(&self, connection: Option<&P>)
         -> Result<(), glib::Error>;

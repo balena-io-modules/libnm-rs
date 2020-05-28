@@ -34,16 +34,35 @@ glib_wrapper! {
 }
 
 impl SettingVrf {
+    /// Creates a new `SettingVrf` object with default values.
+    ///
+    /// Feature: `v1_24`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingVrf` object
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     pub fn new() -> SettingVrf {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_vrf_new()).unsafe_cast() }
     }
 
+    ///
+    /// Feature: `v1_24`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the routing table for the VRF
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     pub fn get_table(&self) -> u32 {
         unsafe { nm_sys::nm_setting_vrf_get_table(self.to_glib_none().0) }
     }
 
+    /// The routing table for this VRF.
+    ///
+    /// Feature: `v1_24`
+    ///
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     pub fn set_property_table(&self, table: u32) {
         unsafe {

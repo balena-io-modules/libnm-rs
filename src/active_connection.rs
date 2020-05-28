@@ -38,45 +38,168 @@ glib_wrapper! {
 
 pub const NONE_ACTIVE_CONNECTION: Option<&ActiveConnection> = None;
 
+/// Trait containing all `ActiveConnection` methods.
+///
+/// # Implementors
+///
+/// [`ActiveConnection`](struct.ActiveConnection.html), [`VpnConnection`](struct.VpnConnection.html)
 pub trait ActiveConnectionExt: 'static {
+    /// Gets the `RemoteConnection` associated with `self`.
+    ///
+    /// # Returns
+    ///
+    /// the `RemoteConnection` which this
+    /// `ActiveConnection` is an active instance of.
     fn get_connection(&self) -> Option<RemoteConnection>;
 
+    /// Gets the `Connection`'s type.
+    ///
+    /// # Returns
+    ///
+    /// the type of the `Connection` that backs the `ActiveConnection`.
+    /// This is the internal string used by the connection, and must not be modified.
     fn get_connection_type(&self) -> Option<GString>;
 
+    /// Whether the active connection is the default IPv4 one (that is, is used for
+    /// the default IPv4 route and DNS information).
+    ///
+    /// # Returns
+    ///
+    /// `true` if the active connection is the default IPv4 connection
     fn get_default(&self) -> bool;
 
+    /// Whether the active connection is the default IPv6 one (that is, is used for
+    /// the default IPv6 route and DNS information).
+    ///
+    /// # Returns
+    ///
+    /// `true` if the active connection is the default IPv6 connection
     fn get_default6(&self) -> bool;
 
+    /// Gets the `NMDevices` used for the active connections.
+    ///
+    /// # Returns
+    ///
+    /// the `glib::PtrArray` containing `NMDevices`.
+    /// This is the internal copy used by the connection, and must not be modified.
     fn get_devices(&self) -> Vec<Device>;
 
+    /// Gets the current IPv4 `DhcpConfig` (if any) associated with the
+    /// `ActiveConnection`.
+    ///
+    /// # Returns
+    ///
+    /// the IPv4 `DhcpConfig`, or `None` if the connection
+    ///  does not use DHCP, or is not in the `ActiveConnectionState::Activated`
+    ///  state.
     fn get_dhcp4_config(&self) -> Option<DhcpConfig>;
 
+    /// Gets the current IPv6 `DhcpConfig` (if any) associated with the
+    /// `ActiveConnection`.
+    ///
+    /// # Returns
+    ///
+    /// the IPv6 `DhcpConfig`, or `None` if the connection
+    ///  does not use DHCPv6, or is not in the `ActiveConnectionState::Activated`
+    ///  state.
     fn get_dhcp6_config(&self) -> Option<DhcpConfig>;
 
+    /// Gets the `Connection`'s ID.
+    ///
+    /// # Returns
+    ///
+    /// the ID of the `Connection` that backs the `ActiveConnection`.
+    /// This is the internal string used by the connection, and must not be modified.
     fn get_id(&self) -> Option<GString>;
 
+    /// Gets the current IPv4 `IPConfig` associated with the `ActiveConnection`.
+    ///
+    /// # Returns
+    ///
+    /// the IPv4 `IPConfig`, or `None` if the connection is
+    ///  not in the `ActiveConnectionState::Activated` state.
     fn get_ip4_config(&self) -> Option<IPConfig>;
 
+    /// Gets the current IPv6 `IPConfig` associated with the `ActiveConnection`.
+    ///
+    /// # Returns
+    ///
+    /// the IPv6 `IPConfig`, or `None` if the connection is
+    ///  not in the `ActiveConnectionState::Activated` state.
     fn get_ip6_config(&self) -> Option<IPConfig>;
 
+    /// Gets the master `Device` of the connection.
+    ///
+    /// # Returns
+    ///
+    /// the master `Device` of the `ActiveConnection`.
     fn get_master(&self) -> Option<Device>;
 
+    /// Gets the path of the "specific object" used at activation.
+    ///
+    /// Currently there is no single method that will allow you to automatically turn
+    /// this into an appropriate `Object`; you need to know what kind of object it
+    /// is based on other information. (Eg, if `self` corresponds to a Wi-Fi
+    /// connection, then the specific object will be an `AccessPoint`, and you can
+    /// resolve it with `DeviceWifi::get_access_point_by_path`.)
+    ///
+    /// # Returns
+    ///
+    /// the specific object's D-Bus path. This is the internal string used
+    /// by the connection, and must not be modified.
     fn get_specific_object_path(&self) -> Option<GString>;
 
+    /// Gets the active connection's state.
+    ///
+    /// # Returns
+    ///
+    /// the state
     fn get_state(&self) -> ActiveConnectionState;
 
+    /// Gets the active connection's state flags.
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the state flags
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     fn get_state_flags(&self) -> ActivationStateFlags;
 
+    /// Gets the reason for active connection's state.
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the reason
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_state_reason(&self) -> ActiveConnectionStateReason;
 
+    /// Gets the `Connection`'s UUID.
+    ///
+    /// # Returns
+    ///
+    /// the UUID of the `Connection` that backs the `ActiveConnection`.
+    /// This is the internal string used by the connection, and must not be modified.
     fn get_uuid(&self) -> Option<GString>;
 
+    /// Whether the active connection is a VPN connection.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the active connection is a VPN connection
     fn get_vpn(&self) -> bool;
 
+    /// The active connection's type
     fn get_property_type(&self) -> Option<GString>;
 
+    /// ## `state`
+    /// the new state number (`ActiveConnectionState`)
+    /// ## `reason`
+    /// the state change reason (`ActiveConnectionStateReason`)
     fn connect_state_changed<F: Fn(&Self, u32, u32) + 'static>(&self, f: F) -> SignalHandlerId;
 
     fn connect_property_connection_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;

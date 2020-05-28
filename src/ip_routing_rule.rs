@@ -24,56 +24,141 @@ glib_wrapper! {
 }
 
 impl IPRoutingRule {
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `addr_family`
+    /// the address family of the routing rule. Must be either
+    ///  `AF_INET` (2) or `AF_INET6` (10).
+    ///
+    /// # Returns
+    ///
+    /// a newly created rule instance with the
+    ///  provided address family. The instance is unsealed.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn new(addr_family: i32) -> IPRoutingRule {
         unsafe { from_glib_full(nm_sys::nm_ip_routing_rule_new(addr_family)) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `other`
+    /// the other `IPRoutingRule` instance to compare
+    ///
+    /// # Returns
+    ///
+    /// zero, a positive, or a negative integer to indicate
+    ///  equality or how the arguments compare.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn cmp(&self, other: Option<&IPRoutingRule>) -> i32 {
         unsafe { nm_sys::nm_ip_routing_rule_cmp(self.to_glib_none().0, other.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the set action.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_action(&self) -> u8 {
         unsafe { nm_sys::nm_ip_routing_rule_get_action(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the address family of the rule. Either `AF_INET` or `AF_INET6`.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_addr_family(&self) -> i32 {
         unsafe { nm_sys::nm_ip_routing_rule_get_addr_family(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the destination port end setting.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_destination_port_end(&self) -> u16 {
         unsafe { nm_sys::nm_ip_routing_rule_get_destination_port_end(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the destination port start setting.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_destination_port_start(&self) -> u16 {
         unsafe { nm_sys::nm_ip_routing_rule_get_destination_port_start(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the set from/src parameter or
+    ///  `None`, if no value is set.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_from(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_ip_routing_rule_get_from(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the set prefix length for the from/src parameter.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_from_len(&self) -> u8 {
         unsafe { nm_sys::nm_ip_routing_rule_get_from_len(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the fwmark setting.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_fwmark(&self) -> u32 {
         unsafe { nm_sys::nm_ip_routing_rule_get_fwmark(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the fwmask setting.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_fwmask(&self) -> u32 {
         unsafe { nm_sys::nm_ip_routing_rule_get_fwmask(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the set iifname or `None` if unset.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_iifname(&self) -> Option<GString> {
         unsafe {
@@ -83,16 +168,37 @@ impl IPRoutingRule {
         }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the "invert" setting of the rule.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_invert(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_ip_routing_rule_get_invert(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the ipproto of the rule.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_ipproto(&self) -> u8 {
         unsafe { nm_sys::nm_ip_routing_rule_get_ipproto(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the set oifname or `None` if unset.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_oifname(&self) -> Option<GString> {
         unsafe {
@@ -102,56 +208,137 @@ impl IPRoutingRule {
         }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the priority. A valid priority is in the range from
+    ///  0 to `G_MAXUINT32`. If unset, -1 is returned.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_priority(&self) -> i64 {
         unsafe { nm_sys::nm_ip_routing_rule_get_priority(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the source port end setting.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_source_port_end(&self) -> u16 {
         unsafe { nm_sys::nm_ip_routing_rule_get_source_port_end(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the source port start setting.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_source_port_start(&self) -> u16 {
         unsafe { nm_sys::nm_ip_routing_rule_get_source_port_start(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_20`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the suppress_prefixlength of the rule. -1 means that the value is unset.
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn get_suppress_prefixlength(&self) -> i32 {
         unsafe { nm_sys::nm_ip_routing_rule_get_suppress_prefixlength(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the set table.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_table(&self) -> u32 {
         unsafe { nm_sys::nm_ip_routing_rule_get_table(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the set to/dst parameter or
+    ///  `None`, if no value is set.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_to(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_ip_routing_rule_get_to(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the set prefix length for the to/dst parameter.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_to_len(&self) -> u8 {
         unsafe { nm_sys::nm_ip_routing_rule_get_to_len(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the tos of the rule.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_tos(&self) -> u8 {
         unsafe { nm_sys::nm_ip_routing_rule_get_tos(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether `self` is sealed. Once sealed, an instance
+    ///  cannot be modified nor unsealed.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn is_sealed(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_ip_routing_rule_is_sealed(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// a newly created rule instance with
+    ///  the same settings as `self`. Note that the instance will
+    ///  always be unsealred.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn new_clone(&self) -> Option<IPRoutingRule> {
         unsafe { from_glib_full(nm_sys::nm_ip_routing_rule_new_clone(self.to_glib_none().0)) }
     }
 
+    /// Seals the routing rule. Afterwards, the instance can no longer be
+    /// modified, and it is a bug to call any of the accessors that would
+    /// modify the rule. If `self` was already sealed, this has no effect.
+    ///
+    /// Feature: `v1_18`
+    ///
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn seal(&self) {
         unsafe {
@@ -159,6 +346,13 @@ impl IPRoutingRule {
         }
     }
 
+    /// Note that currently only certain actions are allowed. `IPRoutingRule::validate`
+    /// will reject unsupported actions as invalid.
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `action`
+    /// the action to set
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn set_action(&self, action: u8) {
         unsafe {
@@ -166,6 +360,13 @@ impl IPRoutingRule {
         }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `start`
+    /// the start port to set.
+    /// ## `end`
+    /// the end port to set.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn set_destination_port(&self, start: u16, end: u16) {
         unsafe {
@@ -173,6 +374,13 @@ impl IPRoutingRule {
         }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `fwmark`
+    /// the fwmark
+    /// ## `fwmask`
+    /// the fwmask
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn set_fwmark(&self, fwmark: u32, fwmask: u32) {
         unsafe {
@@ -180,6 +388,15 @@ impl IPRoutingRule {
         }
     }
 
+    /// The name supports C backslash escaping for non-UTF-8 characters.
+    /// Note that `IPRoutingRule::from_string` too uses backslash
+    /// escaping when tokenizing the words by whitespace. So, in string
+    /// representation you'd get double backslashes.
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `iifname`
+    /// the iifname to set or `None` to unset.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn set_iifname(&self, iifname: Option<&str>) {
         unsafe {
@@ -187,6 +404,11 @@ impl IPRoutingRule {
         }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `invert`
+    /// the new value to set
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn set_invert(&self, invert: bool) {
         unsafe {
@@ -194,6 +416,11 @@ impl IPRoutingRule {
         }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `ipproto`
+    /// the ipproto to set
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn set_ipproto(&self, ipproto: u8) {
         unsafe {
@@ -201,6 +428,15 @@ impl IPRoutingRule {
         }
     }
 
+    /// The name supports C backslash escaping for non-UTF-8 characters.
+    /// Note that `IPRoutingRule::from_string` too uses backslash
+    /// escaping when tokenizing the words by whitespace. So, in string
+    /// representation you'd get double backslashes.
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `oifname`
+    /// the oifname to set or `None` to unset.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn set_oifname(&self, oifname: Option<&str>) {
         unsafe {
@@ -208,6 +444,14 @@ impl IPRoutingRule {
         }
     }
 
+    /// A valid priority ranges from 0 to `G_MAXUINT32`. "-1" is also allowed
+    /// to reset the priority. It is a bug calling this function with any
+    /// other value.
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `priority`
+    /// the priority to set
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn set_priority(&self, priority: i64) {
         unsafe {
@@ -215,6 +459,13 @@ impl IPRoutingRule {
         }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `start`
+    /// the start port to set.
+    /// ## `end`
+    /// the end port to set.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn set_source_port(&self, start: u16, end: u16) {
         unsafe {
@@ -222,6 +473,12 @@ impl IPRoutingRule {
         }
     }
 
+    ///
+    /// Feature: `v1_20`
+    ///
+    /// ## `suppress_prefixlength`
+    /// the suppress_prefixlength to set. The value -1 means
+    ///  unset.
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn set_suppress_prefixlength(&self, suppress_prefixlength: i32) {
         unsafe {
@@ -232,6 +489,11 @@ impl IPRoutingRule {
         }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `table`
+    /// the table to set
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn set_table(&self, table: u32) {
         unsafe {
@@ -239,6 +501,11 @@ impl IPRoutingRule {
         }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `tos`
+    /// the tos to set
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn set_tos(&self, tos: u8) {
         unsafe {
@@ -251,6 +518,13 @@ impl IPRoutingRule {
     //    unsafe { TODO: call nm_sys:nm_ip_routing_rule_to_string() }
     //}
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// `true` if the rule validates.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn validate(&self) -> Result<(), glib::Error> {
         unsafe {

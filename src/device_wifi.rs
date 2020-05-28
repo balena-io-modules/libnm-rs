@@ -36,6 +36,13 @@ glib_wrapper! {
 }
 
 impl DeviceWifi {
+    /// Gets a `AccessPoint` by path.
+    /// ## `path`
+    /// the object path of the access point
+    ///
+    /// # Returns
+    ///
+    /// the access point or `None` if none is found.
     pub fn get_access_point_by_path(&self, path: &str) -> Option<AccessPoint> {
         unsafe {
             from_glib_none(nm_sys::nm_device_wifi_get_access_point_by_path(
@@ -45,6 +52,13 @@ impl DeviceWifi {
         }
     }
 
+    /// Gets all the scanned access points of the `DeviceWifi`.
+    ///
+    /// # Returns
+    ///
+    /// a `glib::PtrArray` containing all the
+    /// scanned `NMAccessPoints`.
+    /// The returned array is owned by the client and should not be modified.
     pub fn get_access_points(&self) -> Vec<AccessPoint> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(nm_sys::nm_device_wifi_get_access_points(
@@ -53,6 +67,11 @@ impl DeviceWifi {
         }
     }
 
+    /// Gets the active `AccessPoint`.
+    ///
+    /// # Returns
+    ///
+    /// the access point or `None` if none is active
     pub fn get_active_access_point(&self) -> Option<AccessPoint> {
         unsafe {
             from_glib_none(nm_sys::nm_device_wifi_get_active_access_point(
@@ -61,10 +80,20 @@ impl DeviceWifi {
         }
     }
 
+    /// Gets the bit rate of the `DeviceWifi` in kbit/s.
+    ///
+    /// # Returns
+    ///
+    /// the bit rate (kbit/s)
     pub fn get_bitrate(&self) -> u32 {
         unsafe { nm_sys::nm_device_wifi_get_bitrate(self.to_glib_none().0) }
     }
 
+    /// Gets the Wi-Fi capabilities of the `DeviceWifi`.
+    ///
+    /// # Returns
+    ///
+    /// the capabilities
     pub fn get_capabilities(&self) -> DeviceWifiCapabilities {
         unsafe {
             from_glib(nm_sys::nm_device_wifi_get_capabilities(
@@ -73,15 +102,38 @@ impl DeviceWifi {
         }
     }
 
+    /// Returns the timestamp (in CLOCK_BOOTTIME milliseconds) for the last finished
+    /// network scan. A value of -1 means the device never scanned for access points.
+    ///
+    /// Use `nm_utils_get_timestamp_msec` to obtain current time value suitable for
+    /// comparing to this value.
+    ///
+    /// Feature: `v1_12`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the last scan time in seconds
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn get_last_scan(&self) -> i64 {
         unsafe { nm_sys::nm_device_wifi_get_last_scan(self.to_glib_none().0) }
     }
 
+    /// Gets the `DeviceWifi` mode.
+    ///
+    /// # Returns
+    ///
+    /// the mode
     pub fn get_mode(&self) -> _80211Mode {
         unsafe { from_glib(nm_sys::nm_device_wifi_get_mode(self.to_glib_none().0)) }
     }
 
+    /// Gets the permanent hardware (MAC) address of the `DeviceWifi`
+    ///
+    /// # Returns
+    ///
+    /// the permanent hardware address. This is the internal string used by the
+    /// device, and must not be modified.
     pub fn get_permanent_hw_address(&self) -> Option<GString> {
         unsafe {
             from_glib_none(nm_sys::nm_device_wifi_get_permanent_hw_address(
@@ -90,6 +142,20 @@ impl DeviceWifi {
         }
     }
 
+    /// Request NM to scan for access points on `self`. Note that the function
+    /// returns immediately after requesting the scan, and it may take some time
+    /// after that for the scan to complete.
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// Use `DeviceWifi::request_scan_async` or GDBusConnection.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    ///
+    /// # Returns
+    ///
+    /// `true` on success, `false` on error, in which case `error` will be
+    /// set.
     #[cfg_attr(feature = "v1_22", deprecated)]
     pub fn request_scan<P: IsA<gio::Cancellable>>(
         &self,
@@ -110,6 +176,15 @@ impl DeviceWifi {
         }
     }
 
+    /// Request NM to scan for access points on `self`. Note that `callback` will be
+    /// called immediately after requesting the scan, and it may take some time after
+    /// that for the scan to complete.
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    /// ## `callback`
+    /// callback to be called when the scan has been requested
+    /// ## `user_data`
+    /// caller-specific data passed to `callback`
     pub fn request_scan_async<
         P: IsA<gio::Cancellable>,
         Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
@@ -164,6 +239,29 @@ impl DeviceWifi {
         }))
     }
 
+    /// Request NM to scan for access points on `self`. Note that the function
+    /// returns immediately after requesting the scan, and it may take some time
+    /// after that for the scan to complete.
+    /// This is the same as `DeviceWifi::request_scan` except it accepts `options`
+    /// for the scanning. The argument is the dictionary passed to RequestScan()
+    /// D-Bus call. Valid options inside the dictionary are:
+    /// 'ssids' => array of SSIDs (saay)
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Deprecated since 1.22
+    ///
+    /// Use `DeviceWifi::request_scan_options_async` or GDBusConnection.
+    /// ## `options`
+    /// dictionary with options for RequestScan(), or `None`
+    /// ## `cancellable`
+    /// a `gio::Cancellable`, or `None`
+    ///
+    /// # Returns
+    ///
+    /// `true` on success, `false` on error, in which case `error` will be
+    /// set.
     #[cfg_attr(feature = "v1_22", deprecated)]
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn request_scan_options<P: IsA<gio::Cancellable>>(
@@ -192,6 +290,7 @@ impl DeviceWifi {
     //    unsafe { TODO: call nm_sys:nm_device_wifi_request_scan_options_async() }
     //}
 
+    /// The hardware (MAC) address of the device.
     pub fn get_property_perm_hw_address(&self) -> Option<GString> {
         unsafe {
             let mut value = Value::from_type(<GString as StaticType>::static_type());
@@ -206,6 +305,7 @@ impl DeviceWifi {
         }
     }
 
+    /// The wireless capabilities of the device.
     pub fn get_property_wireless_capabilities(&self) -> DeviceWifiCapabilities {
         unsafe {
             let mut value = Value::from_type(<DeviceWifiCapabilities as StaticType>::static_type());
@@ -221,6 +321,9 @@ impl DeviceWifi {
         }
     }
 
+    /// Notifies that a `AccessPoint` is added to the Wi-Fi device.
+    /// ## `ap`
+    /// the new access point
     pub fn connect_access_point_added<F: Fn(&DeviceWifi, &glib::Object) + 'static>(
         &self,
         f: F,
@@ -248,6 +351,9 @@ impl DeviceWifi {
         }
     }
 
+    /// Notifies that a `AccessPoint` is removed from the Wi-Fi device.
+    /// ## `ap`
+    /// the removed access point
     pub fn connect_access_point_removed<F: Fn(&DeviceWifi, &glib::Object) + 'static>(
         &self,
         f: F,

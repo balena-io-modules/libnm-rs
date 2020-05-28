@@ -35,6 +35,14 @@ glib_wrapper! {
 }
 
 impl SettingVxlan {
+    /// Creates a new `SettingVxlan` object with default values.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingVxlan` object
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn new() -> SettingVxlan {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_vxlan_new()).unsafe_cast() }
@@ -50,100 +58,291 @@ impl Default for SettingVxlan {
 
 pub const NONE_SETTING_VXLAN: Option<&SettingVxlan> = None;
 
+/// Trait containing all `SettingVxlan` methods.
+///
+/// Feature: `v1_2`
+///
+/// # Implementors
+///
+/// [`SettingVxlan`](struct.SettingVxlan.html)
 pub trait SettingVxlanExt: 'static {
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:ageing` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_ageing(&self) -> u32;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:destination-port` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_destination_port(&self) -> u32;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:id` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_id(&self) -> u32;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:l2_miss` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_l2_miss(&self) -> bool;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:l3_miss` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_l3_miss(&self) -> bool;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:learning` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_learning(&self) -> bool;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:limit` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_limit(&self) -> u32;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:local` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_local(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:parent` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_parent(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:proxy` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_proxy(&self) -> bool;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:remote` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_remote(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:rsc` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_rsc(&self) -> bool;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:source-port-max` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_source_port_max(&self) -> u32;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:source-port-min` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_source_port_min(&self) -> u32;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:tos` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_tos(&self) -> u32;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingVxlan:ttl` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_ttl(&self) -> u32;
 
+    /// Specifies the lifetime in seconds of FDB entries learnt by the kernel.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_ageing(&self, ageing: u32);
 
+    /// Specifies the UDP destination port to communicate to the remote VXLAN
+    /// tunnel endpoint.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_destination_port(&self, destination_port: u32);
 
+    /// Specifies the VXLAN Network Identifier (or VXLAN Segment Identifier) to
+    /// use.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_id(&self, id: u32);
 
+    /// Specifies whether netlink LL ADDR miss notifications are generated.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_l2_miss(&self, l2_miss: bool);
 
+    /// Specifies whether netlink IP ADDR miss notifications are generated.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_l3_miss(&self, l3_miss: bool);
 
+    /// Specifies whether unknown source link layer addresses and IP addresses
+    /// are entered into the VXLAN device forwarding database.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_learning(&self, learning: bool);
 
+    /// Specifies the maximum number of FDB entries. A value of zero means that
+    /// the kernel will store unlimited entries.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_limit(&self, limit: u32);
 
+    /// If given, specifies the source IP address to use in outgoing packets.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_local(&self, local: Option<&str>);
 
+    /// If given, specifies the parent interface name or parent connection UUID.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_parent(&self, parent: Option<&str>);
 
+    /// Specifies whether ARP proxy is turned on.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_proxy(&self, proxy: bool);
 
+    /// Specifies the unicast destination IP address to use in outgoing packets
+    /// when the destination link layer address is not known in the VXLAN device
+    /// forwarding database, or the multicast IP address to join.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_remote(&self, remote: Option<&str>);
 
+    /// Specifies whether route short circuit is turned on.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_rsc(&self, rsc: bool);
 
+    /// Specifies the maximum UDP source port to communicate to the remote VXLAN
+    /// tunnel endpoint.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_source_port_max(&self, source_port_max: u32);
 
+    /// Specifies the minimum UDP source port to communicate to the remote VXLAN
+    /// tunnel endpoint.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_source_port_min(&self, source_port_min: u32);
 
+    /// Specifies the TOS value to use in outgoing packets.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_tos(&self, tos: u32);
 
+    /// Specifies the time-to-live value to use in outgoing packets.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_ttl(&self, ttl: u32);
 

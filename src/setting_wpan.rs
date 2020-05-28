@@ -28,16 +28,38 @@ glib_wrapper! {
 }
 
 impl SettingWpan {
+    /// Creates a new `SettingWpan` object with default values.
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingWpan` object
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn new() -> SettingWpan {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_wpan_new()).unsafe_cast() }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWpan:channel` property of the setting
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_channel(&self) -> i16 {
         unsafe { nm_sys::nm_setting_wpan_get_channel(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWpan:mac-address` property of the setting
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_mac_address(&self) -> Option<GString> {
         unsafe {
@@ -47,21 +69,47 @@ impl SettingWpan {
         }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWpan:page` property of the setting
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_page(&self) -> i16 {
         unsafe { nm_sys::nm_setting_wpan_get_page(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWpan:pan-id` property of the setting
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_pan_id(&self) -> u16 {
         unsafe { nm_sys::nm_setting_wpan_get_pan_id(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingWpan:short-address` property of the setting
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_short_address(&self) -> u16 {
         unsafe { nm_sys::nm_setting_wpan_get_short_address(self.to_glib_none().0) }
     }
 
+    /// IEEE 802.15.4 channel. A positive integer or -1, meaning "do not
+    /// set, use whatever the device is already set to".
+    ///
+    /// Feature: `v1_16`
+    ///
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn set_property_channel(&self, channel: i32) {
         unsafe {
@@ -73,6 +121,8 @@ impl SettingWpan {
         }
     }
 
+    /// If specified, this connection will only apply to the IEEE 802.15.4 (WPAN)
+    /// MAC layer device whose permanent MAC address matches.
     pub fn get_property_mac_address(&self) -> Option<GString> {
         unsafe {
             let mut value = Value::from_type(<GString as StaticType>::static_type());
@@ -87,6 +137,8 @@ impl SettingWpan {
         }
     }
 
+    /// If specified, this connection will only apply to the IEEE 802.15.4 (WPAN)
+    /// MAC layer device whose permanent MAC address matches.
     pub fn set_property_mac_address(&self, mac_address: Option<&str>) {
         unsafe {
             gobject_sys::g_object_set_property(
@@ -97,6 +149,11 @@ impl SettingWpan {
         }
     }
 
+    /// IEEE 802.15.4 channel page. A positive integer or -1, meaning "do not
+    /// set, use whatever the device is already set to".
+    ///
+    /// Feature: `v1_16`
+    ///
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn set_property_page(&self, page: i32) {
         unsafe {
@@ -108,6 +165,7 @@ impl SettingWpan {
         }
     }
 
+    /// IEEE 802.15.4 Personal Area Network (PAN) identifier.
     pub fn get_property_pan_id(&self) -> u32 {
         unsafe {
             let mut value = Value::from_type(<u32 as StaticType>::static_type());
@@ -123,6 +181,7 @@ impl SettingWpan {
         }
     }
 
+    /// IEEE 802.15.4 Personal Area Network (PAN) identifier.
     pub fn set_property_pan_id(&self, pan_id: u32) {
         unsafe {
             gobject_sys::g_object_set_property(
@@ -133,6 +192,7 @@ impl SettingWpan {
         }
     }
 
+    /// Short IEEE 802.15.4 address to be used within a restricted environment.
     pub fn get_property_short_address(&self) -> u32 {
         unsafe {
             let mut value = Value::from_type(<u32 as StaticType>::static_type());
@@ -148,6 +208,7 @@ impl SettingWpan {
         }
     }
 
+    /// Short IEEE 802.15.4 address to be used within a restricted environment.
     pub fn set_property_short_address(&self, short_address: u32) {
         unsafe {
             gobject_sys::g_object_set_property(

@@ -27,6 +27,11 @@ glib_wrapper! {
 }
 
 impl SettingAdsl {
+    /// Creates a new `SettingAdsl` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingAdsl` object
     pub fn new() -> SettingAdsl {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_adsl_new()).unsafe_cast() }
     }
@@ -40,33 +45,73 @@ impl Default for SettingAdsl {
 
 pub const NONE_SETTING_ADSL: Option<&SettingAdsl> = None;
 
+/// Trait containing all `SettingAdsl` methods.
+///
+/// # Implementors
+///
+/// [`SettingAdsl`](struct.SettingAdsl.html)
 pub trait SettingAdslExt: 'static {
+    ///
+    /// # Returns
+    ///
+    /// the `SettingAdsl:encapsulation` property of the setting
     fn get_encapsulation(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingAdsl:password` property of the setting
     fn get_password(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the `SettingAdsl:password`
     fn get_password_flags(&self) -> SettingSecretFlags;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingAdsl:protocol` property of the setting
     fn get_protocol(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingAdsl:username` property of the setting
     fn get_username(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingAdsl:vci` property of the setting
     fn get_vci(&self) -> u32;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingAdsl:vpi` property of the setting
     fn get_vpi(&self) -> u32;
 
+    /// Encapsulation of ADSL connection. Can be "vcmux" or "llc".
     fn set_property_encapsulation(&self, encapsulation: Option<&str>);
 
+    /// Password used to authenticate with the ADSL service.
     fn set_property_password(&self, password: Option<&str>);
 
+    /// Flags indicating how to handle the `SettingAdsl:password` property.
     fn set_property_password_flags(&self, password_flags: SettingSecretFlags);
 
+    /// ADSL connection protocol. Can be "pppoa", "pppoe" or "ipoatm".
     fn set_property_protocol(&self, protocol: Option<&str>);
 
+    /// Username used to authenticate with the ADSL service.
     fn set_property_username(&self, username: Option<&str>);
 
+    /// VCI of ADSL connection
     fn set_property_vci(&self, vci: u32);
 
+    /// VPI of ADSL connection
     fn set_property_vpi(&self, vpi: u32);
 
     fn connect_property_encapsulation_notify<F: Fn(&Self) + 'static>(

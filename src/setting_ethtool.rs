@@ -24,11 +24,23 @@ glib_wrapper! {
 }
 
 impl SettingEthtool {
+    /// Creates a new `SettingEthtool` object with default values.
+    ///
+    /// Feature: `v1_14`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingEthtool` object
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn new() -> SettingEthtool {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_ethtool_new()).unsafe_cast() }
     }
 
+    /// Clears all offload features settings
+    ///
+    /// Feature: `v1_14`
+    ///
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn clear_features(&self) {
         unsafe {
@@ -36,6 +48,21 @@ impl SettingEthtool {
         }
     }
 
+    /// Gets and offload feature setting. Returns `Ternary::Default` if the
+    /// feature is not set.
+    ///
+    /// Note that `optname` must be a valid name for a feature, according to
+    /// `nm_ethtool_optname_is_feature`.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `optname`
+    /// option name of the offload feature to get
+    ///
+    /// # Returns
+    ///
+    /// a `Ternary` value indicating whether the offload feature
+    ///  is enabled, disabled, or left untouched.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_feature(&self, optname: &str) -> Ternary {
         unsafe {
@@ -46,6 +73,20 @@ impl SettingEthtool {
         }
     }
 
+    /// This returns all options names that are set. This includes the feature names
+    /// like `NM_ETHTOOL_OPTNAME_FEATURE_GRO`. See `nm_ethtool_optname_is_feature` to
+    /// check whether the option name is valid for offload features.
+    ///
+    /// Feature: `v1_20`
+    ///
+    /// ## `out_length`
+    /// return location for the number of keys returned, or `None`
+    ///
+    /// # Returns
+    ///
+    /// list of set option
+    ///  names or `None` if no options are set. The option names are still owned by
+    ///  `self` and may get invalidated when `self` gets modified.
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn get_optnames(&self) -> (Vec<GString>, u32) {
         unsafe {
@@ -60,6 +101,18 @@ impl SettingEthtool {
         }
     }
 
+    /// Sets and offload feature setting.
+    ///
+    /// Note that `optname` must be a valid name for a feature, according to
+    /// `nm_ethtool_optname_is_feature`.
+    ///
+    /// Feature: `v1_14`
+    ///
+    /// ## `optname`
+    /// option name of the offload feature to get
+    /// ## `value`
+    /// the new value to set. The special value `Ternary::Default`
+    ///  means to clear the offload feature setting.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn set_feature(&self, optname: &str, value: Ternary) {
         unsafe {

@@ -28,10 +28,22 @@ glib_wrapper! {
 }
 
 impl SettingBridge {
+    /// Creates a new `SettingBridge` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingBridge` object
     pub fn new() -> SettingBridge {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_bridge_new()).unsafe_cast() }
     }
 
+    /// Appends a new vlan and associated information to the setting. The
+    /// given vlan gets sealed and a reference to it is added.
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `vlan`
+    /// the vlan to add
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn add_vlan(&self, vlan: &BridgeVlan) {
         unsafe {
@@ -39,6 +51,10 @@ impl SettingBridge {
         }
     }
 
+    /// Removes all configured VLANs.
+    ///
+    /// Feature: `v1_18`
+    ///
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn clear_vlans(&self) {
         unsafe {
@@ -46,14 +62,28 @@ impl SettingBridge {
         }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:ageing-time` property of the setting
     pub fn get_ageing_time(&self) -> u32 {
         unsafe { nm_sys::nm_setting_bridge_get_ageing_time(self.to_glib_none().0) }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:forward-delay` property of the setting
     pub fn get_forward_delay(&self) -> u16 {
         unsafe { nm_sys::nm_setting_bridge_get_forward_delay(self.to_glib_none().0) }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:group-address` property of the setting
+    ///
+    /// Since 1.24
     pub fn get_group_address(&self) -> Option<GString> {
         unsafe {
             from_glib_none(nm_sys::nm_setting_bridge_get_group_address(
@@ -62,15 +92,30 @@ impl SettingBridge {
         }
     }
 
+    ///
+    /// Feature: `v1_10`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:group-forward-mask` property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn get_group_forward_mask(&self) -> u16 {
         unsafe { nm_sys::nm_setting_bridge_get_group_forward_mask(self.to_glib_none().0) }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:hello-time` property of the setting
     pub fn get_hello_time(&self) -> u16 {
         unsafe { nm_sys::nm_setting_bridge_get_hello_time(self.to_glib_none().0) }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:mac-address` property of the setting
     pub fn get_mac_address(&self) -> Option<GString> {
         unsafe {
             from_glib_none(nm_sys::nm_setting_bridge_get_mac_address(
@@ -79,10 +124,20 @@ impl SettingBridge {
         }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:max-age` property of the setting
     pub fn get_max_age(&self) -> u16 {
         unsafe { nm_sys::nm_setting_bridge_get_max_age(self.to_glib_none().0) }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:multicast-querier` property of the setting
+    ///
+    /// Since 1.24
     pub fn get_multicast_querier(&self) -> bool {
         unsafe {
             from_glib(nm_sys::nm_setting_bridge_get_multicast_querier(
@@ -91,6 +146,12 @@ impl SettingBridge {
         }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:multicast-query-use-ifaddr` property of the setting
+    ///
+    /// Since 1.24
     pub fn get_multicast_query_use_ifaddr(&self) -> bool {
         unsafe {
             from_glib(nm_sys::nm_setting_bridge_get_multicast_query_use_ifaddr(
@@ -99,6 +160,12 @@ impl SettingBridge {
         }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:multicast-router` property of the setting
+    ///
+    /// Since 1.24
     pub fn get_multicast_router(&self) -> Option<GString> {
         unsafe {
             from_glib_none(nm_sys::nm_setting_bridge_get_multicast_router(
@@ -107,6 +174,13 @@ impl SettingBridge {
         }
     }
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:multicast-snooping` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_multicast_snooping(&self) -> bool {
         unsafe {
@@ -116,19 +190,43 @@ impl SettingBridge {
         }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of VLANs
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_num_vlans(&self) -> u32 {
         unsafe { nm_sys::nm_setting_bridge_get_num_vlans(self.to_glib_none().0) }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:priority` property of the setting
     pub fn get_priority(&self) -> u16 {
         unsafe { nm_sys::nm_setting_bridge_get_priority(self.to_glib_none().0) }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:stp` property of the setting
     pub fn get_stp(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_setting_bridge_get_stp(self.to_glib_none().0)) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `idx`
+    /// index number of the VLAN to return
+    ///
+    /// # Returns
+    ///
+    /// the VLAN at index `idx`
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_vlan(&self, idx: u32) -> Option<BridgeVlan> {
         unsafe {
@@ -139,11 +237,25 @@ impl SettingBridge {
         }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:vlan-default-pvid` property of the setting
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_vlan_default_pvid(&self) -> u16 {
         unsafe { nm_sys::nm_setting_bridge_get_vlan_default_pvid(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_18`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:vlan-filtering` property of the setting
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_vlan_filtering(&self) -> bool {
         unsafe {
@@ -153,6 +265,12 @@ impl SettingBridge {
         }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:vlan-protocol` property of the setting
+    ///
+    /// Since 1.24
     pub fn get_vlan_protocol(&self) -> Option<GString> {
         unsafe {
             from_glib_none(nm_sys::nm_setting_bridge_get_vlan_protocol(
@@ -161,6 +279,12 @@ impl SettingBridge {
         }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:vlan-stats-enabled` property of the setting
+    ///
+    /// Since 1.24
     pub fn get_vlan_stats_enabled(&self) -> bool {
         unsafe {
             from_glib(nm_sys::nm_setting_bridge_get_vlan_stats_enabled(
@@ -169,6 +293,12 @@ impl SettingBridge {
         }
     }
 
+    /// Removes the vlan at index `idx`.
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `idx`
+    /// index number of the VLAN.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn remove_vlan(&self, idx: u32) {
         unsafe {
@@ -176,6 +306,20 @@ impl SettingBridge {
         }
     }
 
+    /// Remove the VLAN with range `vid_start` to `vid_end`.
+    /// If `vid_end` is zero, it is assumed to be equal to `vid_start`
+    /// and so the single-id VLAN with id `vid_start` is removed.
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `vid_start`
+    /// the vlan start index
+    /// ## `vid_end`
+    /// the vlan end index
+    ///
+    /// # Returns
+    ///
+    /// `true` if the vlan was found and removed; `false` otherwise
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn remove_vlan_by_vid(&self, vid_start: u16, vid_end: u16) -> bool {
         unsafe {
@@ -187,6 +331,7 @@ impl SettingBridge {
         }
     }
 
+    /// The Ethernet MAC address aging time, in seconds.
     pub fn set_property_ageing_time(&self, ageing_time: u32) {
         unsafe {
             gobject_sys::g_object_set_property(
@@ -197,6 +342,7 @@ impl SettingBridge {
         }
     }
 
+    /// The Spanning Tree Protocol (STP) forwarding delay, in seconds.
     pub fn set_property_forward_delay(&self, forward_delay: u32) {
         unsafe {
             gobject_sys::g_object_set_property(
@@ -207,6 +353,14 @@ impl SettingBridge {
         }
     }
 
+    /// If specified, The MAC address of the multicast group this bridge uses for STP.
+    ///
+    /// The address must be a link-local address in standard Ethernet MAC address format,
+    /// ie an address of the form 01:80:C2:00:00:0X, with X in [0, 4..F].
+    /// If not specified the default value is 01:80:C2:00:00:00.
+    ///
+    /// Feature: `v1_24`
+    ///
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     pub fn set_property_group_address(&self, group_address: Option<&str>) {
         unsafe {
@@ -218,6 +372,15 @@ impl SettingBridge {
         }
     }
 
+    /// A mask of group addresses to forward. Usually, group addresses in
+    /// the range from 01:80:C2:00:00:00 to 01:80:C2:00:00:0F are not
+    /// forwarded according to standards. This property is a mask of 16 bits,
+    /// each corresponding to a group address in that range that must be
+    /// forwarded. The mask can't have bits 0, 1 or 2 set because they are
+    /// used for STP, MAC pause frames and LACP.
+    ///
+    /// Feature: `v1_10`
+    ///
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn set_property_group_forward_mask(&self, group_forward_mask: u32) {
         unsafe {
@@ -229,6 +392,7 @@ impl SettingBridge {
         }
     }
 
+    /// The Spanning Tree Protocol (STP) hello time, in seconds.
     pub fn set_property_hello_time(&self, hello_time: u32) {
         unsafe {
             gobject_sys::g_object_set_property(
@@ -239,6 +403,18 @@ impl SettingBridge {
         }
     }
 
+    /// If specified, the MAC address of bridge. When creating a new bridge, this
+    /// MAC address will be set.
+    ///
+    /// If this field is left unspecified, the "ethernet.cloned-mac-address" is
+    /// referred instead to generate the initial MAC address. Note that setting
+    /// "ethernet.cloned-mac-address" anyway overwrites the MAC address of
+    /// the bridge later while activating the bridge. Hence, this property
+    /// is deprecated.
+    ///
+    /// # Deprecated since 1.12
+    ///
+    /// Use the ethernet.cloned-mac-address property instead.
     #[cfg_attr(feature = "v1_12", deprecated)]
     pub fn set_property_mac_address(&self, mac_address: Option<&str>) {
         unsafe {
@@ -250,6 +426,7 @@ impl SettingBridge {
         }
     }
 
+    /// The Spanning Tree Protocol (STP) maximum message age, in seconds.
     pub fn set_property_max_age(&self, max_age: u32) {
         unsafe {
             gobject_sys::g_object_set_property(
@@ -260,6 +437,8 @@ impl SettingBridge {
         }
     }
 
+    /// Enable or disable sending of multicast queries by the bridge.
+    /// If not specified the option is disabled.
     pub fn set_property_multicast_querier(&self, multicast_querier: bool) {
         unsafe {
             gobject_sys::g_object_set_property(
@@ -270,6 +449,9 @@ impl SettingBridge {
         }
     }
 
+    /// If enabled the bridge's own IP address is used as
+    /// the source address for IGMP queries otherwise
+    /// the default of 0.0.0.0 is used.
     pub fn set_property_multicast_query_use_ifaddr(&self, multicast_query_use_ifaddr: bool) {
         unsafe {
             gobject_sys::g_object_set_property(
@@ -280,6 +462,11 @@ impl SettingBridge {
         }
     }
 
+    /// Sets bridge's multicast router.
+    /// multicast-snooping must be enabled for this option to work.
+    ///
+    /// Supported values are: 'auto', 'disabled', 'enabled'.
+    /// If not specified the default value is 'auto'.
     pub fn set_property_multicast_router(&self, multicast_router: Option<&str>) {
         unsafe {
             gobject_sys::g_object_set_property(
@@ -290,6 +477,13 @@ impl SettingBridge {
         }
     }
 
+    /// Controls whether IGMP snooping is enabled for this bridge.
+    /// Note that if snooping was automatically disabled due to hash collisions,
+    /// the system may refuse to enable the feature until the collisions are
+    /// resolved.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn set_property_multicast_snooping(&self, multicast_snooping: bool) {
         unsafe {
@@ -301,6 +495,9 @@ impl SettingBridge {
         }
     }
 
+    /// Sets the Spanning Tree Protocol (STP) priority for this bridge. Lower
+    /// values are "better"; the lowest priority bridge will be elected the root
+    /// bridge.
     pub fn set_property_priority(&self, priority: u32) {
         unsafe {
             gobject_sys::g_object_set_property(
@@ -311,6 +508,7 @@ impl SettingBridge {
         }
     }
 
+    /// Controls whether Spanning Tree Protocol (STP) is enabled for this bridge.
     pub fn set_property_stp(&self, stp: bool) {
         unsafe {
             gobject_sys::g_object_set_property(
@@ -321,6 +519,11 @@ impl SettingBridge {
         }
     }
 
+    /// The default PVID for the ports of the bridge, that is the VLAN id
+    /// assigned to incoming untagged frames.
+    ///
+    /// Feature: `v1_18`
+    ///
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn set_property_vlan_default_pvid(&self, vlan_default_pvid: u32) {
         unsafe {
@@ -332,6 +535,10 @@ impl SettingBridge {
         }
     }
 
+    /// Control whether VLAN filtering is enabled on the bridge.
+    ///
+    /// Feature: `v1_18`
+    ///
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn set_property_vlan_filtering(&self, vlan_filtering: bool) {
         unsafe {
@@ -343,6 +550,13 @@ impl SettingBridge {
         }
     }
 
+    /// If specified, the protocol used for VLAN filtering.
+    ///
+    /// Supported values are: '802.1Q', '802.1ad'.
+    /// If not specified the default value is '802.1Q'.
+    ///
+    /// Feature: `v1_24`
+    ///
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     pub fn set_property_vlan_protocol(&self, vlan_protocol: Option<&str>) {
         unsafe {
@@ -354,6 +568,7 @@ impl SettingBridge {
         }
     }
 
+    /// Controls whether per-VLAN stats accounting is enabled.
     pub fn set_property_vlan_stats_enabled(&self, vlan_stats_enabled: bool) {
         unsafe {
             gobject_sys::g_object_set_property(

@@ -36,11 +36,26 @@ glib_wrapper! {
 }
 
 impl SettingOvsDpdk {
+    /// Creates a new `SettingOvsDpdk` object with default values.
+    ///
+    /// Feature: `v1_20`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingOvsDpdk` object
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn new() -> SettingOvsDpdk {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_ovs_dpdk_new()).unsafe_cast() }
     }
 
+    ///
+    /// Feature: `v1_20`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingOvsDpdk:devargs` property of the setting
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn get_devargs(&self) -> Option<GString> {
         unsafe {
@@ -50,6 +65,10 @@ impl SettingOvsDpdk {
         }
     }
 
+    /// Open vSwitch DPDK device arguments.
+    ///
+    /// Feature: `v1_20`
+    ///
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn set_property_devargs(&self, devargs: Option<&str>) {
         unsafe {

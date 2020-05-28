@@ -37,6 +37,14 @@ glib_wrapper! {
 }
 
 impl SettingMacvlan {
+    /// Creates a new `SettingMacvlan` object with default values.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingMacvlan` object
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn new() -> SettingMacvlan {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_macvlan_new()).unsafe_cast() }
@@ -52,28 +60,83 @@ impl Default for SettingMacvlan {
 
 pub const NONE_SETTING_MACVLAN: Option<&SettingMacvlan> = None;
 
+/// Trait containing all `SettingMacvlan` methods.
+///
+/// Feature: `v1_2`
+///
+/// # Implementors
+///
+/// [`SettingMacvlan`](struct.SettingMacvlan.html)
 pub trait SettingMacvlanExt: 'static {
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingMacvlan:mode` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_mode(&self) -> SettingMacvlanMode;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingMacvlan:parent` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_parent(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingMacvlan:promiscuous` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_promiscuous(&self) -> bool;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingMacvlan:tap` property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_tap(&self) -> bool;
 
+    /// The macvlan mode, which specifies the communication mechanism between multiple
+    /// macvlans on the same lower device.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_mode(&self, mode: u32);
 
+    /// If given, specifies the parent interface name or parent connection UUID
+    /// from which this MAC-VLAN interface should be created. If this property is
+    /// not specified, the connection must contain an `SettingWired` setting
+    /// with a `SettingWired:mac-address` property.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_parent(&self, parent: Option<&str>);
 
+    /// Whether the interface should be put in promiscuous mode.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_promiscuous(&self, promiscuous: bool);
 
+    /// Whether the interface should be a MACVTAP.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_tap(&self, tap: bool);
 

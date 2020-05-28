@@ -31,16 +31,40 @@ glib_wrapper! {
 }
 
 impl DeviceTun {
+    /// Gets the tunnel group.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the gid of the tunnel group, or -1 if it has no owner.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_group(&self) -> i64 {
         unsafe { nm_sys::nm_device_tun_get_group(self.to_glib_none().0) }
     }
 
+    /// Returns the TUN/TAP mode for the device.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// 'tun' or 'tap'
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_mode(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_device_tun_get_mode(self.to_glib_none().0)) }
     }
 
+    /// Returns whether the `DeviceTun` has the IFF_MULTI_QUEUE flag.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// `true` if the device doesn't have the flag, `false` otherwise
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_multi_queue(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_tun_get_multi_queue(self.to_glib_none().0)) }
@@ -50,11 +74,27 @@ impl DeviceTun {
         unsafe { from_glib(nm_sys::nm_device_tun_get_no_pi(self.to_glib_none().0)) }
     }
 
+    /// Gets the tunnel owner.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the uid of the tunnel owner, or -1 if it has no owner.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_owner(&self) -> i64 {
         unsafe { nm_sys::nm_device_tun_get_owner(self.to_glib_none().0) }
     }
 
+    /// Returns whether the `DeviceTun` has the IFF_VNET_HDR flag.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// `true` if the device has the flag, `false` otherwise
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_vnet_hdr(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_tun_get_vnet_hdr(self.to_glib_none().0)) }

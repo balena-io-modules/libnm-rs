@@ -33,6 +33,11 @@ glib_wrapper! {
 }
 
 impl Setting8021x {
+    /// Creates a new `Setting8021x` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `Setting8021x` object
     pub fn new() -> Setting8021x {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_802_1x_new()).unsafe_cast() }
     }
@@ -51,332 +56,1389 @@ impl Default for Setting8021x {
 
 pub const NONE_SETTING8021X: Option<&Setting8021x> = None;
 
+/// Trait containing all `Setting8021x` methods.
+///
+/// # Implementors
+///
+/// [`Setting8021x`](struct.Setting8021x.html)
 pub trait Setting8021xExt: 'static {
+    /// Adds an allowed alternate subject name match. Until at least one
+    /// match is added, the altSubjectName of the remote authentication
+    /// server is not verified.
+    /// ## `altsubject_match`
+    /// the altSubjectName to allow for this connection
+    ///
+    /// # Returns
+    ///
+    /// `true` if the alternative subject name match was
+    ///  successfully added, `false` if it was already allowed.
     fn add_altsubject_match(&self, altsubject_match: &str) -> bool;
 
+    /// Adds an allowed EAP method. The setting is not valid until at least one
+    /// EAP method has been added. See `Setting8021x:eap` property for a list of
+    /// allowed EAP methods.
+    /// ## `eap`
+    /// the name of the EAP method to allow for this connection
+    ///
+    /// # Returns
+    ///
+    /// `true` if the EAP method was successfully added, `false` if it was
+    ///  not a valid method or if it was already allowed.
     fn add_eap_method(&self, eap: &str) -> bool;
 
+    /// Adds an allowed alternate subject name match for "phase 2". Until
+    /// at least one match is added, the altSubjectName of the "phase 2"
+    /// remote authentication server is not verified.
+    /// ## `phase2_altsubject_match`
+    /// the "phase 2" altSubjectName to allow for this
+    /// connection
+    ///
+    /// # Returns
+    ///
+    /// `true` if the "phase 2" alternative subject name match was
+    ///  successfully added, `false` if it was already allowed.
     fn add_phase2_altsubject_match(&self, phase2_altsubject_match: &str) -> bool;
 
+    /// Clears all altSubjectName matches.
     fn clear_altsubject_matches(&self);
 
+    /// Clears all allowed EAP methods.
     fn clear_eap_methods(&self);
 
+    /// Clears all "phase 2" altSubjectName matches.
     fn clear_phase2_altsubject_matches(&self);
 
+    /// Returns the altSubjectName match at index `i`.
+    /// ## `i`
+    /// the zero-based index of the array of altSubjectName matches
+    ///
+    /// # Returns
+    ///
+    /// the altSubjectName match at index `i`
     fn get_altsubject_match(&self, i: u32) -> Option<GString>;
 
+    /// Returns the anonymous identifier used by some EAP methods (like TTLS) to
+    /// authenticate the user in the outer unencrypted "phase 1" authentication. The
+    /// inner "phase 2" authentication will use the `Setting8021x:identity` in
+    /// a secure form, if applicable for that EAP method.
+    ///
+    /// # Returns
+    ///
+    /// the anonymous identifier
     fn get_anonymous_identity(&self) -> Option<GString>;
 
+    /// Returns the value contained in the `Setting8021x:auth-timeout` property.
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the configured authentication timeout in seconds. Zero means the
+    /// global default value.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_auth_timeout(&self) -> i32;
 
+    /// Returns the CA certificate blob if the CA certificate is stored using the
+    /// `Setting8021xCKScheme::Blob` scheme. Not all EAP methods use a
+    /// CA certificate (LEAP for example), and those that can take advantage of the
+    /// CA certificate allow it to be unset. Note that lack of a CA certificate
+    /// reduces security by allowing man-in-the-middle attacks, because the identity
+    /// of the network cannot be confirmed by the client.
+    ///
+    /// # Returns
+    ///
+    /// the CA certificate data
     fn get_ca_cert_blob(&self) -> Option<glib::Bytes>;
 
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the password used to access the CA certificate stored in
+    /// `Setting8021x:ca-cert` property. Only makes sense if the certificate
+    /// is stored on a PKCS#<!-- -->11 token that requires a login.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_ca_cert_password(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the
+    /// `Setting8021x:ca-cert-password`
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_ca_cert_password_flags(&self) -> SettingSecretFlags;
 
+    /// Returns the CA certificate path if the CA certificate is stored using the
+    /// `Setting8021xCKScheme::Path` scheme. Not all EAP methods use a
+    /// CA certificate (LEAP for example), and those that can take advantage of the
+    /// CA certificate allow it to be unset. Note that lack of a CA certificate
+    /// reduces security by allowing man-in-the-middle attacks, because the identity
+    /// of the network cannot be confirmed by the client.
+    ///
+    /// # Returns
+    ///
+    /// path to the CA certificate file
     fn get_ca_cert_path(&self) -> Option<GString>;
 
+    /// Returns the scheme used to store the CA certificate. If the returned scheme
+    /// is `Setting8021xCKScheme::Blob`, use `Setting8021xExt::get_ca_cert_blob`;
+    /// if `Setting8021xCKScheme::Path`, use `Setting8021xExt::get_ca_cert_path`;
+    /// if `Setting8021xCKScheme::Pkcs11`, use `Setting8021xExt::get_ca_cert_uri`.
+    ///
+    /// # Returns
+    ///
+    /// scheme used to store the CA certificate (blob or path)
     fn get_ca_cert_scheme(&self) -> Setting8021xCKScheme;
 
+    /// Returns the CA certificate URI analogously to
+    /// `Setting8021xExt::get_ca_cert_blob` and
+    /// `Setting8021xExt::get_ca_cert_path`.
+    ///
+    /// Currently it's limited to PKCS`11` URIs ('pkcs11' scheme as defined by RFC
+    /// 7512), but may be extended to other schemes in future (such as 'file' URIs
+    /// for local files and 'data' URIs for inline certificate data).
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the URI string
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_ca_cert_uri(&self) -> Option<GString>;
 
+    /// Returns the path of the CA certificate directory if previously set. Systems
+    /// will often have a directory that contains multiple individual CA certificates
+    /// which the supplicant can then add to the verification chain. This may be
+    /// used in addition to the `Setting8021x:ca-cert` property to add more CA
+    /// certificates for verifying the network to client.
+    ///
+    /// # Returns
+    ///
+    /// the CA certificate directory path
     fn get_ca_path(&self) -> Option<GString>;
 
+    /// Client certificates are used to identify the connecting client to the network
+    /// when EAP-TLS is used as either the "phase 1" or "phase 2" 802.1x
+    /// authentication method.
+    ///
+    /// # Returns
+    ///
+    /// the client certificate data
     fn get_client_cert_blob(&self) -> Option<glib::Bytes>;
 
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the password used to access the client certificate stored in
+    /// `Setting8021x:client-cert` property. Only makes sense if the certificate
+    /// is stored on a PKCS#<!-- -->11 token that requires a login.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_client_cert_password(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the
+    /// `Setting8021x:client-cert-password`
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_client_cert_password_flags(&self) -> SettingSecretFlags;
 
+    /// Client certificates are used to identify the connecting client to the network
+    /// when EAP-TLS is used as either the "phase 1" or "phase 2" 802.1x
+    /// authentication method.
+    ///
+    /// # Returns
+    ///
+    /// path to the client certificate file
     fn get_client_cert_path(&self) -> Option<GString>;
 
+    /// Returns the scheme used to store the client certificate. If the returned scheme
+    /// is `Setting8021xCKScheme::Blob`, use `Setting8021xExt::get_client_cert_blob`;
+    /// if `Setting8021xCKScheme::Path`, use `Setting8021xExt::get_client_cert_path`;
+    /// if `Setting8021xCKScheme::Pkcs11`, use `Setting8021xExt::get_client_cert_uri`.
+    ///
+    /// # Returns
+    ///
+    /// scheme used to store the client certificate (blob or path)
     fn get_client_cert_scheme(&self) -> Setting8021xCKScheme;
 
+    /// Returns the client certificate URI analogously to
+    /// `Setting8021xExt::get_client_cert_blob` and
+    /// `Setting8021xExt::get_client_cert_path`.
+    ///
+    /// Currently it's limited to PKCS`11` URIs ('pkcs11' scheme as defined by RFC
+    /// 7512), but may be extended to other schemes in future (such as 'file' URIs
+    /// for local files and 'data' URIs for inline certificate data).
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the URI string
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_client_cert_uri(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_24`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `Setting8021x:domain-match` property.
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     fn get_domain_match(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `Setting8021x:domain-suffix-match` property.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_domain_suffix_match(&self) -> Option<GString>;
 
+    /// Returns the name of the allowed EAP method at index `i`.
+    /// ## `i`
+    /// the index of the EAP method name to return
+    ///
+    /// # Returns
+    ///
+    /// the name of the allowed EAP method at index `i`
     fn get_eap_method(&self, i: u32) -> Option<GString>;
 
+    /// Returns the identifier used by some EAP methods (like TLS) to
+    /// authenticate the user. Often this is a username or login name.
+    ///
+    /// # Returns
+    ///
+    /// the user identifier
     fn get_identity(&self) -> Option<GString>;
 
+    /// Returns the number of entries in the
+    /// `Setting8021x:altsubject-matches` property of this setting.
+    ///
+    /// # Returns
+    ///
+    /// the number of altsubject-matches entries.
     fn get_num_altsubject_matches(&self) -> u32;
 
+    /// Returns the number of eap methods allowed for use when connecting to the
+    /// network. Generally only one EAP method is used. Use the functions
+    /// `Setting8021xExt::get_eap_method`, `Setting8021xExt::add_eap_method`,
+    /// and `Setting8021xExt::remove_eap_method` for adding, removing, and retrieving
+    /// allowed EAP methods.
+    ///
+    /// # Returns
+    ///
+    /// the number of allowed EAP methods
     fn get_num_eap_methods(&self) -> u32;
 
+    /// Returns the number of entries in the
+    /// `Setting8021x:phase2-altsubject-matches` property of this setting.
+    ///
+    /// # Returns
+    ///
+    /// the number of phase2-altsubject-matches entries.
     fn get_num_phase2_altsubject_matches(&self) -> u32;
 
+    /// Returns the value contained in the `Setting8021x:optional` property.
+    ///
+    /// Feature: `v1_22`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// `true` if the activation should proceed even when the 802.1X
+    ///  authentication fails; `false` otherwise
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     fn get_optional(&self) -> bool;
 
+    /// Returns the file containing PAC credentials used by EAP-FAST method.
+    ///
+    /// # Returns
+    ///
+    /// the PAC file
     fn get_pac_file(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the password used by the authentication method, if any, as specified
+    ///  by the `Setting8021x:password` property
     fn get_password(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the `Setting8021x:password`
     fn get_password_flags(&self) -> SettingSecretFlags;
 
+    ///
+    /// # Returns
+    ///
+    /// the password used by the authentication method as a
+    /// UTF-8-encoded array of bytes, as specified by the
+    /// `Setting8021x:password-raw` property
     fn get_password_raw(&self) -> Option<glib::Bytes>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the
+    ///  `Setting8021x:password-raw`
     fn get_password_raw_flags(&self) -> SettingSecretFlags;
 
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the authentication flags for "phase 1".
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_phase1_auth_flags(&self) -> Setting8021xAuthFlags;
 
+    ///
+    /// # Returns
+    ///
+    /// whether "phase 1" PEAP fast provisioning should be used, as specified
+    ///  by the `Setting8021x:phase1-fast-provisioning` property. See the
+    ///  wpa_supplicant documentation for more details.
     fn get_phase1_fast_provisioning(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// whether the "phase 1" PEAP label is new-style or old-style, to be
+    ///  used when authenticating with EAP-PEAP, as contained in the
+    ///  `Setting8021x:phase1-peaplabel` property. Valid values are `None` (unset),
+    ///  "0" (use old-style label), and "1" (use new-style label). See the
+    ///  wpa_supplicant documentation for more details.
     fn get_phase1_peaplabel(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the "phase 1" PEAP version to be used when authenticating with
+    ///  EAP-PEAP as contained in the `Setting8021x:phase1-peapver` property. Valid
+    ///  values are `None` (unset), "0" (PEAP version 0), and "1" (PEAP version 1).
     fn get_phase1_peapver(&self) -> Option<GString>;
 
+    /// Returns the "phase 2" altSubjectName match at index `i`.
+    /// ## `i`
+    /// the zero-based index of the array of "phase 2" altSubjectName matches
+    ///
+    /// # Returns
+    ///
+    /// the "phase 2" altSubjectName match at index `i`
     fn get_phase2_altsubject_match(&self, i: u32) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the "phase 2" non-EAP (ex MD5) allowed authentication method as
+    ///  specified by the `Setting8021x:phase2-auth` property.
     fn get_phase2_auth(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the "phase 2" EAP-based (ex TLS) allowed authentication method as
+    ///  specified by the `Setting8021x:phase2-autheap` property.
     fn get_phase2_autheap(&self) -> Option<GString>;
 
+    /// Returns the "phase 2" CA certificate blob if the CA certificate is stored
+    /// using the `Setting8021xCKScheme::Blob` scheme. Not all EAP methods use
+    /// a CA certificate (LEAP for example), and those that can take advantage of the
+    /// CA certificate allow it to be unset. Note that lack of a CA certificate
+    /// reduces security by allowing man-in-the-middle attacks, because the identity
+    /// of the network cannot be confirmed by the client.
+    ///
+    /// # Returns
+    ///
+    /// the "phase 2" CA certificate data
     fn get_phase2_ca_cert_blob(&self) -> Option<glib::Bytes>;
 
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the password used to access the "phase2" CA certificate stored in
+    /// `Setting8021x:phase2-ca-cert` property. Only makes sense if the certificate
+    /// is stored on a PKCS#<!-- -->11 token that requires a login.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_phase2_ca_cert_password(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the
+    /// `Setting8021x:phase2-private-key-password`
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_phase2_ca_cert_password_flags(&self) -> SettingSecretFlags;
 
+    /// Returns the "phase 2" CA certificate path if the CA certificate is stored
+    /// using the `Setting8021xCKScheme::Path` scheme. Not all EAP methods use
+    /// a CA certificate (LEAP for example), and those that can take advantage of the
+    /// CA certificate allow it to be unset. Note that lack of a CA certificate
+    /// reduces security by allowing man-in-the-middle attacks, because the identity
+    /// of the network cannot be confirmed by the client.
+    ///
+    /// # Returns
+    ///
+    /// path to the "phase 2" CA certificate file
     fn get_phase2_ca_cert_path(&self) -> Option<GString>;
 
+    /// Returns the scheme used to store the "phase 2" CA certificate. If the
+    /// returned scheme is `Setting8021xCKScheme::Blob`, use
+    /// `Setting8021xExt::get_ca_cert_blob`; if `Setting8021xCKScheme::Path`,
+    /// use `Setting8021xExt::get_ca_cert_path`; if `Setting8021xCKScheme::Pkcs11`,
+    /// use `Setting8021xExt::get_ca_cert_uri`.
+    ///
+    /// # Returns
+    ///
+    /// scheme used to store the "phase 2" CA certificate (blob or path)
     fn get_phase2_ca_cert_scheme(&self) -> Setting8021xCKScheme;
 
+    /// Returns the "phase 2" CA certificate URI analogously to
+    /// `Setting8021xExt::get_phase2_ca_cert_blob` and
+    /// `Setting8021xExt::get_phase2_ca_cert_path`.
+    ///
+    /// Currently it's limited to PKCS`11` URIs ('pkcs11' scheme as defined by RFC
+    /// 7512), but may be extended to other schemes in future (such as 'file' URIs
+    /// for local files and 'data' URIs for inline certificate data).
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the URI string
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_phase2_ca_cert_uri(&self) -> Option<GString>;
 
+    /// Returns the path of the "phase 2" CA certificate directory if previously set.
+    /// Systems will often have a directory that contains multiple individual CA
+    /// certificates which the supplicant can then add to the verification chain.
+    /// This may be used in addition to the `Setting8021x:phase2-ca-cert` property
+    /// to add more CA certificates for verifying the network to client.
+    ///
+    /// # Returns
+    ///
+    /// the "phase 2" CA certificate directory path
     fn get_phase2_ca_path(&self) -> Option<GString>;
 
+    /// Client certificates are used to identify the connecting client to the network
+    /// when EAP-TLS is used as either the "phase 1" or "phase 2" 802.1x
+    /// authentication method.
+    ///
+    /// # Returns
+    ///
+    /// the "phase 2" client certificate data
     fn get_phase2_client_cert_blob(&self) -> Option<glib::Bytes>;
 
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the password used to access the "phase2" client certificate stored in
+    /// `Setting8021x:phase2-client-cert` property. Only makes sense if the certificate
+    /// is stored on a PKCS#<!-- -->11 token that requires a login.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_phase2_client_cert_password(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_8`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the
+    /// `Setting8021x:phase2-client-cert-password`
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn get_phase2_client_cert_password_flags(&self) -> SettingSecretFlags;
 
+    /// Client certificates are used to identify the connecting client to the network
+    /// when EAP-TLS is used as either the "phase 1" or "phase 2" 802.1x
+    /// authentication method.
+    ///
+    /// # Returns
+    ///
+    /// path to the "phase 2" client certificate file
     fn get_phase2_client_cert_path(&self) -> Option<GString>;
 
+    /// Returns the scheme used to store the "phase 2" client certificate. If the
+    /// returned scheme is `Setting8021xCKScheme::Blob`, use
+    /// `Setting8021xExt::get_client_cert_blob`; if
+    /// `Setting8021xCKScheme::Path`, use
+    /// `Setting8021xExt::get_client_cert_path`; if
+    /// `Setting8021xCKScheme::Pkcs11`, use
+    /// `Setting8021xExt::get_client_cert_uri`.
+    ///
+    /// # Returns
+    ///
+    /// scheme used to store the "phase 2" client certificate (blob or path)
     fn get_phase2_client_cert_scheme(&self) -> Setting8021xCKScheme;
 
+    /// Returns the "phase 2" client certificate URI analogously to
+    /// `Setting8021xExt::get_phase2_ca_cert_blob` and
+    /// `Setting8021xExt::get_phase2_ca_cert_path`.
+    ///
+    /// Currently it's limited to PKCS`11` URIs ('pkcs11' scheme as defined by RFC
+    /// 7512), but may be extended to other schemes in future (such as 'file' URIs
+    /// for local files and 'data' URIs for inline certificate data).
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the URI string
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_phase2_client_cert_uri(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_24`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `Setting8021x:phase2-domain-match` property.
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     fn get_phase2_domain_match(&self) -> Option<GString>;
 
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the `Setting8021x:phase2-domain-suffix-match` property.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_phase2_domain_suffix_match(&self) -> Option<GString>;
 
+    /// Private keys are used to authenticate the connecting client to the network
+    /// when EAP-TLS is used as either the "phase 1" or "phase 2" 802.1x
+    /// authentication method.
+    ///
+    /// WARNING: the phase2 private key property is not a "secret" property, and thus
+    /// unencrypted private key data may be readable by unprivileged users. Private
+    /// keys should always be encrypted with a private key password.
+    ///
+    /// # Returns
+    ///
+    /// the "phase 2" private key data
     fn get_phase2_private_key_blob(&self) -> Option<glib::Bytes>;
 
+    ///
+    /// # Returns
+    ///
+    /// the data format of the "phase 2" private key data stored in the
+    ///  `Setting8021x:phase2-private-key` property
     fn get_phase2_private_key_format(&self) -> Setting8021xCKFormat;
 
+    ///
+    /// # Returns
+    ///
+    /// the private key password used to decrypt the private key if
+    ///  previously set with `nm_setting_802_1x_set_phase2_private_key` or the
+    ///  `Setting8021x:phase2-private-key-password` property.
     fn get_phase2_private_key_password(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the
+    /// `Setting8021x:phase2-private-key-password`
     fn get_phase2_private_key_password_flags(&self) -> SettingSecretFlags;
 
+    /// Private keys are used to authenticate the connecting client to the network
+    /// when EAP-TLS is used as either the "phase 1" or "phase 2" 802.1x
+    /// authentication method.
+    ///
+    /// # Returns
+    ///
+    /// path to the "phase 2" private key file
     fn get_phase2_private_key_path(&self) -> Option<GString>;
 
+    /// Returns the scheme used to store the "phase 2" private key. If the returned
+    /// scheme is `Setting8021xCKScheme::Blob`, use
+    /// `Setting8021xExt::get_client_cert_blob`; if
+    /// `Setting8021xCKScheme::Path`, use
+    /// `Setting8021xExt::get_client_cert_path`; if
+    /// `Setting8021xCKScheme::Pkcs11`, use
+    /// `Setting8021xExt::get_client_cert_uri`.
+    ///
+    /// # Returns
+    ///
+    /// scheme used to store the "phase 2" private key (blob or path)
     fn get_phase2_private_key_scheme(&self) -> Setting8021xCKScheme;
 
+    /// Returns the "phase 2" private key URI analogously to
+    /// `Setting8021xExt::get_phase2_private_key_blob` and
+    /// `Setting8021xExt::get_phase2_private_key_path`.
+    ///
+    /// Currently it's limited to PKCS`11` URIs ('pkcs11' scheme as defined by RFC
+    /// 7512), but may be extended to other schemes in future (such as 'file' URIs
+    /// for local files and 'data' URIs for inline certificate data).
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the URI string
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_phase2_private_key_uri(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `Setting8021x:phase2-subject-match` property. This is
+    /// the substring to be matched against the subject of the "phase 2"
+    /// authentication server certificate, or `None` no subject verification
+    /// is to be performed.
     fn get_phase2_subject_match(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the PIN used by the authentication method, if any, as specified
+    ///  by the `Setting8021x:pin` property
     fn get_pin(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the
+    /// `Setting8021x:pin`
     fn get_pin_flags(&self) -> SettingSecretFlags;
 
+    /// Private keys are used to authenticate the connecting client to the network
+    /// when EAP-TLS is used as either the "phase 1" or "phase 2" 802.1x
+    /// authentication method.
+    ///
+    /// WARNING: the private key property is not a "secret" property, and thus
+    /// unencrypted private key data may be readable by unprivileged users. Private
+    /// keys should always be encrypted with a private key password.
+    ///
+    /// # Returns
+    ///
+    /// the private key data
     fn get_private_key_blob(&self) -> Option<glib::Bytes>;
 
+    ///
+    /// # Returns
+    ///
+    /// the data format of the private key data stored in the
+    ///  `Setting8021x:private-key` property
     fn get_private_key_format(&self) -> Setting8021xCKFormat;
 
+    ///
+    /// # Returns
+    ///
+    /// the private key password used to decrypt the private key if
+    ///  previously set with `nm_setting_802_1x_set_private_key`, or the
+    ///  `Setting8021x:private-key-password` property.
     fn get_private_key_password(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingSecretFlags` pertaining to the
+    /// `Setting8021x:private-key-password`
     fn get_private_key_password_flags(&self) -> SettingSecretFlags;
 
+    /// Private keys are used to authenticate the connecting client to the network
+    /// when EAP-TLS is used as either the "phase 1" or "phase 2" 802.1x
+    /// authentication method.
+    ///
+    /// # Returns
+    ///
+    /// path to the private key file
     fn get_private_key_path(&self) -> Option<GString>;
 
+    /// Returns the scheme used to store the private key. If the returned scheme is
+    /// `Setting8021xCKScheme::Blob`, use
+    /// `Setting8021xExt::get_client_cert_blob`; if
+    /// `Setting8021xCKScheme::Path`, use
+    /// `Setting8021xExt::get_client_cert_path`; if
+    /// `Setting8021xCKScheme::Pkcs11`, use
+    /// `Setting8021xExt::get_client_cert_uri`.
+    ///
+    /// # Returns
+    ///
+    /// scheme used to store the private key (blob or path)
     fn get_private_key_scheme(&self) -> Setting8021xCKScheme;
 
+    /// Returns the private key URI analogously to
+    /// `Setting8021xExt::get_private_key_blob` and
+    /// `Setting8021xExt::get_private_key_path`.
+    ///
+    /// Currently it's limited to PKCS`11` URIs ('pkcs11' scheme as defined by RFC
+    /// 7512), but may be extended to other schemes in future (such as 'file' URIs
+    /// for local files and 'data' URIs for inline certificate data).
+    ///
+    /// Feature: `v1_6`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the URI string
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_private_key_uri(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `Setting8021x:subject-match` property. This is the
+    /// substring to be matched against the subject of the authentication
+    /// server certificate, or `None` no subject verification is to be
+    /// performed.
     fn get_subject_match(&self) -> Option<GString>;
 
+    /// Sets the `Setting8021x:system-ca-certs` property. The
+    /// `Setting8021x:ca-path` and `Setting8021x:phase2-ca-path`
+    /// properties are ignored if the `Setting8021x:system-ca-certs` property is
+    /// `true`, in which case a system-wide CA certificate directory specified at
+    /// compile time (using the --system-ca-path configure option) is used in place
+    /// of these properties.
+    ///
+    /// # Returns
+    ///
+    /// `true` if a system CA certificate path should be used, `false` if not
     fn get_system_ca_certs(&self) -> bool;
 
+    /// Removes the allowed altSubjectName at the specified index.
+    /// ## `i`
+    /// the index of the altSubjectName match to remove
     fn remove_altsubject_match(&self, i: u32);
 
+    /// Removes the allowed altSubjectName `altsubject_match`.
+    /// ## `altsubject_match`
+    /// the altSubjectName to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the alternative subject name match was found and removed,
+    ///  `false` if it was not.
     fn remove_altsubject_match_by_value(&self, altsubject_match: &str) -> bool;
 
+    /// Removes the allowed EAP method at the specified index.
+    /// ## `i`
+    /// the index of the EAP method to remove
     fn remove_eap_method(&self, i: u32);
 
+    /// Removes the allowed EAP method `method`.
+    /// ## `eap`
+    /// the name of the EAP method to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the EAP method was founs and removed, `false` if it was not.
     fn remove_eap_method_by_value(&self, eap: &str) -> bool;
 
+    /// Removes the allowed "phase 2" altSubjectName at the specified index.
+    /// ## `i`
+    /// the index of the "phase 2" altSubjectName match to remove
     fn remove_phase2_altsubject_match(&self, i: u32);
 
+    /// Removes the allowed "phase 2" altSubjectName `phase2_altsubject_match`.
+    /// ## `phase2_altsubject_match`
+    /// the "phase 2" altSubjectName to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the alternative subject name match for "phase 2" was found and removed,
+    ///  `false` if it was not.
     fn remove_phase2_altsubject_match_by_value(&self, phase2_altsubject_match: &str) -> bool;
 
+    /// List of strings to be matched against the altSubjectName of the
+    /// certificate presented by the authentication server. If the list is empty,
+    /// no verification of the server certificate's altSubjectName is performed.
     fn get_property_altsubject_matches(&self) -> Vec<GString>;
 
+    /// List of strings to be matched against the altSubjectName of the
+    /// certificate presented by the authentication server. If the list is empty,
+    /// no verification of the server certificate's altSubjectName is performed.
     fn set_property_altsubject_matches(&self, altsubject_matches: &[&str]);
 
+    /// Anonymous identity string for EAP authentication methods. Used as the
+    /// unencrypted identity with EAP types that support different tunneled
+    /// identity like EAP-TTLS.
     fn set_property_anonymous_identity(&self, anonymous_identity: Option<&str>);
 
+    /// A timeout for the authentication. Zero means the global default; if the
+    /// global default is not set, the authentication timeout is 25 seconds.
+    ///
+    /// Feature: `v1_8`
+    ///
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_auth_timeout(&self, auth_timeout: i32);
 
+    /// Contains the CA certificate if used by the EAP method specified in the
+    /// `Setting8021x:eap` property.
+    ///
+    /// Certificate data is specified using a "scheme"; two are currently
+    /// supported: blob and path. When using the blob scheme (which is backwards
+    /// compatible with NM 0.7.x) this property should be set to the
+    /// certificate's DER encoded data. When using the path scheme, this property
+    /// should be set to the full UTF-8 encoded path of the certificate, prefixed
+    /// with the string "file://" and ending with a terminating NUL byte. This
+    /// property can be unset even if the EAP method supports CA certificates,
+    /// but this allows man-in-the-middle attacks and is NOT recommended.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_ca_cert` function instead.
     fn get_property_ca_cert(&self) -> Option<glib::Bytes>;
 
+    /// Contains the CA certificate if used by the EAP method specified in the
+    /// `Setting8021x:eap` property.
+    ///
+    /// Certificate data is specified using a "scheme"; two are currently
+    /// supported: blob and path. When using the blob scheme (which is backwards
+    /// compatible with NM 0.7.x) this property should be set to the
+    /// certificate's DER encoded data. When using the path scheme, this property
+    /// should be set to the full UTF-8 encoded path of the certificate, prefixed
+    /// with the string "file://" and ending with a terminating NUL byte. This
+    /// property can be unset even if the EAP method supports CA certificates,
+    /// but this allows man-in-the-middle attacks and is NOT recommended.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_ca_cert` function instead.
     fn set_property_ca_cert(&self, ca_cert: Option<&glib::Bytes>);
 
+    /// The password used to access the CA certificate stored in
+    /// `Setting8021x:ca-cert` property. Only makes sense if the certificate
+    /// is stored on a PKCS#<!-- -->11 token that requires a login.
+    ///
+    /// Feature: `v1_8`
+    ///
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_ca_cert_password(&self, ca_cert_password: Option<&str>);
 
+    /// Flags indicating how to handle the `Setting8021x:ca-cert-password` property.
+    ///
+    /// Feature: `v1_8`
+    ///
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_ca_cert_password_flags(&self, ca_cert_password_flags: SettingSecretFlags);
 
+    /// UTF-8 encoded path to a directory containing PEM or DER formatted
+    /// certificates to be added to the verification chain in addition to the
+    /// certificate specified in the `Setting8021x:ca-cert` property.
     fn set_property_ca_path(&self, ca_path: Option<&str>);
 
+    /// Contains the client certificate if used by the EAP method specified in
+    /// the `Setting8021x:eap` property.
+    ///
+    /// Certificate data is specified using a "scheme"; two are currently
+    /// supported: blob and path. When using the blob scheme (which is backwards
+    /// compatible with NM 0.7.x) this property should be set to the
+    /// certificate's DER encoded data. When using the path scheme, this property
+    /// should be set to the full UTF-8 encoded path of the certificate, prefixed
+    /// with the string "file://" and ending with a terminating NUL byte.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_client_cert` function instead.
     fn get_property_client_cert(&self) -> Option<glib::Bytes>;
 
+    /// Contains the client certificate if used by the EAP method specified in
+    /// the `Setting8021x:eap` property.
+    ///
+    /// Certificate data is specified using a "scheme"; two are currently
+    /// supported: blob and path. When using the blob scheme (which is backwards
+    /// compatible with NM 0.7.x) this property should be set to the
+    /// certificate's DER encoded data. When using the path scheme, this property
+    /// should be set to the full UTF-8 encoded path of the certificate, prefixed
+    /// with the string "file://" and ending with a terminating NUL byte.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_client_cert` function instead.
     fn set_property_client_cert(&self, client_cert: Option<&glib::Bytes>);
 
+    /// The password used to access the client certificate stored in
+    /// `Setting8021x:client-cert` property. Only makes sense if the certificate
+    /// is stored on a PKCS#<!-- -->11 token that requires a login.
+    ///
+    /// Feature: `v1_8`
+    ///
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_client_cert_password(&self, client_cert_password: Option<&str>);
 
+    /// Flags indicating how to handle the `Setting8021x:client-cert-password` property.
+    ///
+    /// Feature: `v1_8`
+    ///
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_client_cert_password_flags(
         &self,
         client_cert_password_flags: SettingSecretFlags,
     );
 
+    /// Constraint for server domain name. If set, this list of FQDNs is used as
+    /// a match requirement for dNSName element(s) of the certificate presented
+    /// by the authentication server. If a matching dNSName is found, this
+    /// constraint is met. If no dNSName values are present, this constraint is
+    /// matched against SubjectName CN using the same comparison.
+    /// Multiple valid FQDNs can be passed as a ";" delimited list.
+    ///
+    /// Feature: `v1_24`
+    ///
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     fn set_property_domain_match(&self, domain_match: Option<&str>);
 
+    /// Constraint for server domain name. If set, this FQDN is used as a suffix
+    /// match requirement for dNSName element(s) of the certificate presented by
+    /// the authentication server. If a matching dNSName is found, this
+    /// constraint is met. If no dNSName values are present, this constraint is
+    /// matched against SubjectName CN using same suffix match comparison.
+    /// Since version 1.24, multiple valid FQDNs can be passed as a ";" delimited
+    /// list.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_domain_suffix_match(&self, domain_suffix_match: Option<&str>);
 
+    /// The allowed EAP method to be used when authenticating to the network with
+    /// 802.1x. Valid methods are: "leap", "md5", "tls", "peap", "ttls", "pwd",
+    /// and "fast". Each method requires different configuration using the
+    /// properties of this setting; refer to wpa_supplicant documentation for the
+    /// allowed combinations.
     fn get_property_eap(&self) -> Vec<GString>;
 
+    /// The allowed EAP method to be used when authenticating to the network with
+    /// 802.1x. Valid methods are: "leap", "md5", "tls", "peap", "ttls", "pwd",
+    /// and "fast". Each method requires different configuration using the
+    /// properties of this setting; refer to wpa_supplicant documentation for the
+    /// allowed combinations.
     fn set_property_eap(&self, eap: &[&str]);
 
+    /// Identity string for EAP authentication methods. Often the user's user or
+    /// login name.
     fn set_property_identity(&self, identity: Option<&str>);
 
+    /// Whether the 802.1X authentication is optional. If `true`, the activation
+    /// will continue even after a timeout or an authentication failure. Setting
+    /// the property to `true` is currently allowed only for Ethernet connections.
+    /// If set to `false`, the activation can continue only after a successful
+    /// authentication.
+    ///
+    /// Feature: `v1_22`
+    ///
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     fn set_property_optional(&self, optional: bool);
 
+    /// UTF-8 encoded file path containing PAC for EAP-FAST.
     fn set_property_pac_file(&self, pac_file: Option<&str>);
 
+    /// UTF-8 encoded password used for EAP authentication methods. If both the
+    /// `Setting8021x:password` property and the `Setting8021x:password-raw`
+    /// property are specified, `Setting8021x:password` is preferred.
     fn set_property_password(&self, password: Option<&str>);
 
+    /// Flags indicating how to handle the `Setting8021x:password` property.
     fn set_property_password_flags(&self, password_flags: SettingSecretFlags);
 
+    /// Password used for EAP authentication methods, given as a byte array to
+    /// allow passwords in other encodings than UTF-8 to be used. If both the
+    /// `Setting8021x:password` property and the `Setting8021x:password-raw`
+    /// property are specified, `Setting8021x:password` is preferred.
     fn set_property_password_raw(&self, password_raw: Option<&glib::Bytes>);
 
+    /// Flags indicating how to handle the `Setting8021x:password-raw` property.
     fn set_property_password_raw_flags(&self, password_raw_flags: SettingSecretFlags);
 
+    /// Specifies authentication flags to use in "phase 1" outer
+    /// authentication using `Setting8021xAuthFlags` options.
+    /// The individual TLS versions can be explicitly disabled. If a certain
+    /// TLS disable flag is not set, it is up to the supplicant to allow
+    /// or forbid it. The TLS options map to tls_disable_tlsv1_x settings.
+    /// See the wpa_supplicant documentation for more details.
+    ///
+    /// Feature: `v1_8`
+    ///
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_phase1_auth_flags(&self, phase1_auth_flags: u32);
 
+    /// Enables or disables in-line provisioning of EAP-FAST credentials when
+    /// FAST is specified as the EAP method in the `Setting8021x:eap` property.
+    /// Recognized values are "0" (disabled), "1" (allow unauthenticated
+    /// provisioning), "2" (allow authenticated provisioning), and "3" (allow
+    /// both authenticated and unauthenticated provisioning). See the
+    /// wpa_supplicant documentation for more details.
     fn set_property_phase1_fast_provisioning(&self, phase1_fast_provisioning: Option<&str>);
 
+    /// Forces use of the new PEAP label during key derivation. Some RADIUS
+    /// servers may require forcing the new PEAP label to interoperate with
+    /// PEAPv1. Set to "1" to force use of the new PEAP label. See the
+    /// wpa_supplicant documentation for more details.
     fn set_property_phase1_peaplabel(&self, phase1_peaplabel: Option<&str>);
 
+    /// Forces which PEAP version is used when PEAP is set as the EAP method in
+    /// the `Setting8021x:eap` property. When unset, the version reported by
+    /// the server will be used. Sometimes when using older RADIUS servers, it
+    /// is necessary to force the client to use a particular PEAP version. To do
+    /// so, this property may be set to "0" or "1" to force that specific PEAP
+    /// version.
     fn set_property_phase1_peapver(&self, phase1_peapver: Option<&str>);
 
+    /// List of strings to be matched against the altSubjectName of the
+    /// certificate presented by the authentication server during the inner
+    /// "phase 2" authentication. If the list is empty, no verification of the
+    /// server certificate's altSubjectName is performed.
     fn get_property_phase2_altsubject_matches(&self) -> Vec<GString>;
 
+    /// List of strings to be matched against the altSubjectName of the
+    /// certificate presented by the authentication server during the inner
+    /// "phase 2" authentication. If the list is empty, no verification of the
+    /// server certificate's altSubjectName is performed.
     fn set_property_phase2_altsubject_matches(&self, phase2_altsubject_matches: &[&str]);
 
+    /// Specifies the allowed "phase 2" inner non-EAP authentication method when
+    /// an EAP method that uses an inner TLS tunnel is specified in the
+    /// `Setting8021x:eap` property. Recognized non-EAP "phase 2" methods are
+    /// "pap", "chap", "mschap", "mschapv2", "gtc", "otp", "md5", and "tls".
+    /// Each "phase 2" inner method requires specific parameters for successful
+    /// authentication; see the wpa_supplicant documentation for more details.
     fn set_property_phase2_auth(&self, phase2_auth: Option<&str>);
 
+    /// Specifies the allowed "phase 2" inner EAP-based authentication method
+    /// when an EAP method that uses an inner TLS tunnel is specified in the
+    /// `Setting8021x:eap` property. Recognized EAP-based "phase 2" methods are
+    /// "md5", "mschapv2", "otp", "gtc", and "tls". Each "phase 2" inner method
+    /// requires specific parameters for successful authentication; see the
+    /// wpa_supplicant documentation for more details.
     fn set_property_phase2_autheap(&self, phase2_autheap: Option<&str>);
 
+    /// Contains the "phase 2" CA certificate if used by the EAP method specified
+    /// in the `Setting8021x:phase2-auth` or `Setting8021x:phase2-autheap`
+    /// properties.
+    ///
+    /// Certificate data is specified using a "scheme"; two are currently
+    /// supported: blob and path. When using the blob scheme (which is backwards
+    /// compatible with NM 0.7.x) this property should be set to the
+    /// certificate's DER encoded data. When using the path scheme, this property
+    /// should be set to the full UTF-8 encoded path of the certificate, prefixed
+    /// with the string "file://" and ending with a terminating NUL byte. This
+    /// property can be unset even if the EAP method supports CA certificates,
+    /// but this allows man-in-the-middle attacks and is NOT recommended.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_phase2_ca_cert` function instead.
     fn get_property_phase2_ca_cert(&self) -> Option<glib::Bytes>;
 
+    /// Contains the "phase 2" CA certificate if used by the EAP method specified
+    /// in the `Setting8021x:phase2-auth` or `Setting8021x:phase2-autheap`
+    /// properties.
+    ///
+    /// Certificate data is specified using a "scheme"; two are currently
+    /// supported: blob and path. When using the blob scheme (which is backwards
+    /// compatible with NM 0.7.x) this property should be set to the
+    /// certificate's DER encoded data. When using the path scheme, this property
+    /// should be set to the full UTF-8 encoded path of the certificate, prefixed
+    /// with the string "file://" and ending with a terminating NUL byte. This
+    /// property can be unset even if the EAP method supports CA certificates,
+    /// but this allows man-in-the-middle attacks and is NOT recommended.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_phase2_ca_cert` function instead.
     fn set_property_phase2_ca_cert(&self, phase2_ca_cert: Option<&glib::Bytes>);
 
+    /// The password used to access the "phase2" CA certificate stored in
+    /// `Setting8021x:phase2-ca-cert` property. Only makes sense if the certificate
+    /// is stored on a PKCS#<!-- -->11 token that requires a login.
+    ///
+    /// Feature: `v1_8`
+    ///
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_phase2_ca_cert_password(&self, phase2_ca_cert_password: Option<&str>);
 
+    /// Flags indicating how to handle the `Setting8021x:phase2-ca-cert-password` property.
+    ///
+    /// Feature: `v1_8`
+    ///
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_phase2_ca_cert_password_flags(
         &self,
         phase2_ca_cert_password_flags: SettingSecretFlags,
     );
 
+    /// UTF-8 encoded path to a directory containing PEM or DER formatted
+    /// certificates to be added to the verification chain in addition to the
+    /// certificate specified in the `Setting8021x:phase2-ca-cert` property.
     fn set_property_phase2_ca_path(&self, phase2_ca_path: Option<&str>);
 
+    /// Contains the "phase 2" client certificate if used by the EAP method
+    /// specified in the `Setting8021x:phase2-auth` or
+    /// `Setting8021x:phase2-autheap` properties.
+    ///
+    /// Certificate data is specified using a "scheme"; two are currently
+    /// supported: blob and path. When using the blob scheme (which is backwards
+    /// compatible with NM 0.7.x) this property should be set to the
+    /// certificate's DER encoded data. When using the path scheme, this property
+    /// should be set to the full UTF-8 encoded path of the certificate, prefixed
+    /// with the string "file://" and ending with a terminating NUL byte. This
+    /// property can be unset even if the EAP method supports CA certificates,
+    /// but this allows man-in-the-middle attacks and is NOT recommended.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_phase2_client_cert` function instead.
     fn get_property_phase2_client_cert(&self) -> Option<glib::Bytes>;
 
+    /// Contains the "phase 2" client certificate if used by the EAP method
+    /// specified in the `Setting8021x:phase2-auth` or
+    /// `Setting8021x:phase2-autheap` properties.
+    ///
+    /// Certificate data is specified using a "scheme"; two are currently
+    /// supported: blob and path. When using the blob scheme (which is backwards
+    /// compatible with NM 0.7.x) this property should be set to the
+    /// certificate's DER encoded data. When using the path scheme, this property
+    /// should be set to the full UTF-8 encoded path of the certificate, prefixed
+    /// with the string "file://" and ending with a terminating NUL byte. This
+    /// property can be unset even if the EAP method supports CA certificates,
+    /// but this allows man-in-the-middle attacks and is NOT recommended.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_phase2_client_cert` function instead.
     fn set_property_phase2_client_cert(&self, phase2_client_cert: Option<&glib::Bytes>);
 
+    /// The password used to access the "phase2" client certificate stored in
+    /// `Setting8021x:phase2-client-cert` property. Only makes sense if the certificate
+    /// is stored on a PKCS#<!-- -->11 token that requires a login.
+    ///
+    /// Feature: `v1_8`
+    ///
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_phase2_client_cert_password(&self, phase2_client_cert_password: Option<&str>);
 
+    /// Flags indicating how to handle the `Setting8021x:phase2-client-cert-password` property.
+    ///
+    /// Feature: `v1_8`
+    ///
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn set_property_phase2_client_cert_password_flags(
         &self,
         phase2_client_cert_password_flags: SettingSecretFlags,
     );
 
+    /// Constraint for server domain name. If set, this list of FQDNs is used as
+    /// a match requirement for dNSName element(s) of the certificate presented
+    /// by the authentication server during the inner "phase 2" authentication.
+    /// If a matching dNSName is found, this constraint is met. If no dNSName
+    /// values are present, this constraint is matched against SubjectName CN
+    /// using the same comparison.
+    /// Multiple valid FQDNs can be passed as a ";" delimited list.
+    ///
+    /// Feature: `v1_24`
+    ///
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     fn set_property_phase2_domain_match(&self, phase2_domain_match: Option<&str>);
 
+    /// Constraint for server domain name. If set, this FQDN is used as a suffix
+    /// match requirement for dNSName element(s) of the certificate presented by
+    /// the authentication server during the inner "phase 2" authentication. If
+    /// a matching dNSName is found, this constraint is met. If no dNSName
+    /// values are present, this constraint is matched against SubjectName CN
+    /// using same suffix match comparison.
+    /// Since version 1.24, multiple valid FQDNs can be passed as a ";" delimited
+    /// list.
+    ///
+    /// Feature: `v1_2`
+    ///
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_phase2_domain_suffix_match(&self, phase2_domain_suffix_match: Option<&str>);
 
+    /// Contains the "phase 2" inner private key when the
+    /// `Setting8021x:phase2-auth` or `Setting8021x:phase2-autheap` property is
+    /// set to "tls".
+    ///
+    /// Key data is specified using a "scheme"; two are currently supported: blob
+    /// and path. When using the blob scheme and private keys, this property
+    /// should be set to the key's encrypted PEM encoded data. When using private
+    /// keys with the path scheme, this property should be set to the full UTF-8
+    /// encoded path of the key, prefixed with the string "file://" and ending
+    /// with a terminating NUL byte. When using PKCS#<!-- -->12 format private
+    /// keys and the blob scheme, this property should be set to the
+    /// PKCS#<!-- -->12 data and the `Setting8021x:phase2-private-key-password`
+    /// property must be set to password used to decrypt the PKCS#<!-- -->12
+    /// certificate and key. When using PKCS#<!-- -->12 files and the path
+    /// scheme, this property should be set to the full UTF-8 encoded path of the
+    /// key, prefixed with the string "file://" and ending with a terminating
+    /// NUL byte, and as with the blob scheme the
+    /// `Setting8021x:phase2-private-key-password` property must be set to the
+    /// password used to decode the PKCS#<!-- -->12 private key and certificate.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_phase2_private_key` function instead.
     fn get_property_phase2_private_key(&self) -> Option<glib::Bytes>;
 
+    /// Contains the "phase 2" inner private key when the
+    /// `Setting8021x:phase2-auth` or `Setting8021x:phase2-autheap` property is
+    /// set to "tls".
+    ///
+    /// Key data is specified using a "scheme"; two are currently supported: blob
+    /// and path. When using the blob scheme and private keys, this property
+    /// should be set to the key's encrypted PEM encoded data. When using private
+    /// keys with the path scheme, this property should be set to the full UTF-8
+    /// encoded path of the key, prefixed with the string "file://" and ending
+    /// with a terminating NUL byte. When using PKCS#<!-- -->12 format private
+    /// keys and the blob scheme, this property should be set to the
+    /// PKCS#<!-- -->12 data and the `Setting8021x:phase2-private-key-password`
+    /// property must be set to password used to decrypt the PKCS#<!-- -->12
+    /// certificate and key. When using PKCS#<!-- -->12 files and the path
+    /// scheme, this property should be set to the full UTF-8 encoded path of the
+    /// key, prefixed with the string "file://" and ending with a terminating
+    /// NUL byte, and as with the blob scheme the
+    /// `Setting8021x:phase2-private-key-password` property must be set to the
+    /// password used to decode the PKCS#<!-- -->12 private key and certificate.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_phase2_private_key` function instead.
     fn set_property_phase2_private_key(&self, phase2_private_key: Option<&glib::Bytes>);
 
+    /// The password used to decrypt the "phase 2" private key specified in the
+    /// `Setting8021x:phase2-private-key` property when the private key either
+    /// uses the path scheme, or is a PKCS#<!-- -->12 format key. Setting this
+    /// property directly is not generally necessary except when returning
+    /// secrets to NetworkManager; it is generally set automatically when setting
+    /// the private key by the `nm_setting_802_1x_set_phase2_private_key`
+    /// function.
     fn set_property_phase2_private_key_password(&self, phase2_private_key_password: Option<&str>);
 
+    /// Flags indicating how to handle the
+    /// `Setting8021x:phase2-private-key-password` property.
     fn set_property_phase2_private_key_password_flags(
         &self,
         phase2_private_key_password_flags: SettingSecretFlags,
     );
 
+    /// Substring to be matched against the subject of the certificate presented
+    /// by the authentication server during the inner "phase 2"
+    /// authentication. When unset, no verification of the authentication server
+    /// certificate's subject is performed. This property provides little security,
+    /// if any, and its use is deprecated in favor of
+    /// NMSetting8021x:phase2-domain-suffix-match.
     fn set_property_phase2_subject_match(&self, phase2_subject_match: Option<&str>);
 
+    /// PIN used for EAP authentication methods.
     fn set_property_pin(&self, pin: Option<&str>);
 
+    /// Flags indicating how to handle the `Setting8021x:pin` property.
     fn set_property_pin_flags(&self, pin_flags: SettingSecretFlags);
 
+    /// Contains the private key when the `Setting8021x:eap` property is set to
+    /// "tls".
+    ///
+    /// Key data is specified using a "scheme"; two are currently supported: blob
+    /// and path. When using the blob scheme and private keys, this property
+    /// should be set to the key's encrypted PEM encoded data. When using private
+    /// keys with the path scheme, this property should be set to the full UTF-8
+    /// encoded path of the key, prefixed with the string "file://" and ending
+    /// with a terminating NUL byte. When using PKCS#<!-- -->12 format private
+    /// keys and the blob scheme, this property should be set to the
+    /// PKCS#<!-- -->12 data and the `Setting8021x:private-key-password`
+    /// property must be set to password used to decrypt the PKCS#<!-- -->12
+    /// certificate and key. When using PKCS#<!-- -->12 files and the path
+    /// scheme, this property should be set to the full UTF-8 encoded path of the
+    /// key, prefixed with the string "file://" and ending with a terminating
+    /// NUL byte, and as with the blob scheme the "private-key-password" property
+    /// must be set to the password used to decode the PKCS#<!-- -->12 private
+    /// key and certificate.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_private_key` function instead.
+    ///
+    /// WARNING: `Setting8021x:private-key` is not a "secret" property, and thus
+    /// unencrypted private key data using the BLOB scheme may be readable by
+    /// unprivileged users. Private keys should always be encrypted with a
+    /// private key password to prevent unauthorized access to unencrypted
+    /// private key data.
     fn get_property_private_key(&self) -> Option<glib::Bytes>;
 
+    /// Contains the private key when the `Setting8021x:eap` property is set to
+    /// "tls".
+    ///
+    /// Key data is specified using a "scheme"; two are currently supported: blob
+    /// and path. When using the blob scheme and private keys, this property
+    /// should be set to the key's encrypted PEM encoded data. When using private
+    /// keys with the path scheme, this property should be set to the full UTF-8
+    /// encoded path of the key, prefixed with the string "file://" and ending
+    /// with a terminating NUL byte. When using PKCS#<!-- -->12 format private
+    /// keys and the blob scheme, this property should be set to the
+    /// PKCS#<!-- -->12 data and the `Setting8021x:private-key-password`
+    /// property must be set to password used to decrypt the PKCS#<!-- -->12
+    /// certificate and key. When using PKCS#<!-- -->12 files and the path
+    /// scheme, this property should be set to the full UTF-8 encoded path of the
+    /// key, prefixed with the string "file://" and ending with a terminating
+    /// NUL byte, and as with the blob scheme the "private-key-password" property
+    /// must be set to the password used to decode the PKCS#<!-- -->12 private
+    /// key and certificate.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_private_key` function instead.
+    ///
+    /// WARNING: `Setting8021x:private-key` is not a "secret" property, and thus
+    /// unencrypted private key data using the BLOB scheme may be readable by
+    /// unprivileged users. Private keys should always be encrypted with a
+    /// private key password to prevent unauthorized access to unencrypted
+    /// private key data.
     fn set_property_private_key(&self, private_key: Option<&glib::Bytes>);
 
+    /// The password used to decrypt the private key specified in the
+    /// `Setting8021x:private-key` property when the private key either uses the
+    /// path scheme, or if the private key is a PKCS#<!-- -->12 format key. Setting this
+    /// property directly is not generally necessary except when returning
+    /// secrets to NetworkManager; it is generally set automatically when setting
+    /// the private key by the `nm_setting_802_1x_set_private_key` function.
     fn set_property_private_key_password(&self, private_key_password: Option<&str>);
 
+    /// Flags indicating how to handle the `Setting8021x:private-key-password`
+    /// property.
     fn set_property_private_key_password_flags(
         &self,
         private_key_password_flags: SettingSecretFlags,
     );
 
+    /// Substring to be matched against the subject of the certificate presented
+    /// by the authentication server. When unset, no verification of the
+    /// authentication server certificate's subject is performed. This property
+    /// provides little security, if any, and its use is deprecated in favor of
+    /// NMSetting8021x:domain-suffix-match.
     fn set_property_subject_match(&self, subject_match: Option<&str>);
 
+    /// When `true`, overrides the `Setting8021x:ca-path` and
+    /// `Setting8021x:phase2-ca-path` properties using the system CA directory
+    /// specified at configure time with the --system-ca-path switch. The
+    /// certificates in this directory are added to the verification chain in
+    /// addition to any certificates specified by the `Setting8021x:ca-cert` and
+    /// `Setting8021x:phase2-ca-cert` properties. If the path provided with
+    /// --system-ca-path is rather a file name (bundle of trusted CA certificates),
+    /// it overrides `Setting8021x:ca-cert` and `Setting8021x:phase2-ca-cert`
+    /// properties instead (sets ca_cert/ca_cert2 options for wpa_supplicant).
     fn set_property_system_ca_certs(&self, system_ca_certs: bool);
 
     fn connect_property_altsubject_matches_notify<F: Fn(&Self) + 'static>(

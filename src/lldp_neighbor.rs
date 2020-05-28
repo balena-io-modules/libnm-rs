@@ -22,11 +22,29 @@ glib_wrapper! {
 }
 
 impl LldpNeighbor {
+    /// Creates a new `LldpNeighbor` object.
+    ///
+    /// Feature: `v1_2`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new `LldpNeighbor` object.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn new() -> LldpNeighbor {
         unsafe { from_glib_full(nm_sys::nm_lldp_neighbor_new()) }
     }
 
+    /// Get the type of an attribute.
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `name`
+    /// the attribute name
+    ///
+    /// # Returns
+    ///
+    /// the `glib::VariantType` of the attribute with name `name`
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_attr_type(&self, name: &str) -> Option<glib::VariantType> {
         unsafe {
@@ -37,6 +55,18 @@ impl LldpNeighbor {
         }
     }
 
+    /// Gets the uint value of attribute with name `name` on `self`
+    ///
+    /// Feature: `v1_2`
+    ///
+    /// ## `name`
+    /// the attribute name
+    /// ## `out_value`
+    /// on return, the attribute value
+    ///
+    /// # Returns
+    ///
+    /// `true` if a uint attribute with name `name` was found, `false` otherwise
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn get_attr_uint_value(&self, name: &str) -> Option<u32> {
         unsafe {
@@ -55,6 +85,17 @@ impl LldpNeighbor {
         }
     }
 
+    /// Gets the value (as a GVariant) of attribute with name `name` on `self`
+    ///
+    /// Feature: `v1_18`
+    ///
+    /// ## `name`
+    /// the attribute name
+    ///
+    /// # Returns
+    ///
+    /// the value or `None` if the attribute with `name` was
+    /// not found.
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn get_attr_value(&self, name: &str) -> Option<glib::Variant> {
         unsafe {

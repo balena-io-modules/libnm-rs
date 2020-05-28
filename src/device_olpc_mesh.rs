@@ -24,10 +24,20 @@ glib_wrapper! {
 }
 
 impl DeviceOlpcMesh {
+    /// Returns the active channel of the `DeviceOlpcMesh` device.
+    ///
+    /// # Returns
+    ///
+    /// active channel of the device
     pub fn get_active_channel(&self) -> u32 {
         unsafe { nm_sys::nm_device_olpc_mesh_get_active_channel(self.to_glib_none().0) }
     }
 
+    /// Gets the companion device of the `DeviceOlpcMesh`.
+    ///
+    /// # Returns
+    ///
+    /// the companion of the device of `None`
     pub fn get_companion(&self) -> Option<DeviceWifi> {
         unsafe {
             from_glib_none(nm_sys::nm_device_olpc_mesh_get_companion(

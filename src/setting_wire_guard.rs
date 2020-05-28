@@ -44,11 +44,30 @@ glib_wrapper! {
 }
 
 impl SettingWireGuard {
+    /// Creates a new `SettingWireGuard` object with default values.
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingWireGuard` object
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn new() -> SettingWireGuard {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_wireguard_new()).unsafe_cast() }
     }
 
+    /// If a peer with the same public-key already exists, that
+    /// one is replaced by `peer`. The new `peer` is always appended
+    /// (or moved to) the end, so in case a peer is replaced, the
+    /// indexes are shifted and the number of peers stays unchanged.
+    ///
+    /// Feature: `v1_16`
+    ///
+    /// ## `peer`
+    /// the `WireGuardPeer` instance to append.
+    ///  This seals `peer` and keeps a reference on the
+    ///  instance.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn append_peer(&self, peer: &WireGuardPeer) {
         unsafe {
@@ -61,11 +80,25 @@ impl SettingWireGuard {
         unsafe { nm_sys::nm_setting_wireguard_clear_peers(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the set firewall mark.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_fwmark(&self) -> u32 {
         unsafe { nm_sys::nm_setting_wireguard_get_fwmark(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_20`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the "ip4-auto-default-route" property of the setting.
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn get_ip4_auto_default_route(&self) -> Ternary {
         unsafe {
@@ -75,6 +108,13 @@ impl SettingWireGuard {
         }
     }
 
+    ///
+    /// Feature: `v1_20`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the "ip6-auto-default-route" property of the setting.
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn get_ip6_auto_default_route(&self) -> Ternary {
         unsafe {
@@ -84,16 +124,40 @@ impl SettingWireGuard {
         }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the set UDP listen port.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_listen_port(&self) -> u16 {
         unsafe { nm_sys::nm_setting_wireguard_get_listen_port(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the MTU of the setting.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_mtu(&self) -> u32 {
         unsafe { nm_sys::nm_setting_wireguard_get_mtu(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    /// ## `idx`
+    /// the index to lookup.
+    ///
+    /// # Returns
+    ///
+    /// the `WireGuardPeer` entry at
+    ///  index `idx`. If the index is out of range, `None` is returned.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_peer(&self, idx: u32) -> Option<WireGuardPeer> {
         unsafe {
@@ -104,6 +168,21 @@ impl SettingWireGuard {
         }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    /// ## `public_key`
+    /// the public key for looking up the
+    ///  peer.
+    /// ## `out_idx`
+    /// optional output argument
+    ///  for the index of the found peer. If no index is found,
+    ///  this is set to the `SettingWireGuard::get_peers_len`.
+    ///
+    /// # Returns
+    ///
+    /// the `WireGuardPeer` instance with a
+    ///  matching public key. If no such peer exists, `None` is returned.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_peer_by_public_key(&self, public_key: &str) -> (WireGuardPeer, u32) {
         unsafe {
@@ -118,6 +197,13 @@ impl SettingWireGuard {
         }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// whether automatically add peer routes.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_peer_routes(&self) -> bool {
         unsafe {
@@ -127,11 +213,25 @@ impl SettingWireGuard {
         }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of registered peers.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_peers_len(&self) -> u32 {
         unsafe { nm_sys::nm_setting_wireguard_get_peers_len(self.to_glib_none().0) }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the set private-key or `None`.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_private_key(&self) -> Option<GString> {
         unsafe {
@@ -141,6 +241,13 @@ impl SettingWireGuard {
         }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the secret-flags for `SettingWireGuard:private-key`.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn get_private_key_flags(&self) -> SettingSecretFlags {
         unsafe {
@@ -150,6 +257,16 @@ impl SettingWireGuard {
         }
     }
 
+    ///
+    /// Feature: `v1_16`
+    ///
+    /// ## `idx`
+    /// the index to remove.
+    ///
+    /// # Returns
+    ///
+    /// `true` if `idx` was in range and a peer
+    ///  was removed. Otherwise, `self` is unchanged.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn remove_peer(&self, idx: u32) -> bool {
         unsafe {
@@ -160,6 +277,29 @@ impl SettingWireGuard {
         }
     }
 
+    /// If `idx` is one past the last peer, the behavior is the same
+    /// as `SettingWireGuard::append_peer`.
+    /// Otherwise, the peer will be at `idx` and replace the peer
+    /// instance at that index. Note that if a peer with the same
+    /// public-key exists on another index, then that peer will also
+    /// be replaced. In that case, the number of peers will shrink
+    /// by one (because the one at `idx` got replace and then one
+    /// with the same public-key got removed). This also means,
+    /// that the resulting index afterwards may be one less than
+    /// `idx` (if another peer with a lower index was dropped).
+    ///
+    /// Feature: `v1_16`
+    ///
+    /// ## `peer`
+    /// the `WireGuardPeer` instance to set.
+    ///  This seals `peer` and keeps a reference on the
+    ///  instance.
+    /// ## `idx`
+    /// the index, in the range of 0 to the number of
+    ///  peers (including). That means, if `idx` is one past
+    ///  the end of the number of peers, this is the same as
+    ///  `SettingWireGuard::append_peer`. Otherwise, the
+    ///  peer at this index is replaced.
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn set_peer(&self, peer: &WireGuardPeer, idx: u32) {
         unsafe {
@@ -171,6 +311,14 @@ impl SettingWireGuard {
         }
     }
 
+    /// The use of fwmark is optional and is by default off. Setting it to 0
+    /// disables it. Otherwise it is a 32-bit fwmark for outgoing packets.
+    ///
+    /// Note that "ip4-auto-default-route" or "ip6-auto-default-route" enabled,
+    /// implies to automatically choose a fwmark.
+    ///
+    /// Feature: `v1_16`
+    ///
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn set_property_fwmark(&self, fwmark: u32) {
         unsafe {
@@ -182,6 +330,23 @@ impl SettingWireGuard {
         }
     }
 
+    /// Whether to enable special handling of the IPv4 default route.
+    /// If enabled, the IPv4 default route from wireguard.peer-routes
+    /// will be placed to a dedicated routing-table and two policy routing rules
+    /// will be added. The fwmark number is also used as routing-table for the default-route,
+    /// and if fwmark is zero, an unused fwmark/table is chosen automatically.
+    /// This corresponds to what wg-quick does with Table=auto and what WireGuard
+    /// calls "Improved Rule-based Routing".
+    ///
+    /// Note that for this automatism to work, you usually don't want to set
+    /// ipv4.gateway, because that will result in a conflicting default route.
+    ///
+    /// Leaving this at the default will enable this option automatically
+    /// if ipv4.never-default is not set and there are any peers that use
+    /// a default-route as allowed-ips.
+    ///
+    /// Feature: `v1_20`
+    ///
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn set_property_ip4_auto_default_route(&self, ip4_auto_default_route: Ternary) {
         unsafe {
@@ -193,6 +358,10 @@ impl SettingWireGuard {
         }
     }
 
+    /// Like ip4-auto-default-route, but for the IPv6 default route.
+    ///
+    /// Feature: `v1_20`
+    ///
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn set_property_ip6_auto_default_route(&self, ip6_auto_default_route: Ternary) {
         unsafe {
@@ -204,6 +373,11 @@ impl SettingWireGuard {
         }
     }
 
+    /// The listen-port. If listen-port is not specified, the port will be chosen
+    /// randomly when the interface comes up.
+    ///
+    /// Feature: `v1_16`
+    ///
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn set_property_listen_port(&self, listen_port: u32) {
         unsafe {
@@ -215,6 +389,15 @@ impl SettingWireGuard {
         }
     }
 
+    /// If non-zero, only transmit packets of the specified size or smaller,
+    /// breaking larger packets up into multiple fragments.
+    ///
+    /// If zero a default MTU is used. Note that contrary to wg-quick's MTU
+    /// setting, this does not take into account the current routes at the
+    /// time of activation.
+    ///
+    /// Feature: `v1_16`
+    ///
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn set_property_mtu(&self, mtu: u32) {
         unsafe {
@@ -226,6 +409,20 @@ impl SettingWireGuard {
         }
     }
 
+    /// Whether to automatically add routes for the AllowedIPs ranges
+    /// of the peers. If `true` (the default), NetworkManager will automatically
+    /// add routes in the routing tables according to ipv4.route-table and
+    /// ipv6.route-table. Usually you want this automatism enabled.
+    /// If `false`, no such routes are added automatically. In this case, the
+    /// user may want to configure static routes in ipv4.routes and ipv6.routes,
+    /// respectively.
+    ///
+    /// Note that if the peer's AllowedIPs is "0.0.0.0/0" or "::/0" and the profile's
+    /// ipv4.never-default or ipv6.never-default setting is enabled, the peer route for
+    /// this peer won't be added automatically.
+    ///
+    /// Feature: `v1_16`
+    ///
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn set_property_peer_routes(&self, peer_routes: bool) {
         unsafe {
@@ -237,6 +434,10 @@ impl SettingWireGuard {
         }
     }
 
+    /// The 256 bit private-key in base64 encoding.
+    ///
+    /// Feature: `v1_16`
+    ///
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn set_property_private_key(&self, private_key: Option<&str>) {
         unsafe {
@@ -248,6 +449,11 @@ impl SettingWireGuard {
         }
     }
 
+    /// Flags indicating how to handle the `SettingWirelessSecurity:private-key`
+    /// property.
+    ///
+    /// Feature: `v1_16`
+    ///
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     pub fn set_property_private_key_flags(&self, private_key_flags: SettingSecretFlags) {
         unsafe {

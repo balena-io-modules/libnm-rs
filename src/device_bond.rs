@@ -23,10 +23,22 @@ glib_wrapper! {
 }
 
 impl DeviceBond {
+    /// Whether the device has carrier.
+    ///
+    /// # Returns
+    ///
+    /// `true` if the device has carrier
     pub fn get_carrier(&self) -> bool {
         unsafe { from_glib(nm_sys::nm_device_bond_get_carrier(self.to_glib_none().0)) }
     }
 
+    /// Gets the devices currently enslaved to `self`.
+    ///
+    /// # Returns
+    ///
+    /// the `glib::PtrArray` containing
+    /// `NMDevices` that are slaves of `self`. This is the internal
+    /// copy used by the device, and must not be modified.
     pub fn get_slaves(&self) -> Vec<Device> {
         unsafe {
             FromGlibPtrContainer::from_glib_none(nm_sys::nm_device_bond_get_slaves(

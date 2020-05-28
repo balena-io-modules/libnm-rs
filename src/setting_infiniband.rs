@@ -26,6 +26,11 @@ glib_wrapper! {
 }
 
 impl SettingInfiniband {
+    /// Creates a new `SettingInfiniband` object with default values.
+    ///
+    /// # Returns
+    ///
+    /// the new empty `SettingInfiniband` object
     pub fn new() -> SettingInfiniband {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_infiniband_new()).unsafe_cast() }
     }
@@ -39,27 +44,80 @@ impl Default for SettingInfiniband {
 
 pub const NONE_SETTING_INFINIBAND: Option<&SettingInfiniband> = None;
 
+/// Trait containing all `SettingInfiniband` methods.
+///
+/// # Implementors
+///
+/// [`SettingInfiniband`](struct.SettingInfiniband.html)
 pub trait SettingInfinibandExt: 'static {
+    ///
+    /// # Returns
+    ///
+    /// the `SettingInfiniband:mac-address` property of the setting
     fn get_mac_address(&self) -> Option<GString>;
 
+    ///
+    /// # Returns
+    ///
+    /// the `SettingInfiniband:mtu` property of the setting
     fn get_mtu(&self) -> u32;
 
+    /// Returns the P_Key to use for this device. A value of -1 means to
+    /// use the default P_Key (aka "the P_Key at index 0"). Otherwise it is
+    /// a 16-bit unsigned integer.
+    ///
+    /// # Returns
+    ///
+    /// the IPoIB P_Key
     fn get_p_key(&self) -> i32;
 
+    /// Returns the parent interface name for this device, if set.
+    ///
+    /// # Returns
+    ///
+    /// the parent interface name
     fn get_parent(&self) -> Option<GString>;
 
+    /// Returns the transport mode for this device. Either 'datagram' or
+    /// 'connected'.
+    ///
+    /// # Returns
+    ///
+    /// the IPoIB transport mode
     fn get_transport_mode(&self) -> Option<GString>;
 
+    /// Returns the interface name created by combining `SettingInfiniband:parent`
+    /// and `SettingInfiniband:p-key`. (If either property is unset, this will
+    /// return `None`.)
+    ///
+    /// # Returns
+    ///
+    /// the interface name, or `None`
     fn get_virtual_interface_name(&self) -> Option<GString>;
 
+    /// If specified, this connection will only apply to the IPoIB device whose
+    /// permanent MAC address matches. This property does not change the MAC
+    /// address of the device (i.e. MAC spoofing).
     fn set_property_mac_address(&self, mac_address: Option<&str>);
 
+    /// If non-zero, only transmit packets of the specified size or smaller,
+    /// breaking larger packets up into multiple frames.
     fn set_property_mtu(&self, mtu: u32);
 
+    /// The InfiniBand P_Key to use for this device. A value of -1 means to use
+    /// the default P_Key (aka "the P_Key at index 0"). Otherwise it is a 16-bit
+    /// unsigned integer, whose high bit is set if it is a "full membership"
+    /// P_Key.
     fn set_property_p_key(&self, p_key: i32);
 
+    /// The interface name of the parent device of this device. Normally `None`,
+    /// but if the `SettingInfiniband:p_key` property is set, then you must
+    /// specify the base device by setting either this property or
+    /// `SettingInfiniband:mac-address`.
     fn set_property_parent(&self, parent: Option<&str>);
 
+    /// The IP-over-InfiniBand transport mode. Either "datagram" or
+    /// "connected".
     fn set_property_transport_mode(&self, transport_mode: Option<&str>);
 
     fn connect_property_mac_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
