@@ -24,6 +24,8 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+use std::mem;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
 use std::mem::transmute;
 use Setting;
 
@@ -65,6 +67,21 @@ impl SettingMatch {
                 self.to_glib_none().0,
                 idx,
             ))
+        }
+    }
+
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    pub fn get_interface_names(&self) -> Vec<GString> {
+        unsafe {
+            let mut length = mem::MaybeUninit::uninit();
+            let ret = FromGlibContainer::from_glib_none_num(
+                nm_sys::nm_setting_match_get_interface_names(
+                    self.to_glib_none().0,
+                    length.as_mut_ptr(),
+                ),
+                length.assume_init() as usize,
+            );
+            ret
         }
     }
 

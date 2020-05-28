@@ -5646,6 +5646,8 @@ extern "C" {
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn nm_setting_match_get_interface_name(setting: *mut NMSettingMatch, idx: c_int) -> *const c_char;
     #[cfg(any(feature = "v1_14", feature = "dox"))]
+    pub fn nm_setting_match_get_interface_names(setting: *mut NMSettingMatch, length: *mut c_uint) -> *const *const c_char;
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn nm_setting_match_get_num_interface_names(setting: *mut NMSettingMatch) -> c_uint;
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn nm_setting_match_remove_interface_name(setting: *mut NMSettingMatch, idx: c_int);
