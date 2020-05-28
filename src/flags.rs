@@ -177,6 +177,60 @@ impl SetValue for CheckpointCreateFlags {
     }
 }
 
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+bitflags! {
+    pub struct ClientInstanceFlags: u32 {
+        const NONE = 0;
+        const NO_AUTO_FETCH_PERMISSIONS = 1;
+    }
+}
+
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+#[doc(hidden)]
+impl ToGlib for ClientInstanceFlags {
+    type GlibType = nm_sys::NMClientInstanceFlags;
+
+    fn to_glib(&self) -> nm_sys::NMClientInstanceFlags {
+        self.bits()
+    }
+}
+
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+#[doc(hidden)]
+impl FromGlib<nm_sys::NMClientInstanceFlags> for ClientInstanceFlags {
+    fn from_glib(value: nm_sys::NMClientInstanceFlags) -> ClientInstanceFlags {
+        ClientInstanceFlags::from_bits_truncate(value)
+    }
+}
+
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+impl StaticType for ClientInstanceFlags {
+    fn static_type() -> Type {
+        unsafe { from_glib(nm_sys::nm_client_instance_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+impl<'a> FromValueOptional<'a> for ClientInstanceFlags {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+impl<'a> FromValue<'a> for ClientInstanceFlags {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_sys::g_value_get_flags(value.to_glib_none().0))
+    }
+}
+
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+impl SetValue for ClientInstanceFlags {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_sys::g_value_set_flags(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
 bitflags! {
     pub struct ConnectionSerializationFlags: u32 {
         const ALL = 0;
@@ -1533,6 +1587,7 @@ bitflags! {
         const KEY_MGMT_PSK = 256;
         const KEY_MGMT_802_1X = 512;
         const KEY_MGMT_SAE = 1024;
+        const KEY_MGMT_OWE = 2048;
     }
 }
 

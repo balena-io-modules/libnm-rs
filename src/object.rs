@@ -13,6 +13,8 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+use Client;
 
 glib_wrapper! {
     pub struct Object(Object<nm_sys::NMObject, nm_sys::NMObjectClass, ObjectClass>);
@@ -25,12 +27,20 @@ glib_wrapper! {
 pub const NONE_OBJECT: Option<&Object> = None;
 
 pub trait ObjectExt: 'static {
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn get_client(&self) -> Option<Client>;
+
     fn get_path(&self) -> Option<GString>;
 
     fn connect_property_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
 impl<O: IsA<Object>> ObjectExt for O {
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn get_client(&self) -> Option<Client> {
+        unsafe { from_glib_none(nm_sys::nm_object_get_client(self.as_ref().to_glib_none().0)) }
+    }
+
     fn get_path(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_object_get_path(self.as_ref().to_glib_none().0)) }
     }

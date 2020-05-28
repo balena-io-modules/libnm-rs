@@ -1821,6 +1821,7 @@ pub enum DeviceType {
     _6lowpan,
     Wireguard,
     WifiP2p,
+    Vrf,
     #[doc(hidden)]
     __Unknown(i32),
 }
@@ -1862,6 +1863,7 @@ impl fmt::Display for DeviceType {
                 DeviceType::_6lowpan => "_6lowpan",
                 DeviceType::Wireguard => "Wireguard",
                 DeviceType::WifiP2p => "WifiP2p",
+                DeviceType::Vrf => "Vrf",
                 _ => "Unknown",
             }
         )
@@ -1905,6 +1907,7 @@ impl ToGlib for DeviceType {
             DeviceType::_6lowpan => nm_sys::NM_DEVICE_TYPE_6LOWPAN,
             DeviceType::Wireguard => nm_sys::NM_DEVICE_TYPE_WIREGUARD,
             DeviceType::WifiP2p => nm_sys::NM_DEVICE_TYPE_WIFI_P2P,
+            DeviceType::Vrf => nm_sys::NM_DEVICE_TYPE_VRF,
             DeviceType::__Unknown(value) => value,
         }
     }
@@ -1945,6 +1948,7 @@ impl FromGlib<nm_sys::NMDeviceType> for DeviceType {
             28 => DeviceType::_6lowpan,
             29 => DeviceType::Wireguard,
             30 => DeviceType::WifiP2p,
+            31 => DeviceType::Vrf,
             value => DeviceType::__Unknown(value),
         }
     }
@@ -4520,6 +4524,7 @@ pub enum UtilsSecurityType {
     Wpa2Psk,
     Wpa2Enterprise,
     Sae,
+    Owe,
     #[doc(hidden)]
     __Unknown(i32),
 }
@@ -4540,6 +4545,7 @@ impl fmt::Display for UtilsSecurityType {
                 UtilsSecurityType::Wpa2Psk => "Wpa2Psk",
                 UtilsSecurityType::Wpa2Enterprise => "Wpa2Enterprise",
                 UtilsSecurityType::Sae => "Sae",
+                UtilsSecurityType::Owe => "Owe",
                 _ => "Unknown",
             }
         )
@@ -4562,6 +4568,7 @@ impl ToGlib for UtilsSecurityType {
             UtilsSecurityType::Wpa2Psk => nm_sys::NMU_SEC_WPA2_PSK,
             UtilsSecurityType::Wpa2Enterprise => nm_sys::NMU_SEC_WPA2_ENTERPRISE,
             UtilsSecurityType::Sae => nm_sys::NMU_SEC_SAE,
+            UtilsSecurityType::Owe => nm_sys::NMU_SEC_OWE,
             UtilsSecurityType::__Unknown(value) => value,
         }
     }
@@ -4581,6 +4588,7 @@ impl FromGlib<nm_sys::NMUtilsSecurityType> for UtilsSecurityType {
             7 => UtilsSecurityType::Wpa2Psk,
             8 => UtilsSecurityType::Wpa2Enterprise,
             9 => UtilsSecurityType::Sae,
+            10 => UtilsSecurityType::Owe,
             value => UtilsSecurityType::__Unknown(value),
         }
     }

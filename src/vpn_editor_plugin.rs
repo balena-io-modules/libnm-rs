@@ -76,7 +76,7 @@ pub trait VpnEditorPluginExt: 'static {
     fn import(&self, path: &str) -> Result<Connection, glib::Error>;
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
-    fn set_plugin_info<P: IsA<VpnPluginInfo>>(&self, plugin_info: Option<&P>);
+    fn set_plugin_info(&self, plugin_info: Option<&VpnPluginInfo>);
 
     fn get_property_description(&self) -> Option<GString>;
 
@@ -173,11 +173,11 @@ impl<O: IsA<VpnEditorPlugin>> VpnEditorPluginExt for O {
     }
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
-    fn set_plugin_info<P: IsA<VpnPluginInfo>>(&self, plugin_info: Option<&P>) {
+    fn set_plugin_info(&self, plugin_info: Option<&VpnPluginInfo>) {
         unsafe {
             nm_sys::nm_vpn_editor_plugin_set_plugin_info(
                 self.as_ref().to_glib_none().0,
-                plugin_info.map(|p| p.as_ref()).to_glib_none().0,
+                plugin_info.to_glib_none().0,
             );
         }
     }

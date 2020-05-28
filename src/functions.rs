@@ -308,7 +308,7 @@ pub fn utils_is_valid_iface_name(name: Option<&str>) -> Result<(), glib::Error> 
 }
 
 //#[cfg(any(feature = "v1_8", feature = "dox"))]
-//pub fn utils_parse_variant_attributes(string: &str, attr_separator: glib::Char, key_value_separator: glib::Char, ignore_unknown: bool, spec: /*Ignored*/&VariantAttributeSpec) -> Result</*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 2, id: 185 }, glib::Error> {
+//pub fn utils_parse_variant_attributes(string: &str, attr_separator: glib::Char, key_value_separator: glib::Char, ignore_unknown: bool, spec: /*Ignored*/&VariantAttributeSpec) -> Result</*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 2, id: 187 }, glib::Error> {
 //    unsafe { TODO: call nm_sys:nm_utils_parse_variant_attributes() }
 //}
 

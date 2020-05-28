@@ -27,6 +27,8 @@ use std::ptr;
 use ActiveConnection;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 use Checkpoint;
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+use ClientInstanceFlags;
 use ClientPermission;
 use ClientPermissionResult;
 use Connection;
@@ -38,10 +40,14 @@ use DnsEntry;
 use ManagerReloadFlags;
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 use Metered;
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+use Object;
 use RemoteConnection;
 #[cfg(any(feature = "v1_20", feature = "dox"))]
 use SettingsAddConnection2Flags;
 use State;
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+use Ternary;
 
 glib_wrapper! {
     pub struct Client(Object<nm_sys::NMClient, nm_sys::NMClientClass, ClientClass>);
@@ -619,6 +625,7 @@ impl Client {
         }
     }
 
+    #[cfg_attr(feature = "v1_22", deprecated)]
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn connectivity_check_set_enabled(&self, enabled: bool) {
         unsafe {
@@ -627,6 +634,174 @@ impl Client {
                 enabled.to_glib(),
             );
         }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn dbus_call<
+        P: IsA<gio::Cancellable>,
+        Q: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
+    >(
+        &self,
+        object_path: &str,
+        interface_name: &str,
+        method_name: &str,
+        parameters: Option<&glib::Variant>,
+        reply_type: Option<&glib::VariantTy>,
+        timeout_msec: i32,
+        cancellable: Option<&P>,
+        callback: Q,
+    ) {
+        let user_data: Box_<Q> = Box_::new(callback);
+        unsafe extern "C" fn dbus_call_trampoline<
+            Q: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
+        >(
+            _source_object: *mut gobject_sys::GObject,
+            res: *mut gio_sys::GAsyncResult,
+            user_data: glib_sys::gpointer,
+        ) {
+            let mut error = ptr::null_mut();
+            let ret = nm_sys::nm_client_dbus_call_finish(_source_object as *mut _, res, &mut error);
+            let result = if error.is_null() {
+                Ok(from_glib_full(ret))
+            } else {
+                Err(from_glib_full(error))
+            };
+            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            callback(result);
+        }
+        let callback = dbus_call_trampoline::<Q>;
+        unsafe {
+            nm_sys::nm_client_dbus_call(
+                self.to_glib_none().0,
+                object_path.to_glib_none().0,
+                interface_name.to_glib_none().0,
+                method_name.to_glib_none().0,
+                parameters.to_glib_none().0,
+                reply_type.to_glib_none().0,
+                timeout_msec,
+                cancellable.map(|p| p.as_ref()).to_glib_none().0,
+                Some(callback),
+                Box_::into_raw(user_data) as *mut _,
+            );
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn dbus_call_future(
+        &self,
+        object_path: &str,
+        interface_name: &str,
+        method_name: &str,
+        parameters: Option<&glib::Variant>,
+        reply_type: Option<&glib::VariantTy>,
+        timeout_msec: i32,
+    ) -> Pin<Box_<dyn std::future::Future<Output = Result<glib::Variant, glib::Error>> + 'static>>
+    {
+        let object_path = String::from(object_path);
+        let interface_name = String::from(interface_name);
+        let method_name = String::from(method_name);
+        let parameters = parameters.map(ToOwned::to_owned);
+        let reply_type = reply_type.map(ToOwned::to_owned);
+        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
+            let cancellable = gio::Cancellable::new();
+            obj.dbus_call(
+                &object_path,
+                &interface_name,
+                &method_name,
+                parameters.as_ref().map(::std::borrow::Borrow::borrow),
+                reply_type.as_ref().map(::std::borrow::Borrow::borrow),
+                timeout_msec,
+                Some(&cancellable),
+                move |res| {
+                    send.resolve(res);
+                },
+            );
+
+            cancellable
+        }))
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn dbus_set_property<
+        P: IsA<gio::Cancellable>,
+        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+    >(
+        &self,
+        object_path: &str,
+        interface_name: &str,
+        property_name: &str,
+        value: &glib::Variant,
+        timeout_msec: i32,
+        cancellable: Option<&P>,
+        callback: Q,
+    ) {
+        let user_data: Box_<Q> = Box_::new(callback);
+        unsafe extern "C" fn dbus_set_property_trampoline<
+            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+        >(
+            _source_object: *mut gobject_sys::GObject,
+            res: *mut gio_sys::GAsyncResult,
+            user_data: glib_sys::gpointer,
+        ) {
+            let mut error = ptr::null_mut();
+            let _ = nm_sys::nm_client_dbus_set_property_finish(
+                _source_object as *mut _,
+                res,
+                &mut error,
+            );
+            let result = if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            };
+            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            callback(result);
+        }
+        let callback = dbus_set_property_trampoline::<Q>;
+        unsafe {
+            nm_sys::nm_client_dbus_set_property(
+                self.to_glib_none().0,
+                object_path.to_glib_none().0,
+                interface_name.to_glib_none().0,
+                property_name.to_glib_none().0,
+                value.to_glib_none().0,
+                timeout_msec,
+                cancellable.map(|p| p.as_ref()).to_glib_none().0,
+                Some(callback),
+                Box_::into_raw(user_data) as *mut _,
+            );
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn dbus_set_property_future(
+        &self,
+        object_path: &str,
+        interface_name: &str,
+        property_name: &str,
+        value: &glib::Variant,
+        timeout_msec: i32,
+    ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
+        let object_path = String::from(object_path);
+        let interface_name = String::from(interface_name);
+        let property_name = String::from(property_name);
+        let value = value.clone();
+        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
+            let cancellable = gio::Cancellable::new();
+            obj.dbus_set_property(
+                &object_path,
+                &interface_name,
+                &property_name,
+                &value,
+                timeout_msec,
+                Some(&cancellable),
+                move |res| {
+                    send.resolve(res);
+                },
+            );
+
+            cancellable
+        }))
     }
 
     #[cfg_attr(feature = "v1_22", deprecated)]
@@ -854,6 +1029,11 @@ impl Client {
         unsafe { from_glib_none(nm_sys::nm_client_get_dns_rc_manager(self.to_glib_none().0)) }
     }
 
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn get_instance_flags(&self) -> ClientInstanceFlags {
+        unsafe { from_glib(nm_sys::nm_client_get_instance_flags(self.to_glib_none().0)) }
+    }
+
     //#[cfg(any(feature = "v1_22", feature = "dox"))]
     //pub fn get_main_context(&self) -> /*Ignored*/Option<glib::MainContext> {
     //    unsafe { TODO: call nm_sys:nm_client_get_main_context() }
@@ -868,11 +1048,30 @@ impl Client {
         unsafe { from_glib(nm_sys::nm_client_get_nm_running(self.to_glib_none().0)) }
     }
 
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn get_object_by_path(&self, dbus_path: &str) -> Option<Object> {
+        unsafe {
+            from_glib_none(nm_sys::nm_client_get_object_by_path(
+                self.to_glib_none().0,
+                dbus_path.to_glib_none().0,
+            ))
+        }
+    }
+
     pub fn get_permission_result(&self, permission: ClientPermission) -> ClientPermissionResult {
         unsafe {
             from_glib(nm_sys::nm_client_get_permission_result(
                 self.to_glib_none().0,
                 permission.to_glib(),
+            ))
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn get_permissions_state(&self) -> Ternary {
+        unsafe {
+            from_glib(nm_sys::nm_client_get_permissions_state(
+                self.to_glib_none().0,
             ))
         }
     }
@@ -1207,6 +1406,7 @@ impl Client {
         }
     }
 
+    #[cfg_attr(feature = "v1_22", deprecated)]
     pub fn wwan_set_enabled(&self, enabled: bool) {
         unsafe {
             nm_sys::nm_client_wwan_set_enabled(self.to_glib_none().0, enabled.to_glib());
@@ -1294,6 +1494,17 @@ impl Client {
             value
                 .get()
                 .expect("Return Value for property `hostname` getter")
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn set_property_instance_flags(&self, instance_flags: u32) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.as_ptr() as *mut gobject_sys::GObject,
+                b"instance-flags\0".as_ptr() as *const _,
+                Value::from(&instance_flags).to_glib_none().0,
+            );
         }
     }
 
@@ -2142,6 +2353,30 @@ impl Client {
         }
     }
 
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn connect_property_instance_flags_notify<F: Fn(&Client) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_instance_flags_trampoline<F: Fn(&Client) + 'static>(
+            this: *mut nm_sys::NMClient,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::instance-flags\0".as_ptr() as *const _,
+                Some(transmute(notify_instance_flags_trampoline::<F> as usize)),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn connect_property_metered_notify<F: Fn(&Client) + 'static>(
         &self,
@@ -2209,6 +2444,30 @@ impl Client {
                 self.as_ptr() as *mut _,
                 b"notify::nm-running\0".as_ptr() as *const _,
                 Some(transmute(notify_nm_running_trampoline::<F> as usize)),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn connect_property_permissions_state_notify<F: Fn(&Client) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_permissions_state_trampoline<F: Fn(&Client) + 'static>(
+            this: *mut nm_sys::NMClient,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::permissions-state\0".as_ptr() as *const _,
+                Some(transmute(notify_permissions_state_trampoline::<F> as usize)),
                 Box_::into_raw(f),
             )
         }

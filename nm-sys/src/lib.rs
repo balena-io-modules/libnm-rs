@@ -254,6 +254,7 @@ pub const NM_DEVICE_TYPE_WPAN: NMDeviceType = 27;
 pub const NM_DEVICE_TYPE_6LOWPAN: NMDeviceType = 28;
 pub const NM_DEVICE_TYPE_WIREGUARD: NMDeviceType = 29;
 pub const NM_DEVICE_TYPE_WIFI_P2P: NMDeviceType = 30;
+pub const NM_DEVICE_TYPE_VRF: NMDeviceType = 31;
 
 pub type NMIPTunnelMode = c_int;
 pub const NM_IP_TUNNEL_MODE_UNKNOWN: NMIPTunnelMode = 0;
@@ -462,6 +463,7 @@ pub const NMU_SEC_WPA_ENTERPRISE: NMUtilsSecurityType = 6;
 pub const NMU_SEC_WPA2_PSK: NMUtilsSecurityType = 7;
 pub const NMU_SEC_WPA2_ENTERPRISE: NMUtilsSecurityType = 8;
 pub const NMU_SEC_SAE: NMUtilsSecurityType = 9;
+pub const NMU_SEC_OWE: NMUtilsSecurityType = 10;
 
 pub type NMVlanPriorityMap = c_int;
 pub const NM_VLAN_INGRESS_MAP: NMVlanPriorityMap = 0;
@@ -587,9 +589,11 @@ pub const NM_CLIENT_DNS_CONFIGURATION: *const c_char = b"dns-configuration\0" as
 pub const NM_CLIENT_DNS_MODE: *const c_char = b"dns-mode\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_DNS_RC_MANAGER: *const c_char = b"dns-rc-manager\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_HOSTNAME: *const c_char = b"hostname\0" as *const u8 as *const c_char;
+pub const NM_CLIENT_INSTANCE_FLAGS: *const c_char = b"instance-flags\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_METERED: *const c_char = b"metered\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_NETWORKING_ENABLED: *const c_char = b"networking-enabled\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_NM_RUNNING: *const c_char = b"nm-running\0" as *const u8 as *const c_char;
+pub const NM_CLIENT_PERMISSIONS_STATE: *const c_char = b"permissions-state\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_PERMISSION_CHANGED: *const c_char = b"permission-changed\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_PRIMARY_CONNECTION: *const c_char = b"primary-connection\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_STARTUP: *const c_char = b"startup\0" as *const u8 as *const c_char;
@@ -671,6 +675,7 @@ pub const NM_DEVICE_FIRMWARE_MISSING: *const c_char = b"firmware-missing\0" as *
 pub const NM_DEVICE_FIRMWARE_VERSION: *const c_char = b"firmware-version\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_GENERIC_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_GENERIC_TYPE_DESCRIPTION: *const c_char = b"type-description\0" as *const u8 as *const c_char;
+pub const NM_DEVICE_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_INFINIBAND_CARRIER: *const c_char = b"carrier\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_INFINIBAND_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_INTERFACE: *const c_char = b"interface\0" as *const u8 as *const c_char;
@@ -748,6 +753,7 @@ pub const NM_DEVICE_VLAN_CARRIER: *const c_char = b"carrier\0" as *const u8 as *
 pub const NM_DEVICE_VLAN_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_VLAN_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_VLAN_VLAN_ID: *const c_char = b"vlan-id\0" as *const u8 as *const c_char;
+pub const NM_DEVICE_VRF_TABLE: *const c_char = b"table\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_VXLAN_AGEING: *const c_char = b"ageing\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_VXLAN_CARRIER: *const c_char = b"carrier\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_VXLAN_DST_PORT: *const c_char = b"dst-port\0" as *const u8 as *const c_char;
@@ -892,8 +898,8 @@ pub const NM_LLDP_DEST_NEAREST_BRIDGE: *const c_char = b"nearest-bridge\0" as *c
 pub const NM_LLDP_DEST_NEAREST_CUSTOMER_BRIDGE: *const c_char = b"nearest-customer-bridge\0" as *const u8 as *const c_char;
 pub const NM_LLDP_DEST_NEAREST_NON_TPMR_BRIDGE: *const c_char = b"nearest-non-tpmr-bridge\0" as *const u8 as *const c_char;
 pub const NM_MAJOR_VERSION: c_int = 1;
-pub const NM_MICRO_VERSION: c_int = 6;
-pub const NM_MINOR_VERSION: c_int = 22;
+pub const NM_MICRO_VERSION: c_int = 0;
+pub const NM_MINOR_VERSION: c_int = 24;
 pub const NM_OBJECT_PATH: *const c_char = b"path\0" as *const u8 as *const c_char;
 pub const NM_REMOTE_CONNECTION_DBUS_CONNECTION: *const c_char = b"dbus-connection\0" as *const u8 as *const c_char;
 pub const NM_REMOTE_CONNECTION_FILENAME: *const c_char = b"filename\0" as *const u8 as *const c_char;
@@ -903,6 +909,7 @@ pub const NM_REMOTE_CONNECTION_UNSAVED: *const c_char = b"unsaved\0" as *const u
 pub const NM_REMOTE_CONNECTION_VISIBLE: *const c_char = b"visible\0" as *const u8 as *const c_char;
 pub const NM_SECRET_AGENT_OLD_AUTO_REGISTER: *const c_char = b"auto-register\0" as *const u8 as *const c_char;
 pub const NM_SECRET_AGENT_OLD_CAPABILITIES: *const c_char = b"capabilities\0" as *const u8 as *const c_char;
+pub const NM_SECRET_AGENT_OLD_DBUS_CONNECTION: *const c_char = b"dbus-connection\0" as *const u8 as *const c_char;
 pub const NM_SECRET_AGENT_OLD_IDENTIFIER: *const c_char = b"identifier\0" as *const u8 as *const c_char;
 pub const NM_SECRET_AGENT_OLD_REGISTERED: *const c_char = b"registered\0" as *const u8 as *const c_char;
 pub const NM_SETTING_6LOWPAN_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
@@ -919,6 +926,7 @@ pub const NM_SETTING_802_1X_CERT_SCHEME_PREFIX_PKCS11: *const c_char = b"pkcs11:
 pub const NM_SETTING_802_1X_CLIENT_CERT: *const c_char = b"client-cert\0" as *const u8 as *const c_char;
 pub const NM_SETTING_802_1X_CLIENT_CERT_PASSWORD: *const c_char = b"client-cert-password\0" as *const u8 as *const c_char;
 pub const NM_SETTING_802_1X_CLIENT_CERT_PASSWORD_FLAGS: *const c_char = b"client-cert-password-flags\0" as *const u8 as *const c_char;
+pub const NM_SETTING_802_1X_DOMAIN_MATCH: *const c_char = b"domain-match\0" as *const u8 as *const c_char;
 pub const NM_SETTING_802_1X_DOMAIN_SUFFIX_MATCH: *const c_char = b"domain-suffix-match\0" as *const u8 as *const c_char;
 pub const NM_SETTING_802_1X_EAP: *const c_char = b"eap\0" as *const u8 as *const c_char;
 pub const NM_SETTING_802_1X_IDENTITY: *const c_char = b"identity\0" as *const u8 as *const c_char;
@@ -942,6 +950,7 @@ pub const NM_SETTING_802_1X_PHASE2_CA_PATH: *const c_char = b"phase2-ca-path\0" 
 pub const NM_SETTING_802_1X_PHASE2_CLIENT_CERT: *const c_char = b"phase2-client-cert\0" as *const u8 as *const c_char;
 pub const NM_SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD: *const c_char = b"phase2-client-cert-password\0" as *const u8 as *const c_char;
 pub const NM_SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD_FLAGS: *const c_char = b"phase2-client-cert-password-flags\0" as *const u8 as *const c_char;
+pub const NM_SETTING_802_1X_PHASE2_DOMAIN_MATCH: *const c_char = b"phase2-domain-match\0" as *const u8 as *const c_char;
 pub const NM_SETTING_802_1X_PHASE2_DOMAIN_SUFFIX_MATCH: *const c_char = b"phase2-domain-suffix-match\0" as *const u8 as *const c_char;
 pub const NM_SETTING_802_1X_PHASE2_PRIVATE_KEY: *const c_char = b"phase2-private-key\0" as *const u8 as *const c_char;
 pub const NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD: *const c_char = b"phase2-private-key-password\0" as *const u8 as *const c_char;
@@ -1005,10 +1014,14 @@ pub const NM_SETTING_BOND_OPTION_XMIT_HASH_POLICY: *const c_char = b"xmit_hash_p
 pub const NM_SETTING_BOND_SETTING_NAME: *const c_char = b"bond\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_AGEING_TIME: *const c_char = b"ageing-time\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_FORWARD_DELAY: *const c_char = b"forward-delay\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_GROUP_ADDRESS: *const c_char = b"group-address\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_GROUP_FORWARD_MASK: *const c_char = b"group-forward-mask\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_HELLO_TIME: *const c_char = b"hello-time\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_MAC_ADDRESS: *const c_char = b"mac-address\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_MAX_AGE: *const c_char = b"max-age\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_MULTICAST_QUERIER: *const c_char = b"multicast-querier\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_MULTICAST_QUERY_USE_IFADDR: *const c_char = b"multicast-query-use-ifaddr\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_MULTICAST_ROUTER: *const c_char = b"multicast-router\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_MULTICAST_SNOOPING: *const c_char = b"multicast-snooping\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_PORT_HAIRPIN_MODE: *const c_char = b"hairpin-mode\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_PORT_PATH_COST: *const c_char = b"path-cost\0" as *const u8 as *const c_char;
@@ -1021,6 +1034,8 @@ pub const NM_SETTING_BRIDGE_STP: *const c_char = b"stp\0" as *const u8 as *const
 pub const NM_SETTING_BRIDGE_VLANS: *const c_char = b"vlans\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_VLAN_DEFAULT_PVID: *const c_char = b"vlan-default-pvid\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_VLAN_FILTERING: *const c_char = b"vlan-filtering\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_VLAN_PROTOCOL: *const c_char = b"vlan-protocol\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_VLAN_STATS_ENABLED: *const c_char = b"vlan-stats-enabled\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CDMA_MTU: *const c_char = b"mtu\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CDMA_NUMBER: *const c_char = b"number\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CDMA_PASSWORD: *const c_char = b"password\0" as *const u8 as *const c_char;
@@ -1082,11 +1097,13 @@ pub const NM_SETTING_DNS_OPTION_IP6_DOTINT: *const c_char = b"ip6-dotint\0" as *
 pub const NM_SETTING_DNS_OPTION_NDOTS: *const c_char = b"ndots\0" as *const u8 as *const c_char;
 pub const NM_SETTING_DNS_OPTION_NO_CHECK_NAMES: *const c_char = b"no-check-names\0" as *const u8 as *const c_char;
 pub const NM_SETTING_DNS_OPTION_NO_IP6_DOTINT: *const c_char = b"no-ip6-dotint\0" as *const u8 as *const c_char;
+pub const NM_SETTING_DNS_OPTION_NO_RELOAD: *const c_char = b"no-reload\0" as *const u8 as *const c_char;
 pub const NM_SETTING_DNS_OPTION_NO_TLD_QUERY: *const c_char = b"no-tld-query\0" as *const u8 as *const c_char;
 pub const NM_SETTING_DNS_OPTION_ROTATE: *const c_char = b"rotate\0" as *const u8 as *const c_char;
 pub const NM_SETTING_DNS_OPTION_SINGLE_REQUEST: *const c_char = b"single-request\0" as *const u8 as *const c_char;
 pub const NM_SETTING_DNS_OPTION_SINGLE_REQUEST_REOPEN: *const c_char = b"single-request-reopen\0" as *const u8 as *const c_char;
 pub const NM_SETTING_DNS_OPTION_TIMEOUT: *const c_char = b"timeout\0" as *const u8 as *const c_char;
+pub const NM_SETTING_DNS_OPTION_TRUST_AD: *const c_char = b"trust-ad\0" as *const u8 as *const c_char;
 pub const NM_SETTING_DNS_OPTION_USE_VC: *const c_char = b"use-vc\0" as *const u8 as *const c_char;
 pub const NM_SETTING_DUMMY_SETTING_NAME: *const c_char = b"dummy\0" as *const u8 as *const c_char;
 pub const NM_SETTING_ETHTOOL_SETTING_NAME: *const c_char = b"ethtool\0" as *const u8 as *const c_char;
@@ -1130,6 +1147,7 @@ pub const NM_SETTING_IP6_CONFIG_METHOD_IGNORE: *const c_char = b"ignore\0" as *c
 pub const NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL: *const c_char = b"link-local\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP6_CONFIG_METHOD_MANUAL: *const c_char = b"manual\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP6_CONFIG_METHOD_SHARED: *const c_char = b"shared\0" as *const u8 as *const c_char;
+pub const NM_SETTING_IP6_CONFIG_RA_TIMEOUT: *const c_char = b"ra-timeout\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP6_CONFIG_SETTING_NAME: *const c_char = b"ipv6\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP6_CONFIG_TOKEN: *const c_char = b"token\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP_CONFIG_ADDRESSES: *const c_char = b"addresses\0" as *const u8 as *const c_char;
@@ -1324,6 +1342,8 @@ pub const NM_SETTING_VPN_SERVICE_TYPE: *const c_char = b"service-type\0" as *con
 pub const NM_SETTING_VPN_SETTING_NAME: *const c_char = b"vpn\0" as *const u8 as *const c_char;
 pub const NM_SETTING_VPN_TIMEOUT: *const c_char = b"timeout\0" as *const u8 as *const c_char;
 pub const NM_SETTING_VPN_USER_NAME: *const c_char = b"user-name\0" as *const u8 as *const c_char;
+pub const NM_SETTING_VRF_SETTING_NAME: *const c_char = b"vrf\0" as *const u8 as *const c_char;
+pub const NM_SETTING_VRF_TABLE: *const c_char = b"table\0" as *const u8 as *const c_char;
 pub const NM_SETTING_VXLAN_AGEING: *const c_char = b"ageing\0" as *const u8 as *const c_char;
 pub const NM_SETTING_VXLAN_DESTINATION_PORT: *const c_char = b"destination-port\0" as *const u8 as *const c_char;
 pub const NM_SETTING_VXLAN_ID: *const c_char = b"id\0" as *const u8 as *const c_char;
@@ -1526,6 +1546,7 @@ pub const NM_802_11_AP_SEC_GROUP_CCMP: NM80211ApSecurityFlags = 128;
 pub const NM_802_11_AP_SEC_KEY_MGMT_PSK: NM80211ApSecurityFlags = 256;
 pub const NM_802_11_AP_SEC_KEY_MGMT_802_1X: NM80211ApSecurityFlags = 512;
 pub const NM_802_11_AP_SEC_KEY_MGMT_SAE: NM80211ApSecurityFlags = 1024;
+pub const NM_802_11_AP_SEC_KEY_MGMT_OWE: NM80211ApSecurityFlags = 2048;
 
 pub type NMActivationStateFlags = c_uint;
 pub const NM_ACTIVATION_STATE_FLAG_NONE: NMActivationStateFlags = 0;
@@ -1548,6 +1569,10 @@ pub const NM_CHECKPOINT_CREATE_FLAG_DESTROY_ALL: NMCheckpointCreateFlags = 1;
 pub const NM_CHECKPOINT_CREATE_FLAG_DELETE_NEW_CONNECTIONS: NMCheckpointCreateFlags = 2;
 pub const NM_CHECKPOINT_CREATE_FLAG_DISCONNECT_NEW_DEVICES: NMCheckpointCreateFlags = 4;
 pub const NM_CHECKPOINT_CREATE_FLAG_ALLOW_OVERLAPPING: NMCheckpointCreateFlags = 8;
+
+pub type NMClientInstanceFlags = c_uint;
+pub const NM_CLIENT_INSTANCE_FLAGS_NONE: NMClientInstanceFlags = 0;
+pub const NM_CLIENT_INSTANCE_FLAGS_NO_AUTO_FETCH_PERMISSIONS: NMClientInstanceFlags = 1;
 
 pub type NMConnectionSerializationFlags = c_uint;
 pub const NM_CONNECTION_SERIALIZE_ALL: NMConnectionSerializationFlags = 0;
@@ -1886,6 +1911,11 @@ pub struct _NMDeviceVlanClass(c_void);
 pub type NMDeviceVlanClass = *mut _NMDeviceVlanClass;
 
 #[repr(C)]
+pub struct _NMDeviceVrfClass(c_void);
+
+pub type NMDeviceVrfClass = *mut _NMDeviceVrfClass;
+
+#[repr(C)]
 pub struct _NMDeviceVxlanClass(c_void);
 
 pub type NMDeviceVxlanClass = *mut _NMDeviceVxlanClass;
@@ -2041,14 +2071,9 @@ impl ::std::fmt::Debug for NMSettingBondClass {
 }
 
 #[repr(C)]
-pub struct NMSettingBridgeClass(c_void);
+pub struct _NMSettingBridgeClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingBridgeClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingBridgeClass @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type NMSettingBridgeClass = *mut _NMSettingBridgeClass;
 
 #[repr(C)]
 pub struct NMSettingBridgePortClass(c_void);
@@ -2351,6 +2376,11 @@ impl ::std::fmt::Debug for NMSettingVpnClass {
 }
 
 #[repr(C)]
+pub struct _NMSettingVrfClass(c_void);
+
+pub type NMSettingVrfClass = *mut _NMSettingVrfClass;
+
+#[repr(C)]
 pub struct NMSettingVxlanClass(c_void);
 
 impl ::std::fmt::Debug for NMSettingVxlanClass {
@@ -2501,14 +2531,9 @@ pub struct _NMVpnEditorPluginVT(c_void);
 pub type NMVpnEditorPluginVT = *mut _NMVpnEditorPluginVT;
 
 #[repr(C)]
-pub struct NMVpnPluginInfoClass(c_void);
+pub struct _NMVpnPluginInfoClass(c_void);
 
-impl ::std::fmt::Debug for NMVpnPluginInfoClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMVpnPluginInfoClass @ {:?}", self as *const _))
-         .finish()
-    }
-}
+pub type NMVpnPluginInfoClass = *mut _NMVpnPluginInfoClass;
 
 #[repr(C)]
 pub struct NMVpnPluginOldClass(c_void);
@@ -2807,6 +2832,16 @@ pub struct NMDeviceVlan(c_void);
 impl ::std::fmt::Debug for NMDeviceVlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("NMDeviceVlan @ {:?}", self as *const _))
+         .finish()
+    }
+}
+
+#[repr(C)]
+pub struct NMDeviceVrf(c_void);
+
+impl ::std::fmt::Debug for NMDeviceVrf {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("NMDeviceVrf @ {:?}", self as *const _))
          .finish()
     }
 }
@@ -3322,6 +3357,16 @@ impl ::std::fmt::Debug for NMSettingVpn {
 }
 
 #[repr(C)]
+pub struct NMSettingVrf(c_void);
+
+impl ::std::fmt::Debug for NMSettingVrf {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("NMSettingVrf @ {:?}", self as *const _))
+         .finish()
+    }
+}
+
+#[repr(C)]
 pub struct NMSettingVxlan(c_void);
 
 impl ::std::fmt::Debug for NMSettingVxlan {
@@ -3800,6 +3845,11 @@ extern "C" {
     // NMCheckpointCreateFlags
     //=========================================================================
     pub fn nm_checkpoint_create_flags_get_type() -> GType;
+
+    //=========================================================================
+    // NMClientInstanceFlags
+    //=========================================================================
+    pub fn nm_client_instance_flags_get_type() -> GType;
 
     //=========================================================================
     // NMConnectionSerializationFlags
@@ -4407,6 +4457,14 @@ extern "C" {
     pub fn nm_client_connectivity_check_get_uri(client: *mut NMClient) -> *const c_char;
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_client_connectivity_check_set_enabled(client: *mut NMClient, enabled: gboolean);
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_client_dbus_call(client: *mut NMClient, object_path: *const c_char, interface_name: *const c_char, method_name: *const c_char, parameters: *mut glib::GVariant, reply_type: *const glib::GVariantType, timeout_msec: c_int, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_client_dbus_call_finish(client: *mut NMClient, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> *mut glib::GVariant;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_client_dbus_set_property(client: *mut NMClient, object_path: *const c_char, interface_name: *const c_char, property_name: *const c_char, value: *mut glib::GVariant, timeout_msec: c_int, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_client_dbus_set_property_finish(client: *mut NMClient, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> gboolean;
     pub fn nm_client_deactivate_connection(client: *mut NMClient, active: *mut NMActiveConnection, cancellable: *mut gio::GCancellable, error: *mut *mut glib::GError) -> gboolean;
     pub fn nm_client_deactivate_connection_async(client: *mut NMClient, active: *mut NMActiveConnection, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
     pub fn nm_client_deactivate_connection_finish(client: *mut NMClient, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> gboolean;
@@ -4436,12 +4494,18 @@ extern "C" {
     pub fn nm_client_get_dns_mode(client: *mut NMClient) -> *const c_char;
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_client_get_dns_rc_manager(client: *mut NMClient) -> *const c_char;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_client_get_instance_flags(self_: *mut NMClient) -> NMClientInstanceFlags;
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     pub fn nm_client_get_main_context(self_: *mut NMClient) -> *mut glib::GMainContext;
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     pub fn nm_client_get_metered(client: *mut NMClient) -> NMMetered;
     pub fn nm_client_get_nm_running(client: *mut NMClient) -> gboolean;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_client_get_object_by_path(client: *mut NMClient, dbus_path: *const c_char) -> *mut NMObject;
     pub fn nm_client_get_permission_result(client: *mut NMClient, permission: NMClientPermission) -> NMClientPermissionResult;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_client_get_permissions_state(self_: *mut NMClient) -> NMTernary;
     pub fn nm_client_get_primary_connection(client: *mut NMClient) -> *mut NMActiveConnection;
     pub fn nm_client_get_startup(client: *mut NMClient) -> gboolean;
     pub fn nm_client_get_state(client: *mut NMClient) -> NMState;
@@ -4769,6 +4833,13 @@ extern "C" {
     pub fn nm_device_vlan_get_vlan_id(device: *mut NMDeviceVlan) -> c_uint;
 
     //=========================================================================
+    // NMDeviceVrf
+    //=========================================================================
+    pub fn nm_device_vrf_get_type() -> GType;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_device_vrf_get_table(device: *mut NMDeviceVrf) -> u32;
+
+    //=========================================================================
     // NMDeviceVxlan
     //=========================================================================
     pub fn nm_device_vxlan_get_type() -> GType;
@@ -4900,6 +4971,8 @@ extern "C" {
     // NMObject
     //=========================================================================
     pub fn nm_object_get_type() -> GType;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_object_get_client(object: *mut NMObject) -> *mut NMClient;
     pub fn nm_object_get_path(object: *mut NMObject) -> *const c_char;
 
     //=========================================================================
@@ -4933,6 +5006,16 @@ extern "C" {
     //=========================================================================
     pub fn nm_secret_agent_old_get_type() -> GType;
     pub fn nm_secret_agent_old_delete_secrets(self_: *mut NMSecretAgentOld, connection: *mut NMConnection, callback: NMSecretAgentOldDeleteSecretsFunc, user_data: gpointer);
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_secret_agent_old_destroy(self_: *mut NMSecretAgentOld);
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_secret_agent_old_enable(self_: *mut NMSecretAgentOld, enable: gboolean);
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_secret_agent_old_get_context_busy_watcher(self_: *mut NMSecretAgentOld) -> *mut gobject::GObject;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_secret_agent_old_get_dbus_name_owner(self_: *mut NMSecretAgentOld) -> *const c_char;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_secret_agent_old_get_main_context(self_: *mut NMSecretAgentOld) -> *mut glib::GMainContext;
     pub fn nm_secret_agent_old_get_registered(self_: *mut NMSecretAgentOld) -> gboolean;
     pub fn nm_secret_agent_old_get_secrets(self_: *mut NMSecretAgentOld, connection: *mut NMConnection, setting_name: *const c_char, hints: *mut *const c_char, flags: NMSecretAgentGetSecretsFlags, callback: NMSecretAgentOldGetSecretsFunc, user_data: gpointer);
     pub fn nm_secret_agent_old_register(self_: *mut NMSecretAgentOld, cancellable: *mut gio::GCancellable, error: *mut *mut glib::GError) -> gboolean;
@@ -5005,6 +5088,8 @@ extern "C" {
     pub fn nm_setting_802_1x_get_client_cert_scheme(setting: *mut NMSetting8021x) -> NMSetting8021xCKScheme;
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_802_1x_get_client_cert_uri(setting: *mut NMSetting8021x) -> *const c_char;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_setting_802_1x_get_domain_match(setting: *mut NMSetting8021x) -> *const c_char;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn nm_setting_802_1x_get_domain_suffix_match(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_eap_method(setting: *mut NMSetting8021x, i: u32) -> *const c_char;
@@ -5046,6 +5131,8 @@ extern "C" {
     pub fn nm_setting_802_1x_get_phase2_client_cert_scheme(setting: *mut NMSetting8021x) -> NMSetting8021xCKScheme;
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     pub fn nm_setting_802_1x_get_phase2_client_cert_uri(setting: *mut NMSetting8021x) -> *const c_char;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_setting_802_1x_get_phase2_domain_match(setting: *mut NMSetting8021x) -> *const c_char;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn nm_setting_802_1x_get_phase2_domain_suffix_match(setting: *mut NMSetting8021x) -> *const c_char;
     pub fn nm_setting_802_1x_get_phase2_private_key_blob(setting: *mut NMSetting8021x) -> *mut glib::GBytes;
@@ -5107,6 +5194,8 @@ extern "C" {
     pub fn nm_setting_bond_get_num_options(setting: *mut NMSettingBond) -> u32;
     pub fn nm_setting_bond_get_option_by_name(setting: *mut NMSettingBond, name: *const c_char) -> *const c_char;
     pub fn nm_setting_bond_get_option_default(setting: *mut NMSettingBond, name: *const c_char) -> *const c_char;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_setting_bond_get_option_normalized(setting: *mut NMSettingBond, name: *const c_char) -> *const c_char;
     pub fn nm_setting_bond_get_valid_options(setting: *mut NMSettingBond) -> *mut *const c_char;
     pub fn nm_setting_bond_remove_option(setting: *mut NMSettingBond, name: *const c_char) -> gboolean;
 
@@ -5121,11 +5210,15 @@ extern "C" {
     pub fn nm_setting_bridge_clear_vlans(setting: *mut NMSettingBridge);
     pub fn nm_setting_bridge_get_ageing_time(setting: *mut NMSettingBridge) -> u32;
     pub fn nm_setting_bridge_get_forward_delay(setting: *mut NMSettingBridge) -> u16;
+    pub fn nm_setting_bridge_get_group_address(setting: *const NMSettingBridge) -> *const c_char;
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     pub fn nm_setting_bridge_get_group_forward_mask(setting: *mut NMSettingBridge) -> u16;
     pub fn nm_setting_bridge_get_hello_time(setting: *mut NMSettingBridge) -> u16;
     pub fn nm_setting_bridge_get_mac_address(setting: *mut NMSettingBridge) -> *const c_char;
     pub fn nm_setting_bridge_get_max_age(setting: *mut NMSettingBridge) -> u16;
+    pub fn nm_setting_bridge_get_multicast_querier(setting: *const NMSettingBridge) -> gboolean;
+    pub fn nm_setting_bridge_get_multicast_query_use_ifaddr(setting: *const NMSettingBridge) -> gboolean;
+    pub fn nm_setting_bridge_get_multicast_router(setting: *const NMSettingBridge) -> *const c_char;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn nm_setting_bridge_get_multicast_snooping(setting: *mut NMSettingBridge) -> gboolean;
     #[cfg(any(feature = "v1_18", feature = "dox"))]
@@ -5138,6 +5231,8 @@ extern "C" {
     pub fn nm_setting_bridge_get_vlan_default_pvid(setting: *mut NMSettingBridge) -> u16;
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn nm_setting_bridge_get_vlan_filtering(setting: *mut NMSettingBridge) -> gboolean;
+    pub fn nm_setting_bridge_get_vlan_protocol(setting: *const NMSettingBridge) -> *const c_char;
+    pub fn nm_setting_bridge_get_vlan_stats_enabled(setting: *const NMSettingBridge) -> gboolean;
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn nm_setting_bridge_remove_vlan(setting: *mut NMSettingBridge, idx: c_uint);
     #[cfg(any(feature = "v1_18", feature = "dox"))]
@@ -5324,6 +5419,8 @@ extern "C" {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     pub fn nm_setting_ip6_config_get_dhcp_duid(setting: *mut NMSettingIP6Config) -> *const c_char;
     pub fn nm_setting_ip6_config_get_ip6_privacy(setting: *mut NMSettingIP6Config) -> NMSettingIP6ConfigPrivacy;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_setting_ip6_config_get_ra_timeout(setting: *mut NMSettingIP6Config) -> i32;
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     pub fn nm_setting_ip6_config_get_token(setting: *mut NMSettingIP6Config) -> *const c_char;
 
@@ -5852,6 +5949,15 @@ extern "C" {
     pub fn nm_setting_vpn_get_user_name(setting: *mut NMSettingVpn) -> *const c_char;
     pub fn nm_setting_vpn_remove_data_item(setting: *mut NMSettingVpn, key: *const c_char) -> gboolean;
     pub fn nm_setting_vpn_remove_secret(setting: *mut NMSettingVpn, key: *const c_char) -> gboolean;
+
+    //=========================================================================
+    // NMSettingVrf
+    //=========================================================================
+    pub fn nm_setting_vrf_get_type() -> GType;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_setting_vrf_new() -> *mut NMSetting;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    pub fn nm_setting_vrf_get_table(setting: *mut NMSettingVrf) -> u32;
 
     //=========================================================================
     // NMSettingVxlan

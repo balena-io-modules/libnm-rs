@@ -300,6 +300,9 @@ pub trait DeviceExt: 'static {
         f: F,
     ) -> SignalHandlerId;
 
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn connect_property_hw_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
     fn connect_property_interface_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     #[cfg(any(feature = "v1_22", feature = "dox"))]
@@ -1378,6 +1381,29 @@ impl<O: IsA<Device>> DeviceExt for O {
                 Some(transmute(
                     notify_firmware_version_trampoline::<Self, F> as usize,
                 )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn connect_property_hw_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_hw_address_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut nm_sys::NMDevice,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<Device>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&Device::from_glib_borrow(this).unsafe_cast())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::hw-address\0".as_ptr() as *const _,
+                Some(transmute(notify_hw_address_trampoline::<Self, F> as usize)),
                 Box_::into_raw(f),
             )
         }

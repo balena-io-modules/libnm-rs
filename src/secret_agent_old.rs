@@ -45,6 +45,21 @@ pub trait SecretAgentOldExt: 'static {
         callback: Q,
     );
 
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn destroy(&self);
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn enable(&self, enable: bool);
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn get_context_busy_watcher(&self) -> Option<glib::Object>;
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn get_dbus_name_owner(&self) -> Option<GString>;
+
+    //#[cfg(any(feature = "v1_24", feature = "dox"))]
+    //fn get_main_context(&self) -> /*Ignored*/Option<glib::MainContext>;
+
     fn get_registered(&self) -> bool;
 
     fn get_secrets<
@@ -59,6 +74,7 @@ pub trait SecretAgentOldExt: 'static {
         callback: Q,
     );
 
+    #[cfg_attr(feature = "v1_24", deprecated)]
     fn register<P: IsA<gio::Cancellable>>(
         &self,
         cancellable: Option<&P>,
@@ -86,11 +102,13 @@ pub trait SecretAgentOldExt: 'static {
         callback: Q,
     );
 
+    #[cfg_attr(feature = "v1_24", deprecated)]
     fn unregister<P: IsA<gio::Cancellable>>(
         &self,
         cancellable: Option<&P>,
     ) -> Result<(), glib::Error>;
 
+    #[cfg_attr(feature = "v1_24", deprecated)]
     fn unregister_async<
         P: IsA<gio::Cancellable>,
         Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
@@ -99,6 +117,8 @@ pub trait SecretAgentOldExt: 'static {
         cancellable: Option<&P>,
         callback: Q,
     );
+
+    #[cfg_attr(feature = "v1_24", deprecated)]
 
     fn unregister_async_future(
         &self,
@@ -161,6 +181,43 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
             );
         }
     }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn destroy(&self) {
+        unsafe {
+            nm_sys::nm_secret_agent_old_destroy(self.as_ref().to_glib_none().0);
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn enable(&self, enable: bool) {
+        unsafe {
+            nm_sys::nm_secret_agent_old_enable(self.as_ref().to_glib_none().0, enable.to_glib());
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn get_context_busy_watcher(&self) -> Option<glib::Object> {
+        unsafe {
+            from_glib_none(nm_sys::nm_secret_agent_old_get_context_busy_watcher(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn get_dbus_name_owner(&self) -> Option<GString> {
+        unsafe {
+            from_glib_none(nm_sys::nm_secret_agent_old_get_dbus_name_owner(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
+
+    //#[cfg(any(feature = "v1_24", feature = "dox"))]
+    //fn get_main_context(&self) -> /*Ignored*/Option<glib::MainContext> {
+    //    unsafe { TODO: call nm_sys:nm_secret_agent_old_get_main_context() }
+    //}
 
     fn get_registered(&self) -> bool {
         unsafe {

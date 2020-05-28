@@ -103,6 +103,9 @@ pub trait Setting8021xExt: 'static {
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_client_cert_uri(&self) -> Option<GString>;
 
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn get_domain_match(&self) -> Option<GString>;
+
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_domain_suffix_match(&self) -> Option<GString>;
 
@@ -175,6 +178,9 @@ pub trait Setting8021xExt: 'static {
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     fn get_phase2_client_cert_uri(&self) -> Option<GString>;
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn get_phase2_domain_match(&self) -> Option<GString>;
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_phase2_domain_suffix_match(&self) -> Option<GString>;
@@ -265,6 +271,9 @@ pub trait Setting8021xExt: 'static {
         client_cert_password_flags: SettingSecretFlags,
     );
 
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn set_property_domain_match(&self, domain_match: Option<&str>);
+
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_domain_suffix_match(&self, domain_suffix_match: Option<&str>);
 
@@ -331,6 +340,9 @@ pub trait Setting8021xExt: 'static {
         &self,
         phase2_client_cert_password_flags: SettingSecretFlags,
     );
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn set_property_phase2_domain_match(&self, phase2_domain_match: Option<&str>);
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_phase2_domain_suffix_match(&self, phase2_domain_suffix_match: Option<&str>);
@@ -410,6 +422,10 @@ pub trait Setting8021xExt: 'static {
         &self,
         f: F,
     ) -> SignalHandlerId;
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn connect_property_domain_match_notify<F: Fn(&Self) + 'static>(&self, f: F)
+        -> SignalHandlerId;
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn connect_property_domain_suffix_match_notify<F: Fn(&Self) + 'static>(
@@ -509,6 +525,12 @@ pub trait Setting8021xExt: 'static {
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     fn connect_property_phase2_client_cert_password_flags_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn connect_property_phase2_domain_match_notify<F: Fn(&Self) + 'static>(
         &self,
         f: F,
     ) -> SignalHandlerId;
@@ -741,6 +763,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
     fn get_client_cert_uri(&self) -> Option<GString> {
         unsafe {
             from_glib_none(nm_sys::nm_setting_802_1x_get_client_cert_uri(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn get_domain_match(&self) -> Option<GString> {
+        unsafe {
+            from_glib_none(nm_sys::nm_setting_802_1x_get_domain_match(
                 self.as_ref().to_glib_none().0,
             ))
         }
@@ -1004,6 +1035,15 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
     fn get_phase2_client_cert_uri(&self) -> Option<GString> {
         unsafe {
             from_glib_none(nm_sys::nm_setting_802_1x_get_phase2_client_cert_uri(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn get_phase2_domain_match(&self) -> Option<GString> {
+        unsafe {
+            from_glib_none(nm_sys::nm_setting_802_1x_get_phase2_domain_match(
                 self.as_ref().to_glib_none().0,
             ))
         }
@@ -1375,6 +1415,17 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
         }
     }
 
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn set_property_domain_match(&self, domain_match: Option<&str>) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"domain-match\0".as_ptr() as *const _,
+                Value::from(domain_match).to_glib_none().0,
+            );
+        }
+    }
+
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_domain_suffix_match(&self, domain_suffix_match: Option<&str>) {
         unsafe {
@@ -1674,6 +1725,17 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
                 Value::from(&phase2_client_cert_password_flags)
                     .to_glib_none()
                     .0,
+            );
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn set_property_phase2_domain_match(&self, phase2_domain_match: Option<&str>) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"phase2-domain-match\0".as_ptr() as *const _,
+                Value::from(phase2_domain_match).to_glib_none().0,
             );
         }
     }
@@ -2089,6 +2151,34 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
                 b"notify::client-cert-password-flags\0".as_ptr() as *const _,
                 Some(transmute(
                     notify_client_cert_password_flags_trampoline::<Self, F> as usize,
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn connect_property_domain_match_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_domain_match_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut nm_sys::NMSetting8021x,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<Setting8021x>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::domain-match\0".as_ptr() as *const _,
+                Some(transmute(
+                    notify_domain_match_trampoline::<Self, F> as usize,
                 )),
                 Box_::into_raw(f),
             )
@@ -2693,6 +2783,34 @@ impl<O: IsA<Setting8021x>> Setting8021xExt for O {
                 b"notify::phase2-client-cert-password-flags\0".as_ptr() as *const _,
                 Some(transmute(
                     notify_phase2_client_cert_password_flags_trampoline::<Self, F> as usize,
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn connect_property_phase2_domain_match_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_phase2_domain_match_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut nm_sys::NMSetting8021x,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<Setting8021x>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&Setting8021x::from_glib_borrow(this).unsafe_cast())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::phase2-domain-match\0".as_ptr() as *const _,
+                Some(transmute(
+                    notify_phase2_domain_match_trampoline::<Self, F> as usize,
                 )),
                 Box_::into_raw(f),
             )

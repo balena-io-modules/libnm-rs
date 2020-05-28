@@ -42,9 +42,9 @@ impl Default for SettingVpn {
 pub const NONE_SETTING_VPN: Option<&SettingVpn> = None;
 
 pub trait SettingVpnExt: 'static {
-    fn add_data_item(&self, key: &str, item: &str);
+    fn add_data_item(&self, key: &str, item: Option<&str>);
 
-    fn add_secret(&self, key: &str, secret: &str);
+    fn add_secret(&self, key: &str, secret: Option<&str>);
 
     fn foreach_data_item<P: FnMut(&str, &str)>(&self, func: P);
 
@@ -110,7 +110,7 @@ pub trait SettingVpnExt: 'static {
 }
 
 impl<O: IsA<SettingVpn>> SettingVpnExt for O {
-    fn add_data_item(&self, key: &str, item: &str) {
+    fn add_data_item(&self, key: &str, item: Option<&str>) {
         unsafe {
             nm_sys::nm_setting_vpn_add_data_item(
                 self.as_ref().to_glib_none().0,
@@ -120,7 +120,7 @@ impl<O: IsA<SettingVpn>> SettingVpnExt for O {
         }
     }
 
-    fn add_secret(&self, key: &str, secret: &str) {
+    fn add_secret(&self, key: &str, secret: Option<&str>) {
         unsafe {
             nm_sys::nm_setting_vpn_add_secret(
                 self.as_ref().to_glib_none().0,

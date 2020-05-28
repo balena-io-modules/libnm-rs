@@ -55,6 +55,9 @@ pub trait SettingBondExt: 'static {
 
     fn get_option_default(&self, name: &str) -> Option<GString>;
 
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn get_option_normalized(&self, name: &str) -> Option<GString>;
+
     fn get_valid_options(&self) -> Vec<GString>;
 
     fn remove_option(&self, name: &str) -> bool;
@@ -93,6 +96,16 @@ impl<O: IsA<SettingBond>> SettingBondExt for O {
     fn get_option_default(&self, name: &str) -> Option<GString> {
         unsafe {
             from_glib_none(nm_sys::nm_setting_bond_get_option_default(
+                self.as_ref().to_glib_none().0,
+                name.to_glib_none().0,
+            ))
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn get_option_normalized(&self, name: &str) -> Option<GString> {
+        unsafe {
+            from_glib_none(nm_sys::nm_setting_bond_get_option_normalized(
                 self.as_ref().to_glib_none().0,
                 name.to_glib_none().0,
             ))

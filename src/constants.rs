@@ -335,6 +335,12 @@ pub static CLIENT_HOSTNAME: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_CLIENT_HOSTNAME).to_str().unwrap()
     });
+pub static CLIENT_INSTANCE_FLAGS: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_CLIENT_INSTANCE_FLAGS)
+            .to_str()
+            .unwrap()
+    });
 pub static CLIENT_METERED: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_CLIENT_METERED).to_str().unwrap()
@@ -348,6 +354,12 @@ pub static CLIENT_NETWORKING_ENABLED: once_cell::sync::Lazy<&'static str> =
 pub static CLIENT_NM_RUNNING: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_CLIENT_NM_RUNNING)
+            .to_str()
+            .unwrap()
+    });
+pub static CLIENT_PERMISSIONS_STATE: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_CLIENT_PERMISSIONS_STATE)
             .to_str()
             .unwrap()
     });
@@ -818,6 +830,12 @@ pub static DEVICE_GENERIC_TYPE_DESCRIPTION: once_cell::sync::Lazy<&'static str> 
             .to_str()
             .unwrap()
     });
+pub static DEVICE_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_DEVICE_HW_ADDRESS)
+            .to_str()
+            .unwrap()
+    });
 pub static DEVICE_INFINIBAND_CARRIER: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_DEVICE_INFINIBAND_CARRIER)
@@ -1259,6 +1277,12 @@ pub static DEVICE_VLAN_PARENT: once_cell::sync::Lazy<&'static str> =
 pub static DEVICE_VLAN_VLAN_ID: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_DEVICE_VLAN_VLAN_ID)
+            .to_str()
+            .unwrap()
+    });
+pub static DEVICE_VRF_TABLE: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_DEVICE_VRF_TABLE)
             .to_str()
             .unwrap()
     });
@@ -2172,6 +2196,12 @@ pub static SECRET_AGENT_OLD_CAPABILITIES: once_cell::sync::Lazy<&'static str> =
             .to_str()
             .unwrap()
     });
+pub static SECRET_AGENT_OLD_DBUS_CONNECTION: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SECRET_AGENT_OLD_DBUS_CONNECTION)
+            .to_str()
+            .unwrap()
+    });
 pub static SECRET_AGENT_OLD_IDENTIFIER: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SECRET_AGENT_OLD_IDENTIFIER)
@@ -2265,6 +2295,12 @@ pub static SETTING_802_1X_CLIENT_CERT_PASSWORD: once_cell::sync::Lazy<&'static s
 pub static SETTING_802_1X_CLIENT_CERT_PASSWORD_FLAGS: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SETTING_802_1X_CLIENT_CERT_PASSWORD_FLAGS)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_802_1X_DOMAIN_MATCH: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_802_1X_DOMAIN_MATCH)
             .to_str()
             .unwrap()
     });
@@ -2403,6 +2439,12 @@ pub static SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD: once_cell::sync::Lazy<&'s
 pub static SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD_FLAGS: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD_FLAGS)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_802_1X_PHASE2_DOMAIN_MATCH: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_802_1X_PHASE2_DOMAIN_MATCH)
             .to_str()
             .unwrap()
     });
@@ -2784,6 +2826,12 @@ pub static SETTING_BRIDGE_FORWARD_DELAY: once_cell::sync::Lazy<&'static str> =
             .to_str()
             .unwrap()
     });
+pub static SETTING_BRIDGE_GROUP_ADDRESS: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_GROUP_ADDRESS)
+            .to_str()
+            .unwrap()
+    });
 pub static SETTING_BRIDGE_GROUP_FORWARD_MASK: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_GROUP_FORWARD_MASK)
@@ -2805,6 +2853,24 @@ pub static SETTING_BRIDGE_MAC_ADDRESS: once_cell::sync::Lazy<&'static str> =
 pub static SETTING_BRIDGE_MAX_AGE: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MAX_AGE)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_BRIDGE_MULTICAST_QUERIER: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MULTICAST_QUERIER)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_BRIDGE_MULTICAST_QUERY_USE_IFADDR: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MULTICAST_QUERY_USE_IFADDR)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_BRIDGE_MULTICAST_ROUTER: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MULTICAST_ROUTER)
             .to_str()
             .unwrap()
     });
@@ -2877,6 +2943,18 @@ pub static SETTING_BRIDGE_VLAN_DEFAULT_PVID: once_cell::sync::Lazy<&'static str>
 pub static SETTING_BRIDGE_VLAN_FILTERING: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_VLAN_FILTERING)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_BRIDGE_VLAN_PROTOCOL: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_VLAN_PROTOCOL)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_BRIDGE_VLAN_STATS_ENABLED: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_VLAN_STATS_ENABLED)
             .to_str()
             .unwrap()
     });
@@ -3228,6 +3306,12 @@ pub static SETTING_DNS_OPTION_NO_IP6_DOTINT: once_cell::sync::Lazy<&'static str>
             .to_str()
             .unwrap()
     });
+pub static SETTING_DNS_OPTION_NO_RELOAD: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_DNS_OPTION_NO_RELOAD)
+            .to_str()
+            .unwrap()
+    });
 pub static SETTING_DNS_OPTION_NO_TLD_QUERY: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SETTING_DNS_OPTION_NO_TLD_QUERY)
@@ -3255,6 +3339,12 @@ pub static SETTING_DNS_OPTION_SINGLE_REQUEST_REOPEN: once_cell::sync::Lazy<&'sta
 pub static SETTING_DNS_OPTION_TIMEOUT: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SETTING_DNS_OPTION_TIMEOUT)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_DNS_OPTION_TRUST_AD: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_DNS_OPTION_TRUST_AD)
             .to_str()
             .unwrap()
     });
@@ -3508,6 +3598,12 @@ pub static SETTING_IP6_CONFIG_METHOD_MANUAL: once_cell::sync::Lazy<&'static str>
 pub static SETTING_IP6_CONFIG_METHOD_SHARED: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SETTING_IP6_CONFIG_METHOD_SHARED)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_IP6_CONFIG_RA_TIMEOUT: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_IP6_CONFIG_RA_TIMEOUT)
             .to_str()
             .unwrap()
     });
@@ -4591,6 +4687,18 @@ pub static SETTING_VPN_TIMEOUT: once_cell::sync::Lazy<&'static str> =
 pub static SETTING_VPN_USER_NAME: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SETTING_VPN_USER_NAME)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_VRF_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_VRF_SETTING_NAME)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_VRF_TABLE: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_VRF_TABLE)
             .to_str()
             .unwrap()
     });

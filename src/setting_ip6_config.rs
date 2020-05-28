@@ -53,6 +53,9 @@ pub trait SettingIP6ConfigExt: 'static {
 
     fn get_ip6_privacy(&self) -> SettingIP6ConfigPrivacy;
 
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn get_ra_timeout(&self) -> i32;
+
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn get_token(&self) -> Option<GString>;
 
@@ -63,6 +66,9 @@ pub trait SettingIP6ConfigExt: 'static {
     fn set_property_dhcp_duid(&self, dhcp_duid: Option<&str>);
 
     fn set_property_ip6_privacy(&self, ip6_privacy: SettingIP6ConfigPrivacy);
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn set_property_ra_timeout(&self, ra_timeout: i32);
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn set_property_token(&self, token: Option<&str>);
@@ -77,6 +83,9 @@ pub trait SettingIP6ConfigExt: 'static {
     fn connect_property_dhcp_duid_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     fn connect_property_ip6_privacy_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn connect_property_ra_timeout_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     fn connect_property_token_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -107,6 +116,11 @@ impl<O: IsA<SettingIP6Config>> SettingIP6ConfigExt for O {
                 self.as_ref().to_glib_none().0,
             ))
         }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn get_ra_timeout(&self) -> i32 {
+        unsafe { nm_sys::nm_setting_ip6_config_get_ra_timeout(self.as_ref().to_glib_none().0) }
     }
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
@@ -146,6 +160,17 @@ impl<O: IsA<SettingIP6Config>> SettingIP6ConfigExt for O {
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
                 b"ip6-privacy\0".as_ptr() as *const _,
                 Value::from(&ip6_privacy).to_glib_none().0,
+            );
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn set_property_ra_timeout(&self, ra_timeout: i32) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"ra-timeout\0".as_ptr() as *const _,
+                Value::from(&ra_timeout).to_glib_none().0,
             );
         }
     }
@@ -229,6 +254,29 @@ impl<O: IsA<SettingIP6Config>> SettingIP6ConfigExt for O {
                 self.as_ptr() as *mut _,
                 b"notify::ip6-privacy\0".as_ptr() as *const _,
                 Some(transmute(notify_ip6_privacy_trampoline::<Self, F> as usize)),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    fn connect_property_ra_timeout_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_ra_timeout_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut nm_sys::NMSettingIP6Config,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<SettingIP6Config>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&SettingIP6Config::from_glib_borrow(this).unsafe_cast())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::ra-timeout\0".as_ptr() as *const _,
+                Some(transmute(notify_ra_timeout_trampoline::<Self, F> as usize)),
                 Box_::into_raw(f),
             )
         }

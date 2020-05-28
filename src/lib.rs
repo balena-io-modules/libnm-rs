@@ -136,6 +136,11 @@ pub use self::device_tun::{DeviceTun, DeviceTunClass};
 mod device_vlan;
 pub use self::device_vlan::{DeviceVlan, DeviceVlanClass};
 
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+mod device_vrf;
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+pub use self::device_vrf::{DeviceVrf, DeviceVrfClass};
+
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 mod device_vxlan;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
@@ -202,8 +207,7 @@ pub use self::setting_bond::SettingBondExt;
 pub use self::setting_bond::{SettingBond, SettingBondClass, NONE_SETTING_BOND};
 
 mod setting_bridge;
-pub use self::setting_bridge::SettingBridgeExt;
-pub use self::setting_bridge::{SettingBridge, SettingBridgeClass, NONE_SETTING_BRIDGE};
+pub use self::setting_bridge::{SettingBridge, SettingBridgeClass};
 
 mod setting_bridge_port;
 pub use self::setting_bridge_port::SettingBridgePortExt;
@@ -371,6 +375,11 @@ mod setting_vpn;
 pub use self::setting_vpn::SettingVpnExt;
 pub use self::setting_vpn::{SettingVpn, SettingVpnClass, NONE_SETTING_VPN};
 
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+mod setting_vrf;
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+pub use self::setting_vrf::{SettingVrf, SettingVrfClass};
+
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 mod setting_vxlan;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
@@ -430,9 +439,7 @@ pub use self::vpn_editor_plugin::{VpnEditorPlugin, NONE_VPN_EDITOR_PLUGIN};
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 mod vpn_plugin_info;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-pub use self::vpn_plugin_info::VpnPluginInfoExt;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-pub use self::vpn_plugin_info::{VpnPluginInfo, VpnPluginInfoClass, NONE_VPN_PLUGIN_INFO};
+pub use self::vpn_plugin_info::{VpnPluginInfo, VpnPluginInfoClass};
 
 mod vpn_plugin_old;
 pub use self::vpn_plugin_old::VpnPluginOldExt;
@@ -579,6 +586,8 @@ pub use self::flags::ActivationStateFlags;
 pub use self::flags::BluetoothCapabilities;
 #[cfg(any(feature = "v1_4", feature = "dox"))]
 pub use self::flags::CheckpointCreateFlags;
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+pub use self::flags::ClientInstanceFlags;
 pub use self::flags::ConnectionSerializationFlags;
 pub use self::flags::DeviceCapabilities;
 #[cfg(any(feature = "v1_22", feature = "dox"))]
@@ -677,9 +686,11 @@ pub use self::constants::CLIENT_DNS_CONFIGURATION;
 pub use self::constants::CLIENT_DNS_MODE;
 pub use self::constants::CLIENT_DNS_RC_MANAGER;
 pub use self::constants::CLIENT_HOSTNAME;
+pub use self::constants::CLIENT_INSTANCE_FLAGS;
 pub use self::constants::CLIENT_METERED;
 pub use self::constants::CLIENT_NETWORKING_ENABLED;
 pub use self::constants::CLIENT_NM_RUNNING;
+pub use self::constants::CLIENT_PERMISSIONS_STATE;
 pub use self::constants::CLIENT_PERMISSION_CHANGED;
 pub use self::constants::CLIENT_PRIMARY_CONNECTION;
 pub use self::constants::CLIENT_STARTUP;
@@ -761,6 +772,7 @@ pub use self::constants::DEVICE_FIRMWARE_MISSING;
 pub use self::constants::DEVICE_FIRMWARE_VERSION;
 pub use self::constants::DEVICE_GENERIC_HW_ADDRESS;
 pub use self::constants::DEVICE_GENERIC_TYPE_DESCRIPTION;
+pub use self::constants::DEVICE_HW_ADDRESS;
 pub use self::constants::DEVICE_INFINIBAND_CARRIER;
 pub use self::constants::DEVICE_INFINIBAND_HW_ADDRESS;
 pub use self::constants::DEVICE_INTERFACE;
@@ -838,6 +850,7 @@ pub use self::constants::DEVICE_VLAN_CARRIER;
 pub use self::constants::DEVICE_VLAN_HW_ADDRESS;
 pub use self::constants::DEVICE_VLAN_PARENT;
 pub use self::constants::DEVICE_VLAN_VLAN_ID;
+pub use self::constants::DEVICE_VRF_TABLE;
 pub use self::constants::DEVICE_VXLAN_AGEING;
 pub use self::constants::DEVICE_VXLAN_CARRIER;
 pub use self::constants::DEVICE_VXLAN_DST_PORT;
@@ -990,6 +1003,7 @@ pub use self::constants::REMOTE_CONNECTION_UNSAVED;
 pub use self::constants::REMOTE_CONNECTION_VISIBLE;
 pub use self::constants::SECRET_AGENT_OLD_AUTO_REGISTER;
 pub use self::constants::SECRET_AGENT_OLD_CAPABILITIES;
+pub use self::constants::SECRET_AGENT_OLD_DBUS_CONNECTION;
 pub use self::constants::SECRET_AGENT_OLD_IDENTIFIER;
 pub use self::constants::SECRET_AGENT_OLD_REGISTERED;
 pub use self::constants::SETTING_6LOWPAN_PARENT;
@@ -1006,6 +1020,7 @@ pub use self::constants::SETTING_802_1X_CERT_SCHEME_PREFIX_PKCS11;
 pub use self::constants::SETTING_802_1X_CLIENT_CERT;
 pub use self::constants::SETTING_802_1X_CLIENT_CERT_PASSWORD;
 pub use self::constants::SETTING_802_1X_CLIENT_CERT_PASSWORD_FLAGS;
+pub use self::constants::SETTING_802_1X_DOMAIN_MATCH;
 pub use self::constants::SETTING_802_1X_DOMAIN_SUFFIX_MATCH;
 pub use self::constants::SETTING_802_1X_EAP;
 pub use self::constants::SETTING_802_1X_IDENTITY;
@@ -1029,6 +1044,7 @@ pub use self::constants::SETTING_802_1X_PHASE2_CA_PATH;
 pub use self::constants::SETTING_802_1X_PHASE2_CLIENT_CERT;
 pub use self::constants::SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD;
 pub use self::constants::SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD_FLAGS;
+pub use self::constants::SETTING_802_1X_PHASE2_DOMAIN_MATCH;
 pub use self::constants::SETTING_802_1X_PHASE2_DOMAIN_SUFFIX_MATCH;
 pub use self::constants::SETTING_802_1X_PHASE2_PRIVATE_KEY;
 pub use self::constants::SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD;
@@ -1092,10 +1108,14 @@ pub use self::constants::SETTING_BOND_OPTION_XMIT_HASH_POLICY;
 pub use self::constants::SETTING_BOND_SETTING_NAME;
 pub use self::constants::SETTING_BRIDGE_AGEING_TIME;
 pub use self::constants::SETTING_BRIDGE_FORWARD_DELAY;
+pub use self::constants::SETTING_BRIDGE_GROUP_ADDRESS;
 pub use self::constants::SETTING_BRIDGE_GROUP_FORWARD_MASK;
 pub use self::constants::SETTING_BRIDGE_HELLO_TIME;
 pub use self::constants::SETTING_BRIDGE_MAC_ADDRESS;
 pub use self::constants::SETTING_BRIDGE_MAX_AGE;
+pub use self::constants::SETTING_BRIDGE_MULTICAST_QUERIER;
+pub use self::constants::SETTING_BRIDGE_MULTICAST_QUERY_USE_IFADDR;
+pub use self::constants::SETTING_BRIDGE_MULTICAST_ROUTER;
 pub use self::constants::SETTING_BRIDGE_MULTICAST_SNOOPING;
 pub use self::constants::SETTING_BRIDGE_PORT_HAIRPIN_MODE;
 pub use self::constants::SETTING_BRIDGE_PORT_PATH_COST;
@@ -1108,6 +1128,8 @@ pub use self::constants::SETTING_BRIDGE_STP;
 pub use self::constants::SETTING_BRIDGE_VLANS;
 pub use self::constants::SETTING_BRIDGE_VLAN_DEFAULT_PVID;
 pub use self::constants::SETTING_BRIDGE_VLAN_FILTERING;
+pub use self::constants::SETTING_BRIDGE_VLAN_PROTOCOL;
+pub use self::constants::SETTING_BRIDGE_VLAN_STATS_ENABLED;
 pub use self::constants::SETTING_CDMA_MTU;
 pub use self::constants::SETTING_CDMA_NUMBER;
 pub use self::constants::SETTING_CDMA_PASSWORD;
@@ -1166,11 +1188,13 @@ pub use self::constants::SETTING_DNS_OPTION_IP6_DOTINT;
 pub use self::constants::SETTING_DNS_OPTION_NDOTS;
 pub use self::constants::SETTING_DNS_OPTION_NO_CHECK_NAMES;
 pub use self::constants::SETTING_DNS_OPTION_NO_IP6_DOTINT;
+pub use self::constants::SETTING_DNS_OPTION_NO_RELOAD;
 pub use self::constants::SETTING_DNS_OPTION_NO_TLD_QUERY;
 pub use self::constants::SETTING_DNS_OPTION_ROTATE;
 pub use self::constants::SETTING_DNS_OPTION_SINGLE_REQUEST;
 pub use self::constants::SETTING_DNS_OPTION_SINGLE_REQUEST_REOPEN;
 pub use self::constants::SETTING_DNS_OPTION_TIMEOUT;
+pub use self::constants::SETTING_DNS_OPTION_TRUST_AD;
 pub use self::constants::SETTING_DNS_OPTION_USE_VC;
 pub use self::constants::SETTING_DUMMY_SETTING_NAME;
 pub use self::constants::SETTING_ETHTOOL_SETTING_NAME;
@@ -1215,6 +1239,7 @@ pub use self::constants::SETTING_IP6_CONFIG_METHOD_IGNORE;
 pub use self::constants::SETTING_IP6_CONFIG_METHOD_LINK_LOCAL;
 pub use self::constants::SETTING_IP6_CONFIG_METHOD_MANUAL;
 pub use self::constants::SETTING_IP6_CONFIG_METHOD_SHARED;
+pub use self::constants::SETTING_IP6_CONFIG_RA_TIMEOUT;
 pub use self::constants::SETTING_IP6_CONFIG_SETTING_NAME;
 pub use self::constants::SETTING_IP6_CONFIG_TOKEN;
 pub use self::constants::SETTING_IP_CONFIG_ADDRESSES;
@@ -1397,6 +1422,8 @@ pub use self::constants::SETTING_VPN_SERVICE_TYPE;
 pub use self::constants::SETTING_VPN_SETTING_NAME;
 pub use self::constants::SETTING_VPN_TIMEOUT;
 pub use self::constants::SETTING_VPN_USER_NAME;
+pub use self::constants::SETTING_VRF_SETTING_NAME;
+pub use self::constants::SETTING_VRF_TABLE;
 pub use self::constants::SETTING_VXLAN_AGEING;
 pub use self::constants::SETTING_VXLAN_DESTINATION_PORT;
 pub use self::constants::SETTING_VXLAN_ID;
@@ -1584,7 +1611,6 @@ pub mod traits {
     pub use super::SettingAdslExt;
     pub use super::SettingBluetoothExt;
     pub use super::SettingBondExt;
-    pub use super::SettingBridgeExt;
     pub use super::SettingBridgePortExt;
     pub use super::SettingCdmaExt;
     pub use super::SettingConnectionExt;
@@ -1620,8 +1646,6 @@ pub mod traits {
     pub use super::SettingWirelessSecurityExt;
     pub use super::VpnEditorExt;
     pub use super::VpnEditorPluginExt;
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    pub use super::VpnPluginInfoExt;
     pub use super::VpnPluginOldExt;
     pub use super::VpnServicePluginExt;
 }

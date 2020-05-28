@@ -81,29 +81,6 @@ impl DeviceOlpcMesh {
             )
         }
     }
-
-    pub fn connect_property_hw_address_notify<F: Fn(&DeviceOlpcMesh) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId {
-        unsafe extern "C" fn notify_hw_address_trampoline<F: Fn(&DeviceOlpcMesh) + 'static>(
-            this: *mut nm_sys::NMDeviceOlpcMesh,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) {
-            let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this))
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::hw-address\0".as_ptr() as *const _,
-                Some(transmute(notify_hw_address_trampoline::<F> as usize)),
-                Box_::into_raw(f),
-            )
-        }
-    }
 }
 
 impl fmt::Display for DeviceOlpcMesh {
