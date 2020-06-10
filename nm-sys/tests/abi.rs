@@ -1015,7 +1015,7 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("(gint) NM_METERED_NO", "2"),
     ("(gint) NM_METERED_UNKNOWN", "0"),
     ("(gint) NM_METERED_YES", "1"),
-    ("NM_MICRO_VERSION", "0"),
+    ("NM_MICRO_VERSION", "2"),
     ("NM_MINOR_VERSION", "24"),
     ("NM_OBJECT_PATH", "path"),
     ("NM_REMOTE_CONNECTION_DBUS_CONNECTION", "dbus-connection"),

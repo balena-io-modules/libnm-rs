@@ -901,14 +901,17 @@ pub trait Setting8021xExt: 'static {
     /// Contains the CA certificate if used by the EAP method specified in the
     /// `Setting8021x:eap` property.
     ///
-    /// Certificate data is specified using a "scheme"; two are currently
-    /// supported: blob and path. When using the blob scheme (which is backwards
-    /// compatible with NM 0.7.x) this property should be set to the
-    /// certificate's DER encoded data. When using the path scheme, this property
-    /// should be set to the full UTF-8 encoded path of the certificate, prefixed
-    /// with the string "file://" and ending with a terminating NUL byte. This
-    /// property can be unset even if the EAP method supports CA certificates,
+    /// Certificate data is specified using a "scheme"; three are currently
+    /// supported: blob, path and pkcs`11` URL. When using the blob scheme this property
+    /// should be set to the certificate's DER encoded data. When using the path
+    /// scheme, this property should be set to the full UTF-8 encoded path of the
+    /// certificate, prefixed with the string "file://" and ending with a terminating
+    /// NUL byte.
+    /// This property can be unset even if the EAP method supports CA certificates,
     /// but this allows man-in-the-middle attacks and is NOT recommended.
+    ///
+    /// Note that enabling NMSetting8021x:system-ca-certs will override this
+    /// setting to use the built-in path, if the built-in path is not a directory.
     ///
     /// Setting this property directly is discouraged; use the
     /// `nm_setting_802_1x_set_ca_cert` function instead.
@@ -917,14 +920,17 @@ pub trait Setting8021xExt: 'static {
     /// Contains the CA certificate if used by the EAP method specified in the
     /// `Setting8021x:eap` property.
     ///
-    /// Certificate data is specified using a "scheme"; two are currently
-    /// supported: blob and path. When using the blob scheme (which is backwards
-    /// compatible with NM 0.7.x) this property should be set to the
-    /// certificate's DER encoded data. When using the path scheme, this property
-    /// should be set to the full UTF-8 encoded path of the certificate, prefixed
-    /// with the string "file://" and ending with a terminating NUL byte. This
-    /// property can be unset even if the EAP method supports CA certificates,
+    /// Certificate data is specified using a "scheme"; three are currently
+    /// supported: blob, path and pkcs`11` URL. When using the blob scheme this property
+    /// should be set to the certificate's DER encoded data. When using the path
+    /// scheme, this property should be set to the full UTF-8 encoded path of the
+    /// certificate, prefixed with the string "file://" and ending with a terminating
+    /// NUL byte.
+    /// This property can be unset even if the EAP method supports CA certificates,
     /// but this allows man-in-the-middle attacks and is NOT recommended.
+    ///
+    /// Note that enabling NMSetting8021x:system-ca-certs will override this
+    /// setting to use the built-in path, if the built-in path is not a directory.
     ///
     /// Setting this property directly is discouraged; use the
     /// `nm_setting_802_1x_set_ca_cert` function instead.
@@ -949,6 +955,9 @@ pub trait Setting8021xExt: 'static {
     /// UTF-8 encoded path to a directory containing PEM or DER formatted
     /// certificates to be added to the verification chain in addition to the
     /// certificate specified in the `Setting8021x:ca-cert` property.
+    ///
+    /// If NMSetting8021x:system-ca-certs is enabled and the built-in CA
+    /// path is an existing directory, then this setting is ignored.
     fn set_property_ca_path(&self, ca_path: Option<&str>);
 
     /// Contains the client certificate if used by the EAP method specified in
@@ -1138,14 +1147,17 @@ pub trait Setting8021xExt: 'static {
     /// in the `Setting8021x:phase2-auth` or `Setting8021x:phase2-autheap`
     /// properties.
     ///
-    /// Certificate data is specified using a "scheme"; two are currently
-    /// supported: blob and path. When using the blob scheme (which is backwards
-    /// compatible with NM 0.7.x) this property should be set to the
-    /// certificate's DER encoded data. When using the path scheme, this property
-    /// should be set to the full UTF-8 encoded path of the certificate, prefixed
-    /// with the string "file://" and ending with a terminating NUL byte. This
-    /// property can be unset even if the EAP method supports CA certificates,
+    /// Certificate data is specified using a "scheme"; three are currently
+    /// supported: blob, path and pkcs`11` URL. When using the blob scheme this property
+    /// should be set to the certificate's DER encoded data. When using the path
+    /// scheme, this property should be set to the full UTF-8 encoded path of the
+    /// certificate, prefixed with the string "file://" and ending with a terminating
+    /// NUL byte.
+    /// This property can be unset even if the EAP method supports CA certificates,
     /// but this allows man-in-the-middle attacks and is NOT recommended.
+    ///
+    /// Note that enabling NMSetting8021x:system-ca-certs will override this
+    /// setting to use the built-in path, if the built-in path is not a directory.
     ///
     /// Setting this property directly is discouraged; use the
     /// `nm_setting_802_1x_set_phase2_ca_cert` function instead.
@@ -1155,14 +1167,17 @@ pub trait Setting8021xExt: 'static {
     /// in the `Setting8021x:phase2-auth` or `Setting8021x:phase2-autheap`
     /// properties.
     ///
-    /// Certificate data is specified using a "scheme"; two are currently
-    /// supported: blob and path. When using the blob scheme (which is backwards
-    /// compatible with NM 0.7.x) this property should be set to the
-    /// certificate's DER encoded data. When using the path scheme, this property
-    /// should be set to the full UTF-8 encoded path of the certificate, prefixed
-    /// with the string "file://" and ending with a terminating NUL byte. This
-    /// property can be unset even if the EAP method supports CA certificates,
+    /// Certificate data is specified using a "scheme"; three are currently
+    /// supported: blob, path and pkcs`11` URL. When using the blob scheme this property
+    /// should be set to the certificate's DER encoded data. When using the path
+    /// scheme, this property should be set to the full UTF-8 encoded path of the
+    /// certificate, prefixed with the string "file://" and ending with a terminating
+    /// NUL byte.
+    /// This property can be unset even if the EAP method supports CA certificates,
     /// but this allows man-in-the-middle attacks and is NOT recommended.
+    ///
+    /// Note that enabling NMSetting8021x:system-ca-certs will override this
+    /// setting to use the built-in path, if the built-in path is not a directory.
     ///
     /// Setting this property directly is discouraged; use the
     /// `nm_setting_802_1x_set_phase2_ca_cert` function instead.
@@ -1190,6 +1205,9 @@ pub trait Setting8021xExt: 'static {
     /// UTF-8 encoded path to a directory containing PEM or DER formatted
     /// certificates to be added to the verification chain in addition to the
     /// certificate specified in the `Setting8021x:phase2-ca-cert` property.
+    ///
+    /// If NMSetting8021x:system-ca-certs is enabled and the built-in CA
+    /// path is an existing directory, then this setting is ignored.
     fn set_property_phase2_ca_path(&self, phase2_ca_path: Option<&str>);
 
     /// Contains the "phase 2" client certificate if used by the EAP method
