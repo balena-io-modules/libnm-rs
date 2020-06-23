@@ -8,6 +8,7 @@
 #![cfg_attr(feature = "cargo-clippy", allow(clippy::should_implement_trait))]
 #![cfg_attr(feature = "cargo-clippy", allow(clippy::missing_safety_doc))]
 #![cfg_attr(feature = "cargo-clippy", allow(clippy::too_many_arguments))]
+#![cfg_attr(feature = "cargo-clippy", allow(clippy::single_component_path_imports))]
 
 #[macro_use]
 extern crate bitflags;
