@@ -37,21 +37,8 @@ glib_wrapper! {
 }
 
 impl VpnPluginInfo {
-    /// Read the plugin info from file `filename`. Does not do
-    /// any further verification on the file. You might want to check
-    /// file permissions and ownership of the file.
-    ///
-    /// Feature: `v1_2`
-    ///
-    /// ## `filename`
-    /// filename to read.
-    ///
-    /// # Returns
-    ///
-    /// `None` if there is any error or a newly created
-    /// `VpnPluginInfo` instance.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
-    pub fn new_from_file(filename: &str) -> Result<VpnPluginInfo, glib::Error> {
+    pub fn from_file(filename: &str) -> Result<VpnPluginInfo, glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let ret =
@@ -91,21 +78,8 @@ impl VpnPluginInfo {
         }
     }
 
-    /// This constructor does not read any data from file but
-    /// takes instead a `keyfile` argument.
-    ///
-    /// Feature: `v1_2`
-    ///
-    /// ## `filename`
-    /// optional filename.
-    /// ## `keyfile`
-    /// inject data for the plugin info instance.
-    ///
-    /// # Returns
-    ///
-    /// new plugin info instance.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
-    pub fn new_with_data(
+    pub fn with_data(
         filename: &str,
         keyfile: &glib::KeyFile,
     ) -> Result<VpnPluginInfo, glib::Error> {
