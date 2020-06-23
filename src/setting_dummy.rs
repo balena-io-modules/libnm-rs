@@ -7,7 +7,7 @@ use glib::object::Cast;
 use glib::translate::*;
 use nm_sys;
 use std::fmt;
-use Setting;
+use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingDummy(Object<nm_sys::NMSettingDummy, nm_sys::NMSettingDummyClass, SettingDummyClass>) @extends Setting;

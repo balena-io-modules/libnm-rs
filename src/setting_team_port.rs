@@ -15,9 +15,9 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-use TeamLinkWatcher;
+use crate::TeamLinkWatcher;
 
 glib_wrapper! {
     pub struct SettingTeamPort(Object<nm_sys::NMSettingTeamPort, nm_sys::NMSettingTeamPortClass, SettingTeamPortClass>) @extends Setting;

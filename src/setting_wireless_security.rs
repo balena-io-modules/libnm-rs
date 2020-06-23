@@ -16,14 +16,14 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Setting;
-use SettingSecretFlags;
+use crate::Setting;
+use crate::SettingSecretFlags;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-use SettingWirelessSecurityFils;
-use SettingWirelessSecurityPmf;
+use crate::SettingWirelessSecurityFils;
+use crate::SettingWirelessSecurityPmf;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
-use SettingWirelessSecurityWpsMethod;
-use WepKeyType;
+use crate::SettingWirelessSecurityWpsMethod;
+use crate::WepKeyType;
 
 glib_wrapper! {
     pub struct SettingWirelessSecurity(Object<nm_sys::NMSettingWirelessSecurity, nm_sys::NMSettingWirelessSecurityClass, SettingWirelessSecurityClass>) @extends Setting;

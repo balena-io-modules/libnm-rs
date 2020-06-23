@@ -15,9 +15,9 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use BluetoothCapabilities;
-use Device;
-use Object;
+use crate::BluetoothCapabilities;
+use crate::Device;
+use crate::Object;
 
 glib_wrapper! {
     pub struct DeviceBt(Object<nm_sys::NMDeviceBt, nm_sys::NMDeviceBtClass, DeviceBtClass>) @extends Device, Object;

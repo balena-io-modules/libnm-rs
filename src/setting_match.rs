@@ -27,7 +27,7 @@ use std::fmt;
 use std::mem;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingMatch(Object<nm_sys::NMSettingMatch, nm_sys::NMSettingMatchClass, SettingMatchClass>) @extends Setting;

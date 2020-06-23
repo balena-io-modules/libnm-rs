@@ -12,7 +12,7 @@ use nm_sys;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 use std::ptr;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-use TCAction;
+use crate::TCAction;
 
 glib_wrapper! {
     #[derive(Debug, PartialOrd, Ord, Hash)]

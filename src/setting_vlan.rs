@@ -17,9 +17,9 @@ use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem;
 use std::mem::transmute;
-use Setting;
-use VlanFlags;
-use VlanPriorityMap;
+use crate::Setting;
+use crate::VlanFlags;
+use crate::VlanPriorityMap;
 
 glib_wrapper! {
     pub struct SettingVlan(Object<nm_sys::NMSettingVlan, nm_sys::NMSettingVlanClass, SettingVlanClass>) @extends Setting;

@@ -5,8 +5,8 @@
 use glib::translate::*;
 use nm_sys;
 use std::fmt;
-use Device;
-use Object;
+use crate::Device;
+use crate::Object;
 
 glib_wrapper! {
     pub struct DevicePpp(Object<nm_sys::NMDevicePpp, nm_sys::NMDevicePppClass, DevicePppClass>) @extends Device, Object;

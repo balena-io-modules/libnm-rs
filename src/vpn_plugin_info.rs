@@ -26,7 +26,7 @@ use std::mem::transmute;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 use std::ptr;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-use VpnEditorPlugin;
+use crate::VpnEditorPlugin;
 
 glib_wrapper! {
     pub struct VpnPluginInfo(Object<nm_sys::NMVpnPluginInfo, nm_sys::NMVpnPluginInfoClass, VpnPluginInfoClass>);

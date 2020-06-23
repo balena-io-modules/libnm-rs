@@ -9,7 +9,7 @@ use glib::translate::*;
 use nm_sys;
 use std::fmt;
 use std::ptr;
-use Connection;
+use crate::Connection;
 
 glib_wrapper! {
     pub struct SimpleConnection(Object<nm_sys::NMSimpleConnection, nm_sys::NMSimpleConnectionClass, SimpleConnectionClass>) @implements Connection;

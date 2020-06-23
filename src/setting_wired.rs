@@ -16,9 +16,9 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-use SettingWiredWakeOnLan;
+use crate::SettingWiredWakeOnLan;
 
 glib_wrapper! {
     pub struct SettingWired(Object<nm_sys::NMSettingWired, nm_sys::NMSettingWiredClass, SettingWiredClass>) @extends Setting;

@@ -19,8 +19,8 @@ use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
 use std::ptr;
-use VpnPluginFailure;
-use VpnServiceState;
+use crate::VpnPluginFailure;
+use crate::VpnServiceState;
 
 glib_wrapper! {
     pub struct VpnPluginOld(Object<nm_sys::NMVpnPluginOld, nm_sys::NMVpnPluginOldClass, VpnPluginOldClass>);

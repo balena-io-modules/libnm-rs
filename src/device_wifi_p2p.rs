@@ -31,10 +31,10 @@ use std::mem::transmute;
 use std::pin::Pin;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
 use std::ptr;
-use Device;
-use Object;
+use crate::Device;
+use crate::Object;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
-use WifiP2PPeer;
+use crate::WifiP2PPeer;
 
 glib_wrapper! {
     pub struct DeviceWifiP2P(Object<nm_sys::NMDeviceWifiP2P, nm_sys::NMDeviceWifiP2PClass, DeviceWifiP2PClass>) @extends Device, Object;

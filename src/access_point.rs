@@ -2,9 +2,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use _80211ApFlags;
-use _80211ApSecurityFlags;
-use _80211Mode;
+use crate::_80211ApFlags;
+use crate::_80211ApSecurityFlags;
+use crate::_80211Mode;
 use glib;
 use glib::object::IsA;
 use glib::object::ObjectType as ObjectType_;
@@ -20,8 +20,8 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Connection;
-use Object;
+use crate::Connection;
+use crate::Object;
 
 glib_wrapper! {
     pub struct AccessPoint(Object<nm_sys::NMAccessPoint, nm_sys::NMAccessPointClass, AccessPointClass>) @extends Object;

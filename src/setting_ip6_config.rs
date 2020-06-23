@@ -16,11 +16,11 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-use SettingIP6ConfigAddrGenMode;
-use SettingIP6ConfigPrivacy;
-use SettingIPConfig;
+use crate::SettingIP6ConfigAddrGenMode;
+use crate::SettingIP6ConfigPrivacy;
+use crate::SettingIPConfig;
 
 glib_wrapper! {
     pub struct SettingIP6Config(Object<nm_sys::NMSettingIP6Config, nm_sys::NMSettingIP6ConfigClass, SettingIP6ConfigClass>) @extends SettingIPConfig, Setting;

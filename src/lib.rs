@@ -34,8 +34,8 @@ pub use gio::NONE_CANCELLABLE;
 
 pub use glib::prelude::*;
 
-pub use functions::*;
-pub use traits::*;
+pub use crate::functions::*;
+pub use crate::traits::*;
 
 mod access_point;
 pub use self::access_point::{AccessPoint, AccessPointClass};

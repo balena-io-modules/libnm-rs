@@ -13,9 +13,9 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Device;
-use DeviceModemCapabilities;
-use Object;
+use crate::Device;
+use crate::DeviceModemCapabilities;
+use crate::Object;
 
 glib_wrapper! {
     pub struct DeviceModem(Object<nm_sys::NMDeviceModem, nm_sys::NMDeviceModemClass, DeviceModemClass>) @extends Device, Object;

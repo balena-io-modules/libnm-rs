@@ -23,11 +23,11 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-use SriovVF;
+use crate::SriovVF;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-use Ternary;
+use crate::Ternary;
 
 glib_wrapper! {
     pub struct SettingSriov(Object<nm_sys::NMSettingSriov, nm_sys::NMSettingSriovClass, SettingSriovClass>) @extends Setting;

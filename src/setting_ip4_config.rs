@@ -15,8 +15,8 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Setting;
-use SettingIPConfig;
+use crate::Setting;
+use crate::SettingIPConfig;
 
 glib_wrapper! {
     pub struct SettingIP4Config(Object<nm_sys::NMSettingIP4Config, nm_sys::NMSettingIP4ConfigClass, SettingIP4ConfigClass>) @extends SettingIPConfig, Setting;

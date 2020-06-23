@@ -24,30 +24,30 @@ use std::mem;
 use std::mem::transmute;
 use std::pin::Pin;
 use std::ptr;
-use ActiveConnection;
+use crate::ActiveConnection;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-use Checkpoint;
+use crate::Checkpoint;
 #[cfg(any(feature = "v1_24", feature = "dox"))]
-use ClientInstanceFlags;
-use ClientPermission;
-use ClientPermissionResult;
-use Connection;
-use ConnectivityState;
-use Device;
+use crate::ClientInstanceFlags;
+use crate::ClientPermission;
+use crate::ClientPermissionResult;
+use crate::Connection;
+use crate::ConnectivityState;
+use crate::Device;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
-use DnsEntry;
+use crate::DnsEntry;
 #[cfg(any(feature = "v1_22", feature = "dox"))]
-use ManagerReloadFlags;
+use crate::ManagerReloadFlags;
 #[cfg(any(feature = "v1_22", feature = "dox"))]
-use Metered;
+use crate::Metered;
 #[cfg(any(feature = "v1_24", feature = "dox"))]
-use Object;
-use RemoteConnection;
+use crate::Object;
+use crate::RemoteConnection;
 #[cfg(any(feature = "v1_20", feature = "dox"))]
-use SettingsAddConnection2Flags;
-use State;
+use crate::SettingsAddConnection2Flags;
+use crate::State;
 #[cfg(any(feature = "v1_24", feature = "dox"))]
-use Ternary;
+use crate::Ternary;
 
 glib_wrapper! {
     pub struct Client(Object<nm_sys::NMClient, nm_sys::NMClientClass, ClientClass>);

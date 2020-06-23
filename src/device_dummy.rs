@@ -5,8 +5,8 @@
 use glib::translate::*;
 use nm_sys;
 use std::fmt;
-use Device;
-use Object;
+use crate::Device;
+use crate::Object;
 
 glib_wrapper! {
     pub struct DeviceDummy(Object<nm_sys::NMDeviceDummy, nm_sys::NMDeviceDummyClass, DeviceDummyClass>) @extends Device, Object;

@@ -27,13 +27,13 @@ use std::fmt;
 use std::mem;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
-use SettingSecretFlags;
+use crate::SettingSecretFlags;
 #[cfg(any(feature = "v1_20", feature = "dox"))]
-use Ternary;
+use crate::Ternary;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
-use WireGuardPeer;
+use crate::WireGuardPeer;
 
 glib_wrapper! {
     pub struct SettingWireGuard(Object<nm_sys::NMSettingWireGuard, nm_sys::NMSettingWireGuardClass, SettingWireGuardClass>) @extends Setting;

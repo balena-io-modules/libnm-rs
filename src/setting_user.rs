@@ -24,7 +24,7 @@ use std::mem;
 use std::mem::transmute;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
 use std::ptr;
-use Setting;
+use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingUser(Object<nm_sys::NMSettingUser, nm_sys::NMSettingUserClass, SettingUserClass>) @extends Setting;

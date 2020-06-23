@@ -25,7 +25,7 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingOvsPatch(Object<nm_sys::NMSettingOvsPatch, nm_sys::NMSettingOvsPatchClass, SettingOvsPatchClass>) @extends Setting;

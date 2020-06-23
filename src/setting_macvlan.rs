@@ -24,9 +24,9 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-use SettingMacvlanMode;
+use crate::SettingMacvlanMode;
 
 glib_wrapper! {
     pub struct SettingMacvlan(Object<nm_sys::NMSettingMacvlan, nm_sys::NMSettingMacvlanClass, SettingMacvlanClass>) @extends Setting;

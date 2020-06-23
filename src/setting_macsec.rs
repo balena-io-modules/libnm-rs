@@ -24,13 +24,13 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
-use SettingMacsecMode;
+use crate::SettingMacsecMode;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
-use SettingMacsecValidation;
+use crate::SettingMacsecValidation;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
-use SettingSecretFlags;
+use crate::SettingSecretFlags;
 
 glib_wrapper! {
     pub struct SettingMacsec(Object<nm_sys::NMSettingMacsec, nm_sys::NMSettingMacsecClass, SettingMacsecClass>) @extends Setting;

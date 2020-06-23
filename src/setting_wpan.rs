@@ -17,7 +17,7 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingWpan(Object<nm_sys::NMSettingWpan, nm_sys::NMSettingWpanClass, SettingWpanClass>) @extends Setting;

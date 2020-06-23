@@ -23,7 +23,7 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_24", feature = "dox"))]
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingVrf(Object<nm_sys::NMSettingVrf, nm_sys::NMSettingVrfClass, SettingVrfClass>) @extends Setting;

@@ -14,7 +14,7 @@ use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
 #[cfg(any(feature = "v1_24", feature = "dox"))]
-use Client;
+use crate::Client;
 
 glib_wrapper! {
     pub struct Object(Object<nm_sys::NMObject, nm_sys::NMObjectClass, ObjectClass>);

@@ -20,12 +20,12 @@ use std::fmt;
 use std::mem::transmute;
 use std::pin::Pin;
 use std::ptr;
-use Connection;
-use Object;
+use crate::Connection;
+use crate::Object;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-use SettingsConnectionFlags;
+use crate::SettingsConnectionFlags;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-use SettingsUpdate2Flags;
+use crate::SettingsUpdate2Flags;
 
 glib_wrapper! {
     pub struct RemoteConnection(Object<nm_sys::NMRemoteConnection, nm_sys::NMRemoteConnectionClass, RemoteConnectionClass>) @extends Object, @implements Connection;

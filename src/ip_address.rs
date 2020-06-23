@@ -8,7 +8,7 @@ use glib::GString;
 use nm_sys;
 use std::ptr;
 #[cfg(any(feature = "v1_22", feature = "dox"))]
-use IPAddressCmpFlags;
+use crate::IPAddressCmpFlags;
 
 glib_wrapper! {
     #[derive(Debug, PartialOrd, Ord, Hash)]

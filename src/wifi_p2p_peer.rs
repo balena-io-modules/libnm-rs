@@ -3,7 +3,7 @@
 // DO NOT EDIT
 
 #[cfg(any(feature = "v1_16", feature = "dox"))]
-use _80211ApFlags;
+use crate::_80211ApFlags;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
 use glib;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
@@ -26,8 +26,8 @@ use std::fmt;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
 use std::mem::transmute;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
-use Connection;
-use Object;
+use crate::Connection;
+use crate::Object;
 
 glib_wrapper! {
     pub struct WifiP2PPeer(Object<nm_sys::NMWifiP2PPeer, nm_sys::NMWifiP2PPeerClass, WifiP2PPeerClass>) @extends Object;

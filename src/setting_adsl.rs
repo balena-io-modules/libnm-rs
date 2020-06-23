@@ -15,8 +15,8 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Setting;
-use SettingSecretFlags;
+use crate::Setting;
+use crate::SettingSecretFlags;
 
 glib_wrapper! {
     pub struct SettingAdsl(Object<nm_sys::NMSettingAdsl, nm_sys::NMSettingAdslClass, SettingAdslClass>) @extends Setting;

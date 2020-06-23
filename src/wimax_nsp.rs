@@ -13,9 +13,9 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Connection;
-use Object;
-use WimaxNspNetworkType;
+use crate::Connection;
+use crate::Object;
+use crate::WimaxNspNetworkType;
 
 glib_wrapper! {
     pub struct WimaxNsp(Object<nm_sys::NMWimaxNsp, nm_sys::NMWimaxNspClass, WimaxNspClass>) @extends Object;

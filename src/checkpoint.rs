@@ -18,8 +18,8 @@ use std::fmt;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 use std::mem::transmute;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-use Device;
-use Object;
+use crate::Device;
+use crate::Object;
 
 glib_wrapper! {
     pub struct Checkpoint(Object<nm_sys::NMCheckpoint, nm_sys::NMCheckpointClass, CheckpointClass>) @extends Object;

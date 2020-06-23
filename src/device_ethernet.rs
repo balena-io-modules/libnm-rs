@@ -15,8 +15,8 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Device;
-use Object;
+use crate::Device;
+use crate::Object;
 
 glib_wrapper! {
     pub struct DeviceEthernet(Object<nm_sys::NMDeviceEthernet, nm_sys::NMDeviceEthernetClass, DeviceEthernetClass>) @extends Device, Object;

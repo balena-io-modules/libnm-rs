@@ -5,8 +5,8 @@
 use glib::translate::*;
 use nm_sys;
 use std::fmt;
-use Device;
-use Object;
+use crate::Device;
+use crate::Object;
 
 glib_wrapper! {
     pub struct DeviceWpan(Object<nm_sys::NMDeviceWpan, nm_sys::NMDeviceWpanClass, DeviceWpanClass>) @extends Device, Object;

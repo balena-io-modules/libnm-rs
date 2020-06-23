@@ -24,24 +24,24 @@ use std::mem;
 use std::mem::transmute;
 use std::pin::Pin;
 use std::ptr;
-use ActiveConnection;
-use Connection;
+use crate::ActiveConnection;
+use crate::Connection;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
-use ConnectivityState;
-use DeviceCapabilities;
+use crate::ConnectivityState;
+use crate::DeviceCapabilities;
 #[cfg(any(feature = "v1_22", feature = "dox"))]
-use DeviceInterfaceFlags;
-use DeviceState;
-use DeviceStateReason;
-use DeviceType;
-use DhcpConfig;
-use IPConfig;
+use crate::DeviceInterfaceFlags;
+use crate::DeviceState;
+use crate::DeviceStateReason;
+use crate::DeviceType;
+use crate::DhcpConfig;
+use crate::IPConfig;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-use LldpNeighbor;
+use crate::LldpNeighbor;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-use Metered;
-use Object;
-use RemoteConnection;
+use crate::Metered;
+use crate::Object;
+use crate::RemoteConnection;
 
 glib_wrapper! {
     pub struct Device(Object<nm_sys::NMDevice, nm_sys::NMDeviceClass, DeviceClass>) @extends Object;

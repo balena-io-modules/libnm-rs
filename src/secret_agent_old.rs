@@ -21,9 +21,9 @@ use std::fmt;
 use std::mem::transmute;
 use std::pin::Pin;
 use std::ptr;
-use Connection;
-use SecretAgentCapabilities;
-use SecretAgentGetSecretsFlags;
+use crate::Connection;
+use crate::SecretAgentCapabilities;
+use crate::SecretAgentGetSecretsFlags;
 
 glib_wrapper! {
     pub struct SecretAgentOld(Object<nm_sys::NMSecretAgentOld, nm_sys::NMSecretAgentOldClass, SecretAgentOldClass>);

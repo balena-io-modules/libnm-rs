@@ -11,8 +11,8 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Device;
-use Object;
+use crate::Device;
+use crate::Object;
 
 glib_wrapper! {
     pub struct DeviceGeneric(Object<nm_sys::NMDeviceGeneric, nm_sys::NMDeviceGenericClass, DeviceGenericClass>) @extends Device, Object;

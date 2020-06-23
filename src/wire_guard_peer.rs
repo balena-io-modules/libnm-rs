@@ -12,9 +12,9 @@ use nm_sys;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
 use std::ptr;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
-use SettingCompareFlags;
+use crate::SettingCompareFlags;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
-use SettingSecretFlags;
+use crate::SettingSecretFlags;
 
 glib_wrapper! {
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]

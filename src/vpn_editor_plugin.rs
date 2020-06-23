@@ -18,11 +18,11 @@ use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
 use std::ptr;
-use Connection;
-use VpnEditor;
-use VpnEditorPluginCapability;
+use crate::Connection;
+use crate::VpnEditor;
+use crate::VpnEditorPluginCapability;
 #[cfg(any(feature = "v1_4", feature = "dox"))]
-use VpnPluginInfo;
+use crate::VpnPluginInfo;
 
 glib_wrapper! {
     pub struct VpnEditorPlugin(Interface<nm_sys::NMVpnEditorPlugin>);

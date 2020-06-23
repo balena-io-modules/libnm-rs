@@ -12,9 +12,9 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use IPAddress;
-use IPRoute;
-use Object;
+use crate::IPAddress;
+use crate::IPRoute;
+use crate::Object;
 
 glib_wrapper! {
     pub struct IPConfig(Object<nm_sys::NMIPConfig, nm_sys::NMIPConfigClass, IPConfigClass>) @extends Object;

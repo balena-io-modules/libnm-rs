@@ -2,7 +2,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use _80211Mode;
+use crate::_80211Mode;
 use gio;
 use gio_sys;
 use glib;
@@ -22,10 +22,10 @@ use std::fmt;
 use std::mem::transmute;
 use std::pin::Pin;
 use std::ptr;
-use AccessPoint;
-use Device;
-use DeviceWifiCapabilities;
-use Object;
+use crate::AccessPoint;
+use crate::Device;
+use crate::DeviceWifiCapabilities;
+use crate::Object;
 
 glib_wrapper! {
     pub struct DeviceWifi(Object<nm_sys::NMDeviceWifi, nm_sys::NMDeviceWifiClass, DeviceWifiClass>) @extends Device, Object;

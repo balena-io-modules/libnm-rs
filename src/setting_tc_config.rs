@@ -7,11 +7,11 @@ use glib::object::Cast;
 use glib::translate::*;
 use nm_sys;
 use std::fmt;
-use Setting;
+use crate::Setting;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-use TCQdisc;
+use crate::TCQdisc;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-use TCTfilter;
+use crate::TCTfilter;
 
 glib_wrapper! {
     pub struct SettingTCConfig(Object<nm_sys::NMSettingTCConfig, nm_sys::NMSettingTCConfigClass, SettingTCConfigClass>) @extends Setting;

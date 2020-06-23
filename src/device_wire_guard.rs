@@ -19,8 +19,8 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use std::mem::transmute;
-use Device;
-use Object;
+use crate::Device;
+use crate::Object;
 
 glib_wrapper! {
     pub struct DeviceWireGuard(Object<nm_sys::NMDeviceWireGuard, nm_sys::NMDeviceWireGuardClass, DeviceWireGuardClass>) @extends Device, Object;

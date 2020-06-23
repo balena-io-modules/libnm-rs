@@ -24,10 +24,10 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 use std::mem::transmute;
-use IPTunnelFlags;
+use crate::IPTunnelFlags;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-use IPTunnelMode;
-use Setting;
+use crate::IPTunnelMode;
+use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingIPTunnel(Object<nm_sys::NMSettingIPTunnel, nm_sys::NMSettingIPTunnelClass, SettingIPTunnelClass>) @extends Setting;

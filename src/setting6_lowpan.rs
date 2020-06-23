@@ -25,7 +25,7 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 
 glib_wrapper! {
     pub struct Setting6Lowpan(Object<nm_sys::NMSetting6Lowpan, nm_sys::NMSetting6LowpanClass, Setting6LowpanClass>) @extends Setting;

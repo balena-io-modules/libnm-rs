@@ -11,8 +11,8 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Device;
-use Object;
+use crate::Device;
+use crate::Object;
 
 glib_wrapper! {
     pub struct DeviceBond(Object<nm_sys::NMDeviceBond, nm_sys::NMDeviceBondClass, DeviceBondClass>) @extends Device, Object;

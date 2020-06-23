@@ -13,7 +13,7 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingBond(Object<nm_sys::NMSettingBond, nm_sys::NMSettingBondClass, SettingBondClass>) @extends Setting;

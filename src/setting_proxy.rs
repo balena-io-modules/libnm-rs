@@ -24,9 +24,9 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
-use SettingProxyMethod;
+use crate::SettingProxyMethod;
 
 glib_wrapper! {
     pub struct SettingProxy(Object<nm_sys::NMSettingProxy, nm_sys::NMSettingProxyClass, SettingProxyClass>) @extends Setting;

@@ -15,8 +15,8 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Setting;
-use SettingDcbFlags;
+use crate::Setting;
+use crate::SettingDcbFlags;
 
 glib_wrapper! {
     pub struct SettingDcb(Object<nm_sys::NMSettingDcb, nm_sys::NMSettingDcbClass, SettingDcbClass>) @extends Setting;

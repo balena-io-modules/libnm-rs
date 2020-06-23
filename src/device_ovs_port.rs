@@ -17,8 +17,8 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 use std::mem::transmute;
-use Device;
-use Object;
+use crate::Device;
+use crate::Object;
 
 glib_wrapper! {
     pub struct DeviceOvsPort(Object<nm_sys::NMDeviceOvsPort, nm_sys::NMDeviceOvsPortClass, DeviceOvsPortClass>) @extends Device, Object;

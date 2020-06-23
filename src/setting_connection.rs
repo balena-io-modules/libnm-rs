@@ -17,18 +17,18 @@ use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-use ConnectionMultiConnect;
+use crate::ConnectionMultiConnect;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-use Metered;
-use Setting;
+use crate::Metered;
+use crate::Setting;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-use SettingConnectionAutoconnectSlaves;
+use crate::SettingConnectionAutoconnectSlaves;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-use SettingConnectionLldp;
+use crate::SettingConnectionLldp;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-use SettingConnectionLlmnr;
+use crate::SettingConnectionLlmnr;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-use SettingConnectionMdns;
+use crate::SettingConnectionMdns;
 
 glib_wrapper! {
     pub struct SettingConnection(Object<nm_sys::NMSettingConnection, nm_sys::NMSettingConnectionClass, SettingConnectionClass>) @extends Setting;

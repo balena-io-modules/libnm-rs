@@ -15,7 +15,7 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingInfiniband(Object<nm_sys::NMSettingInfiniband, nm_sys::NMSettingInfinibandClass, SettingInfinibandClass>) @extends Setting;

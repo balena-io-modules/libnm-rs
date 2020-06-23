@@ -16,7 +16,7 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingBluetooth(Object<nm_sys::NMSettingBluetooth, nm_sys::NMSettingBluetoothClass, SettingBluetoothClass>) @extends Setting;

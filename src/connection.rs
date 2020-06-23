@@ -18,59 +18,59 @@ use std::fmt;
 use std::mem;
 use std::mem::transmute;
 use std::ptr;
-use ConnectionSerializationFlags;
-use Setting;
-use Setting8021x;
-use SettingAdsl;
-use SettingBluetooth;
-use SettingBond;
-use SettingBridge;
-use SettingBridgePort;
-use SettingCdma;
-use SettingCompareFlags;
-use SettingConnection;
-use SettingDcb;
+use crate::ConnectionSerializationFlags;
+use crate::Setting;
+use crate::Setting8021x;
+use crate::SettingAdsl;
+use crate::SettingBluetooth;
+use crate::SettingBond;
+use crate::SettingBridge;
+use crate::SettingBridgePort;
+use crate::SettingCdma;
+use crate::SettingCompareFlags;
+use crate::SettingConnection;
+use crate::SettingDcb;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
-use SettingDummy;
-use SettingGeneric;
-use SettingGsm;
-use SettingIP4Config;
-use SettingIP6Config;
+use crate::SettingDummy;
+use crate::SettingGeneric;
+use crate::SettingGsm;
+use crate::SettingIP4Config;
+use crate::SettingIP6Config;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-use SettingIPTunnel;
-use SettingInfiniband;
+use crate::SettingIPTunnel;
+use crate::SettingInfiniband;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
-use SettingMacsec;
+use crate::SettingMacsec;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-use SettingMacvlan;
-use SettingOlpcMesh;
+use crate::SettingMacvlan;
+use crate::SettingOlpcMesh;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
-use SettingOvsBridge;
+use crate::SettingOvsBridge;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
-use SettingOvsInterface;
+use crate::SettingOvsInterface;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
-use SettingOvsPatch;
+use crate::SettingOvsPatch;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
-use SettingOvsPort;
-use SettingPpp;
-use SettingPppoe;
+use crate::SettingOvsPort;
+use crate::SettingPpp;
+use crate::SettingPppoe;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
-use SettingProxy;
-use SettingSerial;
+use crate::SettingProxy;
+use crate::SettingSerial;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-use SettingTCConfig;
-use SettingTeam;
-use SettingTeamPort;
+use crate::SettingTCConfig;
+use crate::SettingTeam;
+use crate::SettingTeamPort;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-use SettingTun;
-use SettingVlan;
-use SettingVpn;
+use crate::SettingTun;
+use crate::SettingVlan;
+use crate::SettingVpn;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-use SettingVxlan;
-use SettingWimax;
-use SettingWired;
-use SettingWireless;
-use SettingWirelessSecurity;
+use crate::SettingVxlan;
+use crate::SettingWimax;
+use crate::SettingWired;
+use crate::SettingWireless;
+use crate::SettingWirelessSecurity;
 
 glib_wrapper! {
     pub struct Connection(Interface<nm_sys::NMConnection>);

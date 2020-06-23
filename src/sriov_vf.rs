@@ -14,7 +14,7 @@ use std::mem;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use std::ptr;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-use SriovVFVlanProtocol;
+use crate::SriovVFVlanProtocol;
 
 glib_wrapper! {
     #[derive(Debug, PartialOrd, Ord, Hash)]

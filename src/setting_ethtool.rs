@@ -11,9 +11,9 @@ use nm_sys;
 use std::fmt;
 #[cfg(any(feature = "v1_20", feature = "dox"))]
 use std::mem;
-use Setting;
+use crate::Setting;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-use Ternary;
+use crate::Ternary;
 
 glib_wrapper! {
     pub struct SettingEthtool(Object<nm_sys::NMSettingEthtool, nm_sys::NMSettingEthtoolClass, SettingEthtoolClass>) @extends Setting;

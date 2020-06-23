@@ -13,9 +13,9 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use ActiveConnection;
-use Object;
-use VpnConnectionState;
+use crate::ActiveConnection;
+use crate::Object;
+use crate::VpnConnectionState;
 
 glib_wrapper! {
     pub struct VpnConnection(Object<nm_sys::NMVpnConnection, nm_sys::NMVpnConnectionClass, VpnConnectionClass>) @extends ActiveConnection, Object;

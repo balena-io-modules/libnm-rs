@@ -27,9 +27,9 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
 use std::mem::transmute;
-use Setting;
+use crate::Setting;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
-use SettingWirelessSecurityWpsMethod;
+use crate::SettingWirelessSecurityWpsMethod;
 
 glib_wrapper! {
     pub struct SettingWifiP2P(Object<nm_sys::NMSettingWifiP2P, nm_sys::NMSettingWifiP2PClass, SettingWifiP2PClass>) @extends Setting;
