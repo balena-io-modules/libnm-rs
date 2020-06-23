@@ -2,6 +2,8 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Setting;
+use crate::SettingSerialParity;
 use glib::object::Cast;
 use glib::object::IsA;
 use glib::signal::connect_raw;
@@ -14,8 +16,6 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use crate::Setting;
-use crate::SettingSerialParity;
 
 glib_wrapper! {
     pub struct SettingSerial(Object<nm_sys::NMSettingSerial, nm_sys::NMSettingSerialClass, SettingSerialClass>) @extends Setting;

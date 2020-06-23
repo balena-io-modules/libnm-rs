@@ -2,6 +2,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Connection;
 use glib;
 use glib::object::Cast;
 use glib::object::IsA;
@@ -9,7 +10,6 @@ use glib::translate::*;
 use nm_sys;
 use std::fmt;
 use std::ptr;
-use crate::Connection;
 
 glib_wrapper! {
     pub struct SimpleConnection(Object<nm_sys::NMSimpleConnection, nm_sys::NMSimpleConnectionClass, SimpleConnectionClass>) @implements Connection;

@@ -2,13 +2,13 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+#[cfg(any(feature = "v1_22", feature = "dox"))]
+use crate::IPAddressCmpFlags;
 use glib;
 use glib::translate::*;
 use glib::GString;
 use nm_sys;
 use std::ptr;
-#[cfg(any(feature = "v1_22", feature = "dox"))]
-use crate::IPAddressCmpFlags;
 
 glib_wrapper! {
     #[derive(Debug, PartialOrd, Ord, Hash)]

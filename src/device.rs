@@ -2,6 +2,24 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::ActiveConnection;
+use crate::Connection;
+#[cfg(any(feature = "v1_16", feature = "dox"))]
+use crate::ConnectivityState;
+use crate::DeviceCapabilities;
+#[cfg(any(feature = "v1_22", feature = "dox"))]
+use crate::DeviceInterfaceFlags;
+use crate::DeviceState;
+use crate::DeviceStateReason;
+use crate::DeviceType;
+use crate::DhcpConfig;
+use crate::IPConfig;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+use crate::LldpNeighbor;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+use crate::Metered;
+use crate::Object;
+use crate::RemoteConnection;
 use gio;
 use gio_sys;
 use glib;
@@ -24,24 +42,6 @@ use std::mem;
 use std::mem::transmute;
 use std::pin::Pin;
 use std::ptr;
-use crate::ActiveConnection;
-use crate::Connection;
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-use crate::ConnectivityState;
-use crate::DeviceCapabilities;
-#[cfg(any(feature = "v1_22", feature = "dox"))]
-use crate::DeviceInterfaceFlags;
-use crate::DeviceState;
-use crate::DeviceStateReason;
-use crate::DeviceType;
-use crate::DhcpConfig;
-use crate::IPConfig;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-use crate::LldpNeighbor;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-use crate::Metered;
-use crate::Object;
-use crate::RemoteConnection;
 
 glib_wrapper! {
     pub struct Device(Object<nm_sys::NMDevice, nm_sys::NMDeviceClass, DeviceClass>) @extends Object;

@@ -2,6 +2,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+#[cfg(any(feature = "v1_18", feature = "dox"))]
+use crate::BridgeVlan;
+use crate::Setting;
 use glib::object::Cast;
 use glib::object::ObjectType as ObjectType_;
 use glib::signal::connect_raw;
@@ -15,9 +18,6 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-#[cfg(any(feature = "v1_18", feature = "dox"))]
-use crate::BridgeVlan;
-use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingBridge(Object<nm_sys::NMSettingBridge, nm_sys::NMSettingBridgeClass, SettingBridgeClass>) @extends Setting;

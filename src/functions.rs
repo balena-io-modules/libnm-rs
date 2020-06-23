@@ -2,14 +2,6 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::_80211ApFlags;
-use crate::_80211ApSecurityFlags;
-use glib;
-use glib::translate::*;
-use glib::GString;
-use nm_sys;
-use std::mem;
-use std::ptr;
 use crate::DeviceWifiCapabilities;
 use crate::IPAddress;
 use crate::IPRoute;
@@ -23,6 +15,14 @@ use crate::TCQdisc;
 use crate::TCTfilter;
 use crate::UtilsSecurityType;
 use crate::WepKeyType;
+use crate::_80211ApFlags;
+use crate::_80211ApSecurityFlags;
+use glib;
+use glib::translate::*;
+use glib::GString;
+use nm_sys;
+use std::mem;
+use std::ptr;
 
 #[cfg(any(feature = "v1_20", feature = "dox"))]
 pub fn ethtool_optname_is_feature(optname: Option<&str>) -> bool {

@@ -2,6 +2,11 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Setting;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+use crate::SriovVF;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+use crate::Ternary;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use glib::object::Cast;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
@@ -23,11 +28,6 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use std::mem::transmute;
-use crate::Setting;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-use crate::SriovVF;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-use crate::Ternary;
 
 glib_wrapper! {
     pub struct SettingSriov(Object<nm_sys::NMSettingSriov, nm_sys::NMSettingSriovClass, SettingSriovClass>) @extends Setting;

@@ -2,28 +2,6 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use gio;
-use gio_sys;
-use glib;
-use glib::object::IsA;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::GString;
-use glib::StaticType;
-use glib::Value;
-use glib_sys;
-use gobject_sys;
-use libc;
-use nm_sys;
-use std::boxed::Box as Box_;
-use std::fmt;
-#[cfg(any(feature = "v1_24", feature = "dox"))]
-use std::mem;
-use std::mem::transmute;
-use std::pin::Pin;
-use std::ptr;
 use crate::ActiveConnection;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 use crate::Checkpoint;
@@ -48,6 +26,28 @@ use crate::SettingsAddConnection2Flags;
 use crate::State;
 #[cfg(any(feature = "v1_24", feature = "dox"))]
 use crate::Ternary;
+use gio;
+use gio_sys;
+use glib;
+use glib::object::IsA;
+use glib::object::ObjectType as ObjectType_;
+use glib::signal::connect_raw;
+use glib::signal::SignalHandlerId;
+use glib::translate::*;
+use glib::GString;
+use glib::StaticType;
+use glib::Value;
+use glib_sys;
+use gobject_sys;
+use libc;
+use nm_sys;
+use std::boxed::Box as Box_;
+use std::fmt;
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+use std::mem;
+use std::mem::transmute;
+use std::pin::Pin;
+use std::ptr;
 
 glib_wrapper! {
     pub struct Client(Object<nm_sys::NMClient, nm_sys::NMClientClass, ClientClass>);

@@ -2,6 +2,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Connection;
+use crate::SecretAgentCapabilities;
+use crate::SecretAgentGetSecretsFlags;
 use gio;
 use gio_sys;
 use glib;
@@ -21,9 +24,6 @@ use std::fmt;
 use std::mem::transmute;
 use std::pin::Pin;
 use std::ptr;
-use crate::Connection;
-use crate::SecretAgentCapabilities;
-use crate::SecretAgentGetSecretsFlags;
 
 glib_wrapper! {
     pub struct SecretAgentOld(Object<nm_sys::NMSecretAgentOld, nm_sys::NMSecretAgentOldClass, SecretAgentOldClass>);

@@ -2,11 +2,11 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Setting;
 use glib::object::Cast;
 use glib::translate::*;
 use nm_sys;
 use std::fmt;
-use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingGeneric(Object<nm_sys::NMSettingGeneric, nm_sys::NMSettingGenericClass, SettingGenericClass>) @extends Setting;

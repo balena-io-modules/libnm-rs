@@ -2,6 +2,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::VpnPluginFailure;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+use crate::VpnServiceState;
 use glib;
 use glib::object::Cast;
 use glib::object::IsA;
@@ -22,9 +25,6 @@ use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
 use std::ptr;
-use crate::VpnPluginFailure;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-use crate::VpnServiceState;
 
 glib_wrapper! {
     pub struct VpnServicePlugin(Object<nm_sys::NMVpnServicePlugin, nm_sys::NMVpnServicePluginClass, VpnServicePluginClass>);

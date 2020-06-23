@@ -2,6 +2,10 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Device;
+use crate::Object;
+#[cfg(any(feature = "v1_16", feature = "dox"))]
+use crate::WifiP2PPeer;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
 use gio;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
@@ -31,10 +35,6 @@ use std::mem::transmute;
 use std::pin::Pin;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
 use std::ptr;
-use crate::Device;
-use crate::Object;
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-use crate::WifiP2PPeer;
 
 glib_wrapper! {
     pub struct DeviceWifiP2P(Object<nm_sys::NMDeviceWifiP2P, nm_sys::NMDeviceWifiP2PClass, DeviceWifiP2PClass>) @extends Device, Object;

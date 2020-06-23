@@ -2,11 +2,11 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Device;
+use crate::Object;
 use glib::translate::*;
 use nm_sys;
 use std::fmt;
-use crate::Device;
-use crate::Object;
 
 glib_wrapper! {
     pub struct DeviceOvsInterface(Object<nm_sys::NMDeviceOvsInterface, nm_sys::NMDeviceOvsInterfaceClass, DeviceOvsInterfaceClass>) @extends Device, Object;

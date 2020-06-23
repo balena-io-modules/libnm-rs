@@ -3,6 +3,8 @@
 // DO NOT EDIT
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+use crate::TCAction;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
 use glib;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 use glib::translate::*;
@@ -11,8 +13,6 @@ use glib::GString;
 use nm_sys;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 use std::ptr;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-use crate::TCAction;
 
 glib_wrapper! {
     #[derive(Debug, PartialOrd, Ord, Hash)]

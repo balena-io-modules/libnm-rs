@@ -2,6 +2,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Setting;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+use crate::Ternary;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use glib::object::Cast;
 use glib::translate::*;
@@ -11,9 +14,6 @@ use nm_sys;
 use std::fmt;
 #[cfg(any(feature = "v1_20", feature = "dox"))]
 use std::mem;
-use crate::Setting;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-use crate::Ternary;
 
 glib_wrapper! {
     pub struct SettingEthtool(Object<nm_sys::NMSettingEthtool, nm_sys::NMSettingEthtoolClass, SettingEthtoolClass>) @extends Setting;

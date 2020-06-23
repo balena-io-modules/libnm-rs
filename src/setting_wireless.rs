@@ -2,6 +2,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Setting;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+use crate::SettingMacRandomization;
+use crate::SettingWirelessSecurity;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use crate::SettingWirelessWakeOnWLan;
 use crate::_80211ApFlags;
 use crate::_80211ApSecurityFlags;
 use crate::_80211Mode;
@@ -20,12 +26,6 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use crate::Setting;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-use crate::SettingMacRandomization;
-use crate::SettingWirelessSecurity;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-use crate::SettingWirelessWakeOnWLan;
 
 glib_wrapper! {
     pub struct SettingWireless(Object<nm_sys::NMSettingWireless, nm_sys::NMSettingWirelessClass, SettingWirelessClass>) @extends Setting;

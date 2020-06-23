@@ -3,6 +3,8 @@
 // DO NOT EDIT
 
 #[cfg(any(feature = "v1_2", feature = "dox"))]
+use crate::VpnEditorPlugin;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
 use glib;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 use glib::object::IsA;
@@ -25,8 +27,6 @@ use std::fmt;
 use std::mem::transmute;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 use std::ptr;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-use crate::VpnEditorPlugin;
 
 glib_wrapper! {
     pub struct VpnPluginInfo(Object<nm_sys::NMVpnPluginInfo, nm_sys::NMVpnPluginInfoClass, VpnPluginInfoClass>);

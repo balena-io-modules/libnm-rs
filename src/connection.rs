@@ -2,22 +2,6 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::GString;
-use glib_sys;
-use libc;
-use nm_sys;
-use std::boxed::Box as Box_;
-use std::fmt;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-use std::mem;
-use std::mem::transmute;
-use std::ptr;
 use crate::ConnectionSerializationFlags;
 use crate::Setting;
 use crate::Setting8021x;
@@ -71,6 +55,22 @@ use crate::SettingWimax;
 use crate::SettingWired;
 use crate::SettingWireless;
 use crate::SettingWirelessSecurity;
+use glib;
+use glib::object::Cast;
+use glib::object::IsA;
+use glib::signal::connect_raw;
+use glib::signal::SignalHandlerId;
+use glib::translate::*;
+use glib::GString;
+use glib_sys;
+use libc;
+use nm_sys;
+use std::boxed::Box as Box_;
+use std::fmt;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+use std::mem;
+use std::mem::transmute;
+use std::ptr;
 
 glib_wrapper! {
     pub struct Connection(Interface<nm_sys::NMConnection>);

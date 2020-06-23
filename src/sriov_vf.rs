@@ -3,6 +3,8 @@
 // DO NOT EDIT
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+use crate::SriovVFVlanProtocol;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
 use glib;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use glib::translate::*;
@@ -13,8 +15,6 @@ use nm_sys;
 use std::mem;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use std::ptr;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-use crate::SriovVFVlanProtocol;
 
 glib_wrapper! {
     #[derive(Debug, PartialOrd, Ord, Hash)]

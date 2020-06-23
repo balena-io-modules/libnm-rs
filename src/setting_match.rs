@@ -2,6 +2,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Setting;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use glib::object::Cast;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
@@ -27,7 +28,6 @@ use std::fmt;
 use std::mem;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use std::mem::transmute;
-use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingMatch(Object<nm_sys::NMSettingMatch, nm_sys::NMSettingMatchClass, SettingMatchClass>) @extends Setting;

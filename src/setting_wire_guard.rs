@@ -2,6 +2,13 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Setting;
+#[cfg(any(feature = "v1_16", feature = "dox"))]
+use crate::SettingSecretFlags;
+#[cfg(any(feature = "v1_20", feature = "dox"))]
+use crate::Ternary;
+#[cfg(any(feature = "v1_16", feature = "dox"))]
+use crate::WireGuardPeer;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
 use glib::object::Cast;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
@@ -27,13 +34,6 @@ use std::fmt;
 use std::mem;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
 use std::mem::transmute;
-use crate::Setting;
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-use crate::SettingSecretFlags;
-#[cfg(any(feature = "v1_20", feature = "dox"))]
-use crate::Ternary;
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-use crate::WireGuardPeer;
 
 glib_wrapper! {
     pub struct SettingWireGuard(Object<nm_sys::NMSettingWireGuard, nm_sys::NMSettingWireGuardClass, SettingWireGuardClass>) @extends Setting;

@@ -2,6 +2,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Connection;
+use crate::Object;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use crate::SettingsConnectionFlags;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use crate::SettingsUpdate2Flags;
 use gio;
 use gio_sys;
 use glib;
@@ -20,12 +26,6 @@ use std::fmt;
 use std::mem::transmute;
 use std::pin::Pin;
 use std::ptr;
-use crate::Connection;
-use crate::Object;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-use crate::SettingsConnectionFlags;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-use crate::SettingsUpdate2Flags;
 
 glib_wrapper! {
     pub struct RemoteConnection(Object<nm_sys::NMRemoteConnection, nm_sys::NMRemoteConnectionClass, RemoteConnectionClass>) @extends Object, @implements Connection;

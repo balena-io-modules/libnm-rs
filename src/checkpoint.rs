@@ -3,6 +3,9 @@
 // DO NOT EDIT
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+use crate::Device;
+use crate::Object;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
 use glib::object::ObjectType as ObjectType_;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 use glib::signal::connect_raw;
@@ -17,9 +20,6 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 use std::mem::transmute;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-use crate::Device;
-use crate::Object;
 
 glib_wrapper! {
     pub struct Checkpoint(Object<nm_sys::NMCheckpoint, nm_sys::NMCheckpointClass, CheckpointClass>) @extends Object;

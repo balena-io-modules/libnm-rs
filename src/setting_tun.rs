@@ -2,6 +2,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Setting;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+use crate::SettingTunMode;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 use glib::object::Cast;
 use glib::object::IsA;
@@ -24,9 +27,6 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 use std::mem::transmute;
-use crate::Setting;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-use crate::SettingTunMode;
 
 glib_wrapper! {
     pub struct SettingTun(Object<nm_sys::NMSettingTun, nm_sys::NMSettingTunClass, SettingTunClass>) @extends Setting;

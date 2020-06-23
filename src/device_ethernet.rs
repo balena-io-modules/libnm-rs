@@ -2,6 +2,8 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Device;
+use crate::Object;
 use glib::object::ObjectType as ObjectType_;
 use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
@@ -15,8 +17,6 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use crate::Device;
-use crate::Object;
 
 glib_wrapper! {
     pub struct DeviceEthernet(Object<nm_sys::NMDeviceEthernet, nm_sys::NMDeviceEthernetClass, DeviceEthernetClass>) @extends Device, Object;

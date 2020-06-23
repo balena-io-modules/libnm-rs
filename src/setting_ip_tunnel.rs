@@ -2,6 +2,10 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::IPTunnelFlags;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+use crate::IPTunnelMode;
+use crate::Setting;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 use glib::object::Cast;
 use glib::object::IsA;
@@ -24,10 +28,6 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 use std::mem::transmute;
-use crate::IPTunnelFlags;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-use crate::IPTunnelMode;
-use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingIPTunnel(Object<nm_sys::NMSettingIPTunnel, nm_sys::NMSettingIPTunnelClass, SettingIPTunnelClass>) @extends Setting;

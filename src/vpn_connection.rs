@@ -2,6 +2,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::ActiveConnection;
+use crate::Object;
+use crate::VpnConnectionState;
 use glib::object::ObjectType as ObjectType_;
 use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
@@ -13,9 +16,6 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use crate::ActiveConnection;
-use crate::Object;
-use crate::VpnConnectionState;
 
 glib_wrapper! {
     pub struct VpnConnection(Object<nm_sys::NMVpnConnection, nm_sys::NMVpnConnectionClass, VpnConnectionClass>) @extends ActiveConnection, Object;

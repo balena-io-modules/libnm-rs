@@ -2,6 +2,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Setting;
+use crate::VlanFlags;
+use crate::VlanPriorityMap;
 use glib::object::Cast;
 use glib::object::IsA;
 use glib::signal::connect_raw;
@@ -17,9 +20,6 @@ use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem;
 use std::mem::transmute;
-use crate::Setting;
-use crate::VlanFlags;
-use crate::VlanPriorityMap;
 
 glib_wrapper! {
     pub struct SettingVlan(Object<nm_sys::NMSettingVlan, nm_sys::NMSettingVlanClass, SettingVlanClass>) @extends Setting;

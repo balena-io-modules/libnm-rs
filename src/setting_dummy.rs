@@ -2,12 +2,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Setting;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
 use glib::object::Cast;
 use glib::translate::*;
 use nm_sys;
 use std::fmt;
-use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingDummy(Object<nm_sys::NMSettingDummy, nm_sys::NMSettingDummyClass, SettingDummyClass>) @extends Setting;

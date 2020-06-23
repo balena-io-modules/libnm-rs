@@ -2,6 +2,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Setting;
 use glib::object::Cast;
 use glib::object::IsA;
 use glib::signal::connect_raw;
@@ -17,7 +18,6 @@ use std::fmt;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 use std::mem;
 use std::mem::transmute;
-use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingVpn(Object<nm_sys::NMSettingVpn, nm_sys::NMSettingVpnClass, SettingVpnClass>) @extends Setting;

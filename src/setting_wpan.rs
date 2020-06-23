@@ -2,6 +2,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Setting;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use glib::object::Cast;
 use glib::object::ObjectType as ObjectType_;
@@ -17,7 +18,6 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use crate::Setting;
 
 glib_wrapper! {
     pub struct SettingWpan(Object<nm_sys::NMSettingWpan, nm_sys::NMSettingWpanClass, SettingWpanClass>) @extends Setting;

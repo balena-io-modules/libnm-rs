@@ -2,6 +2,8 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Device;
+use crate::Object;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use glib;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
@@ -19,8 +21,6 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 use std::mem::transmute;
-use crate::Device;
-use crate::Object;
 
 glib_wrapper! {
     pub struct DeviceWireGuard(Object<nm_sys::NMDeviceWireGuard, nm_sys::NMDeviceWireGuardClass, DeviceWireGuardClass>) @extends Device, Object;

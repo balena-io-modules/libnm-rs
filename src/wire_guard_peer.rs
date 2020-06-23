@@ -3,6 +3,10 @@
 // DO NOT EDIT
 
 #[cfg(any(feature = "v1_16", feature = "dox"))]
+use crate::SettingCompareFlags;
+#[cfg(any(feature = "v1_16", feature = "dox"))]
+use crate::SettingSecretFlags;
+#[cfg(any(feature = "v1_16", feature = "dox"))]
 use glib;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
 use glib::translate::*;
@@ -11,10 +15,6 @@ use glib::GString;
 use nm_sys;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
 use std::ptr;
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-use crate::SettingCompareFlags;
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-use crate::SettingSecretFlags;
 
 glib_wrapper! {
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]

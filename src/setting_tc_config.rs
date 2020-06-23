@@ -2,16 +2,16 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-use glib::object::Cast;
-use glib::translate::*;
-use nm_sys;
-use std::fmt;
 use crate::Setting;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 use crate::TCQdisc;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 use crate::TCTfilter;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+use glib::object::Cast;
+use glib::translate::*;
+use nm_sys;
+use std::fmt;
 
 glib_wrapper! {
     pub struct SettingTCConfig(Object<nm_sys::NMSettingTCConfig, nm_sys::NMSettingTCConfigClass, SettingTCConfigClass>) @extends Setting;

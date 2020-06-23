@@ -2,6 +2,13 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Setting;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+use crate::SettingMacsecMode;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+use crate::SettingMacsecValidation;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+use crate::SettingSecretFlags;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 use glib::object::Cast;
 use glib::object::IsA;
@@ -24,13 +31,6 @@ use std::boxed::Box as Box_;
 use std::fmt;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 use std::mem::transmute;
-use crate::Setting;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-use crate::SettingMacsecMode;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-use crate::SettingMacsecValidation;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-use crate::SettingSecretFlags;
 
 glib_wrapper! {
     pub struct SettingMacsec(Object<nm_sys::NMSettingMacsec, nm_sys::NMSettingMacsecClass, SettingMacsecClass>) @extends Setting;

@@ -2,6 +2,16 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+use crate::ActivationStateFlags;
+use crate::ActiveConnectionState;
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+use crate::ActiveConnectionStateReason;
+use crate::Device;
+use crate::DhcpConfig;
+use crate::IPConfig;
+use crate::Object;
+use crate::RemoteConnection;
 use glib::object::Cast;
 use glib::object::IsA;
 use glib::signal::connect_raw;
@@ -17,16 +27,6 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-use crate::ActivationStateFlags;
-use crate::ActiveConnectionState;
-#[cfg(any(feature = "v1_8", feature = "dox"))]
-use crate::ActiveConnectionStateReason;
-use crate::Device;
-use crate::DhcpConfig;
-use crate::IPConfig;
-use crate::Object;
-use crate::RemoteConnection;
 
 glib_wrapper! {
     pub struct ActiveConnection(Object<nm_sys::NMActiveConnection, nm_sys::NMActiveConnectionClass, ActiveConnectionClass>) @extends Object;

@@ -2,6 +2,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Connection;
+use crate::Object;
+use crate::WimaxNspNetworkType;
 use glib::object::IsA;
 use glib::object::ObjectType as ObjectType_;
 use glib::signal::connect_raw;
@@ -13,9 +16,6 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use crate::Connection;
-use crate::Object;
-use crate::WimaxNspNetworkType;
 
 glib_wrapper! {
     pub struct WimaxNsp(Object<nm_sys::NMWimaxNsp, nm_sys::NMWimaxNspClass, WimaxNspClass>) @extends Object;

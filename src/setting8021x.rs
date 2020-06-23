@@ -2,6 +2,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::Setting;
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+use crate::Setting8021xAuthFlags;
+use crate::Setting8021xCKFormat;
+use crate::Setting8021xCKScheme;
+use crate::SettingSecretFlags;
 use glib;
 use glib::object::Cast;
 use glib::object::IsA;
@@ -17,12 +23,6 @@ use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
-use crate::Setting;
-#[cfg(any(feature = "v1_8", feature = "dox"))]
-use crate::Setting8021xAuthFlags;
-use crate::Setting8021xCKFormat;
-use crate::Setting8021xCKScheme;
-use crate::SettingSecretFlags;
 
 glib_wrapper! {
     pub struct Setting8021x(Object<nm_sys::NMSetting8021x, nm_sys::NMSetting8021xClass, Setting8021xClass>) @extends Setting;
