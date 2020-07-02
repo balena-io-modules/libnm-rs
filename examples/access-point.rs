@@ -7,8 +7,9 @@ use nm::*;
 
 use anyhow::{anyhow, Result};
 use clap::Clap;
+use futures_channel::oneshot;
 use futures_core::future::Future;
-use futures_util::future::pending;
+use std::cell::RefCell;
 
 use glib::translate::FromGlib;
 
@@ -31,20 +32,11 @@ fn main() -> Result<()> {
     let opts = Opts::parse();
 
     let context = glib::MainContext::default();
-    let loop_ = glib::MainLoop::new(Some(&context), false);
 
-    context.push_thread_default();
-
-    context.spawn_local(run(opts, loop_.clone()));
-
-    loop_.run();
-
-    context.pop_thread_default();
-
-    Ok(())
+    context.block_on(run(opts))
 }
 
-async fn run(opts: Opts, loop_: glib::MainLoop) {
+async fn run(opts: Opts) -> Result<()> {
     let client = Client::new_async_future().await.unwrap();
 
     let device = get_device(&client, opts.interface.as_deref()).unwrap();
@@ -58,32 +50,39 @@ async fn run(opts: Opts, loop_: glib::MainLoop) {
         .await
         .unwrap();
 
-    active_connection.connect_state_changed(
-        move |active_connection, state, _| {
-            let state = ActiveConnectionState::from_glib(state as _);
-            println!("Active connection state: {:?}", state);
+    let (sender, receiver) = oneshot::channel::<Result<()>>();
+    let sender = RefCell::new(Some(sender));
 
-            match state {
-                ActiveConnectionState::Activated => {
-                    println!("Successfully activated");
-                    loop_.quit();
+    active_connection.connect_state_changed(move |active_connection, state, _| {
+        let state = ActiveConnectionState::from_glib(state as _);
+        println!("Active connection state: {:?}", state);
+
+        let mut exit = false;
+        match state {
+            ActiveConnectionState::Activated => {
+                println!("Successfully activated");
+                exit = true;
+            }
+            ActiveConnectionState::Deactivated => {
+                if let Some(remote_connection) = active_connection.get_connection() {
+                    spawn(async move {
+                        remote_connection.delete_async_future().await.unwrap();
+                    });
                 }
-                ActiveConnectionState::Deactivated => {
-                    if let Some(remote_connection) = active_connection.get_connection() {
-                        let loop_clone = loop_.clone();
-                        spawn(async move {
-                            remote_connection.delete_async_future().await.unwrap();
-                            loop_clone.quit();
-                        });
-                    }
-                    println!("Connection deactivated");
-                }
-                _ => {}
+                println!("Connection deactivated");
+                exit = true;
+            }
+            _ => {}
+        }
+        if exit {
+            let sender = sender.borrow_mut().take();
+            if let Some(sender) = sender {
+                sender.send(Ok(())).unwrap();
             }
         }
-    );
+    });
 
-    pending().await
+    receiver.await?
 }
 
 fn get_device(client: &Client, interface: Option<&str>) -> Result<Device> {
