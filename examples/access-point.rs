@@ -1,15 +1,13 @@
-#![allow(unused_variables)]
-#![allow(dead_code)]
-
 extern crate nm;
 
 use nm::*;
 
-use anyhow::{anyhow, Result};
+use anyhow::{anyhow, Context, Result};
 use clap::Clap;
 use futures_channel::oneshot;
 use futures_core::future::Future;
 use std::cell::RefCell;
+use std::rc::Rc;
 
 use glib::translate::FromGlib;
 
@@ -37,49 +35,60 @@ fn main() -> Result<()> {
 }
 
 async fn run(opts: Opts) -> Result<()> {
-    let client = Client::new_async_future().await.unwrap();
+    let client = Client::new_async_future()
+        .await
+        .context("Failed to create NM Client")?;
 
-    let device = get_device(&client, opts.interface.as_deref()).unwrap();
+    let device = get_device(&client, opts.interface.as_deref())?;
 
     print_device_info(&device);
 
-    let connection = create_connection(device.get_iface().as_deref(), &opts);
+    let connection = create_connection(device.get_iface().as_deref(), &opts)?;
 
     let active_connection = client
         .add_and_activate_connection_async_future(Some(&connection), &device, None)
         .await
-        .unwrap();
+        .context("Failed to add and activate connection")?;
 
     let (sender, receiver) = oneshot::channel::<Result<()>>();
-    let sender = RefCell::new(Some(sender));
+    let sender = Rc::new(RefCell::new(Some(sender)));
 
     active_connection.connect_state_changed(move |active_connection, state, _| {
-        let state = ActiveConnectionState::from_glib(state as _);
-        println!("Active connection state: {:?}", state);
+        let sender = sender.clone();
+        let active_connection = active_connection.clone();
+        spawn(async move {
+            let state = ActiveConnectionState::from_glib(state as _);
+            println!("Active connection state: {:?}", state);
 
-        let mut exit = false;
-        match state {
-            ActiveConnectionState::Activated => {
-                println!("Successfully activated");
-                exit = true;
-            }
-            ActiveConnectionState::Deactivated => {
-                if let Some(remote_connection) = active_connection.get_connection() {
-                    spawn(async move {
-                        remote_connection.delete_async_future().await.unwrap();
-                    });
+            let exit = match state {
+                ActiveConnectionState::Activated => {
+                    println!("Successfully activated");
+                    Some(Ok(()))
                 }
-                println!("Connection deactivated");
-                exit = true;
+                ActiveConnectionState::Deactivated => {
+                    println!("Connection deactivated");
+                    if let Some(remote_connection) = active_connection.get_connection() {
+                        Some(
+                            remote_connection
+                                .delete_async_future()
+                                .await
+                                .context("Failed to delete connection"),
+                        )
+                    } else {
+                        Some(Err(anyhow!(
+                            "Failed to get remote connection from active connection"
+                        )))
+                    }
+                }
+                _ => None,
+            };
+            if let Some(result) = exit {
+                let sender = sender.borrow_mut().take();
+                if let Some(sender) = sender {
+                    sender.send(result).expect("Sender dropped");
+                }
             }
-            _ => {}
-        }
-        if exit {
-            let sender = sender.borrow_mut().take();
-            if let Some(sender) = sender {
-                sender.send(Ok(())).unwrap();
-            }
-        }
+        });
     });
 
     receiver.await?
@@ -129,7 +138,7 @@ fn print_device_info(device: &Device) {
     }
 }
 
-fn create_connection(interface: Option<&str>, opts: &Opts) -> SimpleConnection {
+fn create_connection(interface: Option<&str>, opts: &Opts) -> Result<SimpleConnection> {
     let s_connection = SettingConnection::new();
     s_connection.set_property_type(Some(&SETTING_WIRELESS_SETTING_NAME));
     s_connection.set_property_id(Some(&opts.ssid));
@@ -146,7 +155,8 @@ fn create_connection(interface: Option<&str>, opts: &Opts) -> SimpleConnection {
     s_wireless_security.set_property_key_mgmt(Some("wpa-psk"));
     s_wireless_security.set_property_psk(Some(&opts.password));
 
-    let address = IPAddress::new(libc::AF_INET, &opts.address, 24).unwrap();
+    let address =
+        IPAddress::new(libc::AF_INET, &opts.address, 24).context("Failed to parse address")?;
     let s_ip4 = SettingIP4Config::new();
     s_ip4.add_address(&address);
     s_ip4.set_property_method(Some("manual"));
@@ -158,7 +168,7 @@ fn create_connection(interface: Option<&str>, opts: &Opts) -> SimpleConnection {
     connection.add_setting(&s_wireless_security);
     connection.add_setting(&s_ip4);
 
-    connection
+    Ok(connection)
 }
 
 pub fn spawn<F: Future<Output = ()> + 'static>(f: F) {
