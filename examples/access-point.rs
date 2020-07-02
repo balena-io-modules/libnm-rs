@@ -7,6 +7,7 @@ use nm::*;
 
 use anyhow::{anyhow, Result};
 use clap::Clap;
+use futures_core::future::Future;
 use futures_util::future::pending;
 
 use glib::translate::FromGlib;
@@ -57,22 +58,30 @@ async fn run(opts: Opts, loop_: glib::MainLoop) {
         .await
         .unwrap();
 
-    active_connection.connect_state_changed(move |active_connection, state, _| {
-        let state = ActiveConnectionState::from_glib(state as _);
-        println!("Active connection state: {:?}", state);
+    active_connection.connect_state_changed(
+        move |active_connection, state, _| {
+            let state = ActiveConnectionState::from_glib(state as _);
+            println!("Active connection state: {:?}", state);
 
-        match state {
-            ActiveConnectionState::Activated => {
-                println!("Successfully activated");
-                loop_.quit();
+            match state {
+                ActiveConnectionState::Activated => {
+                    println!("Successfully activated");
+                    loop_.quit();
+                }
+                ActiveConnectionState::Deactivated => {
+                    if let Some(remote_connection) = active_connection.get_connection() {
+                        let loop_clone = loop_.clone();
+                        spawn(async move {
+                            remote_connection.delete_async_future().await.unwrap();
+                            loop_clone.quit();
+                        });
+                    }
+                    println!("Connection deactivated");
+                }
+                _ => {}
             }
-            ActiveConnectionState::Deactivated => {
-                println!("Connection NOT activated!");
-                loop_.quit();
-            }
-            _ => {}
         }
-    });
+    );
 
     pending().await
 }
@@ -151,4 +160,8 @@ fn create_connection(interface: Option<&str>, opts: &Opts) -> SimpleConnection {
     connection.add_setting(&s_ip4);
 
     connection
+}
+
+pub fn spawn<F: Future<Output = ()> + 'static>(f: F) {
+    glib::MainContext::ref_thread_default().spawn_local(f);
 }
