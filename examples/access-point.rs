@@ -1,15 +1,18 @@
 extern crate nm;
 
+mod common;
+
 use nm::*;
 
 use anyhow::{anyhow, Context, Result};
 use clap::Clap;
 use futures_channel::oneshot;
-use futures_core::future::Future;
 use std::cell::RefCell;
 use std::rc::Rc;
 
 use glib::translate::FromGlib;
+
+use common::*;
 
 #[derive(Clap)]
 struct Opts {
@@ -56,7 +59,7 @@ async fn run(opts: Opts) -> Result<()> {
     active_connection.connect_state_changed(move |active_connection, state, _| {
         let sender = sender.clone();
         let active_connection = active_connection.clone();
-        spawn(async move {
+        spawn_local(async move {
             let state = ActiveConnectionState::from_glib(state as _);
             println!("Active connection state: {:?}", state);
 
@@ -94,50 +97,6 @@ async fn run(opts: Opts) -> Result<()> {
     receiver.await?
 }
 
-fn get_device(client: &Client, interface: Option<&str>) -> Result<Device> {
-    if let Some(interface) = interface {
-        get_exact_device(client, interface)
-    } else {
-        find_wifi_device(client)
-    }
-}
-
-fn get_exact_device(client: &Client, interface: &str) -> Result<Device> {
-    if let Some(device) = client.get_device_by_iface(interface) {
-        if device.get_device_type() != DeviceType::Wifi {
-            Err(anyhow!("Not a Wi-Fi device: {}", interface))
-        } else {
-            Ok(device)
-        }
-    } else {
-        Err(anyhow!("Interface not found: {}", interface))
-    }
-}
-
-fn find_wifi_device(client: &Client) -> Result<Device> {
-    let mut devices = client.get_devices();
-
-    let position = devices
-        .iter()
-        .position(|d| d.get_device_type() == DeviceType::Wifi);
-
-    if let Some(i) = position {
-        Ok(devices.swap_remove(i))
-    } else {
-        Err(anyhow!("Cannot find a Wi-Fi device"))
-    }
-}
-
-fn print_device_info(device: &Device) {
-    if let Some(interface) = device.get_iface() {
-        if let Some(description) = device.get_description() {
-            println!("Use device: {} / {}", interface, description);
-        } else {
-            println!("Use device: {}", interface);
-        }
-    }
-}
-
 fn create_connection(interface: Option<&str>, opts: &Opts) -> Result<SimpleConnection> {
     let s_connection = SettingConnection::new();
     s_connection.set_property_type(Some(&SETTING_WIRELESS_SETTING_NAME));
@@ -169,8 +128,4 @@ fn create_connection(interface: Option<&str>, opts: &Opts) -> Result<SimpleConne
     connection.add_setting(&s_ip4);
 
     Ok(connection)
-}
-
-pub fn spawn<F: Future<Output = ()> + 'static>(f: F) {
-    glib::MainContext::ref_thread_default().spawn_local(f);
 }
