@@ -22,11 +22,11 @@ struct Opts {
     #[clap(short, long, default_value = "NMAccessPoint")]
     ssid: String,
 
-    #[clap(short, long, default_value = "00000000")]
-    password: String,
+    #[clap(short, long)]
+    password: Option<String>,
 
-    #[clap(short, long, default_value = "192.168.42.1")]
-    address: String,
+    #[clap(short, long)]
+    address: Option<String>,
 }
 
 fn main() -> Result<()> {
@@ -98,33 +98,38 @@ async fn run(opts: Opts) -> Result<()> {
 }
 
 fn create_connection(interface: Option<&str>, opts: &Opts) -> Result<SimpleConnection> {
+    let connection = SimpleConnection::new();
+
     let s_connection = SettingConnection::new();
     s_connection.set_property_type(Some(&SETTING_WIRELESS_SETTING_NAME));
     s_connection.set_property_id(Some(&opts.ssid));
     s_connection.set_property_autoconnect(false);
     s_connection.set_property_interface_name(interface);
+    connection.add_setting(&s_connection);
 
     let s_wireless = SettingWireless::new();
     s_wireless.set_property_ssid(Some(&(opts.ssid.as_bytes().into())));
     s_wireless.set_property_band(Some("bg"));
     s_wireless.set_property_hidden(false);
     s_wireless.set_property_mode(Some("ap"));
-
-    let s_wireless_security = SettingWirelessSecurity::new();
-    s_wireless_security.set_property_key_mgmt(Some("wpa-psk"));
-    s_wireless_security.set_property_psk(Some(&opts.password));
-
-    let address =
-        IPAddress::new(libc::AF_INET, &opts.address, 24).context("Failed to parse address")?;
-    let s_ip4 = SettingIP4Config::new();
-    s_ip4.add_address(&address);
-    s_ip4.set_property_method(Some("manual"));
-
-    let connection = SimpleConnection::new();
-
-    connection.add_setting(&s_connection);
     connection.add_setting(&s_wireless);
-    connection.add_setting(&s_wireless_security);
+
+    if let Some(password) = &opts.password {
+        let s_wireless_security = SettingWirelessSecurity::new();
+        s_wireless_security.set_property_key_mgmt(Some("wpa-psk"));
+        s_wireless_security.set_property_psk(Some(password));
+        connection.add_setting(&s_wireless_security);
+    }
+
+    let s_ip4 = SettingIP4Config::new();
+    if let Some(address) = &opts.address {
+        let address =
+            IPAddress::new(libc::AF_INET, address, 24).context("Failed to parse address")?;
+        s_ip4.add_address(&address);
+        s_ip4.set_property_method(Some("manual"));
+    } else {
+        s_ip4.set_property_method(Some("shared"));
+    }
     connection.add_setting(&s_ip4);
 
     Ok(connection)
