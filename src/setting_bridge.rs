@@ -135,6 +135,50 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
+    /// the `SettingBridge:multicast-hash-max` property of the setting
+    ///
+    /// Since 1.26
+    pub fn get_multicast_hash_max(&self) -> u32 {
+        unsafe { nm_sys::nm_setting_bridge_get_multicast_hash_max(self.to_glib_none().0) }
+    }
+
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:multicast-last-member-count` property of the setting
+    ///
+    /// Since 1.26
+    pub fn get_multicast_last_member_count(&self) -> u32 {
+        unsafe { nm_sys::nm_setting_bridge_get_multicast_last_member_count(self.to_glib_none().0) }
+    }
+
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:multicast-last-member-interval` property of the setting
+    ///
+    /// Since 1.26
+    pub fn get_multicast_last_member_interval(&self) -> u64 {
+        unsafe {
+            nm_sys::nm_setting_bridge_get_multicast_last_member_interval(self.to_glib_none().0)
+        }
+    }
+
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:multicast-membership-interval` property of the setting
+    ///
+    /// Since 1.26
+    pub fn get_multicast_membership_interval(&self) -> u64 {
+        unsafe {
+            nm_sys::nm_setting_bridge_get_multicast_membership_interval(self.to_glib_none().0)
+        }
+    }
+
+    ///
+    /// # Returns
+    ///
     /// the `SettingBridge:multicast-querier` property of the setting
     ///
     /// Since 1.24
@@ -143,6 +187,38 @@ impl SettingBridge {
             from_glib(nm_sys::nm_setting_bridge_get_multicast_querier(
                 self.to_glib_none().0,
             ))
+        }
+    }
+
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:multicast-querier-interval` property of the setting
+    ///
+    /// Since 1.26
+    pub fn get_multicast_querier_interval(&self) -> u64 {
+        unsafe { nm_sys::nm_setting_bridge_get_multicast_querier_interval(self.to_glib_none().0) }
+    }
+
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:multicast-query-interval` property of the setting
+    ///
+    /// Since 1.26
+    pub fn get_multicast_query_interval(&self) -> u64 {
+        unsafe { nm_sys::nm_setting_bridge_get_multicast_query_interval(self.to_glib_none().0) }
+    }
+
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:multicast-query-response-interval` property of the setting
+    ///
+    /// Since 1.26
+    pub fn get_multicast_query_response_interval(&self) -> u64 {
+        unsafe {
+            nm_sys::nm_setting_bridge_get_multicast_query_response_interval(self.to_glib_none().0)
         }
     }
 
@@ -187,6 +263,30 @@ impl SettingBridge {
             from_glib(nm_sys::nm_setting_bridge_get_multicast_snooping(
                 self.to_glib_none().0,
             ))
+        }
+    }
+
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:multicast-query-response-interval` property of the setting
+    ///
+    /// Since 1.26
+    pub fn get_multicast_startup_query_count(&self) -> u32 {
+        unsafe {
+            nm_sys::nm_setting_bridge_get_multicast_startup_query_count(self.to_glib_none().0)
+        }
+    }
+
+    ///
+    /// # Returns
+    ///
+    /// the `SettingBridge:multicast-startup-query-interval` property of the setting
+    ///
+    /// Since 1.26
+    pub fn get_multicast_startup_query_interval(&self) -> u64 {
+        unsafe {
+            nm_sys::nm_setting_bridge_get_multicast_startup_query_interval(self.to_glib_none().0)
         }
     }
 
@@ -437,6 +537,57 @@ impl SettingBridge {
         }
     }
 
+    /// Set maximum size of multicast hash table (value must be a power of 2).
+    pub fn set_property_multicast_hash_max(&self, multicast_hash_max: u32) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.as_ptr() as *mut gobject_sys::GObject,
+                b"multicast-hash-max\0".as_ptr() as *const _,
+                Value::from(&multicast_hash_max).to_glib_none().0,
+            );
+        }
+    }
+
+    /// Set the number of queries the bridge will send before
+    /// stopping forwarding a multicast group after a "leave"
+    /// message has been received.
+    pub fn set_property_multicast_last_member_count(&self, multicast_last_member_count: u32) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.as_ptr() as *mut gobject_sys::GObject,
+                b"multicast-last-member-count\0".as_ptr() as *const _,
+                Value::from(&multicast_last_member_count).to_glib_none().0,
+            );
+        }
+    }
+
+    /// Set interval (in deciseconds) between queries to find remaining
+    /// members of a group, after a "leave" message is received.
+    pub fn set_property_multicast_last_member_interval(&self, multicast_last_member_interval: u64) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.as_ptr() as *mut gobject_sys::GObject,
+                b"multicast-last-member-interval\0".as_ptr() as *const _,
+                Value::from(&multicast_last_member_interval)
+                    .to_glib_none()
+                    .0,
+            );
+        }
+    }
+
+    /// Set delay (in deciseconds) after which the bridge will
+    /// leave a group, if no membership reports for this
+    /// group are received.
+    pub fn set_property_multicast_membership_interval(&self, multicast_membership_interval: u64) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.as_ptr() as *mut gobject_sys::GObject,
+                b"multicast-membership-interval\0".as_ptr() as *const _,
+                Value::from(&multicast_membership_interval).to_glib_none().0,
+            );
+        }
+    }
+
     /// Enable or disable sending of multicast queries by the bridge.
     /// If not specified the option is disabled.
     pub fn set_property_multicast_querier(&self, multicast_querier: bool) {
@@ -445,6 +596,47 @@ impl SettingBridge {
                 self.as_ptr() as *mut gobject_sys::GObject,
                 b"multicast-querier\0".as_ptr() as *const _,
                 Value::from(&multicast_querier).to_glib_none().0,
+            );
+        }
+    }
+
+    /// If no queries are seen after this delay (in deciseconds) has passed,
+    /// the bridge will start to send its own queries.
+    pub fn set_property_multicast_querier_interval(&self, multicast_querier_interval: u64) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.as_ptr() as *mut gobject_sys::GObject,
+                b"multicast-querier-interval\0".as_ptr() as *const _,
+                Value::from(&multicast_querier_interval).to_glib_none().0,
+            );
+        }
+    }
+
+    /// Interval (in deciseconds) between queries sent
+    /// by the bridge after the end of the startup phase.
+    pub fn set_property_multicast_query_interval(&self, multicast_query_interval: u64) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.as_ptr() as *mut gobject_sys::GObject,
+                b"multicast-query-interval\0".as_ptr() as *const _,
+                Value::from(&multicast_query_interval).to_glib_none().0,
+            );
+        }
+    }
+
+    /// Set the Max Response Time/Max Response Delay
+    /// (in deciseconds) for IGMP/MLD queries sent by the bridge.
+    pub fn set_property_multicast_query_response_interval(
+        &self,
+        multicast_query_response_interval: u64,
+    ) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.as_ptr() as *mut gobject_sys::GObject,
+                b"multicast-query-response-interval\0".as_ptr() as *const _,
+                Value::from(&multicast_query_response_interval)
+                    .to_glib_none()
+                    .0,
             );
         }
     }
@@ -462,8 +654,8 @@ impl SettingBridge {
         }
     }
 
-    /// Sets bridge's multicast router.
-    /// multicast-snooping must be enabled for this option to work.
+    /// Sets bridge's multicast router. Multicast-snooping must be enabled
+    /// for this option to work.
     ///
     /// Supported values are: 'auto', 'disabled', 'enabled'.
     /// If not specified the default value is 'auto'.
@@ -491,6 +683,34 @@ impl SettingBridge {
                 self.as_ptr() as *mut gobject_sys::GObject,
                 b"multicast-snooping\0".as_ptr() as *const _,
                 Value::from(&multicast_snooping).to_glib_none().0,
+            );
+        }
+    }
+
+    /// Set the number of IGMP queries to send during startup phase.
+    pub fn set_property_multicast_startup_query_count(&self, multicast_startup_query_count: u32) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.as_ptr() as *mut gobject_sys::GObject,
+                b"multicast-startup-query-count\0".as_ptr() as *const _,
+                Value::from(&multicast_startup_query_count).to_glib_none().0,
+            );
+        }
+    }
+
+    /// Sets the time (in deciseconds) between queries sent out
+    /// at startup to determine membership information.
+    pub fn set_property_multicast_startup_query_interval(
+        &self,
+        multicast_startup_query_interval: u64,
+    ) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.as_ptr() as *mut gobject_sys::GObject,
+                b"multicast-startup-query-interval\0".as_ptr() as *const _,
+                Value::from(&multicast_startup_query_interval)
+                    .to_glib_none()
+                    .0,
             );
         }
     }
@@ -759,6 +979,118 @@ impl SettingBridge {
         }
     }
 
+    pub fn connect_property_multicast_hash_max_notify<F: Fn(&SettingBridge) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_multicast_hash_max_trampoline<
+            F: Fn(&SettingBridge) + 'static,
+        >(
+            this: *mut nm_sys::NMSettingBridge,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::multicast-hash-max\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_multicast_hash_max_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    pub fn connect_property_multicast_last_member_count_notify<F: Fn(&SettingBridge) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_multicast_last_member_count_trampoline<
+            F: Fn(&SettingBridge) + 'static,
+        >(
+            this: *mut nm_sys::NMSettingBridge,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::multicast-last-member-count\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_multicast_last_member_count_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    pub fn connect_property_multicast_last_member_interval_notify<
+        F: Fn(&SettingBridge) + 'static,
+    >(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_multicast_last_member_interval_trampoline<
+            F: Fn(&SettingBridge) + 'static,
+        >(
+            this: *mut nm_sys::NMSettingBridge,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::multicast-last-member-interval\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_multicast_last_member_interval_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    pub fn connect_property_multicast_membership_interval_notify<
+        F: Fn(&SettingBridge) + 'static,
+    >(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_multicast_membership_interval_trampoline<
+            F: Fn(&SettingBridge) + 'static,
+        >(
+            this: *mut nm_sys::NMSettingBridge,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::multicast-membership-interval\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_multicast_membership_interval_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
     pub fn connect_property_multicast_querier_notify<F: Fn(&SettingBridge) + 'static>(
         &self,
         f: F,
@@ -780,6 +1112,89 @@ impl SettingBridge {
                 b"notify::multicast-querier\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_multicast_querier_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    pub fn connect_property_multicast_querier_interval_notify<F: Fn(&SettingBridge) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_multicast_querier_interval_trampoline<
+            F: Fn(&SettingBridge) + 'static,
+        >(
+            this: *mut nm_sys::NMSettingBridge,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::multicast-querier-interval\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_multicast_querier_interval_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    pub fn connect_property_multicast_query_interval_notify<F: Fn(&SettingBridge) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_multicast_query_interval_trampoline<
+            F: Fn(&SettingBridge) + 'static,
+        >(
+            this: *mut nm_sys::NMSettingBridge,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::multicast-query-interval\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_multicast_query_interval_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    pub fn connect_property_multicast_query_response_interval_notify<
+        F: Fn(&SettingBridge) + 'static,
+    >(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_multicast_query_response_interval_trampoline<
+            F: Fn(&SettingBridge) + 'static,
+        >(
+            this: *mut nm_sys::NMSettingBridge,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::multicast-query-response-interval\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_multicast_query_response_interval_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -860,6 +1275,64 @@ impl SettingBridge {
                 b"notify::multicast-snooping\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_multicast_snooping_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    pub fn connect_property_multicast_startup_query_count_notify<
+        F: Fn(&SettingBridge) + 'static,
+    >(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_multicast_startup_query_count_trampoline<
+            F: Fn(&SettingBridge) + 'static,
+        >(
+            this: *mut nm_sys::NMSettingBridge,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::multicast-startup-query-count\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_multicast_startup_query_count_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    pub fn connect_property_multicast_startup_query_interval_notify<
+        F: Fn(&SettingBridge) + 'static,
+    >(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_multicast_startup_query_interval_trampoline<
+            F: Fn(&SettingBridge) + 'static,
+        >(
+            this: *mut nm_sys::NMSettingBridge,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::multicast-startup-query-interval\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_multicast_startup_query_interval_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

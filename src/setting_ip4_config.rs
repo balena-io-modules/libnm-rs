@@ -10,6 +10,7 @@ use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::GString;
+use glib::StaticType;
 use glib::Value;
 use glib_sys;
 use gobject_sys;
@@ -72,6 +73,18 @@ pub trait SettingIP4ConfigExt: 'static {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_dhcp_fqdn(&self) -> Option<GString>;
 
+    /// Returns the value contained in the `SettingIP4Config:dhcp_vendor_class_identifier`
+    /// property.
+    ///
+    /// Feature: `v1_28`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the vendor class identifier option to send to the DHCP server
+    #[cfg(any(feature = "v1_28", feature = "dox"))]
+    fn get_dhcp_vendor_class_identifier(&self) -> Option<GString>;
+
     /// A string sent to the DHCP server to identify the local machine which the
     /// DHCP server may use to customize the DHCP lease and options.
     /// When the property is a hex string ('aa:bb:cc') it is interpreted as a
@@ -109,6 +122,26 @@ pub trait SettingIP4ConfigExt: 'static {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_dhcp_fqdn(&self, dhcp_fqdn: Option<&str>);
 
+    /// The Vendor Class Identifier DHCP option (60).
+    /// Special characters in the data string may be escaped using C-style escapes,
+    /// nevertheless this property cannot contain nul bytes.
+    /// If the per-profile value is unspecified (the default),
+    /// a global connection default gets consulted.
+    /// If still unspecified, the DHCP option is not sent to the server.
+    ///
+    /// Since 1.28, 1.26.4
+    fn get_property_dhcp_vendor_class_identifier(&self) -> Option<GString>;
+
+    /// The Vendor Class Identifier DHCP option (60).
+    /// Special characters in the data string may be escaped using C-style escapes,
+    /// nevertheless this property cannot contain nul bytes.
+    /// If the per-profile value is unspecified (the default),
+    /// a global connection default gets consulted.
+    /// If still unspecified, the DHCP option is not sent to the server.
+    ///
+    /// Since 1.28, 1.26.4
+    fn set_property_dhcp_vendor_class_identifier(&self, dhcp_vendor_class_identifier: Option<&str>);
+
     fn connect_property_dhcp_client_id_notify<F: Fn(&Self) + 'static>(
         &self,
         f: F,
@@ -116,6 +149,11 @@ pub trait SettingIP4ConfigExt: 'static {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn connect_property_dhcp_fqdn_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    fn connect_property_dhcp_vendor_class_identifier_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
 }
 
 impl<O: IsA<SettingIP4Config>> SettingIP4ConfigExt for O {
@@ -136,6 +174,17 @@ impl<O: IsA<SettingIP4Config>> SettingIP4ConfigExt for O {
         }
     }
 
+    #[cfg(any(feature = "v1_28", feature = "dox"))]
+    fn get_dhcp_vendor_class_identifier(&self) -> Option<GString> {
+        unsafe {
+            from_glib_none(
+                nm_sys::nm_setting_ip4_config_get_dhcp_vendor_class_identifier(
+                    self.as_ref().to_glib_none().0,
+                ),
+            )
+        }
+    }
+
     fn set_property_dhcp_client_id(&self, dhcp_client_id: Option<&str>) {
         unsafe {
             gobject_sys::g_object_set_property(
@@ -153,6 +202,33 @@ impl<O: IsA<SettingIP4Config>> SettingIP4ConfigExt for O {
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
                 b"dhcp-fqdn\0".as_ptr() as *const _,
                 Value::from(dhcp_fqdn).to_glib_none().0,
+            );
+        }
+    }
+
+    fn get_property_dhcp_vendor_class_identifier(&self) -> Option<GString> {
+        unsafe {
+            let mut value = Value::from_type(<GString as StaticType>::static_type());
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"dhcp-vendor-class-identifier\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `dhcp-vendor-class-identifier` getter")
+        }
+    }
+
+    fn set_property_dhcp_vendor_class_identifier(
+        &self,
+        dhcp_vendor_class_identifier: Option<&str>,
+    ) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"dhcp-vendor-class-identifier\0".as_ptr() as *const _,
+                Value::from(dhcp_vendor_class_identifier).to_glib_none().0,
             );
         }
     }
@@ -203,6 +279,36 @@ impl<O: IsA<SettingIP4Config>> SettingIP4ConfigExt for O {
                 b"notify::dhcp-fqdn\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_dhcp_fqdn_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    fn connect_property_dhcp_vendor_class_identifier_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_dhcp_vendor_class_identifier_trampoline<
+            P,
+            F: Fn(&P) + 'static,
+        >(
+            this: *mut nm_sys::NMSettingIP4Config,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<SettingIP4Config>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&SettingIP4Config::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::dhcp-vendor-class-identifier\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dhcp_vendor_class_identifier_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

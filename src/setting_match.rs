@@ -51,6 +51,19 @@ impl SettingMatch {
         unsafe { Setting::from_glib_full(nm_sys::nm_setting_match_new()).unsafe_cast() }
     }
 
+    /// Adds a new driver to the setting.
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `driver`
+    /// the driver to add
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn add_driver(&self, driver: &str) {
+        unsafe {
+            nm_sys::nm_setting_match_add_driver(self.to_glib_none().0, driver.to_glib_none().0);
+        }
+    }
+
     /// Adds a new interface name to the setting.
     ///
     /// Feature: `v1_14`
@@ -67,6 +80,46 @@ impl SettingMatch {
         }
     }
 
+    /// Adds a new kernel command line argument to the setting.
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `kernel_command_line`
+    /// the kernel command line argument to add
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn add_kernel_command_line(&self, kernel_command_line: &str) {
+        unsafe {
+            nm_sys::nm_setting_match_add_kernel_command_line(
+                self.to_glib_none().0,
+                kernel_command_line.to_glib_none().0,
+            );
+        }
+    }
+
+    /// Adds a new path to the setting.
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `path`
+    /// the path to add
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn add_path(&self, path: &str) {
+        unsafe {
+            nm_sys::nm_setting_match_add_path(self.to_glib_none().0, path.to_glib_none().0);
+        }
+    }
+
+    /// Removes all configured drivers.
+    ///
+    /// Feature: `v1_26`
+    ///
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn clear_drivers(&self) {
+        unsafe {
+            nm_sys::nm_setting_match_clear_drivers(self.to_glib_none().0);
+        }
+    }
+
     /// Removes all configured interface names.
     ///
     /// Feature: `v1_14`
@@ -75,6 +128,69 @@ impl SettingMatch {
     pub fn clear_interface_names(&self) {
         unsafe {
             nm_sys::nm_setting_match_clear_interface_names(self.to_glib_none().0);
+        }
+    }
+
+    /// Removes all configured kernel command line arguments.
+    ///
+    /// Feature: `v1_26`
+    ///
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn clear_kernel_command_lines(&self) {
+        unsafe {
+            nm_sys::nm_setting_match_clear_kernel_command_lines(self.to_glib_none().0);
+        }
+    }
+
+    /// Removes all configured paths.
+    ///
+    /// Feature: `v1_26`
+    ///
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn clear_paths(&self) {
+        unsafe {
+            nm_sys::nm_setting_match_clear_paths(self.to_glib_none().0);
+        }
+    }
+
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `idx`
+    /// index number of the DNS search domain to return
+    ///
+    /// # Returns
+    ///
+    /// the driver at index `idx`
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn get_driver(&self, idx: u32) -> Option<GString> {
+        unsafe {
+            from_glib_none(nm_sys::nm_setting_match_get_driver(
+                self.to_glib_none().0,
+                idx,
+            ))
+        }
+    }
+
+    /// Returns all the drivers.
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `length`
+    /// the length of the returned interface names array.
+    ///
+    /// # Returns
+    ///
+    /// the configured drivers.
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn get_drivers(&self) -> Vec<GString> {
+        unsafe {
+            let mut length = mem::MaybeUninit::uninit();
+            let ret = FromGlibContainer::from_glib_none_num(
+                nm_sys::nm_setting_match_get_drivers(self.to_glib_none().0, length.as_mut_ptr()),
+                length.assume_init() as usize,
+            );
+            ret
         }
     }
 
@@ -106,7 +222,10 @@ impl SettingMatch {
     ///
     /// # Returns
     ///
-    /// the configured interface names.
+    /// the NULL terminated list of
+    ///  configured interface names.
+    ///
+    /// Before 1.26, the returned array was not `None` terminated and you MUST provide a length.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_interface_names(&self) -> Vec<GString> {
         unsafe {
@@ -123,6 +242,62 @@ impl SettingMatch {
     }
 
     ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `idx`
+    /// index number of the kernel command line argument to return
+    ///
+    /// # Returns
+    ///
+    /// the kernel command line argument at index `idx`
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn get_kernel_command_line(&self, idx: u32) -> Option<GString> {
+        unsafe {
+            from_glib_none(nm_sys::nm_setting_match_get_kernel_command_line(
+                self.to_glib_none().0,
+                idx,
+            ))
+        }
+    }
+
+    /// Returns all the interface names.
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `length`
+    /// the length of the returned interface names array.
+    ///
+    /// # Returns
+    ///
+    /// the configured interface names.
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn get_kernel_command_lines(&self) -> Vec<GString> {
+        unsafe {
+            let mut length = mem::MaybeUninit::uninit();
+            let ret = FromGlibContainer::from_glib_none_num(
+                nm_sys::nm_setting_match_get_kernel_command_lines(
+                    self.to_glib_none().0,
+                    length.as_mut_ptr(),
+                ),
+                length.assume_init() as usize,
+            );
+            ret
+        }
+    }
+
+    ///
+    /// Feature: `v1_26`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of configured drivers
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn get_num_drivers(&self) -> u32 {
+        unsafe { nm_sys::nm_setting_match_get_num_drivers(self.to_glib_none().0) }
+    }
+
+    ///
     /// Feature: `v1_14`
     ///
     ///
@@ -132,6 +307,104 @@ impl SettingMatch {
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_num_interface_names(&self) -> u32 {
         unsafe { nm_sys::nm_setting_match_get_num_interface_names(self.to_glib_none().0) }
+    }
+
+    ///
+    /// Feature: `v1_26`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of configured kernel command line arguments
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn get_num_kernel_command_lines(&self) -> u32 {
+        unsafe { nm_sys::nm_setting_match_get_num_kernel_command_lines(self.to_glib_none().0) }
+    }
+
+    ///
+    /// Feature: `v1_26`
+    ///
+    ///
+    /// # Returns
+    ///
+    /// the number of configured paths
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn get_num_paths(&self) -> u32 {
+        unsafe { nm_sys::nm_setting_match_get_num_paths(self.to_glib_none().0) }
+    }
+
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `idx`
+    /// index number of the path to return
+    ///
+    /// # Returns
+    ///
+    /// the path at index `idx`
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn get_path(&self, idx: u32) -> Option<GString> {
+        unsafe {
+            from_glib_none(nm_sys::nm_setting_match_get_path(
+                self.to_glib_none().0,
+                idx,
+            ))
+        }
+    }
+
+    /// Returns all the paths.
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `length`
+    /// the length of the returned paths array.
+    ///
+    /// # Returns
+    ///
+    /// the configured paths.
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn get_paths(&self) -> Vec<GString> {
+        unsafe {
+            let mut length = mem::MaybeUninit::uninit();
+            let ret = FromGlibContainer::from_glib_none_num(
+                nm_sys::nm_setting_match_get_paths(self.to_glib_none().0, length.as_mut_ptr()),
+                length.assume_init() as usize,
+            );
+            ret
+        }
+    }
+
+    /// Removes the driver at index `idx`.
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `idx`
+    /// index number of the driver
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn remove_driver(&self, idx: u32) {
+        unsafe {
+            nm_sys::nm_setting_match_remove_driver(self.to_glib_none().0, idx);
+        }
+    }
+
+    /// Removes `driver`.
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `driver`
+    /// the driver to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the driver was found and removed; `false` if it was not.
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn remove_driver_by_value(&self, driver: &str) -> bool {
+        unsafe {
+            from_glib(nm_sys::nm_setting_match_remove_driver_by_value(
+                self.to_glib_none().0,
+                driver.to_glib_none().0,
+            ))
+        }
     }
 
     /// Removes the interface name at index `idx`.
@@ -167,14 +440,107 @@ impl SettingMatch {
         }
     }
 
-    /// A list of interface names to match. Each element is a shell wildcard
-    /// pattern. When an element is prefixed with exclamation mark (!) the
-    /// condition is inverted.
+    /// Removes the kernel command line argument at index `idx`.
     ///
-    /// A candidate interface name is considered matching when both these
-    /// conditions are satisfied: (a) any of the elements not prefixed with '!'
-    /// matches or there aren't such elements; (b) none of the elements
-    /// prefixed with '!' match.
+    /// Feature: `v1_26`
+    ///
+    /// ## `idx`
+    /// index number of the kernel command line argument
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn remove_kernel_command_line(&self, idx: u32) {
+        unsafe {
+            nm_sys::nm_setting_match_remove_kernel_command_line(self.to_glib_none().0, idx);
+        }
+    }
+
+    /// Removes `kernel_command_line`.
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `kernel_command_line`
+    /// the kernel command line argument name to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the kernel command line argument was found and removed; `false` if it was not.
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn remove_kernel_command_line_by_value(&self, kernel_command_line: &str) -> bool {
+        unsafe {
+            from_glib(
+                nm_sys::nm_setting_match_remove_kernel_command_line_by_value(
+                    self.to_glib_none().0,
+                    kernel_command_line.to_glib_none().0,
+                ),
+            )
+        }
+    }
+
+    /// Removes the path at index `idx`.
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `idx`
+    /// index number of the path
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn remove_path(&self, idx: u32) {
+        unsafe {
+            nm_sys::nm_setting_match_remove_path(self.to_glib_none().0, idx);
+        }
+    }
+
+    /// Removes `path`.
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `path`
+    /// the path to remove
+    ///
+    /// # Returns
+    ///
+    /// `true` if the path was found and removed; `false` if it was not.
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn remove_path_by_value(&self, path: &str) -> bool {
+        unsafe {
+            from_glib(nm_sys::nm_setting_match_remove_path_by_value(
+                self.to_glib_none().0,
+                path.to_glib_none().0,
+            ))
+        }
+    }
+
+    /// A list of driver names to match. Each element is a shell wildcard pattern.
+    ///
+    /// See NMSettingMatch:interface-name for how special characters '|', '&',
+    /// '!' and '\\' are used for optional and mandatory matches and inverting the
+    /// pattern.
+    ///
+    /// Feature: `v1_26`
+    ///
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn set_property_driver(&self, driver: &[&str]) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.as_ptr() as *mut gobject_sys::GObject,
+                b"driver\0".as_ptr() as *const _,
+                Value::from(driver).to_glib_none().0,
+            );
+        }
+    }
+
+    /// A list of interface names to match. Each element is a shell wildcard
+    /// pattern.
+    ///
+    /// An element can be prefixed with a pipe symbol (|) or an ampersand (&).
+    /// The former means that the element is optional and the latter means that
+    /// it is mandatory. If there are any optional elements, than the match
+    /// evaluates to true if at least one of the optional element matches
+    /// (logical OR). If there are any mandatory elements, then they all
+    /// must match (logical AND). By default, an element is optional. This means
+    /// that an element "foo" behaves the same as "|foo". An element can also be inverted
+    /// with exclamation mark (!) between the pipe symbol (or the ampersand) and before
+    /// the pattern. Note that "!foo" is a shortcut for the mandatory match "&!foo". Finally,
+    /// a backslash can be used at the beginning of the element (after the optional special characters)
+    /// to escape the start of the pattern. For example, "&\\!a" is an mandatory match for literally "!a".
     ///
     /// Feature: `v1_14`
     ///
@@ -186,6 +552,90 @@ impl SettingMatch {
                 b"interface-name\0".as_ptr() as *const _,
                 Value::from(interface_name).to_glib_none().0,
             );
+        }
+    }
+
+    /// A list of kernel command line arguments to match. This may be used to check
+    /// whether a specific kernel command line option is set (or if prefixed with
+    /// the exclamation mark unset). The argument must either be a single word, or
+    /// an assignment (i.e. two words, separated "="). In the former case the kernel
+    /// command line is searched for the word appearing as is, or as left hand side
+    /// of an assignment. In the latter case, the exact assignment is looked for
+    /// with right and left hand side matching.
+    ///
+    /// See NMSettingMatch:interface-name for how special characters '|', '&',
+    /// '!' and '\\' are used for optional and mandatory matches and inverting the
+    /// pattern.
+    ///
+    /// Feature: `v1_26`
+    ///
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn set_property_kernel_command_line(&self, kernel_command_line: &[&str]) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.as_ptr() as *mut gobject_sys::GObject,
+                b"kernel-command-line\0".as_ptr() as *const _,
+                Value::from(kernel_command_line).to_glib_none().0,
+            );
+        }
+    }
+
+    /// A list of paths to match against the ID_PATH udev property of
+    /// devices. ID_PATH represents the topological persistent path of a
+    /// device. It typically contains a subsystem string (pci, usb, platform,
+    /// etc.) and a subsystem-specific identifier.
+    ///
+    /// For PCI devices the path has the form
+    /// "pci-$domain:$bus:$device.$function", where each variable is an
+    /// hexadecimal value; for example "pci-0000:0a:00.0".
+    ///
+    /// The path of a device can be obtained with "udevadm info
+    /// /sys/class/net/$dev | grep ID_PATH=" or by looking at the "path"
+    /// property exported by NetworkManager ("nmcli -f general.path device
+    /// show $dev").
+    ///
+    /// Each element of the list is a shell wildcard pattern.
+    ///
+    /// See NMSettingMatch:interface-name for how special characters '|', '&',
+    /// '!' and '\\' are used for optional and mandatory matches and inverting the
+    /// pattern.
+    ///
+    /// Feature: `v1_26`
+    ///
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn set_property_path(&self, path: &[&str]) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.as_ptr() as *mut gobject_sys::GObject,
+                b"path\0".as_ptr() as *const _,
+                Value::from(path).to_glib_none().0,
+            );
+        }
+    }
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn connect_property_driver_notify<F: Fn(&SettingMatch) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_driver_trampoline<F: Fn(&SettingMatch) + 'static>(
+            this: *mut nm_sys::NMSettingMatch,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::driver\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_driver_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
@@ -209,6 +659,60 @@ impl SettingMatch {
                 b"notify::interface-name\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_interface_name_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn connect_property_kernel_command_line_notify<F: Fn(&SettingMatch) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_kernel_command_line_trampoline<
+            F: Fn(&SettingMatch) + 'static,
+        >(
+            this: *mut nm_sys::NMSettingMatch,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::kernel-command-line\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_kernel_command_line_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn connect_property_path_notify<F: Fn(&SettingMatch) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_path_trampoline<F: Fn(&SettingMatch) + 'static>(
+            this: *mut nm_sys::NMSettingMatch,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::path\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_path_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

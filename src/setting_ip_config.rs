@@ -400,19 +400,6 @@ pub trait SettingIPConfigExt: 'static {
     /// whether DNS options are initialized or left unset (the default).
     fn has_dns_options(&self) -> bool;
 
-    ///
-    /// Feature: `v1_2`
-    ///
-    /// ## `idx`
-    /// index to start the search from
-    ///
-    /// # Returns
-    ///
-    /// the index, greater or equal than `idx`, of the first valid
-    /// DNS option, or -1 if no valid option is found
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    fn next_valid_dns_option(&self, idx: u32) -> i32;
-
     /// Removes the address at index `idx`.
     /// ## `idx`
     /// index number of the address to remove
@@ -1119,13 +1106,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             from_glib(nm_sys::nm_setting_ip_config_has_dns_options(
                 self.as_ref().to_glib_none().0,
             ))
-        }
-    }
-
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    fn next_valid_dns_option(&self, idx: u32) -> i32 {
-        unsafe {
-            nm_sys::nm_setting_ip_config_next_valid_dns_option(self.as_ref().to_glib_none().0, idx)
         }
     }
 

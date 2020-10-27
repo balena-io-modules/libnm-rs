@@ -23,6 +23,7 @@ bitflags! {
         const IP6_READY = 16;
         const MASTER_HAS_SLAVES = 32;
         const LIFETIME_BOUND_TO_PROFILE_VISIBILITY = 64;
+        const EXTERNAL = 128;
     }
 }
 
@@ -1268,6 +1269,7 @@ bitflags! {
         const UNSAVED = 1;
         const NM_GENERATED = 2;
         const VOLATILE = 4;
+        const EXTERNAL = 8;
     }
 }
 
@@ -1588,6 +1590,7 @@ bitflags! {
         const KEY_MGMT_802_1X = 512;
         const KEY_MGMT_SAE = 1024;
         const KEY_MGMT_OWE = 2048;
+        const KEY_MGMT_OWE_TM = 4096;
     }
 }
 

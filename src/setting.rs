@@ -16,6 +16,8 @@ use glib_sys;
 use nm_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_26", feature = "dox"))]
+use std::mem;
 use std::mem::transmute;
 use std::ptr;
 
@@ -91,6 +93,101 @@ pub trait SettingExt: 'static {
     /// a string containing the type name of the `Setting` object,
     /// like 'ppp' or 'wireless' or 'wired'.
     fn get_name(&self) -> Option<GString>;
+
+    //#[cfg(any(feature = "v1_26", feature = "dox"))]
+    //fn option_clear_by_name(&self, predicate: Option<&mut dyn (FnMut(&str) -> bool)>);
+
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `opt_name`
+    /// the option name to request.
+    ///
+    /// # Returns
+    ///
+    /// the `glib::Variant` or `None` if the option
+    ///  is not set.
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn option_get(&self, opt_name: &str) -> Option<glib::Variant>;
+
+    /// Gives the name of all set options.
+    ///
+    /// Feature: `v1_26`
+    ///
+    ///
+    /// # Returns
+    ///
+    ///
+    ///  A `None` terminated array of key names. If no names are present, this returns
+    ///  `None`. The returned array and the names are owned by `Setting` and might be invalidated
+    ///  by the next operation.
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn option_get_all_names(&self) -> Vec<GString>;
+
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `opt_name`
+    /// the option to get
+    /// ## `out_value`
+    /// the optional output value.
+    ///  If the option is unset, `false` will be returned.
+    ///
+    /// # Returns
+    ///
+    /// `true` if `opt_name` is set to a boolean variant.
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn option_get_boolean(&self, opt_name: &str) -> Option<bool>;
+
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `opt_name`
+    /// the option to get
+    /// ## `out_value`
+    /// the optional output value.
+    ///  If the option is unset, 0 will be returned.
+    ///
+    /// # Returns
+    ///
+    /// `true` if `opt_name` is set to a uint32 variant.
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn option_get_uint32(&self, opt_name: &str) -> Option<u32>;
+
+    /// If `variant` is `None`, this clears the option if it is set.
+    /// Otherwise, `variant` is set as the option. If `variant` is
+    /// a floating reference, it will be consumed.
+    ///
+    /// Note that not all setting types support options. It is a bug
+    /// setting a variant to a setting that doesn't support it.
+    /// Currently only `SettingEthtool` supports it.
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `opt_name`
+    /// the option name to set
+    /// ## `variant`
+    /// the variant to set.
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn option_set(&self, opt_name: &str, variant: Option<&glib::Variant>);
+
+    /// Like `SettingExt::option_set` to set a boolean GVariant.
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `value`
+    /// the value to set.
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn option_set_boolean(&self, opt_name: &str, value: bool);
+
+    /// Like `SettingExt::option_set` to set a uint32 GVariant.
+    ///
+    /// Feature: `v1_26`
+    ///
+    /// ## `value`
+    /// the value to set.
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn option_set_uint32(&self, opt_name: &str, value: u32);
 
     /// For a given secret, stores the `SettingSecretFlags` describing how to
     /// handle that secret.
@@ -190,6 +287,105 @@ impl<O: IsA<Setting>> SettingExt for O {
 
     fn get_name(&self) -> Option<GString> {
         unsafe { from_glib_none(nm_sys::nm_setting_get_name(self.as_ref().to_glib_none().0)) }
+    }
+
+    //#[cfg(any(feature = "v1_26", feature = "dox"))]
+    //fn option_clear_by_name(&self, predicate: Option<&mut dyn (FnMut(&str) -> bool)>) {
+    //    unsafe { TODO: call nm_sys:nm_setting_option_clear_by_name() }
+    //}
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn option_get(&self, opt_name: &str) -> Option<glib::Variant> {
+        unsafe {
+            from_glib_none(nm_sys::nm_setting_option_get(
+                self.as_ref().to_glib_none().0,
+                opt_name.to_glib_none().0,
+            ))
+        }
+    }
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn option_get_all_names(&self) -> Vec<GString> {
+        unsafe {
+            let mut out_len = mem::MaybeUninit::uninit();
+            let ret = FromGlibContainer::from_glib_none_num(
+                nm_sys::nm_setting_option_get_all_names(
+                    self.as_ref().to_glib_none().0,
+                    out_len.as_mut_ptr(),
+                ),
+                out_len.assume_init() as usize,
+            );
+            ret
+        }
+    }
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn option_get_boolean(&self, opt_name: &str) -> Option<bool> {
+        unsafe {
+            let mut out_value = mem::MaybeUninit::uninit();
+            let ret = from_glib(nm_sys::nm_setting_option_get_boolean(
+                self.as_ref().to_glib_none().0,
+                opt_name.to_glib_none().0,
+                out_value.as_mut_ptr(),
+            ));
+            let out_value = out_value.assume_init();
+            if ret {
+                Some(from_glib(out_value))
+            } else {
+                None
+            }
+        }
+    }
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn option_get_uint32(&self, opt_name: &str) -> Option<u32> {
+        unsafe {
+            let mut out_value = mem::MaybeUninit::uninit();
+            let ret = from_glib(nm_sys::nm_setting_option_get_uint32(
+                self.as_ref().to_glib_none().0,
+                opt_name.to_glib_none().0,
+                out_value.as_mut_ptr(),
+            ));
+            let out_value = out_value.assume_init();
+            if ret {
+                Some(out_value)
+            } else {
+                None
+            }
+        }
+    }
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn option_set(&self, opt_name: &str, variant: Option<&glib::Variant>) {
+        unsafe {
+            nm_sys::nm_setting_option_set(
+                self.as_ref().to_glib_none().0,
+                opt_name.to_glib_none().0,
+                variant.to_glib_none().0,
+            );
+        }
+    }
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn option_set_boolean(&self, opt_name: &str, value: bool) {
+        unsafe {
+            nm_sys::nm_setting_option_set_boolean(
+                self.as_ref().to_glib_none().0,
+                opt_name.to_glib_none().0,
+                value.to_glib(),
+            );
+        }
+    }
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn option_set_uint32(&self, opt_name: &str, value: u32) {
+        unsafe {
+            nm_sys::nm_setting_option_set_uint32(
+                self.as_ref().to_glib_none().0,
+                opt_name.to_glib_none().0,
+                value,
+            );
+        }
     }
 
     fn set_secret_flags(

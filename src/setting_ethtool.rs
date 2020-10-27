@@ -41,6 +41,11 @@ impl SettingEthtool {
     ///
     /// Feature: `v1_14`
     ///
+    ///
+    /// # Deprecated since 1.26
+    ///
+    /// use `SettingExt::option_clear_by_name` with `nm_ethtool_optname_is_feature` predicate instead.
+    #[cfg_attr(feature = "v1_26", deprecated)]
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn clear_features(&self) {
         unsafe {
@@ -56,6 +61,10 @@ impl SettingEthtool {
     ///
     /// Feature: `v1_14`
     ///
+    ///
+    /// # Deprecated since 1.26
+    ///
+    /// use `SettingExt::option_get_boolean` instead.
     /// ## `optname`
     /// option name of the offload feature to get
     ///
@@ -63,6 +72,7 @@ impl SettingEthtool {
     ///
     /// a `Ternary` value indicating whether the offload feature
     ///  is enabled, disabled, or left untouched.
+    #[cfg_attr(feature = "v1_26", deprecated)]
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn get_feature(&self, optname: &str) -> Ternary {
         unsafe {
@@ -79,6 +89,10 @@ impl SettingEthtool {
     ///
     /// Feature: `v1_20`
     ///
+    ///
+    /// # Deprecated since 1.26
+    ///
+    /// use `SettingExt::option_get_all_names` instead.
     /// ## `out_length`
     /// return location for the number of keys returned, or `None`
     ///
@@ -87,6 +101,7 @@ impl SettingEthtool {
     /// list of set option
     ///  names or `None` if no options are set. The option names are still owned by
     ///  `self` and may get invalidated when `self` gets modified.
+    #[cfg_attr(feature = "v1_26", deprecated)]
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn get_optnames(&self) -> (Vec<GString>, u32) {
         unsafe {
@@ -108,11 +123,16 @@ impl SettingEthtool {
     ///
     /// Feature: `v1_14`
     ///
+    ///
+    /// # Deprecated since 1.26
+    ///
+    /// use `SettingExt::option_set` or `SettingExt::option_set_boolean` instead.
     /// ## `optname`
     /// option name of the offload feature to get
     /// ## `value`
     /// the new value to set. The special value `Ternary::Default`
     ///  means to clear the offload feature setting.
+    #[cfg_attr(feature = "v1_26", deprecated)]
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn set_feature(&self, optname: &str, value: Ternary) {
         unsafe {

@@ -24,6 +24,15 @@ use nm_sys;
 use std::mem;
 use std::ptr;
 
+#[cfg(any(feature = "v1_26", feature = "dox"))]
+pub fn ethtool_optname_is_coalesce(optname: Option<&str>) -> bool {
+    unsafe {
+        from_glib(nm_sys::nm_ethtool_optname_is_coalesce(
+            optname.to_glib_none().0,
+        ))
+    }
+}
+
 #[cfg(any(feature = "v1_20", feature = "dox"))]
 pub fn ethtool_optname_is_feature(optname: Option<&str>) -> bool {
     unsafe {
@@ -31,6 +40,11 @@ pub fn ethtool_optname_is_feature(optname: Option<&str>) -> bool {
             optname.to_glib_none().0,
         ))
     }
+}
+
+#[cfg(any(feature = "v1_26", feature = "dox"))]
+pub fn ethtool_optname_is_ring(optname: Option<&str>) -> bool {
+    unsafe { from_glib(nm_sys::nm_ethtool_optname_is_ring(optname.to_glib_none().0)) }
 }
 
 pub fn utils_ap_mode_security_valid(
@@ -310,7 +324,7 @@ pub fn utils_is_valid_iface_name(name: Option<&str>) -> Result<(), glib::Error> 
 }
 
 //#[cfg(any(feature = "v1_8", feature = "dox"))]
-//pub fn utils_parse_variant_attributes(string: &str, attr_separator: glib::Char, key_value_separator: glib::Char, ignore_unknown: bool, spec: /*Ignored*/&VariantAttributeSpec) -> Result</*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 2, id: 187 }, glib::Error> {
+//pub fn utils_parse_variant_attributes(string: &str, attr_separator: glib::Char, key_value_separator: glib::Char, ignore_unknown: bool, spec: /*Ignored*/&VariantAttributeSpec) -> Result</*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 2, id: 194 }, glib::Error> {
 //    unsafe { TODO: call nm_sys:nm_utils_parse_variant_attributes() }
 //}
 

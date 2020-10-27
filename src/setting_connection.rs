@@ -219,6 +219,14 @@ pub trait SettingConnectionExt: 'static {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn get_metered(&self) -> Metered;
 
+    /// Returns the value contained in the `SettingConnection:mud-url`
+    /// property.
+    ///
+    /// Feature: `v1_26`
+    ///
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn get_mud_url(&self) -> Option<GString>;
+
     ///
     /// Feature: `v1_14`
     ///
@@ -297,7 +305,7 @@ pub trait SettingConnectionExt: 'static {
     /// # Returns
     ///
     /// the `NM_SETTING_CONNECTION_WAIT_DEVICE_TIMEOUT` property with
-    ///  the timeout in milli seconds. -1 is the default.
+    ///  the timeout in milliseconds. -1 is the default.
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     fn get_wait_device_timeout(&self) -> i32;
 
@@ -496,6 +504,20 @@ pub trait SettingConnectionExt: 'static {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn set_property_metered(&self, metered: Metered);
 
+    /// If configured, set to a Manufacturer Usage Description (MUD) URL that points
+    /// to manufacturer-recommended network policies for IoT devices. It is transmitted
+    /// as a DHCPv4 or DHCPv6 option. The value must be a valid URL starting with "https://".
+    ///
+    /// The special value "none" is allowed to indicate that no MUD URL is used.
+    ///
+    /// If the per-profile value is unspecified (the default), a global connection default gets
+    /// consulted. If still unspecified, the ultimate default is "none".
+    ///
+    /// Feature: `v1_26`
+    ///
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn set_property_mud_url(&self, mud_url: Option<&str>);
+
     /// Specifies whether the profile can be active multiple times at a particular
     /// moment. The value is of type `ConnectionMultiConnect`.
     ///
@@ -632,10 +654,9 @@ pub trait SettingConnectionExt: 'static {
     /// Timeout in milliseconds to wait for device at startup.
     /// During boot, devices may take a while to be detected by the driver.
     /// This property will cause to delay NetworkManager-wait-online.service
-    /// and nm-online to give the device a chance to appear.
-    ///
-    /// Note that this property only works together with NMSettingConnection:interface-name
-    /// to identify the device that will be waited for.
+    /// and nm-online to give the device a chance to appear. This works by
+    /// waiting for the given timeout until a compatible device for the
+    /// profile is available and managed.
     ///
     /// The value 0 means no wait time. The default value is -1, which
     /// currently has the same meaning as no wait time.
@@ -701,6 +722,9 @@ pub trait SettingConnectionExt: 'static {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     fn connect_property_metered_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn connect_property_mud_url_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     fn connect_property_multi_connect_notify<F: Fn(&Self) + 'static>(
@@ -859,6 +883,15 @@ impl<O: IsA<SettingConnection>> SettingConnectionExt for O {
     fn get_metered(&self) -> Metered {
         unsafe {
             from_glib(nm_sys::nm_setting_connection_get_metered(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn get_mud_url(&self) -> Option<GString> {
+        unsafe {
+            from_glib_none(nm_sys::nm_setting_connection_get_mud_url(
                 self.as_ref().to_glib_none().0,
             ))
         }
@@ -1142,6 +1175,17 @@ impl<O: IsA<SettingConnection>> SettingConnectionExt for O {
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
                 b"metered\0".as_ptr() as *const _,
                 Value::from(&metered).to_glib_none().0,
+            );
+        }
+    }
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn set_property_mud_url(&self, mud_url: Option<&str>) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"mud-url\0".as_ptr() as *const _,
+                Value::from(mud_url).to_glib_none().0,
             );
         }
     }
@@ -1633,6 +1677,31 @@ impl<O: IsA<SettingConnection>> SettingConnectionExt for O {
                 b"notify::metered\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_metered_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn connect_property_mud_url_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_mud_url_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut nm_sys::NMSettingConnection,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<SettingConnection>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&SettingConnection::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::mud-url\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mud_url_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

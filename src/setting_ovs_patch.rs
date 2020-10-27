@@ -61,8 +61,8 @@ impl SettingOvsPatch {
         unsafe { from_glib_none(nm_sys::nm_setting_ovs_patch_get_peer(self.to_glib_none().0)) }
     }
 
-    /// Specifies the unicast destination IP address of a remote Open vSwitch
-    /// bridge port to connect to.
+    /// Specifies the name of the interface for the other side of the patch.
+    /// The patch on the other side must also set this interface as peer.
     ///
     /// Feature: `v1_10`
     ///

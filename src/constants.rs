@@ -1160,6 +1160,10 @@ pub static DEVICE_OVS_PORT_SLAVES: once_cell::sync::Lazy<&'static str> =
             .to_str()
             .unwrap()
     });
+pub static DEVICE_PATH: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_DEVICE_PATH).to_str().unwrap()
+    });
 pub static DEVICE_PHYSICAL_PORT_ID: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_DEVICE_PHYSICAL_PORT_ID)
@@ -1542,6 +1546,138 @@ pub static DHCP_CONFIG_OPTIONS: once_cell::sync::Lazy<&'static str> =
             .to_str()
             .unwrap()
     });
+pub static ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_RX: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_RX)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_TX: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_TX)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_PKT_RATE_HIGH: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_PKT_RATE_HIGH)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_PKT_RATE_LOW: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_PKT_RATE_LOW)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_FRAMES: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_HIGH: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_HIGH)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_IRQ: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_IRQ)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_LOW: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_LOW)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_USECS: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_USECS_HIGH: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_HIGH)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_USECS_IRQ: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_IRQ)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_USECS_LOW: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_LOW)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_SAMPLE_INTERVAL: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_SAMPLE_INTERVAL)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_STATS_BLOCK_USECS: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_STATS_BLOCK_USECS)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_FRAMES: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_HIGH: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_HIGH)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_IRQ: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_IRQ)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_LOW: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_LOW)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_USECS: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_USECS_HIGH: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_HIGH)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_USECS_IRQ: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_IRQ)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_USECS_LOW: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_LOW)
+            .to_str()
+            .unwrap()
+    });
 pub static ETHTOOL_OPTNAME_FEATURE_ESP_HW_OFFLOAD: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_FEATURE_ESP_HW_OFFLOAD)
@@ -1856,6 +1992,30 @@ pub static ETHTOOL_OPTNAME_FEATURE_TX_VLAN_STAG_HW_INSERT: once_cell::sync::Lazy
             .to_str()
             .unwrap()
     });
+pub static ETHTOOL_OPTNAME_RING_RX: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_RING_RX)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_RING_RX_JUMBO: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_RING_RX_JUMBO)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_RING_RX_MINI: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_RING_RX_MINI)
+            .to_str()
+            .unwrap()
+    });
+pub static ETHTOOL_OPTNAME_RING_TX: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_ETHTOOL_OPTNAME_RING_TX)
+            .to_str()
+            .unwrap()
+    });
 pub static IP_ADDRESS_ATTRIBUTE_LABEL: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_IP_ADDRESS_ATTRIBUTE_LABEL)
@@ -2000,6 +2160,12 @@ pub static IP_ROUTE_ATTRIBUTE_TOS: once_cell::sync::Lazy<&'static str> =
             .to_str()
             .unwrap()
     });
+pub static IP_ROUTE_ATTRIBUTE_TYPE: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_IP_ROUTE_ATTRIBUTE_TYPE)
+            .to_str()
+            .unwrap()
+    });
 pub static IP_ROUTE_ATTRIBUTE_WINDOW: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_IP_ROUTE_ATTRIBUTE_WINDOW)
@@ -2090,6 +2256,12 @@ pub static LLDP_ATTR_MANAGEMENT_ADDRESSES: once_cell::sync::Lazy<&'static str> =
             .to_str()
             .unwrap()
     });
+pub static LLDP_ATTR_MUD_URL: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_LLDP_ATTR_MUD_URL)
+            .to_str()
+            .unwrap()
+    });
 pub static LLDP_ATTR_PORT_DESCRIPTION: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_LLDP_ATTR_PORT_DESCRIPTION)
@@ -2107,6 +2279,10 @@ pub static LLDP_ATTR_PORT_ID_TYPE: once_cell::sync::Lazy<&'static str> =
         CStr::from_ptr(nm_sys::NM_LLDP_ATTR_PORT_ID_TYPE)
             .to_str()
             .unwrap()
+    });
+pub static LLDP_ATTR_RAW: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_LLDP_ATTR_RAW).to_str().unwrap()
     });
 pub static LLDP_ATTR_SYSTEM_CAPABILITIES: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
@@ -2856,9 +3032,51 @@ pub static SETTING_BRIDGE_MAX_AGE: once_cell::sync::Lazy<&'static str> =
             .to_str()
             .unwrap()
     });
+pub static SETTING_BRIDGE_MULTICAST_HASH_MAX: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MULTICAST_HASH_MAX)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_BRIDGE_MULTICAST_LAST_MEMBER_COUNT: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MULTICAST_LAST_MEMBER_COUNT)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_BRIDGE_MULTICAST_LAST_MEMBER_INTERVAL: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MULTICAST_LAST_MEMBER_INTERVAL)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_BRIDGE_MULTICAST_MEMBERSHIP_INTERVAL: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MULTICAST_MEMBERSHIP_INTERVAL)
+            .to_str()
+            .unwrap()
+    });
 pub static SETTING_BRIDGE_MULTICAST_QUERIER: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MULTICAST_QUERIER)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_BRIDGE_MULTICAST_QUERIER_INTERVAL: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MULTICAST_QUERIER_INTERVAL)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_BRIDGE_MULTICAST_QUERY_INTERVAL: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MULTICAST_QUERY_INTERVAL)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_BRIDGE_MULTICAST_QUERY_RESPONSE_INTERVAL: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MULTICAST_QUERY_RESPONSE_INTERVAL)
             .to_str()
             .unwrap()
     });
@@ -2877,6 +3095,18 @@ pub static SETTING_BRIDGE_MULTICAST_ROUTER: once_cell::sync::Lazy<&'static str> 
 pub static SETTING_BRIDGE_MULTICAST_SNOOPING: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MULTICAST_SNOOPING)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_COUNT: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_COUNT)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_INTERVAL: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_INTERVAL)
             .to_str()
             .unwrap()
     });
@@ -3069,6 +3299,12 @@ pub static SETTING_CONNECTION_MDNS: once_cell::sync::Lazy<&'static str> =
 pub static SETTING_CONNECTION_METERED: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SETTING_CONNECTION_METERED)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_CONNECTION_MUD_URL: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_CONNECTION_MUD_URL)
             .to_str()
             .unwrap()
     });
@@ -3504,6 +3740,12 @@ pub static SETTING_IP4_CONFIG_DHCP_FQDN: once_cell::sync::Lazy<&'static str> =
             .to_str()
             .unwrap()
     });
+pub static SETTING_IP4_CONFIG_DHCP_VENDOR_CLASS_IDENTIFIER: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_IP4_CONFIG_DHCP_VENDOR_CLASS_IDENTIFIER)
+            .to_str()
+            .unwrap()
+    });
 pub static SETTING_IP4_CONFIG_METHOD_AUTO: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SETTING_IP4_CONFIG_METHOD_AUTO)
@@ -3919,9 +4161,27 @@ pub static SETTING_MACVLAN_TAP: once_cell::sync::Lazy<&'static str> =
             .to_str()
             .unwrap()
     });
+pub static SETTING_MATCH_DRIVER: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_MATCH_DRIVER)
+            .to_str()
+            .unwrap()
+    });
 pub static SETTING_MATCH_INTERFACE_NAME: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(nm_sys::NM_SETTING_MATCH_INTERFACE_NAME)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_MATCH_KERNEL_COMMAND_LINE: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_MATCH_KERNEL_COMMAND_LINE)
+            .to_str()
+            .unwrap()
+    });
+pub static SETTING_MATCH_PATH: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(nm_sys::NM_SETTING_MATCH_PATH)
             .to_str()
             .unwrap()
     });

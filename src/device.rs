@@ -825,6 +825,9 @@ pub trait DeviceExt: 'static {
         f: F,
     ) -> SignalHandlerId;
 
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn connect_property_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
     fn connect_property_physical_port_id_notify<F: Fn(&Self) + 'static>(
         &self,
         f: F,
@@ -2201,6 +2204,31 @@ impl<O: IsA<Device>> DeviceExt for O {
                 b"notify::nm-plugin-missing\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_nm_plugin_missing_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    fn connect_property_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_path_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut nm_sys::NMDevice,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<Device>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::path\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_path_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

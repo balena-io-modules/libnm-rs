@@ -983,11 +983,11 @@ impl Client {
     /// ## `object_path`
     /// path of remote object
     /// ## `interface_name`
-    /// D-Bus interface to invoke method on
+    /// D-Bus interface for the property to set.
     /// ## `property_name`
     /// the name of the property to set
     /// ## `value`
-    /// a `glib::Variant` tuple with the value to set
+    /// a `glib::Variant` with the value to set.
     /// ## `timeout_msec`
     /// the timeout in milliseconds, -1 to use the default
     ///  timeout or `G_MAXINT` for no timeout

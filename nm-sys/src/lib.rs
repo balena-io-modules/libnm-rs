@@ -732,6 +732,7 @@ pub const NM_DEVICE_OLPC_MESH_COMPANION: *const c_char = b"companion\0" as *cons
 pub const NM_DEVICE_OLPC_MESH_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_OVS_BRIDGE_SLAVES: *const c_char = b"slaves\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_OVS_PORT_SLAVES: *const c_char = b"slaves\0" as *const u8 as *const c_char;
+pub const NM_DEVICE_PATH: *const c_char = b"path\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_PHYSICAL_PORT_ID: *const c_char = b"physical-port-id\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_PRODUCT: *const c_char = b"product\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_REAL: *const c_char = b"real\0" as *const u8 as *const c_char;
@@ -798,6 +799,28 @@ pub const NM_DEVICE_WIREGUARD_PUBLIC_KEY: *const c_char = b"public-key\0" as *co
 pub const NM_DEVICE_WPAN_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
 pub const NM_DHCP_CONFIG_FAMILY: *const c_char = b"family\0" as *const u8 as *const c_char;
 pub const NM_DHCP_CONFIG_OPTIONS: *const c_char = b"options\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_RX: *const c_char = b"coalesce-adaptive-rx\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_TX: *const c_char = b"coalesce-adaptive-tx\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_PKT_RATE_HIGH: *const c_char = b"coalesce-pkt-rate-high\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_PKT_RATE_LOW: *const c_char = b"coalesce-pkt-rate-low\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES: *const c_char = b"coalesce-rx-frames\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_HIGH: *const c_char = b"coalesce-rx-frames-high\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_IRQ: *const c_char = b"coalesce-rx-frames-irq\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_LOW: *const c_char = b"coalesce-rx-frames-low\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS: *const c_char = b"coalesce-rx-usecs\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_HIGH: *const c_char = b"coalesce-rx-usecs-high\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_IRQ: *const c_char = b"coalesce-rx-usecs-irq\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_LOW: *const c_char = b"coalesce-rx-usecs-low\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_SAMPLE_INTERVAL: *const c_char = b"coalesce-sample-interval\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_STATS_BLOCK_USECS: *const c_char = b"coalesce-stats-block-usecs\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES: *const c_char = b"coalesce-tx-frames\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_HIGH: *const c_char = b"coalesce-tx-frames-high\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_IRQ: *const c_char = b"coalesce-tx-frames-irq\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_LOW: *const c_char = b"coalesce-tx-frames-low\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS: *const c_char = b"coalesce-tx-usecs\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_HIGH: *const c_char = b"coalesce-tx-usecs-high\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_IRQ: *const c_char = b"coalesce-tx-usecs-irq\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_LOW: *const c_char = b"coalesce-tx-usecs-low\0" as *const u8 as *const c_char;
 pub const NM_ETHTOOL_OPTNAME_FEATURE_ESP_HW_OFFLOAD: *const c_char = b"feature-esp-hw-offload\0" as *const u8 as *const c_char;
 pub const NM_ETHTOOL_OPTNAME_FEATURE_ESP_TX_CSUM_HW_OFFLOAD: *const c_char = b"feature-esp-tx-csum-hw-offload\0" as *const u8 as *const c_char;
 pub const NM_ETHTOOL_OPTNAME_FEATURE_FCOE_MTU: *const c_char = b"feature-fcoe-mtu\0" as *const u8 as *const c_char;
@@ -850,6 +873,10 @@ pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_SEGMENTATION: *const c_char = b"feat
 pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_CSUM_SEGMENTATION: *const c_char = b"feature-tx-udp_tnl-csum-segmentation\0" as *const u8 as *const c_char;
 pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_SEGMENTATION: *const c_char = b"feature-tx-udp_tnl-segmentation\0" as *const u8 as *const c_char;
 pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_VLAN_STAG_HW_INSERT: *const c_char = b"feature-tx-vlan-stag-hw-insert\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_RING_RX: *const c_char = b"ring-rx\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_RING_RX_JUMBO: *const c_char = b"ring-rx-jumbo\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_RING_RX_MINI: *const c_char = b"ring-rx-mini\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_RING_TX: *const c_char = b"ring-tx\0" as *const u8 as *const c_char;
 pub const NM_IP_ADDRESS_ATTRIBUTE_LABEL: *const c_char = b"label\0" as *const u8 as *const c_char;
 pub const NM_IP_CONFIG_ADDRESSES: *const c_char = b"addresses\0" as *const u8 as *const c_char;
 pub const NM_IP_CONFIG_DOMAINS: *const c_char = b"domains\0" as *const u8 as *const c_char;
@@ -874,6 +901,7 @@ pub const NM_IP_ROUTE_ATTRIBUTE_SCOPE: *const c_char = b"scope\0" as *const u8 a
 pub const NM_IP_ROUTE_ATTRIBUTE_SRC: *const c_char = b"src\0" as *const u8 as *const c_char;
 pub const NM_IP_ROUTE_ATTRIBUTE_TABLE: *const c_char = b"table\0" as *const u8 as *const c_char;
 pub const NM_IP_ROUTE_ATTRIBUTE_TOS: *const c_char = b"tos\0" as *const u8 as *const c_char;
+pub const NM_IP_ROUTE_ATTRIBUTE_TYPE: *const c_char = b"type\0" as *const u8 as *const c_char;
 pub const NM_IP_ROUTE_ATTRIBUTE_WINDOW: *const c_char = b"window\0" as *const u8 as *const c_char;
 pub const NM_LLDP_ATTR_CHASSIS_ID: *const c_char = b"chassis-id\0" as *const u8 as *const c_char;
 pub const NM_LLDP_ATTR_CHASSIS_ID_TYPE: *const c_char = b"chassis-id-type\0" as *const u8 as *const c_char;
@@ -889,9 +917,11 @@ pub const NM_LLDP_ATTR_IEEE_802_3_MAC_PHY_CONF: *const c_char = b"ieee-802-3-mac
 pub const NM_LLDP_ATTR_IEEE_802_3_MAX_FRAME_SIZE: *const c_char = b"ieee-802-3-max-frame-size\0" as *const u8 as *const c_char;
 pub const NM_LLDP_ATTR_IEEE_802_3_POWER_VIA_MDI: *const c_char = b"ieee-802-3-power-via-mdi\0" as *const u8 as *const c_char;
 pub const NM_LLDP_ATTR_MANAGEMENT_ADDRESSES: *const c_char = b"management-addresses\0" as *const u8 as *const c_char;
+pub const NM_LLDP_ATTR_MUD_URL: *const c_char = b"mud-url\0" as *const u8 as *const c_char;
 pub const NM_LLDP_ATTR_PORT_DESCRIPTION: *const c_char = b"port-description\0" as *const u8 as *const c_char;
 pub const NM_LLDP_ATTR_PORT_ID: *const c_char = b"port-id\0" as *const u8 as *const c_char;
 pub const NM_LLDP_ATTR_PORT_ID_TYPE: *const c_char = b"port-id-type\0" as *const u8 as *const c_char;
+pub const NM_LLDP_ATTR_RAW: *const c_char = b"raw\0" as *const u8 as *const c_char;
 pub const NM_LLDP_ATTR_SYSTEM_CAPABILITIES: *const c_char = b"system-capabilities\0" as *const u8 as *const c_char;
 pub const NM_LLDP_ATTR_SYSTEM_DESCRIPTION: *const c_char = b"system-description\0" as *const u8 as *const c_char;
 pub const NM_LLDP_ATTR_SYSTEM_NAME: *const c_char = b"system-name\0" as *const u8 as *const c_char;
@@ -899,8 +929,8 @@ pub const NM_LLDP_DEST_NEAREST_BRIDGE: *const c_char = b"nearest-bridge\0" as *c
 pub const NM_LLDP_DEST_NEAREST_CUSTOMER_BRIDGE: *const c_char = b"nearest-customer-bridge\0" as *const u8 as *const c_char;
 pub const NM_LLDP_DEST_NEAREST_NON_TPMR_BRIDGE: *const c_char = b"nearest-non-tpmr-bridge\0" as *const u8 as *const c_char;
 pub const NM_MAJOR_VERSION: c_int = 1;
-pub const NM_MICRO_VERSION: c_int = 2;
-pub const NM_MINOR_VERSION: c_int = 24;
+pub const NM_MICRO_VERSION: c_int = 4;
+pub const NM_MINOR_VERSION: c_int = 26;
 pub const NM_OBJECT_PATH: *const c_char = b"path\0" as *const u8 as *const c_char;
 pub const NM_REMOTE_CONNECTION_DBUS_CONNECTION: *const c_char = b"dbus-connection\0" as *const u8 as *const c_char;
 pub const NM_REMOTE_CONNECTION_FILENAME: *const c_char = b"filename\0" as *const u8 as *const c_char;
@@ -1020,10 +1050,19 @@ pub const NM_SETTING_BRIDGE_GROUP_FORWARD_MASK: *const c_char = b"group-forward-
 pub const NM_SETTING_BRIDGE_HELLO_TIME: *const c_char = b"hello-time\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_MAC_ADDRESS: *const c_char = b"mac-address\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_MAX_AGE: *const c_char = b"max-age\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_MULTICAST_HASH_MAX: *const c_char = b"multicast-hash-max\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_MULTICAST_LAST_MEMBER_COUNT: *const c_char = b"multicast-last-member-count\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_MULTICAST_LAST_MEMBER_INTERVAL: *const c_char = b"multicast-last-member-interval\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_MULTICAST_MEMBERSHIP_INTERVAL: *const c_char = b"multicast-membership-interval\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_MULTICAST_QUERIER: *const c_char = b"multicast-querier\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_MULTICAST_QUERIER_INTERVAL: *const c_char = b"multicast-querier-interval\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_MULTICAST_QUERY_INTERVAL: *const c_char = b"multicast-query-interval\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_MULTICAST_QUERY_RESPONSE_INTERVAL: *const c_char = b"multicast-query-response-interval\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_MULTICAST_QUERY_USE_IFADDR: *const c_char = b"multicast-query-use-ifaddr\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_MULTICAST_ROUTER: *const c_char = b"multicast-router\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_MULTICAST_SNOOPING: *const c_char = b"multicast-snooping\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_COUNT: *const c_char = b"multicast-startup-query-count\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_INTERVAL: *const c_char = b"multicast-startup-query-interval\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_PORT_HAIRPIN_MODE: *const c_char = b"hairpin-mode\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_PORT_PATH_COST: *const c_char = b"path-cost\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_PORT_PRIORITY: *const c_char = b"priority\0" as *const u8 as *const c_char;
@@ -1059,6 +1098,7 @@ pub const NM_SETTING_CONNECTION_LLMNR: *const c_char = b"llmnr\0" as *const u8 a
 pub const NM_SETTING_CONNECTION_MASTER: *const c_char = b"master\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CONNECTION_MDNS: *const c_char = b"mdns\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CONNECTION_METERED: *const c_char = b"metered\0" as *const u8 as *const c_char;
+pub const NM_SETTING_CONNECTION_MUD_URL: *const c_char = b"mud-url\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CONNECTION_MULTI_CONNECT: *const c_char = b"multi-connect\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CONNECTION_PERMISSIONS: *const c_char = b"permissions\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CONNECTION_READ_ONLY: *const c_char = b"read-only\0" as *const u8 as *const c_char;
@@ -1132,6 +1172,7 @@ pub const NM_SETTING_INFINIBAND_SETTING_NAME: *const c_char = b"infiniband\0" as
 pub const NM_SETTING_INFINIBAND_TRANSPORT_MODE: *const c_char = b"transport-mode\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID: *const c_char = b"dhcp-client-id\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP4_CONFIG_DHCP_FQDN: *const c_char = b"dhcp-fqdn\0" as *const u8 as *const c_char;
+pub const NM_SETTING_IP4_CONFIG_DHCP_VENDOR_CLASS_IDENTIFIER: *const c_char = b"dhcp-vendor-class-identifier\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP4_CONFIG_METHOD_AUTO: *const c_char = b"auto\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP4_CONFIG_METHOD_DISABLED: *const c_char = b"disabled\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL: *const c_char = b"link-local\0" as *const u8 as *const c_char;
@@ -1204,7 +1245,10 @@ pub const NM_SETTING_MACVLAN_PARENT: *const c_char = b"parent\0" as *const u8 as
 pub const NM_SETTING_MACVLAN_PROMISCUOUS: *const c_char = b"promiscuous\0" as *const u8 as *const c_char;
 pub const NM_SETTING_MACVLAN_SETTING_NAME: *const c_char = b"macvlan\0" as *const u8 as *const c_char;
 pub const NM_SETTING_MACVLAN_TAP: *const c_char = b"tap\0" as *const u8 as *const c_char;
+pub const NM_SETTING_MATCH_DRIVER: *const c_char = b"driver\0" as *const u8 as *const c_char;
 pub const NM_SETTING_MATCH_INTERFACE_NAME: *const c_char = b"interface-name\0" as *const u8 as *const c_char;
+pub const NM_SETTING_MATCH_KERNEL_COMMAND_LINE: *const c_char = b"kernel-command-line\0" as *const u8 as *const c_char;
+pub const NM_SETTING_MATCH_PATH: *const c_char = b"path\0" as *const u8 as *const c_char;
 pub const NM_SETTING_MATCH_SETTING_NAME: *const c_char = b"match\0" as *const u8 as *const c_char;
 pub const NM_SETTING_NAME: *const c_char = b"name\0" as *const u8 as *const c_char;
 pub const NM_SETTING_OLPC_MESH_CHANNEL: *const c_char = b"channel\0" as *const u8 as *const c_char;
@@ -1548,6 +1592,7 @@ pub const NM_802_11_AP_SEC_KEY_MGMT_PSK: NM80211ApSecurityFlags = 256;
 pub const NM_802_11_AP_SEC_KEY_MGMT_802_1X: NM80211ApSecurityFlags = 512;
 pub const NM_802_11_AP_SEC_KEY_MGMT_SAE: NM80211ApSecurityFlags = 1024;
 pub const NM_802_11_AP_SEC_KEY_MGMT_OWE: NM80211ApSecurityFlags = 2048;
+pub const NM_802_11_AP_SEC_KEY_MGMT_OWE_TM: NM80211ApSecurityFlags = 4096;
 
 pub type NMActivationStateFlags = c_uint;
 pub const NM_ACTIVATION_STATE_FLAG_NONE: NMActivationStateFlags = 0;
@@ -1558,6 +1603,7 @@ pub const NM_ACTIVATION_STATE_FLAG_IP4_READY: NMActivationStateFlags = 8;
 pub const NM_ACTIVATION_STATE_FLAG_IP6_READY: NMActivationStateFlags = 16;
 pub const NM_ACTIVATION_STATE_FLAG_MASTER_HAS_SLAVES: NMActivationStateFlags = 32;
 pub const NM_ACTIVATION_STATE_FLAG_LIFETIME_BOUND_TO_PROFILE_VISIBILITY: NMActivationStateFlags = 64;
+pub const NM_ACTIVATION_STATE_FLAG_EXTERNAL: NMActivationStateFlags = 128;
 
 pub type NMBluetoothCapabilities = c_uint;
 pub const NM_BT_CAPABILITY_NONE: NMBluetoothCapabilities = 0;
@@ -1721,6 +1767,7 @@ pub const NM_SETTINGS_CONNECTION_FLAG_NONE: NMSettingsConnectionFlags = 0;
 pub const NM_SETTINGS_CONNECTION_FLAG_UNSAVED: NMSettingsConnectionFlags = 1;
 pub const NM_SETTINGS_CONNECTION_FLAG_NM_GENERATED: NMSettingsConnectionFlags = 2;
 pub const NM_SETTINGS_CONNECTION_FLAG_VOLATILE: NMSettingsConnectionFlags = 4;
+pub const NM_SETTINGS_CONNECTION_FLAG_EXTERNAL: NMSettingsConnectionFlags = 8;
 
 pub type NMSettingsUpdate2Flags = c_uint;
 pub const NM_SETTINGS_UPDATE2_FLAG_NONE: NMSettingsUpdate2Flags = 0;
@@ -1757,6 +1804,7 @@ pub type NMSettingClearSecretsWithFlagsFn = Option<unsafe extern "C" fn(*mut NMS
 pub type NMSettingValueIterFn = Option<unsafe extern "C" fn(*mut NMSetting, *const c_char, *const gobject::GValue, gobject::GParamFlags, gpointer)>;
 pub type NMUtilsCheckFilePredicate = Option<unsafe extern "C" fn(*const c_char, gpointer, *mut *mut glib::GError) -> gboolean>;
 pub type NMUtilsFileSearchInPathsPredicate = Option<unsafe extern "C" fn(*const c_char, gpointer) -> gboolean>;
+pub type NMUtilsPredicateStr = Option<unsafe extern "C" fn(*const c_char) -> gboolean>;
 pub type NMVpnIterFunc = Option<unsafe extern "C" fn(*const c_char, *const c_char, gpointer)>;
 pub type _NMConnectionForEachSecretFunc = Option<unsafe extern "C" fn(NMSettingSecretFlags, gpointer) -> gboolean>;
 
@@ -4655,6 +4703,8 @@ extern "C" {
     pub fn nm_device_get_mtu(device: *mut NMDevice) -> u32;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn nm_device_get_nm_plugin_missing(device: *mut NMDevice) -> gboolean;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_device_get_path(device: *mut NMDevice) -> *const c_char;
     pub fn nm_device_get_physical_port_id(device: *mut NMDevice) -> *const c_char;
     pub fn nm_device_get_product(device: *mut NMDevice) -> *const c_char;
     pub fn nm_device_get_setting_type(device: *mut NMDevice) -> GType;
@@ -5117,6 +5167,22 @@ extern "C" {
     pub fn nm_setting_enumerate_values(setting: *mut NMSetting, func: NMSettingValueIterFn, user_data: gpointer);
     pub fn nm_setting_get_dbus_property_type(setting: *mut NMSetting, property_name: *const c_char) -> *const glib::GVariantType;
     pub fn nm_setting_get_name(setting: *mut NMSetting) -> *const c_char;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_option_clear_by_name(setting: *mut NMSetting, predicate: NMUtilsPredicateStr);
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_option_get(setting: *mut NMSetting, opt_name: *const c_char) -> *mut glib::GVariant;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_option_get_all_names(setting: *mut NMSetting, out_len: *mut c_uint) -> *const *const c_char;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_option_get_boolean(setting: *mut NMSetting, opt_name: *const c_char, out_value: *mut gboolean) -> gboolean;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_option_get_uint32(setting: *mut NMSetting, opt_name: *const c_char, out_value: *mut u32) -> gboolean;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_option_set(setting: *mut NMSetting, opt_name: *const c_char, variant: *mut glib::GVariant);
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_option_set_boolean(setting: *mut NMSetting, opt_name: *const c_char, value: gboolean);
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_option_set_uint32(setting: *mut NMSetting, opt_name: *const c_char, value: u32);
     pub fn nm_setting_set_secret_flags(setting: *mut NMSetting, secret_name: *const c_char, flags: NMSettingSecretFlags, error: *mut *mut glib::GError) -> gboolean;
     pub fn nm_setting_to_string(setting: *mut NMSetting) -> *mut c_char;
     pub fn nm_setting_verify(setting: *mut NMSetting, connection: *mut NMConnection, error: *mut *mut glib::GError) -> gboolean;
@@ -5296,11 +5362,20 @@ extern "C" {
     pub fn nm_setting_bridge_get_hello_time(setting: *mut NMSettingBridge) -> u16;
     pub fn nm_setting_bridge_get_mac_address(setting: *mut NMSettingBridge) -> *const c_char;
     pub fn nm_setting_bridge_get_max_age(setting: *mut NMSettingBridge) -> u16;
+    pub fn nm_setting_bridge_get_multicast_hash_max(setting: *const NMSettingBridge) -> u32;
+    pub fn nm_setting_bridge_get_multicast_last_member_count(setting: *const NMSettingBridge) -> u32;
+    pub fn nm_setting_bridge_get_multicast_last_member_interval(setting: *const NMSettingBridge) -> u64;
+    pub fn nm_setting_bridge_get_multicast_membership_interval(setting: *const NMSettingBridge) -> u64;
     pub fn nm_setting_bridge_get_multicast_querier(setting: *const NMSettingBridge) -> gboolean;
+    pub fn nm_setting_bridge_get_multicast_querier_interval(setting: *const NMSettingBridge) -> u64;
+    pub fn nm_setting_bridge_get_multicast_query_interval(setting: *const NMSettingBridge) -> u64;
+    pub fn nm_setting_bridge_get_multicast_query_response_interval(setting: *const NMSettingBridge) -> u64;
     pub fn nm_setting_bridge_get_multicast_query_use_ifaddr(setting: *const NMSettingBridge) -> gboolean;
     pub fn nm_setting_bridge_get_multicast_router(setting: *const NMSettingBridge) -> *const c_char;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn nm_setting_bridge_get_multicast_snooping(setting: *mut NMSettingBridge) -> gboolean;
+    pub fn nm_setting_bridge_get_multicast_startup_query_count(setting: *const NMSettingBridge) -> u32;
+    pub fn nm_setting_bridge_get_multicast_startup_query_interval(setting: *const NMSettingBridge) -> u64;
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn nm_setting_bridge_get_num_vlans(setting: *mut NMSettingBridge) -> c_uint;
     pub fn nm_setting_bridge_get_priority(setting: *mut NMSettingBridge) -> u16;
@@ -5379,6 +5454,8 @@ extern "C" {
     pub fn nm_setting_connection_get_mdns(setting: *mut NMSettingConnection) -> NMSettingConnectionMdns;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn nm_setting_connection_get_metered(setting: *mut NMSettingConnection) -> NMMetered;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_connection_get_mud_url(setting: *mut NMSettingConnection) -> *const c_char;
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn nm_setting_connection_get_multi_connect(setting: *mut NMSettingConnection) -> NMConnectionMultiConnect;
     pub fn nm_setting_connection_get_num_permissions(setting: *mut NMSettingConnection) -> u32;
@@ -5489,6 +5566,8 @@ extern "C" {
     pub fn nm_setting_ip4_config_get_dhcp_client_id(setting: *mut NMSettingIP4Config) -> *const c_char;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn nm_setting_ip4_config_get_dhcp_fqdn(setting: *mut NMSettingIP4Config) -> *const c_char;
+    #[cfg(any(feature = "v1_28", feature = "dox"))]
+    pub fn nm_setting_ip4_config_get_dhcp_vendor_class_identifier(setting: *mut NMSettingIP4Config) -> *const c_char;
 
     //=========================================================================
     // NMSettingIP6Config
@@ -5563,8 +5642,6 @@ extern "C" {
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     pub fn nm_setting_ip_config_get_routing_rule(setting: *mut NMSettingIPConfig, idx: c_uint) -> *mut NMIPRoutingRule;
     pub fn nm_setting_ip_config_has_dns_options(setting: *mut NMSettingIPConfig) -> gboolean;
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    pub fn nm_setting_ip_config_next_valid_dns_option(setting: *mut NMSettingIPConfig, idx: c_uint) -> c_int;
     pub fn nm_setting_ip_config_remove_address(setting: *mut NMSettingIPConfig, idx: c_int);
     pub fn nm_setting_ip_config_remove_address_by_value(setting: *mut NMSettingIPConfig, address: *mut NMIPAddress) -> gboolean;
     pub fn nm_setting_ip_config_remove_dns(setting: *mut NMSettingIPConfig, idx: c_int);
@@ -5671,20 +5748,62 @@ extern "C" {
     pub fn nm_setting_match_get_type() -> GType;
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn nm_setting_match_new() -> *mut NMSetting;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_add_driver(setting: *mut NMSettingMatch, driver: *const c_char);
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn nm_setting_match_add_interface_name(setting: *mut NMSettingMatch, interface_name: *const c_char);
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_add_kernel_command_line(setting: *mut NMSettingMatch, kernel_command_line: *const c_char);
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_add_path(setting: *mut NMSettingMatch, path: *const c_char);
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_clear_drivers(setting: *mut NMSettingMatch);
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn nm_setting_match_clear_interface_names(setting: *mut NMSettingMatch);
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_clear_kernel_command_lines(setting: *mut NMSettingMatch);
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_clear_paths(setting: *mut NMSettingMatch);
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_get_driver(setting: *mut NMSettingMatch, idx: c_uint) -> *const c_char;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_get_drivers(setting: *mut NMSettingMatch, length: *mut c_uint) -> *const *const c_char;
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn nm_setting_match_get_interface_name(setting: *mut NMSettingMatch, idx: c_int) -> *const c_char;
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn nm_setting_match_get_interface_names(setting: *mut NMSettingMatch, length: *mut c_uint) -> *const *const c_char;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_get_kernel_command_line(setting: *mut NMSettingMatch, idx: c_uint) -> *const c_char;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_get_kernel_command_lines(setting: *mut NMSettingMatch, length: *mut c_uint) -> *const *const c_char;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_get_num_drivers(setting: *mut NMSettingMatch) -> c_uint;
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn nm_setting_match_get_num_interface_names(setting: *mut NMSettingMatch) -> c_uint;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_get_num_kernel_command_lines(setting: *mut NMSettingMatch) -> c_uint;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_get_num_paths(setting: *mut NMSettingMatch) -> c_uint;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_get_path(setting: *mut NMSettingMatch, idx: c_uint) -> *const c_char;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_get_paths(setting: *mut NMSettingMatch, length: *mut c_uint) -> *const *const c_char;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_remove_driver(setting: *mut NMSettingMatch, idx: c_uint);
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_remove_driver_by_value(setting: *mut NMSettingMatch, driver: *const c_char) -> gboolean;
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn nm_setting_match_remove_interface_name(setting: *mut NMSettingMatch, idx: c_int);
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     pub fn nm_setting_match_remove_interface_name_by_value(setting: *mut NMSettingMatch, interface_name: *const c_char) -> gboolean;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_remove_kernel_command_line(setting: *mut NMSettingMatch, idx: c_uint);
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_remove_kernel_command_line_by_value(setting: *mut NMSettingMatch, kernel_command_line: *const c_char) -> gboolean;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_remove_path(setting: *mut NMSettingMatch, idx: c_uint);
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_setting_match_remove_path_by_value(setting: *mut NMSettingMatch, path: *const c_char) -> gboolean;
 
     //=========================================================================
     // NMSettingOlpcMesh
@@ -6510,8 +6629,12 @@ extern "C" {
     //=========================================================================
     // Other functions
     //=========================================================================
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_ethtool_optname_is_coalesce(optname: *const c_char) -> gboolean;
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     pub fn nm_ethtool_optname_is_feature(optname: *const c_char) -> gboolean;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    pub fn nm_ethtool_optname_is_ring(optname: *const c_char) -> gboolean;
     pub fn nm_utils_ap_mode_security_valid(type_: NMUtilsSecurityType, wifi_caps: NMDeviceWifiCapabilities) -> gboolean;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     pub fn nm_utils_bond_mode_int_to_string(mode: c_int) -> *const c_char;
