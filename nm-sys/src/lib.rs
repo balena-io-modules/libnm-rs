@@ -3614,6 +3614,7 @@ impl ::std::fmt::Debug for NMVpnEditorPlugin {
 }
 
 
+#[link(name = "nm")]
 extern "C" {
 
     //=========================================================================
