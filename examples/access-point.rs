@@ -111,7 +111,7 @@ fn create_connection(interface: Option<&str>, opts: &Opts) -> Result<SimpleConne
     s_wireless.set_ssid(Some(&(opts.ssid.as_bytes().into())));
     s_wireless.set_band(Some("bg"));
     s_wireless.set_hidden(false);
-    s_wireless.set_mode(Some("ap"));
+    s_wireless.set_mode(Some(&NM_SETTING_WIRELESS_MODE_AP));
     connection.add_setting(&s_wireless);
 
     if let Some(password) = &opts.password {
@@ -126,9 +126,9 @@ fn create_connection(interface: Option<&str>, opts: &Opts) -> Result<SimpleConne
         let address =
             IPAddress::new(libc::AF_INET, address, 24).context("Failed to parse address")?;
         s_ip4.add_address(&address);
-        s_ip4.set_method(Some("manual"));
+        s_ip4.set_method(Some(&SETTING_IP4_CONFIG_METHOD_MANUAL));
     } else {
-        s_ip4.set_method(Some("shared"));
+        s_ip4.set_method(Some(&SETTING_IP4_CONFIG_METHOD_SHARED));
     }
     connection.add_setting(&s_ip4);
 
