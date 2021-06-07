@@ -46,7 +46,7 @@ async fn run(opts: Opts) -> Result<()> {
 
     print_device_info(&device);
 
-    let connection = create_connection(device.get_iface().as_deref(), &opts)?;
+    let connection = create_connection(device.iface().as_deref(), &opts)?;
 
     let active_connection = client
         .add_and_activate_connection_async_future(Some(&connection), &device, None)
@@ -60,7 +60,7 @@ async fn run(opts: Opts) -> Result<()> {
         let sender = sender.clone();
         let active_connection = active_connection.clone();
         spawn_local(async move {
-            let state = ActiveConnectionState::from_glib(state as _);
+            let state = unsafe { ActiveConnectionState::from_glib(state as _) };
             println!("Active connection state: {:?}", state);
 
             let exit = match state {
@@ -70,7 +70,7 @@ async fn run(opts: Opts) -> Result<()> {
                 }
                 ActiveConnectionState::Deactivated => {
                     println!("Connection deactivated");
-                    if let Some(remote_connection) = active_connection.get_connection() {
+                    if let Some(remote_connection) = active_connection.connection() {
                         Some(
                             remote_connection
                                 .delete_async_future()
@@ -101,23 +101,23 @@ fn create_connection(interface: Option<&str>, opts: &Opts) -> Result<SimpleConne
     let connection = SimpleConnection::new();
 
     let s_connection = SettingConnection::new();
-    s_connection.set_property_type(Some(&SETTING_WIRELESS_SETTING_NAME));
-    s_connection.set_property_id(Some(&opts.ssid));
-    s_connection.set_property_autoconnect(false);
-    s_connection.set_property_interface_name(interface);
+    s_connection.set_type(Some(&SETTING_WIRELESS_SETTING_NAME));
+    s_connection.set_id(Some(&opts.ssid));
+    s_connection.set_autoconnect(false);
+    s_connection.set_interface_name(interface);
     connection.add_setting(&s_connection);
 
     let s_wireless = SettingWireless::new();
-    s_wireless.set_property_ssid(Some(&(opts.ssid.as_bytes().into())));
-    s_wireless.set_property_band(Some("bg"));
-    s_wireless.set_property_hidden(false);
-    s_wireless.set_property_mode(Some("ap"));
+    s_wireless.set_ssid(Some(&(opts.ssid.as_bytes().into())));
+    s_wireless.set_band(Some("bg"));
+    s_wireless.set_hidden(false);
+    s_wireless.set_mode(Some("ap"));
     connection.add_setting(&s_wireless);
 
     if let Some(password) = &opts.password {
         let s_wireless_security = SettingWirelessSecurity::new();
-        s_wireless_security.set_property_key_mgmt(Some("wpa-psk"));
-        s_wireless_security.set_property_psk(Some(password));
+        s_wireless_security.set_key_mgmt(Some("wpa-psk"));
+        s_wireless_security.set_psk(Some(password));
         connection.add_setting(&s_wireless_security);
     }
 
@@ -126,9 +126,9 @@ fn create_connection(interface: Option<&str>, opts: &Opts) -> Result<SimpleConne
         let address =
             IPAddress::new(libc::AF_INET, address, 24).context("Failed to parse address")?;
         s_ip4.add_address(&address);
-        s_ip4.set_property_method(Some("manual"));
+        s_ip4.set_method(Some("manual"));
     } else {
-        s_ip4.set_property_method(Some("shared"));
+        s_ip4.set_method(Some("shared"));
     }
     connection.add_setting(&s_ip4);
 

@@ -10,17 +10,15 @@
 #![cfg_attr(feature = "cargo-clippy", allow(clippy::too_many_arguments))]
 #![cfg_attr(feature = "cargo-clippy", allow(clippy::single_component_path_imports))]
 
-#[macro_use]
 extern crate bitflags;
 
 extern crate once_cell;
 
+extern crate gio;
 extern crate gio_sys;
+extern crate glib;
 extern crate glib_sys;
 extern crate gobject_sys;
-#[macro_use]
-extern crate glib;
-extern crate gio;
 extern crate libc;
 
 #[cfg(feature = "futures")]
@@ -29,449 +27,485 @@ extern crate fragile;
 #[cfg(feature = "futures")]
 extern crate futures_core;
 
-extern crate nm_sys;
+extern crate ffi;
 
 pub use gio::NONE_CANCELLABLE;
 
 pub use glib::prelude::*;
 
-pub use crate::functions::*;
-pub use crate::traits::*;
+pub use functions::*;
+pub use traits::*;
 
 mod access_point;
-pub use self::access_point::{AccessPoint, AccessPointClass};
+pub use self::access_point::AccessPoint;
 
 mod active_connection;
-pub use self::active_connection::ActiveConnectionExt;
-pub use self::active_connection::{
-    ActiveConnection, ActiveConnectionClass, NONE_ACTIVE_CONNECTION,
-};
+pub use self::active_connection::{ActiveConnection, NONE_ACTIVE_CONNECTION};
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 mod checkpoint;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-pub use self::checkpoint::{Checkpoint, CheckpointClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+pub use self::checkpoint::Checkpoint;
 
 mod client;
-pub use self::client::{Client, ClientClass};
+pub use self::client::Client;
 
 mod connection;
-pub use self::connection::ConnectionExt;
 pub use self::connection::{Connection, NONE_CONNECTION};
 
 mod device;
-pub use self::device::DeviceExt;
-pub use self::device::{Device, DeviceClass, NONE_DEVICE};
+pub use self::device::{Device, NONE_DEVICE};
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 mod device6_lowpan;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-pub use self::device6_lowpan::{Device6Lowpan, Device6LowpanClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+pub use self::device6_lowpan::Device6Lowpan;
 
 mod device_adsl;
-pub use self::device_adsl::{DeviceAdsl, DeviceAdslClass};
+pub use self::device_adsl::DeviceAdsl;
 
 mod device_bond;
-pub use self::device_bond::{DeviceBond, DeviceBondClass};
+pub use self::device_bond::DeviceBond;
 
 mod device_bridge;
-pub use self::device_bridge::{DeviceBridge, DeviceBridgeClass};
+pub use self::device_bridge::DeviceBridge;
 
 mod device_bt;
-pub use self::device_bt::{DeviceBt, DeviceBtClass};
+pub use self::device_bt::DeviceBt;
 
 mod device_dummy;
-pub use self::device_dummy::{DeviceDummy, DeviceDummyClass};
+pub use self::device_dummy::DeviceDummy;
 
 mod device_ethernet;
-pub use self::device_ethernet::{DeviceEthernet, DeviceEthernetClass};
+pub use self::device_ethernet::{DeviceEthernet, NONE_DEVICE_ETHERNET};
 
 mod device_generic;
-pub use self::device_generic::{DeviceGeneric, DeviceGenericClass};
+pub use self::device_generic::DeviceGeneric;
 
 #[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 mod device_ip_tunnel;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-pub use self::device_ip_tunnel::{DeviceIPTunnel, DeviceIPTunnelClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+pub use self::device_ip_tunnel::DeviceIPTunnel;
 
 mod device_infiniband;
-pub use self::device_infiniband::{DeviceInfiniband, DeviceInfinibandClass};
+pub use self::device_infiniband::DeviceInfiniband;
 
 #[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 mod device_macsec;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
-pub use self::device_macsec::{DeviceMacsec, DeviceMacsecClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
+pub use self::device_macsec::DeviceMacsec;
 
 #[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 mod device_macvlan;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-pub use self::device_macvlan::{DeviceMacvlan, DeviceMacvlanClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+pub use self::device_macvlan::DeviceMacvlan;
 
 mod device_modem;
-pub use self::device_modem::{DeviceModem, DeviceModemClass};
+pub use self::device_modem::DeviceModem;
 
 mod device_olpc_mesh;
-pub use self::device_olpc_mesh::{DeviceOlpcMesh, DeviceOlpcMeshClass};
+pub use self::device_olpc_mesh::DeviceOlpcMesh;
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 mod device_ovs_bridge;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-pub use self::device_ovs_bridge::{DeviceOvsBridge, DeviceOvsBridgeClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+pub use self::device_ovs_bridge::DeviceOvsBridge;
 
 mod device_ovs_interface;
-pub use self::device_ovs_interface::{DeviceOvsInterface, DeviceOvsInterfaceClass};
+pub use self::device_ovs_interface::DeviceOvsInterface;
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 mod device_ovs_port;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-pub use self::device_ovs_port::{DeviceOvsPort, DeviceOvsPortClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+pub use self::device_ovs_port::DeviceOvsPort;
 
 mod device_ppp;
-pub use self::device_ppp::{DevicePpp, DevicePppClass};
+pub use self::device_ppp::DevicePpp;
 
 mod device_team;
-pub use self::device_team::{DeviceTeam, DeviceTeamClass};
+pub use self::device_team::DeviceTeam;
 
 mod device_tun;
-pub use self::device_tun::{DeviceTun, DeviceTunClass};
+pub use self::device_tun::DeviceTun;
+
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
+mod device_veth;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
+pub use self::device_veth::DeviceVeth;
 
 mod device_vlan;
-pub use self::device_vlan::{DeviceVlan, DeviceVlanClass};
+pub use self::device_vlan::DeviceVlan;
 
 #[cfg(any(feature = "v1_24", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
 mod device_vrf;
 #[cfg(any(feature = "v1_24", feature = "dox"))]
-pub use self::device_vrf::{DeviceVrf, DeviceVrfClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
+pub use self::device_vrf::DeviceVrf;
 
 #[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 mod device_vxlan;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-pub use self::device_vxlan::{DeviceVxlan, DeviceVxlanClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+pub use self::device_vxlan::DeviceVxlan;
 
 mod device_wifi;
-pub use self::device_wifi::{DeviceWifi, DeviceWifiClass};
+pub use self::device_wifi::DeviceWifi;
 
 #[cfg(any(feature = "v1_16", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
 mod device_wifi_p2p;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
-pub use self::device_wifi_p2p::{DeviceWifiP2P, DeviceWifiP2PClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
+pub use self::device_wifi_p2p::DeviceWifiP2P;
 
+#[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
 mod device_wimax;
-pub use self::device_wimax::{DeviceWimax, DeviceWimaxClass};
+#[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
+pub use self::device_wimax::DeviceWimax;
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 mod device_wire_guard;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-pub use self::device_wire_guard::{DeviceWireGuard, DeviceWireGuardClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+pub use self::device_wire_guard::DeviceWireGuard;
 
 mod device_wpan;
-pub use self::device_wpan::{DeviceWpan, DeviceWpanClass};
+pub use self::device_wpan::DeviceWpan;
 
 mod dhcp_config;
-pub use self::dhcp_config::{DhcpConfig, DhcpConfigClass};
+pub use self::dhcp_config::DhcpConfig;
 
 mod ip_config;
-pub use self::ip_config::{IPConfig, IPConfigClass};
+pub use self::ip_config::IPConfig;
 
 mod object;
-pub use self::object::ObjectExt;
-pub use self::object::{Object, ObjectClass, NONE_OBJECT};
+pub use self::object::{Object, NONE_OBJECT};
 
 mod remote_connection;
-pub use self::remote_connection::{RemoteConnection, RemoteConnectionClass};
+pub use self::remote_connection::RemoteConnection;
 
 mod secret_agent_old;
-pub use self::secret_agent_old::SecretAgentOldExt;
-pub use self::secret_agent_old::{SecretAgentOld, SecretAgentOldClass, NONE_SECRET_AGENT_OLD};
+pub use self::secret_agent_old::SecretAgentOld;
 
 mod setting;
-pub use self::setting::SettingExt;
-pub use self::setting::{Setting, SettingClass, NONE_SETTING};
+pub use self::setting::{Setting, NONE_SETTING};
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 mod setting6_lowpan;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-pub use self::setting6_lowpan::{Setting6Lowpan, Setting6LowpanClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+pub use self::setting6_lowpan::Setting6Lowpan;
 
 mod setting8021x;
-pub use self::setting8021x::Setting8021xExt;
-pub use self::setting8021x::{Setting8021x, Setting8021xClass, NONE_SETTING8021X};
+pub use self::setting8021x::Setting8021x;
 
 mod setting_adsl;
-pub use self::setting_adsl::SettingAdslExt;
-pub use self::setting_adsl::{SettingAdsl, SettingAdslClass, NONE_SETTING_ADSL};
+pub use self::setting_adsl::SettingAdsl;
 
 mod setting_bluetooth;
-pub use self::setting_bluetooth::SettingBluetoothExt;
-pub use self::setting_bluetooth::{
-    SettingBluetooth, SettingBluetoothClass, NONE_SETTING_BLUETOOTH,
-};
+pub use self::setting_bluetooth::SettingBluetooth;
 
 mod setting_bond;
-pub use self::setting_bond::SettingBondExt;
-pub use self::setting_bond::{SettingBond, SettingBondClass, NONE_SETTING_BOND};
+pub use self::setting_bond::SettingBond;
 
 mod setting_bridge;
-pub use self::setting_bridge::{SettingBridge, SettingBridgeClass};
+pub use self::setting_bridge::SettingBridge;
 
 mod setting_bridge_port;
-pub use self::setting_bridge_port::SettingBridgePortExt;
-pub use self::setting_bridge_port::{
-    SettingBridgePort, SettingBridgePortClass, NONE_SETTING_BRIDGE_PORT,
-};
+pub use self::setting_bridge_port::SettingBridgePort;
 
 mod setting_cdma;
-pub use self::setting_cdma::SettingCdmaExt;
-pub use self::setting_cdma::{SettingCdma, SettingCdmaClass, NONE_SETTING_CDMA};
+pub use self::setting_cdma::SettingCdma;
 
 mod setting_connection;
-pub use self::setting_connection::SettingConnectionExt;
-pub use self::setting_connection::{
-    SettingConnection, SettingConnectionClass, NONE_SETTING_CONNECTION,
-};
+pub use self::setting_connection::SettingConnection;
 
 mod setting_dcb;
-pub use self::setting_dcb::SettingDcbExt;
-pub use self::setting_dcb::{SettingDcb, SettingDcbClass, NONE_SETTING_DCB};
+pub use self::setting_dcb::SettingDcb;
 
 #[cfg(any(feature = "v1_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 mod setting_dummy;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
-pub use self::setting_dummy::{SettingDummy, SettingDummyClass, NONE_SETTING_DUMMY};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
+pub use self::setting_dummy::SettingDummy;
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 mod setting_ethtool;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-pub use self::setting_ethtool::{SettingEthtool, SettingEthtoolClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+pub use self::setting_ethtool::SettingEthtool;
 
 mod setting_generic;
-pub use self::setting_generic::{SettingGeneric, SettingGenericClass, NONE_SETTING_GENERIC};
+pub use self::setting_generic::SettingGeneric;
 
 mod setting_gsm;
-pub use self::setting_gsm::SettingGsmExt;
-pub use self::setting_gsm::{SettingGsm, SettingGsmClass, NONE_SETTING_GSM};
+pub use self::setting_gsm::SettingGsm;
+
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
+mod setting_hostname;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
+pub use self::setting_hostname::SettingHostname;
 
 mod setting_ip4_config;
-pub use self::setting_ip4_config::SettingIP4ConfigExt;
-pub use self::setting_ip4_config::{
-    SettingIP4Config, SettingIP4ConfigClass, NONE_SETTING_IP4_CONFIG,
-};
+pub use self::setting_ip4_config::SettingIP4Config;
 
 mod setting_ip6_config;
-pub use self::setting_ip6_config::SettingIP6ConfigExt;
-pub use self::setting_ip6_config::{
-    SettingIP6Config, SettingIP6ConfigClass, NONE_SETTING_IP6_CONFIG,
-};
+pub use self::setting_ip6_config::SettingIP6Config;
 
 mod setting_ip_config;
-pub use self::setting_ip_config::SettingIPConfigExt;
-pub use self::setting_ip_config::{SettingIPConfig, SettingIPConfigClass, NONE_SETTING_IP_CONFIG};
+pub use self::setting_ip_config::{SettingIPConfig, NONE_SETTING_IP_CONFIG};
 
 mod setting_ip_tunnel;
-pub use self::setting_ip_tunnel::SettingIPTunnelExt;
-pub use self::setting_ip_tunnel::{SettingIPTunnel, SettingIPTunnelClass, NONE_SETTING_IP_TUNNEL};
+pub use self::setting_ip_tunnel::SettingIPTunnel;
 
 mod setting_infiniband;
-pub use self::setting_infiniband::SettingInfinibandExt;
-pub use self::setting_infiniband::{
-    SettingInfiniband, SettingInfinibandClass, NONE_SETTING_INFINIBAND,
-};
+pub use self::setting_infiniband::SettingInfiniband;
 
 #[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 mod setting_macsec;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
-pub use self::setting_macsec::SettingMacsecExt;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-pub use self::setting_macsec::{SettingMacsec, SettingMacsecClass, NONE_SETTING_MACSEC};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
+pub use self::setting_macsec::SettingMacsec;
 
 #[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 mod setting_macvlan;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-pub use self::setting_macvlan::SettingMacvlanExt;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-pub use self::setting_macvlan::{SettingMacvlan, SettingMacvlanClass, NONE_SETTING_MACVLAN};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+pub use self::setting_macvlan::SettingMacvlan;
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 mod setting_match;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-pub use self::setting_match::{SettingMatch, SettingMatchClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+pub use self::setting_match::SettingMatch;
 
 mod setting_olpc_mesh;
-pub use self::setting_olpc_mesh::SettingOlpcMeshExt;
-pub use self::setting_olpc_mesh::{SettingOlpcMesh, SettingOlpcMeshClass, NONE_SETTING_OLPC_MESH};
+pub use self::setting_olpc_mesh::SettingOlpcMesh;
 
 #[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 mod setting_ovs_bridge;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
-pub use self::setting_ovs_bridge::{SettingOvsBridge, SettingOvsBridgeClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+pub use self::setting_ovs_bridge::SettingOvsBridge;
 
 #[cfg(any(feature = "v1_20", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 mod setting_ovs_dpdk;
 #[cfg(any(feature = "v1_20", feature = "dox"))]
-pub use self::setting_ovs_dpdk::{SettingOvsDpdk, SettingOvsDpdkClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
+pub use self::setting_ovs_dpdk::SettingOvsDpdk;
+
+mod setting_ovs_external_ids;
+pub use self::setting_ovs_external_ids::SettingOvsExternalIDs;
 
 #[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 mod setting_ovs_interface;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
-pub use self::setting_ovs_interface::{SettingOvsInterface, SettingOvsInterfaceClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+pub use self::setting_ovs_interface::SettingOvsInterface;
 
 #[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 mod setting_ovs_patch;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
-pub use self::setting_ovs_patch::{SettingOvsPatch, SettingOvsPatchClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+pub use self::setting_ovs_patch::SettingOvsPatch;
 
 #[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 mod setting_ovs_port;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
-pub use self::setting_ovs_port::{SettingOvsPort, SettingOvsPortClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+pub use self::setting_ovs_port::SettingOvsPort;
 
 mod setting_ppp;
-pub use self::setting_ppp::SettingPppExt;
-pub use self::setting_ppp::{SettingPpp, SettingPppClass, NONE_SETTING_PPP};
+pub use self::setting_ppp::SettingPpp;
 
 mod setting_pppoe;
-pub use self::setting_pppoe::SettingPppoeExt;
-pub use self::setting_pppoe::{SettingPppoe, SettingPppoeClass, NONE_SETTING_PPPOE};
+pub use self::setting_pppoe::SettingPppoe;
 
 #[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 mod setting_proxy;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
-pub use self::setting_proxy::SettingProxyExt;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-pub use self::setting_proxy::{SettingProxy, SettingProxyClass, NONE_SETTING_PROXY};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
+pub use self::setting_proxy::SettingProxy;
 
 mod setting_serial;
-pub use self::setting_serial::SettingSerialExt;
-pub use self::setting_serial::{SettingSerial, SettingSerialClass, NONE_SETTING_SERIAL};
+pub use self::setting_serial::SettingSerial;
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 mod setting_sriov;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-pub use self::setting_sriov::{SettingSriov, SettingSriovClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+pub use self::setting_sriov::SettingSriov;
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 mod setting_tc_config;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-pub use self::setting_tc_config::{SettingTCConfig, SettingTCConfigClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+pub use self::setting_tc_config::SettingTCConfig;
 
 mod setting_team;
-pub use self::setting_team::SettingTeamExt;
-pub use self::setting_team::{SettingTeam, SettingTeamClass, NONE_SETTING_TEAM};
+pub use self::setting_team::SettingTeam;
 
 mod setting_team_port;
-pub use self::setting_team_port::SettingTeamPortExt;
-pub use self::setting_team_port::{SettingTeamPort, SettingTeamPortClass, NONE_SETTING_TEAM_PORT};
+pub use self::setting_team_port::SettingTeamPort;
 
 #[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 mod setting_tun;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-pub use self::setting_tun::SettingTunExt;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-pub use self::setting_tun::{SettingTun, SettingTunClass, NONE_SETTING_TUN};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+pub use self::setting_tun::SettingTun;
 
 mod setting_user;
-pub use self::setting_user::{SettingUser, SettingUserClass};
+pub use self::setting_user::SettingUser;
+
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
+mod setting_veth;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
+pub use self::setting_veth::SettingVeth;
 
 mod setting_vlan;
-pub use self::setting_vlan::SettingVlanExt;
-pub use self::setting_vlan::{SettingVlan, SettingVlanClass, NONE_SETTING_VLAN};
+pub use self::setting_vlan::SettingVlan;
 
 mod setting_vpn;
-pub use self::setting_vpn::SettingVpnExt;
-pub use self::setting_vpn::{SettingVpn, SettingVpnClass, NONE_SETTING_VPN};
+pub use self::setting_vpn::SettingVpn;
 
 #[cfg(any(feature = "v1_24", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
 mod setting_vrf;
 #[cfg(any(feature = "v1_24", feature = "dox"))]
-pub use self::setting_vrf::{SettingVrf, SettingVrfClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
+pub use self::setting_vrf::SettingVrf;
 
 #[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 mod setting_vxlan;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-pub use self::setting_vxlan::SettingVxlanExt;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-pub use self::setting_vxlan::{SettingVxlan, SettingVxlanClass, NONE_SETTING_VXLAN};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+pub use self::setting_vxlan::SettingVxlan;
 
 #[cfg(any(feature = "v1_16", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
 mod setting_wifi_p2p;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
-pub use self::setting_wifi_p2p::{SettingWifiP2P, SettingWifiP2PClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
+pub use self::setting_wifi_p2p::SettingWifiP2P;
 
+#[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
 mod setting_wimax;
-pub use self::setting_wimax::SettingWimaxExt;
-pub use self::setting_wimax::{SettingWimax, SettingWimaxClass, NONE_SETTING_WIMAX};
+#[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+pub use self::setting_wimax::SettingWimax;
 
 #[cfg(any(feature = "v1_16", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
 mod setting_wire_guard;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
-pub use self::setting_wire_guard::{SettingWireGuard, SettingWireGuardClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
+pub use self::setting_wire_guard::SettingWireGuard;
 
 mod setting_wired;
-pub use self::setting_wired::SettingWiredExt;
-pub use self::setting_wired::{SettingWired, SettingWiredClass, NONE_SETTING_WIRED};
+pub use self::setting_wired::SettingWired;
 
 mod setting_wireless;
-pub use self::setting_wireless::SettingWirelessExt;
-pub use self::setting_wireless::{SettingWireless, SettingWirelessClass, NONE_SETTING_WIRELESS};
+pub use self::setting_wireless::SettingWireless;
 
 mod setting_wireless_security;
-pub use self::setting_wireless_security::SettingWirelessSecurityExt;
-pub use self::setting_wireless_security::{
-    SettingWirelessSecurity, SettingWirelessSecurityClass, NONE_SETTING_WIRELESS_SECURITY,
-};
+pub use self::setting_wireless_security::SettingWirelessSecurity;
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 mod setting_wpan;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
-pub use self::setting_wpan::{SettingWpan, SettingWpanClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+pub use self::setting_wpan::SettingWpan;
 
 mod simple_connection;
-pub use self::simple_connection::{
-    SimpleConnection, SimpleConnectionClass, NONE_SIMPLE_CONNECTION,
-};
+pub use self::simple_connection::SimpleConnection;
 
 mod vpn_connection;
-pub use self::vpn_connection::{VpnConnection, VpnConnectionClass};
+pub use self::vpn_connection::VpnConnection;
 
 mod vpn_editor;
-pub use self::vpn_editor::VpnEditorExt;
 pub use self::vpn_editor::{VpnEditor, NONE_VPN_EDITOR};
 
 mod vpn_editor_plugin;
-pub use self::vpn_editor_plugin::VpnEditorPluginExt;
 pub use self::vpn_editor_plugin::{VpnEditorPlugin, NONE_VPN_EDITOR_PLUGIN};
 
 #[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 mod vpn_plugin_info;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-pub use self::vpn_plugin_info::{VpnPluginInfo, VpnPluginInfoClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+pub use self::vpn_plugin_info::VpnPluginInfo;
 
+#[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
 mod vpn_plugin_old;
-pub use self::vpn_plugin_old::VpnPluginOldExt;
-pub use self::vpn_plugin_old::{VpnPluginOld, VpnPluginOldClass, NONE_VPN_PLUGIN_OLD};
+#[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+pub use self::vpn_plugin_old::VpnPluginOld;
 
 mod vpn_service_plugin;
-pub use self::vpn_service_plugin::VpnServicePluginExt;
-pub use self::vpn_service_plugin::{
-    VpnServicePlugin, VpnServicePluginClass, NONE_VPN_SERVICE_PLUGIN,
-};
+pub use self::vpn_service_plugin::VpnServicePlugin;
 
 #[cfg(any(feature = "v1_16", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
 mod wifi_p2p_peer;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
-pub use self::wifi_p2p_peer::{WifiP2PPeer, WifiP2PPeerClass};
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
+pub use self::wifi_p2p_peer::WifiP2PPeer;
 
+#[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
 mod wimax_nsp;
-pub use self::wimax_nsp::{WimaxNsp, WimaxNspClass};
+#[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
+pub use self::wimax_nsp::WimaxNsp;
 
 #[cfg(any(feature = "v1_18", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
 mod bridge_vlan;
 #[cfg(any(feature = "v1_18", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
 pub use self::bridge_vlan::BridgeVlan;
 
 #[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 mod dns_entry;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 pub use self::dns_entry::DnsEntry;
 
 mod ip_address;
@@ -481,46 +515,65 @@ mod ip_route;
 pub use self::ip_route::IPRoute;
 
 #[cfg(any(feature = "v1_18", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
 mod ip_routing_rule;
 #[cfg(any(feature = "v1_18", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
 pub use self::ip_routing_rule::IPRoutingRule;
 
 #[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 mod lldp_neighbor;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 pub use self::lldp_neighbor::LldpNeighbor;
 
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 mod sriov_vf;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 pub use self::sriov_vf::SriovVF;
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 mod tc_action;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 pub use self::tc_action::TCAction;
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 mod tc_qdisc;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 pub use self::tc_qdisc::TCQdisc;
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 mod tc_tfilter;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 pub use self::tc_tfilter::TCTfilter;
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 mod team_link_watcher;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 pub use self::team_link_watcher::TeamLinkWatcher;
 
 #[cfg(any(feature = "v1_16", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
 mod wire_guard_peer;
 #[cfg(any(feature = "v1_16", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
 pub use self::wire_guard_peer::WireGuardPeer;
 
 mod enums;
 pub use self::enums::ActiveConnectionState;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 pub use self::enums::ActiveConnectionStateReason;
 pub use self::enums::AgentManagerError;
 pub use self::enums::Capability;
@@ -529,6 +582,7 @@ pub use self::enums::ClientPermission;
 pub use self::enums::ClientPermissionResult;
 pub use self::enums::ConnectionError;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 pub use self::enums::ConnectionMultiConnect;
 pub use self::enums::ConnectivityState;
 pub use self::enums::CryptoError;
@@ -537,11 +591,20 @@ pub use self::enums::DeviceState;
 pub use self::enums::DeviceStateReason;
 pub use self::enums::DeviceType;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 pub use self::enums::IPTunnelMode;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
+pub use self::enums::KeyfileHandlerType;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
+pub use self::enums::KeyfileWarnSeverity;
 pub use self::enums::ManagerError;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 pub use self::enums::Metered;
 #[cfg(any(feature = "v1_4", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
 pub use self::enums::RollbackResult;
 pub use self::enums::SecretAgentError;
 pub use self::enums::Setting8021xCKFormat;
@@ -550,32 +613,41 @@ pub use self::enums::SettingCompareFlags;
 pub use self::enums::SettingConnectionAutoconnectSlaves;
 pub use self::enums::SettingConnectionLldp;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 pub use self::enums::SettingConnectionLlmnr;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 pub use self::enums::SettingConnectionMdns;
 pub use self::enums::SettingDiffResult;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 pub use self::enums::SettingIP6ConfigAddrGenMode;
 pub use self::enums::SettingIP6ConfigPrivacy;
 pub use self::enums::SettingMacRandomization;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 pub use self::enums::SettingMacsecMode;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 pub use self::enums::SettingMacsecValidation;
 pub use self::enums::SettingMacvlanMode;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 pub use self::enums::SettingProxyMethod;
 pub use self::enums::SettingSerialParity;
 pub use self::enums::SettingTunMode;
 pub use self::enums::SettingWirelessPowersave;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 pub use self::enums::SettingWirelessSecurityFils;
 pub use self::enums::SettingWirelessSecurityPmf;
 pub use self::enums::SettingsError;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 pub use self::enums::SriovVFVlanProtocol;
 pub use self::enums::State;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 pub use self::enums::Ternary;
 pub use self::enums::UtilsSecurityType;
 pub use self::enums::VlanPriorityMap;
@@ -590,44 +662,62 @@ pub use self::enums::_80211Mode;
 
 mod flags;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 pub use self::flags::ActivationStateFlags;
 pub use self::flags::BluetoothCapabilities;
 #[cfg(any(feature = "v1_4", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
 pub use self::flags::CheckpointCreateFlags;
 #[cfg(any(feature = "v1_24", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
 pub use self::flags::ClientInstanceFlags;
 pub use self::flags::ConnectionSerializationFlags;
 pub use self::flags::DeviceCapabilities;
 #[cfg(any(feature = "v1_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 pub use self::flags::DeviceInterfaceFlags;
 pub use self::flags::DeviceModemCapabilities;
 pub use self::flags::DeviceWifiCapabilities;
 #[cfg(any(feature = "v1_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 pub use self::flags::DhcpHostnameFlags;
 #[cfg(any(feature = "v1_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 pub use self::flags::IPAddressCmpFlags;
 #[cfg(any(feature = "v1_18", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
 pub use self::flags::IPRoutingRuleAsStringFlags;
 pub use self::flags::IPTunnelFlags;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
+pub use self::flags::KeyfileHandlerFlags;
 #[cfg(any(feature = "v1_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 pub use self::flags::ManagerReloadFlags;
 pub use self::flags::SecretAgentCapabilities;
 pub use self::flags::SecretAgentGetSecretsFlags;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 pub use self::flags::Setting8021xAuthFlags;
 pub use self::flags::SettingDcbFlags;
 pub use self::flags::SettingSecretFlags;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 pub use self::flags::SettingWiredWakeOnLan;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 pub use self::flags::SettingWirelessSecurityWpsMethod;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 pub use self::flags::SettingWirelessWakeOnWLan;
 #[cfg(any(feature = "v1_20", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 pub use self::flags::SettingsAddConnection2Flags;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 pub use self::flags::SettingsConnectionFlags;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 pub use self::flags::SettingsUpdate2Flags;
 pub use self::flags::TeamLinkWatcherArpPingFlags;
 pub use self::flags::VlanFlags;
@@ -855,6 +945,7 @@ pub use self::constants::DEVICE_TUN_OWNER;
 pub use self::constants::DEVICE_TUN_VNET_HDR;
 pub use self::constants::DEVICE_UDI;
 pub use self::constants::DEVICE_VENDOR;
+pub use self::constants::DEVICE_VETH_PEER;
 pub use self::constants::DEVICE_VLAN_CARRIER;
 pub use self::constants::DEVICE_VLAN_HW_ADDRESS;
 pub use self::constants::DEVICE_VLAN_PARENT;
@@ -935,6 +1026,7 @@ pub use self::constants::ETHTOOL_OPTNAME_FEATURE_HW_TC_OFFLOAD;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_L2_FWD_OFFLOAD;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_LOOPBACK;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_LRO;
+pub use self::constants::ETHTOOL_OPTNAME_FEATURE_MACSEC_HW_OFFLOAD;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_NTUPLE;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_RX;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_RXHASH;
@@ -942,12 +1034,15 @@ pub use self::constants::ETHTOOL_OPTNAME_FEATURE_RXVLAN;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_RX_ALL;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_RX_FCS;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_RX_GRO_HW;
+pub use self::constants::ETHTOOL_OPTNAME_FEATURE_RX_GRO_LIST;
+pub use self::constants::ETHTOOL_OPTNAME_FEATURE_RX_UDP_GRO_FORWARDING;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_RX_UDP_TUNNEL_PORT_OFFLOAD;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_RX_VLAN_FILTER;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_FILTER;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_HW_PARSE;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_SG;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TLS_HW_RECORD;
+pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TLS_HW_RX_OFFLOAD;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TLS_HW_TX_OFFLOAD;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TSO;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX;
@@ -961,6 +1056,7 @@ pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_ESP_SEGMENTATION;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_FCOE_SEGMENTATION;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_GRE_CSUM_SEGMENTATION;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_GRE_SEGMENTATION;
+pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_GSO_LIST;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_GSO_PARTIAL;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_GSO_ROBUST;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_IPXIP4_SEGMENTATION;
@@ -973,6 +1069,7 @@ pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_TCP6_SEGMENTATION;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_TCP_ECN_SEGMENTATION;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_TCP_MANGLEID_SEGMENTATION;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_TCP_SEGMENTATION;
+pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_TUNNEL_REMCSUM_SEGMENTATION;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_UDP_SEGMENTATION;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_CSUM_SEGMENTATION;
 pub use self::constants::ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_SEGMENTATION;
@@ -1262,6 +1359,11 @@ pub use self::constants::SETTING_GSM_SETTING_NAME;
 pub use self::constants::SETTING_GSM_SIM_ID;
 pub use self::constants::SETTING_GSM_SIM_OPERATOR_ID;
 pub use self::constants::SETTING_GSM_USERNAME;
+pub use self::constants::SETTING_HOSTNAME_FROM_DHCP;
+pub use self::constants::SETTING_HOSTNAME_FROM_DNS_LOOKUP;
+pub use self::constants::SETTING_HOSTNAME_ONLY_FROM_DEFAULT;
+pub use self::constants::SETTING_HOSTNAME_PRIORITY;
+pub use self::constants::SETTING_HOSTNAME_SETTING_NAME;
 pub use self::constants::SETTING_INFINIBAND_MAC_ADDRESS;
 pub use self::constants::SETTING_INFINIBAND_MTU;
 pub use self::constants::SETTING_INFINIBAND_PARENT;
@@ -1283,6 +1385,7 @@ pub use self::constants::SETTING_IP6_CONFIG_IP6_PRIVACY;
 pub use self::constants::SETTING_IP6_CONFIG_METHOD_AUTO;
 pub use self::constants::SETTING_IP6_CONFIG_METHOD_DHCP;
 #[cfg(any(feature = "v1_20", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 pub use self::constants::SETTING_IP6_CONFIG_METHOD_DISABLED;
 pub use self::constants::SETTING_IP6_CONFIG_METHOD_IGNORE;
 pub use self::constants::SETTING_IP6_CONFIG_METHOD_LINK_LOCAL;
@@ -1296,6 +1399,7 @@ pub use self::constants::SETTING_IP_CONFIG_DAD_TIMEOUT;
 pub use self::constants::SETTING_IP_CONFIG_DHCP_HOSTNAME;
 pub use self::constants::SETTING_IP_CONFIG_DHCP_HOSTNAME_FLAGS;
 pub use self::constants::SETTING_IP_CONFIG_DHCP_IAID;
+pub use self::constants::SETTING_IP_CONFIG_DHCP_REJECT_SERVERS;
 pub use self::constants::SETTING_IP_CONFIG_DHCP_SEND_HOSTNAME;
 pub use self::constants::SETTING_IP_CONFIG_DHCP_TIMEOUT;
 pub use self::constants::SETTING_IP_CONFIG_DNS;
@@ -1359,6 +1463,8 @@ pub use self::constants::SETTING_OVS_BRIDGE_SETTING_NAME;
 pub use self::constants::SETTING_OVS_BRIDGE_STP_ENABLE;
 pub use self::constants::SETTING_OVS_DPDK_DEVARGS;
 pub use self::constants::SETTING_OVS_DPDK_SETTING_NAME;
+pub use self::constants::SETTING_OVS_EXTERNAL_IDS_DATA;
+pub use self::constants::SETTING_OVS_EXTERNAL_IDS_SETTING_NAME;
 pub use self::constants::SETTING_OVS_INTERFACE_SETTING_NAME;
 pub use self::constants::SETTING_OVS_INTERFACE_TYPE;
 pub use self::constants::SETTING_OVS_PATCH_PEER;
@@ -1461,6 +1567,8 @@ pub use self::constants::SETTING_TUN_SETTING_NAME;
 pub use self::constants::SETTING_TUN_VNET_HDR;
 pub use self::constants::SETTING_USER_DATA;
 pub use self::constants::SETTING_USER_SETTING_NAME;
+pub use self::constants::SETTING_VETH_PEER;
+pub use self::constants::SETTING_VETH_SETTING_NAME;
 pub use self::constants::SETTING_VLAN_EGRESS_PRIORITY_MAP;
 pub use self::constants::SETTING_VLAN_FLAGS;
 pub use self::constants::SETTING_VLAN_ID;
@@ -1525,6 +1633,7 @@ pub use self::constants::SETTING_WIREGUARD_PEER_ROUTES;
 pub use self::constants::SETTING_WIREGUARD_PRIVATE_KEY;
 pub use self::constants::SETTING_WIREGUARD_PRIVATE_KEY_FLAGS;
 pub use self::constants::SETTING_WIREGUARD_SETTING_NAME;
+pub use self::constants::SETTING_WIRELESS_AP_ISOLATION;
 pub use self::constants::SETTING_WIRELESS_BAND;
 pub use self::constants::SETTING_WIRELESS_BSSID;
 pub use self::constants::SETTING_WIRELESS_CHANNEL;
@@ -1539,6 +1648,7 @@ pub use self::constants::SETTING_WIRELESS_MODE_ADHOC;
 pub use self::constants::SETTING_WIRELESS_MODE_AP;
 pub use self::constants::SETTING_WIRELESS_MODE_INFRA;
 #[cfg(any(feature = "v1_20", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 pub use self::constants::SETTING_WIRELESS_MODE_MESH;
 pub use self::constants::SETTING_WIRELESS_MTU;
 pub use self::constants::SETTING_WIRELESS_POWERSAVE;
@@ -1654,50 +1764,13 @@ pub use self::constants::WIREGUARD_PEER_ATTR_PUBLIC_KEY;
 
 #[doc(hidden)]
 pub mod traits {
-    pub use super::ActiveConnectionExt;
-    pub use super::ConnectionExt;
-    pub use super::DeviceExt;
-    pub use super::ObjectExt;
-    pub use super::SecretAgentOldExt;
-    pub use super::Setting8021xExt;
-    pub use super::SettingAdslExt;
-    pub use super::SettingBluetoothExt;
-    pub use super::SettingBondExt;
-    pub use super::SettingBridgePortExt;
-    pub use super::SettingCdmaExt;
-    pub use super::SettingConnectionExt;
-    pub use super::SettingDcbExt;
-    pub use super::SettingExt;
-    pub use super::SettingGsmExt;
-    pub use super::SettingIP4ConfigExt;
-    pub use super::SettingIP6ConfigExt;
-    pub use super::SettingIPConfigExt;
-    pub use super::SettingIPTunnelExt;
-    pub use super::SettingInfinibandExt;
-    #[cfg(any(feature = "v1_6", feature = "dox"))]
-    pub use super::SettingMacsecExt;
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    pub use super::SettingMacvlanExt;
-    pub use super::SettingOlpcMeshExt;
-    pub use super::SettingPppExt;
-    pub use super::SettingPppoeExt;
-    #[cfg(any(feature = "v1_6", feature = "dox"))]
-    pub use super::SettingProxyExt;
-    pub use super::SettingSerialExt;
-    pub use super::SettingTeamExt;
-    pub use super::SettingTeamPortExt;
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    pub use super::SettingTunExt;
-    pub use super::SettingVlanExt;
-    pub use super::SettingVpnExt;
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    pub use super::SettingVxlanExt;
-    pub use super::SettingWimaxExt;
-    pub use super::SettingWiredExt;
-    pub use super::SettingWirelessExt;
-    pub use super::SettingWirelessSecurityExt;
-    pub use super::VpnEditorExt;
-    pub use super::VpnEditorPluginExt;
-    pub use super::VpnPluginOldExt;
-    pub use super::VpnServicePluginExt;
+    pub use super::active_connection::ActiveConnectionExt;
+    pub use super::connection::ConnectionExt;
+    pub use super::device::DeviceExt;
+    pub use super::device_ethernet::DeviceEthernetExt;
+    pub use super::object::ObjectExt;
+    pub use super::setting::SettingExt;
+    pub use super::setting_ip_config::SettingIPConfigExt;
+    pub use super::vpn_editor::VpnEditorExt;
+    pub use super::vpn_editor_plugin::VpnEditorPluginExt;
 }
