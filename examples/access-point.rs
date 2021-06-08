@@ -111,7 +111,7 @@ fn create_connection(interface: Option<&str>, opts: &Opts) -> Result<SimpleConne
     s_wireless.set_ssid(Some(&(opts.ssid.as_bytes().into())));
     s_wireless.set_band(Some("bg"));
     s_wireless.set_hidden(false);
-    s_wireless.set_mode(Some(&NM_SETTING_WIRELESS_MODE_AP));
+    s_wireless.set_mode(Some(&SETTING_WIRELESS_MODE_AP));
     connection.add_setting(&s_wireless);
 
     if let Some(password) = &opts.password {
