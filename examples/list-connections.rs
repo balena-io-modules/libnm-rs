@@ -1,5 +1,3 @@
-extern crate nm;
-
 mod common;
 
 use common::*;

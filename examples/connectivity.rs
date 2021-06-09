@@ -1,5 +1,3 @@
-extern crate nm;
-
 use nm::*;
 
 use anyhow::{Context, Result};
