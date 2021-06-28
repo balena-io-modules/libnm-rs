@@ -76,7 +76,6 @@ impl<O: IsA<Object>> ObjectExt for O {
         unsafe { from_glib_none(ffi::nm_object_get_path(self.as_ref().to_glib_none().0)) }
     }
 
-    #[doc(alias = "path")]
     fn connect_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_path_trampoline<P: IsA<Object>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMObject,
@@ -84,7 +83,7 @@ impl<O: IsA<Object>> ObjectExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Object::from_glib_borrow(this).unsafe_cast_ref())
+            f(Object::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);

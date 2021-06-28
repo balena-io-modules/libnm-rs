@@ -229,13 +229,10 @@ impl DeviceWifi {
     pub fn request_scan_async_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.request_scan_async(Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.request_scan_async(Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 
@@ -249,7 +246,7 @@ impl DeviceWifi {
     ///
     /// # Deprecated since 1.22
     ///
-    /// Use [`request_scan_options_async()`][Self::request_scan_options_async()] or GDBusConnection.
+    /// Use `nm_device_wifi_request_scan_options_async()` or GDBusConnection.
     /// ## `options`
     /// dictionary with options for RequestScan(), or [`None`]
     /// ## `cancellable`

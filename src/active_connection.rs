@@ -437,7 +437,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "state-changed")]
     fn connect_state_changed<F: Fn(&Self, u32, u32) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn state_changed_trampoline<
             P: IsA<ActiveConnection>,
@@ -450,7 +449,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         ) {
             let f: &F = &*(f as *const F);
             f(
-                &ActiveConnection::from_glib_borrow(this).unsafe_cast_ref(),
+                ActiveConnection::from_glib_borrow(this).unsafe_cast_ref(),
                 state,
                 reason,
             )
@@ -468,7 +467,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "connection")]
     fn connect_connection_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_connection_trampoline<
             P: IsA<ActiveConnection>,
@@ -479,7 +477,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -494,7 +492,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "default")]
     fn connect_default_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_default_trampoline<
             P: IsA<ActiveConnection>,
@@ -505,7 +502,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -520,7 +517,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "default6")]
     fn connect_default6_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_default6_trampoline<
             P: IsA<ActiveConnection>,
@@ -531,7 +527,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -546,7 +542,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "devices")]
     fn connect_devices_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_devices_trampoline<
             P: IsA<ActiveConnection>,
@@ -557,7 +552,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -572,7 +567,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "dhcp4-config")]
     fn connect_dhcp4_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dhcp4_config_trampoline<
             P: IsA<ActiveConnection>,
@@ -583,7 +577,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -598,7 +592,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "dhcp6-config")]
     fn connect_dhcp6_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dhcp6_config_trampoline<
             P: IsA<ActiveConnection>,
@@ -609,7 +602,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -624,7 +617,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "id")]
     fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_id_trampoline<P: IsA<ActiveConnection>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMActiveConnection,
@@ -632,7 +624,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -647,7 +639,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "ip4-config")]
     fn connect_ip4_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_ip4_config_trampoline<
             P: IsA<ActiveConnection>,
@@ -658,7 +649,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -673,7 +664,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "ip6-config")]
     fn connect_ip6_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_ip6_config_trampoline<
             P: IsA<ActiveConnection>,
@@ -684,7 +674,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -699,7 +689,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "master")]
     fn connect_master_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_master_trampoline<
             P: IsA<ActiveConnection>,
@@ -710,7 +699,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -725,7 +714,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "specific-object-path")]
     fn connect_specific_object_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_specific_object_path_trampoline<
             P: IsA<ActiveConnection>,
@@ -736,7 +724,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -751,7 +739,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "state")]
     fn connect_state_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_state_trampoline<
             P: IsA<ActiveConnection>,
@@ -762,7 +749,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -779,7 +766,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
 
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-    #[doc(alias = "state-flags")]
     fn connect_state_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_state_flags_trampoline<
             P: IsA<ActiveConnection>,
@@ -790,7 +776,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -805,7 +791,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "type")]
     fn connect_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_type_trampoline<
             P: IsA<ActiveConnection>,
@@ -816,7 +801,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -831,7 +816,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "uuid")]
     fn connect_uuid_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_uuid_trampoline<
             P: IsA<ActiveConnection>,
@@ -842,7 +826,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -857,7 +841,6 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    #[doc(alias = "vpn")]
     fn connect_vpn_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_vpn_trampoline<
             P: IsA<ActiveConnection>,
@@ -868,7 +851,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
+            f(ActiveConnection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);

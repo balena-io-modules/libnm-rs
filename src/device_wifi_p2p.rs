@@ -122,17 +122,14 @@ impl DeviceWifiP2P {
         options: Option<&glib::Variant>,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         let options = options.map(ToOwned::to_owned);
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
             obj.start_find(
                 options.as_ref().map(::std::borrow::Borrow::borrow),
-                Some(&cancellable),
+                Some(cancellable),
                 move |res| {
                     send.resolve(res);
                 },
             );
-
-            cancellable
         }))
     }
 
@@ -183,13 +180,10 @@ impl DeviceWifiP2P {
     pub fn stop_find_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.stop_find(Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.stop_find(Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 

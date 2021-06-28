@@ -127,13 +127,10 @@ impl RemoteConnection {
         &self,
         save_to_disk: bool,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.commit_changes_async(save_to_disk, Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.commit_changes_async(save_to_disk, Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 
@@ -216,13 +213,10 @@ impl RemoteConnection {
     pub fn delete_async_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.delete_async(Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.delete_async(Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 
@@ -351,13 +345,10 @@ impl RemoteConnection {
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<glib::Variant, glib::Error>> + 'static>>
     {
         let setting_name = String::from(setting_name);
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.secrets_async(&setting_name, Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.secrets_async(&setting_name, Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 
@@ -473,13 +464,10 @@ impl RemoteConnection {
     pub fn save_async_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.save_async(Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.save_async(Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 
@@ -552,19 +540,16 @@ impl RemoteConnection {
     {
         let settings = settings.map(ToOwned::to_owned);
         let args = args.map(ToOwned::to_owned);
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
             obj.update2(
                 settings.as_ref().map(::std::borrow::Borrow::borrow),
                 flags,
                 args.as_ref().map(::std::borrow::Borrow::borrow),
-                Some(&cancellable),
+                Some(cancellable),
                 move |res| {
                     send.resolve(res);
                 },
             );
-
-            cancellable
         }))
     }
 

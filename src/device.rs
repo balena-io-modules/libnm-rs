@@ -979,13 +979,10 @@ impl<O: IsA<Device>> DeviceExt for O {
     fn delete_async_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.delete_async(Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.delete_async(Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 
@@ -1048,13 +1045,10 @@ impl<O: IsA<Device>> DeviceExt for O {
     fn disconnect_async_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.disconnect_async(Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.disconnect_async(Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 
@@ -1156,13 +1150,10 @@ impl<O: IsA<Device>> DeviceExt for O {
         flags: u32,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(Connection, u64), glib::Error>> + 'static>>
     {
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.applied_connection_async(flags, Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.applied_connection_async(flags, Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 
@@ -1477,19 +1468,16 @@ impl<O: IsA<Device>> DeviceExt for O {
         flags: u32,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         let connection = connection.map(ToOwned::to_owned);
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
             obj.reapply_async(
                 connection.as_ref().map(::std::borrow::Borrow::borrow),
                 version_id,
                 flags,
-                Some(&cancellable),
+                Some(cancellable),
                 move |res| {
                     send.resolve(res);
                 },
             );
-
-            cancellable
         }))
     }
 
@@ -1577,7 +1565,6 @@ impl<O: IsA<Device>> DeviceExt for O {
     //    }
     //}
 
-    #[doc(alias = "state-changed")]
     fn connect_state_changed<F: Fn(&Self, u32, u32, u32) + 'static>(
         &self,
         f: F,
@@ -1594,7 +1581,7 @@ impl<O: IsA<Device>> DeviceExt for O {
         ) {
             let f: &F = &*(f as *const F);
             f(
-                &Device::from_glib_borrow(this).unsafe_cast_ref(),
+                Device::from_glib_borrow(this).unsafe_cast_ref(),
                 new_state,
                 old_state,
                 reason,
@@ -1613,7 +1600,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "active-connection")]
     fn connect_active_connection_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_active_connection_trampoline<
             P: IsA<Device>,
@@ -1624,7 +1610,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1639,7 +1625,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "autoconnect")]
     fn connect_autoconnect_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_autoconnect_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -1647,7 +1632,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1662,7 +1647,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "available-connections")]
     fn connect_available_connections_notify<F: Fn(&Self) + 'static>(
         &self,
         f: F,
@@ -1676,7 +1660,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1691,7 +1675,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "capabilities")]
     fn connect_capabilities_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_capabilities_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -1699,7 +1682,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1714,7 +1697,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "device-type")]
     fn connect_device_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_device_type_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -1722,7 +1704,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1737,7 +1719,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "dhcp4-config")]
     fn connect_dhcp4_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dhcp4_config_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -1745,7 +1726,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1760,7 +1741,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "dhcp6-config")]
     fn connect_dhcp6_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dhcp6_config_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -1768,7 +1748,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1783,7 +1763,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "driver")]
     fn connect_driver_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_driver_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -1791,7 +1770,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1806,7 +1785,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "driver-version")]
     fn connect_driver_version_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_driver_version_trampoline<
             P: IsA<Device>,
@@ -1817,7 +1795,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1832,7 +1810,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "firmware-missing")]
     fn connect_firmware_missing_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_firmware_missing_trampoline<
             P: IsA<Device>,
@@ -1843,7 +1820,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1858,7 +1835,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "firmware-version")]
     fn connect_firmware_version_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_firmware_version_trampoline<
             P: IsA<Device>,
@@ -1869,7 +1845,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1886,7 +1862,6 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
-    #[doc(alias = "hw-address")]
     fn connect_hw_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_hw_address_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -1894,7 +1869,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1909,7 +1884,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "interface")]
     fn connect_interface_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_interface_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -1917,7 +1891,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1934,7 +1908,6 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
-    #[doc(alias = "interface-flags")]
     fn connect_interface_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_interface_flags_trampoline<
             P: IsA<Device>,
@@ -1945,7 +1918,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1960,7 +1933,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "ip-interface")]
     fn connect_ip_interface_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_ip_interface_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -1968,7 +1940,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1983,7 +1955,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "ip4-config")]
     fn connect_ip4_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_ip4_config_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -1991,7 +1962,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2008,7 +1979,6 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
-    #[doc(alias = "ip4-connectivity")]
     fn connect_ip4_connectivity_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_ip4_connectivity_trampoline<
             P: IsA<Device>,
@@ -2019,7 +1989,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2034,7 +2004,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "ip6-config")]
     fn connect_ip6_config_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_ip6_config_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -2042,7 +2011,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2059,7 +2028,6 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
-    #[doc(alias = "ip6-connectivity")]
     fn connect_ip6_connectivity_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_ip6_connectivity_trampoline<
             P: IsA<Device>,
@@ -2070,7 +2038,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2085,7 +2053,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "lldp-neighbors")]
     fn connect_lldp_neighbors_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_lldp_neighbors_trampoline<
             P: IsA<Device>,
@@ -2096,7 +2063,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2111,7 +2078,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "managed")]
     fn connect_managed_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_managed_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -2119,7 +2085,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2136,7 +2102,6 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    #[doc(alias = "metered")]
     fn connect_metered_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_metered_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -2144,7 +2109,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2159,7 +2124,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "mtu")]
     fn connect_mtu_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_mtu_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -2167,7 +2131,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2184,7 +2148,6 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    #[doc(alias = "nm-plugin-missing")]
     fn connect_nm_plugin_missing_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_nm_plugin_missing_trampoline<
             P: IsA<Device>,
@@ -2195,7 +2158,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2212,7 +2175,6 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_26", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
-    #[doc(alias = "path")]
     fn connect_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_path_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -2220,7 +2182,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2235,7 +2197,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "physical-port-id")]
     fn connect_physical_port_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_physical_port_id_trampoline<
             P: IsA<Device>,
@@ -2246,7 +2207,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2261,7 +2222,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "product")]
     fn connect_product_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_product_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -2269,7 +2229,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2286,7 +2246,6 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    #[doc(alias = "real")]
     fn connect_real_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_real_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -2294,7 +2253,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2309,7 +2268,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "state")]
     fn connect_state_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_state_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -2317,7 +2275,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2332,7 +2290,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "state-reason")]
     fn connect_state_reason_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_state_reason_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -2340,7 +2297,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2355,7 +2312,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "udi")]
     fn connect_udi_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_udi_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -2363,7 +2319,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2378,7 +2334,6 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    #[doc(alias = "vendor")]
     fn connect_vendor_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_vendor_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMDevice,
@@ -2386,7 +2341,7 @@ impl<O: IsA<Device>> DeviceExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Device::from_glib_borrow(this).unsafe_cast_ref())
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);

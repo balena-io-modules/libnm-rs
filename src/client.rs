@@ -180,19 +180,16 @@ impl Client {
         let connection = connection.map(ToOwned::to_owned);
         let device = device.map(ToOwned::to_owned);
         let specific_object = specific_object.map(ToOwned::to_owned);
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
             obj.activate_connection_async(
                 connection.as_ref().map(::std::borrow::Borrow::borrow),
                 device.as_ref().map(::std::borrow::Borrow::borrow),
                 specific_object.as_ref().map(::std::borrow::Borrow::borrow),
-                Some(&cancellable),
+                Some(cancellable),
                 move |res| {
                     send.resolve(res);
                 },
             );
-
-            cancellable
         }))
     }
 
@@ -288,19 +285,16 @@ impl Client {
         let partial = partial.map(ToOwned::to_owned);
         let device = device.clone();
         let specific_object = specific_object.map(ToOwned::to_owned);
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
             obj.add_and_activate_connection_async(
                 partial.as_ref().map(::std::borrow::Borrow::borrow),
                 &device,
                 specific_object.as_ref().map(::std::borrow::Borrow::borrow),
-                Some(&cancellable),
+                Some(cancellable),
                 move |res| {
                     send.resolve(res);
                 },
             );
-
-            cancellable
         }))
     }
 
@@ -394,20 +388,17 @@ impl Client {
     > {
         let settings = settings.clone();
         let args = args.map(ToOwned::to_owned);
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
             obj.add_connection2(
                 &settings,
                 flags,
                 args.as_ref().map(::std::borrow::Borrow::borrow),
                 ignore_out_result,
-                Some(&cancellable),
+                Some(cancellable),
                 move |res| {
                     send.resolve(res);
                 },
             );
-
-            cancellable
         }))
     }
 
@@ -485,13 +476,10 @@ impl Client {
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<RemoteConnection, glib::Error>> + 'static>>
     {
         let connection = connection.clone();
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.add_connection_async(&connection, save_to_disk, Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.add_connection_async(&connection, save_to_disk, Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 
@@ -583,13 +571,10 @@ impl Client {
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<ConnectivityState, glib::Error>> + 'static>>
     {
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.check_connectivity_async(Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.check_connectivity_async(Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 
@@ -660,18 +645,15 @@ impl Client {
         add_timeout: u32,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         let checkpoint_path = String::from(checkpoint_path);
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
             obj.checkpoint_adjust_rollback_timeout(
                 &checkpoint_path,
                 add_timeout,
-                Some(&cancellable),
+                Some(cancellable),
                 move |res| {
                     send.resolve(res);
                 },
             );
-
-            cancellable
         }))
     }
 
@@ -732,13 +714,10 @@ impl Client {
         checkpoint_path: &str,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         let checkpoint_path = String::from(checkpoint_path);
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.checkpoint_destroy(&checkpoint_path, Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.checkpoint_destroy(&checkpoint_path, Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 
@@ -755,17 +734,14 @@ impl Client {
     //pub fn checkpoint_rollback_future(&self, checkpoint_path: &str) -> Pin<Box_<dyn std::future::Future<Output = Result</*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }, glib::Error>> + 'static>> {
 
     //let checkpoint_path = String::from(checkpoint_path);
-    //Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-    //    let cancellable = gio::Cancellable::new();
+    //Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
     //    obj.checkpoint_rollback(
     //        &checkpoint_path,
-    //        Some(&cancellable),
+    //        Some(cancellable),
     //        move |res| {
     //            send.resolve(res);
     //        },
     //    );
-
-    //    cancellable
     //}))
     //}
 
@@ -941,8 +917,7 @@ impl Client {
         let method_name = String::from(method_name);
         let parameters = parameters.map(ToOwned::to_owned);
         let reply_type = reply_type.map(ToOwned::to_owned);
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
             obj.dbus_call(
                 &object_path,
                 &interface_name,
@@ -950,13 +925,11 @@ impl Client {
                 parameters.as_ref().map(::std::borrow::Borrow::borrow),
                 reply_type.as_ref().map(::std::borrow::Borrow::borrow),
                 timeout_msec,
-                Some(&cancellable),
+                Some(cancellable),
                 move |res| {
                     send.resolve(res);
                 },
             );
-
-            cancellable
         }))
     }
 
@@ -1044,21 +1017,18 @@ impl Client {
         let interface_name = String::from(interface_name);
         let property_name = String::from(property_name);
         let value = value.clone();
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
             obj.dbus_set_property(
                 &object_path,
                 &interface_name,
                 &property_name,
                 &value,
                 timeout_msec,
-                Some(&cancellable),
+                Some(cancellable),
                 move |res| {
                     send.resolve(res);
                 },
             );
-
-            cancellable
         }))
     }
 
@@ -1155,13 +1125,10 @@ impl Client {
         active: &P,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         let active = active.clone();
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.deactivate_connection_async(&active, Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.deactivate_connection_async(&active, Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 
@@ -1771,13 +1738,10 @@ impl Client {
         &self,
         flags: ManagerReloadFlags,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.reload(flags, Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.reload(flags, Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 
@@ -1864,13 +1828,10 @@ impl Client {
     pub fn reload_connections_async_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
-            obj.reload_connections_async(Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.reload_connections_async(Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 
@@ -1966,17 +1927,14 @@ impl Client {
         hostname: Option<&str>,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         let hostname = hostname.map(ToOwned::to_owned);
-        Box_::pin(gio::GioFuture::new(self, move |obj, send| {
-            let cancellable = gio::Cancellable::new();
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
             obj.save_hostname_async(
                 hostname.as_ref().map(::std::borrow::Borrow::borrow),
-                Some(&cancellable),
+                Some(cancellable),
                 move |res| {
                     send.resolve(res);
                 },
             );
-
-            cancellable
         }))
     }
 
@@ -2509,13 +2467,10 @@ impl Client {
 
     pub fn new_async_future(
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<Client, glib::Error>> + 'static>> {
-        Box_::pin(gio::GioFuture::new(&(), move |_obj, send| {
-            let cancellable = gio::Cancellable::new();
-            Self::new_async(Some(&cancellable), move |res| {
+        Box_::pin(gio::GioFuture::new(&(), move |_obj, cancellable, send| {
+            Self::new_async(Some(cancellable), move |res| {
                 send.resolve(res);
             });
-
-            cancellable
         }))
     }
 

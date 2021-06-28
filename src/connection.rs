@@ -1359,14 +1359,13 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         }
     }
 
-    #[doc(alias = "changed")]
     fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn changed_trampoline<P: IsA<Connection>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMConnection,
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Connection::from_glib_borrow(this).unsafe_cast_ref())
+            f(Connection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1381,14 +1380,13 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         }
     }
 
-    #[doc(alias = "secrets-cleared")]
     fn connect_secrets_cleared<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn secrets_cleared_trampoline<P: IsA<Connection>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMConnection,
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Connection::from_glib_borrow(this).unsafe_cast_ref())
+            f(Connection::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1403,7 +1401,6 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         }
     }
 
-    #[doc(alias = "secrets-updated")]
     fn connect_secrets_updated<F: Fn(&Self, &str) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn secrets_updated_trampoline<
             P: IsA<Connection>,
@@ -1415,7 +1412,7 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         ) {
             let f: &F = &*(f as *const F);
             f(
-                &Connection::from_glib_borrow(this).unsafe_cast_ref(),
+                Connection::from_glib_borrow(this).unsafe_cast_ref(),
                 &glib::GString::from_glib_borrow(setting_name),
             )
         }

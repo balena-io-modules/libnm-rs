@@ -33,10 +33,10 @@ impl VpnEditorPlugin {
     /// [`VpnEditorPlugin`][crate::VpnEditorPlugin] instance via the `NMVpnEditorPluginFactory`
     /// function.
     ///
-    /// This is similar to [`load_from_file()`][Self::load_from_file()], but
+    /// This is similar to `nm_vpn_editor_plugin_load_from_file()`, but
     /// it does no validation of the plugin name, instead passes it directly
     /// to `dlopen()`. If you have the full path to a plugin file,
-    /// [`load_from_file()`][Self::load_from_file()] is preferred.
+    /// `nm_vpn_editor_plugin_load_from_file()` is preferred.
     /// ## `plugin_name`
     /// The name of the shared library to load.
     ///  This path will be directly passed to `dlopen()` without
@@ -295,7 +295,6 @@ impl<O: IsA<VpnEditorPlugin>> VpnEditorPluginExt for O {
         }
     }
 
-    #[doc(alias = "description")]
     fn connect_description_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_description_trampoline<
             P: IsA<VpnEditorPlugin>,
@@ -306,7 +305,7 @@ impl<O: IsA<VpnEditorPlugin>> VpnEditorPluginExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&VpnEditorPlugin::from_glib_borrow(this).unsafe_cast_ref())
+            f(VpnEditorPlugin::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -321,7 +320,6 @@ impl<O: IsA<VpnEditorPlugin>> VpnEditorPluginExt for O {
         }
     }
 
-    #[doc(alias = "name")]
     fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_name_trampoline<
             P: IsA<VpnEditorPlugin>,
@@ -332,7 +330,7 @@ impl<O: IsA<VpnEditorPlugin>> VpnEditorPluginExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&VpnEditorPlugin::from_glib_borrow(this).unsafe_cast_ref())
+            f(VpnEditorPlugin::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -347,7 +345,6 @@ impl<O: IsA<VpnEditorPlugin>> VpnEditorPluginExt for O {
         }
     }
 
-    #[doc(alias = "service")]
     fn connect_service_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_service_trampoline<
             P: IsA<VpnEditorPlugin>,
@@ -358,7 +355,7 @@ impl<O: IsA<VpnEditorPlugin>> VpnEditorPluginExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&VpnEditorPlugin::from_glib_borrow(this).unsafe_cast_ref())
+            f(VpnEditorPlugin::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);

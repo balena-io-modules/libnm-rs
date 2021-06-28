@@ -463,7 +463,6 @@ impl<O: IsA<Setting>> SettingExt for O {
         }
     }
 
-    #[doc(alias = "name")]
     fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_name_trampoline<P: IsA<Setting>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMSetting,
@@ -471,7 +470,7 @@ impl<O: IsA<Setting>> SettingExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&Setting::from_glib_borrow(this).unsafe_cast_ref())
+            f(Setting::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);

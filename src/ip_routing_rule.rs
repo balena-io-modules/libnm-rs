@@ -316,7 +316,7 @@ impl IPRoutingRule {
     }
 
     /// The name supports C backslash escaping for non-UTF-8 characters.
-    /// Note that [`from_string()`][Self::from_string()] too uses backslash
+    /// Note that `nm_ip_routing_rule_from_string()` too uses backslash
     /// escaping when tokenizing the words by whitespace. So, in string
     /// representation you'd get double backslashes.
     /// ## `iifname`
@@ -347,7 +347,7 @@ impl IPRoutingRule {
     }
 
     /// The name supports C backslash escaping for non-UTF-8 characters.
-    /// Note that [`from_string()`][Self::from_string()] too uses backslash
+    /// Note that `nm_ip_routing_rule_from_string()` too uses backslash
     /// escaping when tokenizing the words by whitespace. So, in string
     /// representation you'd get double backslashes.
     /// ## `oifname`

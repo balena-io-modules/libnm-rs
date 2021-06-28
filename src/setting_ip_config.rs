@@ -1624,7 +1624,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    #[doc(alias = "dad-timeout")]
     fn connect_dad_timeout_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dad_timeout_trampoline<
             P: IsA<SettingIPConfig>,
@@ -1635,7 +1634,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1650,7 +1649,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
         }
     }
 
-    #[doc(alias = "dhcp-hostname")]
     fn connect_dhcp_hostname_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dhcp_hostname_trampoline<
             P: IsA<SettingIPConfig>,
@@ -1661,7 +1659,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1678,7 +1676,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
 
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
-    #[doc(alias = "dhcp-hostname-flags")]
     fn connect_dhcp_hostname_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dhcp_hostname_flags_trampoline<
             P: IsA<SettingIPConfig>,
@@ -1689,7 +1686,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1706,7 +1703,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
 
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
-    #[doc(alias = "dhcp-iaid")]
     fn connect_dhcp_iaid_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dhcp_iaid_trampoline<
             P: IsA<SettingIPConfig>,
@@ -1717,7 +1713,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1734,7 +1730,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
 
     #[cfg(any(feature = "v1_28", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_28")))]
-    #[doc(alias = "dhcp-reject-servers")]
     fn connect_dhcp_reject_servers_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dhcp_reject_servers_trampoline<
             P: IsA<SettingIPConfig>,
@@ -1745,7 +1740,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1760,7 +1755,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
         }
     }
 
-    #[doc(alias = "dhcp-send-hostname")]
     fn connect_dhcp_send_hostname_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dhcp_send_hostname_trampoline<
             P: IsA<SettingIPConfig>,
@@ -1771,7 +1765,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1786,7 +1780,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
         }
     }
 
-    #[doc(alias = "dhcp-timeout")]
     fn connect_dhcp_timeout_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dhcp_timeout_trampoline<
             P: IsA<SettingIPConfig>,
@@ -1797,7 +1790,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1812,7 +1805,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
         }
     }
 
-    #[doc(alias = "dns")]
     fn connect_dns_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dns_trampoline<P: IsA<SettingIPConfig>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMSettingIPConfig,
@@ -1820,7 +1812,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1837,7 +1829,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    #[doc(alias = "dns-options")]
     fn connect_dns_options_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dns_options_trampoline<
             P: IsA<SettingIPConfig>,
@@ -1848,7 +1839,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1865,7 +1856,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
-    #[doc(alias = "dns-priority")]
     fn connect_dns_priority_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dns_priority_trampoline<
             P: IsA<SettingIPConfig>,
@@ -1876,7 +1866,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1891,7 +1881,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
         }
     }
 
-    #[doc(alias = "dns-search")]
     fn connect_dns_search_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dns_search_trampoline<
             P: IsA<SettingIPConfig>,
@@ -1902,7 +1891,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1917,7 +1906,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
         }
     }
 
-    #[doc(alias = "gateway")]
     fn connect_gateway_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_gateway_trampoline<
             P: IsA<SettingIPConfig>,
@@ -1928,7 +1916,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1943,7 +1931,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
         }
     }
 
-    #[doc(alias = "ignore-auto-dns")]
     fn connect_ignore_auto_dns_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_ignore_auto_dns_trampoline<
             P: IsA<SettingIPConfig>,
@@ -1954,7 +1941,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1969,7 +1956,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
         }
     }
 
-    #[doc(alias = "ignore-auto-routes")]
     fn connect_ignore_auto_routes_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_ignore_auto_routes_trampoline<
             P: IsA<SettingIPConfig>,
@@ -1980,7 +1966,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -1995,7 +1981,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
         }
     }
 
-    #[doc(alias = "may-fail")]
     fn connect_may_fail_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_may_fail_trampoline<
             P: IsA<SettingIPConfig>,
@@ -2006,7 +1991,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2021,7 +2006,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
         }
     }
 
-    #[doc(alias = "method")]
     fn connect_method_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_method_trampoline<
             P: IsA<SettingIPConfig>,
@@ -2032,7 +2016,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2047,7 +2031,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
         }
     }
 
-    #[doc(alias = "never-default")]
     fn connect_never_default_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_never_default_trampoline<
             P: IsA<SettingIPConfig>,
@@ -2058,7 +2041,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2073,7 +2056,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
         }
     }
 
-    #[doc(alias = "route-metric")]
     fn connect_route_metric_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_route_metric_trampoline<
             P: IsA<SettingIPConfig>,
@@ -2084,7 +2066,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -2101,7 +2083,6 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
 
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-    #[doc(alias = "route-table")]
     fn connect_route_table_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_route_table_trampoline<
             P: IsA<SettingIPConfig>,
@@ -2112,7 +2093,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);

@@ -66,14 +66,13 @@ impl<O: IsA<VpnEditor>> VpnEditorExt for O {
         }
     }
 
-    #[doc(alias = "changed")]
     fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn changed_trampoline<P: IsA<VpnEditor>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMVpnEditor,
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&VpnEditor::from_glib_borrow(this).unsafe_cast_ref())
+            f(VpnEditor::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);

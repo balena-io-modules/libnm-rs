@@ -35,7 +35,7 @@ impl SettingEthtool {
     ///
     /// # Deprecated since 1.26
     ///
-    /// use [`SettingExt::option_clear_by_name()`][crate::prelude::SettingExt::option_clear_by_name()] with [`ethtool_optname_is_feature()`][crate::ethtool_optname_is_feature()] predicate instead.
+    /// use `nm_setting_option_clear_by_name()` with [`ethtool_optname_is_feature()`][crate::ethtool_optname_is_feature()] predicate instead.
     #[cfg_attr(feature = "v1_26", deprecated = "Since 1.26")]
     #[doc(alias = "nm_setting_ethtool_clear_features")]
     pub fn clear_features(&self) {

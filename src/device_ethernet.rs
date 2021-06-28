@@ -135,7 +135,6 @@ impl<O: IsA<DeviceEthernet>> DeviceEthernetExt for O {
         }
     }
 
-    #[doc(alias = "carrier")]
     fn connect_carrier_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_carrier_trampoline<
             P: IsA<DeviceEthernet>,
@@ -146,7 +145,7 @@ impl<O: IsA<DeviceEthernet>> DeviceEthernetExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&DeviceEthernet::from_glib_borrow(this).unsafe_cast_ref())
+            f(DeviceEthernet::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -161,7 +160,6 @@ impl<O: IsA<DeviceEthernet>> DeviceEthernetExt for O {
         }
     }
 
-    #[doc(alias = "perm-hw-address")]
     fn connect_perm_hw_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_perm_hw_address_trampoline<
             P: IsA<DeviceEthernet>,
@@ -172,7 +170,7 @@ impl<O: IsA<DeviceEthernet>> DeviceEthernetExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&DeviceEthernet::from_glib_borrow(this).unsafe_cast_ref())
+            f(DeviceEthernet::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -189,7 +187,6 @@ impl<O: IsA<DeviceEthernet>> DeviceEthernetExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    #[doc(alias = "s390-subchannels")]
     fn connect_s390_subchannels_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_s390_subchannels_trampoline<
             P: IsA<DeviceEthernet>,
@@ -200,7 +197,7 @@ impl<O: IsA<DeviceEthernet>> DeviceEthernetExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&DeviceEthernet::from_glib_borrow(this).unsafe_cast_ref())
+            f(DeviceEthernet::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -215,7 +212,6 @@ impl<O: IsA<DeviceEthernet>> DeviceEthernetExt for O {
         }
     }
 
-    #[doc(alias = "speed")]
     fn connect_speed_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_speed_trampoline<
             P: IsA<DeviceEthernet>,
@@ -226,7 +222,7 @@ impl<O: IsA<DeviceEthernet>> DeviceEthernetExt for O {
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&DeviceEthernet::from_glib_borrow(this).unsafe_cast_ref())
+            f(DeviceEthernet::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
