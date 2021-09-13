@@ -204,7 +204,7 @@ mod remote_connection;
 pub use self::remote_connection::RemoteConnection;
 
 mod secret_agent_old;
-pub use self::secret_agent_old::SecretAgentOld;
+pub use self::secret_agent_old::{SecretAgentOld, NONE_SECRET_AGENT_OLD};
 
 mod setting;
 pub use self::setting::{Setting, NONE_SETTING};
@@ -477,10 +477,10 @@ pub use self::vpn_plugin_info::VpnPluginInfo;
 #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
 mod vpn_plugin_old;
 #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
-pub use self::vpn_plugin_old::VpnPluginOld;
+pub use self::vpn_plugin_old::{VpnPluginOld, NONE_VPN_PLUGIN_OLD};
 
 mod vpn_service_plugin;
-pub use self::vpn_service_plugin::VpnServicePlugin;
+pub use self::vpn_service_plugin::{VpnServicePlugin, NONE_VPN_SERVICE_PLUGIN};
 
 #[cfg(any(feature = "v1_16", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
@@ -1775,8 +1775,12 @@ pub mod traits {
     pub use super::device::DeviceExt;
     pub use super::device_ethernet::DeviceEthernetExt;
     pub use super::object::ObjectExt;
+    pub use super::secret_agent_old::SecretAgentOldExt;
     pub use super::setting::SettingExt;
     pub use super::setting_ip_config::SettingIPConfigExt;
     pub use super::vpn_editor::VpnEditorExt;
     pub use super::vpn_editor_plugin::VpnEditorPluginExt;
+    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+    pub use super::vpn_plugin_old::VpnPluginOldExt;
+    pub use super::vpn_service_plugin::VpnServicePluginExt;
 }

@@ -4,7 +4,8 @@
 
 use crate::VpnPluginFailure;
 use crate::VpnServiceState;
-use glib::object::ObjectType as ObjectType_;
+use glib::object::Cast;
+use glib::object::IsA;
 use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
@@ -24,134 +25,6 @@ glib::wrapper! {
 }
 
 impl VpnPluginOld {
-    ///
-    /// # Deprecated since 1.2
-    ///
-    /// Replaced by NMVpnServicePlugin.
-    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
-    #[doc(alias = "nm_vpn_plugin_old_disconnect")]
-    pub fn disconnect(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = ffi::nm_vpn_plugin_old_disconnect(self.to_glib_none().0, &mut error);
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    ///
-    /// # Deprecated since 1.2
-    ///
-    /// Replaced by NMVpnServicePlugin.
-    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
-    #[doc(alias = "nm_vpn_plugin_old_failure")]
-    pub fn failure(&self, reason: VpnPluginFailure) {
-        unsafe {
-            ffi::nm_vpn_plugin_old_failure(self.to_glib_none().0, reason.into_glib());
-        }
-    }
-
-    ///
-    /// # Deprecated since 1.2
-    ///
-    /// Replaced by NMVpnServicePlugin.
-    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
-    #[doc(alias = "nm_vpn_plugin_old_get_state")]
-    #[doc(alias = "get_state")]
-    pub fn state(&self) -> VpnServiceState {
-        unsafe { from_glib(ffi::nm_vpn_plugin_old_get_state(self.to_glib_none().0)) }
-    }
-
-    ///
-    /// # Deprecated since 1.2
-    ///
-    /// Replaced by NMVpnServicePlugin.
-    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
-    #[doc(alias = "nm_vpn_plugin_old_set_config")]
-    pub fn set_config(&self, config: &glib::Variant) {
-        unsafe {
-            ffi::nm_vpn_plugin_old_set_config(self.to_glib_none().0, config.to_glib_none().0);
-        }
-    }
-
-    ///
-    /// # Deprecated since 1.2
-    ///
-    /// Replaced by NMVpnServicePlugin.
-    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
-    #[doc(alias = "nm_vpn_plugin_old_set_ip4_config")]
-    pub fn set_ip4_config(&self, ip4_config: &glib::Variant) {
-        unsafe {
-            ffi::nm_vpn_plugin_old_set_ip4_config(
-                self.to_glib_none().0,
-                ip4_config.to_glib_none().0,
-            );
-        }
-    }
-
-    ///
-    /// # Deprecated since 1.2
-    ///
-    /// Replaced by NMVpnServicePlugin.
-    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
-    #[doc(alias = "nm_vpn_plugin_old_set_ip6_config")]
-    pub fn set_ip6_config(&self, ip6_config: &glib::Variant) {
-        unsafe {
-            ffi::nm_vpn_plugin_old_set_ip6_config(
-                self.to_glib_none().0,
-                ip6_config.to_glib_none().0,
-            );
-        }
-    }
-
-    ///
-    /// # Deprecated since 1.2
-    ///
-    /// Replaced by NMVpnServicePlugin.
-    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
-    #[doc(alias = "nm_vpn_plugin_old_set_login_banner")]
-    pub fn set_login_banner(&self, banner: &str) {
-        unsafe {
-            ffi::nm_vpn_plugin_old_set_login_banner(self.to_glib_none().0, banner.to_glib_none().0);
-        }
-    }
-
-    ///
-    /// # Deprecated since 1.2
-    ///
-    /// Replaced by NMVpnServicePlugin.
-    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
-    #[doc(alias = "nm_vpn_plugin_old_set_state")]
-    pub fn set_state(&self, state: VpnServiceState) {
-        unsafe {
-            ffi::nm_vpn_plugin_old_set_state(self.to_glib_none().0, state.into_glib());
-        }
-    }
-
-    /// The D-Bus service name of this plugin.
-    ///
-    /// # Deprecated since 1.2
-    ///
-    /// Replaced by NMVpnServicePlugin.
-    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
-    #[doc(alias = "service-name")]
-    pub fn service_name(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"service-name\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `service-name` getter")
-        }
-    }
-
     //#[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
     //#[doc(alias = "nm_vpn_plugin_old_get_secret_flags")]
     //#[doc(alias = "get_secret_flags")]
@@ -164,16 +37,216 @@ impl VpnPluginOld {
     //pub fn read_vpn_details(fd: i32, out_data: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 25 }/TypeId { ns_id: 0, id: 25 }, out_secrets: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 25 }/TypeId { ns_id: 0, id: 25 }) -> bool {
     //    unsafe { TODO: call ffi:nm_vpn_plugin_old_read_vpn_details() }
     //}
+}
+
+pub const NONE_VPN_PLUGIN_OLD: Option<&VpnPluginOld> = None;
+
+/// Trait containing all [`struct@VpnPluginOld`] methods.
+///
+/// # Implementors
+///
+/// [`VpnPluginOld`][struct@crate::VpnPluginOld]
+pub trait VpnPluginOldExt: 'static {
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
+    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+    #[doc(alias = "nm_vpn_plugin_old_disconnect")]
+    fn disconnect(&self) -> Result<(), glib::Error>;
+
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
+    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+    #[doc(alias = "nm_vpn_plugin_old_failure")]
+    fn failure(&self, reason: VpnPluginFailure);
+
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
+    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+    #[doc(alias = "nm_vpn_plugin_old_get_state")]
+    #[doc(alias = "get_state")]
+    fn state(&self) -> VpnServiceState;
+
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
+    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+    #[doc(alias = "nm_vpn_plugin_old_set_config")]
+    fn set_config(&self, config: &glib::Variant);
+
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
+    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+    #[doc(alias = "nm_vpn_plugin_old_set_ip4_config")]
+    fn set_ip4_config(&self, ip4_config: &glib::Variant);
+
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
+    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+    #[doc(alias = "nm_vpn_plugin_old_set_ip6_config")]
+    fn set_ip6_config(&self, ip6_config: &glib::Variant);
+
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
+    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+    #[doc(alias = "nm_vpn_plugin_old_set_login_banner")]
+    fn set_login_banner(&self, banner: &str);
+
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
+    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+    #[doc(alias = "nm_vpn_plugin_old_set_state")]
+    fn set_state(&self, state: VpnServiceState);
+
+    /// The D-Bus service name of this plugin.
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
+    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+    #[doc(alias = "service-name")]
+    fn service_name(&self) -> Option<glib::GString>;
 
     #[doc(alias = "config")]
-    pub fn connect_config<F: Fn(&Self, &glib::Variant) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn config_trampoline<F: Fn(&VpnPluginOld, &glib::Variant) + 'static>(
+    fn connect_config<F: Fn(&Self, &glib::Variant) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    #[doc(alias = "failure")]
+    fn connect_failure<F: Fn(&Self, u32) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    #[doc(alias = "ip4-config")]
+    fn connect_ip4_config<F: Fn(&Self, &glib::Variant) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    #[doc(alias = "ip6-config")]
+    fn connect_ip6_config<F: Fn(&Self, &glib::Variant) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    #[doc(alias = "login-banner")]
+    fn connect_login_banner<F: Fn(&Self, &str) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    #[doc(alias = "quit")]
+    fn connect_quit<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    //#[doc(alias = "secrets-required")]
+    //fn connect_secrets_required<Unsupported or ignored types>(&self, f: F) -> SignalHandlerId;
+
+    #[doc(alias = "state-changed")]
+    fn connect_state_changed<F: Fn(&Self, u32) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+    #[doc(alias = "state")]
+    fn connect_state_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+}
+
+impl<O: IsA<VpnPluginOld>> VpnPluginOldExt for O {
+    fn disconnect(&self) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let _ = ffi::nm_vpn_plugin_old_disconnect(self.as_ref().to_glib_none().0, &mut error);
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
+
+    fn failure(&self, reason: VpnPluginFailure) {
+        unsafe {
+            ffi::nm_vpn_plugin_old_failure(self.as_ref().to_glib_none().0, reason.into_glib());
+        }
+    }
+
+    fn state(&self) -> VpnServiceState {
+        unsafe {
+            from_glib(ffi::nm_vpn_plugin_old_get_state(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
+
+    fn set_config(&self, config: &glib::Variant) {
+        unsafe {
+            ffi::nm_vpn_plugin_old_set_config(
+                self.as_ref().to_glib_none().0,
+                config.to_glib_none().0,
+            );
+        }
+    }
+
+    fn set_ip4_config(&self, ip4_config: &glib::Variant) {
+        unsafe {
+            ffi::nm_vpn_plugin_old_set_ip4_config(
+                self.as_ref().to_glib_none().0,
+                ip4_config.to_glib_none().0,
+            );
+        }
+    }
+
+    fn set_ip6_config(&self, ip6_config: &glib::Variant) {
+        unsafe {
+            ffi::nm_vpn_plugin_old_set_ip6_config(
+                self.as_ref().to_glib_none().0,
+                ip6_config.to_glib_none().0,
+            );
+        }
+    }
+
+    fn set_login_banner(&self, banner: &str) {
+        unsafe {
+            ffi::nm_vpn_plugin_old_set_login_banner(
+                self.as_ref().to_glib_none().0,
+                banner.to_glib_none().0,
+            );
+        }
+    }
+
+    fn set_state(&self, state: VpnServiceState) {
+        unsafe {
+            ffi::nm_vpn_plugin_old_set_state(self.as_ref().to_glib_none().0, state.into_glib());
+        }
+    }
+
+    fn service_name(&self) -> Option<glib::GString> {
+        unsafe {
+            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
+            glib::gobject_ffi::g_object_get_property(
+                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
+                b"service-name\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `service-name` getter")
+        }
+    }
+
+    fn connect_config<F: Fn(&Self, &glib::Variant) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn config_trampoline<
+            P: IsA<VpnPluginOld>,
+            F: Fn(&P, &glib::Variant) + 'static,
+        >(
             this: *mut ffi::NMVpnPluginOld,
             object: *mut glib::ffi::GVariant,
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this), &from_glib_borrow(object))
+            f(
+                VpnPluginOld::from_glib_borrow(this).unsafe_cast_ref(),
+                &from_glib_borrow(object),
+            )
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -181,22 +254,24 @@ impl VpnPluginOld {
                 self.as_ptr() as *mut _,
                 b"config\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
-                    config_trampoline::<F> as *const (),
+                    config_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
         }
     }
 
-    #[doc(alias = "failure")]
-    pub fn connect_failure<F: Fn(&Self, u32) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn failure_trampoline<F: Fn(&VpnPluginOld, u32) + 'static>(
+    fn connect_failure<F: Fn(&Self, u32) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn failure_trampoline<P: IsA<VpnPluginOld>, F: Fn(&P, u32) + 'static>(
             this: *mut ffi::NMVpnPluginOld,
             object: libc::c_uint,
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this), object)
+            f(
+                VpnPluginOld::from_glib_borrow(this).unsafe_cast_ref(),
+                object,
+            )
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -204,27 +279,27 @@ impl VpnPluginOld {
                 self.as_ptr() as *mut _,
                 b"failure\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
-                    failure_trampoline::<F> as *const (),
+                    failure_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
         }
     }
 
-    #[doc(alias = "ip4-config")]
-    pub fn connect_ip4_config<F: Fn(&Self, &glib::Variant) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId {
+    fn connect_ip4_config<F: Fn(&Self, &glib::Variant) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn ip4_config_trampoline<
-            F: Fn(&VpnPluginOld, &glib::Variant) + 'static,
+            P: IsA<VpnPluginOld>,
+            F: Fn(&P, &glib::Variant) + 'static,
         >(
             this: *mut ffi::NMVpnPluginOld,
             object: *mut glib::ffi::GVariant,
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this), &from_glib_borrow(object))
+            f(
+                VpnPluginOld::from_glib_borrow(this).unsafe_cast_ref(),
+                &from_glib_borrow(object),
+            )
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -232,27 +307,27 @@ impl VpnPluginOld {
                 self.as_ptr() as *mut _,
                 b"ip4-config\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
-                    ip4_config_trampoline::<F> as *const (),
+                    ip4_config_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
         }
     }
 
-    #[doc(alias = "ip6-config")]
-    pub fn connect_ip6_config<F: Fn(&Self, &glib::Variant) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId {
+    fn connect_ip6_config<F: Fn(&Self, &glib::Variant) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn ip6_config_trampoline<
-            F: Fn(&VpnPluginOld, &glib::Variant) + 'static,
+            P: IsA<VpnPluginOld>,
+            F: Fn(&P, &glib::Variant) + 'static,
         >(
             this: *mut ffi::NMVpnPluginOld,
             object: *mut glib::ffi::GVariant,
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this), &from_glib_borrow(object))
+            f(
+                VpnPluginOld::from_glib_borrow(this).unsafe_cast_ref(),
+                &from_glib_borrow(object),
+            )
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -260,23 +335,25 @@ impl VpnPluginOld {
                 self.as_ptr() as *mut _,
                 b"ip6-config\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
-                    ip6_config_trampoline::<F> as *const (),
+                    ip6_config_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
         }
     }
 
-    #[doc(alias = "login-banner")]
-    pub fn connect_login_banner<F: Fn(&Self, &str) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn login_banner_trampoline<F: Fn(&VpnPluginOld, &str) + 'static>(
+    fn connect_login_banner<F: Fn(&Self, &str) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn login_banner_trampoline<
+            P: IsA<VpnPluginOld>,
+            F: Fn(&P, &str) + 'static,
+        >(
             this: *mut ffi::NMVpnPluginOld,
             object: *mut libc::c_char,
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
             f(
-                &from_glib_borrow(this),
+                VpnPluginOld::from_glib_borrow(this).unsafe_cast_ref(),
                 &glib::GString::from_glib_borrow(object),
             )
         }
@@ -286,21 +363,20 @@ impl VpnPluginOld {
                 self.as_ptr() as *mut _,
                 b"login-banner\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
-                    login_banner_trampoline::<F> as *const (),
+                    login_banner_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
         }
     }
 
-    #[doc(alias = "quit")]
-    pub fn connect_quit<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn quit_trampoline<F: Fn(&VpnPluginOld) + 'static>(
+    fn connect_quit<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn quit_trampoline<P: IsA<VpnPluginOld>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMVpnPluginOld,
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this))
+            f(VpnPluginOld::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -308,27 +384,31 @@ impl VpnPluginOld {
                 self.as_ptr() as *mut _,
                 b"quit\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
-                    quit_trampoline::<F> as *const (),
+                    quit_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
         }
     }
 
-    //#[doc(alias = "secrets-required")]
-    //pub fn connect_secrets_required<Unsupported or ignored types>(&self, f: F) -> SignalHandlerId {
+    //fn connect_secrets_required<Unsupported or ignored types>(&self, f: F) -> SignalHandlerId {
     //    Empty ctype p0: *.CArray TypeId { ns_id: 0, id: 28 }
     //}
 
-    #[doc(alias = "state-changed")]
-    pub fn connect_state_changed<F: Fn(&Self, u32) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn state_changed_trampoline<F: Fn(&VpnPluginOld, u32) + 'static>(
+    fn connect_state_changed<F: Fn(&Self, u32) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn state_changed_trampoline<
+            P: IsA<VpnPluginOld>,
+            F: Fn(&P, u32) + 'static,
+        >(
             this: *mut ffi::NMVpnPluginOld,
             object: libc::c_uint,
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this), object)
+            f(
+                VpnPluginOld::from_glib_borrow(this).unsafe_cast_ref(),
+                object,
+            )
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -336,23 +416,21 @@ impl VpnPluginOld {
                 self.as_ptr() as *mut _,
                 b"state-changed\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
-                    state_changed_trampoline::<F> as *const (),
+                    state_changed_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
         }
     }
 
-    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
-    #[doc(alias = "state")]
-    pub fn connect_state_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_state_trampoline<F: Fn(&VpnPluginOld) + 'static>(
+    fn connect_state_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_state_trampoline<P: IsA<VpnPluginOld>, F: Fn(&P) + 'static>(
             this: *mut ffi::NMVpnPluginOld,
             _param_spec: glib::ffi::gpointer,
             f: glib::ffi::gpointer,
         ) {
             let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this))
+            f(VpnPluginOld::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
@@ -360,7 +438,7 @@ impl VpnPluginOld {
                 self.as_ptr() as *mut _,
                 b"notify::state\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_state_trampoline::<F> as *const (),
+                    notify_state_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

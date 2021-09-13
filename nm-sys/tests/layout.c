@@ -22,6 +22,7 @@ int main() {
     printf("%s;%zu;%zu\n", "NMClientPermission", sizeof(NMClientPermission), alignof(NMClientPermission));
     printf("%s;%zu;%zu\n", "NMClientPermissionResult", sizeof(NMClientPermissionResult), alignof(NMClientPermissionResult));
     printf("%s;%zu;%zu\n", "NMConnectionError", sizeof(NMConnectionError), alignof(NMConnectionError));
+    printf("%s;%zu;%zu\n", "NMConnectionInterface", sizeof(NMConnectionInterface), alignof(NMConnectionInterface));
     printf("%s;%zu;%zu\n", "NMConnectionMultiConnect", sizeof(NMConnectionMultiConnect), alignof(NMConnectionMultiConnect));
     printf("%s;%zu;%zu\n", "NMConnectionSerializationFlags", sizeof(NMConnectionSerializationFlags), alignof(NMConnectionSerializationFlags));
     printf("%s;%zu;%zu\n", "NMConnectivityState", sizeof(NMConnectivityState), alignof(NMConnectivityState));
@@ -49,6 +50,8 @@ int main() {
     printf("%s;%zu;%zu\n", "NMSecretAgentCapabilities", sizeof(NMSecretAgentCapabilities), alignof(NMSecretAgentCapabilities));
     printf("%s;%zu;%zu\n", "NMSecretAgentError", sizeof(NMSecretAgentError), alignof(NMSecretAgentError));
     printf("%s;%zu;%zu\n", "NMSecretAgentGetSecretsFlags", sizeof(NMSecretAgentGetSecretsFlags), alignof(NMSecretAgentGetSecretsFlags));
+    printf("%s;%zu;%zu\n", "NMSecretAgentOld", sizeof(NMSecretAgentOld), alignof(NMSecretAgentOld));
+    printf("%s;%zu;%zu\n", "NMSecretAgentOldClass", sizeof(NMSecretAgentOldClass), alignof(NMSecretAgentOldClass));
     printf("%s;%zu;%zu\n", "NMSetting8021xAuthFlags", sizeof(NMSetting8021xAuthFlags), alignof(NMSetting8021xAuthFlags));
     printf("%s;%zu;%zu\n", "NMSetting8021xCKFormat", sizeof(NMSetting8021xCKFormat), alignof(NMSetting8021xCKFormat));
     printf("%s;%zu;%zu\n", "NMSetting8021xCKScheme", sizeof(NMSetting8021xCKScheme), alignof(NMSetting8021xCKScheme));
@@ -88,9 +91,15 @@ int main() {
     printf("%s;%zu;%zu\n", "NMVlanPriorityMap", sizeof(NMVlanPriorityMap), alignof(NMVlanPriorityMap));
     printf("%s;%zu;%zu\n", "NMVpnConnectionState", sizeof(NMVpnConnectionState), alignof(NMVpnConnectionState));
     printf("%s;%zu;%zu\n", "NMVpnConnectionStateReason", sizeof(NMVpnConnectionStateReason), alignof(NMVpnConnectionStateReason));
+    printf("%s;%zu;%zu\n", "NMVpnEditorInterface", sizeof(NMVpnEditorInterface), alignof(NMVpnEditorInterface));
     printf("%s;%zu;%zu\n", "NMVpnEditorPluginCapability", sizeof(NMVpnEditorPluginCapability), alignof(NMVpnEditorPluginCapability));
+    printf("%s;%zu;%zu\n", "NMVpnEditorPluginInterface", sizeof(NMVpnEditorPluginInterface), alignof(NMVpnEditorPluginInterface));
     printf("%s;%zu;%zu\n", "NMVpnPluginError", sizeof(NMVpnPluginError), alignof(NMVpnPluginError));
     printf("%s;%zu;%zu\n", "NMVpnPluginFailure", sizeof(NMVpnPluginFailure), alignof(NMVpnPluginFailure));
+    printf("%s;%zu;%zu\n", "NMVpnPluginOld", sizeof(NMVpnPluginOld), alignof(NMVpnPluginOld));
+    printf("%s;%zu;%zu\n", "NMVpnPluginOldClass", sizeof(NMVpnPluginOldClass), alignof(NMVpnPluginOldClass));
+    printf("%s;%zu;%zu\n", "NMVpnServicePlugin", sizeof(NMVpnServicePlugin), alignof(NMVpnServicePlugin));
+    printf("%s;%zu;%zu\n", "NMVpnServicePluginClass", sizeof(NMVpnServicePluginClass), alignof(NMVpnServicePluginClass));
     printf("%s;%zu;%zu\n", "NMVpnServiceState", sizeof(NMVpnServiceState), alignof(NMVpnServiceState));
     printf("%s;%zu;%zu\n", "NMWepKeyType", sizeof(NMWepKeyType), alignof(NMWepKeyType));
     printf("%s;%zu;%zu\n", "NMWimaxNspNetworkType", sizeof(NMWimaxNspNetworkType), alignof(NMWimaxNspNetworkType));

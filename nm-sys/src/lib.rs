@@ -1887,11 +1887,21 @@ pub struct _NMClientClass(c_void);
 pub type NMClientClass = *mut _NMClientClass;
 
 #[repr(C)]
-pub struct NMConnectionInterface(c_void);
+#[derive(Copy, Clone)]
+pub struct NMConnectionInterface {
+    pub parent: gobject::GTypeInterface,
+    pub secrets_updated: Option<unsafe extern "C" fn(*mut NMConnection, *const c_char)>,
+    pub secrets_cleared: Option<unsafe extern "C" fn(*mut NMConnection)>,
+    pub changed: Option<unsafe extern "C" fn(*mut NMConnection)>,
+}
 
 impl ::std::fmt::Debug for NMConnectionInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("NMConnectionInterface @ {:p}", self))
+         .field("parent", &self.parent)
+         .field("secrets_updated", &self.secrets_updated)
+         .field("secrets_cleared", &self.secrets_cleared)
+         .field("changed", &self.changed)
          .finish()
     }
 }
@@ -2122,11 +2132,24 @@ pub struct _NMRemoteConnectionClass(c_void);
 pub type NMRemoteConnectionClass = *mut _NMRemoteConnectionClass;
 
 #[repr(C)]
-pub struct NMSecretAgentOldClass(c_void);
+#[derive(Copy, Clone)]
+pub struct NMSecretAgentOldClass {
+    pub parent: gobject::GObjectClass,
+    pub get_secrets: Option<unsafe extern "C" fn(*mut NMSecretAgentOld, *mut NMConnection, *const c_char, *const c_char, *mut *const c_char, NMSecretAgentGetSecretsFlags, NMSecretAgentOldGetSecretsFunc, gpointer)>,
+    pub cancel_get_secrets: Option<unsafe extern "C" fn(*mut NMSecretAgentOld, *const c_char, *const c_char)>,
+    pub save_secrets: Option<unsafe extern "C" fn(*mut NMSecretAgentOld, *mut NMConnection, *const c_char, NMSecretAgentOldSaveSecretsFunc, gpointer)>,
+    pub delete_secrets: Option<unsafe extern "C" fn(*mut NMSecretAgentOld, *mut NMConnection, *const c_char, NMSecretAgentOldDeleteSecretsFunc, gpointer)>,
+    pub padding: [gpointer; 8],
+}
 
 impl ::std::fmt::Debug for NMSecretAgentOldClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("NMSecretAgentOldClass @ {:p}", self))
+         .field("parent", &self.parent)
+         .field("get_secrets", &self.get_secrets)
+         .field("cancel_get_secrets", &self.cancel_get_secrets)
+         .field("save_secrets", &self.save_secrets)
+         .field("delete_secrets", &self.delete_secrets)
          .finish()
     }
 }
@@ -2462,21 +2485,51 @@ pub struct _NMVpnConnectionClass(c_void);
 pub type NMVpnConnectionClass = *mut _NMVpnConnectionClass;
 
 #[repr(C)]
-pub struct NMVpnEditorInterface(c_void);
+#[derive(Copy, Clone)]
+pub struct NMVpnEditorInterface {
+    pub g_iface: gobject::GTypeInterface,
+    pub get_widget: Option<unsafe extern "C" fn(*mut NMVpnEditor) -> *mut gobject::GObject>,
+    pub placeholder: Option<unsafe extern "C" fn()>,
+    pub update_connection: Option<unsafe extern "C" fn(*mut NMVpnEditor, *mut NMConnection, *mut *mut glib::GError) -> gboolean>,
+    pub changed: Option<unsafe extern "C" fn(*mut NMVpnEditor)>,
+}
 
 impl ::std::fmt::Debug for NMVpnEditorInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("NMVpnEditorInterface @ {:p}", self))
+         .field("g_iface", &self.g_iface)
+         .field("get_widget", &self.get_widget)
+         .field("placeholder", &self.placeholder)
+         .field("update_connection", &self.update_connection)
+         .field("changed", &self.changed)
          .finish()
     }
 }
 
 #[repr(C)]
-pub struct NMVpnEditorPluginInterface(c_void);
+#[derive(Copy, Clone)]
+pub struct NMVpnEditorPluginInterface {
+    pub g_iface: gobject::GTypeInterface,
+    pub get_editor: Option<unsafe extern "C" fn(*mut NMVpnEditorPlugin, *mut NMConnection, *mut *mut glib::GError) -> *mut NMVpnEditor>,
+    pub get_capabilities: Option<unsafe extern "C" fn(*mut NMVpnEditorPlugin) -> NMVpnEditorPluginCapability>,
+    pub import_from_file: Option<unsafe extern "C" fn(*mut NMVpnEditorPlugin, *const c_char, *mut *mut glib::GError) -> *mut NMConnection>,
+    pub export_to_file: Option<unsafe extern "C" fn(*mut NMVpnEditorPlugin, *const c_char, *mut NMConnection, *mut *mut glib::GError) -> gboolean>,
+    pub get_suggested_filename: Option<unsafe extern "C" fn(*mut NMVpnEditorPlugin, *mut NMConnection) -> *mut c_char>,
+    pub notify_plugin_info_set: Option<unsafe extern "C" fn(*mut NMVpnEditorPlugin, *mut NMVpnPluginInfo)>,
+    pub get_vt: Option<unsafe extern "C" fn(*mut NMVpnEditorPlugin, *mut size_t) -> *const NMVpnEditorPluginVT>,
+}
 
 impl ::std::fmt::Debug for NMVpnEditorPluginInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("NMVpnEditorPluginInterface @ {:p}", self))
+         .field("g_iface", &self.g_iface)
+         .field("get_editor", &self.get_editor)
+         .field("get_capabilities", &self.get_capabilities)
+         .field("import_from_file", &self.import_from_file)
+         .field("export_to_file", &self.export_to_file)
+         .field("get_suggested_filename", &self.get_suggested_filename)
+         .field("notify_plugin_info_set", &self.notify_plugin_info_set)
+         .field("get_vt", &self.get_vt)
          .finish()
     }
 }
@@ -2492,21 +2545,79 @@ pub struct _NMVpnPluginInfoClass(c_void);
 pub type NMVpnPluginInfoClass = *mut _NMVpnPluginInfoClass;
 
 #[repr(C)]
-pub struct NMVpnPluginOldClass(c_void);
+#[derive(Copy, Clone)]
+pub struct NMVpnPluginOldClass {
+    pub parent: gobject::GObjectClass,
+    pub state_changed: Option<unsafe extern "C" fn(*mut NMVpnPluginOld, NMVpnServiceState)>,
+    pub ip4_config: Option<unsafe extern "C" fn(*mut NMVpnPluginOld, *mut glib::GVariant)>,
+    pub login_banner: Option<unsafe extern "C" fn(*mut NMVpnPluginOld, *const c_char)>,
+    pub failure: Option<unsafe extern "C" fn(*mut NMVpnPluginOld, NMVpnPluginFailure)>,
+    pub quit: Option<unsafe extern "C" fn(*mut NMVpnPluginOld)>,
+    pub config: Option<unsafe extern "C" fn(*mut NMVpnPluginOld, *mut glib::GVariant)>,
+    pub ip6_config: Option<unsafe extern "C" fn(*mut NMVpnPluginOld, *mut glib::GVariant)>,
+    pub connect: Option<unsafe extern "C" fn(*mut NMVpnPluginOld, *mut NMConnection, *mut *mut glib::GError) -> gboolean>,
+    pub need_secrets: Option<unsafe extern "C" fn(*mut NMVpnPluginOld, *mut NMConnection, *mut *const c_char, *mut *mut glib::GError) -> gboolean>,
+    pub disconnect: Option<unsafe extern "C" fn(*mut NMVpnPluginOld, *mut *mut glib::GError) -> gboolean>,
+    pub new_secrets: Option<unsafe extern "C" fn(*mut NMVpnPluginOld, *mut NMConnection, *mut *mut glib::GError) -> gboolean>,
+    pub connect_interactive: Option<unsafe extern "C" fn(*mut NMVpnPluginOld, *mut NMConnection, *mut glib::GVariant, *mut *mut glib::GError) -> gboolean>,
+    pub padding: [gpointer; 8],
+}
 
 impl ::std::fmt::Debug for NMVpnPluginOldClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("NMVpnPluginOldClass @ {:p}", self))
+         .field("parent", &self.parent)
+         .field("state_changed", &self.state_changed)
+         .field("ip4_config", &self.ip4_config)
+         .field("login_banner", &self.login_banner)
+         .field("failure", &self.failure)
+         .field("quit", &self.quit)
+         .field("config", &self.config)
+         .field("ip6_config", &self.ip6_config)
+         .field("connect", &self.connect)
+         .field("need_secrets", &self.need_secrets)
+         .field("disconnect", &self.disconnect)
+         .field("new_secrets", &self.new_secrets)
+         .field("connect_interactive", &self.connect_interactive)
          .finish()
     }
 }
 
 #[repr(C)]
-pub struct NMVpnServicePluginClass(c_void);
+#[derive(Copy, Clone)]
+pub struct NMVpnServicePluginClass {
+    pub parent: gobject::GObjectClass,
+    pub state_changed: Option<unsafe extern "C" fn(*mut NMVpnServicePlugin, NMVpnServiceState)>,
+    pub ip4_config: Option<unsafe extern "C" fn(*mut NMVpnServicePlugin, *mut glib::GVariant)>,
+    pub login_banner: Option<unsafe extern "C" fn(*mut NMVpnServicePlugin, *const c_char)>,
+    pub failure: Option<unsafe extern "C" fn(*mut NMVpnServicePlugin, NMVpnPluginFailure)>,
+    pub quit: Option<unsafe extern "C" fn(*mut NMVpnServicePlugin)>,
+    pub config: Option<unsafe extern "C" fn(*mut NMVpnServicePlugin, *mut glib::GVariant)>,
+    pub ip6_config: Option<unsafe extern "C" fn(*mut NMVpnServicePlugin, *mut glib::GVariant)>,
+    pub connect: Option<unsafe extern "C" fn(*mut NMVpnServicePlugin, *mut NMConnection, *mut *mut glib::GError) -> gboolean>,
+    pub need_secrets: Option<unsafe extern "C" fn(*mut NMVpnServicePlugin, *mut NMConnection, *mut *const c_char, *mut *mut glib::GError) -> gboolean>,
+    pub disconnect: Option<unsafe extern "C" fn(*mut NMVpnServicePlugin, *mut *mut glib::GError) -> gboolean>,
+    pub new_secrets: Option<unsafe extern "C" fn(*mut NMVpnServicePlugin, *mut NMConnection, *mut *mut glib::GError) -> gboolean>,
+    pub connect_interactive: Option<unsafe extern "C" fn(*mut NMVpnServicePlugin, *mut NMConnection, *mut glib::GVariant, *mut *mut glib::GError) -> gboolean>,
+    pub padding: [gpointer; 8],
+}
 
 impl ::std::fmt::Debug for NMVpnServicePluginClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("NMVpnServicePluginClass @ {:p}", self))
+         .field("parent", &self.parent)
+         .field("state_changed", &self.state_changed)
+         .field("ip4_config", &self.ip4_config)
+         .field("login_banner", &self.login_banner)
+         .field("failure", &self.failure)
+         .field("quit", &self.quit)
+         .field("config", &self.config)
+         .field("ip6_config", &self.ip6_config)
+         .field("connect", &self.connect)
+         .field("need_secrets", &self.need_secrets)
+         .field("disconnect", &self.disconnect)
+         .field("new_secrets", &self.new_secrets)
+         .field("connect_interactive", &self.connect_interactive)
          .finish()
     }
 }
@@ -2913,11 +3024,15 @@ impl ::std::fmt::Debug for NMRemoteConnection {
 }
 
 #[repr(C)]
-pub struct NMSecretAgentOld(c_void);
+#[derive(Copy, Clone)]
+pub struct NMSecretAgentOld {
+    pub parent: gobject::GObject,
+}
 
 impl ::std::fmt::Debug for NMSecretAgentOld {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("NMSecretAgentOld @ {:p}", self))
+         .field("parent", &self.parent)
          .finish()
     }
 }
@@ -3483,21 +3598,29 @@ impl ::std::fmt::Debug for NMVpnPluginInfo {
 }
 
 #[repr(C)]
-pub struct NMVpnPluginOld(c_void);
+#[derive(Copy, Clone)]
+pub struct NMVpnPluginOld {
+    pub parent: gobject::GObject,
+}
 
 impl ::std::fmt::Debug for NMVpnPluginOld {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("NMVpnPluginOld @ {:p}", self))
+         .field("parent", &self.parent)
          .finish()
     }
 }
 
 #[repr(C)]
-pub struct NMVpnServicePlugin(c_void);
+#[derive(Copy, Clone)]
+pub struct NMVpnServicePlugin {
+    pub parent: gobject::GObject,
+}
 
 impl ::std::fmt::Debug for NMVpnServicePlugin {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("NMVpnServicePlugin @ {:p}", self))
+         .field("parent", &self.parent)
          .finish()
     }
 }
