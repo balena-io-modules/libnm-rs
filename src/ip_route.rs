@@ -72,6 +72,12 @@ impl IPRoute {
     /// # Returns
     ///
     /// a copy of `self`
+    ///
+    /// This API was part of public headers before 1.32.0 but
+    /// was erroneously not exported in the ABI. It is thus only
+    /// usable since 1.32.0.
+    #[cfg(any(feature = "v1_32", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
     #[doc(alias = "nm_ip_route_dup")]
     pub fn dup(&self) -> Option<IPRoute> {
         unsafe { from_glib_full(ffi::nm_ip_route_dup(self.to_glib_none().0)) }

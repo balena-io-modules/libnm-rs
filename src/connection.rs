@@ -767,9 +767,9 @@ pub trait ConnectionExt: 'static {
     #[doc(alias = "nm_connection_verify_secrets")]
     fn verify_secrets(&self) -> Result<(), glib::Error>;
 
-    /// The ::changed signal is emitted when any property of any property
-    /// (including secrets) of any setting of the connection is modified,
-    /// or when settings are added or removed.
+    /// The ::changed signal is emitted when any property (including secrets)
+    /// of any setting of the connection is modified, or when settings are
+    /// added or removed.
     #[doc(alias = "changed")]
     fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 

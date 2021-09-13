@@ -410,6 +410,18 @@ pub trait SettingIPConfigExt: 'static {
     #[doc(alias = "get_num_routing_rules")]
     fn num_routing_rules(&self) -> u32;
 
+    /// Returns the value contained in the `property::SettingIPConfig::required-timeout`
+    /// property.
+    ///
+    /// # Returns
+    ///
+    /// the required timeout for the address family
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    #[doc(alias = "nm_setting_ip_config_get_required_timeout")]
+    #[doc(alias = "get_required_timeout")]
+    fn required_timeout(&self) -> i32;
+
     /// ## `idx`
     /// index number of the route to return
     ///
@@ -841,6 +853,28 @@ pub trait SettingIPConfigExt: 'static {
     #[doc(alias = "never-default")]
     fn set_never_default(&self, never_default: bool);
 
+    /// The minimum time interval in milliseconds for which dynamic IP configuration
+    /// should be tried before the connection succeeds.
+    ///
+    /// This property is useful for example if both IPv4 and IPv6 are enabled and
+    /// are allowed to fail. Normally the connection succeeds as soon as one of
+    /// the two address families completes; by setting a required timeout for
+    /// e.g. IPv4, one can ensure that even if IP6 succeeds earlier than IPv4,
+    /// NetworkManager waits some time for IPv4 before the connection becomes
+    /// active.
+    ///
+    /// Note that if `property::SettingIPConfig::may-fail` is FALSE for the same address
+    /// family, this property has no effect as NetworkManager needs to wait for
+    /// the full DHCP timeout.
+    ///
+    /// A zero value means that no required timeout is present, -1 means the
+    /// default value (either configuration ipvx.required-timeout override or
+    /// zero).
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    #[doc(alias = "required-timeout")]
+    fn set_required_timeout(&self, required_timeout: i32);
+
     /// The default metric for routes that don't explicitly specify a metric.
     /// The default value -1 means that the metric is chosen automatically
     /// based on the device type.
@@ -936,6 +970,11 @@ pub trait SettingIPConfigExt: 'static {
 
     #[doc(alias = "never-default")]
     fn connect_never_default_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    #[doc(alias = "required-timeout")]
+    fn connect_required_timeout_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     #[doc(alias = "route-metric")]
     fn connect_route_metric_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -1249,6 +1288,12 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     fn num_routing_rules(&self) -> u32 {
         unsafe { ffi::nm_setting_ip_config_get_num_routing_rules(self.as_ref().to_glib_none().0) }
+    }
+
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    fn required_timeout(&self) -> i32 {
+        unsafe { ffi::nm_setting_ip_config_get_required_timeout(self.as_ref().to_glib_none().0) }
     }
 
     fn route(&self, idx: i32) -> Option<IPRoute> {
@@ -1596,6 +1641,18 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
                 self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
                 b"never-default\0".as_ptr() as *const _,
                 never_default.to_value().to_glib_none().0,
+            );
+        }
+    }
+
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    fn set_required_timeout(&self, required_timeout: i32) {
+        unsafe {
+            glib::gobject_ffi::g_object_set_property(
+                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
+                b"required-timeout\0".as_ptr() as *const _,
+                required_timeout.to_value().to_glib_none().0,
             );
         }
     }
@@ -2050,6 +2107,33 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
                 b"notify::never-default\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_never_default_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    fn connect_required_timeout_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_required_timeout_trampoline<
+            P: IsA<SettingIPConfig>,
+            F: Fn(&P) + 'static,
+        >(
+            this: *mut ffi::NMSettingIPConfig,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(SettingIPConfig::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::required-timeout\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_required_timeout_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

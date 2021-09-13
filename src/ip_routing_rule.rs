@@ -5,6 +5,9 @@
 #[cfg(any(feature = "v1_18", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_32", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+use std::mem;
 #[cfg(any(feature = "v1_18", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
 use std::ptr;
@@ -254,6 +257,41 @@ impl IPRoutingRule {
     ///
     /// # Returns
     ///
+    /// [`true`] if a uid range is set.
+    ///
+    /// ## `out_range_start`
+    /// returns the start of the range
+    ///  or 0 if the range is not set.
+    ///
+    /// ## `out_range_end`
+    /// returns the end of the range
+    ///  or 0 if the range is not set.
+    #[cfg(any(feature = "v1_32", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+    #[doc(alias = "nm_ip_routing_rule_get_uid_range")]
+    #[doc(alias = "get_uid_range")]
+    pub fn uid_range(&self) -> Option<(u32, u32)> {
+        unsafe {
+            let mut out_range_start = mem::MaybeUninit::uninit();
+            let mut out_range_end = mem::MaybeUninit::uninit();
+            let ret = from_glib(ffi::nm_ip_routing_rule_get_uid_range(
+                self.to_glib_none().0,
+                out_range_start.as_mut_ptr(),
+                out_range_end.as_mut_ptr(),
+            ));
+            let out_range_start = out_range_start.assume_init();
+            let out_range_end = out_range_end.assume_init();
+            if ret {
+                Some((out_range_start, out_range_end))
+            } else {
+                None
+            }
+        }
+    }
+
+    ///
+    /// # Returns
+    ///
     /// whether `self` is sealed. Once sealed, an instance
     ///  cannot be modified nor unsealed.
     #[doc(alias = "nm_ip_routing_rule_is_sealed")]
@@ -412,6 +450,25 @@ impl IPRoutingRule {
     pub fn set_tos(&self, tos: u8) {
         unsafe {
             ffi::nm_ip_routing_rule_set_tos(self.to_glib_none().0, tos);
+        }
+    }
+
+    /// For a valid range, start must be less or equal to end.
+    /// If set to an invalid range, the range gets unset.
+    /// ## `uid_range_start`
+    /// the uid_range start to set.
+    /// ## `uid_range_end`
+    /// the uid_range start to set.
+    #[cfg(any(feature = "v1_32", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+    #[doc(alias = "nm_ip_routing_rule_set_uid_range")]
+    pub fn set_uid_range(&self, uid_range_start: u32, uid_range_end: u32) {
+        unsafe {
+            ffi::nm_ip_routing_rule_set_uid_range(
+                self.to_glib_none().0,
+                uid_range_start,
+                uid_range_end,
+            );
         }
     }
 

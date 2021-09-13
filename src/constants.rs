@@ -2277,6 +2277,27 @@ pub static ETHTOOL_OPTNAME_FEATURE_TX_VLAN_STAG_HW_INSERT: once_cell::sync::Lazy
             .to_str()
             .unwrap()
     });
+#[doc(alias = "NM_ETHTOOL_OPTNAME_PAUSE_AUTONEG")]
+pub static ETHTOOL_OPTNAME_PAUSE_AUTONEG: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_PAUSE_AUTONEG)
+            .to_str()
+            .unwrap()
+    });
+#[doc(alias = "NM_ETHTOOL_OPTNAME_PAUSE_RX")]
+pub static ETHTOOL_OPTNAME_PAUSE_RX: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_PAUSE_RX)
+            .to_str()
+            .unwrap()
+    });
+#[doc(alias = "NM_ETHTOOL_OPTNAME_PAUSE_TX")]
+pub static ETHTOOL_OPTNAME_PAUSE_TX: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_PAUSE_TX)
+            .to_str()
+            .unwrap()
+    });
 #[doc(alias = "NM_ETHTOOL_OPTNAME_RING_RX")]
 pub static ETHTOOL_OPTNAME_RING_RX: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
@@ -3365,6 +3386,13 @@ pub static SETTING_BOND_OPTION_NUM_UNSOL_NA: once_cell::sync::Lazy<&'static str>
 pub static SETTING_BOND_OPTION_PACKETS_PER_SLAVE: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_PACKETS_PER_SLAVE)
+            .to_str()
+            .unwrap()
+    });
+#[doc(alias = "NM_SETTING_BOND_OPTION_PEER_NOTIF_DELAY")]
+pub static SETTING_BOND_OPTION_PEER_NOTIF_DELAY: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_PEER_NOTIF_DELAY)
             .to_str()
             .unwrap()
     });
@@ -4627,6 +4655,13 @@ pub static SETTING_IP_CONFIG_METHOD: once_cell::sync::Lazy<&'static str> =
 pub static SETTING_IP_CONFIG_NEVER_DEFAULT: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_NEVER_DEFAULT)
+            .to_str()
+            .unwrap()
+    });
+#[doc(alias = "NM_SETTING_IP_CONFIG_REQUIRED_TIMEOUT")]
+pub static SETTING_IP_CONFIG_REQUIRED_TIMEOUT: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_REQUIRED_TIMEOUT)
             .to_str()
             .unwrap()
     });
@@ -5959,6 +5994,13 @@ pub static SETTING_WIMAX_NETWORK_NAME: once_cell::sync::Lazy<&'static str> =
 pub static SETTING_WIMAX_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(ffi::NM_SETTING_WIMAX_SETTING_NAME)
+            .to_str()
+            .unwrap()
+    });
+#[doc(alias = "NM_SETTING_WIRED_ACCEPT_ALL_MAC_ADDRESSES")]
+pub static SETTING_WIRED_ACCEPT_ALL_MAC_ADDRESSES: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(ffi::NM_SETTING_WIRED_ACCEPT_ALL_MAC_ADDRESSES)
             .to_str()
             .unwrap()
     });

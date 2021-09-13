@@ -323,9 +323,6 @@ impl SettingDcb {
         }
     }
 
-    /// An array of 8 uint values, where the array index corresponds to the User
-    /// Priority (0 - 7) and the value indicates the traffic class (0 - 7) to
-    /// which the priority is mapped.
     #[doc(alias = "nm_setting_dcb_set_priority_traffic_class")]
     pub fn set_priority_traffic_class(&self, user_priority: u32, traffic_class: u32) {
         unsafe {

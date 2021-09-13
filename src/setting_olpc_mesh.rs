@@ -33,16 +33,12 @@ impl SettingOlpcMesh {
         unsafe { Setting::from_glib_full(ffi::nm_setting_olpc_mesh_new()).unsafe_cast() }
     }
 
-    /// Channel on which the mesh network to join is located.
     #[doc(alias = "nm_setting_olpc_mesh_get_channel")]
     #[doc(alias = "get_channel")]
     pub fn channel(&self) -> u32 {
         unsafe { ffi::nm_setting_olpc_mesh_get_channel(self.to_glib_none().0) }
     }
 
-    /// Anycast DHCP MAC address used when requesting an IP address via DHCP.
-    /// The specific anycast address used determines which DHCP server class
-    /// answers the request.
     #[doc(alias = "nm_setting_olpc_mesh_get_dhcp_anycast_address")]
     #[doc(alias = "get_dhcp_anycast_address")]
     pub fn dhcp_anycast_address(&self) -> Option<glib::GString> {
@@ -53,7 +49,6 @@ impl SettingOlpcMesh {
         }
     }
 
-    /// SSID of the mesh network to join.
     #[doc(alias = "nm_setting_olpc_mesh_get_ssid")]
     #[doc(alias = "get_ssid")]
     pub fn ssid(&self) -> Option<glib::Bytes> {
@@ -74,6 +69,8 @@ impl SettingOlpcMesh {
     /// Anycast DHCP MAC address used when requesting an IP address via DHCP.
     /// The specific anycast address used determines which DHCP server class
     /// answers the request.
+    ///
+    /// This is currently only implemented by dhclient DHCP plugin.
     #[doc(alias = "dhcp-anycast-address")]
     pub fn set_dhcp_anycast_address(&self, dhcp_anycast_address: Option<&str>) {
         unsafe {

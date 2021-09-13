@@ -11,8 +11,8 @@ use glib::Type;
 use std::fmt;
 
 #[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "NMActivationStateFlags")]
     pub struct ActivationStateFlags: u32 {
         #[doc(alias = "NM_ACTIVATION_STATE_FLAG_NONE")]
@@ -171,8 +171,8 @@ impl ToValue for BluetoothCapabilities {
 }
 
 #[cfg(any(feature = "v1_4", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
     #[doc(alias = "NMCheckpointCreateFlags")]
     pub struct CheckpointCreateFlags: u32 {
         #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_NONE")]
@@ -257,8 +257,8 @@ impl ToValue for CheckpointCreateFlags {
 }
 
 #[cfg(any(feature = "v1_24", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "NMClientInstanceFlags")]
     pub struct ClientInstanceFlags: u32 {
         #[doc(alias = "NM_CLIENT_INSTANCE_FLAGS_NONE")]
@@ -341,12 +341,20 @@ bitflags! {
     pub struct ConnectionSerializationFlags: u32 {
         #[doc(alias = "NM_CONNECTION_SERIALIZE_ALL")]
         const ALL = ffi::NM_CONNECTION_SERIALIZE_ALL as u32;
+        #[doc(alias = "NM_CONNECTION_SERIALIZE_WITH_NON_SECRET")]
+        const WITH_NON_SECRET = ffi::NM_CONNECTION_SERIALIZE_WITH_NON_SECRET as u32;
         #[doc(alias = "NM_CONNECTION_SERIALIZE_NO_SECRETS")]
         const NO_SECRETS = ffi::NM_CONNECTION_SERIALIZE_NO_SECRETS as u32;
+        #[doc(alias = "NM_CONNECTION_SERIALIZE_WITH_SECRETS")]
+        const WITH_SECRETS = ffi::NM_CONNECTION_SERIALIZE_WITH_SECRETS as u32;
         #[doc(alias = "NM_CONNECTION_SERIALIZE_ONLY_SECRETS")]
         const ONLY_SECRETS = ffi::NM_CONNECTION_SERIALIZE_ONLY_SECRETS as u32;
         #[doc(alias = "NM_CONNECTION_SERIALIZE_WITH_SECRETS_AGENT_OWNED")]
         const WITH_SECRETS_AGENT_OWNED = ffi::NM_CONNECTION_SERIALIZE_WITH_SECRETS_AGENT_OWNED as u32;
+        #[doc(alias = "NM_CONNECTION_SERIALIZE_WITH_SECRETS_SYSTEM_OWNED")]
+        const WITH_SECRETS_SYSTEM_OWNED = ffi::NM_CONNECTION_SERIALIZE_WITH_SECRETS_SYSTEM_OWNED as u32;
+        #[doc(alias = "NM_CONNECTION_SERIALIZE_WITH_SECRETS_NOT_SAVED")]
+        const WITH_SECRETS_NOT_SAVED = ffi::NM_CONNECTION_SERIALIZE_WITH_SECRETS_NOT_SAVED as u32;
     }
 }
 
@@ -475,16 +483,20 @@ impl ToValue for DeviceCapabilities {
 }
 
 #[cfg(any(feature = "v1_22", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     #[doc(alias = "NMDeviceInterfaceFlags")]
     pub struct DeviceInterfaceFlags: u32 {
         #[doc(alias = "NM_DEVICE_INTERFACE_FLAG_UP")]
         const UP = ffi::NM_DEVICE_INTERFACE_FLAG_UP as u32;
         #[doc(alias = "NM_DEVICE_INTERFACE_FLAG_LOWER_UP")]
         const LOWER_UP = ffi::NM_DEVICE_INTERFACE_FLAG_LOWER_UP as u32;
+        #[doc(alias = "NM_DEVICE_INTERFACE_FLAG_PROMISC")]
+        const PROMISC = ffi::NM_DEVICE_INTERFACE_FLAG_PROMISC as u32;
         #[doc(alias = "NM_DEVICE_INTERFACE_FLAG_CARRIER")]
         const CARRIER = ffi::NM_DEVICE_INTERFACE_FLAG_CARRIER as u32;
+        #[doc(alias = "NM_DEVICE_INTERFACE_FLAG_LLDP_CLIENT_ENABLED")]
+        const LLDP_CLIENT_ENABLED = ffi::NM_DEVICE_INTERFACE_FLAG_LLDP_CLIENT_ENABLED as u32;
     }
 }
 
@@ -715,8 +727,8 @@ impl ToValue for DeviceWifiCapabilities {
 }
 
 #[cfg(any(feature = "v1_22", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     #[doc(alias = "NMDhcpHostnameFlags")]
     pub struct DhcpHostnameFlags: u32 {
         #[doc(alias = "NM_DHCP_HOSTNAME_FLAG_NONE")]
@@ -801,8 +813,8 @@ impl ToValue for DhcpHostnameFlags {
 }
 
 #[cfg(any(feature = "v1_22", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     #[doc(alias = "NMIPAddressCmpFlags")]
     pub struct IPAddressCmpFlags: u32 {
         #[doc(alias = "NM_IP_ADDRESS_CMP_FLAGS_NONE")]
@@ -881,8 +893,8 @@ impl ToValue for IPAddressCmpFlags {
 }
 
 #[cfg(any(feature = "v1_18", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "NMIPRoutingRuleAsStringFlags")]
     pub struct IPRoutingRuleAsStringFlags: u32 {
         #[doc(alias = "NM_IP_ROUTING_RULE_AS_STRING_FLAGS_NONE")]
@@ -1039,8 +1051,8 @@ impl ToValue for IPTunnelFlags {
 }
 
 #[cfg(any(feature = "v1_30", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
     #[doc(alias = "NMKeyfileHandlerFlags")]
     pub struct KeyfileHandlerFlags: u32 {
         #[doc(alias = "NM_KEYFILE_HANDLER_FLAGS_NONE")]
@@ -1117,8 +1129,8 @@ impl ToValue for KeyfileHandlerFlags {
 }
 
 #[cfg(any(feature = "v1_22", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     #[doc(alias = "NMManagerReloadFlags")]
     pub struct ManagerReloadFlags: u32 {
         #[doc(alias = "NM_MANAGER_RELOAD_FLAG_CONF")]
@@ -1339,8 +1351,8 @@ impl ToValue for SecretAgentGetSecretsFlags {
 }
 
 #[cfg(any(feature = "v1_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "NMSetting8021xAuthFlags")]
     pub struct Setting8021xAuthFlags: u32 {
         #[doc(alias = "NM_SETTING_802_1X_AUTH_FLAGS_NONE")]
@@ -1561,8 +1573,8 @@ impl ToValue for SettingSecretFlags {
 }
 
 #[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "NMSettingWiredWakeOnLan")]
     pub struct SettingWiredWakeOnLan: u32 {
         #[doc(alias = "NM_SETTING_WIRED_WAKE_ON_LAN_PHY")]
@@ -1653,8 +1665,8 @@ impl ToValue for SettingWiredWakeOnLan {
 }
 
 #[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "NMSettingWirelessSecurityWpsMethod")]
     pub struct SettingWirelessSecurityWpsMethod: u32 {
         #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_DEFAULT")]
@@ -1739,8 +1751,8 @@ impl ToValue for SettingWirelessSecurityWpsMethod {
 }
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "NMSettingWirelessWakeOnWLan")]
     pub struct SettingWirelessWakeOnWLan: u32 {
         #[doc(alias = "NM_SETTING_WIRELESS_WAKE_ON_WLAN_ANY")]
@@ -1837,8 +1849,8 @@ impl ToValue for SettingWirelessWakeOnWLan {
 }
 
 #[cfg(any(feature = "v1_20", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     #[doc(alias = "NMSettingsAddConnection2Flags")]
     pub struct SettingsAddConnection2Flags: u32 {
         #[doc(alias = "NM_SETTINGS_ADD_CONNECTION2_FLAG_NONE")]
@@ -1921,8 +1933,8 @@ impl ToValue for SettingsAddConnection2Flags {
 }
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "NMSettingsConnectionFlags")]
     pub struct SettingsConnectionFlags: u32 {
         #[doc(alias = "NM_SETTINGS_CONNECTION_FLAG_NONE")]
@@ -2007,8 +2019,8 @@ impl ToValue for SettingsConnectionFlags {
 }
 
 #[cfg(any(feature = "v1_12", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "NMSettingsUpdate2Flags")]
     pub struct SettingsUpdate2Flags: u32 {
         #[doc(alias = "NM_SETTINGS_UPDATE2_FLAG_NONE")]

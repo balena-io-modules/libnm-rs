@@ -60,11 +60,39 @@ glib::wrapper! {
 }
 
 impl Client {
-    /// Creates a new [`Client`][crate::Client].
+    /// Creates a new [`Client`][crate::Client] synchronously.
     ///
-    /// Note that this will do blocking D-Bus calls to initialize the
-    /// client. You can use [`new_async()`][Self::new_async()] if you want to avoid
-    /// that.
+    /// Note that this will block until a NMClient instance is fully initialized.
+    /// This does nothing beside calling `g_initable_new()`. You are free to call
+    /// `g_initable_new()` or [`glib::Object::new()`][crate::glib::Object::new()]/`g_initable_init()` directly for more
+    /// control, to set GObject properties or get access to the NMClient instance
+    /// while it is still initializing.
+    ///
+    /// Using the synchronous initialization creates an [`Client`][crate::Client] instance
+    /// that uses an internal `GMainContext`. This context is invisible to the
+    /// user. This introduces an additional overhead that is payed not
+    /// only during object initialization, but for the entire lifetime of
+    /// this object.
+    /// Also, due to this internal `GMainContext`, the events are no longer
+    /// in sync with other messages from [`gio::DBusConnection`][crate::gio::DBusConnection] (but all events
+    /// of the NMClient will themselves still be ordered).
+    /// For a serious program, you should therefore avoid these problems by
+    /// using `g_async_initable_init_async()` or [`new_async()`][Self::new_async()] instead.
+    /// The sync initialization is still useful for simple scripts or interactive
+    /// testing for example via pygobject.
+    ///
+    /// Creating an [`Client`][crate::Client] instance can only fail for two reasons. First, if you didn't
+    /// provide a [`CLIENT_DBUS_CONNECTION`][crate::CLIENT_DBUS_CONNECTION] and the call to `g_bus_get()`
+    /// fails. You can avoid that by using `g_initable_new()` directly and
+    /// set a D-Bus connection.
+    /// Second, if you cancelled the creation. If you do that, then note
+    /// that after the failure there might still be idle actions pending
+    /// which keep `nm_client_get_main_context()` alive. That means,
+    /// in that case you must continue iterating the context to avoid
+    /// leaks. See [`context_busy_watcher()`][Self::context_busy_watcher()].
+    ///
+    /// Creating an [`Client`][crate::Client] instance when NetworkManager is not running
+    /// does not cause a failure.
     /// ## `cancellable`
     /// a [`gio::Cancellable`][crate::gio::Cancellable], or [`None`]
     ///
@@ -1349,16 +1377,25 @@ impl Client {
     /// keep the GMainContext alive. In order to fully release all resources,
     /// the user must keep iterating the main context until all these callbacks
     /// are handled. Of course, at this point no more actual callbacks will be invoked
-    /// for the user, those are all internally cancelled.
+    /// for the user, those are all cancelled internally.
     ///
     /// This just leaves one problem: how long does the user need to keep the
     /// GMainContext running to ensure everything is cleaned up? The answer is
     /// this GObject. Subscribe a weak reference to the returned object and keep
     /// iterating the main context until the object got unreferenced.
     ///
-    /// Note that after the NMClient instance gets destroyed, the remaining callbacks
-    /// will be invoked right away. That means, the user won't have to iterate the
-    /// main context much longer.
+    /// Note that after the NMClient instance gets destroyed, all outstanding operations
+    /// will be cancelled right away. That means, the user needs to iterate the `GMainContext`
+    /// a bit longer, but it is guaranteed that the cleanup happens soon after.
+    ///
+    /// The way of using the context-busy-watch, is by registering a weak pointer to
+    /// see when it gets destroyed. That means, user code should not take additional
+    /// references on this object to not keep it alive longer.
+    ///
+    /// If you plan to exit the program after releasing the NMClient instance
+    /// you may not need to worry about these "leaks". Also, if you anyway plan to continue
+    /// iterating the `GMainContext` afterwards, then you don't need to care when exactly
+    /// NMClient is gone completely.
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     #[doc(alias = "nm_client_get_context_busy_watcher")]
@@ -2421,10 +2458,27 @@ impl Client {
         }
     }
 
-    /// Creates a new [`Client`][crate::Client] and begins asynchronously initializing it.
-    /// `callback` will be called when it is done; use
-    /// `nm_client_new_finish()` to get the result. Note that on an error,
-    /// the callback can be invoked with two first parameters as NULL.
+    /// Creates a new [`Client`][crate::Client] asynchronously.
+    /// `callback` will be called when it is done. Use
+    /// `nm_client_new_finish()` to get the result.
+    ///
+    /// This does nothing beside calling `g_async_initable_new_async()`. You are free to
+    /// call `g_async_initable_new_async()` or [`glib::Object::new()`][crate::glib::Object::new()]/`g_async_initable_init_async()`
+    /// directly for more control, to set GObject properties or get access to the NMClient
+    /// instance while it is still initializing.
+    ///
+    /// Creating an [`Client`][crate::Client] instance can only fail for two reasons. First, if you didn't
+    /// provide a [`CLIENT_DBUS_CONNECTION`][crate::CLIENT_DBUS_CONNECTION] and the call to `g_bus_get()`
+    /// fails. You can avoid that by using `g_async_initable_new_async()` directly and
+    /// set a D-Bus connection.
+    /// Second, if you cancelled the creation. If you do that, then note
+    /// that after the failure there might still be idle actions pending
+    /// which keep `nm_client_get_main_context()` alive. That means,
+    /// in that case you must continue iterating the context to avoid
+    /// leaks. See [`context_busy_watcher()`][Self::context_busy_watcher()].
+    ///
+    /// Creating an [`Client`][crate::Client] instance when NetworkManager is not running
+    /// does not cause a failure.
     /// ## `cancellable`
     /// a [`gio::Cancellable`][crate::gio::Cancellable], or [`None`]
     /// ## `callback`

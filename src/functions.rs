@@ -53,6 +53,18 @@ pub fn ethtool_optname_is_feature(optname: Option<&str>) -> bool {
     unsafe { from_glib(ffi::nm_ethtool_optname_is_feature(optname.to_glib_none().0)) }
 }
 
+/// Checks whether `optname` is a valid option name for a pause setting.
+///
+/// `Returns`: [`true`], if `optname` is valid
+/// ## `optname`
+/// the option name to check
+#[cfg(any(feature = "v1_32", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+#[doc(alias = "nm_ethtool_optname_is_pause")]
+pub fn ethtool_optname_is_pause(optname: Option<&str>) -> bool {
+    unsafe { from_glib(ffi::nm_ethtool_optname_is_pause(optname.to_glib_none().0)) }
+}
+
 /// Checks whether `optname` is a valid option name for a ring setting.
 ///
 /// `Returns`: [`true`], if `optname` is valid
@@ -751,6 +763,12 @@ pub fn utils_is_json_object(str: &str) -> Result<(), glib::Error> {
 }
 
 /// Checks if `str` is a UUID
+///
+/// # Deprecated since 1.32
+///
+/// older versions of NetworkManager had a wrong
+///  understanding of what makes a valid UUID. This function can thus
+///  accept some inputs as valid, which in fact are not valid UUIDs.
 /// ## `str`
 /// a string that might be a UUID
 ///
@@ -760,6 +778,7 @@ pub fn utils_is_json_object(str: &str) -> Result<(), glib::Error> {
 ///
 /// In older versions, [`utils_is_uuid()`][crate::utils_is_uuid()] did not accept [`None`] as `str`
 /// argument. Don't pass [`None`] if you run against older versions of libnm.
+#[cfg_attr(feature = "v1_32", deprecated = "Since 1.32")]
 #[doc(alias = "nm_utils_is_uuid")]
 pub fn utils_is_uuid(str: Option<&str>) -> bool {
     unsafe { from_glib(ffi::nm_utils_is_uuid(str.to_glib_none().0)) }

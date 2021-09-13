@@ -6,6 +6,9 @@ use crate::Setting;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use crate::SettingWiredWakeOnLan;
+#[cfg(any(feature = "v1_32", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+use crate::Ternary;
 use glib::object::Cast;
 use glib::object::ObjectType as ObjectType_;
 use glib::signal::connect_raw;
@@ -55,10 +58,11 @@ impl SettingWired {
         }
     }
 
-    /// Add an option to the table. The option is compared to an internal list
-    /// of allowed options. Key names may contain only alphanumeric characters
-    /// (ie [a-zA-Z0-9]). Adding a new key replaces any existing key/value pair that
-    /// may already exist.
+    /// Add an option to the table. If the key already exists, the value gets
+    /// replaced.
+    ///
+    /// Before 1.32, the function would assert that the key is valid. Since then,
+    /// an invalid key gets silently added but renders the profile as invalid.
     /// ## `key`
     /// key name for the option
     /// ## `value`
@@ -66,8 +70,7 @@ impl SettingWired {
     ///
     /// # Returns
     ///
-    /// [`true`] if the option was valid and was added to the internal option
-    /// list, [`false`] if it was not.
+    /// since 1.32 this always returns [`true`].
     #[doc(alias = "nm_setting_wired_add_s390_option")]
     pub fn add_s390_option(&self, key: &str, value: &str) -> bool {
         unsafe {
@@ -84,6 +87,22 @@ impl SettingWired {
     pub fn clear_mac_blacklist_items(&self) {
         unsafe {
             ffi::nm_setting_wired_clear_mac_blacklist_items(self.to_glib_none().0);
+        }
+    }
+
+    ///
+    /// # Returns
+    ///
+    /// the `property::SettingWired::accept-all-mac-addresses` property of the setting
+    #[cfg(any(feature = "v1_32", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+    #[doc(alias = "nm_setting_wired_get_accept_all_mac_addresses")]
+    #[doc(alias = "get_accept_all_mac_addresses")]
+    pub fn accept_all_mac_addresses(&self) -> Ternary {
+        unsafe {
+            from_glib(ffi::nm_setting_wired_get_accept_all_mac_addresses(
+                self.to_glib_none().0,
+            ))
         }
     }
 
@@ -382,6 +401,23 @@ impl SettingWired {
                 self.to_glib_none().0,
                 key.to_glib_none().0,
             ))
+        }
+    }
+
+    /// When [`true`], setup the interface to accept packets for all MAC addresses.
+    /// This is enabling the kernel interface flag IFF_PROMISC.
+    /// When [`false`], the interface will only accept the packets with the
+    /// interface destination mac address or broadcast.
+    #[cfg(any(feature = "v1_32", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+    #[doc(alias = "accept-all-mac-addresses")]
+    pub fn set_accept_all_mac_addresses(&self, accept_all_mac_addresses: Ternary) {
+        unsafe {
+            glib::gobject_ffi::g_object_set_property(
+                self.as_ptr() as *mut glib::gobject_ffi::GObject,
+                b"accept-all-mac-addresses\0".as_ptr() as *const _,
+                accept_all_mac_addresses.to_value().to_glib_none().0,
+            );
         }
     }
 
@@ -696,6 +732,36 @@ impl SettingWired {
                 b"wake-on-lan-password\0".as_ptr() as *const _,
                 wake_on_lan_password.to_value().to_glib_none().0,
             );
+        }
+    }
+
+    #[cfg(any(feature = "v1_32", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+    #[doc(alias = "accept-all-mac-addresses")]
+    pub fn connect_accept_all_mac_addresses_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_accept_all_mac_addresses_trampoline<
+            F: Fn(&SettingWired) + 'static,
+        >(
+            this: *mut ffi::NMSettingWired,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::accept-all-mac-addresses\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_accept_all_mac_addresses_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 

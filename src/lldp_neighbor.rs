@@ -23,6 +23,14 @@ glib::wrapper! {
 impl LldpNeighbor {
     /// Creates a new [`LldpNeighbor`][crate::LldpNeighbor] object.
     ///
+    /// Note that [`LldpNeighbor`][crate::LldpNeighbor] has no public API for mutating
+    /// an instance. Also, libnm will not internally mutate a
+    /// once exposed object. They are guaranteed to be immutable.
+    /// Since 1.32, ref-counting is thread-safe.
+    ///
+    /// This function is not useful, as there is no public API to
+    /// actually modify the (empty) instance.
+    ///
     /// # Returns
     ///
     /// the new [`LldpNeighbor`][crate::LldpNeighbor] object.
@@ -49,13 +57,13 @@ impl LldpNeighbor {
         }
     }
 
-    /// Gets the uint value of attribute with name `name` on `self`
+    /// Gets the uint32 value of attribute with name `name` on `self`
     /// ## `name`
     /// the attribute name
     ///
     /// # Returns
     ///
-    /// [`true`] if a uint attribute with name `name` was found, [`false`] otherwise
+    /// [`true`] if a uint32 attribute with name `name` was found, [`false`] otherwise
     ///
     /// ## `out_value`
     /// on return, the attribute value

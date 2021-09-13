@@ -66,11 +66,6 @@ impl SettingIPTunnel {
         unsafe { ffi::nm_setting_ip_tunnel_get_encapsulation_limit(self.to_glib_none().0) }
     }
 
-    /// Tunnel flags. Currently, the following values are supported:
-    /// [`IPTunnelFlags::IP6_IGN_ENCAP_LIMIT`][crate::IPTunnelFlags::IP6_IGN_ENCAP_LIMIT], [`IPTunnelFlags::IP6_USE_ORIG_TCLASS`][crate::IPTunnelFlags::IP6_USE_ORIG_TCLASS],
-    /// [`IPTunnelFlags::IP6_USE_ORIG_FLOWLABEL`][crate::IPTunnelFlags::IP6_USE_ORIG_FLOWLABEL], [`IPTunnelFlags::IP6_MIP6_DEV`][crate::IPTunnelFlags::IP6_MIP6_DEV],
-    /// [`IPTunnelFlags::IP6_RCV_DSCP_COPY`][crate::IPTunnelFlags::IP6_RCV_DSCP_COPY], [`IPTunnelFlags::IP6_USE_ORIG_FWMARK`][crate::IPTunnelFlags::IP6_USE_ORIG_FWMARK].
-    /// They are valid only for IPv6 tunnels.
     #[doc(alias = "nm_setting_ip_tunnel_get_flags")]
     #[doc(alias = "get_flags")]
     pub fn flags(&self) -> IPTunnelFlags {

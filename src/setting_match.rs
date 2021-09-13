@@ -3,6 +3,8 @@
 // DO NOT EDIT
 
 use crate::Setting;
+#[cfg(any(feature = "v1_32", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
 use glib::object::Cast;
 use glib::object::ObjectType as ObjectType_;
 use glib::signal::connect_raw;
@@ -29,6 +31,13 @@ impl SettingMatch {
     /// # Returns
     ///
     /// the new empty [`SettingMatch`][crate::SettingMatch] object
+    ///
+    /// Note that this function was present in header files since version 1.14.
+    /// But due to a bug the symbol is only exposed and usable since version 1.32.
+    /// As workaround, use g_object_new(NM_TYPE_SETTING_MATCH) which works with all
+    /// versions since 1.14.
+    #[cfg(any(feature = "v1_32", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
     #[doc(alias = "nm_setting_match_new")]
     pub fn new() -> SettingMatch {
         unsafe { Setting::from_glib_full(ffi::nm_setting_match_new()).unsafe_cast() }
@@ -486,16 +495,16 @@ impl SettingMatch {
     }
 
     /// A list of kernel command line arguments to match. This may be used to check
-    /// whether a specific kernel command line option is set (or if prefixed with
-    /// the exclamation mark unset). The argument must either be a single word, or
-    /// an assignment (i.e. two words, separated "="). In the former case the kernel
+    /// whether a specific kernel command line option is set (or unset, if prefixed with
+    /// the exclamation mark). The argument must either be a single word, or
+    /// an assignment (i.e. two words, joined by "="). In the former case the kernel
     /// command line is searched for the word appearing as is, or as left hand side
     /// of an assignment. In the latter case, the exact assignment is looked for
-    /// with right and left hand side matching.
+    /// with right and left hand side matching. Wildcard patterns are not supported.
     ///
     /// See NMSettingMatch:interface-name for how special characters '|', '&',
     /// '!' and '\\' are used for optional and mandatory matches and inverting the
-    /// pattern.
+    /// match.
     #[cfg(any(feature = "v1_26", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     #[doc(alias = "kernel-command-line")]
@@ -646,8 +655,8 @@ impl SettingMatch {
     }
 }
 
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+#[cfg(any(feature = "v1_32", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
 impl Default for SettingMatch {
     fn default() -> Self {
         Self::new()

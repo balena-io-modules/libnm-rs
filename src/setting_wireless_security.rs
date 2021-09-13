@@ -150,14 +150,6 @@ impl SettingWirelessSecurity {
         }
     }
 
-    /// Indicates whether Fast Initial Link Setup (802.11ai) must be enabled for
-    /// the connection. One of [`SettingWirelessSecurityFils::Default`][crate::SettingWirelessSecurityFils::Default] (use
-    /// global default value), [`SettingWirelessSecurityFils::Disable`][crate::SettingWirelessSecurityFils::Disable]
-    /// (disable FILS), [`SettingWirelessSecurityFils::Optional`][crate::SettingWirelessSecurityFils::Optional] (enable FILS
-    /// if the supplicant and the access point support it) or
-    /// [`SettingWirelessSecurityFils::Required`][crate::SettingWirelessSecurityFils::Required] (enable FILS and fail if not
-    /// supported). When set to [`SettingWirelessSecurityFils::Default`][crate::SettingWirelessSecurityFils::Default] and
-    /// no global default is set, FILS will be optionally enabled.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_setting_wireless_security_get_fils")]
@@ -296,14 +288,6 @@ impl SettingWirelessSecurity {
         }
     }
 
-    /// Indicates whether Protected Management Frames (802.11w) must be enabled
-    /// for the connection. One of [`SettingWirelessSecurityPmf::Default`][crate::SettingWirelessSecurityPmf::Default]
-    /// (use global default value), [`SettingWirelessSecurityPmf::Disable`][crate::SettingWirelessSecurityPmf::Disable]
-    /// (disable PMF), [`SettingWirelessSecurityPmf::Optional`][crate::SettingWirelessSecurityPmf::Optional] (enable PMF if
-    /// the supplicant and the access point support it) or
-    /// [`SettingWirelessSecurityPmf::Required`][crate::SettingWirelessSecurityPmf::Required] (enable PMF and fail if not
-    /// supported). When set to [`SettingWirelessSecurityPmf::Default`][crate::SettingWirelessSecurityPmf::Default] and no
-    /// global default is set, PMF will be optionally enabled.
     #[doc(alias = "nm_setting_wireless_security_get_pmf")]
     #[doc(alias = "get_pmf")]
     pub fn pmf(&self) -> SettingWirelessSecurityPmf {
@@ -585,10 +569,12 @@ impl SettingWirelessSecurity {
         }
     }
 
-    /// Key management used for the connection. One of "none" (WEP),
-    /// "ieee8021x" (Dynamic WEP), "wpa-psk" (infrastructure WPA-PSK), "sae"
-    /// (SAE), "owe" (Opportunistic Wireless Encryption), "wpa-eap"
-    /// (WPA-Enterprise) or "wpa-eap-suite-b-192" (WPA3-Enterprise Suite B).
+    /// Key management used for the connection. One of "none" (WEP or no
+    /// password protection), "ieee8021x" (Dynamic WEP), "owe" (Opportunistic
+    /// Wireless Encryption), "wpa-psk" (WPA2 + WPA3 personal), "sae" (WPA3
+    /// personal only), "wpa-eap" (WPA2 + WPA3 enterprise) or
+    /// "wpa-eap-suite-b-192" (WPA3 enterprise only).
+    ///
     /// This property must be set for any Wi-Fi connection that uses security.
     #[doc(alias = "key-mgmt")]
     pub fn set_key_mgmt(&self, key_mgmt: Option<&str>) {

@@ -891,6 +891,9 @@ pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_SEGMENTATION: *const c_char = b"feat
 pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_CSUM_SEGMENTATION: *const c_char = b"feature-tx-udp_tnl-csum-segmentation\0" as *const u8 as *const c_char;
 pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_SEGMENTATION: *const c_char = b"feature-tx-udp_tnl-segmentation\0" as *const u8 as *const c_char;
 pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_VLAN_STAG_HW_INSERT: *const c_char = b"feature-tx-vlan-stag-hw-insert\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_PAUSE_AUTONEG: *const c_char = b"pause-autoneg\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_PAUSE_RX: *const c_char = b"pause-rx\0" as *const u8 as *const c_char;
+pub const NM_ETHTOOL_OPTNAME_PAUSE_TX: *const c_char = b"pause-tx\0" as *const u8 as *const c_char;
 pub const NM_ETHTOOL_OPTNAME_RING_RX: *const c_char = b"ring-rx\0" as *const u8 as *const c_char;
 pub const NM_ETHTOOL_OPTNAME_RING_RX_JUMBO: *const c_char = b"ring-rx-jumbo\0" as *const u8 as *const c_char;
 pub const NM_ETHTOOL_OPTNAME_RING_RX_MINI: *const c_char = b"ring-rx-mini\0" as *const u8 as *const c_char;
@@ -947,8 +950,8 @@ pub const NM_LLDP_DEST_NEAREST_BRIDGE: *const c_char = b"nearest-bridge\0" as *c
 pub const NM_LLDP_DEST_NEAREST_CUSTOMER_BRIDGE: *const c_char = b"nearest-customer-bridge\0" as *const u8 as *const c_char;
 pub const NM_LLDP_DEST_NEAREST_NON_TPMR_BRIDGE: *const c_char = b"nearest-non-tpmr-bridge\0" as *const u8 as *const c_char;
 pub const NM_MAJOR_VERSION: c_int = 1;
-pub const NM_MICRO_VERSION: c_int = 4;
-pub const NM_MINOR_VERSION: c_int = 30;
+pub const NM_MICRO_VERSION: c_int = 10;
+pub const NM_MINOR_VERSION: c_int = 32;
 pub const NM_OBJECT_PATH: *const c_char = b"path\0" as *const u8 as *const c_char;
 pub const NM_REMOTE_CONNECTION_DBUS_CONNECTION: *const c_char = b"dbus-connection\0" as *const u8 as *const c_char;
 pub const NM_REMOTE_CONNECTION_FILENAME: *const c_char = b"filename\0" as *const u8 as *const c_char;
@@ -1053,6 +1056,7 @@ pub const NM_SETTING_BOND_OPTION_MODE: *const c_char = b"mode\0" as *const u8 as
 pub const NM_SETTING_BOND_OPTION_NUM_GRAT_ARP: *const c_char = b"num_grat_arp\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BOND_OPTION_NUM_UNSOL_NA: *const c_char = b"num_unsol_na\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BOND_OPTION_PACKETS_PER_SLAVE: *const c_char = b"packets_per_slave\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BOND_OPTION_PEER_NOTIF_DELAY: *const c_char = b"peer_notif_delay\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BOND_OPTION_PRIMARY: *const c_char = b"primary\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BOND_OPTION_PRIMARY_RESELECT: *const c_char = b"primary_reselect\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BOND_OPTION_RESEND_IGMP: *const c_char = b"resend_igmp\0" as *const u8 as *const c_char;
@@ -1234,6 +1238,7 @@ pub const NM_SETTING_IP_CONFIG_IGNORE_AUTO_ROUTES: *const c_char = b"ignore-auto
 pub const NM_SETTING_IP_CONFIG_MAY_FAIL: *const c_char = b"may-fail\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP_CONFIG_METHOD: *const c_char = b"method\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP_CONFIG_NEVER_DEFAULT: *const c_char = b"never-default\0" as *const u8 as *const c_char;
+pub const NM_SETTING_IP_CONFIG_REQUIRED_TIMEOUT: *const c_char = b"required-timeout\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP_CONFIG_ROUTES: *const c_char = b"routes\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP_CONFIG_ROUTE_METRIC: *const c_char = b"route-metric\0" as *const u8 as *const c_char;
 pub const NM_SETTING_IP_CONFIG_ROUTE_TABLE: *const c_char = b"route-table\0" as *const u8 as *const c_char;
@@ -1441,6 +1446,7 @@ pub const NM_SETTING_WIFI_P2P_WPS_METHOD: *const c_char = b"wps-method\0" as *co
 pub const NM_SETTING_WIMAX_MAC_ADDRESS: *const c_char = b"mac-address\0" as *const u8 as *const c_char;
 pub const NM_SETTING_WIMAX_NETWORK_NAME: *const c_char = b"network-name\0" as *const u8 as *const c_char;
 pub const NM_SETTING_WIMAX_SETTING_NAME: *const c_char = b"wimax\0" as *const u8 as *const c_char;
+pub const NM_SETTING_WIRED_ACCEPT_ALL_MAC_ADDRESSES: *const c_char = b"accept-all-mac-addresses\0" as *const u8 as *const c_char;
 pub const NM_SETTING_WIRED_AUTO_NEGOTIATE: *const c_char = b"auto-negotiate\0" as *const u8 as *const c_char;
 pub const NM_SETTING_WIRED_CLONED_MAC_ADDRESS: *const c_char = b"cloned-mac-address\0" as *const u8 as *const c_char;
 pub const NM_SETTING_WIRED_DUPLEX: *const c_char = b"duplex\0" as *const u8 as *const c_char;
@@ -1653,9 +1659,13 @@ pub const NM_CLIENT_INSTANCE_FLAGS_NO_AUTO_FETCH_PERMISSIONS: NMClientInstanceFl
 
 pub type NMConnectionSerializationFlags = c_uint;
 pub const NM_CONNECTION_SERIALIZE_ALL: NMConnectionSerializationFlags = 0;
+pub const NM_CONNECTION_SERIALIZE_WITH_NON_SECRET: NMConnectionSerializationFlags = 1;
 pub const NM_CONNECTION_SERIALIZE_NO_SECRETS: NMConnectionSerializationFlags = 1;
+pub const NM_CONNECTION_SERIALIZE_WITH_SECRETS: NMConnectionSerializationFlags = 2;
 pub const NM_CONNECTION_SERIALIZE_ONLY_SECRETS: NMConnectionSerializationFlags = 2;
 pub const NM_CONNECTION_SERIALIZE_WITH_SECRETS_AGENT_OWNED: NMConnectionSerializationFlags = 4;
+pub const NM_CONNECTION_SERIALIZE_WITH_SECRETS_SYSTEM_OWNED: NMConnectionSerializationFlags = 8;
+pub const NM_CONNECTION_SERIALIZE_WITH_SECRETS_NOT_SAVED: NMConnectionSerializationFlags = 16;
 
 pub type NMDeviceCapabilities = c_uint;
 pub const NM_DEVICE_CAP_NONE: NMDeviceCapabilities = 0;
@@ -1667,7 +1677,9 @@ pub const NM_DEVICE_CAP_SRIOV: NMDeviceCapabilities = 8;
 pub type NMDeviceInterfaceFlags = c_uint;
 pub const NM_DEVICE_INTERFACE_FLAG_UP: NMDeviceInterfaceFlags = 1;
 pub const NM_DEVICE_INTERFACE_FLAG_LOWER_UP: NMDeviceInterfaceFlags = 2;
+pub const NM_DEVICE_INTERFACE_FLAG_PROMISC: NMDeviceInterfaceFlags = 4;
 pub const NM_DEVICE_INTERFACE_FLAG_CARRIER: NMDeviceInterfaceFlags = 65536;
+pub const NM_DEVICE_INTERFACE_FLAG_LLDP_CLIENT_ENABLED: NMDeviceInterfaceFlags = 131072;
 
 pub type NMDeviceModemCapabilities = c_uint;
 pub const NM_DEVICE_MODEM_CAPABILITY_NONE: NMDeviceModemCapabilities = 0;
@@ -2125,44 +2137,24 @@ pub struct _NMSetting6LowpanClass(c_void);
 pub type NMSetting6LowpanClass = *mut _NMSetting6LowpanClass;
 
 #[repr(C)]
-pub struct NMSetting8021xClass(c_void);
+pub struct _NMSetting8021xClass(c_void);
 
-impl ::std::fmt::Debug for NMSetting8021xClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSetting8021xClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSetting8021xClass = *mut _NMSetting8021xClass;
 
 #[repr(C)]
-pub struct NMSettingAdslClass(c_void);
+pub struct _NMSettingAdslClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingAdslClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingAdslClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingAdslClass = *mut _NMSettingAdslClass;
 
 #[repr(C)]
-pub struct NMSettingBluetoothClass(c_void);
+pub struct _NMSettingBluetoothClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingBluetoothClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingBluetoothClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingBluetoothClass = *mut _NMSettingBluetoothClass;
 
 #[repr(C)]
-pub struct NMSettingBondClass(c_void);
+pub struct _NMSettingBondClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingBondClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingBondClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingBondClass = *mut _NMSettingBondClass;
 
 #[repr(C)]
 pub struct _NMSettingBridgeClass(c_void);
@@ -2170,64 +2162,34 @@ pub struct _NMSettingBridgeClass(c_void);
 pub type NMSettingBridgeClass = *mut _NMSettingBridgeClass;
 
 #[repr(C)]
-pub struct NMSettingBridgePortClass(c_void);
+pub struct _NMSettingBridgePortClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingBridgePortClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingBridgePortClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingBridgePortClass = *mut _NMSettingBridgePortClass;
 
 #[repr(C)]
-pub struct NMSettingCdmaClass(c_void);
+pub struct _NMSettingCdmaClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingCdmaClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingCdmaClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingCdmaClass = *mut _NMSettingCdmaClass;
 
 #[repr(C)]
-pub struct NMSettingClass(c_void);
+pub struct _NMSettingClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingClass = *mut _NMSettingClass;
 
 #[repr(C)]
-pub struct NMSettingConnectionClass(c_void);
+pub struct _NMSettingConnectionClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingConnectionClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingConnectionClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingConnectionClass = *mut _NMSettingConnectionClass;
 
 #[repr(C)]
-pub struct NMSettingDcbClass(c_void);
+pub struct _NMSettingDcbClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingDcbClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingDcbClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingDcbClass = *mut _NMSettingDcbClass;
 
 #[repr(C)]
-pub struct NMSettingDummyClass(c_void);
+pub struct _NMSettingDummyClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingDummyClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingDummyClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingDummyClass = *mut _NMSettingDummyClass;
 
 #[repr(C)]
 pub struct _NMSettingEthtoolClass(c_void);
@@ -2235,24 +2197,14 @@ pub struct _NMSettingEthtoolClass(c_void);
 pub type NMSettingEthtoolClass = *mut _NMSettingEthtoolClass;
 
 #[repr(C)]
-pub struct NMSettingGenericClass(c_void);
+pub struct _NMSettingGenericClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingGenericClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingGenericClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingGenericClass = *mut _NMSettingGenericClass;
 
 #[repr(C)]
-pub struct NMSettingGsmClass(c_void);
+pub struct _NMSettingGsmClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingGsmClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingGsmClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingGsmClass = *mut _NMSettingGsmClass;
 
 #[repr(C)]
 pub struct _NMSettingHostnameClass(c_void);
@@ -2260,74 +2212,39 @@ pub struct _NMSettingHostnameClass(c_void);
 pub type NMSettingHostnameClass = *mut _NMSettingHostnameClass;
 
 #[repr(C)]
-pub struct NMSettingIP4ConfigClass(c_void);
+pub struct _NMSettingIP4ConfigClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingIP4ConfigClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingIP4ConfigClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingIP4ConfigClass = *mut _NMSettingIP4ConfigClass;
 
 #[repr(C)]
-pub struct NMSettingIP6ConfigClass(c_void);
+pub struct _NMSettingIP6ConfigClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingIP6ConfigClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingIP6ConfigClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingIP6ConfigClass = *mut _NMSettingIP6ConfigClass;
 
 #[repr(C)]
-pub struct NMSettingIPConfigClass(c_void);
+pub struct _NMSettingIPConfigClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingIPConfigClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingIPConfigClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingIPConfigClass = *mut _NMSettingIPConfigClass;
 
 #[repr(C)]
-pub struct NMSettingIPTunnelClass(c_void);
+pub struct _NMSettingIPTunnelClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingIPTunnelClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingIPTunnelClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingIPTunnelClass = *mut _NMSettingIPTunnelClass;
 
 #[repr(C)]
-pub struct NMSettingInfinibandClass(c_void);
+pub struct _NMSettingInfinibandClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingInfinibandClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingInfinibandClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingInfinibandClass = *mut _NMSettingInfinibandClass;
 
 #[repr(C)]
-pub struct NMSettingMacsecClass(c_void);
+pub struct _NMSettingMacsecClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingMacsecClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingMacsecClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingMacsecClass = *mut _NMSettingMacsecClass;
 
 #[repr(C)]
-pub struct NMSettingMacvlanClass(c_void);
+pub struct _NMSettingMacvlanClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingMacvlanClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingMacvlanClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingMacvlanClass = *mut _NMSettingMacvlanClass;
 
 #[repr(C)]
 pub struct _NMSettingMatchClass(c_void);
@@ -2335,14 +2252,9 @@ pub struct _NMSettingMatchClass(c_void);
 pub type NMSettingMatchClass = *mut _NMSettingMatchClass;
 
 #[repr(C)]
-pub struct NMSettingOlpcMeshClass(c_void);
+pub struct _NMSettingOlpcMeshClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingOlpcMeshClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingOlpcMeshClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingOlpcMeshClass = *mut _NMSettingOlpcMeshClass;
 
 #[repr(C)]
 pub struct _NMSettingOvsBridgeClass(c_void);
@@ -2375,44 +2287,24 @@ pub struct _NMSettingOvsPortClass(c_void);
 pub type NMSettingOvsPortClass = *mut _NMSettingOvsPortClass;
 
 #[repr(C)]
-pub struct NMSettingPppClass(c_void);
+pub struct _NMSettingPppClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingPppClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingPppClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingPppClass = *mut _NMSettingPppClass;
 
 #[repr(C)]
-pub struct NMSettingPppoeClass(c_void);
+pub struct _NMSettingPppoeClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingPppoeClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingPppoeClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingPppoeClass = *mut _NMSettingPppoeClass;
 
 #[repr(C)]
-pub struct NMSettingProxyClass(c_void);
+pub struct _NMSettingProxyClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingProxyClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingProxyClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingProxyClass = *mut _NMSettingProxyClass;
 
 #[repr(C)]
-pub struct NMSettingSerialClass(c_void);
+pub struct _NMSettingSerialClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingSerialClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingSerialClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingSerialClass = *mut _NMSettingSerialClass;
 
 #[repr(C)]
 pub struct _NMSettingSriovClass(c_void);
@@ -2425,34 +2317,19 @@ pub struct _NMSettingTCConfigClass(c_void);
 pub type NMSettingTCConfigClass = *mut _NMSettingTCConfigClass;
 
 #[repr(C)]
-pub struct NMSettingTeamClass(c_void);
+pub struct _NMSettingTeamClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingTeamClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingTeamClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingTeamClass = *mut _NMSettingTeamClass;
 
 #[repr(C)]
-pub struct NMSettingTeamPortClass(c_void);
+pub struct _NMSettingTeamPortClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingTeamPortClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingTeamPortClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingTeamPortClass = *mut _NMSettingTeamPortClass;
 
 #[repr(C)]
-pub struct NMSettingTunClass(c_void);
+pub struct _NMSettingTunClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingTunClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingTunClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingTunClass = *mut _NMSettingTunClass;
 
 #[repr(C)]
 pub struct _NMSettingUserClass(c_void);
@@ -2465,24 +2342,14 @@ pub struct _NMSettingVethClass(c_void);
 pub type NMSettingVethClass = *mut _NMSettingVethClass;
 
 #[repr(C)]
-pub struct NMSettingVlanClass(c_void);
+pub struct _NMSettingVlanClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingVlanClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingVlanClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingVlanClass = *mut _NMSettingVlanClass;
 
 #[repr(C)]
-pub struct NMSettingVpnClass(c_void);
+pub struct _NMSettingVpnClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingVpnClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingVpnClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingVpnClass = *mut _NMSettingVpnClass;
 
 #[repr(C)]
 pub struct _NMSettingVrfClass(c_void);
@@ -2490,14 +2357,9 @@ pub struct _NMSettingVrfClass(c_void);
 pub type NMSettingVrfClass = *mut _NMSettingVrfClass;
 
 #[repr(C)]
-pub struct NMSettingVxlanClass(c_void);
+pub struct _NMSettingVxlanClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingVxlanClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingVxlanClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingVxlanClass = *mut _NMSettingVxlanClass;
 
 #[repr(C)]
 pub struct _NMSettingWifiP2PClass(c_void);
@@ -2505,14 +2367,9 @@ pub struct _NMSettingWifiP2PClass(c_void);
 pub type NMSettingWifiP2PClass = *mut _NMSettingWifiP2PClass;
 
 #[repr(C)]
-pub struct NMSettingWimaxClass(c_void);
+pub struct _NMSettingWimaxClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingWimaxClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingWimaxClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingWimaxClass = *mut _NMSettingWimaxClass;
 
 #[repr(C)]
 pub struct _NMSettingWireGuardClass(c_void);
@@ -2520,34 +2377,19 @@ pub struct _NMSettingWireGuardClass(c_void);
 pub type NMSettingWireGuardClass = *mut _NMSettingWireGuardClass;
 
 #[repr(C)]
-pub struct NMSettingWiredClass(c_void);
+pub struct _NMSettingWiredClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingWiredClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingWiredClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingWiredClass = *mut _NMSettingWiredClass;
 
 #[repr(C)]
-pub struct NMSettingWirelessClass(c_void);
+pub struct _NMSettingWirelessClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingWirelessClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingWirelessClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingWirelessClass = *mut _NMSettingWirelessClass;
 
 #[repr(C)]
-pub struct NMSettingWirelessSecurityClass(c_void);
+pub struct _NMSettingWirelessSecurityClass(c_void);
 
-impl ::std::fmt::Debug for NMSettingWirelessSecurityClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingWirelessSecurityClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSettingWirelessSecurityClass = *mut _NMSettingWirelessSecurityClass;
 
 #[repr(C)]
 pub struct _NMSettingWpanClass(c_void);
@@ -2555,14 +2397,9 @@ pub struct _NMSettingWpanClass(c_void);
 pub type NMSettingWpanClass = *mut _NMSettingWpanClass;
 
 #[repr(C)]
-pub struct NMSimpleConnectionClass(c_void);
+pub struct _NMSimpleConnectionClass(c_void);
 
-impl ::std::fmt::Debug for NMSimpleConnectionClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSimpleConnectionClass @ {:p}", self))
-         .finish()
-    }
-}
+pub type NMSimpleConnectionClass = *mut _NMSimpleConnectionClass;
 
 #[repr(C)]
 pub struct NMSriovVF(c_void);
@@ -4297,6 +4134,8 @@ extern "C" {
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     pub fn nm_ip_address_cmp_full(a: *const NMIPAddress, b: *const NMIPAddress, cmp_flags: NMIPAddressCmpFlags) -> c_int;
+    #[cfg(any(feature = "v1_32", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
     pub fn nm_ip_address_dup(address: *mut NMIPAddress) -> *mut NMIPAddress;
     pub fn nm_ip_address_equal(address: *mut NMIPAddress, other: *mut NMIPAddress) -> gboolean;
     pub fn nm_ip_address_get_address(address: *mut NMIPAddress) -> *const c_char;
@@ -4317,6 +4156,8 @@ extern "C" {
     pub fn nm_ip_route_get_type() -> GType;
     pub fn nm_ip_route_new(family: c_int, dest: *const c_char, prefix: c_uint, next_hop: *const c_char, metric: i64, error: *mut *mut glib::GError) -> *mut NMIPRoute;
     pub fn nm_ip_route_new_binary(family: c_int, dest: gconstpointer, prefix: c_uint, next_hop: gconstpointer, metric: i64, error: *mut *mut glib::GError) -> *mut NMIPRoute;
+    #[cfg(any(feature = "v1_32", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
     pub fn nm_ip_route_dup(route: *mut NMIPRoute) -> *mut NMIPRoute;
     pub fn nm_ip_route_equal(route: *mut NMIPRoute, other: *mut NMIPRoute) -> gboolean;
     #[cfg(any(feature = "v1_10", feature = "dox"))]
@@ -4416,6 +4257,9 @@ extern "C" {
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     pub fn nm_ip_routing_rule_get_tos(self_: *const NMIPRoutingRule) -> u8;
+    #[cfg(any(feature = "v1_32", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+    pub fn nm_ip_routing_rule_get_uid_range(self_: *const NMIPRoutingRule, out_range_start: *mut u32, out_range_end: *mut u32) -> gboolean;
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     pub fn nm_ip_routing_rule_is_sealed(self_: *const NMIPRoutingRule) -> gboolean;
@@ -4464,6 +4308,9 @@ extern "C" {
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     pub fn nm_ip_routing_rule_set_tos(self_: *mut NMIPRoutingRule, tos: u8);
+    #[cfg(any(feature = "v1_32", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+    pub fn nm_ip_routing_rule_set_uid_range(self_: *mut NMIPRoutingRule, uid_range_start: u32, uid_range_end: u32);
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     pub fn nm_ip_routing_rule_to_string(self_: *const NMIPRoutingRule, to_string_flags: NMIPRoutingRuleAsStringFlags, extra_args: *mut glib::GHashTable, error: *mut *mut glib::GError) -> *mut c_char;
@@ -6227,6 +6074,9 @@ extern "C" {
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     pub fn nm_setting_ip_config_get_num_routing_rules(setting: *mut NMSettingIPConfig) -> c_uint;
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    pub fn nm_setting_ip_config_get_required_timeout(setting: *mut NMSettingIPConfig) -> c_int;
     pub fn nm_setting_ip_config_get_route(setting: *mut NMSettingIPConfig, idx: c_int) -> *mut NMIPRoute;
     pub fn nm_setting_ip_config_get_route_metric(setting: *mut NMSettingIPConfig) -> i64;
     #[cfg(any(feature = "v1_10", feature = "dox"))]
@@ -6375,8 +6225,8 @@ extern "C" {
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     pub fn nm_setting_match_get_type() -> GType;
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+    #[cfg(any(feature = "v1_32", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
     pub fn nm_setting_match_new() -> *mut NMSetting;
     #[cfg(any(feature = "v1_26", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
@@ -7100,6 +6950,9 @@ extern "C" {
     pub fn nm_setting_wired_add_mac_blacklist_item(setting: *mut NMSettingWired, mac: *const c_char) -> gboolean;
     pub fn nm_setting_wired_add_s390_option(setting: *mut NMSettingWired, key: *const c_char, value: *const c_char) -> gboolean;
     pub fn nm_setting_wired_clear_mac_blacklist_items(setting: *mut NMSettingWired);
+    #[cfg(any(feature = "v1_32", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+    pub fn nm_setting_wired_get_accept_all_mac_addresses(setting: *mut NMSettingWired) -> NMTernary;
     pub fn nm_setting_wired_get_auto_negotiate(setting: *mut NMSettingWired) -> gboolean;
     pub fn nm_setting_wired_get_cloned_mac_address(setting: *mut NMSettingWired) -> *const c_char;
     pub fn nm_setting_wired_get_duplex(setting: *mut NMSettingWired) -> *const c_char;
@@ -7534,6 +7387,9 @@ extern "C" {
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     pub fn nm_ethtool_optname_is_feature(optname: *const c_char) -> gboolean;
+    #[cfg(any(feature = "v1_32", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+    pub fn nm_ethtool_optname_is_pause(optname: *const c_char) -> gboolean;
     #[cfg(any(feature = "v1_26", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn nm_ethtool_optname_is_ring(optname: *const c_char) -> gboolean;
