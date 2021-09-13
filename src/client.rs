@@ -1408,6 +1408,21 @@ impl Client {
         }
     }
 
+    /// Gets the `GDBusConnection` of the instance. This can be either passed when
+    /// constructing the instance (as "dbus-connection" property), or it will be
+    /// automatically initialized during async/sync init.
+    ///
+    /// # Returns
+    ///
+    /// the D-Bus connection of the client, or [`None`] if none is set.
+    #[cfg(any(feature = "v1_22", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+    #[doc(alias = "nm_client_get_dbus_connection")]
+    #[doc(alias = "get_dbus_connection")]
+    pub fn dbus_connection(&self) -> Option<gio::DBusConnection> {
+        unsafe { from_glib_none(ffi::nm_client_get_dbus_connection(self.to_glib_none().0)) }
+    }
+
     ///
     /// # Returns
     ///

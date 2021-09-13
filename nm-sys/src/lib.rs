@@ -4923,6 +4923,9 @@ extern "C" {
     pub fn nm_client_get_context_busy_watcher(self_: *mut NMClient) -> *mut gobject::GObject;
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+    pub fn nm_client_get_dbus_connection(client: *mut NMClient) -> *mut gio::GDBusConnection;
+    #[cfg(any(feature = "v1_22", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     pub fn nm_client_get_dbus_name_owner(client: *mut NMClient) -> *const c_char;
     pub fn nm_client_get_device_by_iface(client: *mut NMClient, iface: *const c_char) -> *mut NMDevice;
     pub fn nm_client_get_device_by_path(client: *mut NMClient, object_path: *const c_char) -> *mut NMDevice;
@@ -5579,6 +5582,9 @@ extern "C" {
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     pub fn nm_secret_agent_old_get_context_busy_watcher(self_: *mut NMSecretAgentOld) -> *mut gobject::GObject;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
+    pub fn nm_secret_agent_old_get_dbus_connection(self_: *mut NMSecretAgentOld) -> *mut gio::GDBusConnection;
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     pub fn nm_secret_agent_old_get_dbus_name_owner(self_: *mut NMSecretAgentOld) -> *const c_char;
@@ -7292,6 +7298,7 @@ extern "C" {
     pub fn nm_vpn_plugin_old_read_vpn_details(fd: c_int, out_data: *mut *mut glib::GHashTable, out_secrets: *mut *mut glib::GHashTable) -> gboolean;
     pub fn nm_vpn_plugin_old_disconnect(plugin: *mut NMVpnPluginOld, error: *mut *mut glib::GError) -> gboolean;
     pub fn nm_vpn_plugin_old_failure(plugin: *mut NMVpnPluginOld, reason: NMVpnPluginFailure);
+    pub fn nm_vpn_plugin_old_get_connection(plugin: *mut NMVpnPluginOld) -> *mut gio::GDBusConnection;
     pub fn nm_vpn_plugin_old_get_state(plugin: *mut NMVpnPluginOld) -> NMVpnServiceState;
     pub fn nm_vpn_plugin_old_set_config(plugin: *mut NMVpnPluginOld, config: *mut glib::GVariant);
     pub fn nm_vpn_plugin_old_set_ip4_config(plugin: *mut NMVpnPluginOld, ip4_config: *mut glib::GVariant);
@@ -7311,6 +7318,9 @@ extern "C" {
     pub fn nm_vpn_service_plugin_read_vpn_details(fd: c_int, out_data: *mut *mut glib::GHashTable, out_secrets: *mut *mut glib::GHashTable) -> gboolean;
     pub fn nm_vpn_service_plugin_disconnect(plugin: *mut NMVpnServicePlugin, error: *mut *mut glib::GError) -> gboolean;
     pub fn nm_vpn_service_plugin_failure(plugin: *mut NMVpnServicePlugin, reason: NMVpnPluginFailure);
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    pub fn nm_vpn_service_plugin_get_connection(plugin: *mut NMVpnServicePlugin) -> *mut gio::GDBusConnection;
     pub fn nm_vpn_service_plugin_set_config(plugin: *mut NMVpnServicePlugin, config: *mut glib::GVariant);
     pub fn nm_vpn_service_plugin_set_ip4_config(plugin: *mut NMVpnServicePlugin, ip4_config: *mut glib::GVariant);
     pub fn nm_vpn_service_plugin_set_ip6_config(plugin: *mut NMVpnServicePlugin, ip6_config: *mut glib::GVariant);

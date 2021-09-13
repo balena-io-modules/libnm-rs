@@ -102,6 +102,18 @@ pub trait SecretAgentOldExt: 'static {
     ///
     /// # Returns
     ///
+    /// the [`gio::DBusConnection`][crate::gio::DBusConnection] used by the secret agent.
+    ///  You may either set this as construct property [`SECRET_AGENT_OLD_DBUS_CONNECTION`][crate::SECRET_AGENT_OLD_DBUS_CONNECTION],
+    ///  or it will automatically set during initialization.
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
+    #[doc(alias = "nm_secret_agent_old_get_dbus_connection")]
+    #[doc(alias = "get_dbus_connection")]
+    fn dbus_connection(&self) -> Option<gio::DBusConnection>;
+
+    ///
+    /// # Returns
+    ///
     /// the current D-Bus name owner. While this property
     ///  is set while registering, it really only makes sense when
     ///  the [`is_registered()`][Self::is_registered()] indicates that
@@ -424,6 +436,16 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
     fn context_busy_watcher(&self) -> Option<glib::Object> {
         unsafe {
             from_glib_none(ffi::nm_secret_agent_old_get_context_busy_watcher(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
+
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
+    fn dbus_connection(&self) -> Option<gio::DBusConnection> {
+        unsafe {
+            from_glib_none(ffi::nm_secret_agent_old_get_dbus_connection(
                 self.as_ref().to_glib_none().0,
             ))
         }

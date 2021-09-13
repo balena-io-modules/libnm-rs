@@ -68,6 +68,15 @@ pub trait VpnPluginOldExt: 'static {
     ///
     /// Replaced by NMVpnServicePlugin.
     #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+    #[doc(alias = "nm_vpn_plugin_old_get_connection")]
+    #[doc(alias = "get_connection")]
+    fn connection(&self) -> Option<gio::DBusConnection>;
+
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// Replaced by NMVpnServicePlugin.
+    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
     #[doc(alias = "nm_vpn_plugin_old_get_state")]
     #[doc(alias = "get_state")]
     fn state(&self) -> VpnServiceState;
@@ -166,6 +175,14 @@ impl<O: IsA<VpnPluginOld>> VpnPluginOldExt for O {
     fn failure(&self, reason: VpnPluginFailure) {
         unsafe {
             ffi::nm_vpn_plugin_old_failure(self.as_ref().to_glib_none().0, reason.into_glib());
+        }
+    }
+
+    fn connection(&self) -> Option<gio::DBusConnection> {
+        unsafe {
+            from_glib_full(ffi::nm_vpn_plugin_old_get_connection(
+                self.as_ref().to_glib_none().0,
+            ))
         }
     }
 

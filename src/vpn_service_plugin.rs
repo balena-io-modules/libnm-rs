@@ -62,6 +62,12 @@ pub trait VpnServicePluginExt: 'static {
     #[doc(alias = "nm_vpn_service_plugin_failure")]
     fn failure(&self, reason: VpnPluginFailure);
 
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[doc(alias = "nm_vpn_service_plugin_get_connection")]
+    #[doc(alias = "get_connection")]
+    fn connection(&self) -> Option<gio::DBusConnection>;
+
     #[doc(alias = "nm_vpn_service_plugin_set_config")]
     fn set_config(&self, config: &glib::Variant);
 
@@ -154,6 +160,16 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
     fn failure(&self, reason: VpnPluginFailure) {
         unsafe {
             ffi::nm_vpn_service_plugin_failure(self.as_ref().to_glib_none().0, reason.into_glib());
+        }
+    }
+
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    fn connection(&self) -> Option<gio::DBusConnection> {
+        unsafe {
+            from_glib_full(ffi::nm_vpn_service_plugin_get_connection(
+                self.as_ref().to_glib_none().0,
+            ))
         }
     }
 
