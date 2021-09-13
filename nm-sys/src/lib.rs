@@ -6901,6 +6901,8 @@ extern "C" {
     pub fn nm_setting_vpn_new() -> *mut NMSetting;
     pub fn nm_setting_vpn_add_data_item(setting: *mut NMSettingVpn, key: *const c_char, item: *const c_char);
     pub fn nm_setting_vpn_add_secret(setting: *mut NMSettingVpn, key: *const c_char, secret: *const c_char);
+    pub fn nm_setting_vpn_foreach_data_item(setting: *mut NMSettingVpn, func: NMVpnIterFunc, user_data: gpointer);
+    pub fn nm_setting_vpn_foreach_secret(setting: *mut NMSettingVpn, func: NMVpnIterFunc, user_data: gpointer);
     pub fn nm_setting_vpn_get_data_item(setting: *mut NMSettingVpn, key: *const c_char) -> *const c_char;
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]

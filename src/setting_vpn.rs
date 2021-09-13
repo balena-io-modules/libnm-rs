@@ -79,6 +79,64 @@ impl SettingVpn {
         }
     }
 
+    /// Iterates all data items stored in this setting. It is safe to add, remove,
+    /// and modify data items inside `func`, though any additions or removals made
+    /// during iteration will not be part of the iteration.
+    /// ## `func`
+    /// an user provided function
+    #[doc(alias = "nm_setting_vpn_foreach_data_item")]
+    pub fn foreach_data_item<P: FnMut(&str, &str)>(&self, func: P) {
+        let func_data: P = func;
+        unsafe extern "C" fn func_func<P: FnMut(&str, &str)>(
+            key: *const libc::c_char,
+            value: *const libc::c_char,
+            user_data: glib::ffi::gpointer,
+        ) {
+            let key: Borrowed<glib::GString> = from_glib_borrow(key);
+            let value: Borrowed<glib::GString> = from_glib_borrow(value);
+            let callback: *mut P = user_data as *const _ as usize as *mut P;
+            (*callback)(key.as_str(), value.as_str());
+        }
+        let func = Some(func_func::<P> as _);
+        let super_callback0: &P = &func_data;
+        unsafe {
+            ffi::nm_setting_vpn_foreach_data_item(
+                self.to_glib_none().0,
+                func,
+                super_callback0 as *const _ as usize as *mut _,
+            );
+        }
+    }
+
+    /// Iterates all secrets stored in this setting. It is safe to add, remove,
+    /// and modify secrets inside `func`, though any additions or removals made during
+    /// iteration will not be part of the iteration.
+    /// ## `func`
+    /// an user provided function
+    #[doc(alias = "nm_setting_vpn_foreach_secret")]
+    pub fn foreach_secret<P: FnMut(&str, &str)>(&self, func: P) {
+        let func_data: P = func;
+        unsafe extern "C" fn func_func<P: FnMut(&str, &str)>(
+            key: *const libc::c_char,
+            value: *const libc::c_char,
+            user_data: glib::ffi::gpointer,
+        ) {
+            let key: Borrowed<glib::GString> = from_glib_borrow(key);
+            let value: Borrowed<glib::GString> = from_glib_borrow(value);
+            let callback: *mut P = user_data as *const _ as usize as *mut P;
+            (*callback)(key.as_str(), value.as_str());
+        }
+        let func = Some(func_func::<P> as _);
+        let super_callback0: &P = &func_data;
+        unsafe {
+            ffi::nm_setting_vpn_foreach_secret(
+                self.to_glib_none().0,
+                func,
+                super_callback0 as *const _ as usize as *mut _,
+            );
+        }
+    }
+
     /// Retrieves the data item of a key/value relationship previously established
     /// by [`add_data_item()`][Self::add_data_item()].
     /// ## `key`
