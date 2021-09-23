@@ -84,7 +84,7 @@ pub const NONE_VPN_EDITOR_PLUGIN: Option<&VpnEditorPlugin> = None;
 /// [`VpnEditorPlugin`][struct@crate::VpnEditorPlugin]
 pub trait VpnEditorPluginExt: 'static {
     #[doc(alias = "nm_vpn_editor_plugin_export")]
-    fn export<P: IsA<Connection>>(&self, path: &str, connection: &P) -> Result<(), glib::Error>;
+    fn export(&self, path: &str, connection: &impl IsA<Connection>) -> Result<(), glib::Error>;
 
     #[doc(alias = "nm_vpn_editor_plugin_get_capabilities")]
     #[doc(alias = "get_capabilities")]
@@ -98,7 +98,7 @@ pub trait VpnEditorPluginExt: 'static {
     /// a new [`VpnEditor`][crate::VpnEditor] or [`None`] on error
     #[doc(alias = "nm_vpn_editor_plugin_get_editor")]
     #[doc(alias = "get_editor")]
-    fn editor<P: IsA<Connection>>(&self, connection: &P) -> Result<VpnEditor, glib::Error>;
+    fn editor(&self, connection: &impl IsA<Connection>) -> Result<VpnEditor, glib::Error>;
 
     ///
     /// # Returns
@@ -112,7 +112,7 @@ pub trait VpnEditorPluginExt: 'static {
 
     #[doc(alias = "nm_vpn_editor_plugin_get_suggested_filename")]
     #[doc(alias = "get_suggested_filename")]
-    fn suggested_filename<P: IsA<Connection>>(&self, connection: &P) -> Option<glib::GString>;
+    fn suggested_filename(&self, connection: &impl IsA<Connection>) -> Option<glib::GString>;
 
     //#[cfg(any(feature = "v1_4", feature = "dox"))]
     //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
@@ -160,7 +160,7 @@ pub trait VpnEditorPluginExt: 'static {
 }
 
 impl<O: IsA<VpnEditorPlugin>> VpnEditorPluginExt for O {
-    fn export<P: IsA<Connection>>(&self, path: &str, connection: &P) -> Result<(), glib::Error> {
+    fn export(&self, path: &str, connection: &impl IsA<Connection>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = ffi::nm_vpn_editor_plugin_export(
@@ -185,7 +185,7 @@ impl<O: IsA<VpnEditorPlugin>> VpnEditorPluginExt for O {
         }
     }
 
-    fn editor<P: IsA<Connection>>(&self, connection: &P) -> Result<VpnEditor, glib::Error> {
+    fn editor(&self, connection: &impl IsA<Connection>) -> Result<VpnEditor, glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let ret = ffi::nm_vpn_editor_plugin_get_editor(
@@ -211,7 +211,7 @@ impl<O: IsA<VpnEditorPlugin>> VpnEditorPluginExt for O {
         }
     }
 
-    fn suggested_filename<P: IsA<Connection>>(&self, connection: &P) -> Option<glib::GString> {
+    fn suggested_filename(&self, connection: &impl IsA<Connection>) -> Option<glib::GString> {
         unsafe {
             from_glib_full(ffi::nm_vpn_editor_plugin_get_suggested_filename(
                 self.as_ref().to_glib_none().0,

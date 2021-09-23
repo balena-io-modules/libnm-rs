@@ -40,7 +40,7 @@ impl WimaxNsp {
     /// [`false`] if it cannot be.
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "nm_wimax_nsp_connection_valid")]
-    pub fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool {
+    pub fn connection_valid(&self, connection: &impl IsA<Connection>) -> bool {
         unsafe {
             from_glib(ffi::nm_wimax_nsp_connection_valid(
                 self.to_glib_none().0,

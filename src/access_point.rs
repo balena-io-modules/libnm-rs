@@ -39,7 +39,7 @@ impl AccessPoint {
     /// [`true`] if the connection may be activated with this Wi-Fi AP,
     /// [`false`] if it cannot be.
     #[doc(alias = "nm_access_point_connection_valid")]
-    pub fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool {
+    pub fn connection_valid(&self, connection: &impl IsA<Connection>) -> bool {
         unsafe {
             from_glib(ffi::nm_access_point_connection_valid(
                 self.to_glib_none().0,

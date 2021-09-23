@@ -248,7 +248,7 @@ impl VpnPluginInfo {
     /// ## `plugin`
     /// plugin instance
     #[doc(alias = "nm_vpn_plugin_info_set_editor_plugin")]
-    pub fn set_editor_plugin<P: IsA<VpnEditorPlugin>>(&self, plugin: Option<&P>) {
+    pub fn set_editor_plugin(&self, plugin: Option<&impl IsA<VpnEditorPlugin>>) {
         unsafe {
             ffi::nm_vpn_plugin_info_set_editor_plugin(
                 self.to_glib_none().0,

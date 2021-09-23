@@ -100,7 +100,7 @@ impl Client {
     ///
     /// a new [`Client`][crate::Client] or NULL on an error
     #[doc(alias = "nm_client_new")]
-    pub fn new<P: IsA<gio::Cancellable>>(cancellable: Option<&P>) -> Result<Client, glib::Error> {
+    pub fn new(cancellable: Option<&impl IsA<gio::Cancellable>>) -> Result<Client, glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let ret =
@@ -147,21 +147,18 @@ impl Client {
     /// callback to be called when the activation has started
     #[doc(alias = "nm_client_activate_connection_async")]
     pub fn activate_connection_async<
-        P: IsA<Connection>,
-        Q: IsA<Device>,
-        R: IsA<gio::Cancellable>,
-        S: FnOnce(Result<ActiveConnection, glib::Error>) + Send + 'static,
+        P: FnOnce(Result<ActiveConnection, glib::Error>) + Send + 'static,
     >(
         &self,
-        connection: Option<&P>,
-        device: Option<&Q>,
+        connection: Option<&impl IsA<Connection>>,
+        device: Option<&impl IsA<Device>>,
         specific_object: Option<&str>,
-        cancellable: Option<&R>,
-        callback: S,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<S> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn activate_connection_async_trampoline<
-            S: FnOnce(Result<ActiveConnection, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<ActiveConnection, glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -178,10 +175,10 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<S> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = activate_connection_async_trampoline::<S>;
+        let callback = activate_connection_async_trampoline::<P>;
         unsafe {
             ffi::nm_client_activate_connection_async(
                 self.to_glib_none().0,
@@ -195,13 +192,10 @@ impl Client {
         }
     }
 
-    pub fn activate_connection_async_future<
-        P: IsA<Connection> + Clone + 'static,
-        Q: IsA<Device> + Clone + 'static,
-    >(
+    pub fn activate_connection_async_future(
         &self,
-        connection: Option<&P>,
-        device: Option<&Q>,
+        connection: Option<&(impl IsA<Connection> + Clone + 'static)>,
+        device: Option<&(impl IsA<Device> + Clone + 'static)>,
         specific_object: Option<&str>,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<ActiveConnection, glib::Error>> + 'static>>
     {
@@ -252,21 +246,18 @@ impl Client {
     /// callback to be called when the activation has started
     #[doc(alias = "nm_client_add_and_activate_connection_async")]
     pub fn add_and_activate_connection_async<
-        P: IsA<Connection>,
-        Q: IsA<Device>,
-        R: IsA<gio::Cancellable>,
-        S: FnOnce(Result<ActiveConnection, glib::Error>) + Send + 'static,
+        P: FnOnce(Result<ActiveConnection, glib::Error>) + Send + 'static,
     >(
         &self,
-        partial: Option<&P>,
-        device: &Q,
+        partial: Option<&impl IsA<Connection>>,
+        device: &impl IsA<Device>,
         specific_object: Option<&str>,
-        cancellable: Option<&R>,
-        callback: S,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<S> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn add_and_activate_connection_async_trampoline<
-            S: FnOnce(Result<ActiveConnection, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<ActiveConnection, glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -283,10 +274,10 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<S> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = add_and_activate_connection_async_trampoline::<S>;
+        let callback = add_and_activate_connection_async_trampoline::<P>;
         unsafe {
             ffi::nm_client_add_and_activate_connection_async(
                 self.to_glib_none().0,
@@ -300,13 +291,10 @@ impl Client {
         }
     }
 
-    pub fn add_and_activate_connection_async_future<
-        P: IsA<Connection> + Clone + 'static,
-        Q: IsA<Device> + Clone + 'static,
-    >(
+    pub fn add_and_activate_connection_async_future(
         &self,
-        partial: Option<&P>,
-        device: &Q,
+        partial: Option<&(impl IsA<Connection> + Clone + 'static)>,
+        device: &(impl IsA<Device> + Clone + 'static),
         specific_object: Option<&str>,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<ActiveConnection, glib::Error>> + 'static>>
     {
@@ -350,20 +338,19 @@ impl Client {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     #[doc(alias = "nm_client_add_connection2")]
     pub fn add_connection2<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(RemoteConnection, glib::Variant), glib::Error>) + Send + 'static,
+        P: FnOnce(Result<(RemoteConnection, glib::Variant), glib::Error>) + Send + 'static,
     >(
         &self,
         settings: &glib::Variant,
         flags: SettingsAddConnection2Flags,
         args: Option<&glib::Variant>,
         ignore_out_result: bool,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn add_connection2_trampoline<
-            Q: FnOnce(Result<(RemoteConnection, glib::Variant), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(RemoteConnection, glib::Variant), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -382,10 +369,10 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = add_connection2_trampoline::<Q>;
+        let callback = add_connection2_trampoline::<P>;
         unsafe {
             ffi::nm_client_add_connection2(
                 self.to_glib_none().0,
@@ -455,19 +442,17 @@ impl Client {
     /// callback to be called when the add operation completes
     #[doc(alias = "nm_client_add_connection_async")]
     pub fn add_connection_async<
-        P: IsA<Connection>,
-        Q: IsA<gio::Cancellable>,
-        R: FnOnce(Result<RemoteConnection, glib::Error>) + Send + 'static,
+        P: FnOnce(Result<RemoteConnection, glib::Error>) + Send + 'static,
     >(
         &self,
-        connection: &P,
+        connection: &impl IsA<Connection>,
         save_to_disk: bool,
-        cancellable: Option<&Q>,
-        callback: R,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<R> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn add_connection_async_trampoline<
-            R: FnOnce(Result<RemoteConnection, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<RemoteConnection, glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -481,10 +466,10 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<R> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = add_connection_async_trampoline::<R>;
+        let callback = add_connection_async_trampoline::<P>;
         unsafe {
             ffi::nm_client_add_connection_async(
                 self.to_glib_none().0,
@@ -497,9 +482,9 @@ impl Client {
         }
     }
 
-    pub fn add_connection_async_future<P: IsA<Connection> + Clone + 'static>(
+    pub fn add_connection_async_future(
         &self,
-        connection: &P,
+        connection: &(impl IsA<Connection> + Clone + 'static),
         save_to_disk: bool,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<RemoteConnection, glib::Error>> + 'static>>
     {
@@ -529,9 +514,9 @@ impl Client {
     /// the (new) current connectivity state
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "nm_client_check_connectivity")]
-    pub fn check_connectivity<P: IsA<gio::Cancellable>>(
+    pub fn check_connectivity(
         &self,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<ConnectivityState, glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -558,16 +543,15 @@ impl Client {
     /// callback to call with the result
     #[doc(alias = "nm_client_check_connectivity_async")]
     pub fn check_connectivity_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<ConnectivityState, glib::Error>) + Send + 'static,
+        P: FnOnce(Result<ConnectivityState, glib::Error>) + Send + 'static,
     >(
         &self,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn check_connectivity_async_trampoline<
-            Q: FnOnce(Result<ConnectivityState, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<ConnectivityState, glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -581,10 +565,10 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = check_connectivity_async_trampoline::<Q>;
+        let callback = check_connectivity_async_trampoline::<P>;
         unsafe {
             ffi::nm_client_check_connectivity_async(
                 self.to_glib_none().0,
@@ -621,18 +605,17 @@ impl Client {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_client_checkpoint_adjust_rollback_timeout")]
     pub fn checkpoint_adjust_rollback_timeout<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+        P: FnOnce(Result<(), glib::Error>) + Send + 'static,
     >(
         &self,
         checkpoint_path: &str,
         add_timeout: u32,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn checkpoint_adjust_rollback_timeout_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -649,10 +632,10 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = checkpoint_adjust_rollback_timeout_trampoline::<Q>;
+        let callback = checkpoint_adjust_rollback_timeout_trampoline::<P>;
         unsafe {
             ffi::nm_client_checkpoint_adjust_rollback_timeout(
                 self.to_glib_none().0,
@@ -695,18 +678,15 @@ impl Client {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_client_checkpoint_destroy")]
-    pub fn checkpoint_destroy<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    pub fn checkpoint_destroy<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
         checkpoint_path: &str,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn checkpoint_destroy_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -720,10 +700,10 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = checkpoint_destroy_trampoline::<Q>;
+        let callback = checkpoint_destroy_trampoline::<P>;
         unsafe {
             ffi::nm_client_checkpoint_destroy(
                 self.to_glib_none().0,
@@ -752,7 +732,7 @@ impl Client {
     //#[cfg(any(feature = "v1_12", feature = "dox"))]
     //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     //#[doc(alias = "nm_client_checkpoint_rollback")]
-    //pub fn checkpoint_rollback<P: IsA<gio::Cancellable>, Q: FnOnce(Result</*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }, glib::Error>) + Send + 'static>(&self, checkpoint_path: &str, cancellable: Option<&P>, callback: Q) {
+    //pub fn checkpoint_rollback<P: FnOnce(Result</*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }, glib::Error>) + Send + 'static>(&self, checkpoint_path: &str, cancellable: Option<&impl IsA<gio::Cancellable>>, callback: P) {
     //    unsafe { TODO: call ffi:nm_client_checkpoint_rollback() }
     //}
 
@@ -879,10 +859,7 @@ impl Client {
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "nm_client_dbus_call")]
-    pub fn dbus_call<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
-    >(
+    pub fn dbus_call<P: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static>(
         &self,
         object_path: &str,
         interface_name: &str,
@@ -890,12 +867,12 @@ impl Client {
         parameters: Option<&glib::Variant>,
         reply_type: Option<&glib::VariantTy>,
         timeout_msec: i32,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn dbus_call_trampoline<
-            Q: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -908,10 +885,10 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = dbus_call_trampoline::<Q>;
+        let callback = dbus_call_trampoline::<P>;
         unsafe {
             ffi::nm_client_dbus_call(
                 self.to_glib_none().0,
@@ -983,22 +960,19 @@ impl Client {
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "nm_client_dbus_set_property")]
-    pub fn dbus_set_property<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    pub fn dbus_set_property<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
         object_path: &str,
         interface_name: &str,
         property_name: &str,
         value: &glib::Variant,
         timeout_msec: i32,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn dbus_set_property_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -1012,10 +986,10 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = dbus_set_property_trampoline::<Q>;
+        let callback = dbus_set_property_trampoline::<P>;
         unsafe {
             ffi::nm_client_dbus_set_property(
                 self.to_glib_none().0,
@@ -1075,10 +1049,10 @@ impl Client {
     /// success or failure
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "nm_client_deactivate_connection")]
-    pub fn deactivate_connection<P: IsA<ActiveConnection>, Q: IsA<gio::Cancellable>>(
+    pub fn deactivate_connection(
         &self,
-        active: &P,
-        cancellable: Option<&Q>,
+        active: &impl IsA<ActiveConnection>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -1104,19 +1078,15 @@ impl Client {
     /// ## `callback`
     /// callback to be called when the deactivation has completed
     #[doc(alias = "nm_client_deactivate_connection_async")]
-    pub fn deactivate_connection_async<
-        P: IsA<ActiveConnection>,
-        Q: IsA<gio::Cancellable>,
-        R: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    pub fn deactivate_connection_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        active: &P,
-        cancellable: Option<&Q>,
-        callback: R,
+        active: &impl IsA<ActiveConnection>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<R> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn deactivate_connection_async_trampoline<
-            R: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -1133,10 +1103,10 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<R> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = deactivate_connection_async_trampoline::<R>;
+        let callback = deactivate_connection_async_trampoline::<P>;
         unsafe {
             ffi::nm_client_deactivate_connection_async(
                 self.to_glib_none().0,
@@ -1148,9 +1118,9 @@ impl Client {
         }
     }
 
-    pub fn deactivate_connection_async_future<P: IsA<ActiveConnection> + Clone + 'static>(
+    pub fn deactivate_connection_async_future(
         &self,
-        active: &P,
+        active: &(impl IsA<ActiveConnection> + Clone + 'static),
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         let active = active.clone();
         Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
@@ -1748,15 +1718,15 @@ impl Client {
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     #[doc(alias = "nm_client_reload")]
-    pub fn reload<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    pub fn reload<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
         flags: ManagerReloadFlags,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn reload_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -1769,10 +1739,10 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = reload_trampoline::<Q>;
+        let callback = reload_trampoline::<P>;
         unsafe {
             ffi::nm_client_reload(
                 self.to_glib_none().0,
@@ -1812,9 +1782,9 @@ impl Client {
     /// [`true`] on success, [`false`] on failure
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "nm_client_reload_connections")]
-    pub fn reload_connections<P: IsA<gio::Cancellable>>(
+    pub fn reload_connections(
         &self,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -1839,17 +1809,14 @@ impl Client {
     /// ## `callback`
     /// callback to be called when the reload operation completes
     #[doc(alias = "nm_client_reload_connections_async")]
-    pub fn reload_connections_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    pub fn reload_connections_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn reload_connections_async_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -1863,10 +1830,10 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = reload_connections_async_trampoline::<Q>;
+        let callback = reload_connections_async_trampoline::<P>;
         unsafe {
             ffi::nm_client_reload_connections_async(
                 self.to_glib_none().0,
@@ -1904,10 +1871,10 @@ impl Client {
     /// [`true`] if the request was successful, [`false`] if it failed
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "nm_client_save_hostname")]
-    pub fn save_hostname<P: IsA<gio::Cancellable>>(
+    pub fn save_hostname(
         &self,
         hostname: Option<&str>,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -1935,18 +1902,15 @@ impl Client {
     /// ## `callback`
     /// callback to be called when the operation completes
     #[doc(alias = "nm_client_save_hostname_async")]
-    pub fn save_hostname_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    pub fn save_hostname_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
         hostname: Option<&str>,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn save_hostname_async_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -1959,10 +1923,10 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = save_hostname_async_trampoline::<Q>;
+        let callback = save_hostname_async_trampoline::<P>;
         unsafe {
             ffi::nm_client_save_hostname_async(
                 self.to_glib_none().0,
@@ -2499,16 +2463,13 @@ impl Client {
     /// ## `callback`
     /// callback to call when the client is created
     #[doc(alias = "nm_client_new_async")]
-    pub fn new_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<Client, glib::Error>) + Send + 'static,
-    >(
-        cancellable: Option<&P>,
-        callback: Q,
+    pub fn new_async<P: FnOnce(Result<Client, glib::Error>) + Send + 'static>(
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn new_async_trampoline<
-            Q: FnOnce(Result<Client, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<Client, glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -2521,10 +2482,10 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = new_async_trampoline::<Q>;
+        let callback = new_async_trampoline::<P>;
         unsafe {
             ffi::nm_client_new_async(
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,

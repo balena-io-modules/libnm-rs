@@ -38,7 +38,7 @@ impl SimpleConnection {
     /// a new [`Connection`][crate::Connection] containing the same settings
     /// and properties as the source [`Connection`][crate::Connection]
     #[doc(alias = "nm_simple_connection_new_clone")]
-    pub fn new_clone<P: IsA<Connection>>(connection: &P) -> Option<Connection> {
+    pub fn new_clone(connection: &impl IsA<Connection>) -> Option<Connection> {
         unsafe {
             from_glib_full(ffi::nm_simple_connection_new_clone(
                 connection.as_ref().to_glib_none().0,

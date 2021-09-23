@@ -35,7 +35,7 @@ pub trait VpnEditorExt: 'static {
     fn widget(&self) -> Option<glib::Object>;
 
     #[doc(alias = "nm_vpn_editor_update_connection")]
-    fn update_connection<P: IsA<Connection>>(&self, connection: &P) -> Result<(), glib::Error>;
+    fn update_connection(&self, connection: &impl IsA<Connection>) -> Result<(), glib::Error>;
 
     #[doc(alias = "changed")]
     fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -50,7 +50,7 @@ impl<O: IsA<VpnEditor>> VpnEditorExt for O {
         }
     }
 
-    fn update_connection<P: IsA<Connection>>(&self, connection: &P) -> Result<(), glib::Error> {
+    fn update_connection(&self, connection: &impl IsA<Connection>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = ffi::nm_vpn_editor_update_connection(

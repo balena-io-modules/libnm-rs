@@ -87,7 +87,7 @@ pub fn ethtool_optname_is_ring(optname: Option<&str>) -> bool {
 //#[cfg(any(feature = "v1_30", feature = "dox"))]
 //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 //#[doc(alias = "nm_keyfile_write")]
-//pub fn keyfile_write<P: IsA<Connection>>(connection: &P, handler_flags: KeyfileHandlerFlags, handler: /*Unimplemented*/FnMut(&Connection, &glib::KeyFile, &KeyfileHandlerType, /*Ignored*/KeyfileHandlerData) -> bool, user_data: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<glib::KeyFile, glib::Error> {
+//pub fn keyfile_write(connection: &impl IsA<Connection>, handler_flags: KeyfileHandlerFlags, handler: /*Unimplemented*/FnMut(&Connection, &glib::KeyFile, &KeyfileHandlerType, /*Ignored*/KeyfileHandlerData) -> bool, user_data: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<glib::KeyFile, glib::Error> {
 //    unsafe { TODO: call ffi:nm_keyfile_write() }
 //}
 

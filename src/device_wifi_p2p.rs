@@ -74,18 +74,15 @@ impl DeviceWifiP2P {
     /// ## `callback`
     /// a `GAsyncReadyCallback`, or [`None`]
     #[doc(alias = "nm_device_wifi_p2p_start_find")]
-    pub fn start_find<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    pub fn start_find<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
         options: Option<&glib::Variant>,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn start_find_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -102,10 +99,10 @@ impl DeviceWifiP2P {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = start_find_trampoline::<Q>;
+        let callback = start_find_trampoline::<P>;
         unsafe {
             ffi::nm_device_wifi_p2p_start_find(
                 self.to_glib_none().0,
@@ -139,17 +136,14 @@ impl DeviceWifiP2P {
     /// ## `callback`
     /// a `GAsyncReadyCallback`, or [`None`]
     #[doc(alias = "nm_device_wifi_p2p_stop_find")]
-    pub fn stop_find<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    pub fn stop_find<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn stop_find_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -163,10 +157,10 @@ impl DeviceWifiP2P {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = stop_find_trampoline::<Q>;
+        let callback = stop_find_trampoline::<P>;
         unsafe {
             ffi::nm_device_wifi_p2p_stop_find(
                 self.to_glib_none().0,

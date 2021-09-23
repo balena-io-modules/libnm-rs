@@ -161,9 +161,9 @@ impl DeviceWifi {
     /// set.
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "nm_device_wifi_request_scan")]
-    pub fn request_scan<P: IsA<gio::Cancellable>>(
+    pub fn request_scan(
         &self,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -188,17 +188,14 @@ impl DeviceWifi {
     /// ## `callback`
     /// callback to be called when the scan has been requested
     #[doc(alias = "nm_device_wifi_request_scan_async")]
-    pub fn request_scan_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    pub fn request_scan_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn request_scan_async_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -212,10 +209,10 @@ impl DeviceWifi {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = request_scan_async_trampoline::<Q>;
+        let callback = request_scan_async_trampoline::<P>;
         unsafe {
             ffi::nm_device_wifi_request_scan_async(
                 self.to_glib_none().0,
@@ -260,10 +257,10 @@ impl DeviceWifi {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_wifi_request_scan_options")]
-    pub fn request_scan_options<P: IsA<gio::Cancellable>>(
+    pub fn request_scan_options(
         &self,
         options: &glib::Variant,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -284,7 +281,7 @@ impl DeviceWifi {
     //#[cfg(any(feature = "v1_2", feature = "dox"))]
     //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     //#[doc(alias = "nm_device_wifi_request_scan_options_async")]
-    //pub fn request_scan_options_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), glib::Error>) + 'static>(&self, options: &glib::Variant, cancellable: Option<&P>, callback: Q) {
+    //pub fn request_scan_options_async<P: FnOnce(Result<(), glib::Error>) + 'static>(&self, options: &glib::Variant, cancellable: Option<&impl IsA<gio::Cancellable>>, callback: P) {
     //    unsafe { TODO: call ffi:nm_device_wifi_request_scan_options_async() }
     //}
 

@@ -69,10 +69,10 @@ pub trait SettingExt: 'static {
     ///
     /// [`true`] if the comparison succeeds, [`false`] if it does not
     #[doc(alias = "nm_setting_compare")]
-    fn compare<P: IsA<Setting>>(&self, b: &P, flags: SettingCompareFlags) -> bool;
+    fn compare(&self, b: &impl IsA<Setting>, flags: SettingCompareFlags) -> bool;
 
     //#[doc(alias = "nm_setting_diff")]
-    //fn diff<P: IsA<Setting>>(&self, b: &P, flags: SettingCompareFlags, invert_results: bool, results: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }) -> bool;
+    //fn diff(&self, b: &impl IsA<Setting>, flags: SettingCompareFlags, invert_results: bool, results: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }) -> bool;
 
     /// Duplicates a [`Setting`][crate::Setting].
     ///
@@ -234,7 +234,7 @@ pub trait SettingExt: 'static {
     ///
     /// [`true`] if the setting is valid, [`false`] if it is not
     #[doc(alias = "nm_setting_verify")]
-    fn verify<P: IsA<Connection>>(&self, connection: Option<&P>) -> Result<(), glib::Error>;
+    fn verify(&self, connection: Option<&impl IsA<Connection>>) -> Result<(), glib::Error>;
 
     /// Verifies the secrets in the setting.
     /// The returned [`glib::Error`][crate::glib::Error] contains information about which secret of the setting
@@ -251,15 +251,14 @@ pub trait SettingExt: 'static {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_verify_secrets")]
-    fn verify_secrets<P: IsA<Connection>>(&self, connection: Option<&P>)
-        -> Result<(), glib::Error>;
+    fn verify_secrets(&self, connection: Option<&impl IsA<Connection>>) -> Result<(), glib::Error>;
 
     #[doc(alias = "name")]
     fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
 impl<O: IsA<Setting>> SettingExt for O {
-    fn compare<P: IsA<Setting>>(&self, b: &P, flags: SettingCompareFlags) -> bool {
+    fn compare(&self, b: &impl IsA<Setting>, flags: SettingCompareFlags) -> bool {
         unsafe {
             from_glib(ffi::nm_setting_compare(
                 self.as_ref().to_glib_none().0,
@@ -269,7 +268,7 @@ impl<O: IsA<Setting>> SettingExt for O {
         }
     }
 
-    //fn diff<P: IsA<Setting>>(&self, b: &P, flags: SettingCompareFlags, invert_results: bool, results: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }) -> bool {
+    //fn diff(&self, b: &impl IsA<Setting>, flags: SettingCompareFlags, invert_results: bool, results: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }) -> bool {
     //    unsafe { TODO: call ffi:nm_setting_diff() }
     //}
 
@@ -426,7 +425,7 @@ impl<O: IsA<Setting>> SettingExt for O {
         unsafe { from_glib_full(ffi::nm_setting_to_string(self.as_ref().to_glib_none().0)) }
     }
 
-    fn verify<P: IsA<Connection>>(&self, connection: Option<&P>) -> Result<(), glib::Error> {
+    fn verify(&self, connection: Option<&impl IsA<Connection>>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = ffi::nm_setting_verify(
@@ -444,10 +443,7 @@ impl<O: IsA<Setting>> SettingExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    fn verify_secrets<P: IsA<Connection>>(
-        &self,
-        connection: Option<&P>,
-    ) -> Result<(), glib::Error> {
+    fn verify_secrets(&self, connection: Option<&impl IsA<Connection>>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = ffi::nm_setting_verify_secrets(

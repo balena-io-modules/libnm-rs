@@ -96,7 +96,7 @@ pub trait DeviceExt: 'static {
     /// [`true`] if the connection may be activated with this device, [`false`]
     /// if is incompatible with the device's capabilities and characteristics.
     #[doc(alias = "nm_device_connection_compatible")]
-    fn connection_compatible<P: IsA<Connection>>(&self, connection: &P) -> Result<(), glib::Error>;
+    fn connection_compatible(&self, connection: &impl IsA<Connection>) -> Result<(), glib::Error>;
 
     /// Validates a given connection for a given [`Device`][crate::Device] object and returns
     /// whether the connection may be activated with the device. For example if
@@ -113,7 +113,7 @@ pub trait DeviceExt: 'static {
     /// [`true`] if the connection may be activated with this device, [`false`]
     /// if is incompatible with the device's capabilities and characteristics.
     #[doc(alias = "nm_device_connection_valid")]
-    fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool;
+    fn connection_valid(&self, connection: &impl IsA<Connection>) -> bool;
 
     /// Deletes the software device. Hardware devices can't be deleted.
     ///
@@ -129,7 +129,7 @@ pub trait DeviceExt: 'static {
     /// will be set.
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "nm_device_delete")]
-    fn delete<P: IsA<gio::Cancellable>>(&self, cancellable: Option<&P>) -> Result<(), glib::Error>;
+    fn delete(&self, cancellable: Option<&impl IsA<gio::Cancellable>>) -> Result<(), glib::Error>;
 
     /// Asynchronously begins deleting the software device. Hardware devices can't
     /// be deleted.
@@ -138,10 +138,10 @@ pub trait DeviceExt: 'static {
     /// ## `callback`
     /// callback to be called when delete operation completes
     #[doc(alias = "nm_device_delete_async")]
-    fn delete_async<P: IsA<gio::Cancellable>, Q: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    fn delete_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     );
 
     fn delete_async_future(
@@ -163,9 +163,9 @@ pub trait DeviceExt: 'static {
     /// [`true`] on success, [`false`] on error, in which case `error` will be set.
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "nm_device_disconnect")]
-    fn disconnect<P: IsA<gio::Cancellable>>(
+    fn disconnect(
         &self,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error>;
 
     /// Asynchronously begins disconnecting the device if currently connected, and
@@ -176,13 +176,10 @@ pub trait DeviceExt: 'static {
     /// ## `callback`
     /// callback to be called when the disconnect operation completes
     #[doc(alias = "nm_device_disconnect_async")]
-    fn disconnect_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    fn disconnect_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     );
 
     fn disconnect_async_future(
@@ -248,10 +245,10 @@ pub trait DeviceExt: 'static {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_get_applied_connection")]
     #[doc(alias = "get_applied_connection")]
-    fn applied_connection<P: IsA<gio::Cancellable>>(
+    fn applied_connection(
         &self,
         flags: u32,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(Connection, u64), glib::Error>;
 
     /// Asynchronously begins and gets the currently applied connection.
@@ -266,13 +263,12 @@ pub trait DeviceExt: 'static {
     #[doc(alias = "nm_device_get_applied_connection_async")]
     #[doc(alias = "get_applied_connection_async")]
     fn applied_connection_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(Connection, u64), glib::Error>) + Send + 'static,
+        P: FnOnce(Result<(Connection, u64), glib::Error>) + Send + 'static,
     >(
         &self,
         flags: u32,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     );
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
@@ -668,12 +664,12 @@ pub trait DeviceExt: 'static {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_reapply")]
-    fn reapply<P: IsA<Connection>, Q: IsA<gio::Cancellable>>(
+    fn reapply(
         &self,
-        connection: Option<&P>,
+        connection: Option<&impl IsA<Connection>>,
         version_id: u64,
         flags: u32,
-        cancellable: Option<&Q>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error>;
 
     /// Asynchronously begins an attempt to update device with changes to the
@@ -695,24 +691,20 @@ pub trait DeviceExt: 'static {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_reapply_async")]
-    fn reapply_async<
-        P: IsA<Connection>,
-        Q: IsA<gio::Cancellable>,
-        R: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    fn reapply_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        connection: Option<&P>,
+        connection: Option<&impl IsA<Connection>>,
         version_id: u64,
         flags: u32,
-        cancellable: Option<&Q>,
-        callback: R,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     );
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    fn reapply_async_future<P: IsA<Connection> + Clone + 'static>(
+    fn reapply_async_future(
         &self,
-        connection: Option<&P>,
+        connection: Option<&(impl IsA<Connection> + Clone + 'static)>,
         version_id: u64,
         flags: u32,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
@@ -898,7 +890,7 @@ pub trait DeviceExt: 'static {
 }
 
 impl<O: IsA<Device>> DeviceExt for O {
-    fn connection_compatible<P: IsA<Connection>>(&self, connection: &P) -> Result<(), glib::Error> {
+    fn connection_compatible(&self, connection: &impl IsA<Connection>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = ffi::nm_device_connection_compatible(
@@ -914,7 +906,7 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool {
+    fn connection_valid(&self, connection: &impl IsA<Connection>) -> bool {
         unsafe {
             from_glib(ffi::nm_device_connection_valid(
                 self.as_ref().to_glib_none().0,
@@ -923,7 +915,7 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    fn delete<P: IsA<gio::Cancellable>>(&self, cancellable: Option<&P>) -> Result<(), glib::Error> {
+    fn delete(&self, cancellable: Option<&impl IsA<gio::Cancellable>>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = ffi::nm_device_delete(
@@ -939,17 +931,14 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    fn delete_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    fn delete_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn delete_async_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -962,10 +951,10 @@ impl<O: IsA<Device>> DeviceExt for O {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = delete_async_trampoline::<Q>;
+        let callback = delete_async_trampoline::<P>;
         unsafe {
             ffi::nm_device_delete_async(
                 self.as_ref().to_glib_none().0,
@@ -986,9 +975,9 @@ impl<O: IsA<Device>> DeviceExt for O {
         }))
     }
 
-    fn disconnect<P: IsA<gio::Cancellable>>(
+    fn disconnect(
         &self,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -1005,17 +994,14 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    fn disconnect_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    fn disconnect_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn disconnect_async_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -1028,10 +1014,10 @@ impl<O: IsA<Device>> DeviceExt for O {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = disconnect_async_trampoline::<Q>;
+        let callback = disconnect_async_trampoline::<P>;
         unsafe {
             ffi::nm_device_disconnect_async(
                 self.as_ref().to_glib_none().0,
@@ -1071,10 +1057,10 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    fn applied_connection<P: IsA<gio::Cancellable>>(
+    fn applied_connection(
         &self,
         flags: u32,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(Connection, u64), glib::Error> {
         unsafe {
             let mut version_id = mem::MaybeUninit::uninit();
@@ -1098,17 +1084,16 @@ impl<O: IsA<Device>> DeviceExt for O {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     fn applied_connection_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(Connection, u64), glib::Error>) + Send + 'static,
+        P: FnOnce(Result<(Connection, u64), glib::Error>) + Send + 'static,
     >(
         &self,
         flags: u32,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn applied_connection_async_trampoline<
-            Q: FnOnce(Result<(Connection, u64), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(Connection, u64), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -1128,10 +1113,10 @@ impl<O: IsA<Device>> DeviceExt for O {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = applied_connection_async_trampoline::<Q>;
+        let callback = applied_connection_async_trampoline::<P>;
         unsafe {
             ffi::nm_device_get_applied_connection_async(
                 self.as_ref().to_glib_none().0,
@@ -1388,12 +1373,12 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    fn reapply<P: IsA<Connection>, Q: IsA<gio::Cancellable>>(
+    fn reapply(
         &self,
-        connection: Option<&P>,
+        connection: Option<&impl IsA<Connection>>,
         version_id: u64,
         flags: u32,
-        cancellable: Option<&Q>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -1415,21 +1400,17 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    fn reapply_async<
-        P: IsA<Connection>,
-        Q: IsA<gio::Cancellable>,
-        R: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    fn reapply_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        connection: Option<&P>,
+        connection: Option<&impl IsA<Connection>>,
         version_id: u64,
         flags: u32,
-        cancellable: Option<&Q>,
-        callback: R,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<R> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn reapply_async_trampoline<
-            R: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -1442,10 +1423,10 @@ impl<O: IsA<Device>> DeviceExt for O {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<R> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = reapply_async_trampoline::<R>;
+        let callback = reapply_async_trampoline::<P>;
         unsafe {
             ffi::nm_device_reapply_async(
                 self.as_ref().to_glib_none().0,
@@ -1461,9 +1442,9 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    fn reapply_async_future<P: IsA<Connection> + Clone + 'static>(
+    fn reapply_async_future(
         &self,
-        connection: Option<&P>,
+        connection: Option<&(impl IsA<Connection> + Clone + 'static)>,
         version_id: u64,
         flags: u32,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {

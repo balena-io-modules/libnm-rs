@@ -35,7 +35,7 @@ impl WifiP2PPeer {
     /// [`true`] if the connection may be activated with this Wi-Fi P2P Peer,
     /// [`false`] if it cannot be.
     #[doc(alias = "nm_wifi_p2p_peer_connection_valid")]
-    pub fn connection_valid<P: IsA<Connection>>(&self, connection: &P) -> bool {
+    pub fn connection_valid(&self, connection: &impl IsA<Connection>) -> bool {
         unsafe {
             from_glib(ffi::nm_wifi_p2p_peer_connection_valid(
                 self.to_glib_none().0,

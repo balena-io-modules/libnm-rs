@@ -104,7 +104,7 @@ pub trait ConnectionExt: 'static {
     /// ## `setting`
     /// the [`Setting`][crate::Setting] to add to the connection object
     #[doc(alias = "nm_connection_add_setting")]
-    fn add_setting<P: IsA<Setting>>(&self, setting: &P);
+    fn add_setting(&self, setting: &impl IsA<Setting>);
 
     /// Clears and frees any secrets that may be stored in the connection, to avoid
     /// keeping secret data in memory when not needed.
@@ -127,10 +127,10 @@ pub trait ConnectionExt: 'static {
     ///
     /// [`true`] if the comparison succeeds, [`false`] if it does not
     #[doc(alias = "nm_connection_compare")]
-    fn compare<P: IsA<Connection>>(&self, b: &P, flags: SettingCompareFlags) -> bool;
+    fn compare(&self, b: &impl IsA<Connection>, flags: SettingCompareFlags) -> bool;
 
     //#[doc(alias = "nm_connection_diff")]
-    //fn diff<P: IsA<Connection>>(&self, b: &P, flags: SettingCompareFlags, out_settings: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 40 }) -> bool;
+    //fn diff(&self, b: &impl IsA<Connection>, flags: SettingCompareFlags, out_settings: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 40 }) -> bool;
 
     /// Print the connection (including secrets!) to stdout. For debugging
     /// purposes ONLY, should NOT be used for serialization of the setting,
@@ -694,7 +694,7 @@ pub trait ConnectionExt: 'static {
     /// ## `new_connection`
     /// a [`Connection`][crate::Connection] to replace the settings of `self` with
     #[doc(alias = "nm_connection_replace_settings_from_connection")]
-    fn replace_settings_from_connection<P: IsA<Connection>>(&self, new_connection: &P);
+    fn replace_settings_from_connection(&self, new_connection: &impl IsA<Connection>);
 
     /// Sets the D-Bus path of the connection. This property is not serialized, and
     /// is only for the reference of the caller. Sets the `property::Connection::path`
@@ -788,7 +788,7 @@ pub trait ConnectionExt: 'static {
 }
 
 impl<O: IsA<Connection>> ConnectionExt for O {
-    fn add_setting<P: IsA<Setting>>(&self, setting: &P) {
+    fn add_setting(&self, setting: &impl IsA<Setting>) {
         unsafe {
             ffi::nm_connection_add_setting(
                 self.as_ref().to_glib_none().0,
@@ -809,7 +809,7 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         }
     }
 
-    fn compare<P: IsA<Connection>>(&self, b: &P, flags: SettingCompareFlags) -> bool {
+    fn compare(&self, b: &impl IsA<Connection>, flags: SettingCompareFlags) -> bool {
         unsafe {
             from_glib(ffi::nm_connection_compare(
                 self.as_ref().to_glib_none().0,
@@ -819,7 +819,7 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         }
     }
 
-    //fn diff<P: IsA<Connection>>(&self, b: &P, flags: SettingCompareFlags, out_settings: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 40 }) -> bool {
+    //fn diff(&self, b: &impl IsA<Connection>, flags: SettingCompareFlags, out_settings: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 40 }) -> bool {
     //    unsafe { TODO: call ffi:nm_connection_diff() }
     //}
 
@@ -1288,7 +1288,7 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         }
     }
 
-    fn replace_settings_from_connection<P: IsA<Connection>>(&self, new_connection: &P) {
+    fn replace_settings_from_connection(&self, new_connection: &impl IsA<Connection>) {
         unsafe {
             ffi::nm_connection_replace_settings_from_connection(
                 self.as_ref().to_glib_none().0,

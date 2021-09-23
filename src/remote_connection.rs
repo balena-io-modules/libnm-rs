@@ -48,10 +48,10 @@ impl RemoteConnection {
     /// [`true`] on success, [`false`] on error, in which case `error` will be set.
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "nm_remote_connection_commit_changes")]
-    pub fn commit_changes<P: IsA<gio::Cancellable>>(
+    pub fn commit_changes(
         &self,
         save_to_disk: bool,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -80,18 +80,15 @@ impl RemoteConnection {
     /// ## `callback`
     /// callback to be called when the commit operation completes
     #[doc(alias = "nm_remote_connection_commit_changes_async")]
-    pub fn commit_changes_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    pub fn commit_changes_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
         save_to_disk: bool,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn commit_changes_async_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -108,10 +105,10 @@ impl RemoteConnection {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = commit_changes_async_trampoline::<Q>;
+        let callback = commit_changes_async_trampoline::<P>;
         unsafe {
             ffi::nm_remote_connection_commit_changes_async(
                 self.to_glib_none().0,
@@ -147,9 +144,9 @@ impl RemoteConnection {
     /// [`true`] on success, [`false`] on error, in which case `error` will be set.
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "nm_remote_connection_delete")]
-    pub fn delete<P: IsA<gio::Cancellable>>(
+    pub fn delete(
         &self,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -172,17 +169,14 @@ impl RemoteConnection {
     /// ## `callback`
     /// callback to be called when the delete operation completes
     #[doc(alias = "nm_remote_connection_delete_async")]
-    pub fn delete_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    pub fn delete_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn delete_async_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -196,10 +190,10 @@ impl RemoteConnection {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = delete_async_trampoline::<Q>;
+        let callback = delete_async_trampoline::<P>;
         unsafe {
             ffi::nm_remote_connection_delete_async(
                 self.to_glib_none().0,
@@ -266,10 +260,10 @@ impl RemoteConnection {
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "nm_remote_connection_get_secrets")]
     #[doc(alias = "get_secrets")]
-    pub fn secrets<P: IsA<gio::Cancellable>>(
+    pub fn secrets(
         &self,
         setting_name: &str,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<glib::Variant, glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -296,18 +290,15 @@ impl RemoteConnection {
     /// callback to be called when the secret request completes
     #[doc(alias = "nm_remote_connection_get_secrets_async")]
     #[doc(alias = "get_secrets_async")]
-    pub fn secrets_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
-    >(
+    pub fn secrets_async<P: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static>(
         &self,
         setting_name: &str,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn secrets_async_trampoline<
-            Q: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -324,10 +315,10 @@ impl RemoteConnection {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = secrets_async_trampoline::<Q>;
+        let callback = secrets_async_trampoline::<P>;
         unsafe {
             ffi::nm_remote_connection_get_secrets_async(
                 self.to_glib_none().0,
@@ -397,9 +388,9 @@ impl RemoteConnection {
     /// [`true`] on success, [`false`] on error, in which case `error` will be set.
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "nm_remote_connection_save")]
-    pub fn save<P: IsA<gio::Cancellable>>(
+    pub fn save(
         &self,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -423,17 +414,14 @@ impl RemoteConnection {
     /// ## `callback`
     /// callback to be called when the save operation completes
     #[doc(alias = "nm_remote_connection_save_async")]
-    pub fn save_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    pub fn save_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn save_async_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -447,10 +435,10 @@ impl RemoteConnection {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = save_async_trampoline::<Q>;
+        let callback = save_async_trampoline::<P>;
         unsafe {
             ffi::nm_remote_connection_save_async(
                 self.to_glib_none().0,
@@ -485,20 +473,17 @@ impl RemoteConnection {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_remote_connection_update2")]
-    pub fn update2<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
-    >(
+    pub fn update2<P: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static>(
         &self,
         settings: Option<&glib::Variant>,
         flags: SettingsUpdate2Flags,
         args: Option<&glib::Variant>,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn update2_trampoline<
-            Q: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -512,10 +497,10 @@ impl RemoteConnection {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = update2_trampoline::<Q>;
+        let callback = update2_trampoline::<P>;
         unsafe {
             ffi::nm_remote_connection_update2(
                 self.to_glib_none().0,

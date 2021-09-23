@@ -42,13 +42,10 @@ pub trait SecretAgentOldExt: 'static {
     /// ## `callback`
     /// a callback, to be invoked when the operation is done
     #[doc(alias = "nm_secret_agent_old_delete_secrets")]
-    fn delete_secrets<
-        P: IsA<Connection>,
-        Q: FnOnce(&SecretAgentOld, &Connection, &glib::Error) + 'static,
-    >(
+    fn delete_secrets<P: FnOnce(&SecretAgentOld, &Connection, &glib::Error) + 'static>(
         &self,
-        connection: &P,
-        callback: Q,
+        connection: &impl IsA<Connection>,
+        callback: P,
     );
 
     /// Since 1.24, the instance will already register a D-Bus object on the
@@ -163,16 +160,13 @@ pub trait SecretAgentOldExt: 'static {
     /// a callback, to be invoked when the operation is done
     #[doc(alias = "nm_secret_agent_old_get_secrets")]
     #[doc(alias = "get_secrets")]
-    fn secrets<
-        P: IsA<Connection>,
-        Q: FnOnce(&SecretAgentOld, &Connection, &glib::Variant, &glib::Error) + 'static,
-    >(
+    fn secrets<P: FnOnce(&SecretAgentOld, &Connection, &glib::Variant, &glib::Error) + 'static>(
         &self,
-        connection: &P,
+        connection: &impl IsA<Connection>,
         setting_name: &str,
         hints: &[&str],
         flags: SecretAgentGetSecretsFlags,
-        callback: Q,
+        callback: P,
     );
 
     /// Registers the [`SecretAgentOld`][crate::SecretAgentOld] with the NetworkManager secret manager,
@@ -198,10 +192,8 @@ pub trait SecretAgentOldExt: 'static {
     /// [`SECRET_AGENT_OLD_AUTO_REGISTER`][crate::SECRET_AGENT_OLD_AUTO_REGISTER] to [`true`] or [`enable()`][Self::enable()].
     #[cfg_attr(feature = "v1_24", deprecated = "Since 1.24")]
     #[doc(alias = "nm_secret_agent_old_register")]
-    fn register<P: IsA<gio::Cancellable>>(
-        &self,
-        cancellable: Option<&P>,
-    ) -> Result<(), glib::Error>;
+    fn register(&self, cancellable: Option<&impl IsA<gio::Cancellable>>)
+        -> Result<(), glib::Error>;
 
     /// Asynchronously registers the [`SecretAgentOld`][crate::SecretAgentOld] with the NetworkManager secret
     /// manager, indicating to NetworkManager that the agent is able to provide and
@@ -222,13 +214,10 @@ pub trait SecretAgentOldExt: 'static {
     /// ## `callback`
     /// callback to call when the agent is registered
     #[doc(alias = "nm_secret_agent_old_register_async")]
-    fn register_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    fn register_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     );
 
     fn register_async_future(
@@ -242,13 +231,10 @@ pub trait SecretAgentOldExt: 'static {
     /// ## `callback`
     /// a callback, to be invoked when the operation is done
     #[doc(alias = "nm_secret_agent_old_save_secrets")]
-    fn save_secrets<
-        P: IsA<Connection>,
-        Q: FnOnce(&SecretAgentOld, &Connection, &glib::Error) + 'static,
-    >(
+    fn save_secrets<P: FnOnce(&SecretAgentOld, &Connection, &glib::Error) + 'static>(
         &self,
-        connection: &P,
-        callback: Q,
+        connection: &impl IsA<Connection>,
+        callback: P,
     );
 
     /// Unregisters the [`SecretAgentOld`][crate::SecretAgentOld] with the NetworkManager secret manager,
@@ -270,9 +256,9 @@ pub trait SecretAgentOldExt: 'static {
     /// or [`enable()`][Self::enable()].
     #[cfg_attr(feature = "v1_24", deprecated = "Since 1.24")]
     #[doc(alias = "nm_secret_agent_old_unregister")]
-    fn unregister<P: IsA<gio::Cancellable>>(
+    fn unregister(
         &self,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error>;
 
     /// Asynchronously unregisters the [`SecretAgentOld`][crate::SecretAgentOld] with the NetworkManager secret
@@ -292,13 +278,10 @@ pub trait SecretAgentOldExt: 'static {
     /// callback to call when the agent is unregistered
     #[cfg_attr(feature = "v1_24", deprecated = "Since 1.24")]
     #[doc(alias = "nm_secret_agent_old_unregister_async")]
-    fn unregister_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    fn unregister_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     );
 
     #[cfg_attr(feature = "v1_24", deprecated = "Since 1.24")]
@@ -379,18 +362,14 @@ pub trait SecretAgentOldExt: 'static {
 }
 
 impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
-    fn delete_secrets<
-        P: IsA<Connection>,
-        Q: FnOnce(&SecretAgentOld, &Connection, &glib::Error) + 'static,
-    >(
+    fn delete_secrets<P: FnOnce(&SecretAgentOld, &Connection, &glib::Error) + 'static>(
         &self,
-        connection: &P,
-        callback: Q,
+        connection: &impl IsA<Connection>,
+        callback: P,
     ) {
-        let callback_data: Box_<Q> = Box_::new(callback);
+        let callback_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn callback_func<
-            P: IsA<Connection>,
-            Q: FnOnce(&SecretAgentOld, &Connection, &glib::Error) + 'static,
+            P: FnOnce(&SecretAgentOld, &Connection, &glib::Error) + 'static,
         >(
             agent: *mut ffi::NMSecretAgentOld,
             connection: *mut ffi::NMConnection,
@@ -400,11 +379,11 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
             let agent = from_glib_borrow(agent);
             let connection = from_glib_borrow(connection);
             let error = from_glib_borrow(error);
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             (*callback)(&agent, &connection, &error);
         }
-        let callback = Some(callback_func::<P, Q> as _);
-        let super_callback0: Box_<Q> = callback_data;
+        let callback = Some(callback_func::<P> as _);
+        let super_callback0: Box_<P> = callback_data;
         unsafe {
             ffi::nm_secret_agent_old_delete_secrets(
                 self.as_ref().to_glib_none().0,
@@ -475,21 +454,17 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
         }
     }
 
-    fn secrets<
-        P: IsA<Connection>,
-        Q: FnOnce(&SecretAgentOld, &Connection, &glib::Variant, &glib::Error) + 'static,
-    >(
+    fn secrets<P: FnOnce(&SecretAgentOld, &Connection, &glib::Variant, &glib::Error) + 'static>(
         &self,
-        connection: &P,
+        connection: &impl IsA<Connection>,
         setting_name: &str,
         hints: &[&str],
         flags: SecretAgentGetSecretsFlags,
-        callback: Q,
+        callback: P,
     ) {
-        let callback_data: Box_<Q> = Box_::new(callback);
+        let callback_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn callback_func<
-            P: IsA<Connection>,
-            Q: FnOnce(&SecretAgentOld, &Connection, &glib::Variant, &glib::Error) + 'static,
+            P: FnOnce(&SecretAgentOld, &Connection, &glib::Variant, &glib::Error) + 'static,
         >(
             agent: *mut ffi::NMSecretAgentOld,
             connection: *mut ffi::NMConnection,
@@ -501,11 +476,11 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
             let connection = from_glib_borrow(connection);
             let secrets = from_glib_borrow(secrets);
             let error = from_glib_borrow(error);
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             (*callback)(&agent, &connection, &secrets, &error);
         }
-        let callback = Some(callback_func::<P, Q> as _);
-        let super_callback0: Box_<Q> = callback_data;
+        let callback = Some(callback_func::<P> as _);
+        let super_callback0: Box_<P> = callback_data;
         unsafe {
             ffi::nm_secret_agent_old_get_secrets(
                 self.as_ref().to_glib_none().0,
@@ -519,9 +494,9 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
         }
     }
 
-    fn register<P: IsA<gio::Cancellable>>(
+    fn register(
         &self,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -538,17 +513,14 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
         }
     }
 
-    fn register_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    fn register_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn register_async_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -562,10 +534,10 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = register_async_trampoline::<Q>;
+        let callback = register_async_trampoline::<P>;
         unsafe {
             ffi::nm_secret_agent_old_register_async(
                 self.as_ref().to_glib_none().0,
@@ -586,18 +558,14 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
         }))
     }
 
-    fn save_secrets<
-        P: IsA<Connection>,
-        Q: FnOnce(&SecretAgentOld, &Connection, &glib::Error) + 'static,
-    >(
+    fn save_secrets<P: FnOnce(&SecretAgentOld, &Connection, &glib::Error) + 'static>(
         &self,
-        connection: &P,
-        callback: Q,
+        connection: &impl IsA<Connection>,
+        callback: P,
     ) {
-        let callback_data: Box_<Q> = Box_::new(callback);
+        let callback_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn callback_func<
-            P: IsA<Connection>,
-            Q: FnOnce(&SecretAgentOld, &Connection, &glib::Error) + 'static,
+            P: FnOnce(&SecretAgentOld, &Connection, &glib::Error) + 'static,
         >(
             agent: *mut ffi::NMSecretAgentOld,
             connection: *mut ffi::NMConnection,
@@ -607,11 +575,11 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
             let agent = from_glib_borrow(agent);
             let connection = from_glib_borrow(connection);
             let error = from_glib_borrow(error);
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             (*callback)(&agent, &connection, &error);
         }
-        let callback = Some(callback_func::<P, Q> as _);
-        let super_callback0: Box_<Q> = callback_data;
+        let callback = Some(callback_func::<P> as _);
+        let super_callback0: Box_<P> = callback_data;
         unsafe {
             ffi::nm_secret_agent_old_save_secrets(
                 self.as_ref().to_glib_none().0,
@@ -622,9 +590,9 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
         }
     }
 
-    fn unregister<P: IsA<gio::Cancellable>>(
+    fn unregister(
         &self,
-        cancellable: Option<&P>,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -641,17 +609,14 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
         }
     }
 
-    fn unregister_async<
-        P: IsA<gio::Cancellable>,
-        Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    fn unregister_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
         &self,
-        cancellable: Option<&P>,
-        callback: Q,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
     ) {
-        let user_data: Box_<Q> = Box_::new(callback);
+        let user_data: Box_<P> = Box_::new(callback);
         unsafe extern "C" fn unregister_async_trampoline<
-            Q: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -668,10 +633,10 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<Q> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
             callback(result);
         }
-        let callback = unregister_async_trampoline::<Q>;
+        let callback = unregister_async_trampoline::<P>;
         unsafe {
             ffi::nm_secret_agent_old_unregister_async(
                 self.as_ref().to_glib_none().0,
