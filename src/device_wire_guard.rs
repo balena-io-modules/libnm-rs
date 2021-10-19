@@ -4,12 +4,24 @@
 
 use crate::Device;
 use crate::Object;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -29,6 +41,8 @@ impl DeviceWireGuard {
     /// # Returns
     ///
     /// 0 if fwmark not in use, 32-bit fwmark value otherwise
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_device_wireguard_get_fwmark")]
     #[doc(alias = "get_fwmark")]
     pub fn fwmark(&self) -> u32 {
@@ -40,6 +54,8 @@ impl DeviceWireGuard {
     /// # Returns
     ///
     /// UDP listen port
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_device_wireguard_get_listen_port")]
     #[doc(alias = "get_listen_port")]
     pub fn listen_port(&self) -> u16 {
@@ -51,6 +67,8 @@ impl DeviceWireGuard {
     /// # Returns
     ///
     /// the [`glib::Bytes`][crate::glib::Bytes] containing the 32-byte public key
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_device_wireguard_get_public_key")]
     #[doc(alias = "get_public_key")]
     pub fn public_key(&self) -> Option<glib::Bytes> {

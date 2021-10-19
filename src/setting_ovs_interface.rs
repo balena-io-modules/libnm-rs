@@ -3,15 +3,33 @@
 // DO NOT EDIT
 
 use crate::Setting;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use glib::object::Cast;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use glib::StaticType;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use glib::ToValue;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -29,6 +47,8 @@ impl SettingOvsInterface {
     /// # Returns
     ///
     /// the new empty [`SettingOvsInterface`][crate::SettingOvsInterface] object
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_setting_ovs_interface_new")]
     pub fn new() -> SettingOvsInterface {
         unsafe { Setting::from_glib_full(ffi::nm_setting_ovs_interface_new()).unsafe_cast() }
@@ -38,6 +58,8 @@ impl SettingOvsInterface {
     /// # Returns
     ///
     /// the `property::SettingOvsInterface::type` property of the setting
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_setting_ovs_interface_get_interface_type")]
     #[doc(alias = "get_interface_type")]
     pub fn interface_type(&self) -> Option<glib::GString> {

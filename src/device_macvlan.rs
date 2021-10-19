@@ -4,12 +4,24 @@
 
 use crate::Device;
 use crate::Object;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -28,6 +40,8 @@ impl DeviceMacvlan {
     ///
     /// the MACVLAN mode. This is the internal string used by the
     /// device, and must not be modified.
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_macvlan_get_mode")]
     #[doc(alias = "get_mode")]
     pub fn mode(&self) -> Option<glib::GString> {
@@ -39,6 +53,8 @@ impl DeviceMacvlan {
     /// # Returns
     ///
     /// the no-promiscuous flag of the device.
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_macvlan_get_no_promisc")]
     #[doc(alias = "get_no_promisc")]
     pub fn is_no_promisc(&self) -> bool {
@@ -49,6 +65,8 @@ impl DeviceMacvlan {
     /// # Returns
     ///
     /// the device's parent device
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_macvlan_get_parent")]
     #[doc(alias = "get_parent")]
     pub fn parent(&self) -> Option<Device> {
@@ -60,6 +78,8 @@ impl DeviceMacvlan {
     /// # Returns
     ///
     /// [`true`] if the device is a MACVTAP, [`false`] if it is a MACVLAN.
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_macvlan_get_tap")]
     #[doc(alias = "get_tap")]
     pub fn is_tap(&self) -> bool {

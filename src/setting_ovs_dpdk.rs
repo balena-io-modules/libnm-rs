@@ -3,14 +3,30 @@
 // DO NOT EDIT
 
 use crate::Setting;
+#[cfg(any(feature = "v1_20", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 use glib::object::Cast;
+#[cfg(any(feature = "v1_20", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_20", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_20", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_20", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_20", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 use glib::ToValue;
+#[cfg(any(feature = "v1_20", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_20", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -28,6 +44,8 @@ impl SettingOvsDpdk {
     /// # Returns
     ///
     /// the new empty [`SettingOvsDpdk`][crate::SettingOvsDpdk] object
+    #[cfg(any(feature = "v1_20", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     #[doc(alias = "nm_setting_ovs_dpdk_new")]
     pub fn new() -> SettingOvsDpdk {
         unsafe { Setting::from_glib_full(ffi::nm_setting_ovs_dpdk_new()).unsafe_cast() }
@@ -37,6 +55,8 @@ impl SettingOvsDpdk {
     /// # Returns
     ///
     /// the `property::SettingOvsDpdk::devargs` property of the setting
+    #[cfg(any(feature = "v1_20", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     #[doc(alias = "nm_setting_ovs_dpdk_get_devargs")]
     #[doc(alias = "get_devargs")]
     pub fn devargs(&self) -> Option<glib::GString> {

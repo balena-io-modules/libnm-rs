@@ -30,6 +30,8 @@ impl TCQdisc {
     /// # Returns
     ///
     /// the new [`TCQdisc`][crate::TCQdisc] object, or [`None`] on error
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_qdisc_new")]
     pub fn new(kind: &str, parent: u32) -> Result<TCQdisc, glib::Error> {
         unsafe {
@@ -48,6 +50,8 @@ impl TCQdisc {
     /// # Returns
     ///
     /// a copy of `self`
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_qdisc_dup")]
     pub fn dup(&self) -> Option<TCQdisc> {
         unsafe { from_glib_full(ffi::nm_tc_qdisc_dup(self.to_glib_none().0)) }
@@ -61,6 +65,8 @@ impl TCQdisc {
     /// # Returns
     ///
     /// [`true`] if the objects contain the same values, [`false`] if they do not.
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_qdisc_equal")]
     fn equal(&self, other: &TCQdisc) -> bool {
         unsafe {
@@ -114,12 +120,16 @@ impl TCQdisc {
     /// # Returns
     ///
     /// the queueing discipline handle
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_qdisc_get_handle")]
     #[doc(alias = "get_handle")]
     pub fn handle(&self) -> u32 {
         unsafe { ffi::nm_tc_qdisc_get_handle(self.to_glib_none().0) }
     }
 
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_qdisc_get_kind")]
     #[doc(alias = "get_kind")]
     pub fn kind(&self) -> Option<glib::GString> {
@@ -130,6 +140,8 @@ impl TCQdisc {
     /// # Returns
     ///
     /// the parent class
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_qdisc_get_parent")]
     #[doc(alias = "get_parent")]
     pub fn parent(&self) -> u32 {
@@ -157,6 +169,8 @@ impl TCQdisc {
     /// Sets the queueing discipline handle.
     /// ## `handle`
     /// the queueing discipline handle
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_qdisc_set_handle")]
     pub fn set_handle(&self, handle: u32) {
         unsafe {
@@ -165,6 +179,8 @@ impl TCQdisc {
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl PartialEq for TCQdisc {
     #[inline]
     fn eq(&self, other: &Self) -> bool {

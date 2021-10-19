@@ -32,6 +32,8 @@ impl IPRoutingRule {
     ///
     /// a newly created rule instance with the
     ///  provided address family. The instance is unsealed.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_new")]
     pub fn new(addr_family: i32) -> IPRoutingRule {
         unsafe { from_glib_full(ffi::nm_ip_routing_rule_new(addr_family)) }
@@ -44,6 +46,8 @@ impl IPRoutingRule {
     ///
     /// zero, a positive, or a negative integer to indicate
     ///  equality or how the arguments compare.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_cmp")]
     pub fn cmp(&self, other: Option<&IPRoutingRule>) -> i32 {
         unsafe { ffi::nm_ip_routing_rule_cmp(self.to_glib_none().0, other.to_glib_none().0) }
@@ -53,6 +57,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the set action.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_action")]
     #[doc(alias = "get_action")]
     pub fn action(&self) -> u8 {
@@ -63,6 +69,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the address family of the rule. Either `AF_INET` or `AF_INET6`.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_addr_family")]
     #[doc(alias = "get_addr_family")]
     pub fn addr_family(&self) -> i32 {
@@ -73,6 +81,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the destination port end setting.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_destination_port_end")]
     #[doc(alias = "get_destination_port_end")]
     pub fn destination_port_end(&self) -> u16 {
@@ -83,6 +93,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the destination port start setting.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_destination_port_start")]
     #[doc(alias = "get_destination_port_start")]
     pub fn destination_port_start(&self) -> u16 {
@@ -94,6 +106,8 @@ impl IPRoutingRule {
     ///
     /// the set from/src parameter or
     ///  [`None`], if no value is set.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_from")]
     #[doc(alias = "get_from")]
     pub fn from(&self) -> Option<glib::GString> {
@@ -104,6 +118,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the set prefix length for the from/src parameter.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_from_len")]
     #[doc(alias = "get_from_len")]
     pub fn from_len(&self) -> u8 {
@@ -114,6 +130,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the fwmark setting.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_fwmark")]
     #[doc(alias = "get_fwmark")]
     pub fn fwmark(&self) -> u32 {
@@ -124,6 +142,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the fwmask setting.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_fwmask")]
     #[doc(alias = "get_fwmask")]
     pub fn fwmask(&self) -> u32 {
@@ -134,6 +154,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the set iifname or [`None`] if unset.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_iifname")]
     #[doc(alias = "get_iifname")]
     pub fn iifname(&self) -> Option<glib::GString> {
@@ -144,6 +166,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the "invert" setting of the rule.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_invert")]
     #[doc(alias = "get_invert")]
     pub fn inverts(&self) -> bool {
@@ -154,6 +178,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the ipproto of the rule.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_ipproto")]
     #[doc(alias = "get_ipproto")]
     pub fn ipproto(&self) -> u8 {
@@ -164,6 +190,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the set oifname or [`None`] if unset.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_oifname")]
     #[doc(alias = "get_oifname")]
     pub fn oifname(&self) -> Option<glib::GString> {
@@ -175,6 +203,8 @@ impl IPRoutingRule {
     ///
     /// the priority. A valid priority is in the range from
     ///  0 to `G_MAXUINT32`. If unset, -1 is returned.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_priority")]
     #[doc(alias = "get_priority")]
     pub fn priority(&self) -> i64 {
@@ -185,6 +215,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the source port end setting.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_source_port_end")]
     #[doc(alias = "get_source_port_end")]
     pub fn source_port_end(&self) -> u16 {
@@ -195,6 +227,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the source port start setting.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_source_port_start")]
     #[doc(alias = "get_source_port_start")]
     pub fn source_port_start(&self) -> u16 {
@@ -217,6 +251,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the set table.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_table")]
     #[doc(alias = "get_table")]
     pub fn table(&self) -> u32 {
@@ -228,6 +264,8 @@ impl IPRoutingRule {
     ///
     /// the set to/dst parameter or
     ///  [`None`], if no value is set.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_to")]
     #[doc(alias = "get_to")]
     pub fn to(&self) -> Option<glib::GString> {
@@ -238,6 +276,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the set prefix length for the to/dst parameter.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_to_len")]
     #[doc(alias = "get_to_len")]
     pub fn to_len(&self) -> u8 {
@@ -248,6 +288,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// the tos of the rule.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_get_tos")]
     #[doc(alias = "get_tos")]
     pub fn tos(&self) -> u8 {
@@ -294,6 +336,8 @@ impl IPRoutingRule {
     ///
     /// whether `self` is sealed. Once sealed, an instance
     ///  cannot be modified nor unsealed.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_is_sealed")]
     pub fn is_sealed(&self) -> bool {
         unsafe { from_glib(ffi::nm_ip_routing_rule_is_sealed(self.to_glib_none().0)) }
@@ -305,6 +349,8 @@ impl IPRoutingRule {
     /// a newly created rule instance with
     ///  the same settings as `self`. Note that the instance will
     ///  always be unsealred.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_new_clone")]
     pub fn new_clone(&self) -> Option<IPRoutingRule> {
         unsafe { from_glib_full(ffi::nm_ip_routing_rule_new_clone(self.to_glib_none().0)) }
@@ -313,6 +359,8 @@ impl IPRoutingRule {
     /// Seals the routing rule. Afterwards, the instance can no longer be
     /// modified, and it is a bug to call any of the accessors that would
     /// modify the rule. If `self` was already sealed, this has no effect.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_seal")]
     pub fn seal(&self) {
         unsafe {
@@ -324,6 +372,8 @@ impl IPRoutingRule {
     /// will reject unsupported actions as invalid.
     /// ## `action`
     /// the action to set
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_set_action")]
     pub fn set_action(&self, action: u8) {
         unsafe {
@@ -335,6 +385,8 @@ impl IPRoutingRule {
     /// the start port to set.
     /// ## `end`
     /// the end port to set.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_set_destination_port")]
     pub fn set_destination_port(&self, start: u16, end: u16) {
         unsafe {
@@ -346,6 +398,8 @@ impl IPRoutingRule {
     /// the fwmark
     /// ## `fwmask`
     /// the fwmask
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_set_fwmark")]
     pub fn set_fwmark(&self, fwmark: u32, fwmask: u32) {
         unsafe {
@@ -359,6 +413,8 @@ impl IPRoutingRule {
     /// representation you'd get double backslashes.
     /// ## `iifname`
     /// the iifname to set or [`None`] to unset.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_set_iifname")]
     pub fn set_iifname(&self, iifname: Option<&str>) {
         unsafe {
@@ -368,6 +424,8 @@ impl IPRoutingRule {
 
     /// ## `invert`
     /// the new value to set
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_set_invert")]
     pub fn set_invert(&self, invert: bool) {
         unsafe {
@@ -377,6 +435,8 @@ impl IPRoutingRule {
 
     /// ## `ipproto`
     /// the ipproto to set
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_set_ipproto")]
     pub fn set_ipproto(&self, ipproto: u8) {
         unsafe {
@@ -390,6 +450,8 @@ impl IPRoutingRule {
     /// representation you'd get double backslashes.
     /// ## `oifname`
     /// the oifname to set or [`None`] to unset.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_set_oifname")]
     pub fn set_oifname(&self, oifname: Option<&str>) {
         unsafe {
@@ -402,6 +464,8 @@ impl IPRoutingRule {
     /// other value.
     /// ## `priority`
     /// the priority to set
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_set_priority")]
     pub fn set_priority(&self, priority: i64) {
         unsafe {
@@ -413,6 +477,8 @@ impl IPRoutingRule {
     /// the start port to set.
     /// ## `end`
     /// the end port to set.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_set_source_port")]
     pub fn set_source_port(&self, start: u16, end: u16) {
         unsafe {
@@ -437,6 +503,8 @@ impl IPRoutingRule {
 
     /// ## `table`
     /// the table to set
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_set_table")]
     pub fn set_table(&self, table: u32) {
         unsafe {
@@ -446,6 +514,8 @@ impl IPRoutingRule {
 
     /// ## `tos`
     /// the tos to set
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_set_tos")]
     pub fn set_tos(&self, tos: u8) {
         unsafe {
@@ -472,6 +542,8 @@ impl IPRoutingRule {
         }
     }
 
+    //#[cfg(any(feature = "v1_18", feature = "dox"))]
+    //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     //#[doc(alias = "nm_ip_routing_rule_to_string")]
     //pub fn to_string(&self, to_string_flags: IPRoutingRuleAsStringFlags, extra_args: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 25 }/TypeId { ns_id: 0, id: 25 }) -> Result<glib::GString, glib::Error> {
     //    unsafe { TODO: call ffi:nm_ip_routing_rule_to_string() }
@@ -481,6 +553,8 @@ impl IPRoutingRule {
     /// # Returns
     ///
     /// [`true`] if the rule validates.
+    #[cfg(any(feature = "v1_18", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_validate")]
     pub fn validate(&self) -> Result<(), glib::Error> {
         unsafe {
@@ -494,6 +568,8 @@ impl IPRoutingRule {
         }
     }
 
+    //#[cfg(any(feature = "v1_18", feature = "dox"))]
+    //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     //#[doc(alias = "nm_ip_routing_rule_from_string")]
     //pub fn from_string(str: &str, to_string_flags: IPRoutingRuleAsStringFlags, extra_args: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 25 }/TypeId { ns_id: 0, id: 25 }) -> Result<IPRoutingRule, glib::Error> {
     //    unsafe { TODO: call ffi:nm_ip_routing_rule_from_string() }

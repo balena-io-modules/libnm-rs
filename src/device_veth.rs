@@ -5,12 +5,24 @@
 use crate::Device;
 use crate::DeviceEthernet;
 use crate::Object;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -27,6 +39,8 @@ impl DeviceVeth {
     /// # Returns
     ///
     /// the device's peer device
+    #[cfg(any(feature = "v1_30", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
     #[doc(alias = "nm_device_veth_get_peer")]
     #[doc(alias = "get_peer")]
     pub fn peer(&self) -> Option<Device> {

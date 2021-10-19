@@ -199,10 +199,10 @@ impl AccessPoint {
 
     /// Alias for `property::AccessPoint::bssid`.
     ///
-    /// # Deprecated since 1.0
+    /// # Deprecated since 1
     ///
     /// Use `property::AccessPoint::bssid`.
-    #[cfg_attr(feature = "v1_0", deprecated = "Since 1.0")]
+    #[cfg_attr(feature = "v1", deprecated = "Since 1")]
     #[doc(alias = "hw-address")]
     pub fn hw_address(&self) -> Option<glib::GString> {
         unsafe {
@@ -287,7 +287,7 @@ impl AccessPoint {
         }
     }
 
-    #[cfg_attr(feature = "v1_0", deprecated = "Since 1.0")]
+    #[cfg_attr(feature = "v1", deprecated = "Since 1")]
     #[doc(alias = "hw-address")]
     pub fn connect_hw_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_hw_address_trampoline<F: Fn(&AccessPoint) + 'static>(

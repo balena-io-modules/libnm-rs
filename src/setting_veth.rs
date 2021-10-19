@@ -3,14 +3,30 @@
 // DO NOT EDIT
 
 use crate::Setting;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 use glib::object::Cast;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 use glib::ToValue;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -28,6 +44,8 @@ impl SettingVeth {
     /// # Returns
     ///
     /// the new empty [`SettingVeth`][crate::SettingVeth] object
+    #[cfg(any(feature = "v1_30", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
     #[doc(alias = "nm_setting_veth_new")]
     pub fn new() -> SettingVeth {
         unsafe { Setting::from_glib_full(ffi::nm_setting_veth_new()).unsafe_cast() }
@@ -37,6 +55,8 @@ impl SettingVeth {
     /// # Returns
     ///
     /// the `property::SettingVeth::peer` property of the setting
+    #[cfg(any(feature = "v1_30", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
     #[doc(alias = "nm_setting_veth_get_peer")]
     #[doc(alias = "get_peer")]
     pub fn peer(&self) -> Option<glib::GString> {

@@ -3,14 +3,30 @@
 // DO NOT EDIT
 
 use crate::Setting;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use glib::object::Cast;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use glib::ToValue;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -28,6 +44,8 @@ impl SettingOvsBridge {
     /// # Returns
     ///
     /// the new empty [`SettingOvsBridge`][crate::SettingOvsBridge] object
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_setting_ovs_bridge_new")]
     pub fn new() -> SettingOvsBridge {
         unsafe { Setting::from_glib_full(ffi::nm_setting_ovs_bridge_new()).unsafe_cast() }
@@ -53,6 +71,8 @@ impl SettingOvsBridge {
     /// # Returns
     ///
     /// the `property::SettingOvsBridge::fail_mode` property of the setting
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_setting_ovs_bridge_get_fail_mode")]
     #[doc(alias = "get_fail_mode")]
     pub fn fail_mode(&self) -> Option<glib::GString> {
@@ -67,6 +87,8 @@ impl SettingOvsBridge {
     /// # Returns
     ///
     /// the `property::SettingOvsBridge::mcast_snooping_enable` property of the setting
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_setting_ovs_bridge_get_mcast_snooping_enable")]
     #[doc(alias = "get_mcast_snooping_enable")]
     pub fn is_mcast_snooping_enable(&self) -> bool {
@@ -81,6 +103,8 @@ impl SettingOvsBridge {
     /// # Returns
     ///
     /// the `property::SettingOvsBridge::rstp_enable` property of the setting
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_setting_ovs_bridge_get_rstp_enable")]
     #[doc(alias = "get_rstp_enable")]
     pub fn is_rstp_enable(&self) -> bool {
@@ -95,6 +119,8 @@ impl SettingOvsBridge {
     /// # Returns
     ///
     /// the `property::SettingOvsBridge::stp_enable` property of the setting
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_setting_ovs_bridge_get_stp_enable")]
     #[doc(alias = "get_stp_enable")]
     pub fn is_stp_enable(&self) -> bool {

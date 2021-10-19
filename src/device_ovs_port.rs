@@ -13,6 +13,8 @@ use glib::signal::connect_raw;
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use glib::translate::*;
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
@@ -39,6 +41,8 @@ impl DeviceOvsPort {
     /// the [`glib::PtrArray`][crate::glib::PtrArray] containing
     /// `NMDevices` that are slaves of `self`. This is the internal
     /// copy used by the device, and must not be modified.
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_device_ovs_port_get_slaves")]
     #[doc(alias = "get_slaves")]
     pub fn slaves(&self) -> Vec<Device> {

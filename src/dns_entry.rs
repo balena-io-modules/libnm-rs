@@ -23,6 +23,8 @@ impl DnsEntry {
     /// # Returns
     ///
     /// the list of DNS domains
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_dns_entry_get_domains")]
     #[doc(alias = "get_domains")]
     pub fn domains(&mut self) -> Vec<glib::GString> {
@@ -38,6 +40,8 @@ impl DnsEntry {
     /// # Returns
     ///
     /// the interface name
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_dns_entry_get_interface")]
     #[doc(alias = "get_interface")]
     pub fn interface(&mut self) -> Option<glib::GString> {
@@ -49,6 +53,8 @@ impl DnsEntry {
     /// # Returns
     ///
     /// the list of name servers
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_dns_entry_get_nameservers")]
     #[doc(alias = "get_nameservers")]
     pub fn nameservers(&mut self) -> Vec<glib::GString> {
@@ -64,6 +70,8 @@ impl DnsEntry {
     /// # Returns
     ///
     /// the priority of the entry
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_dns_entry_get_priority")]
     #[doc(alias = "get_priority")]
     pub fn priority(&mut self) -> i32 {
@@ -75,6 +83,8 @@ impl DnsEntry {
     /// # Returns
     ///
     /// [`true`] if the entry refers to VPN name servers
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_dns_entry_get_vpn")]
     #[doc(alias = "get_vpn")]
     pub fn is_vpn(&mut self) -> bool {

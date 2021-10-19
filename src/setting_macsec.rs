@@ -3,17 +3,39 @@
 // DO NOT EDIT
 
 use crate::Setting;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use crate::SettingMacsecMode;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use crate::SettingMacsecValidation;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use crate::SettingSecretFlags;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::object::Cast;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::ToValue;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -31,6 +53,8 @@ impl SettingMacsec {
     /// # Returns
     ///
     /// the new empty [`SettingMacsec`][crate::SettingMacsec] object
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_new")]
     pub fn new() -> SettingMacsec {
         unsafe { Setting::from_glib_full(ffi::nm_setting_macsec_new()).unsafe_cast() }
@@ -40,6 +64,8 @@ impl SettingMacsec {
     /// # Returns
     ///
     /// the `property::SettingMacsec::encrypt` property of the setting
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_encrypt")]
     #[doc(alias = "get_encrypt")]
     pub fn is_encrypt(&self) -> bool {
@@ -50,6 +76,8 @@ impl SettingMacsec {
     /// # Returns
     ///
     /// the `property::SettingMacsec::mka-cak` property of the setting
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_mka_cak")]
     #[doc(alias = "get_mka_cak")]
     pub fn mka_cak(&self) -> Option<glib::GString> {
@@ -60,6 +88,8 @@ impl SettingMacsec {
     /// # Returns
     ///
     /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the `property::SettingMacsec::mka-cak`
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_mka_cak_flags")]
     #[doc(alias = "get_mka_cak_flags")]
     pub fn mka_cak_flags(&self) -> SettingSecretFlags {
@@ -74,6 +104,8 @@ impl SettingMacsec {
     /// # Returns
     ///
     /// the `property::SettingMacsec::mka-ckn` property of the setting
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_mka_ckn")]
     #[doc(alias = "get_mka_ckn")]
     pub fn mka_ckn(&self) -> Option<glib::GString> {
@@ -84,6 +116,8 @@ impl SettingMacsec {
     /// # Returns
     ///
     /// the `property::SettingMacsec::mode` property of the setting
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_mode")]
     #[doc(alias = "get_mode")]
     pub fn mode(&self) -> SettingMacsecMode {
@@ -94,6 +128,8 @@ impl SettingMacsec {
     /// # Returns
     ///
     /// the `property::SettingMacsec::parent` property of the setting
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_parent")]
     #[doc(alias = "get_parent")]
     pub fn parent(&self) -> Option<glib::GString> {
@@ -104,6 +140,8 @@ impl SettingMacsec {
     /// # Returns
     ///
     /// the `property::SettingMacsec::port` property of the setting
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_port")]
     #[doc(alias = "get_port")]
     pub fn port(&self) -> i32 {
@@ -126,6 +164,8 @@ impl SettingMacsec {
     /// # Returns
     ///
     /// the `property::SettingMacsec::validation` property of the setting
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_validation")]
     #[doc(alias = "get_validation")]
     pub fn validation(&self) -> SettingMacsecValidation {

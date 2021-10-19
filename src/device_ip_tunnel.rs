@@ -6,14 +6,28 @@ use crate::Device;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 use crate::IPTunnelFlags;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use crate::IPTunnelMode;
 use crate::Object;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -30,6 +44,8 @@ impl DeviceIPTunnel {
     /// # Returns
     ///
     /// the maximum permitted encapsulation level
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_ip_tunnel_get_encapsulation_limit")]
     #[doc(alias = "get_encapsulation_limit")]
     pub fn encapsulation_limit(&self) -> u8 {
@@ -52,6 +68,8 @@ impl DeviceIPTunnel {
     /// # Returns
     ///
     /// the flow label assigned to tunnel packets
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_ip_tunnel_get_flow_label")]
     #[doc(alias = "get_flow_label")]
     pub fn flow_label(&self) -> u32 {
@@ -62,6 +80,8 @@ impl DeviceIPTunnel {
     /// # Returns
     ///
     /// the key used for incoming packets
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_ip_tunnel_get_input_key")]
     #[doc(alias = "get_input_key")]
     pub fn input_key(&self) -> Option<glib::GString> {
@@ -76,6 +96,8 @@ impl DeviceIPTunnel {
     /// # Returns
     ///
     /// the local endpoint of the tunnel
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_ip_tunnel_get_local")]
     #[doc(alias = "get_local")]
     pub fn local(&self) -> Option<glib::GString> {
@@ -86,6 +108,8 @@ impl DeviceIPTunnel {
     /// # Returns
     ///
     /// the tunneling mode
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_ip_tunnel_get_mode")]
     #[doc(alias = "get_mode")]
     pub fn mode(&self) -> IPTunnelMode {
@@ -96,6 +120,8 @@ impl DeviceIPTunnel {
     /// # Returns
     ///
     /// the key used for outgoing packets
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_ip_tunnel_get_output_key")]
     #[doc(alias = "get_output_key")]
     pub fn output_key(&self) -> Option<glib::GString> {
@@ -110,6 +136,8 @@ impl DeviceIPTunnel {
     /// # Returns
     ///
     /// the device's parent device
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_ip_tunnel_get_parent")]
     #[doc(alias = "get_parent")]
     pub fn parent(&self) -> Option<Device> {
@@ -120,6 +148,8 @@ impl DeviceIPTunnel {
     /// # Returns
     ///
     /// whether path MTU discovery is enabled
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_ip_tunnel_get_path_mtu_discovery")]
     #[doc(alias = "get_path_mtu_discovery")]
     pub fn is_path_mtu_discovery(&self) -> bool {
@@ -134,6 +164,8 @@ impl DeviceIPTunnel {
     /// # Returns
     ///
     /// the remote endpoint of the tunnel
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_ip_tunnel_get_remote")]
     #[doc(alias = "get_remote")]
     pub fn remote(&self) -> Option<glib::GString> {
@@ -145,6 +177,8 @@ impl DeviceIPTunnel {
     ///
     /// type of service (IPv4) or traffic class (IPv6) assigned
     /// to tunneled packets.
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_ip_tunnel_get_tos")]
     #[doc(alias = "get_tos")]
     pub fn tos(&self) -> u8 {
@@ -155,6 +189,8 @@ impl DeviceIPTunnel {
     /// # Returns
     ///
     /// the TTL assigned to tunneled packets
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_ip_tunnel_get_ttl")]
     #[doc(alias = "get_ttl")]
     pub fn ttl(&self) -> u8 {

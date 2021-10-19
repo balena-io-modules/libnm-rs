@@ -4,12 +4,24 @@
 
 use crate::Device;
 use crate::Object;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -26,6 +38,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// the lifetime in seconds of FDB entries learnt by the kernel
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_ageing")]
     #[doc(alias = "get_ageing")]
     pub fn ageing(&self) -> u32 {
@@ -37,6 +51,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// [`true`] if the device has carrier.
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_carrier")]
     #[doc(alias = "get_carrier")]
     pub fn is_carrier(&self) -> bool {
@@ -47,6 +63,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// the UDP destination port
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_dst_port")]
     #[doc(alias = "get_dst_port")]
     pub fn dst_port(&self) -> u32 {
@@ -58,6 +76,8 @@ impl DeviceVxlan {
     ///
     /// The unicast destination IP address or the multicast
     /// IP address joined
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_group")]
     #[doc(alias = "get_group")]
     pub fn group(&self) -> Option<glib::GString> {
@@ -68,6 +88,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// the device's VXLAN ID.
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_id")]
     #[doc(alias = "get_id")]
     pub fn id(&self) -> u32 {
@@ -78,6 +100,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// whether netlink LL ADDR miss notifications are generated
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_l2miss")]
     #[doc(alias = "get_l2miss")]
     pub fn is_l2miss(&self) -> bool {
@@ -88,6 +112,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// whether netlink IP ADDR miss notifications are generated
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_l3miss")]
     #[doc(alias = "get_l3miss")]
     pub fn is_l3miss(&self) -> bool {
@@ -98,6 +124,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// whether address learning is enabled
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_learning")]
     #[doc(alias = "get_learning")]
     pub fn is_learning(&self) -> bool {
@@ -109,6 +137,8 @@ impl DeviceVxlan {
     ///
     /// the maximum number of entries that can be added to the
     /// forwarding table
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_limit")]
     #[doc(alias = "get_limit")]
     pub fn limit(&self) -> u32 {
@@ -119,6 +149,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// the source IP address to use in outgoing packets
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_local")]
     #[doc(alias = "get_local")]
     pub fn local(&self) -> Option<glib::GString> {
@@ -129,6 +161,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// the device's parent device
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_parent")]
     #[doc(alias = "get_parent")]
     pub fn parent(&self) -> Option<Device> {
@@ -139,6 +173,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// whether ARP proxy is turned on
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_proxy")]
     #[doc(alias = "get_proxy")]
     pub fn is_proxy(&self) -> bool {
@@ -149,6 +185,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// whether route short circuit is turned on
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_rsc")]
     #[doc(alias = "get_rsc")]
     pub fn is_rsc(&self) -> bool {
@@ -159,6 +197,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// the maximum UDP source port
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_src_port_max")]
     #[doc(alias = "get_src_port_max")]
     pub fn src_port_max(&self) -> u32 {
@@ -169,6 +209,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// the minimum UDP source port
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_src_port_min")]
     #[doc(alias = "get_src_port_min")]
     pub fn src_port_min(&self) -> u32 {
@@ -179,6 +221,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// the TOS value to use in outgoing packets
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_tos")]
     #[doc(alias = "get_tos")]
     pub fn tos(&self) -> u32 {
@@ -189,6 +233,8 @@ impl DeviceVxlan {
     /// # Returns
     ///
     /// the time-to-live value to use in outgoing packets
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_vxlan_get_ttl")]
     #[doc(alias = "get_ttl")]
     pub fn ttl(&self) -> u32 {

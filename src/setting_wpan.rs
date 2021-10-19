@@ -3,6 +3,8 @@
 // DO NOT EDIT
 
 use crate::Setting;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use glib::object::Cast;
 use glib::object::ObjectType as ObjectType_;
 use glib::signal::connect_raw;
@@ -29,6 +31,8 @@ impl SettingWpan {
     /// # Returns
     ///
     /// the new empty [`SettingWpan`][crate::SettingWpan] object
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_setting_wpan_new")]
     pub fn new() -> SettingWpan {
         unsafe { Setting::from_glib_full(ffi::nm_setting_wpan_new()).unsafe_cast() }
@@ -50,6 +54,8 @@ impl SettingWpan {
     /// # Returns
     ///
     /// the `property::SettingWpan::mac-address` property of the setting
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_setting_wpan_get_mac_address")]
     #[doc(alias = "get_mac_address")]
     pub fn mac_address(&self) -> Option<glib::GString> {
@@ -72,6 +78,8 @@ impl SettingWpan {
     /// # Returns
     ///
     /// the `property::SettingWpan::pan-id` property of the setting
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_setting_wpan_get_pan_id")]
     #[doc(alias = "get_pan_id")]
     pub fn pan_id(&self) -> u16 {
@@ -82,6 +90,8 @@ impl SettingWpan {
     /// # Returns
     ///
     /// the `property::SettingWpan::short-address` property of the setting
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_setting_wpan_get_short_address")]
     #[doc(alias = "get_short_address")]
     pub fn short_address(&self) -> u16 {

@@ -3,14 +3,30 @@
 // DO NOT EDIT
 
 use crate::Setting;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::object::Cast;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::ToValue;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -28,6 +44,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the new empty [`SettingVxlan`][crate::SettingVxlan] object
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_new")]
     pub fn new() -> SettingVxlan {
         unsafe { Setting::from_glib_full(ffi::nm_setting_vxlan_new()).unsafe_cast() }
@@ -37,6 +55,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::ageing` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_ageing")]
     #[doc(alias = "get_ageing")]
     pub fn ageing(&self) -> u32 {
@@ -47,6 +67,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::destination-port` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_destination_port")]
     #[doc(alias = "get_destination_port")]
     pub fn destination_port(&self) -> u32 {
@@ -57,6 +79,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::id` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_id")]
     #[doc(alias = "get_id")]
     pub fn id(&self) -> u32 {
@@ -67,6 +91,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::l2_miss` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_l2_miss")]
     #[doc(alias = "get_l2_miss")]
     pub fn is_l2_miss(&self) -> bool {
@@ -77,6 +103,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::l3_miss` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_l3_miss")]
     #[doc(alias = "get_l3_miss")]
     pub fn is_l3_miss(&self) -> bool {
@@ -87,6 +115,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::learning` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_learning")]
     #[doc(alias = "get_learning")]
     pub fn is_learning(&self) -> bool {
@@ -97,6 +127,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::limit` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_limit")]
     #[doc(alias = "get_limit")]
     pub fn limit(&self) -> u32 {
@@ -107,6 +139,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::local` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_local")]
     #[doc(alias = "get_local")]
     pub fn local(&self) -> Option<glib::GString> {
@@ -117,6 +151,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::parent` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_parent")]
     #[doc(alias = "get_parent")]
     pub fn parent(&self) -> Option<glib::GString> {
@@ -127,6 +163,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::proxy` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_proxy")]
     #[doc(alias = "get_proxy")]
     pub fn is_proxy(&self) -> bool {
@@ -137,6 +175,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::remote` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_remote")]
     #[doc(alias = "get_remote")]
     pub fn remote(&self) -> Option<glib::GString> {
@@ -147,6 +187,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::rsc` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_rsc")]
     #[doc(alias = "get_rsc")]
     pub fn is_rsc(&self) -> bool {
@@ -157,6 +199,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::source-port-max` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_source_port_max")]
     #[doc(alias = "get_source_port_max")]
     pub fn source_port_max(&self) -> u32 {
@@ -167,6 +211,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::source-port-min` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_source_port_min")]
     #[doc(alias = "get_source_port_min")]
     pub fn source_port_min(&self) -> u32 {
@@ -177,6 +223,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::tos` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_tos")]
     #[doc(alias = "get_tos")]
     pub fn tos(&self) -> u32 {
@@ -187,6 +235,8 @@ impl SettingVxlan {
     /// # Returns
     ///
     /// the `property::SettingVxlan::ttl` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_ttl")]
     #[doc(alias = "get_ttl")]
     pub fn ttl(&self) -> u32 {

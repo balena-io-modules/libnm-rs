@@ -3,14 +3,30 @@
 // DO NOT EDIT
 
 use crate::Setting;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use glib::object::Cast;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use glib::ToValue;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -28,6 +44,8 @@ impl Setting6Lowpan {
     /// # Returns
     ///
     /// the new empty [`Setting6Lowpan`][crate::Setting6Lowpan] object
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_setting_6lowpan_new")]
     pub fn new() -> Setting6Lowpan {
         unsafe { Setting::from_glib_full(ffi::nm_setting_6lowpan_new()).unsafe_cast() }
@@ -37,6 +55,8 @@ impl Setting6Lowpan {
     /// # Returns
     ///
     /// the `property::Setting6Lowpan::parent` property of the setting
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_setting_6lowpan_get_parent")]
     #[doc(alias = "get_parent")]
     pub fn parent(&self) -> Option<glib::GString> {

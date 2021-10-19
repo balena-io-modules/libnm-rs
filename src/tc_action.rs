@@ -28,6 +28,8 @@ impl TCAction {
     /// # Returns
     ///
     /// the new [`TCAction`][crate::TCAction] object, or [`None`] on error
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_action_new")]
     pub fn new(kind: &str) -> Result<TCAction, glib::Error> {
         unsafe {
@@ -46,6 +48,8 @@ impl TCAction {
     /// # Returns
     ///
     /// a copy of `self`
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_action_dup")]
     pub fn dup(&self) -> Option<TCAction> {
         unsafe { from_glib_full(ffi::nm_tc_action_dup(self.to_glib_none().0)) }
@@ -59,6 +63,8 @@ impl TCAction {
     /// # Returns
     ///
     /// [`true`] if the objects contain the same values, [`false`] if they do not.
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_action_equal")]
     fn equal(&self, other: &TCAction) -> bool {
         unsafe {
@@ -77,6 +83,8 @@ impl TCAction {
     ///
     /// the value of the attribute with name `name` on
     ///  `self`, or [`None`] if `self` has no such attribute.
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_action_get_attribute")]
     #[doc(alias = "get_attribute")]
     pub fn attribute(&self, name: &str) -> Option<glib::Variant> {
@@ -88,6 +96,8 @@ impl TCAction {
         }
     }
 
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_action_get_kind")]
     #[doc(alias = "get_kind")]
     pub fn kind(&self) -> Option<glib::GString> {
@@ -99,6 +109,8 @@ impl TCAction {
     /// the name of an action attribute
     /// ## `value`
     /// the value
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_action_set_attribute")]
     pub fn set_attribute(&self, name: &str, value: Option<&glib::Variant>) {
         unsafe {
@@ -111,6 +123,8 @@ impl TCAction {
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl PartialEq for TCAction {
     #[inline]
     fn eq(&self, other: &Self) -> bool {

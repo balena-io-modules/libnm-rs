@@ -34,6 +34,8 @@ impl LldpNeighbor {
     /// # Returns
     ///
     /// the new [`LldpNeighbor`][crate::LldpNeighbor] object.
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_lldp_neighbor_new")]
     pub fn new() -> LldpNeighbor {
         unsafe { from_glib_full(ffi::nm_lldp_neighbor_new()) }
@@ -46,6 +48,8 @@ impl LldpNeighbor {
     /// # Returns
     ///
     /// the [`glib::VariantType`][crate::glib::VariantType] of the attribute with name `name`
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_lldp_neighbor_get_attr_type")]
     #[doc(alias = "get_attr_type")]
     pub fn attr_type(&self, name: &str) -> Option<glib::VariantType> {
@@ -67,6 +71,8 @@ impl LldpNeighbor {
     ///
     /// ## `out_value`
     /// on return, the attribute value
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_lldp_neighbor_get_attr_uint_value")]
     #[doc(alias = "get_attr_uint_value")]
     pub fn attr_uint_value(&self, name: &str) -> Option<u32> {

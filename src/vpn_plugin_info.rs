@@ -2,15 +2,33 @@
 // from gir-files
 // DO NOT EDIT
 
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use crate::VpnEditorPlugin;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::object::IsA;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use std::mem::transmute;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use std::ptr;
 
 glib::wrapper! {
@@ -33,6 +51,8 @@ impl VpnPluginInfo {
     ///
     /// [`None`] if there is any error or a newly created
     /// [`VpnPluginInfo`][crate::VpnPluginInfo] instance.
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_vpn_plugin_info_new_from_file")]
     #[doc(alias = "new_from_file")]
     pub fn from_file(filename: &str) -> Result<VpnPluginInfo, glib::Error> {
@@ -83,6 +103,8 @@ impl VpnPluginInfo {
     /// # Returns
     ///
     /// new plugin info instance.
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_vpn_plugin_info_new_with_data")]
     #[doc(alias = "new_with_data")]
     pub fn with_data(
@@ -141,6 +163,8 @@ impl VpnPluginInfo {
     /// # Returns
     ///
     /// the cached [`VpnEditorPlugin`][crate::VpnEditorPlugin] instance.
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_vpn_plugin_info_get_editor_plugin")]
     #[doc(alias = "get_editor_plugin")]
     pub fn editor_plugin(&self) -> Option<VpnEditorPlugin> {
@@ -155,6 +179,8 @@ impl VpnPluginInfo {
     /// # Returns
     ///
     /// the filename. Can be [`None`].
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_vpn_plugin_info_get_filename")]
     #[doc(alias = "get_filename")]
     pub fn filename(&self) -> Option<glib::GString> {
@@ -165,6 +191,8 @@ impl VpnPluginInfo {
     /// # Returns
     ///
     /// the name. Cannot be [`None`].
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_vpn_plugin_info_get_name")]
     #[doc(alias = "get_name")]
     pub fn name(&self) -> Option<glib::GString> {
@@ -175,6 +203,8 @@ impl VpnPluginInfo {
     /// # Returns
     ///
     /// the plugin. Can be [`None`].
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_vpn_plugin_info_get_plugin")]
     #[doc(alias = "get_plugin")]
     pub fn plugin(&self) -> Option<glib::GString> {
@@ -185,6 +215,8 @@ impl VpnPluginInfo {
     /// # Returns
     ///
     /// the program. Can be [`None`].
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_vpn_plugin_info_get_program")]
     #[doc(alias = "get_program")]
     pub fn program(&self) -> Option<glib::GString> {
@@ -211,6 +243,8 @@ impl VpnPluginInfo {
     ///  via [`editor_plugin()`][Self::editor_plugin()]. You can load the
     ///  plugin only once, unless you reset the state via
     ///  [`set_editor_plugin()`][Self::set_editor_plugin()].
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_vpn_plugin_info_load_editor_plugin")]
     pub fn load_editor_plugin(&self) -> Result<VpnEditorPlugin, glib::Error> {
         unsafe {
@@ -233,6 +267,8 @@ impl VpnPluginInfo {
     ///
     /// [`VpnPluginInfo`][crate::VpnPluginInfo] is internally a [`glib::KeyFile`][crate::glib::KeyFile]. Returns the matching
     /// property.
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_vpn_plugin_info_lookup_property")]
     pub fn lookup_property(&self, group: &str, key: &str) -> Option<glib::GString> {
         unsafe {
@@ -247,6 +283,8 @@ impl VpnPluginInfo {
     /// Set the internal plugin instance. If [`None`], only clear the previous instance.
     /// ## `plugin`
     /// plugin instance
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_vpn_plugin_info_set_editor_plugin")]
     pub fn set_editor_plugin(&self, plugin: Option<&impl IsA<VpnEditorPlugin>>) {
         unsafe {
@@ -276,6 +314,8 @@ impl VpnPluginInfo {
     /// # Returns
     ///
     /// [`true`] if the service supports multiple instances with different bus names, otherwise [`false`]
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_vpn_plugin_info_supports_multiple")]
     pub fn supports_multiple(&self) -> bool {
         unsafe {
@@ -290,6 +330,8 @@ impl VpnPluginInfo {
     /// is valid according to that pattern.
     /// ## `filename`
     /// the filename to check
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_vpn_plugin_info_validate_filename")]
     pub fn validate_filename(filename: &str) -> bool {
         unsafe {

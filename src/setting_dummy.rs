@@ -3,7 +3,11 @@
 // DO NOT EDIT
 
 use crate::Setting;
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 use glib::object::Cast;
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 use glib::translate::*;
 use std::fmt;
 
@@ -22,6 +26,8 @@ impl SettingDummy {
     /// # Returns
     ///
     /// the new empty [`SettingDummy`][crate::SettingDummy] object
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "nm_setting_dummy_new")]
     pub fn new() -> SettingDummy {
         unsafe { Setting::from_glib_full(ffi::nm_setting_dummy_new()).unsafe_cast() }

@@ -3,15 +3,33 @@
 // DO NOT EDIT
 
 use crate::Setting;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use crate::SettingTunMode;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::object::Cast;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use glib::ToValue;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -29,6 +47,8 @@ impl SettingTun {
     /// # Returns
     ///
     /// the new empty [`SettingTun`][crate::SettingTun] object
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_tun_new")]
     pub fn new() -> SettingTun {
         unsafe { Setting::from_glib_full(ffi::nm_setting_tun_new()).unsafe_cast() }
@@ -38,6 +58,8 @@ impl SettingTun {
     /// # Returns
     ///
     /// the `property::SettingTun::group` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_tun_get_group")]
     #[doc(alias = "get_group")]
     pub fn group(&self) -> Option<glib::GString> {
@@ -48,6 +70,8 @@ impl SettingTun {
     /// # Returns
     ///
     /// the `property::SettingTun::mode` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_tun_get_mode")]
     #[doc(alias = "get_mode")]
     pub fn mode(&self) -> SettingTunMode {
@@ -58,6 +82,8 @@ impl SettingTun {
     /// # Returns
     ///
     /// the `property::SettingTun::multi-queue` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_tun_get_multi_queue")]
     #[doc(alias = "get_multi_queue")]
     pub fn is_multi_queue(&self) -> bool {
@@ -68,6 +94,8 @@ impl SettingTun {
     /// # Returns
     ///
     /// the `property::SettingTun::owner` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_tun_get_owner")]
     #[doc(alias = "get_owner")]
     pub fn owner(&self) -> Option<glib::GString> {
@@ -78,6 +106,8 @@ impl SettingTun {
     /// # Returns
     ///
     /// the `property::SettingTun::pi` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_tun_get_pi")]
     #[doc(alias = "get_pi")]
     pub fn is_pi(&self) -> bool {
@@ -88,6 +118,8 @@ impl SettingTun {
     /// # Returns
     ///
     /// the `property::SettingTun::vnet_hdr` property of the setting
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_tun_get_vnet_hdr")]
     #[doc(alias = "get_vnet_hdr")]
     pub fn is_vnet_hdr(&self) -> bool {

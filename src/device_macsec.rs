@@ -4,12 +4,24 @@
 
 use crate::Device;
 use crate::Object;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -27,6 +39,8 @@ impl DeviceMacsec {
     /// # Returns
     ///
     /// the set of cryptographic algorithms in use
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_device_macsec_get_cipher_suite")]
     #[doc(alias = "get_cipher_suite")]
     pub fn cipher_suite(&self) -> u64 {
@@ -39,6 +53,8 @@ impl DeviceMacsec {
     /// # Returns
     ///
     /// the current Security Association
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_device_macsec_get_encoding_sa")]
     #[doc(alias = "get_encoding_sa")]
     pub fn encoding_sa(&self) -> u8 {
@@ -50,6 +66,8 @@ impl DeviceMacsec {
     /// # Returns
     ///
     /// whether encryption is enabled
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_device_macsec_get_encrypt")]
     #[doc(alias = "get_encrypt")]
     pub fn is_encrypt(&self) -> bool {
@@ -62,6 +80,8 @@ impl DeviceMacsec {
     /// # Returns
     ///
     /// whether the ES (End station) bit is enabled
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_device_macsec_get_es")]
     #[doc(alias = "get_es")]
     pub fn is_es(&self) -> bool {
@@ -73,6 +93,8 @@ impl DeviceMacsec {
     /// # Returns
     ///
     /// the length of ICV
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_device_macsec_get_icv_length")]
     #[doc(alias = "get_icv_length")]
     pub fn icv_length(&self) -> u8 {
@@ -85,6 +107,8 @@ impl DeviceMacsec {
     /// # Returns
     ///
     /// whether the SCI is always included
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_device_macsec_get_include_sci")]
     #[doc(alias = "get_include_sci")]
     pub fn is_include_sci(&self) -> bool {
@@ -95,6 +119,8 @@ impl DeviceMacsec {
     /// # Returns
     ///
     /// the device's parent device
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_device_macsec_get_parent")]
     #[doc(alias = "get_parent")]
     pub fn parent(&self) -> Option<Device> {
@@ -106,6 +132,8 @@ impl DeviceMacsec {
     /// # Returns
     ///
     /// whether protection is enabled
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_device_macsec_get_protect")]
     #[doc(alias = "get_protect")]
     pub fn is_protect(&self) -> bool {
@@ -117,6 +145,8 @@ impl DeviceMacsec {
     /// # Returns
     ///
     /// whether replay protection is enabled
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_device_macsec_get_replay_protect")]
     #[doc(alias = "get_replay_protect")]
     pub fn is_replay_protect(&self) -> bool {
@@ -133,6 +163,8 @@ impl DeviceMacsec {
     /// # Returns
     ///
     /// whether the SCB (Single Copy Broadcast) bit is enabled
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_device_macsec_get_scb")]
     #[doc(alias = "get_scb")]
     pub fn is_scb(&self) -> bool {
@@ -144,6 +176,8 @@ impl DeviceMacsec {
     /// # Returns
     ///
     /// the SCI
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_device_macsec_get_sci")]
     #[doc(alias = "get_sci")]
     pub fn sci(&self) -> u64 {
@@ -156,6 +190,8 @@ impl DeviceMacsec {
     /// # Returns
     ///
     /// the validation mode
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_device_macsec_get_validation")]
     #[doc(alias = "get_validation")]
     pub fn validation(&self) -> Option<glib::GString> {
@@ -167,6 +203,8 @@ impl DeviceMacsec {
     /// # Returns
     ///
     /// size of the replay window
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_device_macsec_get_window")]
     #[doc(alias = "get_window")]
     pub fn window(&self) -> u32 {

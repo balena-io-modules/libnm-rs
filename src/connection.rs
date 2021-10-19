@@ -130,7 +130,7 @@ pub trait ConnectionExt: 'static {
     fn compare(&self, b: &impl IsA<Connection>, flags: SettingCompareFlags) -> bool;
 
     //#[doc(alias = "nm_connection_diff")]
-    //fn diff(&self, b: &impl IsA<Connection>, flags: SettingCompareFlags, out_settings: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 40 }) -> bool;
+    //fn diff(&self, b: &impl IsA<Connection>, flags: SettingCompareFlags, out_settings: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 41 }) -> bool;
 
     /// Print the connection (including secrets!) to stdout. For debugging
     /// purposes ONLY, should NOT be used for serialization of the setting,
@@ -819,7 +819,7 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         }
     }
 
-    //fn diff(&self, b: &impl IsA<Connection>, flags: SettingCompareFlags, out_settings: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 40 }) -> bool {
+    //fn diff(&self, b: &impl IsA<Connection>, flags: SettingCompareFlags, out_settings: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 41 }) -> bool {
     //    unsafe { TODO: call ffi:nm_connection_diff() }
     //}
 

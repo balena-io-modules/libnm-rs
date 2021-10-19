@@ -3,15 +3,33 @@
 // DO NOT EDIT
 
 use crate::Setting;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use crate::SettingProxyMethod;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::object::Cast;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use glib::ToValue;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -29,6 +47,8 @@ impl SettingProxy {
     /// # Returns
     ///
     /// the new empty [`SettingProxy`][crate::SettingProxy] object
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_proxy_new")]
     pub fn new() -> SettingProxy {
         unsafe { Setting::from_glib_full(ffi::nm_setting_proxy_new()).unsafe_cast() }
@@ -39,6 +59,8 @@ impl SettingProxy {
     ///
     /// [`true`] if this proxy configuration is only for browser
     /// clients/schemes, [`false`] otherwise.
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_proxy_get_browser_only")]
     #[doc(alias = "get_browser_only")]
     pub fn is_browser_only(&self) -> bool {
@@ -56,6 +78,8 @@ impl SettingProxy {
     /// # Returns
     ///
     /// the proxy configuration method
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_proxy_get_method")]
     #[doc(alias = "get_method")]
     pub fn method(&self) -> SettingProxyMethod {
@@ -66,6 +90,8 @@ impl SettingProxy {
     /// # Returns
     ///
     /// the PAC script
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_proxy_get_pac_script")]
     #[doc(alias = "get_pac_script")]
     pub fn pac_script(&self) -> Option<glib::GString> {
@@ -76,6 +102,8 @@ impl SettingProxy {
     /// # Returns
     ///
     /// the PAC URL for obtaining PAC file
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_proxy_get_pac_url")]
     #[doc(alias = "get_pac_url")]
     pub fn pac_url(&self) -> Option<glib::GString> {

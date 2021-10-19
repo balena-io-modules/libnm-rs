@@ -34,6 +34,8 @@ impl SriovVF {
     /// # Returns
     ///
     /// the new [`SriovVF`][crate::SriovVF] object.
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_new")]
     pub fn new(index: u32) -> SriovVF {
         unsafe { from_glib_full(ffi::nm_sriov_vf_new(index)) }
@@ -46,6 +48,8 @@ impl SriovVF {
     /// # Returns
     ///
     /// [`true`] if the VLAN was added; [`false`] if it already existed
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_add_vlan")]
     pub fn add_vlan(&self, vlan_id: u32) -> bool {
         unsafe { from_glib(ffi::nm_sriov_vf_add_vlan(self.to_glib_none().0, vlan_id)) }
@@ -56,6 +60,8 @@ impl SriovVF {
     /// # Returns
     ///
     /// a copy of `self`
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_dup")]
     pub fn dup(&self) -> Option<SriovVF> {
         unsafe { from_glib_full(ffi::nm_sriov_vf_dup(self.to_glib_none().0)) }
@@ -70,6 +76,8 @@ impl SriovVF {
     ///
     /// [`true`] if the objects contain the same values, [`false`]
     ///  if they do not.
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_equal")]
     fn equal(&self, other: &SriovVF) -> bool {
         unsafe {
@@ -88,6 +96,8 @@ impl SriovVF {
     ///
     /// the value of the attribute with name `name` on
     ///  `self`, or [`None`] if `self` has no such attribute.
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_get_attribute")]
     #[doc(alias = "get_attribute")]
     pub fn attribute(&self, name: &str) -> Option<glib::Variant> {
@@ -104,6 +114,8 @@ impl SriovVF {
     /// # Returns
     ///
     /// a [`None`]-terminated array of attribute names
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_get_attribute_names")]
     #[doc(alias = "get_attribute_names")]
     pub fn attribute_names(&self) -> Vec<glib::GString> {
@@ -119,6 +131,8 @@ impl SriovVF {
     /// # Returns
     ///
     /// the VF index
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_get_index")]
     #[doc(alias = "get_index")]
     pub fn index(&self) -> u32 {
@@ -130,6 +144,8 @@ impl SriovVF {
     /// # Returns
     ///
     /// a list of VLAN ids configured on the VF.
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_get_vlan_ids")]
     #[doc(alias = "get_vlan_ids")]
     pub fn vlan_ids(&self) -> Vec<u32> {
@@ -143,6 +159,8 @@ impl SriovVF {
         }
     }
 
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_get_vlan_protocol")]
     #[doc(alias = "get_vlan_protocol")]
     pub fn vlan_protocol(&self, vlan_id: u32) -> SriovVFVlanProtocol {
@@ -161,6 +179,8 @@ impl SriovVF {
     /// # Returns
     ///
     /// the QoS value
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_get_vlan_qos")]
     #[doc(alias = "get_vlan_qos")]
     pub fn vlan_qos(&self, vlan_id: u32) -> u32 {
@@ -175,6 +195,8 @@ impl SriovVF {
     ///
     /// [`true`] if the VLAN was removed, [`false`] if the VLAN `vlan_id`
     ///  did not belong to the VF.
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_remove_vlan")]
     pub fn remove_vlan(&self, vlan_id: u32) -> bool {
         unsafe { from_glib(ffi::nm_sriov_vf_remove_vlan(self.to_glib_none().0, vlan_id)) }
@@ -185,6 +207,8 @@ impl SriovVF {
     /// the name of a route attribute
     /// ## `value`
     /// the value
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_set_attribute")]
     pub fn set_attribute(&self, name: &str, value: Option<&glib::Variant>) {
         unsafe {
@@ -201,6 +225,8 @@ impl SriovVF {
     /// the VLAN id
     /// ## `protocol`
     /// the VLAN protocol
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_set_vlan_protocol")]
     pub fn set_vlan_protocol(&self, vlan_id: u32, protocol: SriovVFVlanProtocol) {
         unsafe {
@@ -217,6 +243,8 @@ impl SriovVF {
     /// the VLAN id
     /// ## `qos`
     /// a QoS (priority) value
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_set_vlan_qos")]
     pub fn set_vlan_qos(&self, vlan_id: u32, qos: u32) {
         unsafe {
@@ -237,6 +265,8 @@ impl SriovVF {
     ///
     /// ## `known`
     /// on return, whether the attribute name is a known one
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_attribute_validate")]
     pub fn attribute_validate(name: &str, value: &glib::Variant) -> Result<bool, glib::Error> {
         unsafe {
@@ -258,6 +288,8 @@ impl SriovVF {
     }
 }
 
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 impl PartialEq for SriovVF {
     #[inline]
     fn eq(&self, other: &Self) -> bool {

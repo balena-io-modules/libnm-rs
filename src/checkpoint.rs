@@ -2,14 +2,28 @@
 // from gir-files
 // DO NOT EDIT
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 use crate::Device;
 use crate::Object;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 use glib::object::ObjectType as ObjectType_;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 use glib::signal::connect_raw;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 use glib::signal::SignalHandlerId;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 use glib::translate::*;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 use std::boxed::Box as Box_;
 use std::fmt;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 use std::mem::transmute;
 
 glib::wrapper! {
@@ -30,6 +44,8 @@ impl Checkpoint {
     /// # Returns
     ///
     /// the timestamp of checkpoint creation.
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_checkpoint_get_created")]
     #[doc(alias = "get_created")]
     pub fn created(&self) -> i64 {
@@ -41,6 +57,8 @@ impl Checkpoint {
     /// # Returns
     ///
     /// the devices list.
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_checkpoint_get_devices")]
     #[doc(alias = "get_devices")]
     pub fn devices(&self) -> Vec<Device> {
@@ -56,6 +74,8 @@ impl Checkpoint {
     /// # Returns
     ///
     /// the rollback timeout.
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_checkpoint_get_rollback_timeout")]
     #[doc(alias = "get_rollback_timeout")]
     pub fn rollback_timeout(&self) -> u32 {
