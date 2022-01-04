@@ -450,13 +450,7 @@ impl SettingWireless {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_28")))]
     #[doc(alias = "ap-isolation")]
     pub fn set_ap_isolation(&self, ap_isolation: Ternary) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ap-isolation\0".as_ptr() as *const _,
-                ap_isolation.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ap-isolation", &ap_isolation)
     }
 
     /// 802.11 frequency band of the network. One of "a" for 5GHz 802.11a or
@@ -466,13 +460,7 @@ impl SettingWireless {
     /// settings are compatible. This setting depends on specific driver
     /// capability and may not work with all drivers.
     pub fn set_band(&self, band: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"band\0".as_ptr() as *const _,
-                band.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "band", &band)
     }
 
     /// If specified, directs the device to only associate with the given access
@@ -480,13 +468,7 @@ impl SettingWireless {
     /// all devices. Note: this property does not control the BSSID used when
     /// creating an Ad-Hoc network and is unlikely to in the future.
     pub fn set_bssid(&self, bssid: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"bssid\0".as_ptr() as *const _,
-                bssid.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "bssid", &bssid)
     }
 
     /// Wireless channel to use for the Wi-Fi connection. The device will only
@@ -494,13 +476,7 @@ impl SettingWireless {
     /// channel. Because channel numbers overlap between bands, this property
     /// also requires the "band" property to be set.
     pub fn set_channel(&self, channel: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"channel\0".as_ptr() as *const _,
-                channel.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "channel", &channel)
     }
 
     /// If specified, request that the device use this MAC address instead.
@@ -522,13 +498,7 @@ impl SettingWireless {
     /// "cloned-mac-address".
     #[doc(alias = "cloned-mac-address")]
     pub fn set_cloned_mac_address(&self, cloned_mac_address: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"cloned-mac-address\0".as_ptr() as *const _,
-                cloned_mac_address.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "cloned-mac-address", &cloned_mac_address)
     }
 
     /// With `property::SettingWireless::cloned-mac-address` setting "random" or "stable",
@@ -561,17 +531,7 @@ impl SettingWireless {
     /// administered.
     #[doc(alias = "generate-mac-address-mask")]
     pub fn get_property_generate_mac_address_mask(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"generate-mac-address-mask\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `generate-mac-address-mask` getter")
-        }
+        glib::ObjectExt::property(self, "generate-mac-address-mask")
     }
 
     /// With `property::SettingWireless::cloned-mac-address` setting "random" or "stable",
@@ -604,13 +564,11 @@ impl SettingWireless {
     /// administered.
     #[doc(alias = "generate-mac-address-mask")]
     pub fn set_generate_mac_address_mask(&self, generate_mac_address_mask: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"generate-mac-address-mask\0".as_ptr() as *const _,
-                generate_mac_address_mask.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "generate-mac-address-mask",
+            &generate_mac_address_mask,
+        )
     }
 
     /// If [`true`], indicates that the network is a non-broadcasting network that
@@ -627,13 +585,7 @@ impl SettingWireless {
     /// (in infrastructure mode) or client stations (in AP mode), as the explicit
     /// probe-scans are distinctly recognizable on the air.
     pub fn set_hidden(&self, hidden: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"hidden\0".as_ptr() as *const _,
-                hidden.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "hidden", &hidden)
     }
 
     /// If specified, this connection will only apply to the Wi-Fi device whose
@@ -641,13 +593,7 @@ impl SettingWireless {
     /// address of the device (i.e. MAC spoofing).
     #[doc(alias = "mac-address")]
     pub fn set_mac_address(&self, mac_address: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mac-address\0".as_ptr() as *const _,
-                mac_address.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mac-address", &mac_address)
     }
 
     /// A list of permanent MAC addresses of Wi-Fi devices to which this
@@ -655,13 +601,7 @@ impl SettingWireless {
     /// standard hex-digits-and-colons notation (eg "00:11:22:33:44:55").
     #[doc(alias = "mac-address-blacklist")]
     pub fn set_mac_address_blacklist(&self, mac_address_blacklist: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mac-address-blacklist\0".as_ptr() as *const _,
-                mac_address_blacklist.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mac-address-blacklist", &mac_address_blacklist)
     }
 
     /// One of [`SettingMacRandomization::Default`][crate::SettingMacRandomization::Default] (never randomize unless
@@ -679,37 +619,23 @@ impl SettingWireless {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "mac-address-randomization")]
     pub fn set_mac_address_randomization(&self, mac_address_randomization: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mac-address-randomization\0".as_ptr() as *const _,
-                mac_address_randomization.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "mac-address-randomization",
+            &mac_address_randomization,
+        )
     }
 
     /// Wi-Fi network mode; one of "infrastructure", "mesh", "adhoc" or "ap". If blank,
     /// infrastructure is assumed.
     pub fn set_mode(&self, mode: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mode\0".as_ptr() as *const _,
-                mode.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mode", &mode)
     }
 
     /// If non-zero, only transmit packets of the specified size or smaller,
     /// breaking larger packets up into multiple Ethernet frames.
     pub fn set_mtu(&self, mtu: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mtu\0".as_ptr() as *const _,
-                mtu.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mtu", &mtu)
     }
 
     /// One of [`SettingWirelessPowersave::Disable`][crate::SettingWirelessPowersave::Disable] (disable Wi-Fi power
@@ -720,13 +646,7 @@ impl SettingWireless {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_powersave(&self, powersave: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"powersave\0".as_ptr() as *const _,
-                powersave.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "powersave", &powersave)
     }
 
     /// If non-zero, directs the device to only use the specified bitrate for
@@ -734,13 +654,7 @@ impl SettingWireless {
     /// Mbit/s. This property is highly driver dependent and not all devices
     /// support setting a static bitrate.
     pub fn set_rate(&self, rate: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"rate\0".as_ptr() as *const _,
-                rate.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "rate", &rate)
     }
 
     /// A list of BSSIDs (each BSSID formatted as a MAC address like
@@ -751,18 +665,7 @@ impl SettingWireless {
     /// preserved.
     #[doc(alias = "seen-bssids")]
     pub fn seen_bssids(&self) -> Vec<glib::GString> {
-        unsafe {
-            let mut value =
-                glib::Value::from_type(<Vec<glib::GString> as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"seen-bssids\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `seen-bssids` getter")
-        }
+        glib::ObjectExt::property(self, "seen-bssids")
     }
 
     /// A list of BSSIDs (each BSSID formatted as a MAC address like
@@ -773,24 +676,12 @@ impl SettingWireless {
     /// preserved.
     #[doc(alias = "seen-bssids")]
     pub fn set_seen_bssids(&self, seen_bssids: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"seen-bssids\0".as_ptr() as *const _,
-                seen_bssids.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "seen-bssids", &seen_bssids)
     }
 
     /// SSID of the Wi-Fi network. Must be specified.
     pub fn set_ssid(&self, ssid: Option<&glib::Bytes>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ssid\0".as_ptr() as *const _,
-                ssid.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ssid", &ssid)
     }
 
     /// If non-zero, directs the device to use the specified transmit power.
@@ -798,13 +689,7 @@ impl SettingWireless {
     /// devices support setting a static transmit power.
     #[doc(alias = "tx-power")]
     pub fn set_tx_power(&self, tx_power: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"tx-power\0".as_ptr() as *const _,
-                tx_power.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "tx-power", &tx_power)
     }
 
     /// The [`SettingWirelessWakeOnWLan`][crate::SettingWirelessWakeOnWLan] options to enable. Not all devices support all options.
@@ -823,13 +708,7 @@ impl SettingWireless {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "wake-on-wlan")]
     pub fn set_wake_on_wlan(&self, wake_on_wlan: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wake-on-wlan\0".as_ptr() as *const _,
-                wake_on_wlan.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "wake-on-wlan", &wake_on_wlan)
     }
 
     #[cfg(any(feature = "v1_28", feature = "dox"))]

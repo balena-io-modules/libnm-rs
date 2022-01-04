@@ -73,13 +73,7 @@ impl SettingWifiP2P {
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     pub fn set_peer(&self, peer: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"peer\0".as_ptr() as *const _,
-                peer.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "peer", &peer)
     }
 
     /// The Wi-Fi Display (WFD) Information Elements (IEs) to set.
@@ -92,13 +86,7 @@ impl SettingWifiP2P {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "wfd-ies")]
     pub fn set_wfd_ies(&self, wfd_ies: Option<&glib::Bytes>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wfd-ies\0".as_ptr() as *const _,
-                wfd_ies.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "wfd-ies", &wfd_ies)
     }
 
     /// Flags indicating which mode of WPS is to be used.
@@ -109,13 +97,7 @@ impl SettingWifiP2P {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "wps-method")]
     pub fn set_wps_method(&self, wps_method: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wps-method\0".as_ptr() as *const _,
-                wps_method.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "wps-method", &wps_method)
     }
 
     #[cfg(any(feature = "v1_16", feature = "dox"))]

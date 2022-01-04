@@ -23,7 +23,9 @@ glib::wrapper! {
     }
 }
 
-pub const NONE_OBJECT: Option<&Object> = None;
+impl Object {
+    pub const NONE: Option<&'static Object> = None;
+}
 
 /// Trait containing all [`struct@Object`] methods.
 ///

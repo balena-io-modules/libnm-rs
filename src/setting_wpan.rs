@@ -103,43 +103,21 @@ impl SettingWpan {
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     pub fn set_channel(&self, channel: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"channel\0".as_ptr() as *const _,
-                channel.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "channel", &channel)
     }
 
     /// If specified, this connection will only apply to the IEEE 802.15.4 (WPAN)
     /// MAC layer device whose permanent MAC address matches.
     #[doc(alias = "mac-address")]
     pub fn get_property_mac_address(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mac-address\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `mac-address` getter")
-        }
+        glib::ObjectExt::property(self, "mac-address")
     }
 
     /// If specified, this connection will only apply to the IEEE 802.15.4 (WPAN)
     /// MAC layer device whose permanent MAC address matches.
     #[doc(alias = "mac-address")]
     pub fn set_mac_address(&self, mac_address: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mac-address\0".as_ptr() as *const _,
-                mac_address.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mac-address", &mac_address)
     }
 
     /// IEEE 802.15.4 channel page. A positive integer or -1, meaning "do not
@@ -147,69 +125,31 @@ impl SettingWpan {
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     pub fn set_page(&self, page: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"page\0".as_ptr() as *const _,
-                page.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "page", &page)
     }
 
     /// IEEE 802.15.4 Personal Area Network (PAN) identifier.
     #[doc(alias = "pan-id")]
     pub fn get_property_pan_id(&self) -> u32 {
-        unsafe {
-            let mut value = glib::Value::from_type(<u32 as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"pan-id\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `pan-id` getter")
-        }
+        glib::ObjectExt::property(self, "pan-id")
     }
 
     /// IEEE 802.15.4 Personal Area Network (PAN) identifier.
     #[doc(alias = "pan-id")]
     pub fn set_pan_id(&self, pan_id: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"pan-id\0".as_ptr() as *const _,
-                pan_id.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "pan-id", &pan_id)
     }
 
     /// Short IEEE 802.15.4 address to be used within a restricted environment.
     #[doc(alias = "short-address")]
     pub fn get_property_short_address(&self) -> u32 {
-        unsafe {
-            let mut value = glib::Value::from_type(<u32 as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"short-address\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `short-address` getter")
-        }
+        glib::ObjectExt::property(self, "short-address")
     }
 
     /// Short IEEE 802.15.4 address to be used within a restricted environment.
     #[doc(alias = "short-address")]
     pub fn set_short_address(&self, short_address: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"short-address\0".as_ptr() as *const _,
-                short_address.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "short-address", &short_address)
     }
 
     #[cfg(any(feature = "v1_16", feature = "dox"))]

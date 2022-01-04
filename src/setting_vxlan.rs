@@ -247,13 +247,7 @@ impl SettingVxlan {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_ageing(&self, ageing: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ageing\0".as_ptr() as *const _,
-                ageing.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ageing", &ageing)
     }
 
     /// Specifies the UDP destination port to communicate to the remote VXLAN
@@ -262,13 +256,7 @@ impl SettingVxlan {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "destination-port")]
     pub fn set_destination_port(&self, destination_port: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"destination-port\0".as_ptr() as *const _,
-                destination_port.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "destination-port", &destination_port)
     }
 
     /// Specifies the VXLAN Network Identifier (or VXLAN Segment Identifier) to
@@ -276,13 +264,7 @@ impl SettingVxlan {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_id(&self, id: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"id\0".as_ptr() as *const _,
-                id.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "id", &id)
     }
 
     /// Specifies whether netlink LL ADDR miss notifications are generated.
@@ -290,13 +272,7 @@ impl SettingVxlan {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "l2-miss")]
     pub fn set_l2_miss(&self, l2_miss: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"l2-miss\0".as_ptr() as *const _,
-                l2_miss.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "l2-miss", &l2_miss)
     }
 
     /// Specifies whether netlink IP ADDR miss notifications are generated.
@@ -304,13 +280,7 @@ impl SettingVxlan {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "l3-miss")]
     pub fn set_l3_miss(&self, l3_miss: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"l3-miss\0".as_ptr() as *const _,
-                l3_miss.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "l3-miss", &l3_miss)
     }
 
     /// Specifies whether unknown source link layer addresses and IP addresses
@@ -318,13 +288,7 @@ impl SettingVxlan {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_learning(&self, learning: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"learning\0".as_ptr() as *const _,
-                learning.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "learning", &learning)
     }
 
     /// Specifies the maximum number of FDB entries. A value of zero means that
@@ -332,52 +296,28 @@ impl SettingVxlan {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_limit(&self, limit: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"limit\0".as_ptr() as *const _,
-                limit.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "limit", &limit)
     }
 
     /// If given, specifies the source IP address to use in outgoing packets.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_local(&self, local: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"local\0".as_ptr() as *const _,
-                local.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "local", &local)
     }
 
     /// If given, specifies the parent interface name or parent connection UUID.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_parent(&self, parent: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"parent\0".as_ptr() as *const _,
-                parent.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "parent", &parent)
     }
 
     /// Specifies whether ARP proxy is turned on.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_proxy(&self, proxy: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"proxy\0".as_ptr() as *const _,
-                proxy.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "proxy", &proxy)
     }
 
     /// Specifies the unicast destination IP address to use in outgoing packets
@@ -386,26 +326,14 @@ impl SettingVxlan {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_remote(&self, remote: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"remote\0".as_ptr() as *const _,
-                remote.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "remote", &remote)
     }
 
     /// Specifies whether route short circuit is turned on.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_rsc(&self, rsc: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"rsc\0".as_ptr() as *const _,
-                rsc.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "rsc", &rsc)
     }
 
     /// Specifies the maximum UDP source port to communicate to the remote VXLAN
@@ -414,13 +342,7 @@ impl SettingVxlan {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "source-port-max")]
     pub fn set_source_port_max(&self, source_port_max: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"source-port-max\0".as_ptr() as *const _,
-                source_port_max.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "source-port-max", &source_port_max)
     }
 
     /// Specifies the minimum UDP source port to communicate to the remote VXLAN
@@ -429,39 +351,21 @@ impl SettingVxlan {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "source-port-min")]
     pub fn set_source_port_min(&self, source_port_min: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"source-port-min\0".as_ptr() as *const _,
-                source_port_min.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "source-port-min", &source_port_min)
     }
 
     /// Specifies the TOS value to use in outgoing packets.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_tos(&self, tos: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"tos\0".as_ptr() as *const _,
-                tos.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "tos", &tos)
     }
 
     /// Specifies the time-to-live value to use in outgoing packets.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_ttl(&self, ttl: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ttl\0".as_ptr() as *const _,
-                ttl.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ttl", &ttl)
     }
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]

@@ -34,7 +34,9 @@ glib::wrapper! {
     }
 }
 
-pub const NONE_SETTING_IP_CONFIG: Option<&SettingIPConfig> = None;
+impl SettingIPConfig {
+    pub const NONE: Option<&'static SettingIPConfig> = None;
+}
 
 /// Trait containing all [`struct@SettingIPConfig`] methods.
 ///
@@ -1435,248 +1437,107 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     fn set_dad_timeout(&self, dad_timeout: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"dad-timeout\0".as_ptr() as *const _,
-                dad_timeout.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "dad-timeout", &dad_timeout)
     }
 
     fn set_dhcp_hostname(&self, dhcp_hostname: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"dhcp-hostname\0".as_ptr() as *const _,
-                dhcp_hostname.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "dhcp-hostname", &dhcp_hostname)
     }
 
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     fn set_dhcp_hostname_flags(&self, dhcp_hostname_flags: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"dhcp-hostname-flags\0".as_ptr() as *const _,
-                dhcp_hostname_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "dhcp-hostname-flags", &dhcp_hostname_flags)
     }
 
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     fn set_dhcp_iaid(&self, dhcp_iaid: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"dhcp-iaid\0".as_ptr() as *const _,
-                dhcp_iaid.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "dhcp-iaid", &dhcp_iaid)
     }
 
     #[cfg(any(feature = "v1_28", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_28")))]
     fn set_dhcp_reject_servers(&self, dhcp_reject_servers: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"dhcp-reject-servers\0".as_ptr() as *const _,
-                dhcp_reject_servers.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "dhcp-reject-servers", &dhcp_reject_servers)
     }
 
     fn set_dhcp_send_hostname(&self, dhcp_send_hostname: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"dhcp-send-hostname\0".as_ptr() as *const _,
-                dhcp_send_hostname.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "dhcp-send-hostname", &dhcp_send_hostname)
     }
 
     fn get_property_dhcp_timeout(&self) -> i32 {
-        unsafe {
-            let mut value = glib::Value::from_type(<i32 as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"dhcp-timeout\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `dhcp-timeout` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "dhcp-timeout")
     }
 
     fn set_dhcp_timeout(&self, dhcp_timeout: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"dhcp-timeout\0".as_ptr() as *const _,
-                dhcp_timeout.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "dhcp-timeout", &dhcp_timeout)
     }
 
     fn set_dns(&self, dns: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"dns\0".as_ptr() as *const _,
-                dns.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "dns", &dns)
     }
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     fn dns_options(&self) -> Vec<glib::GString> {
-        unsafe {
-            let mut value =
-                glib::Value::from_type(<Vec<glib::GString> as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"dns-options\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `dns-options` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "dns-options")
     }
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     fn set_dns_options(&self, dns_options: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"dns-options\0".as_ptr() as *const _,
-                dns_options.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "dns-options", &dns_options)
     }
 
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
     fn set_dns_priority(&self, dns_priority: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"dns-priority\0".as_ptr() as *const _,
-                dns_priority.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "dns-priority", &dns_priority)
     }
 
     fn set_dns_search(&self, dns_search: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"dns-search\0".as_ptr() as *const _,
-                dns_search.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "dns-search", &dns_search)
     }
 
     fn set_gateway(&self, gateway: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"gateway\0".as_ptr() as *const _,
-                gateway.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "gateway", &gateway)
     }
 
     fn set_ignore_auto_dns(&self, ignore_auto_dns: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"ignore-auto-dns\0".as_ptr() as *const _,
-                ignore_auto_dns.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "ignore-auto-dns", &ignore_auto_dns)
     }
 
     fn set_ignore_auto_routes(&self, ignore_auto_routes: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"ignore-auto-routes\0".as_ptr() as *const _,
-                ignore_auto_routes.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "ignore-auto-routes", &ignore_auto_routes)
     }
 
     fn set_may_fail(&self, may_fail: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"may-fail\0".as_ptr() as *const _,
-                may_fail.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "may-fail", &may_fail)
     }
 
     fn set_method(&self, method: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"method\0".as_ptr() as *const _,
-                method.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "method", &method)
     }
 
     fn set_never_default(&self, never_default: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"never-default\0".as_ptr() as *const _,
-                never_default.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "never-default", &never_default)
     }
 
     #[cfg(any(feature = "v1_34", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
     fn set_required_timeout(&self, required_timeout: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"required-timeout\0".as_ptr() as *const _,
-                required_timeout.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "required-timeout", &required_timeout)
     }
 
     fn set_route_metric(&self, route_metric: i64) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"route-metric\0".as_ptr() as *const _,
-                route_metric.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "route-metric", &route_metric)
     }
 
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     fn set_route_table(&self, route_table: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"route-table\0".as_ptr() as *const _,
-                route_table.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "route-table", &route_table)
     }
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]

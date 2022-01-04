@@ -339,26 +339,14 @@ impl SettingDcb {
     /// [`SettingDcbFlags::ADVERTISE`][crate::SettingDcbFlags::ADVERTISE], and [`SettingDcbFlags::WILLING`][crate::SettingDcbFlags::WILLING].
     #[doc(alias = "app-fcoe-flags")]
     pub fn set_app_fcoe_flags(&self, app_fcoe_flags: SettingDcbFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"app-fcoe-flags\0".as_ptr() as *const _,
-                app_fcoe_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "app-fcoe-flags", &app_fcoe_flags)
     }
 
     /// The FCoE controller mode; either [`SETTING_DCB_FCOE_MODE_FABRIC`][crate::SETTING_DCB_FCOE_MODE_FABRIC]
     /// (default) or [`SETTING_DCB_FCOE_MODE_VN2VN`][crate::SETTING_DCB_FCOE_MODE_VN2VN].
     #[doc(alias = "app-fcoe-mode")]
     pub fn set_app_fcoe_mode(&self, app_fcoe_mode: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"app-fcoe-mode\0".as_ptr() as *const _,
-                app_fcoe_mode.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "app-fcoe-mode", &app_fcoe_mode)
     }
 
     /// The highest User Priority (0 - 7) which FCoE frames should use, or -1 for
@@ -366,13 +354,7 @@ impl SettingDcb {
     /// property includes the [`SettingDcbFlags::ENABLE`][crate::SettingDcbFlags::ENABLE] flag.
     #[doc(alias = "app-fcoe-priority")]
     pub fn set_app_fcoe_priority(&self, app_fcoe_priority: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"app-fcoe-priority\0".as_ptr() as *const _,
-                app_fcoe_priority.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "app-fcoe-priority", &app_fcoe_priority)
     }
 
     /// Specifies the [`SettingDcbFlags`][crate::SettingDcbFlags] for the DCB FIP application. Flags may
@@ -380,13 +362,7 @@ impl SettingDcb {
     /// [`SettingDcbFlags::ADVERTISE`][crate::SettingDcbFlags::ADVERTISE], and [`SettingDcbFlags::WILLING`][crate::SettingDcbFlags::WILLING].
     #[doc(alias = "app-fip-flags")]
     pub fn set_app_fip_flags(&self, app_fip_flags: SettingDcbFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"app-fip-flags\0".as_ptr() as *const _,
-                app_fip_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "app-fip-flags", &app_fip_flags)
     }
 
     /// The highest User Priority (0 - 7) which FIP frames should use, or -1 for
@@ -394,13 +370,7 @@ impl SettingDcb {
     /// property includes the [`SettingDcbFlags::ENABLE`][crate::SettingDcbFlags::ENABLE] flag.
     #[doc(alias = "app-fip-priority")]
     pub fn set_app_fip_priority(&self, app_fip_priority: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"app-fip-priority\0".as_ptr() as *const _,
-                app_fip_priority.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "app-fip-priority", &app_fip_priority)
     }
 
     /// Specifies the [`SettingDcbFlags`][crate::SettingDcbFlags] for the DCB iSCSI application. Flags
@@ -408,13 +378,7 @@ impl SettingDcb {
     /// [`SettingDcbFlags::ADVERTISE`][crate::SettingDcbFlags::ADVERTISE], and [`SettingDcbFlags::WILLING`][crate::SettingDcbFlags::WILLING].
     #[doc(alias = "app-iscsi-flags")]
     pub fn set_app_iscsi_flags(&self, app_iscsi_flags: SettingDcbFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"app-iscsi-flags\0".as_ptr() as *const _,
-                app_iscsi_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "app-iscsi-flags", &app_iscsi_flags)
     }
 
     /// The highest User Priority (0 - 7) which iSCSI frames should use, or -1
@@ -422,13 +386,7 @@ impl SettingDcb {
     /// property includes the [`SettingDcbFlags::ENABLE`][crate::SettingDcbFlags::ENABLE] flag.
     #[doc(alias = "app-iscsi-priority")]
     pub fn set_app_iscsi_priority(&self, app_iscsi_priority: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"app-iscsi-priority\0".as_ptr() as *const _,
-                app_iscsi_priority.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "app-iscsi-priority", &app_iscsi_priority)
     }
 
     /// Specifies the [`SettingDcbFlags`][crate::SettingDcbFlags] for DCB Priority Flow Control (PFC).
@@ -436,13 +394,11 @@ impl SettingDcb {
     /// [`SettingDcbFlags::ADVERTISE`][crate::SettingDcbFlags::ADVERTISE], and [`SettingDcbFlags::WILLING`][crate::SettingDcbFlags::WILLING].
     #[doc(alias = "priority-flow-control-flags")]
     pub fn set_priority_flow_control_flags(&self, priority_flow_control_flags: SettingDcbFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"priority-flow-control-flags\0".as_ptr() as *const _,
-                priority_flow_control_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "priority-flow-control-flags",
+            &priority_flow_control_flags,
+        )
     }
 
     /// Specifies the [`SettingDcbFlags`][crate::SettingDcbFlags] for DCB Priority Groups. Flags may be
@@ -450,13 +406,7 @@ impl SettingDcb {
     /// [`SettingDcbFlags::ADVERTISE`][crate::SettingDcbFlags::ADVERTISE], and [`SettingDcbFlags::WILLING`][crate::SettingDcbFlags::WILLING].
     #[doc(alias = "priority-group-flags")]
     pub fn set_priority_group_flags(&self, priority_group_flags: SettingDcbFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"priority-group-flags\0".as_ptr() as *const _,
-                priority_group_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "priority-group-flags", &priority_group_flags)
     }
 
     #[doc(alias = "app-fcoe-flags")]

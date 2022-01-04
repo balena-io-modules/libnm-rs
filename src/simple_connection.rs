@@ -50,7 +50,7 @@ impl SimpleConnection {
     /// connection and normalize the connection. See [`ConnectionExt::to_dbus()`][crate::prelude::ConnectionExt::to_dbus()] for a
     /// description of the expected hash table.
     /// ## `dict`
-    /// a [`glib::Variant`][crate::glib::Variant] of type `NM_VARIANT_TYPE_CONNECTION` describing the connection
+    /// a [`glib::Variant`][struct@crate::glib::Variant] of type `NM_VARIANT_TYPE_CONNECTION` describing the connection
     ///
     /// # Returns
     ///

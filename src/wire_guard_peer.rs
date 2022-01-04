@@ -186,12 +186,13 @@ impl WireGuardPeer {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_wireguard_peer_is_valid(
+            let is_ok = ffi::nm_wireguard_peer_is_valid(
                 self.to_glib_none().0,
                 check_non_secrets.into_glib(),
                 check_secrets.into_glib(),
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {

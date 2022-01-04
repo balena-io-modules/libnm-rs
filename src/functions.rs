@@ -470,7 +470,7 @@ pub fn utils_inet6_ntop(dst: &str) -> Option<glib::GString> {
 }
 
 /// Utility function to convert a [`glib::PtrArray`][crate::glib::PtrArray] of [`IPAddress`][crate::IPAddress] objects representing
-/// IPv4 addresses into a [`glib::Variant`][crate::glib::Variant] of type 'aau' representing an array of
+/// IPv4 addresses into a [`glib::Variant`][struct@crate::glib::Variant] of type 'aau' representing an array of
 /// NetworkManager IPv4 addresses (which are tuples of address, prefix, and
 /// gateway). The "gateway" field of the first address will get the value of
 /// `gateway` (if non-[`None`]). In all of the other addresses, that field will be 0.
@@ -481,7 +481,7 @@ pub fn utils_inet6_ntop(dst: &str) -> Option<glib::GString> {
 ///
 /// # Returns
 ///
-/// a new floating [`glib::Variant`][crate::glib::Variant] representing `addresses`.
+/// a new floating [`glib::Variant`][struct@crate::glib::Variant] representing `addresses`.
 #[doc(alias = "nm_utils_ip4_addresses_to_variant")]
 pub fn utils_ip4_addresses_to_variant(
     addresses: &[&IPAddress],
@@ -532,11 +532,11 @@ pub fn utils_ip4_prefix_to_netmask(prefix: u32) -> u32 {
     unsafe { ffi::nm_utils_ip4_prefix_to_netmask(prefix) }
 }
 
-/// Utility function to convert a [`glib::Variant`][crate::glib::Variant] of type 'aau' representing an array
+/// Utility function to convert a [`glib::Variant`][struct@crate::glib::Variant] of type 'aau' representing an array
 /// of NetworkManager IPv4 routes (which are tuples of route, prefix, next hop,
 /// and metric) into a [`glib::PtrArray`][crate::glib::PtrArray] of [`IPRoute`][crate::IPRoute] objects.
 /// ## `value`
-/// [`glib::Variant`][crate::glib::Variant] of type 'aau'
+/// [`glib::Variant`][struct@crate::glib::Variant] of type 'aau'
 ///
 /// # Returns
 ///
@@ -552,7 +552,7 @@ pub fn utils_ip4_routes_from_variant(value: &glib::Variant) -> Vec<IPRoute> {
 }
 
 /// Utility function to convert a [`glib::PtrArray`][crate::glib::PtrArray] of [`IPRoute`][crate::IPRoute] objects representing
-/// IPv4 routes into a [`glib::Variant`][crate::glib::Variant] of type 'aau' representing an array of
+/// IPv4 routes into a [`glib::Variant`][struct@crate::glib::Variant] of type 'aau' representing an array of
 /// NetworkManager IPv4 routes (which are tuples of route, prefix, next hop, and
 /// metric).
 /// ## `routes`
@@ -560,14 +560,14 @@ pub fn utils_ip4_routes_from_variant(value: &glib::Variant) -> Vec<IPRoute> {
 ///
 /// # Returns
 ///
-/// a new floating [`glib::Variant`][crate::glib::Variant] representing `routes`.
+/// a new floating [`glib::Variant`][struct@crate::glib::Variant] representing `routes`.
 #[doc(alias = "nm_utils_ip4_routes_to_variant")]
 pub fn utils_ip4_routes_to_variant(routes: &[&IPRoute]) -> Option<glib::Variant> {
     unsafe { from_glib_none(ffi::nm_utils_ip4_routes_to_variant(routes.to_glib_none().0)) }
 }
 
 /// Utility function to convert a [`glib::PtrArray`][crate::glib::PtrArray] of [`IPAddress`][crate::IPAddress] objects representing
-/// IPv6 addresses into a [`glib::Variant`][crate::glib::Variant] of type 'a(ayuay)' representing an array of
+/// IPv6 addresses into a [`glib::Variant`][struct@crate::glib::Variant] of type 'a(ayuay)' representing an array of
 /// NetworkManager IPv6 addresses (which are tuples of address, prefix, and
 /// gateway). The "gateway" field of the first address will get the value of
 /// `gateway` (if non-[`None`]). In all of the other addresses, that field will be
@@ -579,7 +579,7 @@ pub fn utils_ip4_routes_to_variant(routes: &[&IPRoute]) -> Option<glib::Variant>
 ///
 /// # Returns
 ///
-/// a new floating [`glib::Variant`][crate::glib::Variant] representing `addresses`.
+/// a new floating [`glib::Variant`][struct@crate::glib::Variant] representing `addresses`.
 #[doc(alias = "nm_utils_ip6_addresses_to_variant")]
 pub fn utils_ip6_addresses_to_variant(
     addresses: &[&IPAddress],
@@ -593,11 +593,11 @@ pub fn utils_ip6_addresses_to_variant(
     }
 }
 
-/// Utility function to convert a [`glib::Variant`][crate::glib::Variant] of type 'a(ayuayu)' representing an
+/// Utility function to convert a [`glib::Variant`][struct@crate::glib::Variant] of type 'a(ayuayu)' representing an
 /// array of NetworkManager IPv6 routes (which are tuples of route, prefix, next
 /// hop, and metric) into a [`glib::PtrArray`][crate::glib::PtrArray] of [`IPRoute`][crate::IPRoute] objects.
 /// ## `value`
-/// [`glib::Variant`][crate::glib::Variant] of type 'a(ayuayu)'
+/// [`glib::Variant`][struct@crate::glib::Variant] of type 'a(ayuayu)'
 ///
 /// # Returns
 ///
@@ -613,7 +613,7 @@ pub fn utils_ip6_routes_from_variant(value: &glib::Variant) -> Vec<IPRoute> {
 }
 
 /// Utility function to convert a [`glib::PtrArray`][crate::glib::PtrArray] of [`IPRoute`][crate::IPRoute] objects representing
-/// IPv6 routes into a [`glib::Variant`][crate::glib::Variant] of type 'a(ayuayu)' representing an array of
+/// IPv6 routes into a [`glib::Variant`][struct@crate::glib::Variant] of type 'a(ayuayu)' representing an array of
 /// NetworkManager IPv6 routes (which are tuples of route, prefix, next hop, and
 /// metric).
 /// ## `routes`
@@ -621,18 +621,18 @@ pub fn utils_ip6_routes_from_variant(value: &glib::Variant) -> Vec<IPRoute> {
 ///
 /// # Returns
 ///
-/// a new floating [`glib::Variant`][crate::glib::Variant] representing `routes`.
+/// a new floating [`glib::Variant`][struct@crate::glib::Variant] representing `routes`.
 #[doc(alias = "nm_utils_ip6_routes_to_variant")]
 pub fn utils_ip6_routes_to_variant(routes: &[&IPRoute]) -> Option<glib::Variant> {
     unsafe { from_glib_none(ffi::nm_utils_ip6_routes_to_variant(routes.to_glib_none().0)) }
 }
 
-/// Utility function to convert a [`glib::Variant`][crate::glib::Variant] representing a list of new-style
+/// Utility function to convert a [`glib::Variant`][struct@crate::glib::Variant] representing a list of new-style
 /// NetworkManager IPv4 or IPv6 addresses (as described in the documentation for
 /// [`utils_ip_addresses_to_variant()`][crate::utils_ip_addresses_to_variant()]) into a [`glib::PtrArray`][crate::glib::PtrArray] of [`IPAddress`][crate::IPAddress]
 /// objects.
 /// ## `value`
-/// a [`glib::Variant`][crate::glib::Variant] of type 'aa{sv}'
+/// a [`glib::Variant`][struct@crate::glib::Variant] of type 'aa{sv}'
 /// ## `family`
 /// an IP address family
 ///
@@ -651,7 +651,7 @@ pub fn utils_ip_addresses_from_variant(value: &glib::Variant, family: i32) -> Ve
 }
 
 /// Utility function to convert a [`glib::PtrArray`][crate::glib::PtrArray] of [`IPAddress`][crate::IPAddress] objects representing
-/// IPv4 or IPv6 addresses into a [`glib::Variant`][crate::glib::Variant] of type 'aa{sv}' representing an
+/// IPv4 or IPv6 addresses into a [`glib::Variant`][struct@crate::glib::Variant] of type 'aa{sv}' representing an
 /// array of new-style NetworkManager IP addresses. All addresses will include
 /// "address" (an IP address string), and "prefix" (a uint). Some addresses may
 /// include additional attributes.
@@ -660,7 +660,7 @@ pub fn utils_ip_addresses_from_variant(value: &glib::Variant, family: i32) -> Ve
 ///
 /// # Returns
 ///
-/// a new floating [`glib::Variant`][crate::glib::Variant] representing `addresses`.
+/// a new floating [`glib::Variant`][struct@crate::glib::Variant] representing `addresses`.
 #[doc(alias = "nm_utils_ip_addresses_to_variant")]
 pub fn utils_ip_addresses_to_variant(addresses: &[&IPAddress]) -> Option<glib::Variant> {
     unsafe {
@@ -670,12 +670,12 @@ pub fn utils_ip_addresses_to_variant(addresses: &[&IPAddress]) -> Option<glib::V
     }
 }
 
-/// Utility function to convert a [`glib::Variant`][crate::glib::Variant] representing a list of new-style
+/// Utility function to convert a [`glib::Variant`][struct@crate::glib::Variant] representing a list of new-style
 /// NetworkManager IPv4 or IPv6 addresses (which are tuples of destination,
 /// prefix, next hop, metric, and additional attributes) into a [`glib::PtrArray`][crate::glib::PtrArray] of
 /// [`IPRoute`][crate::IPRoute] objects.
 /// ## `value`
-/// a [`glib::Variant`][crate::glib::Variant] of type 'aa{sv}'
+/// a [`glib::Variant`][struct@crate::glib::Variant] of type 'aa{sv}'
 /// ## `family`
 /// an IP address family
 ///
@@ -694,7 +694,7 @@ pub fn utils_ip_routes_from_variant(value: &glib::Variant, family: i32) -> Vec<I
 }
 
 /// Utility function to convert a [`glib::PtrArray`][crate::glib::PtrArray] of [`IPRoute`][crate::IPRoute] objects representing
-/// IPv4 or IPv6 routes into a [`glib::Variant`][crate::glib::Variant] of type 'aa{sv}' representing an array
+/// IPv4 or IPv6 routes into a [`glib::Variant`][struct@crate::glib::Variant] of type 'aa{sv}' representing an array
 /// of new-style NetworkManager IP routes (which are tuples of destination,
 /// prefix, next hop, metric, and additional attributes).
 /// ## `routes`
@@ -702,7 +702,7 @@ pub fn utils_ip_routes_from_variant(value: &glib::Variant, family: i32) -> Vec<I
 ///
 /// # Returns
 ///
-/// a new floating [`glib::Variant`][crate::glib::Variant] representing `routes`.
+/// a new floating [`glib::Variant`][struct@crate::glib::Variant] representing `routes`.
 #[doc(alias = "nm_utils_ip_routes_to_variant")]
 pub fn utils_ip_routes_to_variant(routes: &[&IPRoute]) -> Option<glib::Variant> {
     unsafe { from_glib_none(ffi::nm_utils_ip_routes_to_variant(routes.to_glib_none().0)) }
@@ -753,7 +753,8 @@ pub fn utils_is_empty_ssid(ssid: &[u8]) -> bool {
 pub fn utils_is_json_object(str: &str) -> Result<(), glib::Error> {
     unsafe {
         let mut error = ptr::null_mut();
-        let _ = ffi::nm_utils_is_json_object(str.to_glib_none().0, &mut error);
+        let is_ok = ffi::nm_utils_is_json_object(str.to_glib_none().0, &mut error);
+        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(())
         } else {
@@ -801,7 +802,8 @@ pub fn utils_is_uuid(str: Option<&str>) -> bool {
 pub fn utils_is_valid_iface_name(name: Option<&str>) -> Result<(), glib::Error> {
     unsafe {
         let mut error = ptr::null_mut();
-        let _ = ffi::nm_utils_is_valid_iface_name(name.to_glib_none().0, &mut error);
+        let is_ok = ffi::nm_utils_is_valid_iface_name(name.to_glib_none().0, &mut error);
+        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(())
         } else {

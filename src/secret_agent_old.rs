@@ -27,7 +27,9 @@ glib::wrapper! {
     }
 }
 
-pub const NONE_SECRET_AGENT_OLD: Option<&SecretAgentOld> = None;
+impl SecretAgentOld {
+    pub const NONE: Option<&'static SecretAgentOld> = None;
+}
 
 /// Trait containing all [`struct@SecretAgentOld`] methods.
 ///
@@ -48,17 +50,6 @@ pub trait SecretAgentOldExt: 'static {
         callback: P,
     );
 
-    /// Since 1.24, the instance will already register a D-Bus object on the
-    /// D-Bus connection during initialization. That object will stay registered
-    /// until `self` gets unrefed (destroyed) or this function is called. This
-    /// function performs the necessary cleanup to tear down the instance. Afterwards,
-    /// the function can not longer be used. This is optional, but necessary to
-    /// ensure unregistering the D-Bus object at a define point, when other users
-    /// might still have a reference on `self`.
-    ///
-    /// You may call this function any time and repeatedly. However, after destroying
-    /// the instance, it is a bug to still use the instance for other purposes. The
-    /// instance becomes defunct and cannot re-register.
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "nm_secret_agent_old_destroy")]
@@ -220,7 +211,7 @@ pub trait SecretAgentOldExt: 'static {
         callback: P,
     );
 
-    fn register_async_future(
+    fn register_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
 
@@ -286,7 +277,7 @@ pub trait SecretAgentOldExt: 'static {
 
     #[cfg_attr(feature = "v1_24", deprecated = "Since 1.24")]
 
-    fn unregister_async_future(
+    fn unregister_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
 
@@ -500,11 +491,12 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_secret_agent_old_register(
+            let is_ok = ffi::nm_secret_agent_old_register(
                 self.as_ref().to_glib_none().0,
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -548,7 +540,7 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
         }
     }
 
-    fn register_async_future(
+    fn register_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
@@ -596,11 +588,12 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_secret_agent_old_unregister(
+            let is_ok = ffi::nm_secret_agent_old_unregister(
                 self.as_ref().to_glib_none().0,
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -647,7 +640,7 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
         }
     }
 
-    fn unregister_async_future(
+    fn unregister_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
@@ -658,66 +651,23 @@ impl<O: IsA<SecretAgentOld>> SecretAgentOldExt for O {
     }
 
     fn is_auto_register(&self) -> bool {
-        unsafe {
-            let mut value = glib::Value::from_type(<bool as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"auto-register\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `auto-register` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "auto-register")
     }
 
     fn set_auto_register(&self, auto_register: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"auto-register\0".as_ptr() as *const _,
-                auto_register.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "auto-register", &auto_register)
     }
 
     fn capabilities(&self) -> SecretAgentCapabilities {
-        unsafe {
-            let mut value =
-                glib::Value::from_type(<SecretAgentCapabilities as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"capabilities\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `capabilities` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "capabilities")
     }
 
     fn set_capabilities(&self, capabilities: SecretAgentCapabilities) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"capabilities\0".as_ptr() as *const _,
-                capabilities.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "capabilities", &capabilities)
     }
 
     fn identifier(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"identifier\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `identifier` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "identifier")
     }
 
     fn connect_auto_register_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {

@@ -203,13 +203,7 @@ impl SettingTeamPort {
     /// directly to teamd. If not specified, the default configuration is
     /// used. See man teamd.conf for the format details.
     pub fn set_config(&self, config: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"config\0".as_ptr() as *const _,
-                config.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "config", &config)
     }
 
     /// Corresponds to the teamd ports.PORTIFNAME.lacp_key.
@@ -217,13 +211,7 @@ impl SettingTeamPort {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "lacp-key")]
     pub fn set_lacp_key(&self, lacp_key: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"lacp-key\0".as_ptr() as *const _,
-                lacp_key.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "lacp-key", &lacp_key)
     }
 
     /// Corresponds to the teamd ports.PORTIFNAME.lacp_prio.
@@ -231,26 +219,14 @@ impl SettingTeamPort {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "lacp-prio")]
     pub fn set_lacp_prio(&self, lacp_prio: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"lacp-prio\0".as_ptr() as *const _,
-                lacp_prio.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "lacp-prio", &lacp_prio)
     }
 
     /// Corresponds to the teamd ports.PORTIFNAME.prio.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn set_prio(&self, prio: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"prio\0".as_ptr() as *const _,
-                prio.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "prio", &prio)
     }
 
     /// Corresponds to the teamd ports.PORTIFNAME.queue_id.
@@ -259,26 +235,14 @@ impl SettingTeamPort {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "queue-id")]
     pub fn set_queue_id(&self, queue_id: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"queue-id\0".as_ptr() as *const _,
-                queue_id.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "queue-id", &queue_id)
     }
 
     /// Corresponds to the teamd ports.PORTIFNAME.sticky.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn set_sticky(&self, sticky: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"sticky\0".as_ptr() as *const _,
-                sticky.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "sticky", &sticky)
     }
 
     #[doc(alias = "config")]

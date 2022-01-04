@@ -49,18 +49,7 @@ impl DeviceBt {
     /// The device's bluetooth capabilities, a combination of [`BluetoothCapabilities`][crate::BluetoothCapabilities].
     #[doc(alias = "bt-capabilities")]
     pub fn bt_capabilities(&self) -> BluetoothCapabilities {
-        unsafe {
-            let mut value =
-                glib::Value::from_type(<BluetoothCapabilities as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"bt-capabilities\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `bt-capabilities` getter")
-        }
+        glib::ObjectExt::property(self, "bt-capabilities")
     }
 
     #[doc(alias = "bt-capabilities")]

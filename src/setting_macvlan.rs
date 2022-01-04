@@ -111,13 +111,7 @@ impl SettingMacvlan {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_mode(&self, mode: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mode\0".as_ptr() as *const _,
-                mode.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mode", &mode)
     }
 
     /// If given, specifies the parent interface name or parent connection UUID
@@ -127,39 +121,21 @@ impl SettingMacvlan {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_parent(&self, parent: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"parent\0".as_ptr() as *const _,
-                parent.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "parent", &parent)
     }
 
     /// Whether the interface should be put in promiscuous mode.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_promiscuous(&self, promiscuous: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"promiscuous\0".as_ptr() as *const _,
-                promiscuous.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "promiscuous", &promiscuous)
     }
 
     /// Whether the interface should be a MACVTAP.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_tap(&self, tap: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"tap\0".as_ptr() as *const _,
-                tap.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "tap", &tap)
     }
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]

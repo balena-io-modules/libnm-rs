@@ -13,7 +13,7 @@ use gio_sys as gio;
 #[allow(unused_imports)]
 use libc::{c_int, c_char, c_uchar, c_float, c_uint, c_double,
     c_short, c_ushort, c_long, c_ulong,
-    c_void, size_t, ssize_t, intptr_t, uintptr_t, time_t, FILE};
+    c_void, size_t, ssize_t, intptr_t, uintptr_t, FILE};
 
 #[allow(unused_imports)]
 use glib::{gboolean, gconstpointer, gpointer, GType};
@@ -1857,17 +1857,26 @@ pub type _NMConnectionForEachSecretFunc = Option<unsafe extern "C" fn(NMSettingS
 
 // Records
 #[repr(C)]
-pub struct _NMAccessPointClass(c_void);
+pub struct _NMAccessPointClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMAccessPointClass = *mut _NMAccessPointClass;
 
 #[repr(C)]
-pub struct _NMActiveConnectionClass(c_void);
+pub struct _NMActiveConnectionClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMActiveConnectionClass = *mut _NMActiveConnectionClass;
 
 #[repr(C)]
-pub struct NMBridgeVlan(c_void);
+pub struct NMBridgeVlan {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMBridgeVlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -1877,17 +1886,23 @@ impl ::std::fmt::Debug for NMBridgeVlan {
 }
 
 #[repr(C)]
-pub struct _NMCheckpointClass(c_void);
+pub struct _NMCheckpointClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMCheckpointClass = *mut _NMCheckpointClass;
 
 #[repr(C)]
-pub struct _NMClientClass(c_void);
+pub struct _NMClientClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMClientClass = *mut _NMClientClass;
 
-#[repr(C)]
 #[derive(Copy, Clone)]
+#[repr(C)]
 pub struct NMConnectionInterface {
     pub parent: gobject::GTypeInterface,
     pub secrets_updated: Option<unsafe extern "C" fn(*mut NMConnection, *const c_char)>,
@@ -1907,162 +1922,258 @@ impl ::std::fmt::Debug for NMConnectionInterface {
 }
 
 #[repr(C)]
-pub struct _NMDevice6LowpanClass(c_void);
+pub struct _NMDevice6LowpanClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDevice6LowpanClass = *mut _NMDevice6LowpanClass;
 
 #[repr(C)]
-pub struct _NMDeviceAdslClass(c_void);
+pub struct _NMDeviceAdslClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceAdslClass = *mut _NMDeviceAdslClass;
 
 #[repr(C)]
-pub struct _NMDeviceBondClass(c_void);
+pub struct _NMDeviceBondClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceBondClass = *mut _NMDeviceBondClass;
 
 #[repr(C)]
-pub struct _NMDeviceBridgeClass(c_void);
+pub struct _NMDeviceBridgeClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceBridgeClass = *mut _NMDeviceBridgeClass;
 
 #[repr(C)]
-pub struct _NMDeviceBtClass(c_void);
+pub struct _NMDeviceBtClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceBtClass = *mut _NMDeviceBtClass;
 
 #[repr(C)]
-pub struct _NMDeviceClass(c_void);
+pub struct _NMDeviceClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceClass = *mut _NMDeviceClass;
 
 #[repr(C)]
-pub struct _NMDeviceDummyClass(c_void);
+pub struct _NMDeviceDummyClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceDummyClass = *mut _NMDeviceDummyClass;
 
 #[repr(C)]
-pub struct _NMDeviceEthernetClass(c_void);
+pub struct _NMDeviceEthernetClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceEthernetClass = *mut _NMDeviceEthernetClass;
 
 #[repr(C)]
-pub struct _NMDeviceGenericClass(c_void);
+pub struct _NMDeviceGenericClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceGenericClass = *mut _NMDeviceGenericClass;
 
 #[repr(C)]
-pub struct _NMDeviceIPTunnelClass(c_void);
+pub struct _NMDeviceIPTunnelClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceIPTunnelClass = *mut _NMDeviceIPTunnelClass;
 
 #[repr(C)]
-pub struct _NMDeviceInfinibandClass(c_void);
+pub struct _NMDeviceInfinibandClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceInfinibandClass = *mut _NMDeviceInfinibandClass;
 
 #[repr(C)]
-pub struct _NMDeviceMacsecClass(c_void);
+pub struct _NMDeviceMacsecClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceMacsecClass = *mut _NMDeviceMacsecClass;
 
 #[repr(C)]
-pub struct _NMDeviceMacvlanClass(c_void);
+pub struct _NMDeviceMacvlanClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceMacvlanClass = *mut _NMDeviceMacvlanClass;
 
 #[repr(C)]
-pub struct _NMDeviceModemClass(c_void);
+pub struct _NMDeviceModemClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceModemClass = *mut _NMDeviceModemClass;
 
 #[repr(C)]
-pub struct _NMDeviceOlpcMeshClass(c_void);
+pub struct _NMDeviceOlpcMeshClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceOlpcMeshClass = *mut _NMDeviceOlpcMeshClass;
 
 #[repr(C)]
-pub struct _NMDeviceOvsBridgeClass(c_void);
+pub struct _NMDeviceOvsBridgeClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceOvsBridgeClass = *mut _NMDeviceOvsBridgeClass;
 
 #[repr(C)]
-pub struct _NMDeviceOvsInterfaceClass(c_void);
+pub struct _NMDeviceOvsInterfaceClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceOvsInterfaceClass = *mut _NMDeviceOvsInterfaceClass;
 
 #[repr(C)]
-pub struct _NMDeviceOvsPortClass(c_void);
+pub struct _NMDeviceOvsPortClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceOvsPortClass = *mut _NMDeviceOvsPortClass;
 
 #[repr(C)]
-pub struct _NMDevicePppClass(c_void);
+pub struct _NMDevicePppClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDevicePppClass = *mut _NMDevicePppClass;
 
 #[repr(C)]
-pub struct _NMDeviceTeamClass(c_void);
+pub struct _NMDeviceTeamClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceTeamClass = *mut _NMDeviceTeamClass;
 
 #[repr(C)]
-pub struct _NMDeviceTunClass(c_void);
+pub struct _NMDeviceTunClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceTunClass = *mut _NMDeviceTunClass;
 
 #[repr(C)]
-pub struct _NMDeviceVethClass(c_void);
+pub struct _NMDeviceVethClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceVethClass = *mut _NMDeviceVethClass;
 
 #[repr(C)]
-pub struct _NMDeviceVlanClass(c_void);
+pub struct _NMDeviceVlanClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceVlanClass = *mut _NMDeviceVlanClass;
 
 #[repr(C)]
-pub struct _NMDeviceVrfClass(c_void);
+pub struct _NMDeviceVrfClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceVrfClass = *mut _NMDeviceVrfClass;
 
 #[repr(C)]
-pub struct _NMDeviceVxlanClass(c_void);
+pub struct _NMDeviceVxlanClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceVxlanClass = *mut _NMDeviceVxlanClass;
 
 #[repr(C)]
-pub struct _NMDeviceWifiClass(c_void);
+pub struct _NMDeviceWifiClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceWifiClass = *mut _NMDeviceWifiClass;
 
 #[repr(C)]
-pub struct _NMDeviceWifiP2PClass(c_void);
+pub struct _NMDeviceWifiP2PClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceWifiP2PClass = *mut _NMDeviceWifiP2PClass;
 
 #[repr(C)]
-pub struct _NMDeviceWimaxClass(c_void);
+pub struct _NMDeviceWimaxClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceWimaxClass = *mut _NMDeviceWimaxClass;
 
 #[repr(C)]
-pub struct _NMDeviceWireGuardClass(c_void);
+pub struct _NMDeviceWireGuardClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceWireGuardClass = *mut _NMDeviceWireGuardClass;
 
 #[repr(C)]
-pub struct _NMDeviceWpanClass(c_void);
+pub struct _NMDeviceWpanClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDeviceWpanClass = *mut _NMDeviceWpanClass;
 
 #[repr(C)]
-pub struct _NMDhcpConfigClass(c_void);
+pub struct _NMDhcpConfigClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMDhcpConfigClass = *mut _NMDhcpConfigClass;
 
 #[repr(C)]
-pub struct NMDnsEntry(c_void);
+pub struct NMDnsEntry {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDnsEntry {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2072,7 +2183,10 @@ impl ::std::fmt::Debug for NMDnsEntry {
 }
 
 #[repr(C)]
-pub struct NMIPAddress(c_void);
+pub struct NMIPAddress {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMIPAddress {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2082,12 +2196,18 @@ impl ::std::fmt::Debug for NMIPAddress {
 }
 
 #[repr(C)]
-pub struct _NMIPConfigClass(c_void);
+pub struct _NMIPConfigClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMIPConfigClass = *mut _NMIPConfigClass;
 
 #[repr(C)]
-pub struct NMIPRoute(c_void);
+pub struct NMIPRoute {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMIPRoute {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2097,7 +2217,10 @@ impl ::std::fmt::Debug for NMIPRoute {
 }
 
 #[repr(C)]
-pub struct NMIPRoutingRule(c_void);
+pub struct NMIPRoutingRule {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMIPRoutingRule {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2107,12 +2230,18 @@ impl ::std::fmt::Debug for NMIPRoutingRule {
 }
 
 #[repr(C)]
-pub struct _NMKeyfileHandlerData(c_void);
+pub struct _NMKeyfileHandlerData {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMKeyfileHandlerData = *mut _NMKeyfileHandlerData;
 
 #[repr(C)]
-pub struct NMLldpNeighbor(c_void);
+pub struct NMLldpNeighbor {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMLldpNeighbor {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2122,17 +2251,23 @@ impl ::std::fmt::Debug for NMLldpNeighbor {
 }
 
 #[repr(C)]
-pub struct _NMObjectClass(c_void);
+pub struct _NMObjectClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMObjectClass = *mut _NMObjectClass;
 
 #[repr(C)]
-pub struct _NMRemoteConnectionClass(c_void);
+pub struct _NMRemoteConnectionClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMRemoteConnectionClass = *mut _NMRemoteConnectionClass;
 
-#[repr(C)]
 #[derive(Copy, Clone)]
+#[repr(C)]
 pub struct NMSecretAgentOldClass {
     pub parent: gobject::GObjectClass,
     pub get_secrets: Option<unsafe extern "C" fn(*mut NMSecretAgentOld, *mut NMConnection, *const c_char, *const c_char, *mut *const c_char, NMSecretAgentGetSecretsFlags, NMSecretAgentOldGetSecretsFunc, gpointer)>,
@@ -2155,277 +2290,442 @@ impl ::std::fmt::Debug for NMSecretAgentOldClass {
 }
 
 #[repr(C)]
-pub struct _NMSetting6LowpanClass(c_void);
+pub struct _NMSetting6LowpanClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSetting6LowpanClass = *mut _NMSetting6LowpanClass;
 
 #[repr(C)]
-pub struct _NMSetting8021xClass(c_void);
+pub struct _NMSetting8021xClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSetting8021xClass = *mut _NMSetting8021xClass;
 
 #[repr(C)]
-pub struct _NMSettingAdslClass(c_void);
+pub struct _NMSettingAdslClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingAdslClass = *mut _NMSettingAdslClass;
 
 #[repr(C)]
-pub struct _NMSettingBluetoothClass(c_void);
+pub struct _NMSettingBluetoothClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingBluetoothClass = *mut _NMSettingBluetoothClass;
 
 #[repr(C)]
-pub struct _NMSettingBondClass(c_void);
+pub struct _NMSettingBondClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingBondClass = *mut _NMSettingBondClass;
 
 #[repr(C)]
-pub struct _NMSettingBridgeClass(c_void);
+pub struct _NMSettingBridgeClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingBridgeClass = *mut _NMSettingBridgeClass;
 
 #[repr(C)]
-pub struct _NMSettingBridgePortClass(c_void);
+pub struct _NMSettingBridgePortClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingBridgePortClass = *mut _NMSettingBridgePortClass;
 
 #[repr(C)]
-pub struct _NMSettingCdmaClass(c_void);
+pub struct _NMSettingCdmaClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingCdmaClass = *mut _NMSettingCdmaClass;
 
 #[repr(C)]
-pub struct _NMSettingClass(c_void);
+pub struct _NMSettingClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingClass = *mut _NMSettingClass;
 
 #[repr(C)]
-pub struct _NMSettingConnectionClass(c_void);
+pub struct _NMSettingConnectionClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingConnectionClass = *mut _NMSettingConnectionClass;
 
 #[repr(C)]
-pub struct _NMSettingDcbClass(c_void);
+pub struct _NMSettingDcbClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingDcbClass = *mut _NMSettingDcbClass;
 
 #[repr(C)]
-pub struct _NMSettingDummyClass(c_void);
+pub struct _NMSettingDummyClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingDummyClass = *mut _NMSettingDummyClass;
 
 #[repr(C)]
-pub struct _NMSettingEthtoolClass(c_void);
+pub struct _NMSettingEthtoolClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingEthtoolClass = *mut _NMSettingEthtoolClass;
 
 #[repr(C)]
-pub struct _NMSettingGenericClass(c_void);
+pub struct _NMSettingGenericClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingGenericClass = *mut _NMSettingGenericClass;
 
 #[repr(C)]
-pub struct _NMSettingGsmClass(c_void);
+pub struct _NMSettingGsmClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingGsmClass = *mut _NMSettingGsmClass;
 
 #[repr(C)]
-pub struct _NMSettingHostnameClass(c_void);
+pub struct _NMSettingHostnameClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingHostnameClass = *mut _NMSettingHostnameClass;
 
 #[repr(C)]
-pub struct _NMSettingIP4ConfigClass(c_void);
+pub struct _NMSettingIP4ConfigClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingIP4ConfigClass = *mut _NMSettingIP4ConfigClass;
 
 #[repr(C)]
-pub struct _NMSettingIP6ConfigClass(c_void);
+pub struct _NMSettingIP6ConfigClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingIP6ConfigClass = *mut _NMSettingIP6ConfigClass;
 
 #[repr(C)]
-pub struct _NMSettingIPConfigClass(c_void);
+pub struct _NMSettingIPConfigClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingIPConfigClass = *mut _NMSettingIPConfigClass;
 
 #[repr(C)]
-pub struct _NMSettingIPTunnelClass(c_void);
+pub struct _NMSettingIPTunnelClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingIPTunnelClass = *mut _NMSettingIPTunnelClass;
 
 #[repr(C)]
-pub struct _NMSettingInfinibandClass(c_void);
+pub struct _NMSettingInfinibandClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingInfinibandClass = *mut _NMSettingInfinibandClass;
 
 #[repr(C)]
-pub struct _NMSettingMacsecClass(c_void);
+pub struct _NMSettingMacsecClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingMacsecClass = *mut _NMSettingMacsecClass;
 
 #[repr(C)]
-pub struct _NMSettingMacvlanClass(c_void);
+pub struct _NMSettingMacvlanClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingMacvlanClass = *mut _NMSettingMacvlanClass;
 
 #[repr(C)]
-pub struct _NMSettingMatchClass(c_void);
+pub struct _NMSettingMatchClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingMatchClass = *mut _NMSettingMatchClass;
 
 #[repr(C)]
-pub struct _NMSettingOlpcMeshClass(c_void);
+pub struct _NMSettingOlpcMeshClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingOlpcMeshClass = *mut _NMSettingOlpcMeshClass;
 
 #[repr(C)]
-pub struct _NMSettingOvsBridgeClass(c_void);
+pub struct _NMSettingOvsBridgeClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingOvsBridgeClass = *mut _NMSettingOvsBridgeClass;
 
 #[repr(C)]
-pub struct _NMSettingOvsDpdkClass(c_void);
+pub struct _NMSettingOvsDpdkClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingOvsDpdkClass = *mut _NMSettingOvsDpdkClass;
 
 #[repr(C)]
-pub struct _NMSettingOvsExternalIDsClass(c_void);
+pub struct _NMSettingOvsExternalIDsClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingOvsExternalIDsClass = *mut _NMSettingOvsExternalIDsClass;
 
 #[repr(C)]
-pub struct _NMSettingOvsInterfaceClass(c_void);
+pub struct _NMSettingOvsInterfaceClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingOvsInterfaceClass = *mut _NMSettingOvsInterfaceClass;
 
 #[repr(C)]
-pub struct _NMSettingOvsPatchClass(c_void);
+pub struct _NMSettingOvsPatchClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingOvsPatchClass = *mut _NMSettingOvsPatchClass;
 
 #[repr(C)]
-pub struct _NMSettingOvsPortClass(c_void);
+pub struct _NMSettingOvsPortClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingOvsPortClass = *mut _NMSettingOvsPortClass;
 
 #[repr(C)]
-pub struct _NMSettingPppClass(c_void);
+pub struct _NMSettingPppClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingPppClass = *mut _NMSettingPppClass;
 
 #[repr(C)]
-pub struct _NMSettingPppoeClass(c_void);
+pub struct _NMSettingPppoeClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingPppoeClass = *mut _NMSettingPppoeClass;
 
 #[repr(C)]
-pub struct _NMSettingProxyClass(c_void);
+pub struct _NMSettingProxyClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingProxyClass = *mut _NMSettingProxyClass;
 
 #[repr(C)]
-pub struct _NMSettingSerialClass(c_void);
+pub struct _NMSettingSerialClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingSerialClass = *mut _NMSettingSerialClass;
 
 #[repr(C)]
-pub struct _NMSettingSriovClass(c_void);
+pub struct _NMSettingSriovClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingSriovClass = *mut _NMSettingSriovClass;
 
 #[repr(C)]
-pub struct _NMSettingTCConfigClass(c_void);
+pub struct _NMSettingTCConfigClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingTCConfigClass = *mut _NMSettingTCConfigClass;
 
 #[repr(C)]
-pub struct _NMSettingTeamClass(c_void);
+pub struct _NMSettingTeamClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingTeamClass = *mut _NMSettingTeamClass;
 
 #[repr(C)]
-pub struct _NMSettingTeamPortClass(c_void);
+pub struct _NMSettingTeamPortClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingTeamPortClass = *mut _NMSettingTeamPortClass;
 
 #[repr(C)]
-pub struct _NMSettingTunClass(c_void);
+pub struct _NMSettingTunClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingTunClass = *mut _NMSettingTunClass;
 
 #[repr(C)]
-pub struct _NMSettingUserClass(c_void);
+pub struct _NMSettingUserClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingUserClass = *mut _NMSettingUserClass;
 
 #[repr(C)]
-pub struct _NMSettingVethClass(c_void);
+pub struct _NMSettingVethClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingVethClass = *mut _NMSettingVethClass;
 
 #[repr(C)]
-pub struct _NMSettingVlanClass(c_void);
+pub struct _NMSettingVlanClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingVlanClass = *mut _NMSettingVlanClass;
 
 #[repr(C)]
-pub struct _NMSettingVpnClass(c_void);
+pub struct _NMSettingVpnClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingVpnClass = *mut _NMSettingVpnClass;
 
 #[repr(C)]
-pub struct _NMSettingVrfClass(c_void);
+pub struct _NMSettingVrfClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingVrfClass = *mut _NMSettingVrfClass;
 
 #[repr(C)]
-pub struct _NMSettingVxlanClass(c_void);
+pub struct _NMSettingVxlanClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingVxlanClass = *mut _NMSettingVxlanClass;
 
 #[repr(C)]
-pub struct _NMSettingWifiP2PClass(c_void);
+pub struct _NMSettingWifiP2PClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingWifiP2PClass = *mut _NMSettingWifiP2PClass;
 
 #[repr(C)]
-pub struct _NMSettingWimaxClass(c_void);
+pub struct _NMSettingWimaxClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingWimaxClass = *mut _NMSettingWimaxClass;
 
 #[repr(C)]
-pub struct _NMSettingWireGuardClass(c_void);
+pub struct _NMSettingWireGuardClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingWireGuardClass = *mut _NMSettingWireGuardClass;
 
 #[repr(C)]
-pub struct _NMSettingWiredClass(c_void);
+pub struct _NMSettingWiredClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingWiredClass = *mut _NMSettingWiredClass;
 
 #[repr(C)]
-pub struct _NMSettingWirelessClass(c_void);
+pub struct _NMSettingWirelessClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingWirelessClass = *mut _NMSettingWirelessClass;
 
 #[repr(C)]
-pub struct _NMSettingWirelessSecurityClass(c_void);
+pub struct _NMSettingWirelessSecurityClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingWirelessSecurityClass = *mut _NMSettingWirelessSecurityClass;
 
 #[repr(C)]
-pub struct _NMSettingWpanClass(c_void);
+pub struct _NMSettingWpanClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSettingWpanClass = *mut _NMSettingWpanClass;
 
 #[repr(C)]
-pub struct _NMSimpleConnectionClass(c_void);
+pub struct _NMSimpleConnectionClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMSimpleConnectionClass = *mut _NMSimpleConnectionClass;
 
 #[repr(C)]
-pub struct NMSriovVF(c_void);
+pub struct NMSriovVF {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSriovVF {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2435,7 +2735,10 @@ impl ::std::fmt::Debug for NMSriovVF {
 }
 
 #[repr(C)]
-pub struct NMTCAction(c_void);
+pub struct NMTCAction {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMTCAction {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2445,7 +2748,10 @@ impl ::std::fmt::Debug for NMTCAction {
 }
 
 #[repr(C)]
-pub struct NMTCQdisc(c_void);
+pub struct NMTCQdisc {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMTCQdisc {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2455,7 +2761,10 @@ impl ::std::fmt::Debug for NMTCQdisc {
 }
 
 #[repr(C)]
-pub struct NMTCTfilter(c_void);
+pub struct NMTCTfilter {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMTCTfilter {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2465,7 +2774,10 @@ impl ::std::fmt::Debug for NMTCTfilter {
 }
 
 #[repr(C)]
-pub struct NMTeamLinkWatcher(c_void);
+pub struct NMTeamLinkWatcher {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMTeamLinkWatcher {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2475,17 +2787,23 @@ impl ::std::fmt::Debug for NMTeamLinkWatcher {
 }
 
 #[repr(C)]
-pub struct _NMVariantAttributeSpec(c_void);
+pub struct _NMVariantAttributeSpec {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMVariantAttributeSpec = *mut _NMVariantAttributeSpec;
 
 #[repr(C)]
-pub struct _NMVpnConnectionClass(c_void);
+pub struct _NMVpnConnectionClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMVpnConnectionClass = *mut _NMVpnConnectionClass;
 
-#[repr(C)]
 #[derive(Copy, Clone)]
+#[repr(C)]
 pub struct NMVpnEditorInterface {
     pub g_iface: gobject::GTypeInterface,
     pub get_widget: Option<unsafe extern "C" fn(*mut NMVpnEditor) -> *mut gobject::GObject>,
@@ -2506,8 +2824,8 @@ impl ::std::fmt::Debug for NMVpnEditorInterface {
     }
 }
 
-#[repr(C)]
 #[derive(Copy, Clone)]
+#[repr(C)]
 pub struct NMVpnEditorPluginInterface {
     pub g_iface: gobject::GTypeInterface,
     pub get_editor: Option<unsafe extern "C" fn(*mut NMVpnEditorPlugin, *mut NMConnection, *mut *mut glib::GError) -> *mut NMVpnEditor>,
@@ -2535,17 +2853,23 @@ impl ::std::fmt::Debug for NMVpnEditorPluginInterface {
 }
 
 #[repr(C)]
-pub struct _NMVpnEditorPluginVT(c_void);
+pub struct _NMVpnEditorPluginVT {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMVpnEditorPluginVT = *mut _NMVpnEditorPluginVT;
 
 #[repr(C)]
-pub struct _NMVpnPluginInfoClass(c_void);
+pub struct _NMVpnPluginInfoClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMVpnPluginInfoClass = *mut _NMVpnPluginInfoClass;
 
-#[repr(C)]
 #[derive(Copy, Clone)]
+#[repr(C)]
 pub struct NMVpnPluginOldClass {
     pub parent: gobject::GObjectClass,
     pub state_changed: Option<unsafe extern "C" fn(*mut NMVpnPluginOld, NMVpnServiceState)>,
@@ -2583,8 +2907,8 @@ impl ::std::fmt::Debug for NMVpnPluginOldClass {
     }
 }
 
-#[repr(C)]
 #[derive(Copy, Clone)]
+#[repr(C)]
 pub struct NMVpnServicePluginClass {
     pub parent: gobject::GObjectClass,
     pub state_changed: Option<unsafe extern "C" fn(*mut NMVpnServicePlugin, NMVpnServiceState)>,
@@ -2623,17 +2947,26 @@ impl ::std::fmt::Debug for NMVpnServicePluginClass {
 }
 
 #[repr(C)]
-pub struct _NMWifiP2PPeerClass(c_void);
+pub struct _NMWifiP2PPeerClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMWifiP2PPeerClass = *mut _NMWifiP2PPeerClass;
 
 #[repr(C)]
-pub struct _NMWimaxNspClass(c_void);
+pub struct _NMWimaxNspClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 pub type NMWimaxNspClass = *mut _NMWimaxNspClass;
 
 #[repr(C)]
-pub struct NMWireGuardPeer(c_void);
+pub struct NMWireGuardPeer {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMWireGuardPeer {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2644,7 +2977,10 @@ impl ::std::fmt::Debug for NMWireGuardPeer {
 
 // Classes
 #[repr(C)]
-pub struct NMAccessPoint(c_void);
+pub struct NMAccessPoint {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMAccessPoint {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2654,7 +2990,10 @@ impl ::std::fmt::Debug for NMAccessPoint {
 }
 
 #[repr(C)]
-pub struct NMActiveConnection(c_void);
+pub struct NMActiveConnection {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMActiveConnection {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2664,7 +3003,10 @@ impl ::std::fmt::Debug for NMActiveConnection {
 }
 
 #[repr(C)]
-pub struct NMCheckpoint(c_void);
+pub struct NMCheckpoint {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMCheckpoint {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2674,7 +3016,10 @@ impl ::std::fmt::Debug for NMCheckpoint {
 }
 
 #[repr(C)]
-pub struct NMClient(c_void);
+pub struct NMClient {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMClient {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2684,7 +3029,10 @@ impl ::std::fmt::Debug for NMClient {
 }
 
 #[repr(C)]
-pub struct NMDevice(c_void);
+pub struct NMDevice {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDevice {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2694,7 +3042,10 @@ impl ::std::fmt::Debug for NMDevice {
 }
 
 #[repr(C)]
-pub struct NMDevice6Lowpan(c_void);
+pub struct NMDevice6Lowpan {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDevice6Lowpan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2704,7 +3055,10 @@ impl ::std::fmt::Debug for NMDevice6Lowpan {
 }
 
 #[repr(C)]
-pub struct NMDeviceAdsl(c_void);
+pub struct NMDeviceAdsl {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceAdsl {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2714,7 +3068,10 @@ impl ::std::fmt::Debug for NMDeviceAdsl {
 }
 
 #[repr(C)]
-pub struct NMDeviceBond(c_void);
+pub struct NMDeviceBond {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceBond {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2724,7 +3081,10 @@ impl ::std::fmt::Debug for NMDeviceBond {
 }
 
 #[repr(C)]
-pub struct NMDeviceBridge(c_void);
+pub struct NMDeviceBridge {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceBridge {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2734,7 +3094,10 @@ impl ::std::fmt::Debug for NMDeviceBridge {
 }
 
 #[repr(C)]
-pub struct NMDeviceBt(c_void);
+pub struct NMDeviceBt {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceBt {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2744,7 +3107,10 @@ impl ::std::fmt::Debug for NMDeviceBt {
 }
 
 #[repr(C)]
-pub struct NMDeviceDummy(c_void);
+pub struct NMDeviceDummy {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceDummy {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2754,7 +3120,10 @@ impl ::std::fmt::Debug for NMDeviceDummy {
 }
 
 #[repr(C)]
-pub struct NMDeviceEthernet(c_void);
+pub struct NMDeviceEthernet {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceEthernet {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2764,7 +3133,10 @@ impl ::std::fmt::Debug for NMDeviceEthernet {
 }
 
 #[repr(C)]
-pub struct NMDeviceGeneric(c_void);
+pub struct NMDeviceGeneric {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceGeneric {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2774,7 +3146,10 @@ impl ::std::fmt::Debug for NMDeviceGeneric {
 }
 
 #[repr(C)]
-pub struct NMDeviceIPTunnel(c_void);
+pub struct NMDeviceIPTunnel {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceIPTunnel {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2784,7 +3159,10 @@ impl ::std::fmt::Debug for NMDeviceIPTunnel {
 }
 
 #[repr(C)]
-pub struct NMDeviceInfiniband(c_void);
+pub struct NMDeviceInfiniband {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceInfiniband {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2794,7 +3172,10 @@ impl ::std::fmt::Debug for NMDeviceInfiniband {
 }
 
 #[repr(C)]
-pub struct NMDeviceMacsec(c_void);
+pub struct NMDeviceMacsec {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceMacsec {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2804,7 +3185,10 @@ impl ::std::fmt::Debug for NMDeviceMacsec {
 }
 
 #[repr(C)]
-pub struct NMDeviceMacvlan(c_void);
+pub struct NMDeviceMacvlan {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceMacvlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2814,7 +3198,10 @@ impl ::std::fmt::Debug for NMDeviceMacvlan {
 }
 
 #[repr(C)]
-pub struct NMDeviceModem(c_void);
+pub struct NMDeviceModem {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceModem {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2824,7 +3211,10 @@ impl ::std::fmt::Debug for NMDeviceModem {
 }
 
 #[repr(C)]
-pub struct NMDeviceOlpcMesh(c_void);
+pub struct NMDeviceOlpcMesh {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceOlpcMesh {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2834,7 +3224,10 @@ impl ::std::fmt::Debug for NMDeviceOlpcMesh {
 }
 
 #[repr(C)]
-pub struct NMDeviceOvsBridge(c_void);
+pub struct NMDeviceOvsBridge {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceOvsBridge {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2844,7 +3237,10 @@ impl ::std::fmt::Debug for NMDeviceOvsBridge {
 }
 
 #[repr(C)]
-pub struct NMDeviceOvsInterface(c_void);
+pub struct NMDeviceOvsInterface {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceOvsInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2854,7 +3250,10 @@ impl ::std::fmt::Debug for NMDeviceOvsInterface {
 }
 
 #[repr(C)]
-pub struct NMDeviceOvsPort(c_void);
+pub struct NMDeviceOvsPort {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceOvsPort {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2864,7 +3263,10 @@ impl ::std::fmt::Debug for NMDeviceOvsPort {
 }
 
 #[repr(C)]
-pub struct NMDevicePpp(c_void);
+pub struct NMDevicePpp {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDevicePpp {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2874,7 +3276,10 @@ impl ::std::fmt::Debug for NMDevicePpp {
 }
 
 #[repr(C)]
-pub struct NMDeviceTeam(c_void);
+pub struct NMDeviceTeam {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceTeam {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2884,7 +3289,10 @@ impl ::std::fmt::Debug for NMDeviceTeam {
 }
 
 #[repr(C)]
-pub struct NMDeviceTun(c_void);
+pub struct NMDeviceTun {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceTun {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2894,7 +3302,10 @@ impl ::std::fmt::Debug for NMDeviceTun {
 }
 
 #[repr(C)]
-pub struct NMDeviceVeth(c_void);
+pub struct NMDeviceVeth {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceVeth {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2904,7 +3315,10 @@ impl ::std::fmt::Debug for NMDeviceVeth {
 }
 
 #[repr(C)]
-pub struct NMDeviceVlan(c_void);
+pub struct NMDeviceVlan {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceVlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2914,7 +3328,10 @@ impl ::std::fmt::Debug for NMDeviceVlan {
 }
 
 #[repr(C)]
-pub struct NMDeviceVrf(c_void);
+pub struct NMDeviceVrf {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceVrf {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2924,7 +3341,10 @@ impl ::std::fmt::Debug for NMDeviceVrf {
 }
 
 #[repr(C)]
-pub struct NMDeviceVxlan(c_void);
+pub struct NMDeviceVxlan {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceVxlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2934,7 +3354,10 @@ impl ::std::fmt::Debug for NMDeviceVxlan {
 }
 
 #[repr(C)]
-pub struct NMDeviceWifi(c_void);
+pub struct NMDeviceWifi {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceWifi {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2944,7 +3367,10 @@ impl ::std::fmt::Debug for NMDeviceWifi {
 }
 
 #[repr(C)]
-pub struct NMDeviceWifiP2P(c_void);
+pub struct NMDeviceWifiP2P {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceWifiP2P {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2954,7 +3380,10 @@ impl ::std::fmt::Debug for NMDeviceWifiP2P {
 }
 
 #[repr(C)]
-pub struct NMDeviceWimax(c_void);
+pub struct NMDeviceWimax {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceWimax {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2964,7 +3393,10 @@ impl ::std::fmt::Debug for NMDeviceWimax {
 }
 
 #[repr(C)]
-pub struct NMDeviceWireGuard(c_void);
+pub struct NMDeviceWireGuard {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceWireGuard {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2974,7 +3406,10 @@ impl ::std::fmt::Debug for NMDeviceWireGuard {
 }
 
 #[repr(C)]
-pub struct NMDeviceWpan(c_void);
+pub struct NMDeviceWpan {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDeviceWpan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2984,7 +3419,10 @@ impl ::std::fmt::Debug for NMDeviceWpan {
 }
 
 #[repr(C)]
-pub struct NMDhcpConfig(c_void);
+pub struct NMDhcpConfig {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMDhcpConfig {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -2994,7 +3432,10 @@ impl ::std::fmt::Debug for NMDhcpConfig {
 }
 
 #[repr(C)]
-pub struct NMIPConfig(c_void);
+pub struct NMIPConfig {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMIPConfig {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3004,7 +3445,10 @@ impl ::std::fmt::Debug for NMIPConfig {
 }
 
 #[repr(C)]
-pub struct NMObject(c_void);
+pub struct NMObject {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMObject {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3014,7 +3458,10 @@ impl ::std::fmt::Debug for NMObject {
 }
 
 #[repr(C)]
-pub struct NMRemoteConnection(c_void);
+pub struct NMRemoteConnection {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMRemoteConnection {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3023,8 +3470,8 @@ impl ::std::fmt::Debug for NMRemoteConnection {
     }
 }
 
-#[repr(C)]
 #[derive(Copy, Clone)]
+#[repr(C)]
 pub struct NMSecretAgentOld {
     pub parent: gobject::GObject,
 }
@@ -3038,7 +3485,10 @@ impl ::std::fmt::Debug for NMSecretAgentOld {
 }
 
 #[repr(C)]
-pub struct NMSetting(c_void);
+pub struct NMSetting {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSetting {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3048,7 +3498,10 @@ impl ::std::fmt::Debug for NMSetting {
 }
 
 #[repr(C)]
-pub struct NMSetting6Lowpan(c_void);
+pub struct NMSetting6Lowpan {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSetting6Lowpan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3058,7 +3511,10 @@ impl ::std::fmt::Debug for NMSetting6Lowpan {
 }
 
 #[repr(C)]
-pub struct NMSetting8021x(c_void);
+pub struct NMSetting8021x {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSetting8021x {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3068,7 +3524,10 @@ impl ::std::fmt::Debug for NMSetting8021x {
 }
 
 #[repr(C)]
-pub struct NMSettingAdsl(c_void);
+pub struct NMSettingAdsl {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingAdsl {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3078,7 +3537,10 @@ impl ::std::fmt::Debug for NMSettingAdsl {
 }
 
 #[repr(C)]
-pub struct NMSettingBluetooth(c_void);
+pub struct NMSettingBluetooth {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingBluetooth {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3088,7 +3550,10 @@ impl ::std::fmt::Debug for NMSettingBluetooth {
 }
 
 #[repr(C)]
-pub struct NMSettingBond(c_void);
+pub struct NMSettingBond {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingBond {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3098,7 +3563,10 @@ impl ::std::fmt::Debug for NMSettingBond {
 }
 
 #[repr(C)]
-pub struct NMSettingBridge(c_void);
+pub struct NMSettingBridge {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingBridge {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3108,7 +3576,10 @@ impl ::std::fmt::Debug for NMSettingBridge {
 }
 
 #[repr(C)]
-pub struct NMSettingBridgePort(c_void);
+pub struct NMSettingBridgePort {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingBridgePort {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3118,7 +3589,10 @@ impl ::std::fmt::Debug for NMSettingBridgePort {
 }
 
 #[repr(C)]
-pub struct NMSettingCdma(c_void);
+pub struct NMSettingCdma {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingCdma {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3128,7 +3602,10 @@ impl ::std::fmt::Debug for NMSettingCdma {
 }
 
 #[repr(C)]
-pub struct NMSettingConnection(c_void);
+pub struct NMSettingConnection {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingConnection {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3138,7 +3615,10 @@ impl ::std::fmt::Debug for NMSettingConnection {
 }
 
 #[repr(C)]
-pub struct NMSettingDcb(c_void);
+pub struct NMSettingDcb {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingDcb {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3148,7 +3628,10 @@ impl ::std::fmt::Debug for NMSettingDcb {
 }
 
 #[repr(C)]
-pub struct NMSettingDummy(c_void);
+pub struct NMSettingDummy {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingDummy {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3158,7 +3641,10 @@ impl ::std::fmt::Debug for NMSettingDummy {
 }
 
 #[repr(C)]
-pub struct NMSettingEthtool(c_void);
+pub struct NMSettingEthtool {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingEthtool {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3168,7 +3654,10 @@ impl ::std::fmt::Debug for NMSettingEthtool {
 }
 
 #[repr(C)]
-pub struct NMSettingGeneric(c_void);
+pub struct NMSettingGeneric {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingGeneric {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3178,7 +3667,10 @@ impl ::std::fmt::Debug for NMSettingGeneric {
 }
 
 #[repr(C)]
-pub struct NMSettingGsm(c_void);
+pub struct NMSettingGsm {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingGsm {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3188,7 +3680,10 @@ impl ::std::fmt::Debug for NMSettingGsm {
 }
 
 #[repr(C)]
-pub struct NMSettingHostname(c_void);
+pub struct NMSettingHostname {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingHostname {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3198,7 +3693,10 @@ impl ::std::fmt::Debug for NMSettingHostname {
 }
 
 #[repr(C)]
-pub struct NMSettingIP4Config(c_void);
+pub struct NMSettingIP4Config {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingIP4Config {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3208,7 +3706,10 @@ impl ::std::fmt::Debug for NMSettingIP4Config {
 }
 
 #[repr(C)]
-pub struct NMSettingIP6Config(c_void);
+pub struct NMSettingIP6Config {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingIP6Config {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3218,7 +3719,10 @@ impl ::std::fmt::Debug for NMSettingIP6Config {
 }
 
 #[repr(C)]
-pub struct NMSettingIPConfig(c_void);
+pub struct NMSettingIPConfig {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingIPConfig {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3228,7 +3732,10 @@ impl ::std::fmt::Debug for NMSettingIPConfig {
 }
 
 #[repr(C)]
-pub struct NMSettingIPTunnel(c_void);
+pub struct NMSettingIPTunnel {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingIPTunnel {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3238,7 +3745,10 @@ impl ::std::fmt::Debug for NMSettingIPTunnel {
 }
 
 #[repr(C)]
-pub struct NMSettingInfiniband(c_void);
+pub struct NMSettingInfiniband {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingInfiniband {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3248,7 +3758,10 @@ impl ::std::fmt::Debug for NMSettingInfiniband {
 }
 
 #[repr(C)]
-pub struct NMSettingMacsec(c_void);
+pub struct NMSettingMacsec {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingMacsec {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3258,7 +3771,10 @@ impl ::std::fmt::Debug for NMSettingMacsec {
 }
 
 #[repr(C)]
-pub struct NMSettingMacvlan(c_void);
+pub struct NMSettingMacvlan {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingMacvlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3268,7 +3784,10 @@ impl ::std::fmt::Debug for NMSettingMacvlan {
 }
 
 #[repr(C)]
-pub struct NMSettingMatch(c_void);
+pub struct NMSettingMatch {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingMatch {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3278,7 +3797,10 @@ impl ::std::fmt::Debug for NMSettingMatch {
 }
 
 #[repr(C)]
-pub struct NMSettingOlpcMesh(c_void);
+pub struct NMSettingOlpcMesh {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingOlpcMesh {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3288,7 +3810,10 @@ impl ::std::fmt::Debug for NMSettingOlpcMesh {
 }
 
 #[repr(C)]
-pub struct NMSettingOvsBridge(c_void);
+pub struct NMSettingOvsBridge {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingOvsBridge {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3298,7 +3823,10 @@ impl ::std::fmt::Debug for NMSettingOvsBridge {
 }
 
 #[repr(C)]
-pub struct NMSettingOvsDpdk(c_void);
+pub struct NMSettingOvsDpdk {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingOvsDpdk {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3308,7 +3836,10 @@ impl ::std::fmt::Debug for NMSettingOvsDpdk {
 }
 
 #[repr(C)]
-pub struct NMSettingOvsExternalIDs(c_void);
+pub struct NMSettingOvsExternalIDs {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingOvsExternalIDs {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3318,7 +3849,10 @@ impl ::std::fmt::Debug for NMSettingOvsExternalIDs {
 }
 
 #[repr(C)]
-pub struct NMSettingOvsInterface(c_void);
+pub struct NMSettingOvsInterface {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingOvsInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3328,7 +3862,10 @@ impl ::std::fmt::Debug for NMSettingOvsInterface {
 }
 
 #[repr(C)]
-pub struct NMSettingOvsPatch(c_void);
+pub struct NMSettingOvsPatch {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingOvsPatch {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3338,7 +3875,10 @@ impl ::std::fmt::Debug for NMSettingOvsPatch {
 }
 
 #[repr(C)]
-pub struct NMSettingOvsPort(c_void);
+pub struct NMSettingOvsPort {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingOvsPort {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3348,7 +3888,10 @@ impl ::std::fmt::Debug for NMSettingOvsPort {
 }
 
 #[repr(C)]
-pub struct NMSettingPpp(c_void);
+pub struct NMSettingPpp {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingPpp {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3358,7 +3901,10 @@ impl ::std::fmt::Debug for NMSettingPpp {
 }
 
 #[repr(C)]
-pub struct NMSettingPppoe(c_void);
+pub struct NMSettingPppoe {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingPppoe {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3368,7 +3914,10 @@ impl ::std::fmt::Debug for NMSettingPppoe {
 }
 
 #[repr(C)]
-pub struct NMSettingProxy(c_void);
+pub struct NMSettingProxy {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingProxy {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3378,7 +3927,10 @@ impl ::std::fmt::Debug for NMSettingProxy {
 }
 
 #[repr(C)]
-pub struct NMSettingSerial(c_void);
+pub struct NMSettingSerial {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingSerial {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3388,7 +3940,10 @@ impl ::std::fmt::Debug for NMSettingSerial {
 }
 
 #[repr(C)]
-pub struct NMSettingSriov(c_void);
+pub struct NMSettingSriov {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingSriov {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3398,7 +3953,10 @@ impl ::std::fmt::Debug for NMSettingSriov {
 }
 
 #[repr(C)]
-pub struct NMSettingTCConfig(c_void);
+pub struct NMSettingTCConfig {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingTCConfig {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3408,7 +3966,10 @@ impl ::std::fmt::Debug for NMSettingTCConfig {
 }
 
 #[repr(C)]
-pub struct NMSettingTeam(c_void);
+pub struct NMSettingTeam {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingTeam {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3418,7 +3979,10 @@ impl ::std::fmt::Debug for NMSettingTeam {
 }
 
 #[repr(C)]
-pub struct NMSettingTeamPort(c_void);
+pub struct NMSettingTeamPort {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingTeamPort {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3428,7 +3992,10 @@ impl ::std::fmt::Debug for NMSettingTeamPort {
 }
 
 #[repr(C)]
-pub struct NMSettingTun(c_void);
+pub struct NMSettingTun {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingTun {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3438,7 +4005,10 @@ impl ::std::fmt::Debug for NMSettingTun {
 }
 
 #[repr(C)]
-pub struct NMSettingUser(c_void);
+pub struct NMSettingUser {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingUser {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3448,7 +4018,10 @@ impl ::std::fmt::Debug for NMSettingUser {
 }
 
 #[repr(C)]
-pub struct NMSettingVeth(c_void);
+pub struct NMSettingVeth {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingVeth {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3458,7 +4031,10 @@ impl ::std::fmt::Debug for NMSettingVeth {
 }
 
 #[repr(C)]
-pub struct NMSettingVlan(c_void);
+pub struct NMSettingVlan {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingVlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3468,7 +4044,10 @@ impl ::std::fmt::Debug for NMSettingVlan {
 }
 
 #[repr(C)]
-pub struct NMSettingVpn(c_void);
+pub struct NMSettingVpn {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingVpn {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3478,7 +4057,10 @@ impl ::std::fmt::Debug for NMSettingVpn {
 }
 
 #[repr(C)]
-pub struct NMSettingVrf(c_void);
+pub struct NMSettingVrf {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingVrf {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3488,7 +4070,10 @@ impl ::std::fmt::Debug for NMSettingVrf {
 }
 
 #[repr(C)]
-pub struct NMSettingVxlan(c_void);
+pub struct NMSettingVxlan {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingVxlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3498,7 +4083,10 @@ impl ::std::fmt::Debug for NMSettingVxlan {
 }
 
 #[repr(C)]
-pub struct NMSettingWifiP2P(c_void);
+pub struct NMSettingWifiP2P {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingWifiP2P {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3508,7 +4096,10 @@ impl ::std::fmt::Debug for NMSettingWifiP2P {
 }
 
 #[repr(C)]
-pub struct NMSettingWimax(c_void);
+pub struct NMSettingWimax {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingWimax {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3518,7 +4109,10 @@ impl ::std::fmt::Debug for NMSettingWimax {
 }
 
 #[repr(C)]
-pub struct NMSettingWireGuard(c_void);
+pub struct NMSettingWireGuard {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingWireGuard {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3528,7 +4122,10 @@ impl ::std::fmt::Debug for NMSettingWireGuard {
 }
 
 #[repr(C)]
-pub struct NMSettingWired(c_void);
+pub struct NMSettingWired {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingWired {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3538,7 +4135,10 @@ impl ::std::fmt::Debug for NMSettingWired {
 }
 
 #[repr(C)]
-pub struct NMSettingWireless(c_void);
+pub struct NMSettingWireless {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingWireless {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3548,7 +4148,10 @@ impl ::std::fmt::Debug for NMSettingWireless {
 }
 
 #[repr(C)]
-pub struct NMSettingWirelessSecurity(c_void);
+pub struct NMSettingWirelessSecurity {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingWirelessSecurity {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3558,7 +4161,10 @@ impl ::std::fmt::Debug for NMSettingWirelessSecurity {
 }
 
 #[repr(C)]
-pub struct NMSettingWpan(c_void);
+pub struct NMSettingWpan {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSettingWpan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3568,7 +4174,10 @@ impl ::std::fmt::Debug for NMSettingWpan {
 }
 
 #[repr(C)]
-pub struct NMSimpleConnection(c_void);
+pub struct NMSimpleConnection {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMSimpleConnection {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3578,7 +4187,10 @@ impl ::std::fmt::Debug for NMSimpleConnection {
 }
 
 #[repr(C)]
-pub struct NMVpnConnection(c_void);
+pub struct NMVpnConnection {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMVpnConnection {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3588,7 +4200,10 @@ impl ::std::fmt::Debug for NMVpnConnection {
 }
 
 #[repr(C)]
-pub struct NMVpnPluginInfo(c_void);
+pub struct NMVpnPluginInfo {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMVpnPluginInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3597,8 +4212,8 @@ impl ::std::fmt::Debug for NMVpnPluginInfo {
     }
 }
 
-#[repr(C)]
 #[derive(Copy, Clone)]
+#[repr(C)]
 pub struct NMVpnPluginOld {
     pub parent: gobject::GObject,
 }
@@ -3611,8 +4226,8 @@ impl ::std::fmt::Debug for NMVpnPluginOld {
     }
 }
 
-#[repr(C)]
 #[derive(Copy, Clone)]
+#[repr(C)]
 pub struct NMVpnServicePlugin {
     pub parent: gobject::GObject,
 }
@@ -3626,7 +4241,10 @@ impl ::std::fmt::Debug for NMVpnServicePlugin {
 }
 
 #[repr(C)]
-pub struct NMWifiP2PPeer(c_void);
+pub struct NMWifiP2PPeer {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMWifiP2PPeer {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3636,7 +4254,10 @@ impl ::std::fmt::Debug for NMWifiP2PPeer {
 }
 
 #[repr(C)]
-pub struct NMWimaxNsp(c_void);
+pub struct NMWimaxNsp {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMWimaxNsp {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3647,7 +4268,10 @@ impl ::std::fmt::Debug for NMWimaxNsp {
 
 // Interfaces
 #[repr(C)]
-pub struct NMConnection(c_void);
+pub struct NMConnection {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMConnection {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3656,7 +4280,10 @@ impl ::std::fmt::Debug for NMConnection {
 }
 
 #[repr(C)]
-pub struct NMVpnEditor(c_void);
+pub struct NMVpnEditor {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMVpnEditor {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
@@ -3665,7 +4292,10 @@ impl ::std::fmt::Debug for NMVpnEditor {
 }
 
 #[repr(C)]
-pub struct NMVpnEditorPlugin(c_void);
+pub struct NMVpnEditorPlugin {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
 
 impl ::std::fmt::Debug for NMVpnEditorPlugin {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {

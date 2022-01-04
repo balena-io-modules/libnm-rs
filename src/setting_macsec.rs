@@ -176,13 +176,7 @@ impl SettingMacsec {
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     pub fn set_encrypt(&self, encrypt: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"encrypt\0".as_ptr() as *const _,
-                encrypt.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "encrypt", &encrypt)
     }
 
     /// The pre-shared CAK (Connectivity Association Key) for MACsec
@@ -191,13 +185,7 @@ impl SettingMacsec {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "mka-cak")]
     pub fn set_mka_cak(&self, mka_cak: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mka-cak\0".as_ptr() as *const _,
-                mka_cak.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mka-cak", &mka_cak)
     }
 
     /// Flags indicating how to handle the `property::SettingMacsec::mka-cak`
@@ -206,13 +194,7 @@ impl SettingMacsec {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "mka-cak-flags")]
     pub fn set_mka_cak_flags(&self, mka_cak_flags: SettingSecretFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mka-cak-flags\0".as_ptr() as *const _,
-                mka_cak_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mka-cak-flags", &mka_cak_flags)
     }
 
     /// The pre-shared CKN (Connectivity-association Key Name) for
@@ -221,13 +203,7 @@ impl SettingMacsec {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "mka-ckn")]
     pub fn set_mka_ckn(&self, mka_ckn: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mka-ckn\0".as_ptr() as *const _,
-                mka_ckn.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mka-ckn", &mka_ckn)
     }
 
     /// Specifies how the CAK (Connectivity Association Key) for MKA (MACsec Key
@@ -235,13 +211,7 @@ impl SettingMacsec {
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     pub fn set_mode(&self, mode: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mode\0".as_ptr() as *const _,
-                mode.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mode", &mode)
     }
 
     /// If given, specifies the parent interface name or parent connection UUID
@@ -251,26 +221,14 @@ impl SettingMacsec {
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     pub fn set_parent(&self, parent: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"parent\0".as_ptr() as *const _,
-                parent.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "parent", &parent)
     }
 
     /// The port component of the SCI (Secure Channel Identifier), between 1 and 65534.
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     pub fn set_port(&self, port: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"port\0".as_ptr() as *const _,
-                port.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "port", &port)
     }
 
     /// Specifies whether the SCI (Secure Channel Identifier) is included
@@ -279,26 +237,14 @@ impl SettingMacsec {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "send-sci")]
     pub fn set_send_sci(&self, send_sci: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"send-sci\0".as_ptr() as *const _,
-                send_sci.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "send-sci", &send_sci)
     }
 
     /// Specifies the validation mode for incoming frames.
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     pub fn set_validation(&self, validation: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"validation\0".as_ptr() as *const _,
-                validation.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "validation", &validation)
     }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]

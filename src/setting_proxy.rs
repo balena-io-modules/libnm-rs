@@ -115,26 +115,14 @@ impl SettingProxy {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "browser-only")]
     pub fn set_browser_only(&self, browser_only: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"browser-only\0".as_ptr() as *const _,
-                browser_only.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "browser-only", &browser_only)
     }
 
     /// Method for proxy configuration, Default is [`SettingProxyMethod::None`][crate::SettingProxyMethod::None]
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     pub fn set_method(&self, method: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"method\0".as_ptr() as *const _,
-                method.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "method", &method)
     }
 
     /// PAC script for the connection.
@@ -142,13 +130,7 @@ impl SettingProxy {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "pac-script")]
     pub fn set_pac_script(&self, pac_script: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"pac-script\0".as_ptr() as *const _,
-                pac_script.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "pac-script", &pac_script)
     }
 
     /// PAC URL for obtaining PAC file.
@@ -156,13 +138,7 @@ impl SettingProxy {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "pac-url")]
     pub fn set_pac_url(&self, pac_url: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"pac-url\0".as_ptr() as *const _,
-                pac_url.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "pac-url", &pac_url)
     }
 
     #[cfg(any(feature = "v1_6", feature = "dox"))]

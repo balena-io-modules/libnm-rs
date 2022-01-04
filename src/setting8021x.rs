@@ -1415,18 +1415,7 @@ impl Setting8021x {
     /// no verification of the server certificate's altSubjectName is performed.
     #[doc(alias = "altsubject-matches")]
     pub fn altsubject_matches(&self) -> Vec<glib::GString> {
-        unsafe {
-            let mut value =
-                glib::Value::from_type(<Vec<glib::GString> as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"altsubject-matches\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `altsubject-matches` getter")
-        }
+        glib::ObjectExt::property(self, "altsubject-matches")
     }
 
     /// List of strings to be matched against the altSubjectName of the
@@ -1434,13 +1423,7 @@ impl Setting8021x {
     /// no verification of the server certificate's altSubjectName is performed.
     #[doc(alias = "altsubject-matches")]
     pub fn set_altsubject_matches(&self, altsubject_matches: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"altsubject-matches\0".as_ptr() as *const _,
-                altsubject_matches.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "altsubject-matches", &altsubject_matches)
     }
 
     /// Anonymous identity string for EAP authentication methods. Used as the
@@ -1448,13 +1431,7 @@ impl Setting8021x {
     /// identity like EAP-TTLS.
     #[doc(alias = "anonymous-identity")]
     pub fn set_anonymous_identity(&self, anonymous_identity: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"anonymous-identity\0".as_ptr() as *const _,
-                anonymous_identity.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "anonymous-identity", &anonymous_identity)
     }
 
     /// A timeout for the authentication. Zero means the global default; if the
@@ -1463,13 +1440,7 @@ impl Setting8021x {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "auth-timeout")]
     pub fn set_auth_timeout(&self, auth_timeout: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"auth-timeout\0".as_ptr() as *const _,
-                auth_timeout.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "auth-timeout", &auth_timeout)
     }
 
     /// Contains the CA certificate if used by the EAP method specified in the
@@ -1491,17 +1462,7 @@ impl Setting8021x {
     /// `nm_setting_802_1x_set_ca_cert()` function instead.
     #[doc(alias = "ca-cert")]
     pub fn ca_cert(&self) -> Option<glib::Bytes> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::Bytes as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ca-cert\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `ca-cert` getter")
-        }
+        glib::ObjectExt::property(self, "ca-cert")
     }
 
     /// Contains the CA certificate if used by the EAP method specified in the
@@ -1523,13 +1484,7 @@ impl Setting8021x {
     /// `nm_setting_802_1x_set_ca_cert()` function instead.
     #[doc(alias = "ca-cert")]
     pub fn set_ca_cert(&self, ca_cert: Option<&glib::Bytes>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ca-cert\0".as_ptr() as *const _,
-                ca_cert.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ca-cert", &ca_cert)
     }
 
     /// The password used to access the CA certificate stored in
@@ -1539,13 +1494,7 @@ impl Setting8021x {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "ca-cert-password")]
     pub fn set_ca_cert_password(&self, ca_cert_password: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ca-cert-password\0".as_ptr() as *const _,
-                ca_cert_password.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ca-cert-password", &ca_cert_password)
     }
 
     /// Flags indicating how to handle the `property::Setting8021x::ca-cert-password` property.
@@ -1553,13 +1502,7 @@ impl Setting8021x {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "ca-cert-password-flags")]
     pub fn set_ca_cert_password_flags(&self, ca_cert_password_flags: SettingSecretFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ca-cert-password-flags\0".as_ptr() as *const _,
-                ca_cert_password_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ca-cert-password-flags", &ca_cert_password_flags)
     }
 
     /// UTF-8 encoded path to a directory containing PEM or DER formatted
@@ -1570,13 +1513,7 @@ impl Setting8021x {
     /// path is an existing directory, then this setting is ignored.
     #[doc(alias = "ca-path")]
     pub fn set_ca_path(&self, ca_path: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ca-path\0".as_ptr() as *const _,
-                ca_path.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ca-path", &ca_path)
     }
 
     /// Contains the client certificate if used by the EAP method specified in
@@ -1593,17 +1530,7 @@ impl Setting8021x {
     /// `nm_setting_802_1x_set_client_cert()` function instead.
     #[doc(alias = "client-cert")]
     pub fn client_cert(&self) -> Option<glib::Bytes> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::Bytes as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"client-cert\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `client-cert` getter")
-        }
+        glib::ObjectExt::property(self, "client-cert")
     }
 
     /// Contains the client certificate if used by the EAP method specified in
@@ -1620,13 +1547,7 @@ impl Setting8021x {
     /// `nm_setting_802_1x_set_client_cert()` function instead.
     #[doc(alias = "client-cert")]
     pub fn set_client_cert(&self, client_cert: Option<&glib::Bytes>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"client-cert\0".as_ptr() as *const _,
-                client_cert.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "client-cert", &client_cert)
     }
 
     /// The password used to access the client certificate stored in
@@ -1636,13 +1557,7 @@ impl Setting8021x {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "client-cert-password")]
     pub fn set_client_cert_password(&self, client_cert_password: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"client-cert-password\0".as_ptr() as *const _,
-                client_cert_password.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "client-cert-password", &client_cert_password)
     }
 
     /// Flags indicating how to handle the `property::Setting8021x::client-cert-password` property.
@@ -1650,13 +1565,11 @@ impl Setting8021x {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "client-cert-password-flags")]
     pub fn set_client_cert_password_flags(&self, client_cert_password_flags: SettingSecretFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"client-cert-password-flags\0".as_ptr() as *const _,
-                client_cert_password_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "client-cert-password-flags",
+            &client_cert_password_flags,
+        )
     }
 
     /// Constraint for server domain name. If set, this list of FQDNs is used as
@@ -1669,13 +1582,7 @@ impl Setting8021x {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "domain-match")]
     pub fn set_domain_match(&self, domain_match: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"domain-match\0".as_ptr() as *const _,
-                domain_match.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "domain-match", &domain_match)
     }
 
     /// Constraint for server domain name. If set, this FQDN is used as a suffix
@@ -1689,13 +1596,7 @@ impl Setting8021x {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "domain-suffix-match")]
     pub fn set_domain_suffix_match(&self, domain_suffix_match: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"domain-suffix-match\0".as_ptr() as *const _,
-                domain_suffix_match.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "domain-suffix-match", &domain_suffix_match)
     }
 
     /// The allowed EAP method to be used when authenticating to the network with
@@ -1704,16 +1605,7 @@ impl Setting8021x {
     /// properties of this setting; refer to wpa_supplicant documentation for the
     /// allowed combinations.
     pub fn eap(&self) -> Vec<glib::GString> {
-        unsafe {
-            let mut value =
-                glib::Value::from_type(<Vec<glib::GString> as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"eap\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value.get().expect("Return Value for property `eap` getter")
-        }
+        glib::ObjectExt::property(self, "eap")
     }
 
     /// The allowed EAP method to be used when authenticating to the network with
@@ -1722,25 +1614,13 @@ impl Setting8021x {
     /// properties of this setting; refer to wpa_supplicant documentation for the
     /// allowed combinations.
     pub fn set_eap(&self, eap: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"eap\0".as_ptr() as *const _,
-                eap.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "eap", &eap)
     }
 
     /// Identity string for EAP authentication methods. Often the user's user or
     /// login name.
     pub fn set_identity(&self, identity: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"identity\0".as_ptr() as *const _,
-                identity.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "identity", &identity)
     }
 
     /// Whether the 802.1X authentication is optional. If [`true`], the activation
@@ -1751,50 +1631,26 @@ impl Setting8021x {
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     pub fn set_optional(&self, optional: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"optional\0".as_ptr() as *const _,
-                optional.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "optional", &optional)
     }
 
     /// UTF-8 encoded file path containing PAC for EAP-FAST.
     #[doc(alias = "pac-file")]
     pub fn set_pac_file(&self, pac_file: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"pac-file\0".as_ptr() as *const _,
-                pac_file.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "pac-file", &pac_file)
     }
 
     /// UTF-8 encoded password used for EAP authentication methods. If both the
     /// `property::Setting8021x::password` property and the `property::Setting8021x::password-raw`
     /// property are specified, `property::Setting8021x::password` is preferred.
     pub fn set_password(&self, password: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"password\0".as_ptr() as *const _,
-                password.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "password", &password)
     }
 
     /// Flags indicating how to handle the `property::Setting8021x::password` property.
     #[doc(alias = "password-flags")]
     pub fn set_password_flags(&self, password_flags: SettingSecretFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"password-flags\0".as_ptr() as *const _,
-                password_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "password-flags", &password_flags)
     }
 
     /// Password used for EAP authentication methods, given as a byte array to
@@ -1803,25 +1659,13 @@ impl Setting8021x {
     /// property are specified, `property::Setting8021x::password` is preferred.
     #[doc(alias = "password-raw")]
     pub fn set_password_raw(&self, password_raw: Option<&glib::Bytes>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"password-raw\0".as_ptr() as *const _,
-                password_raw.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "password-raw", &password_raw)
     }
 
     /// Flags indicating how to handle the `property::Setting8021x::password-raw` property.
     #[doc(alias = "password-raw-flags")]
     pub fn set_password_raw_flags(&self, password_raw_flags: SettingSecretFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"password-raw-flags\0".as_ptr() as *const _,
-                password_raw_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "password-raw-flags", &password_raw_flags)
     }
 
     /// Specifies authentication flags to use in "phase 1" outer
@@ -1834,13 +1678,7 @@ impl Setting8021x {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "phase1-auth-flags")]
     pub fn set_phase1_auth_flags(&self, phase1_auth_flags: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase1-auth-flags\0".as_ptr() as *const _,
-                phase1_auth_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "phase1-auth-flags", &phase1_auth_flags)
     }
 
     /// Enables or disables in-line provisioning of EAP-FAST credentials when
@@ -1851,13 +1689,7 @@ impl Setting8021x {
     /// wpa_supplicant documentation for more details.
     #[doc(alias = "phase1-fast-provisioning")]
     pub fn set_phase1_fast_provisioning(&self, phase1_fast_provisioning: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase1-fast-provisioning\0".as_ptr() as *const _,
-                phase1_fast_provisioning.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "phase1-fast-provisioning", &phase1_fast_provisioning)
     }
 
     /// Forces use of the new PEAP label during key derivation. Some RADIUS
@@ -1866,13 +1698,7 @@ impl Setting8021x {
     /// wpa_supplicant documentation for more details.
     #[doc(alias = "phase1-peaplabel")]
     pub fn set_phase1_peaplabel(&self, phase1_peaplabel: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase1-peaplabel\0".as_ptr() as *const _,
-                phase1_peaplabel.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "phase1-peaplabel", &phase1_peaplabel)
     }
 
     /// Forces which PEAP version is used when PEAP is set as the EAP method in
@@ -1883,13 +1709,7 @@ impl Setting8021x {
     /// version.
     #[doc(alias = "phase1-peapver")]
     pub fn set_phase1_peapver(&self, phase1_peapver: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase1-peapver\0".as_ptr() as *const _,
-                phase1_peapver.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "phase1-peapver", &phase1_peapver)
     }
 
     /// List of strings to be matched against the altSubjectName of the
@@ -1898,18 +1718,7 @@ impl Setting8021x {
     /// server certificate's altSubjectName is performed.
     #[doc(alias = "phase2-altsubject-matches")]
     pub fn phase2_altsubject_matches(&self) -> Vec<glib::GString> {
-        unsafe {
-            let mut value =
-                glib::Value::from_type(<Vec<glib::GString> as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-altsubject-matches\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `phase2-altsubject-matches` getter")
-        }
+        glib::ObjectExt::property(self, "phase2-altsubject-matches")
     }
 
     /// List of strings to be matched against the altSubjectName of the
@@ -1918,13 +1727,11 @@ impl Setting8021x {
     /// server certificate's altSubjectName is performed.
     #[doc(alias = "phase2-altsubject-matches")]
     pub fn set_phase2_altsubject_matches(&self, phase2_altsubject_matches: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-altsubject-matches\0".as_ptr() as *const _,
-                phase2_altsubject_matches.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "phase2-altsubject-matches",
+            &phase2_altsubject_matches,
+        )
     }
 
     /// Specifies the allowed "phase 2" inner authentication method when an EAP
@@ -1939,13 +1746,7 @@ impl Setting8021x {
     /// be specified.
     #[doc(alias = "phase2-auth")]
     pub fn set_phase2_auth(&self, phase2_auth: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-auth\0".as_ptr() as *const _,
-                phase2_auth.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "phase2-auth", &phase2_auth)
     }
 
     /// Specifies the allowed "phase 2" inner EAP-based authentication method
@@ -1956,13 +1757,7 @@ impl Setting8021x {
     /// more details.
     #[doc(alias = "phase2-autheap")]
     pub fn set_phase2_autheap(&self, phase2_autheap: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-autheap\0".as_ptr() as *const _,
-                phase2_autheap.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "phase2-autheap", &phase2_autheap)
     }
 
     /// Contains the "phase 2" CA certificate if used by the EAP method specified
@@ -1985,17 +1780,7 @@ impl Setting8021x {
     /// `nm_setting_802_1x_set_phase2_ca_cert()` function instead.
     #[doc(alias = "phase2-ca-cert")]
     pub fn phase2_ca_cert(&self) -> Option<glib::Bytes> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::Bytes as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-ca-cert\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `phase2-ca-cert` getter")
-        }
+        glib::ObjectExt::property(self, "phase2-ca-cert")
     }
 
     /// Contains the "phase 2" CA certificate if used by the EAP method specified
@@ -2018,13 +1803,7 @@ impl Setting8021x {
     /// `nm_setting_802_1x_set_phase2_ca_cert()` function instead.
     #[doc(alias = "phase2-ca-cert")]
     pub fn set_phase2_ca_cert(&self, phase2_ca_cert: Option<&glib::Bytes>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-ca-cert\0".as_ptr() as *const _,
-                phase2_ca_cert.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "phase2-ca-cert", &phase2_ca_cert)
     }
 
     /// The password used to access the "phase2" CA certificate stored in
@@ -2034,13 +1813,7 @@ impl Setting8021x {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "phase2-ca-cert-password")]
     pub fn set_phase2_ca_cert_password(&self, phase2_ca_cert_password: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-ca-cert-password\0".as_ptr() as *const _,
-                phase2_ca_cert_password.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "phase2-ca-cert-password", &phase2_ca_cert_password)
     }
 
     /// Flags indicating how to handle the `property::Setting8021x::phase2-ca-cert-password` property.
@@ -2051,13 +1824,11 @@ impl Setting8021x {
         &self,
         phase2_ca_cert_password_flags: SettingSecretFlags,
     ) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-ca-cert-password-flags\0".as_ptr() as *const _,
-                phase2_ca_cert_password_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "phase2-ca-cert-password-flags",
+            &phase2_ca_cert_password_flags,
+        )
     }
 
     /// UTF-8 encoded path to a directory containing PEM or DER formatted
@@ -2068,13 +1839,7 @@ impl Setting8021x {
     /// path is an existing directory, then this setting is ignored.
     #[doc(alias = "phase2-ca-path")]
     pub fn set_phase2_ca_path(&self, phase2_ca_path: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-ca-path\0".as_ptr() as *const _,
-                phase2_ca_path.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "phase2-ca-path", &phase2_ca_path)
     }
 
     /// Contains the "phase 2" client certificate if used by the EAP method
@@ -2094,17 +1859,7 @@ impl Setting8021x {
     /// `nm_setting_802_1x_set_phase2_client_cert()` function instead.
     #[doc(alias = "phase2-client-cert")]
     pub fn phase2_client_cert(&self) -> Option<glib::Bytes> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::Bytes as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-client-cert\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `phase2-client-cert` getter")
-        }
+        glib::ObjectExt::property(self, "phase2-client-cert")
     }
 
     /// Contains the "phase 2" client certificate if used by the EAP method
@@ -2124,13 +1879,7 @@ impl Setting8021x {
     /// `nm_setting_802_1x_set_phase2_client_cert()` function instead.
     #[doc(alias = "phase2-client-cert")]
     pub fn set_phase2_client_cert(&self, phase2_client_cert: Option<&glib::Bytes>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-client-cert\0".as_ptr() as *const _,
-                phase2_client_cert.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "phase2-client-cert", &phase2_client_cert)
     }
 
     /// The password used to access the "phase2" client certificate stored in
@@ -2140,13 +1889,11 @@ impl Setting8021x {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "phase2-client-cert-password")]
     pub fn set_phase2_client_cert_password(&self, phase2_client_cert_password: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-client-cert-password\0".as_ptr() as *const _,
-                phase2_client_cert_password.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "phase2-client-cert-password",
+            &phase2_client_cert_password,
+        )
     }
 
     /// Flags indicating how to handle the `property::Setting8021x::phase2-client-cert-password` property.
@@ -2157,16 +1904,11 @@ impl Setting8021x {
         &self,
         phase2_client_cert_password_flags: SettingSecretFlags,
     ) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-client-cert-password-flags\0".as_ptr() as *const _,
-                phase2_client_cert_password_flags
-                    .to_value()
-                    .to_glib_none()
-                    .0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "phase2-client-cert-password-flags",
+            &phase2_client_cert_password_flags,
+        )
     }
 
     /// Constraint for server domain name. If set, this list of FQDNs is used as
@@ -2180,13 +1922,7 @@ impl Setting8021x {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "phase2-domain-match")]
     pub fn set_phase2_domain_match(&self, phase2_domain_match: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-domain-match\0".as_ptr() as *const _,
-                phase2_domain_match.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "phase2-domain-match", &phase2_domain_match)
     }
 
     /// Constraint for server domain name. If set, this FQDN is used as a suffix
@@ -2201,13 +1937,11 @@ impl Setting8021x {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "phase2-domain-suffix-match")]
     pub fn set_phase2_domain_suffix_match(&self, phase2_domain_suffix_match: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-domain-suffix-match\0".as_ptr() as *const _,
-                phase2_domain_suffix_match.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "phase2-domain-suffix-match",
+            &phase2_domain_suffix_match,
+        )
     }
 
     /// Contains the "phase 2" inner private key when the
@@ -2234,17 +1968,7 @@ impl Setting8021x {
     /// `nm_setting_802_1x_set_phase2_private_key()` function instead.
     #[doc(alias = "phase2-private-key")]
     pub fn phase2_private_key(&self) -> Option<glib::Bytes> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::Bytes as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-private-key\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `phase2-private-key` getter")
-        }
+        glib::ObjectExt::property(self, "phase2-private-key")
     }
 
     /// Contains the "phase 2" inner private key when the
@@ -2271,13 +1995,7 @@ impl Setting8021x {
     /// `nm_setting_802_1x_set_phase2_private_key()` function instead.
     #[doc(alias = "phase2-private-key")]
     pub fn set_phase2_private_key(&self, phase2_private_key: Option<&glib::Bytes>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-private-key\0".as_ptr() as *const _,
-                phase2_private_key.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "phase2-private-key", &phase2_private_key)
     }
 
     /// The password used to decrypt the "phase 2" private key specified in the
@@ -2289,13 +2007,11 @@ impl Setting8021x {
     /// function.
     #[doc(alias = "phase2-private-key-password")]
     pub fn set_phase2_private_key_password(&self, phase2_private_key_password: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-private-key-password\0".as_ptr() as *const _,
-                phase2_private_key_password.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "phase2-private-key-password",
+            &phase2_private_key_password,
+        )
     }
 
     /// Flags indicating how to handle the
@@ -2305,16 +2021,11 @@ impl Setting8021x {
         &self,
         phase2_private_key_password_flags: SettingSecretFlags,
     ) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-private-key-password-flags\0".as_ptr() as *const _,
-                phase2_private_key_password_flags
-                    .to_value()
-                    .to_glib_none()
-                    .0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "phase2-private-key-password-flags",
+            &phase2_private_key_password_flags,
+        )
     }
 
     /// Substring to be matched against the subject of the certificate presented
@@ -2325,36 +2036,18 @@ impl Setting8021x {
     /// NMSetting8021x:phase2-domain-suffix-match.
     #[doc(alias = "phase2-subject-match")]
     pub fn set_phase2_subject_match(&self, phase2_subject_match: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"phase2-subject-match\0".as_ptr() as *const _,
-                phase2_subject_match.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "phase2-subject-match", &phase2_subject_match)
     }
 
     /// PIN used for EAP authentication methods.
     pub fn set_pin(&self, pin: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"pin\0".as_ptr() as *const _,
-                pin.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "pin", &pin)
     }
 
     /// Flags indicating how to handle the `property::Setting8021x::pin` property.
     #[doc(alias = "pin-flags")]
     pub fn set_pin_flags(&self, pin_flags: SettingSecretFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"pin-flags\0".as_ptr() as *const _,
-                pin_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "pin-flags", &pin_flags)
     }
 
     /// Contains the private key when the `property::Setting8021x::eap` property is set to
@@ -2386,17 +2079,7 @@ impl Setting8021x {
     /// private key data.
     #[doc(alias = "private-key")]
     pub fn private_key(&self) -> Option<glib::Bytes> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::Bytes as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"private-key\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `private-key` getter")
-        }
+        glib::ObjectExt::property(self, "private-key")
     }
 
     /// Contains the private key when the `property::Setting8021x::eap` property is set to
@@ -2428,13 +2111,7 @@ impl Setting8021x {
     /// private key data.
     #[doc(alias = "private-key")]
     pub fn set_private_key(&self, private_key: Option<&glib::Bytes>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"private-key\0".as_ptr() as *const _,
-                private_key.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "private-key", &private_key)
     }
 
     /// The password used to decrypt the private key specified in the
@@ -2445,26 +2122,18 @@ impl Setting8021x {
     /// the private key by the `nm_setting_802_1x_set_private_key()` function.
     #[doc(alias = "private-key-password")]
     pub fn set_private_key_password(&self, private_key_password: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"private-key-password\0".as_ptr() as *const _,
-                private_key_password.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "private-key-password", &private_key_password)
     }
 
     /// Flags indicating how to handle the `property::Setting8021x::private-key-password`
     /// property.
     #[doc(alias = "private-key-password-flags")]
     pub fn set_private_key_password_flags(&self, private_key_password_flags: SettingSecretFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"private-key-password-flags\0".as_ptr() as *const _,
-                private_key_password_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "private-key-password-flags",
+            &private_key_password_flags,
+        )
     }
 
     /// Substring to be matched against the subject of the certificate presented
@@ -2474,13 +2143,7 @@ impl Setting8021x {
     /// NMSetting8021x:domain-suffix-match.
     #[doc(alias = "subject-match")]
     pub fn set_subject_match(&self, subject_match: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"subject-match\0".as_ptr() as *const _,
-                subject_match.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "subject-match", &subject_match)
     }
 
     /// When [`true`], overrides the `property::Setting8021x::ca-path` and
@@ -2494,13 +2157,7 @@ impl Setting8021x {
     /// properties instead (sets ca_cert/ca_cert2 options for wpa_supplicant).
     #[doc(alias = "system-ca-certs")]
     pub fn set_system_ca_certs(&self, system_ca_certs: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"system-ca-certs\0".as_ptr() as *const _,
-                system_ca_certs.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "system-ca-certs", &system_ca_certs)
     }
 
     //#[cfg(any(feature = "v1_2", feature = "dox"))]

@@ -68,13 +68,7 @@ impl SettingOvsPatch {
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     pub fn set_peer(&self, peer: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"peer\0".as_ptr() as *const _,
-                peer.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "peer", &peer)
     }
 
     #[cfg(any(feature = "v1_10", feature = "dox"))]

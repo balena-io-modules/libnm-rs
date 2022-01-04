@@ -122,7 +122,9 @@ impl SettingOvsExternalIDs {
     pub fn check_key(key: Option<&str>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_setting_ovs_external_ids_check_key(key.to_glib_none().0, &mut error);
+            let is_ok =
+                ffi::nm_setting_ovs_external_ids_check_key(key.to_glib_none().0, &mut error);
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -145,7 +147,9 @@ impl SettingOvsExternalIDs {
     pub fn check_val(val: Option<&str>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_setting_ovs_external_ids_check_val(val.to_glib_none().0, &mut error);
+            let is_ok =
+                ffi::nm_setting_ovs_external_ids_check_val(val.to_glib_none().0, &mut error);
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {

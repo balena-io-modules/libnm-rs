@@ -136,13 +136,7 @@ impl SettingOvsPort {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "bond-downdelay")]
     pub fn set_bond_downdelay(&self, bond_downdelay: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"bond-downdelay\0".as_ptr() as *const _,
-                bond_downdelay.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "bond-downdelay", &bond_downdelay)
     }
 
     /// Bonding mode. One of "active-backup", "balance-slb", or "balance-tcp".
@@ -150,13 +144,7 @@ impl SettingOvsPort {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "bond-mode")]
     pub fn set_bond_mode(&self, bond_mode: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"bond-mode\0".as_ptr() as *const _,
-                bond_mode.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "bond-mode", &bond_mode)
     }
 
     /// The time port must be active before it starts forwarding traffic.
@@ -164,39 +152,21 @@ impl SettingOvsPort {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "bond-updelay")]
     pub fn set_bond_updelay(&self, bond_updelay: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"bond-updelay\0".as_ptr() as *const _,
-                bond_updelay.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "bond-updelay", &bond_updelay)
     }
 
     /// LACP mode. One of "active", "off", or "passive".
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     pub fn set_lacp(&self, lacp: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"lacp\0".as_ptr() as *const _,
-                lacp.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "lacp", &lacp)
     }
 
     /// The VLAN tag in the range 0-4095.
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     pub fn set_tag(&self, tag: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"tag\0".as_ptr() as *const _,
-                tag.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "tag", &tag)
     }
 
     /// The VLAN mode. One of "access", "native-tagged", "native-untagged",
@@ -205,13 +175,7 @@ impl SettingOvsPort {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "vlan-mode")]
     pub fn set_vlan_mode(&self, vlan_mode: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"vlan-mode\0".as_ptr() as *const _,
-                vlan_mode.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "vlan-mode", &vlan_mode)
     }
 
     #[cfg(any(feature = "v1_10", feature = "dox"))]

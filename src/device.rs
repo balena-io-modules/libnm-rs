@@ -49,6 +49,8 @@ glib::wrapper! {
 }
 
 impl Device {
+    pub const NONE: Option<&'static Device> = None;
+
     /// Generates a list of short-ish unique presentation names for the
     /// devices in `devices`.
     /// ## `devices`
@@ -68,8 +70,6 @@ impl Device {
         }
     }
 }
-
-pub const NONE_DEVICE: Option<&Device> = None;
 
 /// Trait containing all [`struct@Device`] methods.
 ///
@@ -144,7 +144,7 @@ pub trait DeviceExt: 'static {
         callback: P,
     );
 
-    fn delete_async_future(
+    fn delete_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
 
@@ -182,7 +182,7 @@ pub trait DeviceExt: 'static {
         callback: P,
     );
 
-    fn disconnect_async_future(
+    fn disconnect_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
 
@@ -273,7 +273,7 @@ pub trait DeviceExt: 'static {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    fn applied_connection_async_future(
+    fn applied_connection_future(
         &self,
         flags: u32,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(Connection, u64), glib::Error>> + 'static>>;
@@ -702,7 +702,7 @@ pub trait DeviceExt: 'static {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    fn reapply_async_future(
+    fn reapply_future(
         &self,
         connection: Option<&(impl IsA<Connection> + Clone + 'static)>,
         version_id: u64,
@@ -893,11 +893,12 @@ impl<O: IsA<Device>> DeviceExt for O {
     fn connection_compatible(&self, connection: &impl IsA<Connection>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_device_connection_compatible(
+            let is_ok = ffi::nm_device_connection_compatible(
                 self.as_ref().to_glib_none().0,
                 connection.as_ref().to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -918,11 +919,12 @@ impl<O: IsA<Device>> DeviceExt for O {
     fn delete(&self, cancellable: Option<&impl IsA<gio::Cancellable>>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_device_delete(
+            let is_ok = ffi::nm_device_delete(
                 self.as_ref().to_glib_none().0,
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -965,7 +967,7 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    fn delete_async_future(
+    fn delete_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
@@ -981,11 +983,12 @@ impl<O: IsA<Device>> DeviceExt for O {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_device_disconnect(
+            let is_ok = ffi::nm_device_disconnect(
                 self.as_ref().to_glib_none().0,
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -1028,7 +1031,7 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    fn disconnect_async_future(
+    fn disconnect_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
@@ -1130,7 +1133,7 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    fn applied_connection_async_future(
+    fn applied_connection_future(
         &self,
         flags: u32,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(Connection, u64), glib::Error>> + 'static>>
@@ -1382,7 +1385,7 @@ impl<O: IsA<Device>> DeviceExt for O {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_device_reapply(
+            let is_ok = ffi::nm_device_reapply(
                 self.as_ref().to_glib_none().0,
                 connection.map(|p| p.as_ref()).to_glib_none().0,
                 version_id,
@@ -1390,6 +1393,7 @@ impl<O: IsA<Device>> DeviceExt for O {
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -1442,7 +1446,7 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    fn reapply_async_future(
+    fn reapply_future(
         &self,
         connection: Option<&(impl IsA<Connection> + Clone + 'static)>,
         version_id: u64,
@@ -1477,73 +1481,27 @@ impl<O: IsA<Device>> DeviceExt for O {
     }
 
     fn interface(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"interface\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `interface` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "interface")
     }
 
     fn ip_interface(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"ip-interface\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `ip-interface` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "ip-interface")
     }
 
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     fn ip4_connectivity(&self) -> ConnectivityState {
-        unsafe {
-            let mut value =
-                glib::Value::from_type(<ConnectivityState as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"ip4-connectivity\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `ip4-connectivity` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "ip4-connectivity")
     }
 
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     fn ip6_connectivity(&self) -> ConnectivityState {
-        unsafe {
-            let mut value =
-                glib::Value::from_type(<ConnectivityState as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"ip6-connectivity\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `ip6-connectivity` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "ip6-connectivity")
     }
 
     //fn get_property_lldp_neighbors(&self) -> /*Unimplemented*/Vec<Fundamental: Pointer> {
-    //    unsafe {
-    //        let mut value = glib::Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        glib::gobject_ffi::g_object_get_property(self.to_glib_none().0 as *mut glib::gobject_ffi::GObject, b"lldp-neighbors\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-    //        value.get().expect("Return Value for property `lldp-neighbors` getter")
-    //    }
+    //    glib::ObjectExt::property(self.as_ref(), "lldp-neighbors")
     //}
 
     fn connect_state_changed<F: Fn(&Self, u32, u32, u32) + 'static>(

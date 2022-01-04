@@ -114,80 +114,38 @@ impl SettingAdsl {
 
     /// Encapsulation of ADSL connection. Can be "vcmux" or "llc".
     pub fn set_encapsulation(&self, encapsulation: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"encapsulation\0".as_ptr() as *const _,
-                encapsulation.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "encapsulation", &encapsulation)
     }
 
     /// Password used to authenticate with the ADSL service.
     pub fn set_password(&self, password: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"password\0".as_ptr() as *const _,
-                password.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "password", &password)
     }
 
     /// Flags indicating how to handle the `property::SettingAdsl::password` property.
     #[doc(alias = "password-flags")]
     pub fn set_password_flags(&self, password_flags: SettingSecretFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"password-flags\0".as_ptr() as *const _,
-                password_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "password-flags", &password_flags)
     }
 
     /// ADSL connection protocol. Can be "pppoa", "pppoe" or "ipoatm".
     pub fn set_protocol(&self, protocol: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"protocol\0".as_ptr() as *const _,
-                protocol.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "protocol", &protocol)
     }
 
     /// Username used to authenticate with the ADSL service.
     pub fn set_username(&self, username: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"username\0".as_ptr() as *const _,
-                username.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "username", &username)
     }
 
     /// VCI of ADSL connection
     pub fn set_vci(&self, vci: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"vci\0".as_ptr() as *const _,
-                vci.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "vci", &vci)
     }
 
     /// VPI of ADSL connection
     pub fn set_vpi(&self, vpi: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"vpi\0".as_ptr() as *const _,
-                vpi.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "vpi", &vpi)
     }
 
     #[doc(alias = "encapsulation")]

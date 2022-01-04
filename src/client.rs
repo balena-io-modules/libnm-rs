@@ -192,7 +192,7 @@ impl Client {
         }
     }
 
-    pub fn activate_connection_async_future(
+    pub fn activate_connection_future(
         &self,
         connection: Option<&(impl IsA<Connection> + Clone + 'static)>,
         device: Option<&(impl IsA<Device> + Clone + 'static)>,
@@ -291,7 +291,7 @@ impl Client {
         }
     }
 
-    pub fn add_and_activate_connection_async_future(
+    pub fn add_and_activate_connection_future(
         &self,
         partial: Option<&(impl IsA<Connection> + Clone + 'static)>,
         device: &(impl IsA<Device> + Clone + 'static),
@@ -316,11 +316,11 @@ impl Client {
 
     /// Call AddConnection2() D-Bus API asynchronously.
     /// ## `settings`
-    /// the "a{sa{sv}}" [`glib::Variant`][crate::glib::Variant] with the content of the setting.
+    /// the "a{sa{sv}}" [`glib::Variant`][struct@crate::glib::Variant] with the content of the setting.
     /// ## `flags`
     /// the `NMSettingsAddConnection2Flags` argument.
     /// ## `args`
-    /// the "a{sv}" [`glib::Variant`][crate::glib::Variant] with extra argument or [`None`]
+    /// the "a{sv}" [`glib::Variant`][struct@crate::glib::Variant] with extra argument or [`None`]
     ///  for no extra arguments.
     /// ## `ignore_out_result`
     /// this function wraps AddConnection2(), which has an
@@ -482,7 +482,7 @@ impl Client {
         }
     }
 
-    pub fn add_connection_async_future(
+    pub fn add_connection_future(
         &self,
         connection: &(impl IsA<Connection> + Clone + 'static),
         save_to_disk: bool,
@@ -579,7 +579,7 @@ impl Client {
         }
     }
 
-    pub fn check_connectivity_async_future(
+    pub fn check_connectivity_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<ConnectivityState, glib::Error>> + 'static>>
     {
@@ -668,13 +668,6 @@ impl Client {
         }))
     }
 
-    /// Destroys an existing checkpoint without performing a rollback.
-    /// ## `checkpoint_path`
-    /// the D-Bus path for the checkpoint
-    /// ## `cancellable`
-    /// a [`gio::Cancellable`][crate::gio::Cancellable], or [`None`]
-    /// ## `callback`
-    /// callback to be called when the add operation completes
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_client_checkpoint_destroy")]
@@ -842,7 +835,7 @@ impl Client {
     /// ## `method_name`
     /// the name of the method to invoke
     /// ## `parameters`
-    /// a [`glib::Variant`][crate::glib::Variant] tuple with parameters for the method
+    /// a [`glib::Variant`][struct@crate::glib::Variant] tuple with parameters for the method
     ///  or [`None`] if not passing parameters
     /// ## `reply_type`
     /// the expected type of the reply (which will be a
@@ -947,7 +940,7 @@ impl Client {
     /// ## `property_name`
     /// the name of the property to set
     /// ## `value`
-    /// a [`glib::Variant`][crate::glib::Variant] with the value to set.
+    /// a [`glib::Variant`][struct@crate::glib::Variant] with the value to set.
     /// ## `timeout_msec`
     /// the timeout in milliseconds, -1 to use the default
     ///  timeout or `G_MAXINT` for no timeout
@@ -1056,12 +1049,13 @@ impl Client {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_client_deactivate_connection(
+            let is_ok = ffi::nm_client_deactivate_connection(
                 self.to_glib_none().0,
                 active.as_ref().to_glib_none().0,
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -1118,7 +1112,7 @@ impl Client {
         }
     }
 
-    pub fn deactivate_connection_async_future(
+    pub fn deactivate_connection_future(
         &self,
         active: &(impl IsA<ActiveConnection> + Clone + 'static),
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
@@ -1691,11 +1685,12 @@ impl Client {
     pub fn networking_set_enabled(&self, enabled: bool) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_client_networking_set_enabled(
+            let is_ok = ffi::nm_client_networking_set_enabled(
                 self.to_glib_none().0,
                 enabled.into_glib(),
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -1788,11 +1783,12 @@ impl Client {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_client_reload_connections(
+            let is_ok = ffi::nm_client_reload_connections(
                 self.to_glib_none().0,
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -1844,7 +1840,7 @@ impl Client {
         }
     }
 
-    pub fn reload_connections_async_future(
+    pub fn reload_connections_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
@@ -1878,12 +1874,13 @@ impl Client {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_client_save_hostname(
+            let is_ok = ffi::nm_client_save_hostname(
                 self.to_glib_none().0,
                 hostname.to_glib_none().0,
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -1938,7 +1935,7 @@ impl Client {
         }
     }
 
-    pub fn save_hostname_async_future(
+    pub fn save_hostname_future(
         &self,
         hostname: Option<&str>,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
@@ -1978,12 +1975,13 @@ impl Client {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_client_set_logging(
+            let is_ok = ffi::nm_client_set_logging(
                 self.to_glib_none().0,
                 level.to_glib_none().0,
                 domains.to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -2124,58 +2122,26 @@ impl Client {
     /// If [`true`], adding and modifying connections is supported.
     #[doc(alias = "can-modify")]
     pub fn can_modify(&self) -> bool {
-        unsafe {
-            let mut value = glib::Value::from_type(<bool as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"can-modify\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `can-modify` getter")
-        }
+        glib::ObjectExt::property(self, "can-modify")
     }
 
     #[doc(alias = "connectivity-check-available")]
     pub fn is_connectivity_check_available(&self) -> bool {
-        unsafe {
-            let mut value = glib::Value::from_type(<bool as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"connectivity-check-available\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `connectivity-check-available` getter")
-        }
+        glib::ObjectExt::property(self, "connectivity-check-available")
     }
 
     #[doc(alias = "connectivity-check-enabled")]
     pub fn is_connectivity_check_enabled(&self) -> bool {
-        unsafe {
-            let mut value = glib::Value::from_type(<bool as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"connectivity-check-enabled\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `connectivity-check-enabled` getter")
-        }
+        glib::ObjectExt::property(self, "connectivity-check-enabled")
     }
 
     #[doc(alias = "connectivity-check-enabled")]
     pub fn set_connectivity_check_enabled(&self, connectivity_check_enabled: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"connectivity-check-enabled\0".as_ptr() as *const _,
-                connectivity_check_enabled.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "connectivity-check-enabled",
+            &connectivity_check_enabled,
+        )
     }
 
     /// The used URI for connectivity checking.
@@ -2183,33 +2149,13 @@ impl Client {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     #[doc(alias = "connectivity-check-uri")]
     pub fn connectivity_check_uri(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"connectivity-check-uri\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `connectivity-check-uri` getter")
-        }
+        glib::ObjectExt::property(self, "connectivity-check-uri")
     }
 
     /// The machine hostname stored in persistent configuration. This can be
     /// modified by calling [`save_hostname()`][Self::save_hostname()].
     pub fn hostname(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"hostname\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `hostname` getter")
-        }
+        glib::ObjectExt::property(self, "hostname")
     }
 
     /// [`ClientInstanceFlags`][crate::ClientInstanceFlags] for the instance. These affect behavior of [`Client`][crate::Client].
@@ -2224,30 +2170,14 @@ impl Client {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "instance-flags")]
     pub fn set_instance_flags(&self, instance_flags: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"instance-flags\0".as_ptr() as *const _,
-                instance_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "instance-flags", &instance_flags)
     }
 
     /// Whether the connectivity is metered.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn get_property_metered(&self) -> u32 {
-        unsafe {
-            let mut value = glib::Value::from_type(<u32 as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"metered\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `metered` getter")
-        }
+        glib::ObjectExt::property(self, "metered")
     }
 
     /// Whether networking is enabled.
@@ -2255,17 +2185,7 @@ impl Client {
     /// The property setter is a synchronous D-Bus call. This is deprecated since 1.22.
     #[doc(alias = "networking-enabled")]
     pub fn is_networking_enabled(&self) -> bool {
-        unsafe {
-            let mut value = glib::Value::from_type(<bool as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"networking-enabled\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `networking-enabled` getter")
-        }
+        glib::ObjectExt::property(self, "networking-enabled")
     }
 
     /// Whether networking is enabled.
@@ -2273,13 +2193,7 @@ impl Client {
     /// The property setter is a synchronous D-Bus call. This is deprecated since 1.22.
     #[doc(alias = "networking-enabled")]
     pub fn set_networking_enabled(&self, networking_enabled: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"networking-enabled\0".as_ptr() as *const _,
-                networking_enabled.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "networking-enabled", &networking_enabled)
     }
 
     /// Whether WiMAX functionality is enabled.
@@ -2290,17 +2204,7 @@ impl Client {
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "wimax-enabled")]
     pub fn is_wimax_enabled(&self) -> bool {
-        unsafe {
-            let mut value = glib::Value::from_type(<bool as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wimax-enabled\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `wimax-enabled` getter")
-        }
+        glib::ObjectExt::property(self, "wimax-enabled")
     }
 
     /// Whether WiMAX functionality is enabled.
@@ -2311,13 +2215,7 @@ impl Client {
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "wimax-enabled")]
     pub fn set_wimax_enabled(&self, wimax_enabled: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wimax-enabled\0".as_ptr() as *const _,
-                wimax_enabled.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "wimax-enabled", &wimax_enabled)
     }
 
     /// Whether the WiMAX hardware is enabled.
@@ -2328,17 +2226,7 @@ impl Client {
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "wimax-hardware-enabled")]
     pub fn is_wimax_hardware_enabled(&self) -> bool {
-        unsafe {
-            let mut value = glib::Value::from_type(<bool as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wimax-hardware-enabled\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `wimax-hardware-enabled` getter")
-        }
+        glib::ObjectExt::property(self, "wimax-hardware-enabled")
     }
 
     /// Whether wireless is enabled.
@@ -2346,17 +2234,7 @@ impl Client {
     /// The property setter is a synchronous D-Bus call. This is deprecated since 1.22.
     #[doc(alias = "wireless-enabled")]
     pub fn is_wireless_enabled(&self) -> bool {
-        unsafe {
-            let mut value = glib::Value::from_type(<bool as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wireless-enabled\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `wireless-enabled` getter")
-        }
+        glib::ObjectExt::property(self, "wireless-enabled")
     }
 
     /// Whether wireless is enabled.
@@ -2364,29 +2242,13 @@ impl Client {
     /// The property setter is a synchronous D-Bus call. This is deprecated since 1.22.
     #[doc(alias = "wireless-enabled")]
     pub fn set_wireless_enabled(&self, wireless_enabled: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wireless-enabled\0".as_ptr() as *const _,
-                wireless_enabled.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "wireless-enabled", &wireless_enabled)
     }
 
     /// Whether the wireless hardware is enabled.
     #[doc(alias = "wireless-hardware-enabled")]
     pub fn is_wireless_hardware_enabled(&self) -> bool {
-        unsafe {
-            let mut value = glib::Value::from_type(<bool as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wireless-hardware-enabled\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `wireless-hardware-enabled` getter")
-        }
+        glib::ObjectExt::property(self, "wireless-hardware-enabled")
     }
 
     /// Whether WWAN functionality is enabled.
@@ -2394,17 +2256,7 @@ impl Client {
     /// The property setter is a synchronous D-Bus call. This is deprecated since 1.22.
     #[doc(alias = "wwan-enabled")]
     pub fn is_wwan_enabled(&self) -> bool {
-        unsafe {
-            let mut value = glib::Value::from_type(<bool as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wwan-enabled\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `wwan-enabled` getter")
-        }
+        glib::ObjectExt::property(self, "wwan-enabled")
     }
 
     /// Whether WWAN functionality is enabled.
@@ -2412,29 +2264,13 @@ impl Client {
     /// The property setter is a synchronous D-Bus call. This is deprecated since 1.22.
     #[doc(alias = "wwan-enabled")]
     pub fn set_wwan_enabled(&self, wwan_enabled: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wwan-enabled\0".as_ptr() as *const _,
-                wwan_enabled.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "wwan-enabled", &wwan_enabled)
     }
 
     /// Whether the WWAN hardware is enabled.
     #[doc(alias = "wwan-hardware-enabled")]
     pub fn is_wwan_hardware_enabled(&self) -> bool {
-        unsafe {
-            let mut value = glib::Value::from_type(<bool as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wwan-hardware-enabled\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `wwan-hardware-enabled` getter")
-        }
+        glib::ObjectExt::property(self, "wwan-hardware-enabled")
     }
 
     /// Creates a new [`Client`][crate::Client] asynchronously.
@@ -2495,7 +2331,7 @@ impl Client {
         }
     }
 
-    pub fn new_async_future(
+    pub fn new_future(
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<Client, glib::Error>> + 'static>> {
         Box_::pin(gio::GioFuture::new(&(), move |_obj, cancellable, send| {
             Self::new_async(Some(cancellable), move |res| {

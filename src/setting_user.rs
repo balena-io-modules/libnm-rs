@@ -100,12 +100,13 @@ impl SettingUser {
     pub fn set_data(&self, key: &str, val: Option<&str>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_setting_user_set_data(
+            let is_ok = ffi::nm_setting_user_set_data(
                 self.to_glib_none().0,
                 key.to_glib_none().0,
                 val.to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -131,7 +132,8 @@ impl SettingUser {
     pub fn check_key(key: &str) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_setting_user_check_key(key.to_glib_none().0, &mut error);
+            let is_ok = ffi::nm_setting_user_check_key(key.to_glib_none().0, &mut error);
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -154,7 +156,8 @@ impl SettingUser {
     pub fn check_val(val: &str) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_setting_user_check_val(val.to_glib_none().0, &mut error);
+            let is_ok = ffi::nm_setting_user_check_val(val.to_glib_none().0, &mut error);
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {

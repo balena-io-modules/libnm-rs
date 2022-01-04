@@ -233,13 +233,7 @@ impl SettingIPTunnel {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "encapsulation-limit")]
     pub fn set_encapsulation_limit(&self, encapsulation_limit: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"encapsulation-limit\0".as_ptr() as *const _,
-                encapsulation_limit.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "encapsulation-limit", &encapsulation_limit)
     }
 
     /// Tunnel flags. Currently, the following values are supported:
@@ -250,13 +244,7 @@ impl SettingIPTunnel {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn set_flags(&self, flags: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"flags\0".as_ptr() as *const _,
-                flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "flags", &flags)
     }
 
     /// The flow label to assign to tunnel packets. This property applies only to
@@ -265,13 +253,7 @@ impl SettingIPTunnel {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "flow-label")]
     pub fn set_flow_label(&self, flow_label: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"flow-label\0".as_ptr() as *const _,
-                flow_label.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "flow-label", &flow_label)
     }
 
     /// The key used for tunnel input packets; the property is valid only for
@@ -280,13 +262,7 @@ impl SettingIPTunnel {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "input-key")]
     pub fn set_input_key(&self, input_key: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"input-key\0".as_ptr() as *const _,
-                input_key.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "input-key", &input_key)
     }
 
     /// The local endpoint of the tunnel; the value can be empty, otherwise it
@@ -294,13 +270,7 @@ impl SettingIPTunnel {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_local(&self, local: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"local\0".as_ptr() as *const _,
-                local.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "local", &local)
     }
 
     /// The tunneling mode, for example [`IPTunnelMode::Ipip`][crate::IPTunnelMode::Ipip] or
@@ -308,13 +278,7 @@ impl SettingIPTunnel {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_mode(&self, mode: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mode\0".as_ptr() as *const _,
-                mode.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mode", &mode)
     }
 
     /// If non-zero, only transmit packets of the specified size or smaller,
@@ -322,13 +286,7 @@ impl SettingIPTunnel {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_mtu(&self, mtu: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mtu\0".as_ptr() as *const _,
-                mtu.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mtu", &mtu)
     }
 
     /// The key used for tunnel output packets; the property is valid only for
@@ -337,13 +295,7 @@ impl SettingIPTunnel {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "output-key")]
     pub fn set_output_key(&self, output_key: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"output-key\0".as_ptr() as *const _,
-                output_key.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "output-key", &output_key)
     }
 
     /// If given, specifies the parent interface name or parent connection UUID
@@ -352,13 +304,7 @@ impl SettingIPTunnel {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_parent(&self, parent: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"parent\0".as_ptr() as *const _,
-                parent.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "parent", &parent)
     }
 
     /// Whether to enable Path MTU Discovery on this tunnel.
@@ -366,13 +312,7 @@ impl SettingIPTunnel {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "path-mtu-discovery")]
     pub fn set_path_mtu_discovery(&self, path_mtu_discovery: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"path-mtu-discovery\0".as_ptr() as *const _,
-                path_mtu_discovery.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "path-mtu-discovery", &path_mtu_discovery)
     }
 
     /// The remote endpoint of the tunnel; the value must contain an IPv4 or IPv6
@@ -380,13 +320,7 @@ impl SettingIPTunnel {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_remote(&self, remote: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"remote\0".as_ptr() as *const _,
-                remote.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "remote", &remote)
     }
 
     /// The type of service (IPv4) or traffic class (IPv6) field to be set on
@@ -394,13 +328,7 @@ impl SettingIPTunnel {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_tos(&self, tos: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"tos\0".as_ptr() as *const _,
-                tos.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "tos", &tos)
     }
 
     /// The TTL to assign to tunneled packets. 0 is a special value meaning that
@@ -408,13 +336,7 @@ impl SettingIPTunnel {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_ttl(&self, ttl: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ttl\0".as_ptr() as *const _,
-                ttl.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ttl", &ttl)
     }
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]

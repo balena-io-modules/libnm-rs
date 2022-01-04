@@ -170,17 +170,11 @@ impl SettingBond {
     }
 
     //pub fn options(&self) -> /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 } {
-    //    unsafe {
-    //        let mut value = glib::Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        glib::gobject_ffi::g_object_get_property(self.as_ptr() as *mut glib::gobject_ffi::GObject, b"options\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-    //        value.get().expect("Return Value for property `options` getter")
-    //    }
+    //    glib::ObjectExt::property(self, "options")
     //}
 
     //pub fn set_options(&self, options: /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 }) {
-    //    unsafe {
-    //        glib::gobject_ffi::g_object_set_property(self.as_ptr() as *mut glib::gobject_ffi::GObject, b"options\0".as_ptr() as *const _, options.to_value().to_glib_none().0);
-    //    }
+    //    glib::ObjectExt::set_property(self,"options", &options)
     //}
 
     /// Checks whether `name` is a valid bond option and `value` is a valid value for

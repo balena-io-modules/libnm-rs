@@ -29,6 +29,8 @@ glib::wrapper! {
 }
 
 impl VpnEditorPlugin {
+    pub const NONE: Option<&'static VpnEditorPlugin> = None;
+
     /// Load the shared library `plugin_name` and create a new
     /// [`VpnEditorPlugin`][crate::VpnEditorPlugin] instance via the `NMVpnEditorPluginFactory`
     /// function.
@@ -74,8 +76,6 @@ impl VpnEditorPlugin {
     //    unsafe { TODO: call ffi:nm_vpn_editor_plugin_load_from_file() }
     //}
 }
-
-pub const NONE_VPN_EDITOR_PLUGIN: Option<&VpnEditorPlugin> = None;
 
 /// Trait containing all [`struct@VpnEditorPlugin`] methods.
 ///
@@ -163,12 +163,13 @@ impl<O: IsA<VpnEditorPlugin>> VpnEditorPluginExt for O {
     fn export(&self, path: &str, connection: &impl IsA<Connection>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_vpn_editor_plugin_export(
+            let is_ok = ffi::nm_vpn_editor_plugin_export(
                 self.as_ref().to_glib_none().0,
                 path.to_glib_none().0,
                 connection.as_ref().to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -254,45 +255,15 @@ impl<O: IsA<VpnEditorPlugin>> VpnEditorPluginExt for O {
     }
 
     fn description(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"description\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `description` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "description")
     }
 
     fn name(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"name\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `name` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "name")
     }
 
     fn service(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"service\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `service` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "service")
     }
 
     fn connect_description_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {

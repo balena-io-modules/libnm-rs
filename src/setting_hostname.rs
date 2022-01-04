@@ -104,13 +104,7 @@ impl SettingHostname {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
     #[doc(alias = "from-dhcp")]
     pub fn set_from_dhcp(&self, from_dhcp: Ternary) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"from-dhcp\0".as_ptr() as *const _,
-                from_dhcp.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "from-dhcp", &from_dhcp)
     }
 
     /// Whether the system hostname can be determined from reverse
@@ -123,13 +117,7 @@ impl SettingHostname {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
     #[doc(alias = "from-dns-lookup")]
     pub fn set_from_dns_lookup(&self, from_dns_lookup: Ternary) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"from-dns-lookup\0".as_ptr() as *const _,
-                from_dns_lookup.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "from-dns-lookup", &from_dns_lookup)
     }
 
     /// If set to [`Ternary::True`][crate::Ternary::True], NetworkManager attempts to get
@@ -147,13 +135,7 @@ impl SettingHostname {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
     #[doc(alias = "only-from-default")]
     pub fn set_only_from_default(&self, only_from_default: Ternary) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"only-from-default\0".as_ptr() as *const _,
-                only_from_default.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "only-from-default", &only_from_default)
     }
 
     /// The relative priority of this connection to determine the
@@ -174,13 +156,7 @@ impl SettingHostname {
     #[cfg(any(feature = "v1_30", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
     pub fn set_priority(&self, priority: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"priority\0".as_ptr() as *const _,
-                priority.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "priority", &priority)
     }
 
     #[cfg(any(feature = "v1_30", feature = "dox"))]

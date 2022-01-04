@@ -86,13 +86,7 @@ impl SettingWimax {
     #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
     #[doc(alias = "mac-address")]
     pub fn set_mac_address(&self, mac_address: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mac-address\0".as_ptr() as *const _,
-                mac_address.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mac-address", &mac_address)
     }
 
     /// Network Service Provider (NSP) name of the WiMAX network this connection
@@ -104,13 +98,7 @@ impl SettingWimax {
     #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
     #[doc(alias = "network-name")]
     pub fn set_network_name(&self, network_name: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"network-name\0".as_ptr() as *const _,
-                network_name.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "network-name", &network_name)
     }
 
     #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]

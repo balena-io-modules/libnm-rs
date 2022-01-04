@@ -119,25 +119,13 @@ impl SettingInfiniband {
     /// address of the device (i.e. MAC spoofing).
     #[doc(alias = "mac-address")]
     pub fn set_mac_address(&self, mac_address: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mac-address\0".as_ptr() as *const _,
-                mac_address.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mac-address", &mac_address)
     }
 
     /// If non-zero, only transmit packets of the specified size or smaller,
     /// breaking larger packets up into multiple frames.
     pub fn set_mtu(&self, mtu: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mtu\0".as_ptr() as *const _,
-                mtu.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mtu", &mtu)
     }
 
     /// The InfiniBand P_Key to use for this device. A value of -1 means to use
@@ -146,13 +134,7 @@ impl SettingInfiniband {
     /// P_Key.
     #[doc(alias = "p-key")]
     pub fn set_p_key(&self, p_key: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"p-key\0".as_ptr() as *const _,
-                p_key.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "p-key", &p_key)
     }
 
     /// The interface name of the parent device of this device. Normally [`None`],
@@ -160,26 +142,14 @@ impl SettingInfiniband {
     /// specify the base device by setting either this property or
     /// `property::SettingInfiniband::mac-address`.
     pub fn set_parent(&self, parent: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"parent\0".as_ptr() as *const _,
-                parent.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "parent", &parent)
     }
 
     /// The IP-over-InfiniBand transport mode. Either "datagram" or
     /// "connected".
     #[doc(alias = "transport-mode")]
     pub fn set_transport_mode(&self, transport_mode: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"transport-mode\0".as_ptr() as *const _,
-                transport_mode.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "transport-mode", &transport_mode)
     }
 
     #[doc(alias = "mac-address")]

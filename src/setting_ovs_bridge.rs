@@ -136,13 +136,7 @@ impl SettingOvsBridge {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     #[doc(alias = "datapath-type")]
     pub fn set_datapath_type(&self, datapath_type: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"datapath-type\0".as_ptr() as *const _,
-                datapath_type.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "datapath-type", &datapath_type)
     }
 
     /// The bridge failure mode. One of "secure", "standalone" or empty.
@@ -150,13 +144,7 @@ impl SettingOvsBridge {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "fail-mode")]
     pub fn set_fail_mode(&self, fail_mode: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"fail-mode\0".as_ptr() as *const _,
-                fail_mode.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "fail-mode", &fail_mode)
     }
 
     /// Enable or disable multicast snooping.
@@ -164,13 +152,7 @@ impl SettingOvsBridge {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "mcast-snooping-enable")]
     pub fn set_mcast_snooping_enable(&self, mcast_snooping_enable: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mcast-snooping-enable\0".as_ptr() as *const _,
-                mcast_snooping_enable.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mcast-snooping-enable", &mcast_snooping_enable)
     }
 
     /// Enable or disable RSTP.
@@ -178,13 +160,7 @@ impl SettingOvsBridge {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "rstp-enable")]
     pub fn set_rstp_enable(&self, rstp_enable: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"rstp-enable\0".as_ptr() as *const _,
-                rstp_enable.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "rstp-enable", &rstp_enable)
     }
 
     /// Enable or disable STP.
@@ -192,13 +168,7 @@ impl SettingOvsBridge {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "stp-enable")]
     pub fn set_stp_enable(&self, stp_enable: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"stp-enable\0".as_ptr() as *const _,
-                stp_enable.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "stp-enable", &stp_enable)
     }
 
     #[cfg(any(feature = "v1_20", feature = "dox"))]

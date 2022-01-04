@@ -15,8 +15,6 @@ glib::wrapper! {
     }
 }
 
-impl DevicePpp {}
-
 impl fmt::Display for DevicePpp {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.write_str("DevicePpp")

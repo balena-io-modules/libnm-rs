@@ -57,13 +57,7 @@ impl SettingOlpcMesh {
 
     /// Channel on which the mesh network to join is located.
     pub fn set_channel(&self, channel: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"channel\0".as_ptr() as *const _,
-                channel.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "channel", &channel)
     }
 
     /// Anycast DHCP MAC address used when requesting an IP address via DHCP.
@@ -73,24 +67,12 @@ impl SettingOlpcMesh {
     /// This is currently only implemented by dhclient DHCP plugin.
     #[doc(alias = "dhcp-anycast-address")]
     pub fn set_dhcp_anycast_address(&self, dhcp_anycast_address: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"dhcp-anycast-address\0".as_ptr() as *const _,
-                dhcp_anycast_address.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "dhcp-anycast-address", &dhcp_anycast_address)
     }
 
     /// SSID of the mesh network to join.
     pub fn set_ssid(&self, ssid: Option<&glib::Bytes>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ssid\0".as_ptr() as *const _,
-                ssid.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ssid", &ssid)
     }
 
     #[doc(alias = "channel")]

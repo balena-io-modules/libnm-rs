@@ -225,26 +225,14 @@ impl SettingPpp {
     /// baudrate. This value should normally be left as 0 to automatically
     /// choose the speed.
     pub fn set_baud(&self, baud: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"baud\0".as_ptr() as *const _,
-                baud.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "baud", &baud)
     }
 
     /// If [`true`], specify that pppd should set the serial port to use hardware
     /// flow control with RTS and CTS signals. This value should normally be set
     /// to [`false`].
     pub fn set_crtscts(&self, crtscts: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"crtscts\0".as_ptr() as *const _,
-                crtscts.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "crtscts", &crtscts)
     }
 
     /// If non-zero, instruct pppd to presume the connection to the peer has
@@ -253,13 +241,7 @@ impl SettingPpp {
     /// value if this property is used.
     #[doc(alias = "lcp-echo-failure")]
     pub fn set_lcp_echo_failure(&self, lcp_echo_failure: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"lcp-echo-failure\0".as_ptr() as *const _,
-                lcp_echo_failure.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "lcp-echo-failure", &lcp_echo_failure)
     }
 
     /// If non-zero, instruct pppd to send an LCP echo-request frame to the peer
@@ -268,158 +250,80 @@ impl SettingPpp {
     /// possible to autodetect this.
     #[doc(alias = "lcp-echo-interval")]
     pub fn set_lcp_echo_interval(&self, lcp_echo_interval: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"lcp-echo-interval\0".as_ptr() as *const _,
-                lcp_echo_interval.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "lcp-echo-interval", &lcp_echo_interval)
     }
 
     /// If [`true`], stateful MPPE is used. See pppd documentation for more
     /// information on stateful MPPE.
     #[doc(alias = "mppe-stateful")]
     pub fn set_mppe_stateful(&self, mppe_stateful: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mppe-stateful\0".as_ptr() as *const _,
-                mppe_stateful.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mppe-stateful", &mppe_stateful)
     }
 
     /// If non-zero, instruct pppd to request that the peer send packets no
     /// larger than the specified size. If non-zero, the MRU should be between
     /// 128 and 16384.
     pub fn set_mru(&self, mru: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mru\0".as_ptr() as *const _,
-                mru.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mru", &mru)
     }
 
     /// If non-zero, instruct pppd to send packets no larger than the specified
     /// size.
     pub fn set_mtu(&self, mtu: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mtu\0".as_ptr() as *const _,
-                mtu.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mtu", &mtu)
     }
 
     /// If [`true`], Van Jacobsen TCP header compression will not be requested.
     #[doc(alias = "no-vj-comp")]
     pub fn set_no_vj_comp(&self, no_vj_comp: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"no-vj-comp\0".as_ptr() as *const _,
-                no_vj_comp.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "no-vj-comp", &no_vj_comp)
     }
 
     /// If [`true`], do not require the other side (usually the PPP server) to
     /// authenticate itself to the client. If [`false`], require authentication
     /// from the remote side. In almost all cases, this should be [`true`].
     pub fn set_noauth(&self, noauth: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"noauth\0".as_ptr() as *const _,
-                noauth.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "noauth", &noauth)
     }
 
     /// If [`true`], BSD compression will not be requested.
     pub fn set_nobsdcomp(&self, nobsdcomp: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"nobsdcomp\0".as_ptr() as *const _,
-                nobsdcomp.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "nobsdcomp", &nobsdcomp)
     }
 
     /// If [`true`], "deflate" compression will not be requested.
     pub fn set_nodeflate(&self, nodeflate: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"nodeflate\0".as_ptr() as *const _,
-                nodeflate.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "nodeflate", &nodeflate)
     }
 
     /// If [`true`], the CHAP authentication method will not be used.
     #[doc(alias = "refuse-chap")]
     pub fn set_refuse_chap(&self, refuse_chap: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"refuse-chap\0".as_ptr() as *const _,
-                refuse_chap.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "refuse-chap", &refuse_chap)
     }
 
     /// If [`true`], the EAP authentication method will not be used.
     #[doc(alias = "refuse-eap")]
     pub fn set_refuse_eap(&self, refuse_eap: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"refuse-eap\0".as_ptr() as *const _,
-                refuse_eap.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "refuse-eap", &refuse_eap)
     }
 
     /// If [`true`], the MSCHAP authentication method will not be used.
     #[doc(alias = "refuse-mschap")]
     pub fn set_refuse_mschap(&self, refuse_mschap: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"refuse-mschap\0".as_ptr() as *const _,
-                refuse_mschap.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "refuse-mschap", &refuse_mschap)
     }
 
     /// If [`true`], the MSCHAPv2 authentication method will not be used.
     #[doc(alias = "refuse-mschapv2")]
     pub fn set_refuse_mschapv2(&self, refuse_mschapv2: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"refuse-mschapv2\0".as_ptr() as *const _,
-                refuse_mschapv2.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "refuse-mschapv2", &refuse_mschapv2)
     }
 
     /// If [`true`], the PAP authentication method will not be used.
     #[doc(alias = "refuse-pap")]
     pub fn set_refuse_pap(&self, refuse_pap: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"refuse-pap\0".as_ptr() as *const _,
-                refuse_pap.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "refuse-pap", &refuse_pap)
     }
 
     /// If [`true`], MPPE (Microsoft Point-to-Point Encryption) will be required for
@@ -428,13 +332,7 @@ impl SettingPpp {
     /// connections.
     #[doc(alias = "require-mppe")]
     pub fn set_require_mppe(&self, require_mppe: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"require-mppe\0".as_ptr() as *const _,
-                require_mppe.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "require-mppe", &require_mppe)
     }
 
     /// If [`true`], 128-bit MPPE (Microsoft Point-to-Point Encryption) will be
@@ -442,13 +340,7 @@ impl SettingPpp {
     /// be set to [`true`]. If 128-bit MPPE is not available the session will fail.
     #[doc(alias = "require-mppe-128")]
     pub fn set_require_mppe_128(&self, require_mppe_128: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"require-mppe-128\0".as_ptr() as *const _,
-                require_mppe_128.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "require-mppe-128", &require_mppe_128)
     }
 
     #[doc(alias = "baud")]

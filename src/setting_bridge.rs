@@ -462,25 +462,13 @@ impl SettingBridge {
     /// The Ethernet MAC address aging time, in seconds.
     #[doc(alias = "ageing-time")]
     pub fn set_ageing_time(&self, ageing_time: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ageing-time\0".as_ptr() as *const _,
-                ageing_time.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ageing-time", &ageing_time)
     }
 
     /// The Spanning Tree Protocol (STP) forwarding delay, in seconds.
     #[doc(alias = "forward-delay")]
     pub fn set_forward_delay(&self, forward_delay: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"forward-delay\0".as_ptr() as *const _,
-                forward_delay.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "forward-delay", &forward_delay)
     }
 
     /// If specified, The MAC address of the multicast group this bridge uses for STP.
@@ -492,13 +480,7 @@ impl SettingBridge {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "group-address")]
     pub fn set_group_address(&self, group_address: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"group-address\0".as_ptr() as *const _,
-                group_address.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "group-address", &group_address)
     }
 
     /// A mask of group addresses to forward. Usually, group addresses in
@@ -511,25 +493,13 @@ impl SettingBridge {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "group-forward-mask")]
     pub fn set_group_forward_mask(&self, group_forward_mask: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"group-forward-mask\0".as_ptr() as *const _,
-                group_forward_mask.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "group-forward-mask", &group_forward_mask)
     }
 
     /// The Spanning Tree Protocol (STP) hello time, in seconds.
     #[doc(alias = "hello-time")]
     pub fn set_hello_time(&self, hello_time: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"hello-time\0".as_ptr() as *const _,
-                hello_time.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "hello-time", &hello_time)
     }
 
     /// If specified, the MAC address of bridge. When creating a new bridge, this
@@ -547,37 +517,19 @@ impl SettingBridge {
     #[cfg_attr(feature = "v1_12", deprecated = "Since 1.12")]
     #[doc(alias = "mac-address")]
     pub fn set_mac_address(&self, mac_address: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mac-address\0".as_ptr() as *const _,
-                mac_address.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mac-address", &mac_address)
     }
 
     /// The Spanning Tree Protocol (STP) maximum message age, in seconds.
     #[doc(alias = "max-age")]
     pub fn set_max_age(&self, max_age: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"max-age\0".as_ptr() as *const _,
-                max_age.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "max-age", &max_age)
     }
 
     /// Set maximum size of multicast hash table (value must be a power of 2).
     #[doc(alias = "multicast-hash-max")]
     pub fn set_multicast_hash_max(&self, multicast_hash_max: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multicast-hash-max\0".as_ptr() as *const _,
-                multicast_hash_max.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "multicast-hash-max", &multicast_hash_max)
     }
 
     /// Set the number of queries the bridge will send before
@@ -585,26 +537,22 @@ impl SettingBridge {
     /// message has been received.
     #[doc(alias = "multicast-last-member-count")]
     pub fn set_multicast_last_member_count(&self, multicast_last_member_count: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multicast-last-member-count\0".as_ptr() as *const _,
-                multicast_last_member_count.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "multicast-last-member-count",
+            &multicast_last_member_count,
+        )
     }
 
     /// Set interval (in deciseconds) between queries to find remaining
     /// members of a group, after a "leave" message is received.
     #[doc(alias = "multicast-last-member-interval")]
     pub fn set_multicast_last_member_interval(&self, multicast_last_member_interval: u64) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multicast-last-member-interval\0".as_ptr() as *const _,
-                multicast_last_member_interval.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "multicast-last-member-interval",
+            &multicast_last_member_interval,
+        )
     }
 
     /// Set delay (in deciseconds) after which the bridge will
@@ -612,68 +560,47 @@ impl SettingBridge {
     /// group are received.
     #[doc(alias = "multicast-membership-interval")]
     pub fn set_multicast_membership_interval(&self, multicast_membership_interval: u64) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multicast-membership-interval\0".as_ptr() as *const _,
-                multicast_membership_interval.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "multicast-membership-interval",
+            &multicast_membership_interval,
+        )
     }
 
     /// Enable or disable sending of multicast queries by the bridge.
     /// If not specified the option is disabled.
     #[doc(alias = "multicast-querier")]
     pub fn set_multicast_querier(&self, multicast_querier: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multicast-querier\0".as_ptr() as *const _,
-                multicast_querier.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "multicast-querier", &multicast_querier)
     }
 
     /// If no queries are seen after this delay (in deciseconds) has passed,
     /// the bridge will start to send its own queries.
     #[doc(alias = "multicast-querier-interval")]
     pub fn set_multicast_querier_interval(&self, multicast_querier_interval: u64) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multicast-querier-interval\0".as_ptr() as *const _,
-                multicast_querier_interval.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "multicast-querier-interval",
+            &multicast_querier_interval,
+        )
     }
 
     /// Interval (in deciseconds) between queries sent
     /// by the bridge after the end of the startup phase.
     #[doc(alias = "multicast-query-interval")]
     pub fn set_multicast_query_interval(&self, multicast_query_interval: u64) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multicast-query-interval\0".as_ptr() as *const _,
-                multicast_query_interval.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "multicast-query-interval", &multicast_query_interval)
     }
 
     /// Set the Max Response Time/Max Response Delay
     /// (in deciseconds) for IGMP/MLD queries sent by the bridge.
     #[doc(alias = "multicast-query-response-interval")]
     pub fn set_multicast_query_response_interval(&self, multicast_query_response_interval: u64) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multicast-query-response-interval\0".as_ptr() as *const _,
-                multicast_query_response_interval
-                    .to_value()
-                    .to_glib_none()
-                    .0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "multicast-query-response-interval",
+            &multicast_query_response_interval,
+        )
     }
 
     /// If enabled the bridge's own IP address is used as
@@ -681,13 +608,11 @@ impl SettingBridge {
     /// the default of 0.0.0.0 is used.
     #[doc(alias = "multicast-query-use-ifaddr")]
     pub fn set_multicast_query_use_ifaddr(&self, multicast_query_use_ifaddr: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multicast-query-use-ifaddr\0".as_ptr() as *const _,
-                multicast_query_use_ifaddr.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "multicast-query-use-ifaddr",
+            &multicast_query_use_ifaddr,
+        )
     }
 
     /// Sets bridge's multicast router. Multicast-snooping must be enabled
@@ -698,13 +623,7 @@ impl SettingBridge {
     /// If not specified the default value is 'auto' (1).
     #[doc(alias = "multicast-router")]
     pub fn set_multicast_router(&self, multicast_router: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multicast-router\0".as_ptr() as *const _,
-                multicast_router.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "multicast-router", &multicast_router)
     }
 
     /// Controls whether IGMP snooping is enabled for this bridge.
@@ -715,62 +634,40 @@ impl SettingBridge {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "multicast-snooping")]
     pub fn set_multicast_snooping(&self, multicast_snooping: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multicast-snooping\0".as_ptr() as *const _,
-                multicast_snooping.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "multicast-snooping", &multicast_snooping)
     }
 
     /// Set the number of IGMP queries to send during startup phase.
     #[doc(alias = "multicast-startup-query-count")]
     pub fn set_multicast_startup_query_count(&self, multicast_startup_query_count: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multicast-startup-query-count\0".as_ptr() as *const _,
-                multicast_startup_query_count.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "multicast-startup-query-count",
+            &multicast_startup_query_count,
+        )
     }
 
     /// Sets the time (in deciseconds) between queries sent out
     /// at startup to determine membership information.
     #[doc(alias = "multicast-startup-query-interval")]
     pub fn set_multicast_startup_query_interval(&self, multicast_startup_query_interval: u64) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multicast-startup-query-interval\0".as_ptr() as *const _,
-                multicast_startup_query_interval.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "multicast-startup-query-interval",
+            &multicast_startup_query_interval,
+        )
     }
 
     /// Sets the Spanning Tree Protocol (STP) priority for this bridge. Lower
     /// values are "better"; the lowest priority bridge will be elected the root
     /// bridge.
     pub fn set_priority(&self, priority: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"priority\0".as_ptr() as *const _,
-                priority.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "priority", &priority)
     }
 
     /// Controls whether Spanning Tree Protocol (STP) is enabled for this bridge.
     pub fn set_stp(&self, stp: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"stp\0".as_ptr() as *const _,
-                stp.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "stp", &stp)
     }
 
     /// The default PVID for the ports of the bridge, that is the VLAN id
@@ -779,13 +676,7 @@ impl SettingBridge {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "vlan-default-pvid")]
     pub fn set_vlan_default_pvid(&self, vlan_default_pvid: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"vlan-default-pvid\0".as_ptr() as *const _,
-                vlan_default_pvid.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "vlan-default-pvid", &vlan_default_pvid)
     }
 
     /// Control whether VLAN filtering is enabled on the bridge.
@@ -793,13 +684,7 @@ impl SettingBridge {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "vlan-filtering")]
     pub fn set_vlan_filtering(&self, vlan_filtering: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"vlan-filtering\0".as_ptr() as *const _,
-                vlan_filtering.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "vlan-filtering", &vlan_filtering)
     }
 
     /// If specified, the protocol used for VLAN filtering.
@@ -810,25 +695,13 @@ impl SettingBridge {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "vlan-protocol")]
     pub fn set_vlan_protocol(&self, vlan_protocol: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"vlan-protocol\0".as_ptr() as *const _,
-                vlan_protocol.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "vlan-protocol", &vlan_protocol)
     }
 
     /// Controls whether per-VLAN stats accounting is enabled.
     #[doc(alias = "vlan-stats-enabled")]
     pub fn set_vlan_stats_enabled(&self, vlan_stats_enabled: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"vlan-stats-enabled\0".as_ptr() as *const _,
-                vlan_stats_enabled.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "vlan-stats-enabled", &vlan_stats_enabled)
     }
 
     #[doc(alias = "ageing-time")]

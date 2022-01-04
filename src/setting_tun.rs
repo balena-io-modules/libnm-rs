@@ -131,13 +131,7 @@ impl SettingTun {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_group(&self, group: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"group\0".as_ptr() as *const _,
-                group.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "group", &group)
     }
 
     /// The operating mode of the virtual device. Allowed values are
@@ -147,13 +141,7 @@ impl SettingTun {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_mode(&self, mode: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mode\0".as_ptr() as *const _,
-                mode.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mode", &mode)
     }
 
     /// If the property is set to [`true`], the interface will support
@@ -164,13 +152,7 @@ impl SettingTun {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "multi-queue")]
     pub fn set_multi_queue(&self, multi_queue: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multi-queue\0".as_ptr() as *const _,
-                multi_queue.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "multi-queue", &multi_queue)
     }
 
     /// The user ID which will own the device. If set to [`None`] everyone
@@ -178,13 +160,7 @@ impl SettingTun {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_owner(&self, owner: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"owner\0".as_ptr() as *const _,
-                owner.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "owner", &owner)
     }
 
     /// If [`true`] the interface will prepend a 4 byte header describing the
@@ -192,13 +168,7 @@ impl SettingTun {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_pi(&self, pi: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"pi\0".as_ptr() as *const _,
-                pi.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "pi", &pi)
     }
 
     /// If [`true`] the IFF_VNET_HDR the tunnel packets will include a virtio
@@ -207,13 +177,7 @@ impl SettingTun {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "vnet-hdr")]
     pub fn set_vnet_hdr(&self, vnet_hdr: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"vnet-hdr\0".as_ptr() as *const _,
-                vnet_hdr.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "vnet-hdr", &vnet_hdr)
     }
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]

@@ -566,13 +566,7 @@ impl SettingConnection {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "auth-retries")]
     pub fn set_auth_retries(&self, auth_retries: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"auth-retries\0".as_ptr() as *const _,
-                auth_retries.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "auth-retries", &auth_retries)
     }
 
     /// Whether or not the connection should be automatically connected by
@@ -584,13 +578,7 @@ impl SettingConnection {
     /// `property::SettingConnection::secondaries` as an alternative to automatically
     /// connect VPN profiles.
     pub fn set_autoconnect(&self, autoconnect: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"autoconnect\0".as_ptr() as *const _,
-                autoconnect.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "autoconnect", &autoconnect)
     }
 
     /// The autoconnect priority. If the connection is set to autoconnect,
@@ -598,13 +586,7 @@ impl SettingConnection {
     /// The higher number means higher priority.
     #[doc(alias = "autoconnect-priority")]
     pub fn set_autoconnect_priority(&self, autoconnect_priority: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"autoconnect-priority\0".as_ptr() as *const _,
-                autoconnect_priority.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "autoconnect-priority", &autoconnect_priority)
     }
 
     /// The number of times a connection should be tried when autoactivating before
@@ -614,17 +596,7 @@ impl SettingConnection {
     /// to autoconnect again.
     #[doc(alias = "autoconnect-retries")]
     pub fn get_property_autoconnect_retries(&self) -> i32 {
-        unsafe {
-            let mut value = glib::Value::from_type(<i32 as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"autoconnect-retries\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `autoconnect-retries` getter")
-        }
+        glib::ObjectExt::property(self, "autoconnect-retries")
     }
 
     /// The number of times a connection should be tried when autoactivating before
@@ -634,13 +606,7 @@ impl SettingConnection {
     /// to autoconnect again.
     #[doc(alias = "autoconnect-retries")]
     pub fn set_autoconnect_retries(&self, autoconnect_retries: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"autoconnect-retries\0".as_ptr() as *const _,
-                autoconnect_retries.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "autoconnect-retries", &autoconnect_retries)
     }
 
     /// Whether or not slaves of this connection should be automatically brought up
@@ -656,38 +622,20 @@ impl SettingConnection {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "autoconnect-slaves")]
     pub fn set_autoconnect_slaves(&self, autoconnect_slaves: SettingConnectionAutoconnectSlaves) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"autoconnect-slaves\0".as_ptr() as *const _,
-                autoconnect_slaves.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "autoconnect-slaves", &autoconnect_slaves)
     }
 
     /// If greater than zero, delay success of IP addressing until either the
     /// timeout is reached, or an IP gateway replies to a ping.
     #[doc(alias = "gateway-ping-timeout")]
     pub fn set_gateway_ping_timeout(&self, gateway_ping_timeout: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"gateway-ping-timeout\0".as_ptr() as *const _,
-                gateway_ping_timeout.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "gateway-ping-timeout", &gateway_ping_timeout)
     }
 
     /// A human readable unique identifier for the connection, like "Work Wi-Fi"
     /// or "T-Mobile 3G".
     pub fn set_id(&self, id: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"id\0".as_ptr() as *const _,
-                id.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "id", &id)
     }
 
     /// The name of the network interface this connection is bound to. If not
@@ -703,26 +651,14 @@ impl SettingConnection {
     /// connection may be applied to the wrong interface.
     #[doc(alias = "interface-name")]
     pub fn set_interface_name(&self, interface_name: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"interface-name\0".as_ptr() as *const _,
-                interface_name.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "interface-name", &interface_name)
     }
 
     /// Whether LLDP is enabled for the connection.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_lldp(&self, lldp: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"lldp\0".as_ptr() as *const _,
-                lldp.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "lldp", &lldp)
     }
 
     /// Whether Link-Local Multicast Name Resolution (LLMNR) is enabled
@@ -741,24 +677,12 @@ impl SettingConnection {
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     pub fn set_llmnr(&self, llmnr: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"llmnr\0".as_ptr() as *const _,
-                llmnr.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "llmnr", &llmnr)
     }
 
     /// Interface name of the master device or UUID of the master connection.
     pub fn set_master(&self, master: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"master\0".as_ptr() as *const _,
-                master.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "master", &master)
     }
 
     /// Whether mDNS is enabled for the connection.
@@ -775,13 +699,7 @@ impl SettingConnection {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn set_mdns(&self, mdns: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mdns\0".as_ptr() as *const _,
-                mdns.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mdns", &mdns)
     }
 
     /// Whether the connection is metered.
@@ -791,13 +709,7 @@ impl SettingConnection {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_metered(&self, metered: Metered) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"metered\0".as_ptr() as *const _,
-                metered.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "metered", &metered)
     }
 
     /// If configured, set to a Manufacturer Usage Description (MUD) URL that points
@@ -812,13 +724,7 @@ impl SettingConnection {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     #[doc(alias = "mud-url")]
     pub fn set_mud_url(&self, mud_url: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mud-url\0".as_ptr() as *const _,
-                mud_url.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mud-url", &mud_url)
     }
 
     /// Specifies whether the profile can be active multiple times at a particular
@@ -827,13 +733,7 @@ impl SettingConnection {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "multi-connect")]
     pub fn set_multi_connect(&self, multi_connect: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"multi-connect\0".as_ptr() as *const _,
-                multi_connect.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "multi-connect", &multi_connect)
     }
 
     /// An array of strings defining what access a given user has to this
@@ -849,18 +749,7 @@ impl SettingConnection {
     /// [reserved] information present must be ignored and is reserved for future
     /// use. All of [type], [id], and [reserved] must be valid UTF-8.
     pub fn permissions(&self) -> Vec<glib::GString> {
-        unsafe {
-            let mut value =
-                glib::Value::from_type(<Vec<glib::GString> as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"permissions\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `permissions` getter")
-        }
+        glib::ObjectExt::property(self, "permissions")
     }
 
     /// An array of strings defining what access a given user has to this
@@ -876,13 +765,7 @@ impl SettingConnection {
     /// [reserved] information present must be ignored and is reserved for future
     /// use. All of [type], [id], and [reserved] must be valid UTF-8.
     pub fn set_permissions(&self, permissions: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"permissions\0".as_ptr() as *const _,
-                permissions.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "permissions", &permissions)
     }
 
     /// [`false`] if the connection can be modified using the provided settings
@@ -890,44 +773,21 @@ impl SettingConnection {
     /// connection is read-only and cannot be modified.
     #[doc(alias = "read-only")]
     pub fn set_read_only(&self, read_only: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"read-only\0".as_ptr() as *const _,
-                read_only.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "read-only", &read_only)
     }
 
     /// List of connection UUIDs that should be activated when the base
     /// connection itself is activated. Currently, only VPN connections are
     /// supported.
     pub fn secondaries(&self) -> Vec<glib::GString> {
-        unsafe {
-            let mut value =
-                glib::Value::from_type(<Vec<glib::GString> as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"secondaries\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `secondaries` getter")
-        }
+        glib::ObjectExt::property(self, "secondaries")
     }
 
     /// List of connection UUIDs that should be activated when the base
     /// connection itself is activated. Currently, only VPN connections are
     /// supported.
     pub fn set_secondaries(&self, secondaries: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"secondaries\0".as_ptr() as *const _,
-                secondaries.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "secondaries", &secondaries)
     }
 
     /// Setting name of the device type of this slave's master connection (eg,
@@ -935,13 +795,7 @@ impl SettingConnection {
     /// slave.
     #[doc(alias = "slave-type")]
     pub fn set_slave_type(&self, slave_type: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"slave-type\0".as_ptr() as *const _,
-                slave_type.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "slave-type", &slave_type)
     }
 
     /// This represents the identity of the connection used for various purposes.
@@ -983,13 +837,7 @@ impl SettingConnection {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
     #[doc(alias = "stable-id")]
     pub fn set_stable_id(&self, stable_id: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"stable-id\0".as_ptr() as *const _,
-                stable_id.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "stable-id", &stable_id)
     }
 
     /// The time, in seconds since the Unix Epoch, that the connection was last
@@ -1000,13 +848,7 @@ impl SettingConnection {
     /// timestamp. The property is only meant for reading (changes to this
     /// property will not be preserved).
     pub fn set_timestamp(&self, timestamp: u64) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"timestamp\0".as_ptr() as *const _,
-                timestamp.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "timestamp", &timestamp)
     }
 
     /// Base type of the connection. For hardware-dependent connections, should
@@ -1016,17 +858,7 @@ impl SettingConnection {
     /// the setting name of that setting type (ie, "vpn" or "bridge", etc).
     #[doc(alias = "type")]
     pub fn type_(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"type\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `type` getter")
-        }
+        glib::ObjectExt::property(self, "type")
     }
 
     /// Base type of the connection. For hardware-dependent connections, should
@@ -1036,13 +868,7 @@ impl SettingConnection {
     /// the setting name of that setting type (ie, "vpn" or "bridge", etc).
     #[doc(alias = "type")]
     pub fn set_type(&self, type_: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"type\0".as_ptr() as *const _,
-                type_.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "type", &type_)
     }
 
     /// A universally unique identifier for the connection, for example generated
@@ -1058,13 +884,7 @@ impl SettingConnection {
     /// be generated by [`utils_uuid_generate()`][crate::utils_uuid_generate()] or
     /// `nm_uuid_generate_from_string_str()`.
     pub fn set_uuid(&self, uuid: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"uuid\0".as_ptr() as *const _,
-                uuid.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "uuid", &uuid)
     }
 
     /// Timeout in milliseconds to wait for device at startup.
@@ -1080,13 +900,7 @@ impl SettingConnection {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     #[doc(alias = "wait-device-timeout")]
     pub fn set_wait_device_timeout(&self, wait_device_timeout: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wait-device-timeout\0".as_ptr() as *const _,
-                wait_device_timeout.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "wait-device-timeout", &wait_device_timeout)
     }
 
     /// The trust level of a the connection. Free form case-insensitive string
@@ -1097,13 +911,7 @@ impl SettingConnection {
     /// When updating this property on a currently activated connection,
     /// the change takes effect immediately.
     pub fn set_zone(&self, zone: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"zone\0".as_ptr() as *const _,
-                zone.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "zone", &zone)
     }
 
     #[cfg(any(feature = "v1_10", feature = "dox"))]

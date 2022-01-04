@@ -75,17 +75,7 @@ impl SettingOvsInterface {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "type")]
     pub fn type_(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"type\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `type` getter")
-        }
+        glib::ObjectExt::property(self, "type")
     }
 
     /// The interface type. Either "internal", "system", "patch", "dpdk", or empty.
@@ -93,13 +83,7 @@ impl SettingOvsInterface {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "type")]
     pub fn set_type(&self, type_: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"type\0".as_ptr() as *const _,
-                type_.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "type", &type_)
     }
 
     #[cfg(any(feature = "v1_10", feature = "dox"))]

@@ -97,36 +97,18 @@ impl SettingPppoe {
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     pub fn set_parent(&self, parent: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"parent\0".as_ptr() as *const _,
-                parent.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "parent", &parent)
     }
 
     /// Password used to authenticate with the PPPoE service.
     pub fn set_password(&self, password: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"password\0".as_ptr() as *const _,
-                password.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "password", &password)
     }
 
     /// Flags indicating how to handle the `property::SettingPppoe::password` property.
     #[doc(alias = "password-flags")]
     pub fn set_password_flags(&self, password_flags: SettingSecretFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"password-flags\0".as_ptr() as *const _,
-                password_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "password-flags", &password_flags)
     }
 
     /// If specified, instruct PPPoE to only initiate sessions with access
@@ -134,24 +116,12 @@ impl SettingPppoe {
     /// this should be left blank. It is only required if there are multiple
     /// access concentrators or a specific service is known to be required.
     pub fn set_service(&self, service: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"service\0".as_ptr() as *const _,
-                service.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "service", &service)
     }
 
     /// Username used to authenticate with the PPPoE service.
     pub fn set_username(&self, username: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"username\0".as_ptr() as *const _,
-                username.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "username", &username)
     }
 
     #[cfg(any(feature = "v1_10", feature = "dox"))]

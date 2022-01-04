@@ -119,13 +119,7 @@ impl SettingIP4Config {
     /// depends on the DHCP plugin.
     #[doc(alias = "dhcp-client-id")]
     pub fn set_dhcp_client_id(&self, dhcp_client_id: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"dhcp-client-id\0".as_ptr() as *const _,
-                dhcp_client_id.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "dhcp-client-id", &dhcp_client_id)
     }
 
     /// If the `property::SettingIPConfig::dhcp-send-hostname` property is [`true`], then the
@@ -136,13 +130,7 @@ impl SettingIP4Config {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "dhcp-fqdn")]
     pub fn set_dhcp_fqdn(&self, dhcp_fqdn: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"dhcp-fqdn\0".as_ptr() as *const _,
-                dhcp_fqdn.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "dhcp-fqdn", &dhcp_fqdn)
     }
 
     /// The Vendor Class Identifier DHCP option (60).
@@ -155,17 +143,7 @@ impl SettingIP4Config {
     /// Since 1.28
     #[doc(alias = "dhcp-vendor-class-identifier")]
     pub fn get_property_dhcp_vendor_class_identifier(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"dhcp-vendor-class-identifier\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `dhcp-vendor-class-identifier` getter")
-        }
+        glib::ObjectExt::property(self, "dhcp-vendor-class-identifier")
     }
 
     /// The Vendor Class Identifier DHCP option (60).
@@ -178,13 +156,11 @@ impl SettingIP4Config {
     /// Since 1.28
     #[doc(alias = "dhcp-vendor-class-identifier")]
     pub fn set_dhcp_vendor_class_identifier(&self, dhcp_vendor_class_identifier: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"dhcp-vendor-class-identifier\0".as_ptr() as *const _,
-                dhcp_vendor_class_identifier.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "dhcp-vendor-class-identifier",
+            &dhcp_vendor_class_identifier,
+        )
     }
 
     #[doc(alias = "dhcp-client-id")]

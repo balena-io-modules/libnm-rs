@@ -89,7 +89,9 @@ glib::wrapper! {
     }
 }
 
-pub const NONE_CONNECTION: Option<&Connection> = None;
+impl Connection {
+    pub const NONE: Option<&'static Connection> = None;
+}
 
 /// Trait containing all [`struct@Connection`] methods.
 ///
@@ -115,17 +117,6 @@ pub trait ConnectionExt: 'static {
     #[doc(alias = "nm_connection_clear_settings")]
     fn clear_settings(&self);
 
-    /// Compares two [`Connection`][crate::Connection] objects for similarity, with comparison behavior
-    /// modified by a set of flags. See `nm_setting_compare()` for a description of
-    /// each flag's behavior.
-    /// ## `b`
-    /// a second [`Connection`][crate::Connection] to compare with the first
-    /// ## `flags`
-    /// compare flags, e.g. [`SettingCompareFlags::Exact`][crate::SettingCompareFlags::Exact]
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if the comparison succeeds, [`false`] if it does not
     #[doc(alias = "nm_connection_compare")]
     fn compare(&self, b: &impl IsA<Connection>, flags: SettingCompareFlags) -> bool;
 
@@ -680,7 +671,7 @@ pub trait ConnectionExt: 'static {
     /// syntactically valid, and describe a known type of connection, but does not
     /// need to result in a connection that passes [`verify()`][Self::verify()]).
     /// ## `new_settings`
-    /// a [`glib::Variant`][crate::glib::Variant] of type `NM_VARIANT_TYPE_CONNECTION`, with the new settings
+    /// a [`glib::Variant`][struct@crate::glib::Variant] of type `NM_VARIANT_TYPE_CONNECTION`, with the new settings
     ///
     /// # Returns
     ///
@@ -705,7 +696,7 @@ pub trait ConnectionExt: 'static {
     #[doc(alias = "nm_connection_set_path")]
     fn set_path(&self, path: &str);
 
-    /// Converts the [`Connection`][crate::Connection] into a [`glib::Variant`][crate::glib::Variant] of type
+    /// Converts the [`Connection`][crate::Connection] into a [`glib::Variant`][struct@crate::glib::Variant] of type
     /// `NM_VARIANT_TYPE_CONNECTION` describing the connection, suitable for
     /// marshalling over D-Bus or otherwise serializing.
     /// ## `flags`
@@ -713,7 +704,7 @@ pub trait ConnectionExt: 'static {
     ///
     /// # Returns
     ///
-    /// a new floating [`glib::Variant`][crate::glib::Variant] describing the connection,
+    /// a new floating [`glib::Variant`][struct@crate::glib::Variant] describing the connection,
     /// its settings, and each setting's properties.
     #[doc(alias = "nm_connection_to_dbus")]
     fn to_dbus(&self, flags: ConnectionSerializationFlags) -> Option<glib::Variant>;
@@ -727,7 +718,7 @@ pub trait ConnectionExt: 'static {
     /// ## `setting_name`
     /// the setting object name to which the secrets apply
     /// ## `secrets`
-    /// a [`glib::Variant`][crate::glib::Variant] of secrets, of type `NM_VARIANT_TYPE_CONNECTION`
+    /// a [`glib::Variant`][struct@crate::glib::Variant] of secrets, of type `NM_VARIANT_TYPE_CONNECTION`
     ///  or `NM_VARIANT_TYPE_SETTING`
     ///
     /// # Returns
@@ -1275,11 +1266,12 @@ impl<O: IsA<Connection>> ConnectionExt for O {
     fn replace_settings(&self, new_settings: &glib::Variant) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_connection_replace_settings(
+            let is_ok = ffi::nm_connection_replace_settings(
                 self.as_ref().to_glib_none().0,
                 new_settings.to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -1319,12 +1311,13 @@ impl<O: IsA<Connection>> ConnectionExt for O {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_connection_update_secrets(
+            let is_ok = ffi::nm_connection_update_secrets(
                 self.as_ref().to_glib_none().0,
                 setting_name.to_glib_none().0,
                 secrets.to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -1336,7 +1329,8 @@ impl<O: IsA<Connection>> ConnectionExt for O {
     fn verify(&self) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_connection_verify(self.as_ref().to_glib_none().0, &mut error);
+            let is_ok = ffi::nm_connection_verify(self.as_ref().to_glib_none().0, &mut error);
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -1350,7 +1344,9 @@ impl<O: IsA<Connection>> ConnectionExt for O {
     fn verify_secrets(&self) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_connection_verify_secrets(self.as_ref().to_glib_none().0, &mut error);
+            let is_ok =
+                ffi::nm_connection_verify_secrets(self.as_ref().to_glib_none().0, &mut error);
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {

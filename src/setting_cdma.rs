@@ -95,64 +95,34 @@ impl SettingCdma {
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     pub fn set_mtu(&self, mtu: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mtu\0".as_ptr() as *const _,
-                mtu.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mtu", &mtu)
     }
 
     /// The number to dial to establish the connection to the CDMA-based mobile
     /// broadband network, if any. If not specified, the default number (`777`)
     /// is used when required.
     pub fn set_number(&self, number: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"number\0".as_ptr() as *const _,
-                number.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "number", &number)
     }
 
     /// The password used to authenticate with the network, if required. Many
     /// providers do not require a password, or accept any password. But if a
     /// password is required, it is specified here.
     pub fn set_password(&self, password: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"password\0".as_ptr() as *const _,
-                password.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "password", &password)
     }
 
     /// Flags indicating how to handle the `property::SettingCdma::password` property.
     #[doc(alias = "password-flags")]
     pub fn set_password_flags(&self, password_flags: SettingSecretFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"password-flags\0".as_ptr() as *const _,
-                password_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "password-flags", &password_flags)
     }
 
     /// The username used to authenticate with the network, if required. Many
     /// providers do not require a username, or accept any username. But if a
     /// username is required, it is specified here.
     pub fn set_username(&self, username: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"username\0".as_ptr() as *const _,
-                username.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "username", &username)
     }
 
     #[cfg(any(feature = "v1_8", feature = "dox"))]

@@ -92,14 +92,6 @@ impl IPAddress {
         unsafe { from_glib_full(ffi::nm_ip_address_dup(self.to_glib_none().0)) }
     }
 
-    /// Determines if two [`IPAddress`][crate::IPAddress] objects contain the same address and prefix
-    /// (attributes are not compared).
-    /// ## `other`
-    /// the [`IPAddress`][crate::IPAddress] to compare `self` to.
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if the objects contain the same values, [`false`] if they do not.
     #[doc(alias = "nm_ip_address_equal")]
     fn equal(&self, other: &IPAddress) -> bool {
         unsafe {

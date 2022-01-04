@@ -148,13 +148,7 @@ impl SettingIP6Config {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "addr-gen-mode")]
     pub fn set_addr_gen_mode(&self, addr_gen_mode: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"addr-gen-mode\0".as_ptr() as *const _,
-                addr_gen_mode.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "addr-gen-mode", &addr_gen_mode)
     }
 
     /// A string containing the DHCPv6 Unique Identifier (DUID) used by the dhcp
@@ -190,13 +184,7 @@ impl SettingIP6Config {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "dhcp-duid")]
     pub fn set_dhcp_duid(&self, dhcp_duid: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"dhcp-duid\0".as_ptr() as *const _,
-                dhcp_duid.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "dhcp-duid", &dhcp_duid)
     }
 
     /// Configure IPv6 Privacy Extensions for SLAAC, described in RFC4941. If
@@ -218,13 +206,7 @@ impl SettingIP6Config {
     /// setting as another way of avoiding host tracking with IPv6 addresses.
     #[doc(alias = "ip6-privacy")]
     pub fn set_ip6_privacy(&self, ip6_privacy: SettingIP6ConfigPrivacy) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ip6-privacy\0".as_ptr() as *const _,
-                ip6_privacy.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ip6-privacy", &ip6_privacy)
     }
 
     /// A timeout for waiting Router Advertisements in seconds. If zero (the default), a
@@ -236,13 +218,7 @@ impl SettingIP6Config {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "ra-timeout")]
     pub fn set_ra_timeout(&self, ra_timeout: i32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ra-timeout\0".as_ptr() as *const _,
-                ra_timeout.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ra-timeout", &ra_timeout)
     }
 
     /// Configure the token for draft-chown-6man-tokenised-ipv6-identifiers-02
@@ -250,13 +226,7 @@ impl SettingIP6Config {
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
     pub fn set_token(&self, token: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"token\0".as_ptr() as *const _,
-                token.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "token", &token)
     }
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]

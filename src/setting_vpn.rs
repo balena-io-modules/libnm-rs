@@ -324,44 +324,26 @@ impl SettingVpn {
     }
 
     //pub fn data(&self) -> /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 } {
-    //    unsafe {
-    //        let mut value = glib::Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        glib::gobject_ffi::g_object_get_property(self.as_ptr() as *mut glib::gobject_ffi::GObject, b"data\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-    //        value.get().expect("Return Value for property `data` getter")
-    //    }
+    //    glib::ObjectExt::property(self, "data")
     //}
 
     //pub fn set_data(&self, data: /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 }) {
-    //    unsafe {
-    //        glib::gobject_ffi::g_object_set_property(self.as_ptr() as *mut glib::gobject_ffi::GObject, b"data\0".as_ptr() as *const _, data.to_value().to_glib_none().0);
-    //    }
+    //    glib::ObjectExt::set_property(self,"data", &data)
     //}
 
     /// If the VPN service supports persistence, and this property is [`true`],
     /// the VPN will attempt to stay connected across link changes and outages,
     /// until explicitly disconnected.
     pub fn set_persistent(&self, persistent: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"persistent\0".as_ptr() as *const _,
-                persistent.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "persistent", &persistent)
     }
 
     //pub fn secrets(&self) -> /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 } {
-    //    unsafe {
-    //        let mut value = glib::Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        glib::gobject_ffi::g_object_get_property(self.as_ptr() as *mut glib::gobject_ffi::GObject, b"secrets\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-    //        value.get().expect("Return Value for property `secrets` getter")
-    //    }
+    //    glib::ObjectExt::property(self, "secrets")
     //}
 
     //pub fn set_secrets(&self, secrets: /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 }) {
-    //    unsafe {
-    //        glib::gobject_ffi::g_object_set_property(self.as_ptr() as *mut glib::gobject_ffi::GObject, b"secrets\0".as_ptr() as *const _, secrets.to_value().to_glib_none().0);
-    //    }
+    //    glib::ObjectExt::set_property(self,"secrets", &secrets)
     //}
 
     /// D-Bus service name of the VPN plugin that this setting uses to connect to
@@ -369,13 +351,7 @@ impl SettingVpn {
     /// plugin.
     #[doc(alias = "service-type")]
     pub fn set_service_type(&self, service_type: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"service-type\0".as_ptr() as *const _,
-                service_type.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "service-type", &service_type)
     }
 
     /// Timeout for the VPN service to establish the connection. Some services
@@ -386,13 +362,7 @@ impl SettingVpn {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_timeout(&self, timeout: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"timeout\0".as_ptr() as *const _,
-                timeout.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "timeout", &timeout)
     }
 
     /// If the VPN connection requires a user name for authentication, that name
@@ -403,13 +373,7 @@ impl SettingVpn {
     /// VPN connection.
     #[doc(alias = "user-name")]
     pub fn set_user_name(&self, user_name: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"user-name\0".as_ptr() as *const _,
-                user_name.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "user-name", &user_name)
     }
 
     #[doc(alias = "data")]

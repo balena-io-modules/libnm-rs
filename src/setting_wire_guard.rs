@@ -271,13 +271,7 @@ impl SettingWireGuard {
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     pub fn set_fwmark(&self, fwmark: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"fwmark\0".as_ptr() as *const _,
-                fwmark.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "fwmark", &fwmark)
     }
 
     /// Whether to enable special handling of the IPv4 default route.
@@ -298,13 +292,7 @@ impl SettingWireGuard {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     #[doc(alias = "ip4-auto-default-route")]
     pub fn set_ip4_auto_default_route(&self, ip4_auto_default_route: Ternary) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ip4-auto-default-route\0".as_ptr() as *const _,
-                ip4_auto_default_route.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ip4-auto-default-route", &ip4_auto_default_route)
     }
 
     /// Like ip4-auto-default-route, but for the IPv6 default route.
@@ -312,13 +300,7 @@ impl SettingWireGuard {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     #[doc(alias = "ip6-auto-default-route")]
     pub fn set_ip6_auto_default_route(&self, ip6_auto_default_route: Ternary) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ip6-auto-default-route\0".as_ptr() as *const _,
-                ip6_auto_default_route.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ip6-auto-default-route", &ip6_auto_default_route)
     }
 
     /// The listen-port. If listen-port is not specified, the port will be chosen
@@ -327,13 +309,7 @@ impl SettingWireGuard {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "listen-port")]
     pub fn set_listen_port(&self, listen_port: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"listen-port\0".as_ptr() as *const _,
-                listen_port.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "listen-port", &listen_port)
     }
 
     /// If non-zero, only transmit packets of the specified size or smaller,
@@ -345,13 +321,7 @@ impl SettingWireGuard {
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     pub fn set_mtu(&self, mtu: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mtu\0".as_ptr() as *const _,
-                mtu.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mtu", &mtu)
     }
 
     /// Whether to automatically add routes for the AllowedIPs ranges
@@ -369,13 +339,7 @@ impl SettingWireGuard {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "peer-routes")]
     pub fn set_peer_routes(&self, peer_routes: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"peer-routes\0".as_ptr() as *const _,
-                peer_routes.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "peer-routes", &peer_routes)
     }
 
     /// The 256 bit private-key in base64 encoding.
@@ -383,13 +347,7 @@ impl SettingWireGuard {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "private-key")]
     pub fn set_private_key(&self, private_key: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"private-key\0".as_ptr() as *const _,
-                private_key.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "private-key", &private_key)
     }
 
     /// Flags indicating how to handle the `property::SettingWirelessSecurity::private-key`
@@ -398,13 +356,7 @@ impl SettingWireGuard {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "private-key-flags")]
     pub fn set_private_key_flags(&self, private_key_flags: SettingSecretFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"private-key-flags\0".as_ptr() as *const _,
-                private_key_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "private-key-flags", &private_key_flags)
     }
 
     #[cfg(any(feature = "v1_16", feature = "dox"))]

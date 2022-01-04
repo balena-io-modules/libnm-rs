@@ -57,14 +57,6 @@ impl TCQdisc {
         unsafe { from_glib_full(ffi::nm_tc_qdisc_dup(self.to_glib_none().0)) }
     }
 
-    /// Determines if two [`TCQdisc`][crate::TCQdisc] objects contain the same kind, * handle
-    /// and parent.
-    /// ## `other`
-    /// the [`TCQdisc`][crate::TCQdisc] to compare `self` to.
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if the objects contain the same values, [`false`] if they do not.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_qdisc_equal")]

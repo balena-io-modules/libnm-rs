@@ -29,7 +29,7 @@ extern crate futures_core;
 
 extern crate ffi;
 
-pub use gio::NONE_CANCELLABLE;
+pub use gio::Cancellable;
 
 pub use glib::prelude::*;
 
@@ -40,7 +40,7 @@ mod access_point;
 pub use self::access_point::AccessPoint;
 
 mod active_connection;
-pub use self::active_connection::{ActiveConnection, NONE_ACTIVE_CONNECTION};
+pub use self::active_connection::ActiveConnection;
 
 mod checkpoint;
 pub use self::checkpoint::Checkpoint;
@@ -49,10 +49,10 @@ mod client;
 pub use self::client::Client;
 
 mod connection;
-pub use self::connection::{Connection, NONE_CONNECTION};
+pub use self::connection::Connection;
 
 mod device;
-pub use self::device::{Device, NONE_DEVICE};
+pub use self::device::Device;
 
 mod device6_lowpan;
 pub use self::device6_lowpan::Device6Lowpan;
@@ -73,7 +73,7 @@ mod device_dummy;
 pub use self::device_dummy::DeviceDummy;
 
 mod device_ethernet;
-pub use self::device_ethernet::{DeviceEthernet, NONE_DEVICE_ETHERNET};
+pub use self::device_ethernet::DeviceEthernet;
 
 mod device_generic;
 pub use self::device_generic::DeviceGeneric;
@@ -154,16 +154,16 @@ mod ip_config;
 pub use self::ip_config::IPConfig;
 
 mod object;
-pub use self::object::{Object, NONE_OBJECT};
+pub use self::object::Object;
 
 mod remote_connection;
 pub use self::remote_connection::RemoteConnection;
 
 mod secret_agent_old;
-pub use self::secret_agent_old::{SecretAgentOld, NONE_SECRET_AGENT_OLD};
+pub use self::secret_agent_old::SecretAgentOld;
 
 mod setting;
-pub use self::setting::{Setting, NONE_SETTING};
+pub use self::setting::Setting;
 
 mod setting6_lowpan;
 pub use self::setting6_lowpan::Setting6Lowpan;
@@ -225,7 +225,7 @@ mod setting_ip6_config;
 pub use self::setting_ip6_config::SettingIP6Config;
 
 mod setting_ip_config;
-pub use self::setting_ip_config::{SettingIPConfig, NONE_SETTING_IP_CONFIG};
+pub use self::setting_ip_config::SettingIPConfig;
 
 mod setting_ip_tunnel;
 pub use self::setting_ip_tunnel::SettingIPTunnel;
@@ -360,19 +360,19 @@ mod vpn_connection;
 pub use self::vpn_connection::VpnConnection;
 
 mod vpn_editor;
-pub use self::vpn_editor::{VpnEditor, NONE_VPN_EDITOR};
+pub use self::vpn_editor::VpnEditor;
 
 mod vpn_editor_plugin;
-pub use self::vpn_editor_plugin::{VpnEditorPlugin, NONE_VPN_EDITOR_PLUGIN};
+pub use self::vpn_editor_plugin::VpnEditorPlugin;
 
 mod vpn_plugin_info;
 pub use self::vpn_plugin_info::VpnPluginInfo;
 
 mod vpn_plugin_old;
-pub use self::vpn_plugin_old::{VpnPluginOld, NONE_VPN_PLUGIN_OLD};
+pub use self::vpn_plugin_old::VpnPluginOld;
 
 mod vpn_service_plugin;
-pub use self::vpn_service_plugin::{VpnServicePlugin, NONE_VPN_SERVICE_PLUGIN};
+pub use self::vpn_service_plugin::VpnServicePlugin;
 
 mod wifi_p2p_peer;
 pub use self::wifi_p2p_peer::WifiP2PPeer;

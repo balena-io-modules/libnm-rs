@@ -67,15 +67,6 @@ impl SriovVF {
         unsafe { from_glib_full(ffi::nm_sriov_vf_dup(self.to_glib_none().0)) }
     }
 
-    /// Determines if two [`SriovVF`][crate::SriovVF] objects have the same index,
-    /// attributes and VLANs.
-    /// ## `other`
-    /// the [`SriovVF`][crate::SriovVF] to compare `self` to.
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if the objects contain the same values, [`false`]
-    ///  if they do not.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_equal")]
@@ -272,13 +263,14 @@ impl SriovVF {
         unsafe {
             let mut known = mem::MaybeUninit::uninit();
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_sriov_vf_attribute_validate(
+            let is_ok = ffi::nm_sriov_vf_attribute_validate(
                 name.to_glib_none().0,
                 value.to_glib_none().0,
                 known.as_mut_ptr(),
                 &mut error,
             );
             let known = known.assume_init();
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(from_glib(known))
             } else {

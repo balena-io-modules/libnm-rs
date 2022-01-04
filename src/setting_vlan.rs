@@ -253,18 +253,7 @@ impl SettingVlan {
     /// both "from" and "to" are unsigned integers, ie "7:3".
     #[doc(alias = "egress-priority-map")]
     pub fn egress_priority_map(&self) -> Vec<glib::GString> {
-        unsafe {
-            let mut value =
-                glib::Value::from_type(<Vec<glib::GString> as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"egress-priority-map\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `egress-priority-map` getter")
-        }
+        glib::ObjectExt::property(self, "egress-priority-map")
     }
 
     /// For outgoing packets, a list of mappings from Linux SKB priorities to
@@ -272,13 +261,7 @@ impl SettingVlan {
     /// both "from" and "to" are unsigned integers, ie "7:3".
     #[doc(alias = "egress-priority-map")]
     pub fn set_egress_priority_map(&self, egress_priority_map: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"egress-priority-map\0".as_ptr() as *const _,
-                egress_priority_map.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "egress-priority-map", &egress_priority_map)
     }
 
     /// One or more flags which control the behavior and features of the VLAN
@@ -293,25 +276,13 @@ impl SettingVlan {
     /// in the D-Bus API continues to be 0 and a missing property on D-Bus
     /// is still considered as 0.
     pub fn set_flags(&self, flags: VlanFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"flags\0".as_ptr() as *const _,
-                flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "flags", &flags)
     }
 
     /// The VLAN identifier that the interface created by this connection should
     /// be assigned. The valid range is from 0 to 4094, without the reserved id 4095.
     pub fn set_id(&self, id: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"id\0".as_ptr() as *const _,
-                id.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "id", &id)
     }
 
     /// For incoming packets, a list of mappings from 802.1p priorities to Linux
@@ -319,18 +290,7 @@ impl SettingVlan {
     /// "from" and "to" are unsigned integers, ie "7:3".
     #[doc(alias = "ingress-priority-map")]
     pub fn ingress_priority_map(&self) -> Vec<glib::GString> {
-        unsafe {
-            let mut value =
-                glib::Value::from_type(<Vec<glib::GString> as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ingress-priority-map\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `ingress-priority-map` getter")
-        }
+        glib::ObjectExt::property(self, "ingress-priority-map")
     }
 
     /// For incoming packets, a list of mappings from 802.1p priorities to Linux
@@ -338,13 +298,7 @@ impl SettingVlan {
     /// "from" and "to" are unsigned integers, ie "7:3".
     #[doc(alias = "ingress-priority-map")]
     pub fn set_ingress_priority_map(&self, ingress_priority_map: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"ingress-priority-map\0".as_ptr() as *const _,
-                ingress_priority_map.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "ingress-priority-map", &ingress_priority_map)
     }
 
     /// If given, specifies the parent interface name or parent connection UUID
@@ -352,13 +306,7 @@ impl SettingVlan {
     /// not specified, the connection must contain an [`SettingWired`][crate::SettingWired] setting
     /// with a `property::SettingWired::mac-address` property.
     pub fn set_parent(&self, parent: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"parent\0".as_ptr() as *const _,
-                parent.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "parent", &parent)
     }
 
     #[doc(alias = "egress-priority-map")]

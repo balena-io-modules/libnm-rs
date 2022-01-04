@@ -33,7 +33,9 @@ glib::wrapper! {
     }
 }
 
-pub const NONE_ACTIVE_CONNECTION: Option<&ActiveConnection> = None;
+impl ActiveConnection {
+    pub const NONE: Option<&'static ActiveConnection> = None;
+}
 
 /// Trait containing all [`struct@ActiveConnection`] methods.
 ///
@@ -424,17 +426,7 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
     }
 
     fn type_(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"type\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `type` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "type")
     }
 
     fn connect_state_changed<F: Fn(&Self, u32, u32) + 'static>(&self, f: F) -> SignalHandlerId {

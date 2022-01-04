@@ -88,59 +88,29 @@ impl SettingSerial {
     /// value usually has no effect for mobile broadband modems as they generally
     /// ignore speed settings and use the highest available speed.
     pub fn set_baud(&self, baud: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"baud\0".as_ptr() as *const _,
-                baud.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "baud", &baud)
     }
 
     /// Byte-width of the serial communication. The 8 in "8n1" for example.
     pub fn set_bits(&self, bits: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"bits\0".as_ptr() as *const _,
-                bits.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "bits", &bits)
     }
 
     /// Parity setting of the serial port.
     pub fn set_parity(&self, parity: SettingSerialParity) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"parity\0".as_ptr() as *const _,
-                parity.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "parity", &parity)
     }
 
     /// Time to delay between each byte sent to the modem, in microseconds.
     #[doc(alias = "send-delay")]
     pub fn set_send_delay(&self, send_delay: u64) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"send-delay\0".as_ptr() as *const _,
-                send_delay.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "send-delay", &send_delay)
     }
 
     /// Number of stop bits for communication on the serial port. Either 1 or 2.
     /// The 1 in "8n1" for example.
     pub fn set_stopbits(&self, stopbits: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"stopbits\0".as_ptr() as *const _,
-                stopbits.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "stopbits", &stopbits)
     }
 
     #[doc(alias = "baud")]

@@ -28,6 +28,8 @@ glib::wrapper! {
 }
 
 impl Setting {
+    pub const NONE: Option<&'static Setting> = None;
+
     /// Returns the `GType` of the setting's class for a given setting name.
     /// ## `name`
     /// a setting name
@@ -49,25 +51,12 @@ impl fmt::Display for Setting {
     }
 }
 
-pub const NONE_SETTING: Option<&Setting> = None;
-
 /// Trait containing all [`struct@Setting`] methods.
 ///
 /// # Implementors
 ///
 /// [`Setting6Lowpan`][struct@crate::Setting6Lowpan], [`Setting8021x`][struct@crate::Setting8021x], [`SettingAdsl`][struct@crate::SettingAdsl], [`SettingBluetooth`][struct@crate::SettingBluetooth], [`SettingBond`][struct@crate::SettingBond], [`SettingBridgePort`][struct@crate::SettingBridgePort], [`SettingBridge`][struct@crate::SettingBridge], [`SettingCdma`][struct@crate::SettingCdma], [`SettingConnection`][struct@crate::SettingConnection], [`SettingDcb`][struct@crate::SettingDcb], [`SettingDummy`][struct@crate::SettingDummy], [`SettingEthtool`][struct@crate::SettingEthtool], [`SettingGeneric`][struct@crate::SettingGeneric], [`SettingGsm`][struct@crate::SettingGsm], [`SettingHostname`][struct@crate::SettingHostname], [`SettingIPConfig`][struct@crate::SettingIPConfig], [`SettingIPTunnel`][struct@crate::SettingIPTunnel], [`SettingInfiniband`][struct@crate::SettingInfiniband], [`SettingMacsec`][struct@crate::SettingMacsec], [`SettingMacvlan`][struct@crate::SettingMacvlan], [`SettingMatch`][struct@crate::SettingMatch], [`SettingOlpcMesh`][struct@crate::SettingOlpcMesh], [`SettingOvsBridge`][struct@crate::SettingOvsBridge], [`SettingOvsDpdk`][struct@crate::SettingOvsDpdk], [`SettingOvsExternalIDs`][struct@crate::SettingOvsExternalIDs], [`SettingOvsInterface`][struct@crate::SettingOvsInterface], [`SettingOvsPatch`][struct@crate::SettingOvsPatch], [`SettingOvsPort`][struct@crate::SettingOvsPort], [`SettingPpp`][struct@crate::SettingPpp], [`SettingPppoe`][struct@crate::SettingPppoe], [`SettingProxy`][struct@crate::SettingProxy], [`SettingSerial`][struct@crate::SettingSerial], [`SettingSriov`][struct@crate::SettingSriov], [`SettingTCConfig`][struct@crate::SettingTCConfig], [`SettingTeamPort`][struct@crate::SettingTeamPort], [`SettingTeam`][struct@crate::SettingTeam], [`SettingTun`][struct@crate::SettingTun], [`SettingUser`][struct@crate::SettingUser], [`SettingVeth`][struct@crate::SettingVeth], [`SettingVlan`][struct@crate::SettingVlan], [`SettingVpn`][struct@crate::SettingVpn], [`SettingVrf`][struct@crate::SettingVrf], [`SettingVxlan`][struct@crate::SettingVxlan], [`SettingWifiP2P`][struct@crate::SettingWifiP2P], [`SettingWimax`][struct@crate::SettingWimax], [`SettingWireGuard`][struct@crate::SettingWireGuard], [`SettingWired`][struct@crate::SettingWired], [`SettingWirelessSecurity`][struct@crate::SettingWirelessSecurity], [`SettingWireless`][struct@crate::SettingWireless], [`SettingWpan`][struct@crate::SettingWpan], [`Setting`][struct@crate::Setting]
 pub trait SettingExt: 'static {
-    /// Compares two [`Setting`][crate::Setting] objects for similarity, with comparison behavior
-    /// modified by a set of flags. See the documentation for [`SettingCompareFlags`][crate::SettingCompareFlags]
-    /// for a description of each flag's behavior.
-    /// ## `b`
-    /// a second [`Setting`][crate::Setting] to compare with the first
-    /// ## `flags`
-    /// compare flags, e.g. [`SettingCompareFlags::Exact`][crate::SettingCompareFlags::Exact]
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if the comparison succeeds, [`false`] if it does not
     #[doc(alias = "nm_setting_compare")]
     fn compare(&self, b: &impl IsA<Setting>, flags: SettingCompareFlags) -> bool;
 
@@ -118,7 +107,7 @@ pub trait SettingExt: 'static {
     ///
     /// # Returns
     ///
-    /// the [`glib::Variant`][crate::glib::Variant] or [`None`] if the option
+    /// the [`glib::Variant`][struct@crate::glib::Variant] or [`None`] if the option
     ///  is not set.
     #[cfg(any(feature = "v1_26", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
@@ -218,6 +207,16 @@ pub trait SettingExt: 'static {
         flags: SettingSecretFlags,
     ) -> Result<(), glib::Error>;
 
+    /// Convert the setting (including secrets!) into a string. For debugging
+    /// purposes ONLY, should NOT be used for serialization of the setting,
+    /// or machine-parsed in any way. The output format is not guaranteed to
+    /// be stable and may change at any time.
+    ///
+    /// # Returns
+    ///
+    /// an allocated string containing a textual representation of the
+    /// setting's properties and values, which the caller should
+    /// free with `g_free()`
     #[doc(alias = "nm_setting_to_string")]
     #[doc(alias = "to_string")]
     fn to_str(&self) -> glib::GString;
@@ -407,12 +406,13 @@ impl<O: IsA<Setting>> SettingExt for O {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_setting_set_secret_flags(
+            let is_ok = ffi::nm_setting_set_secret_flags(
                 self.as_ref().to_glib_none().0,
                 secret_name.to_glib_none().0,
                 flags.into_glib(),
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -428,11 +428,12 @@ impl<O: IsA<Setting>> SettingExt for O {
     fn verify(&self, connection: Option<&impl IsA<Connection>>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_setting_verify(
+            let is_ok = ffi::nm_setting_verify(
                 self.as_ref().to_glib_none().0,
                 connection.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -446,11 +447,12 @@ impl<O: IsA<Setting>> SettingExt for O {
     fn verify_secrets(&self, connection: Option<&impl IsA<Connection>>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_setting_verify_secrets(
+            let is_ok = ffi::nm_setting_verify_secrets(
                 self.as_ref().to_glib_none().0,
                 connection.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {

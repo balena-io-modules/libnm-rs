@@ -67,13 +67,7 @@ impl SettingOvsDpdk {
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     pub fn set_devargs(&self, devargs: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"devargs\0".as_ptr() as *const _,
-                devargs.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "devargs", &devargs)
     }
 
     #[cfg(any(feature = "v1_20", feature = "dox"))]

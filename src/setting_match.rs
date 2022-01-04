@@ -458,13 +458,7 @@ impl SettingMatch {
     #[cfg(any(feature = "v1_26", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn set_driver(&self, driver: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"driver\0".as_ptr() as *const _,
-                driver.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "driver", &driver)
     }
 
     /// A list of interface names to match. Each element is a shell wildcard
@@ -485,13 +479,7 @@ impl SettingMatch {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "interface-name")]
     pub fn set_interface_name(&self, interface_name: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"interface-name\0".as_ptr() as *const _,
-                interface_name.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "interface-name", &interface_name)
     }
 
     /// A list of kernel command line arguments to match. This may be used to check
@@ -509,13 +497,7 @@ impl SettingMatch {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     #[doc(alias = "kernel-command-line")]
     pub fn set_kernel_command_line(&self, kernel_command_line: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"kernel-command-line\0".as_ptr() as *const _,
-                kernel_command_line.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "kernel-command-line", &kernel_command_line)
     }
 
     /// A list of paths to match against the ID_PATH udev property of
@@ -540,13 +522,7 @@ impl SettingMatch {
     #[cfg(any(feature = "v1_26", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn set_path(&self, path: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"path\0".as_ptr() as *const _,
-                path.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "path", &path)
     }
 
     #[cfg(any(feature = "v1_26", feature = "dox"))]

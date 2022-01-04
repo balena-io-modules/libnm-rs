@@ -22,7 +22,9 @@ glib::wrapper! {
     }
 }
 
-pub const NONE_VPN_EDITOR: Option<&VpnEditor> = None;
+impl VpnEditor {
+    pub const NONE: Option<&'static VpnEditor> = None;
+}
 
 /// Trait containing all [`struct@VpnEditor`] methods.
 ///
@@ -53,11 +55,12 @@ impl<O: IsA<VpnEditor>> VpnEditorExt for O {
     fn update_connection(&self, connection: &impl IsA<Connection>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_vpn_editor_update_connection(
+            let is_ok = ffi::nm_vpn_editor_update_connection(
                 self.as_ref().to_glib_none().0,
                 connection.as_ref().to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {

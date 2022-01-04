@@ -83,14 +83,6 @@ impl IPRoute {
         unsafe { from_glib_full(ffi::nm_ip_route_dup(self.to_glib_none().0)) }
     }
 
-    /// Determines if two [`IPRoute`][crate::IPRoute] objects contain the same destination, prefix,
-    /// next hop, and metric. (Attributes are not compared.)
-    /// ## `other`
-    /// the [`IPRoute`][crate::IPRoute] to compare `self` to.
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if the objects contain the same values, [`false`] if they do not.
     #[doc(alias = "nm_ip_route_equal")]
     fn equal(&self, other: &IPRoute) -> bool {
         unsafe {
@@ -315,7 +307,7 @@ impl IPRoute {
         unsafe {
             let mut known = mem::MaybeUninit::uninit();
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_ip_route_attribute_validate(
+            let is_ok = ffi::nm_ip_route_attribute_validate(
                 name.to_glib_none().0,
                 value.to_glib_none().0,
                 family,
@@ -323,6 +315,7 @@ impl IPRoute {
                 &mut error,
             );
             let known = known.assume_init();
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(from_glib(known))
             } else {

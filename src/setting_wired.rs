@@ -412,13 +412,7 @@ impl SettingWired {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
     #[doc(alias = "accept-all-mac-addresses")]
     pub fn set_accept_all_mac_addresses(&self, accept_all_mac_addresses: Ternary) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"accept-all-mac-addresses\0".as_ptr() as *const _,
-                accept_all_mac_addresses.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "accept-all-mac-addresses", &accept_all_mac_addresses)
     }
 
     /// When [`true`], enforce auto-negotiation of speed and duplex mode.
@@ -431,13 +425,7 @@ impl SettingWired {
     /// link configuration will be skipped.
     #[doc(alias = "auto-negotiate")]
     pub fn set_auto_negotiate(&self, auto_negotiate: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"auto-negotiate\0".as_ptr() as *const _,
-                auto_negotiate.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "auto-negotiate", &auto_negotiate)
     }
 
     /// If specified, request that the device use this MAC address instead.
@@ -460,13 +448,7 @@ impl SettingWired {
     /// "cloned-mac-address".
     #[doc(alias = "cloned-mac-address")]
     pub fn set_cloned_mac_address(&self, cloned_mac_address: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"cloned-mac-address\0".as_ptr() as *const _,
-                cloned_mac_address.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "cloned-mac-address", &cloned_mac_address)
     }
 
     /// When a value is set, either "half" or "full", configures the device
@@ -482,13 +464,7 @@ impl SettingWired {
     /// Must be set together with the "speed" property if specified.
     /// Before specifying a duplex mode be sure your device supports it.
     pub fn set_duplex(&self, duplex: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"duplex\0".as_ptr() as *const _,
-                duplex.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "duplex", &duplex)
     }
 
     /// With `property::SettingWired::cloned-mac-address` setting "random" or "stable",
@@ -521,17 +497,7 @@ impl SettingWired {
     /// administered.
     #[doc(alias = "generate-mac-address-mask")]
     pub fn get_property_generate_mac_address_mask(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"generate-mac-address-mask\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `generate-mac-address-mask` getter")
-        }
+        glib::ObjectExt::property(self, "generate-mac-address-mask")
     }
 
     /// With `property::SettingWired::cloned-mac-address` setting "random" or "stable",
@@ -564,13 +530,11 @@ impl SettingWired {
     /// administered.
     #[doc(alias = "generate-mac-address-mask")]
     pub fn set_generate_mac_address_mask(&self, generate_mac_address_mask: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"generate-mac-address-mask\0".as_ptr() as *const _,
-                generate_mac_address_mask.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(
+            self,
+            "generate-mac-address-mask",
+            &generate_mac_address_mask,
+        )
     }
 
     /// If specified, this connection will only apply to the Ethernet device
@@ -578,13 +542,7 @@ impl SettingWired {
     /// MAC address of the device (i.e. MAC spoofing).
     #[doc(alias = "mac-address")]
     pub fn set_mac_address(&self, mac_address: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mac-address\0".as_ptr() as *const _,
-                mac_address.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mac-address", &mac_address)
     }
 
     /// If specified, this connection will never apply to the Ethernet device
@@ -593,25 +551,13 @@ impl SettingWired {
     /// (00:11:22:33:44:55).
     #[doc(alias = "mac-address-blacklist")]
     pub fn set_mac_address_blacklist(&self, mac_address_blacklist: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mac-address-blacklist\0".as_ptr() as *const _,
-                mac_address_blacklist.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mac-address-blacklist", &mac_address_blacklist)
     }
 
     /// If non-zero, only transmit packets of the specified size or smaller,
     /// breaking larger packets up into multiple Ethernet frames.
     pub fn set_mtu(&self, mtu: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mtu\0".as_ptr() as *const _,
-                mtu.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mtu", &mtu)
     }
 
     /// Specific port type to use if the device supports multiple
@@ -619,42 +565,24 @@ impl SettingWired {
     /// Interface), "bnc" (Thin Ethernet) or "mii" (Media Independent Interface).
     /// If the device supports only one port type, this setting is ignored.
     pub fn set_port(&self, port: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"port\0".as_ptr() as *const _,
-                port.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "port", &port)
     }
 
     /// s390 network device type; one of "qeth", "lcs", or "ctc", representing
     /// the different types of virtual network devices available on s390 systems.
     #[doc(alias = "s390-nettype")]
     pub fn set_s390_nettype(&self, s390_nettype: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"s390-nettype\0".as_ptr() as *const _,
-                s390_nettype.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "s390-nettype", &s390_nettype)
     }
 
     //#[doc(alias = "s390-options")]
     //pub fn s390_options(&self) -> /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 } {
-    //    unsafe {
-    //        let mut value = glib::Value::from_type(</*Unknown type*/ as StaticType>::static_type());
-    //        glib::gobject_ffi::g_object_get_property(self.as_ptr() as *mut glib::gobject_ffi::GObject, b"s390-options\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-    //        value.get().expect("Return Value for property `s390-options` getter")
-    //    }
+    //    glib::ObjectExt::property(self, "s390-options")
     //}
 
     //#[doc(alias = "s390-options")]
     //pub fn set_s390_options(&self, s390_options: /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 }) {
-    //    unsafe {
-    //        glib::gobject_ffi::g_object_set_property(self.as_ptr() as *mut glib::gobject_ffi::GObject, b"s390-options\0".as_ptr() as *const _, s390_options.to_value().to_glib_none().0);
-    //    }
+    //    glib::ObjectExt::set_property(self,"s390-options", &s390_options)
     //}
 
     /// Identifies specific subchannels that this network device uses for
@@ -666,13 +594,7 @@ impl SettingWired {
     /// period (.) character.
     #[doc(alias = "s390-subchannels")]
     pub fn set_s390_subchannels(&self, s390_subchannels: &[&str]) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"s390-subchannels\0".as_ptr() as *const _,
-                s390_subchannels.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "s390-subchannels", &s390_subchannels)
     }
 
     /// When a value greater than 0 is set, configures the device to use
@@ -689,13 +611,7 @@ impl SettingWired {
     /// Must be set together with the "duplex" property when non-zero.
     /// Before specifying a speed value be sure your device supports it.
     pub fn set_speed(&self, speed: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"speed\0".as_ptr() as *const _,
-                speed.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "speed", &speed)
     }
 
     /// The [`SettingWiredWakeOnLan`][crate::SettingWiredWakeOnLan] options to enable. Not all devices support all options.
@@ -710,13 +626,7 @@ impl SettingWired {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "wake-on-lan")]
     pub fn set_wake_on_lan(&self, wake_on_lan: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wake-on-lan\0".as_ptr() as *const _,
-                wake_on_lan.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "wake-on-lan", &wake_on_lan)
     }
 
     /// If specified, the password used with magic-packet-based
@@ -726,13 +636,7 @@ impl SettingWired {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "wake-on-lan-password")]
     pub fn set_wake_on_lan_password(&self, wake_on_lan_password: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wake-on-lan-password\0".as_ptr() as *const _,
-                wake_on_lan_password.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "wake-on-lan-password", &wake_on_lan_password)
     }
 
     #[cfg(any(feature = "v1_32", feature = "dox"))]

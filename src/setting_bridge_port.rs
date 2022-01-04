@@ -164,37 +164,19 @@ impl SettingBridgePort {
     /// be sent back out through the port the frame was received on.
     #[doc(alias = "hairpin-mode")]
     pub fn set_hairpin_mode(&self, hairpin_mode: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"hairpin-mode\0".as_ptr() as *const _,
-                hairpin_mode.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "hairpin-mode", &hairpin_mode)
     }
 
     /// The Spanning Tree Protocol (STP) port cost for destinations via this
     /// port.
     #[doc(alias = "path-cost")]
     pub fn set_path_cost(&self, path_cost: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"path-cost\0".as_ptr() as *const _,
-                path_cost.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "path-cost", &path_cost)
     }
 
     /// The Spanning Tree Protocol (STP) priority of this bridge port.
     pub fn set_priority(&self, priority: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"priority\0".as_ptr() as *const _,
-                priority.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "priority", &priority)
     }
 
     #[doc(alias = "hairpin-mode")]

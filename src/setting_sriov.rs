@@ -147,13 +147,7 @@ impl SettingSriov {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "autoprobe-drivers")]
     pub fn set_autoprobe_drivers(&self, autoprobe_drivers: Ternary) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"autoprobe-drivers\0".as_ptr() as *const _,
-                autoprobe_drivers.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "autoprobe-drivers", &autoprobe_drivers)
     }
 
     /// The total number of virtual functions to create.
@@ -167,13 +161,7 @@ impl SettingSriov {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "total-vfs")]
     pub fn set_total_vfs(&self, total_vfs: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"total-vfs\0".as_ptr() as *const _,
-                total_vfs.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "total-vfs", &total_vfs)
     }
 
     #[cfg(any(feature = "v1_14", feature = "dox"))]

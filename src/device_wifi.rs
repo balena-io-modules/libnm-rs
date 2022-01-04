@@ -167,11 +167,12 @@ impl DeviceWifi {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_device_wifi_request_scan(
+            let is_ok = ffi::nm_device_wifi_request_scan(
                 self.to_glib_none().0,
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -223,7 +224,7 @@ impl DeviceWifi {
         }
     }
 
-    pub fn request_scan_async_future(
+    pub fn request_scan_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
@@ -264,12 +265,13 @@ impl DeviceWifi {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_device_wifi_request_scan_options(
+            let is_ok = ffi::nm_device_wifi_request_scan_options(
                 self.to_glib_none().0,
                 options.to_glib_none().0,
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -288,34 +290,13 @@ impl DeviceWifi {
     /// The hardware (MAC) address of the device.
     #[doc(alias = "perm-hw-address")]
     pub fn perm_hw_address(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"perm-hw-address\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `perm-hw-address` getter")
-        }
+        glib::ObjectExt::property(self, "perm-hw-address")
     }
 
     /// The wireless capabilities of the device.
     #[doc(alias = "wireless-capabilities")]
     pub fn wireless_capabilities(&self) -> DeviceWifiCapabilities {
-        unsafe {
-            let mut value =
-                glib::Value::from_type(<DeviceWifiCapabilities as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"wireless-capabilities\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `wireless-capabilities` getter")
-        }
+        glib::ObjectExt::property(self, "wireless-capabilities")
     }
 
     /// Notifies that a [`AccessPoint`][crate::AccessPoint] is added to the Wi-Fi device.

@@ -55,14 +55,6 @@ impl TCAction {
         unsafe { from_glib_full(ffi::nm_tc_action_dup(self.to_glib_none().0)) }
     }
 
-    /// Determines if two [`TCAction`][crate::TCAction] objects contain the same kind, family,
-    /// handle, parent and info.
-    /// ## `other`
-    /// the [`TCAction`][crate::TCAction] to compare `self` to.
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if the objects contain the same values, [`false`] if they do not.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_action_equal")]

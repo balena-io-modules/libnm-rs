@@ -205,17 +205,7 @@ impl AccessPoint {
     #[cfg_attr(feature = "v1", deprecated = "Since 1")]
     #[doc(alias = "hw-address")]
     pub fn hw_address(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"hw-address\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `hw-address` getter")
-        }
+        glib::ObjectExt::property(self, "hw-address")
     }
 
     #[doc(alias = "bssid")]

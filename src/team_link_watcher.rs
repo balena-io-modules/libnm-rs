@@ -202,14 +202,6 @@ impl TeamLinkWatcher {
         unsafe { from_glib_full(ffi::nm_team_link_watcher_dup(self.to_glib_none().0)) }
     }
 
-    /// Determines if two [`TeamLinkWatcher`][crate::TeamLinkWatcher] objects contain the same values
-    /// in all the properties.
-    /// ## `other`
-    /// the [`TeamLinkWatcher`][crate::TeamLinkWatcher] to compare `self` to.
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if the objects contain the same values, [`false`] if they do not.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_team_link_watcher_equal")]

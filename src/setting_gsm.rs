@@ -205,13 +205,7 @@ impl SettingGsm {
     /// The APN may only be composed of the characters a-z, 0-9, ., and - per GSM
     /// 03.60 Section 14.9.
     pub fn set_apn(&self, apn: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"apn\0".as_ptr() as *const _,
-                apn.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "apn", &apn)
     }
 
     /// When [`true`], the settings such as APN, username, or password will
@@ -221,13 +215,7 @@ impl SettingGsm {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     #[doc(alias = "auto-config")]
     pub fn set_auto_config(&self, auto_config: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"auto-config\0".as_ptr() as *const _,
-                auto_config.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "auto-config", &auto_config)
     }
 
     /// The device unique identifier (as given by the WWAN management service)
@@ -237,26 +225,14 @@ impl SettingGsm {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "device-id")]
     pub fn set_device_id(&self, device_id: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"device-id\0".as_ptr() as *const _,
-                device_id.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "device-id", &device_id)
     }
 
     /// When [`true`], only connections to the home network will be allowed.
     /// Connections to roaming networks will not be made.
     #[doc(alias = "home-only")]
     pub fn set_home_only(&self, home_only: bool) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"home-only\0".as_ptr() as *const _,
-                home_only.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "home-only", &home_only)
     }
 
     /// If non-zero, only transmit packets of the specified size or smaller,
@@ -264,13 +240,7 @@ impl SettingGsm {
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     pub fn set_mtu(&self, mtu: u32) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"mtu\0".as_ptr() as *const _,
-                mtu.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "mtu", &mtu)
     }
 
     /// The Network ID (GSM LAI format, ie MCC-MNC) to force specific network
@@ -280,13 +250,7 @@ impl SettingGsm {
     /// roaming control of the device is not otherwise possible.
     #[doc(alias = "network-id")]
     pub fn set_network_id(&self, network_id: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"network-id\0".as_ptr() as *const _,
-                network_id.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "network-id", &network_id)
     }
 
     /// Legacy setting that used to help establishing PPP data sessions for
@@ -297,63 +261,33 @@ impl SettingGsm {
     /// User-provided values for this setting are no longer used.
     #[cfg_attr(feature = "v1_16", deprecated = "Since 1.16")]
     pub fn set_number(&self, number: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"number\0".as_ptr() as *const _,
-                number.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "number", &number)
     }
 
     /// The password used to authenticate with the network, if required. Many
     /// providers do not require a password, or accept any password. But if a
     /// password is required, it is specified here.
     pub fn set_password(&self, password: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"password\0".as_ptr() as *const _,
-                password.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "password", &password)
     }
 
     /// Flags indicating how to handle the `property::SettingGsm::password` property.
     #[doc(alias = "password-flags")]
     pub fn set_password_flags(&self, password_flags: SettingSecretFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"password-flags\0".as_ptr() as *const _,
-                password_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "password-flags", &password_flags)
     }
 
     /// If the SIM is locked with a PIN it must be unlocked before any other
     /// operations are requested. Specify the PIN here to allow operation of the
     /// device.
     pub fn set_pin(&self, pin: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"pin\0".as_ptr() as *const _,
-                pin.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "pin", &pin)
     }
 
     /// Flags indicating how to handle the `property::SettingGsm::pin` property.
     #[doc(alias = "pin-flags")]
     pub fn set_pin_flags(&self, pin_flags: SettingSecretFlags) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"pin-flags\0".as_ptr() as *const _,
-                pin_flags.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "pin-flags", &pin_flags)
     }
 
     /// The SIM card unique identifier (as given by the WWAN management service)
@@ -364,13 +298,7 @@ impl SettingGsm {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "sim-id")]
     pub fn set_sim_id(&self, sim_id: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"sim-id\0".as_ptr() as *const _,
-                sim_id.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "sim-id", &sim_id)
     }
 
     /// A MCC/MNC string like "310260" or "21601" identifying the specific
@@ -382,26 +310,14 @@ impl SettingGsm {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "sim-operator-id")]
     pub fn set_sim_operator_id(&self, sim_operator_id: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"sim-operator-id\0".as_ptr() as *const _,
-                sim_operator_id.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "sim-operator-id", &sim_operator_id)
     }
 
     /// The username used to authenticate with the network, if required. Many
     /// providers do not require a username, or accept any username. But if a
     /// username is required, it is specified here.
     pub fn set_username(&self, username: Option<&str>) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.as_ptr() as *mut glib::gobject_ffi::GObject,
-                b"username\0".as_ptr() as *const _,
-                username.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self, "username", &username)
     }
 
     #[doc(alias = "apn")]

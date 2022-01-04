@@ -32,6 +32,8 @@ glib::wrapper! {
 }
 
 impl VpnServicePlugin {
+    pub const NONE: Option<&'static VpnServicePlugin> = None;
+
     //#[cfg(any(feature = "v1_2", feature = "dox"))]
     //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     //#[doc(alias = "nm_vpn_service_plugin_get_secret_flags")]
@@ -47,8 +49,6 @@ impl VpnServicePlugin {
     //    unsafe { TODO: call ffi:nm_vpn_service_plugin_read_vpn_details() }
     //}
 }
-
-pub const NONE_VPN_SERVICE_PLUGIN: Option<&VpnServicePlugin> = None;
 
 /// Trait containing all [`struct@VpnServicePlugin`] methods.
 ///
@@ -147,8 +147,9 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
     fn disconnect(&self) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ =
+            let is_ok =
                 ffi::nm_vpn_service_plugin_disconnect(self.as_ref().to_glib_none().0, &mut error);
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -220,61 +221,25 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     fn service_name(&self) -> Option<glib::GString> {
-        unsafe {
-            let mut value = glib::Value::from_type(<glib::GString as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"service-name\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `service-name` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "service-name")
     }
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     fn state(&self) -> VpnServiceState {
-        unsafe {
-            let mut value = glib::Value::from_type(<VpnServiceState as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"state\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `state` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "state")
     }
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     fn set_state(&self, state: VpnServiceState) {
-        unsafe {
-            glib::gobject_ffi::g_object_set_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"state\0".as_ptr() as *const _,
-                state.to_value().to_glib_none().0,
-            );
-        }
+        glib::ObjectExt::set_property(self.as_ref(), "state", &state)
     }
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     fn is_watch_peer(&self) -> bool {
-        unsafe {
-            let mut value = glib::Value::from_type(<bool as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"watch-peer\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `watch-peer` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "watch-peer")
     }
 
     fn connect_config<F: Fn(&Self, &glib::Variant) + 'static>(&self, f: F) -> SignalHandlerId {

@@ -55,12 +55,13 @@ impl RemoteConnection {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_remote_connection_commit_changes(
+            let is_ok = ffi::nm_remote_connection_commit_changes(
                 self.to_glib_none().0,
                 save_to_disk.into_glib(),
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -120,7 +121,7 @@ impl RemoteConnection {
         }
     }
 
-    pub fn commit_changes_async_future(
+    pub fn commit_changes_future(
         &self,
         save_to_disk: bool,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
@@ -150,11 +151,12 @@ impl RemoteConnection {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_remote_connection_delete(
+            let is_ok = ffi::nm_remote_connection_delete(
                 self.to_glib_none().0,
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -204,7 +206,7 @@ impl RemoteConnection {
         }
     }
 
-    pub fn delete_async_future(
+    pub fn delete_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
@@ -255,7 +257,7 @@ impl RemoteConnection {
     ///
     /// # Returns
     ///
-    /// a [`glib::Variant`][crate::glib::Variant] of type `NM_VARIANT_TYPE_CONNECTION` containing
+    /// a [`glib::Variant`][struct@crate::glib::Variant] of type `NM_VARIANT_TYPE_CONNECTION` containing
     /// `self`'s secrets, or [`None`] on error.
     #[cfg_attr(feature = "v1_22", deprecated = "Since 1.22")]
     #[doc(alias = "nm_remote_connection_get_secrets")]
@@ -330,7 +332,7 @@ impl RemoteConnection {
         }
     }
 
-    pub fn secrets_async_future(
+    pub fn secrets_future(
         &self,
         setting_name: &str,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<glib::Variant, glib::Error>> + 'static>>
@@ -394,11 +396,12 @@ impl RemoteConnection {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = ffi::nm_remote_connection_save(
+            let is_ok = ffi::nm_remote_connection_save(
                 self.to_glib_none().0,
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -449,7 +452,7 @@ impl RemoteConnection {
         }
     }
 
-    pub fn save_async_future(
+    pub fn save_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
