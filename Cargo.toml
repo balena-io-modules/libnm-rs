@@ -35,7 +35,10 @@ path = 'nm-sys'
 
 [dev-dependencies]
 anyhow = '1.0'
-clap = { version = "3", features = ["derive"] }
+
+[dev-dependencies.clap]
+version = '3'
+features = ['derive']
 
 [features]
 v1_2 = ['ffi/v1_2']
