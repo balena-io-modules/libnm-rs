@@ -1,4 +1,5 @@
 #![allow(deprecated)]
+#![allow(unused_imports)]
 #![cfg_attr(feature = "cargo-clippy", allow(clippy::unreadable_literal))]
 #![cfg_attr(feature = "cargo-clippy", allow(clippy::let_and_return))]
 #![cfg_attr(feature = "cargo-clippy", allow(clippy::new_ret_no_self))]
