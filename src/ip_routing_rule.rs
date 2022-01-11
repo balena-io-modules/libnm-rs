@@ -352,6 +352,7 @@ impl IPRoutingRule {
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_ip_routing_rule_new_clone")]
+    #[must_use]
     pub fn new_clone(&self) -> Option<IPRoutingRule> {
         unsafe { from_glib_full(ffi::nm_ip_routing_rule_new_clone(self.to_glib_none().0)) }
     }

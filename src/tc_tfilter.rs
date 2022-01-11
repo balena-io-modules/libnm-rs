@@ -56,6 +56,7 @@ impl TCTfilter {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_tfilter_dup")]
+    #[must_use]
     pub fn dup(&self) -> Option<TCTfilter> {
         unsafe { from_glib_full(ffi::nm_tc_tfilter_dup(self.to_glib_none().0)) }
     }

@@ -79,6 +79,7 @@ impl IPRoute {
     #[cfg(any(feature = "v1_32", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
     #[doc(alias = "nm_ip_route_dup")]
+    #[must_use]
     pub fn dup(&self) -> Option<IPRoute> {
         unsafe { from_glib_full(ffi::nm_ip_route_dup(self.to_glib_none().0)) }
     }

@@ -210,6 +210,7 @@ impl WireGuardPeer {
     /// a clone of `self`. This instance
     ///  is always unsealed.
     #[doc(alias = "nm_wireguard_peer_new_clone")]
+    #[must_use]
     pub fn new_clone(&self, with_secrets: bool) -> Option<WireGuardPeer> {
         unsafe {
             from_glib_full(ffi::nm_wireguard_peer_new_clone(

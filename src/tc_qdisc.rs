@@ -53,6 +53,7 @@ impl TCQdisc {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_tc_qdisc_dup")]
+    #[must_use]
     pub fn dup(&self) -> Option<TCQdisc> {
         unsafe { from_glib_full(ffi::nm_tc_qdisc_dup(self.to_glib_none().0)) }
     }

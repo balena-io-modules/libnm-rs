@@ -70,6 +70,7 @@ pub trait SettingExt: 'static {
     /// a new [`Setting`][crate::Setting] containing the same properties and values as the
     /// source [`Setting`][crate::Setting]
     #[doc(alias = "nm_setting_duplicate")]
+    #[must_use]
     fn duplicate(&self) -> Option<Setting>;
 
     //#[doc(alias = "nm_setting_enumerate_values")]

@@ -63,6 +63,7 @@ impl SriovVF {
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_dup")]
+    #[must_use]
     pub fn dup(&self) -> Option<SriovVF> {
         unsafe { from_glib_full(ffi::nm_sriov_vf_dup(self.to_glib_none().0)) }
     }

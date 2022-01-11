@@ -198,6 +198,7 @@ impl TeamLinkWatcher {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_team_link_watcher_dup")]
+    #[must_use]
     pub fn dup(&self) -> Option<TeamLinkWatcher> {
         unsafe { from_glib_full(ffi::nm_team_link_watcher_dup(self.to_glib_none().0)) }
     }
