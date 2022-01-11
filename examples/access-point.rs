@@ -3,7 +3,7 @@ mod common;
 use nm::*;
 
 use anyhow::{anyhow, Context, Result};
-use clap::Clap;
+use clap::Parser;
 use futures_channel::oneshot;
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -12,7 +12,7 @@ use glib::translate::FromGlib;
 
 use common::*;
 
-#[derive(Clap)]
+#[derive(Parser)]
 struct Opts {
     #[clap(short, long)]
     interface: Option<String>,
@@ -36,7 +36,7 @@ fn main() -> Result<()> {
 }
 
 async fn run(opts: Opts) -> Result<()> {
-    let client = Client::new_async_future()
+    let client = Client::new_future()
         .await
         .context("Failed to create NM Client")?;
 
@@ -47,7 +47,7 @@ async fn run(opts: Opts) -> Result<()> {
     let connection = create_connection(device.iface().as_deref(), &opts)?;
 
     let active_connection = client
-        .add_and_activate_connection_async_future(Some(&connection), &device, None)
+        .add_and_activate_connection_future(Some(&connection), &device, None)
         .await
         .context("Failed to add and activate connection")?;
 
@@ -71,7 +71,7 @@ async fn run(opts: Opts) -> Result<()> {
                     if let Some(remote_connection) = active_connection.connection() {
                         Some(
                             remote_connection
-                                .delete_async_future()
+                                .delete_future()
                                 .await
                                 .context("Failed to delete connection"),
                         )

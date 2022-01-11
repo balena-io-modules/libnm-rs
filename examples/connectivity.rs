@@ -9,12 +9,12 @@ fn main() -> Result<()> {
 }
 
 async fn run() -> Result<()> {
-    let client = Client::new_async_future()
+    let client = Client::new_future()
         .await
         .context("Failed to create NM Client")?;
 
     let connectivity = client
-        .check_connectivity_async_future()
+        .check_connectivity_future()
         .await
         .context("Failed to check connectivity")?;
     let check_enabled = client.connectivity_check_get_enabled();

@@ -4,7 +4,7 @@ use common::*;
 use nm::*;
 
 fn main() {
-    let client = Client::new(NONE_CANCELLABLE).unwrap();
+    let client = Client::new(Cancellable::NONE).unwrap();
 
     let all_devices = client.devices();
 
