@@ -239,6 +239,145 @@ impl Client {
     /// the new connection, not when it finishes. You can used the returned
     /// [`ActiveConnection`][crate::ActiveConnection] object (in particular, `property::ActiveConnection::state`) to
     /// track the activation to its completion.
+    ///
+    /// This is identical to [`add_and_activate_connection_async()`][Self::add_and_activate_connection_async()] but takes
+    /// a further `options` parameter. Currently, the following options are supported
+    /// by the daemon:
+    ///  * "persist": A string describing how the connection should be stored.
+    ///  The default is "disk", but it can be modified to "memory" (until
+    ///  the daemon quits) or "volatile" (will be deleted on disconnect).
+    ///  * "bind-activation": Bind the connection lifetime to something. The default is "none",
+    ///  meaning an explicit disconnect is needed. The value "dbus-client"
+    ///  means the connection will automatically be deactivated when the calling
+    ///  D-Bus client disappears from the system bus.
+    /// ## `partial`
+    /// an [`Connection`][crate::Connection] to add; the connection may be
+    ///  partially filled (or even [`None`]) and will be completed by NetworkManager
+    ///  using the given `device` and `specific_object` before being added
+    /// ## `device`
+    /// the [`Device`][crate::Device]
+    /// ## `specific_object`
+    /// the object path of a connection-type-specific
+    ///  object this activation should use. This parameter is currently ignored for
+    ///  wired and mobile broadband connections, and the value of [`None`] should be used
+    ///  (i.e., no specific object). For Wi-Fi or WiMAX connections, pass the object
+    ///  path of a [`AccessPoint`][crate::AccessPoint] or [`WimaxNsp`][crate::WimaxNsp] owned by `device`, which you can
+    ///  get using [`ObjectExt::path()`][crate::prelude::ObjectExt::path()], and which will be used to complete the
+    ///  details of the newly added connection.
+    /// ## `options`
+    /// a [`glib::Variant`][struct@crate::glib::Variant] containing a dictionary with options, or [`None`]
+    /// ## `cancellable`
+    /// a [`gio::Cancellable`][crate::gio::Cancellable], or [`None`]
+    /// ## `callback`
+    /// callback to be called when the activation has started
+    #[cfg(any(feature = "v1_16", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
+    #[doc(alias = "nm_client_add_and_activate_connection2")]
+    pub fn add_and_activate_connection2<
+        P: FnOnce(Result<(ActiveConnection, glib::Variant), glib::Error>) + 'static,
+    >(
+        &self,
+        partial: Option<&impl IsA<Connection>>,
+        device: &impl IsA<Device>,
+        specific_object: Option<&str>,
+        options: &glib::Variant,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
+    ) {
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
+        unsafe extern "C" fn add_and_activate_connection2_trampoline<
+            P: FnOnce(Result<(ActiveConnection, glib::Variant), glib::Error>) + 'static,
+        >(
+            _source_object: *mut glib::gobject_ffi::GObject,
+            res: *mut gio::ffi::GAsyncResult,
+            user_data: glib::ffi::gpointer,
+        ) {
+            let mut error = ptr::null_mut();
+            let mut out_result = ptr::null_mut();
+            let ret = ffi::nm_client_add_and_activate_connection2_finish(
+                _source_object as *mut _,
+                res,
+                &mut out_result,
+                &mut error,
+            );
+            let result = if error.is_null() {
+                Ok((from_glib_full(ret), from_glib_full(out_result)))
+            } else {
+                Err(from_glib_full(error))
+            };
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
+            callback(result);
+        }
+        let callback = add_and_activate_connection2_trampoline::<P>;
+        unsafe {
+            ffi::nm_client_add_and_activate_connection2(
+                self.to_glib_none().0,
+                partial.map(|p| p.as_ref()).to_glib_none().0,
+                device.as_ref().to_glib_none().0,
+                specific_object.to_glib_none().0,
+                options.to_glib_none().0,
+                cancellable.map(|p| p.as_ref()).to_glib_none().0,
+                Some(callback),
+                Box_::into_raw(user_data) as *mut _,
+            );
+        }
+    }
+
+    #[cfg(any(feature = "v1_16", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
+    pub fn add_and_activate_connection2_future(
+        &self,
+        partial: Option<&(impl IsA<Connection> + Clone + 'static)>,
+        device: &(impl IsA<Device> + Clone + 'static),
+        specific_object: Option<&str>,
+        options: &glib::Variant,
+    ) -> Pin<
+        Box_<
+            dyn std::future::Future<Output = Result<(ActiveConnection, glib::Variant), glib::Error>>
+                + 'static,
+        >,
+    > {
+        let partial = partial.map(ToOwned::to_owned);
+        let device = device.clone();
+        let specific_object = specific_object.map(ToOwned::to_owned);
+        let options = options.clone();
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.add_and_activate_connection2(
+                partial.as_ref().map(::std::borrow::Borrow::borrow),
+                &device,
+                specific_object.as_ref().map(::std::borrow::Borrow::borrow),
+                &options,
+                Some(cancellable),
+                move |res| {
+                    send.resolve(res);
+                },
+            );
+        }))
+    }
+
+    /// Adds a new connection using the given details (if any) as a template,
+    /// automatically filling in missing settings with the capabilities of the given
+    /// device and specific object. The new connection is then asynchronously
+    /// activated as with [`activate_connection_async()`][Self::activate_connection_async()]. Cannot be used for
+    /// VPN connections at this time.
+    ///
+    /// Note that the callback is invoked when NetworkManager has started activating
+    /// the new connection, not when it finishes. You can used the returned
+    /// [`ActiveConnection`][crate::ActiveConnection] object (in particular, `property::ActiveConnection::state`) to
+    /// track the activation to its completion.
     /// ## `partial`
     /// an [`Connection`][crate::Connection] to add; the connection may be
     ///  partially filled (or even [`None`]) and will be completed by NetworkManager

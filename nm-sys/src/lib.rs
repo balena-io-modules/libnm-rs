@@ -5524,6 +5524,10 @@ extern "C" {
     pub fn nm_client_new_async(cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
     pub fn nm_client_activate_connection_async(client: *mut NMClient, connection: *mut NMConnection, device: *mut NMDevice, specific_object: *const c_char, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
     pub fn nm_client_activate_connection_finish(client: *mut NMClient, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> *mut NMActiveConnection;
+    #[cfg(any(feature = "v1_16", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
+    pub fn nm_client_add_and_activate_connection2(client: *mut NMClient, partial: *mut NMConnection, device: *mut NMDevice, specific_object: *const c_char, options: *mut glib::GVariant, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
+    pub fn nm_client_add_and_activate_connection2_finish(client: *mut NMClient, result: *mut gio::GAsyncResult, out_result: *mut *mut glib::GVariant, error: *mut *mut glib::GError) -> *mut NMActiveConnection;
     pub fn nm_client_add_and_activate_connection_async(client: *mut NMClient, partial: *mut NMConnection, device: *mut NMDevice, specific_object: *const c_char, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
     pub fn nm_client_add_and_activate_connection_finish(client: *mut NMClient, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> *mut NMActiveConnection;
     #[cfg(any(feature = "v1_20", feature = "dox"))]
