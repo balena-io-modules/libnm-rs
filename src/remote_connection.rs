@@ -81,15 +81,26 @@ impl RemoteConnection {
     /// ## `callback`
     /// callback to be called when the commit operation completes
     #[doc(alias = "nm_remote_connection_commit_changes_async")]
-    pub fn commit_changes_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    pub fn commit_changes_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         save_to_disk: bool,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn commit_changes_async_trampoline<
-            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -106,7 +117,9 @@ impl RemoteConnection {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = commit_changes_async_trampoline::<P>;
@@ -171,14 +184,25 @@ impl RemoteConnection {
     /// ## `callback`
     /// callback to be called when the delete operation completes
     #[doc(alias = "nm_remote_connection_delete_async")]
-    pub fn delete_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    pub fn delete_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn delete_async_trampoline<
-            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -192,7 +216,9 @@ impl RemoteConnection {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = delete_async_trampoline::<P>;
@@ -292,15 +318,26 @@ impl RemoteConnection {
     /// callback to be called when the secret request completes
     #[doc(alias = "nm_remote_connection_get_secrets_async")]
     #[doc(alias = "get_secrets_async")]
-    pub fn secrets_async<P: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static>(
+    pub fn secrets_async<P: FnOnce(Result<glib::Variant, glib::Error>) + 'static>(
         &self,
         setting_name: &str,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn secrets_async_trampoline<
-            P: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<glib::Variant, glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -317,7 +354,9 @@ impl RemoteConnection {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = secrets_async_trampoline::<P>;
@@ -417,15 +456,24 @@ impl RemoteConnection {
     /// ## `callback`
     /// callback to be called when the save operation completes
     #[doc(alias = "nm_remote_connection_save_async")]
-    pub fn save_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    pub fn save_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
-        unsafe extern "C" fn save_async_trampoline<
-            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
-        >(
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
+        unsafe extern "C" fn save_async_trampoline<P: FnOnce(Result<(), glib::Error>) + 'static>(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
             user_data: glib::ffi::gpointer,
@@ -438,7 +486,9 @@ impl RemoteConnection {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = save_async_trampoline::<P>;
@@ -476,7 +526,7 @@ impl RemoteConnection {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_remote_connection_update2")]
-    pub fn update2<P: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static>(
+    pub fn update2<P: FnOnce(Result<glib::Variant, glib::Error>) + 'static>(
         &self,
         settings: Option<&glib::Variant>,
         flags: SettingsUpdate2Flags,
@@ -484,9 +534,20 @@ impl RemoteConnection {
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn update2_trampoline<
-            P: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<glib::Variant, glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -500,7 +561,9 @@ impl RemoteConnection {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = update2_trampoline::<P>;

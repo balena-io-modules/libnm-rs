@@ -415,6 +415,11 @@ pub static CLIENT_PRIMARY_CONNECTION: once_cell::sync::Lazy<&'static str> =
             .to_str()
             .unwrap()
     });
+#[doc(alias = "NM_CLIENT_RADIO_FLAGS")]
+pub static CLIENT_RADIO_FLAGS: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(ffi::NM_CLIENT_RADIO_FLAGS).to_str().unwrap()
+    });
 #[doc(alias = "NM_CLIENT_STARTUP")]
 pub static CLIENT_STARTUP: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
@@ -476,6 +481,13 @@ pub static CLIENT_WWAN_HARDWARE_ENABLED: once_cell::sync::Lazy<&'static str> =
 pub static CONNECTION_CHANGED: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(ffi::NM_CONNECTION_CHANGED).to_str().unwrap()
+    });
+#[doc(alias = "NM_CONNECTION_NORMALIZE_PARAM_IP4_CONFIG_METHOD")]
+pub static CONNECTION_NORMALIZE_PARAM_IP4_CONFIG_METHOD: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(ffi::NM_CONNECTION_NORMALIZE_PARAM_IP4_CONFIG_METHOD)
+            .to_str()
+            .unwrap()
     });
 #[doc(alias = "NM_CONNECTION_NORMALIZE_PARAM_IP6_CONFIG_METHOD")]
 pub static CONNECTION_NORMALIZE_PARAM_IP6_CONFIG_METHOD: once_cell::sync::Lazy<&'static str> =
@@ -1311,6 +1323,11 @@ pub static DEVICE_PHYSICAL_PORT_ID: once_cell::sync::Lazy<&'static str> =
         CStr::from_ptr(ffi::NM_DEVICE_PHYSICAL_PORT_ID)
             .to_str()
             .unwrap()
+    });
+#[doc(alias = "NM_DEVICE_PORTS")]
+pub static DEVICE_PORTS: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(ffi::NM_DEVICE_PORTS).to_str().unwrap()
     });
 #[doc(alias = "NM_DEVICE_PRODUCT")]
 pub static DEVICE_PRODUCT: once_cell::sync::Lazy<&'static str> =
@@ -2667,6 +2684,11 @@ pub static LLDP_DEST_NEAREST_NON_TPMR_BRIDGE: once_cell::sync::Lazy<&'static str
             .to_str()
             .unwrap()
     });
+#[doc(alias = "NM_OBJECT_CLIENT")]
+pub static OBJECT_CLIENT: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(ffi::NM_OBJECT_CLIENT).to_str().unwrap()
+    });
 #[doc(alias = "NM_OBJECT_PATH")]
 pub static OBJECT_PATH: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe { CStr::from_ptr(ffi::NM_OBJECT_PATH).to_str().unwrap() });
@@ -3445,6 +3467,20 @@ pub static SETTING_BOND_OPTION_XMIT_HASH_POLICY: once_cell::sync::Lazy<&'static 
             .to_str()
             .unwrap()
     });
+#[doc(alias = "NM_SETTING_BOND_PORT_QUEUE_ID")]
+pub static SETTING_BOND_PORT_QUEUE_ID: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(ffi::NM_SETTING_BOND_PORT_QUEUE_ID)
+            .to_str()
+            .unwrap()
+    });
+#[doc(alias = "NM_SETTING_BOND_PORT_SETTING_NAME")]
+pub static SETTING_BOND_PORT_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(ffi::NM_SETTING_BOND_PORT_SETTING_NAME)
+            .to_str()
+            .unwrap()
+    });
 #[doc(alias = "NM_SETTING_BOND_SETTING_NAME")]
 pub static SETTING_BOND_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
@@ -3753,6 +3789,13 @@ pub static SETTING_CONNECTION_AUTOCONNECT_RETRIES: once_cell::sync::Lazy<&'stati
 pub static SETTING_CONNECTION_AUTOCONNECT_SLAVES: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(ffi::NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES)
+            .to_str()
+            .unwrap()
+    });
+#[doc(alias = "NM_SETTING_CONNECTION_DNS_OVER_TLS")]
+pub static SETTING_CONNECTION_DNS_OVER_TLS: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_DNS_OVER_TLS)
             .to_str()
             .unwrap()
     });
@@ -5008,6 +5051,13 @@ pub static SETTING_OVS_BRIDGE_STP_ENABLE: once_cell::sync::Lazy<&'static str> =
 pub static SETTING_OVS_DPDK_DEVARGS: once_cell::sync::Lazy<&'static str> =
     once_cell::sync::Lazy::new(|| unsafe {
         CStr::from_ptr(ffi::NM_SETTING_OVS_DPDK_DEVARGS)
+            .to_str()
+            .unwrap()
+    });
+#[doc(alias = "NM_SETTING_OVS_DPDK_N_RXQ")]
+pub static SETTING_OVS_DPDK_N_RXQ: once_cell::sync::Lazy<&'static str> =
+    once_cell::sync::Lazy::new(|| unsafe {
+        CStr::from_ptr(ffi::NM_SETTING_OVS_DPDK_N_RXQ)
             .to_str()
             .unwrap()
     });

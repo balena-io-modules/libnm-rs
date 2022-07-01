@@ -5,8 +5,8 @@
 #[cfg(any(feature = "v1_18", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
 use glib::translate::*;
-#[cfg(any(feature = "v1_32", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+#[cfg(any(feature = "v1_34", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
 use std::mem;
 #[cfg(any(feature = "v1_18", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
@@ -308,8 +308,8 @@ impl IPRoutingRule {
     /// ## `out_range_end`
     /// returns the end of the range
     ///  or 0 if the range is not set.
-    #[cfg(any(feature = "v1_32", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
     #[doc(alias = "nm_ip_routing_rule_get_uid_range")]
     #[doc(alias = "get_uid_range")]
     pub fn uid_range(&self) -> Option<(u32, u32)> {
@@ -321,10 +321,8 @@ impl IPRoutingRule {
                 out_range_start.as_mut_ptr(),
                 out_range_end.as_mut_ptr(),
             ));
-            let out_range_start = out_range_start.assume_init();
-            let out_range_end = out_range_end.assume_init();
             if ret {
-                Some((out_range_start, out_range_end))
+                Some((out_range_start.assume_init(), out_range_end.assume_init()))
             } else {
                 None
             }
@@ -530,8 +528,8 @@ impl IPRoutingRule {
     /// the uid_range start to set.
     /// ## `uid_range_end`
     /// the uid_range start to set.
-    #[cfg(any(feature = "v1_32", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
     #[doc(alias = "nm_ip_routing_rule_set_uid_range")]
     pub fn set_uid_range(&self, uid_range_start: u32, uid_range_end: u32) {
         unsafe {

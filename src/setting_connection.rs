@@ -12,6 +12,9 @@ use crate::Setting;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use crate::SettingConnectionAutoconnectSlaves;
+#[cfg(any(feature = "v1_34", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+use crate::SettingConnectionDnsOverTls;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use crate::SettingConnectionLldp;
@@ -182,6 +185,22 @@ impl SettingConnection {
     pub fn connection_type(&self) -> Option<glib::GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_connection_get_connection_type(
+                self.to_glib_none().0,
+            ))
+        }
+    }
+
+    ///
+    /// # Returns
+    ///
+    /// the `property::SettingConnection::dns-over-tls` property of the setting.
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    #[doc(alias = "nm_setting_connection_get_dns_over_tls")]
+    #[doc(alias = "get_dns_over_tls")]
+    pub fn dns_over_tls(&self) -> SettingConnectionDnsOverTls {
+        unsafe {
+            from_glib(ffi::nm_setting_connection_get_dns_over_tls(
                 self.to_glib_none().0,
             ))
         }
@@ -574,16 +593,32 @@ impl SettingConnection {
     /// [`true`] to automatically activate the connection, [`false`] to require manual
     /// intervention to activate the connection.
     ///
+    /// Autoconnect happens when the circumstances are suitable. That means for
+    /// example that the device is currently managed and not active. Autoconnect
+    /// thus never replaces or competes with an already active profile.
+    ///
     /// Note that autoconnect is not implemented for VPN profiles. See
     /// `property::SettingConnection::secondaries` as an alternative to automatically
     /// connect VPN profiles.
+    ///
+    /// If multiple profiles are ready to autoconnect on the same device,
+    /// the one with the better "connection.autoconnect-priority" is chosen. If
+    /// the priorities are equal, then the most recently connected profile is activated.
+    /// If the profiles were not connected earlier or their
+    /// "connection.timestamp" is identical, the choice is undefined.
+    ///
+    /// Depending on "connection.multi-connect", a profile can (auto)connect only
+    /// once at a time or multiple times.
     pub fn set_autoconnect(&self, autoconnect: bool) {
         glib::ObjectExt::set_property(self, "autoconnect", &autoconnect)
     }
 
-    /// The autoconnect priority. If the connection is set to autoconnect,
-    /// connections with higher priority will be preferred. Defaults to 0.
-    /// The higher number means higher priority.
+    /// The autoconnect priority in range -999 to 999. If the connection is set
+    /// to autoconnect, connections with higher priority will be preferred.
+    /// The higher number means higher priority. Defaults to 0.
+    /// Note that this property only matters if there are more than one candidate
+    /// profile to select for autoconnect. In case of equal priority, the profile
+    /// used most recently is chosen.
     #[doc(alias = "autoconnect-priority")]
     pub fn set_autoconnect_priority(&self, autoconnect_priority: i32) {
         glib::ObjectExt::set_property(self, "autoconnect-priority", &autoconnect_priority)
@@ -623,6 +658,24 @@ impl SettingConnection {
     #[doc(alias = "autoconnect-slaves")]
     pub fn set_autoconnect_slaves(&self, autoconnect_slaves: SettingConnectionAutoconnectSlaves) {
         glib::ObjectExt::set_property(self, "autoconnect-slaves", &autoconnect_slaves)
+    }
+
+    /// Whether DNSOverTls (dns-over-tls) is enabled for the connection.
+    /// DNSOverTls is a technology which uses TLS to encrypt dns traffic.
+    ///
+    /// The permitted values are: "yes" (2) use DNSOverTls and disabled fallback,
+    /// "opportunistic" (1) use DNSOverTls but allow fallback to unencrypted resolution,
+    /// "no" (0) don't ever use DNSOverTls.
+    /// If unspecified "default" depends on the plugin used. Systemd-resolved
+    /// uses global setting.
+    ///
+    /// This feature requires a plugin which supports DNSOverTls. Otherwise, the
+    /// setting has no effect. One such plugin is dns-systemd-resolved.
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    #[doc(alias = "dns-over-tls")]
+    pub fn set_dns_over_tls(&self, dns_over_tls: i32) {
+        glib::ObjectExt::set_property(self, "dns-over-tls", &dns_over_tls)
     }
 
     /// If greater than zero, delay success of IP addressing until either the
@@ -815,7 +868,8 @@ impl SettingConnection {
     /// is commonly also included, so that different systems end up generating
     /// different IDs. Or with ipv6.addr-gen-mode=stable-privacy, also the device's
     /// name is included, so that different interfaces yield different addresses.
-    /// The per-host key is the identity of your machine and stored in /var/lib/NetworkManager/secret-key.
+    /// The per-host key is the identity of your machine and stored in /var/lib/NetworkManager/secret_key.
+    /// See NetworkManager(8) manual about the secret-key and the host identity.
     ///
     /// The '$' character is treated special to perform dynamic substitutions
     /// at runtime. Currently, supported are "${CONNECTION}", "${DEVICE}", "${MAC}",
@@ -1042,6 +1096,31 @@ impl SettingConnection {
                 b"notify::autoconnect-slaves\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_autoconnect_slaves_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    #[doc(alias = "dns-over-tls")]
+    pub fn connect_dns_over_tls_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_dns_over_tls_trampoline<F: Fn(&SettingConnection) + 'static>(
+            this: *mut ffi::NMSettingConnection,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::dns-over-tls\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_dns_over_tls_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

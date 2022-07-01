@@ -46,6 +46,7 @@ int main() {
     printf("%s;%zu;%zu\n", "NMManagerError", sizeof(NMManagerError), alignof(NMManagerError));
     printf("%s;%zu;%zu\n", "NMManagerReloadFlags", sizeof(NMManagerReloadFlags), alignof(NMManagerReloadFlags));
     printf("%s;%zu;%zu\n", "NMMetered", sizeof(NMMetered), alignof(NMMetered));
+    printf("%s;%zu;%zu\n", "NMRadioFlags", sizeof(NMRadioFlags), alignof(NMRadioFlags));
     printf("%s;%zu;%zu\n", "NMRollbackResult", sizeof(NMRollbackResult), alignof(NMRollbackResult));
     printf("%s;%zu;%zu\n", "NMSecretAgentCapabilities", sizeof(NMSecretAgentCapabilities), alignof(NMSecretAgentCapabilities));
     printf("%s;%zu;%zu\n", "NMSecretAgentError", sizeof(NMSecretAgentError), alignof(NMSecretAgentError));
@@ -57,6 +58,7 @@ int main() {
     printf("%s;%zu;%zu\n", "NMSetting8021xCKScheme", sizeof(NMSetting8021xCKScheme), alignof(NMSetting8021xCKScheme));
     printf("%s;%zu;%zu\n", "NMSettingCompareFlags", sizeof(NMSettingCompareFlags), alignof(NMSettingCompareFlags));
     printf("%s;%zu;%zu\n", "NMSettingConnectionAutoconnectSlaves", sizeof(NMSettingConnectionAutoconnectSlaves), alignof(NMSettingConnectionAutoconnectSlaves));
+    printf("%s;%zu;%zu\n", "NMSettingConnectionDnsOverTls", sizeof(NMSettingConnectionDnsOverTls), alignof(NMSettingConnectionDnsOverTls));
     printf("%s;%zu;%zu\n", "NMSettingConnectionLldp", sizeof(NMSettingConnectionLldp), alignof(NMSettingConnectionLldp));
     printf("%s;%zu;%zu\n", "NMSettingConnectionLlmnr", sizeof(NMSettingConnectionLlmnr), alignof(NMSettingConnectionLlmnr));
     printf("%s;%zu;%zu\n", "NMSettingConnectionMdns", sizeof(NMSettingConnectionMdns), alignof(NMSettingConnectionMdns));

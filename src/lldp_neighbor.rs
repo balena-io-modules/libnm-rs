@@ -83,9 +83,8 @@ impl LldpNeighbor {
                 name.to_glib_none().0,
                 out_value.as_mut_ptr(),
             ));
-            let out_value = out_value.assume_init();
             if ret {
-                Some(out_value)
+                Some(out_value.assume_init())
             } else {
                 None
             }

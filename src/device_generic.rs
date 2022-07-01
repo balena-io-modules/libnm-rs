@@ -21,6 +21,31 @@ glib::wrapper! {
     }
 }
 
+impl DeviceGeneric {
+    #[doc(alias = "type-description")]
+    pub fn connect_type_description_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_type_description_trampoline<F: Fn(&DeviceGeneric) + 'static>(
+            this: *mut ffi::NMDeviceGeneric,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::type-description\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_type_description_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+}
+
 impl fmt::Display for DeviceGeneric {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.write_str("DeviceGeneric")

@@ -18,14 +18,21 @@ use std::fmt;
 #[non_exhaustive]
 #[doc(alias = "NMActiveConnectionState")]
 pub enum ActiveConnectionState {
+    /// the state of the connection is unknown
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_UNKNOWN")]
     Unknown,
+    /// a network connection is being prepared
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_ACTIVATING")]
     Activating,
+    /// there is a connection to the network
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_ACTIVATED")]
     Activated,
+    /// the network connection is being
+    ///  torn down and cleaned up
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_DEACTIVATING")]
     Deactivating,
+    /// the network connection is disconnected
+    ///  and will be removed
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_DEACTIVATED")]
     Deactivated,
     #[doc(hidden)]
@@ -118,34 +125,64 @@ impl ToValue for ActiveConnectionState {
 #[non_exhaustive]
 #[doc(alias = "NMActiveConnectionStateReason")]
 pub enum ActiveConnectionStateReason {
+    /// The reason for the active connection
+    ///  state change is unknown.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_UNKNOWN")]
     Unknown,
+    /// No reason was given for the active
+    ///  connection state change.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_NONE")]
     None,
+    /// The active connection changed
+    ///  state because the user disconnected it.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_USER_DISCONNECTED")]
     UserDisconnected,
+    /// The active connection
+    ///  changed state because the device it was using was disconnected.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_DEVICE_DISCONNECTED")]
     DeviceDisconnected,
+    /// The service providing the
+    ///  VPN connection was stopped.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_STOPPED")]
     ServiceStopped,
+    /// The IP config of the active
+    ///  connection was invalid.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_IP_CONFIG_INVALID")]
     IpConfigInvalid,
+    /// The connection attempt to
+    ///  the VPN service timed out.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_CONNECT_TIMEOUT")]
     ConnectTimeout,
+    /// A timeout occurred
+    ///  while starting the service providing the VPN connection.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_START_TIMEOUT")]
     ServiceStartTimeout,
+    /// Starting the service
+    ///  providing the VPN connection failed.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_SERVICE_START_FAILED")]
     ServiceStartFailed,
+    /// Necessary secrets for the
+    ///  connection were not provided.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_NO_SECRETS")]
     NoSecrets,
+    /// Authentication to the
+    ///  server failed.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_LOGIN_FAILED")]
     LoginFailed,
+    /// The connection was
+    ///  deleted from settings.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_CONNECTION_REMOVED")]
     ConnectionRemoved,
+    /// Master connection of this
+    ///  connection failed to activate.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_DEPENDENCY_FAILED")]
     DependencyFailed,
+    /// Could not create the
+    ///  software device link.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_DEVICE_REALIZE_FAILED")]
     DeviceRealizeFailed,
+    /// The device this connection
+    ///  depended on disappeared.
     #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_REASON_DEVICE_REMOVED")]
     DeviceRemoved,
     #[doc(hidden)]
@@ -292,16 +329,27 @@ impl ToValue for ActiveConnectionStateReason {
 #[non_exhaustive]
 #[doc(alias = "NMAgentManagerError")]
 pub enum AgentManagerError {
+    /// unknown or unspecified error
     #[doc(alias = "NM_AGENT_MANAGER_ERROR_FAILED")]
     Failed,
+    /// The caller does not have permission
+    ///  to register a secret agent, or is trying to register the same secret agent
+    ///  twice.
     #[doc(alias = "NM_AGENT_MANAGER_ERROR_PERMISSION_DENIED")]
     PermissionDenied,
+    /// The identifier is not a valid
+    ///  secret agent identifier.
     #[doc(alias = "NM_AGENT_MANAGER_ERROR_INVALID_IDENTIFIER")]
     InvalidIdentifier,
+    /// The caller tried to unregister an agent
+    ///  that was not registered.
     #[doc(alias = "NM_AGENT_MANAGER_ERROR_NOT_REGISTERED")]
     NotRegistered,
+    /// No secret agent returned secrets for this
+    ///  request
     #[doc(alias = "NM_AGENT_MANAGER_ERROR_NO_SECRETS")]
     NoSecrets,
+    /// The user canceled the secrets request.
     #[doc(alias = "NM_AGENT_MANAGER_ERROR_USER_CANCELED")]
     UserCanceled,
     #[doc(hidden)]
@@ -423,8 +471,12 @@ impl ToValue for AgentManagerError {
 #[non_exhaustive]
 #[doc(alias = "NMCapability")]
 pub enum Capability {
+    /// Teams can be managed. This means the team device plugin
+    ///  is loaded.
     #[doc(alias = "NM_CAPABILITY_TEAM")]
     Team,
+    /// OpenVSwitch can be managed. This means the OVS device plugin
+    ///  is loaded. Since: 1.24.
     #[doc(alias = "NM_CAPABILITY_OVS")]
     Ovs,
     #[doc(hidden)]
@@ -509,10 +561,17 @@ impl ToValue for Capability {
 #[non_exhaustive]
 #[doc(alias = "NMClientError")]
 pub enum ClientError {
+    /// unknown or unclassified error
     #[doc(alias = "NM_CLIENT_ERROR_FAILED")]
     Failed,
+    /// an operation that requires NetworkManager
+    ///  failed because NetworkManager is not running
     #[doc(alias = "NM_CLIENT_ERROR_MANAGER_NOT_RUNNING")]
     ManagerNotRunning,
+    /// NetworkManager claimed that an
+    ///  operation succeeded, but the object that was allegedly created (eg,
+    ///  [`RemoteConnection`][crate::RemoteConnection], [`ActiveConnection`][crate::ActiveConnection]) was apparently destroyed before
+    ///  [`Client`][crate::Client] could create a representation of it.
     #[doc(alias = "NM_CLIENT_ERROR_OBJECT_CREATION_FAILED")]
     ObjectCreationFailed,
     #[doc(hidden)]
@@ -617,40 +676,72 @@ impl ToValue for ClientError {
 #[non_exhaustive]
 #[doc(alias = "NMClientPermission")]
 pub enum ClientPermission {
+    /// unknown or no permission
     #[doc(alias = "NM_CLIENT_PERMISSION_NONE")]
     None,
+    /// controls whether networking
+    ///  can be globally enabled or disabled
     #[doc(alias = "NM_CLIENT_PERMISSION_ENABLE_DISABLE_NETWORK")]
     EnableDisableNetwork,
+    /// controls whether Wi-Fi can be
+    ///  globally enabled or disabled
     #[doc(alias = "NM_CLIENT_PERMISSION_ENABLE_DISABLE_WIFI")]
     EnableDisableWifi,
+    /// controls whether WWAN (3G) can be
+    ///  globally enabled or disabled
     #[doc(alias = "NM_CLIENT_PERMISSION_ENABLE_DISABLE_WWAN")]
     EnableDisableWwan,
+    /// controls whether WiMAX can be
+    ///  globally enabled or disabled
     #[doc(alias = "NM_CLIENT_PERMISSION_ENABLE_DISABLE_WIMAX")]
     EnableDisableWimax,
+    /// controls whether the client can ask
+    ///  NetworkManager to sleep and wake
     #[doc(alias = "NM_CLIENT_PERMISSION_SLEEP_WAKE")]
     SleepWake,
+    /// controls whether networking connections
+    ///  can be started, stopped, and changed
     #[doc(alias = "NM_CLIENT_PERMISSION_NETWORK_CONTROL")]
     NetworkControl,
+    /// controls whether a password
+    ///  protected Wi-Fi hotspot can be created
     #[doc(alias = "NM_CLIENT_PERMISSION_WIFI_SHARE_PROTECTED")]
     WifiShareProtected,
+    /// controls whether an open Wi-Fi hotspot
+    ///  can be created
     #[doc(alias = "NM_CLIENT_PERMISSION_WIFI_SHARE_OPEN")]
     WifiShareOpen,
+    /// controls whether connections
+    ///  that are available to all users can be modified
     #[doc(alias = "NM_CLIENT_PERMISSION_SETTINGS_MODIFY_SYSTEM")]
     SettingsModifySystem,
+    /// controls whether connections
+    ///  owned by the current user can be modified
     #[doc(alias = "NM_CLIENT_PERMISSION_SETTINGS_MODIFY_OWN")]
     SettingsModifyOwn,
+    /// controls whether the
+    ///  persistent hostname can be changed
     #[doc(alias = "NM_CLIENT_PERMISSION_SETTINGS_MODIFY_HOSTNAME")]
     SettingsModifyHostname,
+    /// modify persistent global
+    ///  DNS configuration
     #[doc(alias = "NM_CLIENT_PERMISSION_SETTINGS_MODIFY_GLOBAL_DNS")]
     SettingsModifyGlobalDns,
+    /// controls access to Reload.
     #[doc(alias = "NM_CLIENT_PERMISSION_RELOAD")]
     Reload,
+    /// permission to create checkpoints.
     #[doc(alias = "NM_CLIENT_PERMISSION_CHECKPOINT_ROLLBACK")]
     CheckpointRollback,
+    /// controls whether device
+    ///  statistics can be globally enabled or disabled
     #[doc(alias = "NM_CLIENT_PERMISSION_ENABLE_DISABLE_STATISTICS")]
     EnableDisableStatistics,
+    /// controls whether
+    ///  connectivity check can be enabled or disabled
     #[doc(alias = "NM_CLIENT_PERMISSION_ENABLE_DISABLE_CONNECTIVITY_CHECK")]
     EnableDisableConnectivityCheck,
+    /// controls whether wifi scans can be performed
     #[doc(alias = "NM_CLIENT_PERMISSION_WIFI_SCAN")]
     WifiScan,
     #[doc(hidden)]
@@ -785,12 +876,18 @@ impl ToValue for ClientPermission {
 #[non_exhaustive]
 #[doc(alias = "NMClientPermissionResult")]
 pub enum ClientPermissionResult {
+    /// unknown or no authorization
     #[doc(alias = "NM_CLIENT_PERMISSION_RESULT_UNKNOWN")]
     Unknown,
+    /// the permission is available
     #[doc(alias = "NM_CLIENT_PERMISSION_RESULT_YES")]
     Yes,
+    /// authorization is necessary before the
+    ///  permission is available
     #[doc(alias = "NM_CLIENT_PERMISSION_RESULT_AUTH")]
     Auth,
+    /// permission to perform the operation is
+    ///  denied by system policy
     #[doc(alias = "NM_CLIENT_PERMISSION_RESULT_NO")]
     No,
     #[doc(hidden)]
@@ -884,20 +981,45 @@ impl ToValue for ClientPermissionResult {
 #[non_exhaustive]
 #[doc(alias = "NMConnectionError")]
 pub enum ConnectionError {
+    /// unknown or unclassified error
     #[doc(alias = "NM_CONNECTION_ERROR_FAILED")]
     Failed,
+    /// the [`Connection`][crate::Connection] object
+    ///  did not contain the specified [`Setting`][crate::Setting] object
     #[doc(alias = "NM_CONNECTION_ERROR_SETTING_NOT_FOUND")]
     SettingNotFound,
+    /// the [`Connection`][crate::Connection] did not contain the
+    ///  requested [`Setting`][crate::Setting] property
     #[doc(alias = "NM_CONNECTION_ERROR_PROPERTY_NOT_FOUND")]
     PropertyNotFound,
+    /// an operation which requires a secret
+    ///  was attempted on a non-secret property
     #[doc(alias = "NM_CONNECTION_ERROR_PROPERTY_NOT_SECRET")]
     PropertyNotSecret,
+    /// the [`Connection`][crate::Connection] object is missing an
+    ///  [`Setting`][crate::Setting] which is required for its configuration. The error message will
+    ///  always be prefixed with "&lt;setting-name>: ", where "&lt;setting-name>" is the
+    ///  name of the setting that is missing.
     #[doc(alias = "NM_CONNECTION_ERROR_MISSING_SETTING")]
     MissingSetting,
+    /// the [`Connection`][crate::Connection] object contains an
+    ///  invalid or inappropriate [`Setting`][crate::Setting]. The error message will always be
+    ///  prefixed with "&lt;setting-name>: ", where "&lt;setting-name>" is the name of the
+    ///  setting that is invalid.
     #[doc(alias = "NM_CONNECTION_ERROR_INVALID_SETTING")]
     InvalidSetting,
+    /// the [`Connection`][crate::Connection] object is invalid
+    ///  because it is missing a required property. The error message will always be
+    ///  prefixed with "&lt;setting-name>.&lt;property-name>: ", where "&lt;setting-name>" is
+    ///  the name of the setting with the missing property, and "&lt;property-name>" is
+    ///  the property that is missing.
     #[doc(alias = "NM_CONNECTION_ERROR_MISSING_PROPERTY")]
     MissingProperty,
+    /// the [`Connection`][crate::Connection] object is invalid
+    ///  because a property has an invalid value. The error message will always be
+    ///  prefixed with "&lt;setting-name>.&lt;property-name>: ", where "&lt;setting-name>" is
+    ///  the name of the setting with the invalid property, and "&lt;property-name>" is
+    ///  the property that is invalid.
     #[doc(alias = "NM_CONNECTION_ERROR_INVALID_PROPERTY")]
     InvalidProperty,
     #[doc(hidden)]
@@ -1022,12 +1144,24 @@ impl ToValue for ConnectionError {
 #[non_exhaustive]
 #[doc(alias = "NMConnectionMultiConnect")]
 pub enum ConnectionMultiConnect {
+    /// indicates that the per-connection
+    ///  setting is unspecified. In this case, it will fallback to the default
+    ///  value, which is [`Single`][Self::Single].
     #[doc(alias = "NM_CONNECTION_MULTI_CONNECT_DEFAULT")]
     Default,
+    /// the connection profile can only
+    ///  be active once at each moment. Activating a profile that is already active,
+    ///  will first deactivate it.
     #[doc(alias = "NM_CONNECTION_MULTI_CONNECT_SINGLE")]
     Single,
+    /// the profile can
+    ///  be manually activated multiple times on different devices. However,
+    ///  regarding autoconnect, the profile will autoconnect only if it is
+    ///  currently not connected otherwise.
     #[doc(alias = "NM_CONNECTION_MULTI_CONNECT_MANUAL_MULTIPLE")]
     ManualMultiple,
+    /// the profile can autoactivate
+    ///  and be manually activated multiple times together.
     #[doc(alias = "NM_CONNECTION_MULTI_CONNECT_MULTIPLE")]
     Multiple,
     #[doc(hidden)]
@@ -1128,14 +1262,33 @@ impl ToValue for ConnectionMultiConnect {
 #[non_exhaustive]
 #[doc(alias = "NMConnectivityState")]
 pub enum ConnectivityState {
+    /// Network connectivity is unknown. This means the
+    ///  connectivity checks are disabled (e.g. on server installations) or has
+    ///  not run yet. The graphical shell should assume the Internet connection
+    ///  might be available and not present a captive portal window.
     #[doc(alias = "NM_CONNECTIVITY_UNKNOWN")]
     Unknown,
+    /// The host is not connected to any network. There's
+    ///  no active connection that contains a default route to the internet and
+    ///  thus it makes no sense to even attempt a connectivity check. The graphical
+    ///  shell should use this state to indicate the network connection is unavailable.
     #[doc(alias = "NM_CONNECTIVITY_NONE")]
     None,
+    /// The Internet connection is hijacked by a captive
+    ///  portal gateway. The graphical shell may open a sandboxed web browser window
+    ///  (because the captive portals typically attempt a man-in-the-middle attacks
+    ///  against the https connections) for the purpose of authenticating to a gateway
+    ///  and retrigger the connectivity check with CheckConnectivity() when the
+    ///  browser window is dismissed.
     #[doc(alias = "NM_CONNECTIVITY_PORTAL")]
     Portal,
+    /// The host is connected to a network, does not appear
+    ///  to be able to reach the full Internet, but a captive portal has not been
+    ///  detected.
     #[doc(alias = "NM_CONNECTIVITY_LIMITED")]
     Limited,
+    /// The host is connected to a network, and
+    ///  appears to be able to reach the full Internet.
     #[doc(alias = "NM_CONNECTIVITY_FULL")]
     Full,
     #[doc(hidden)]
@@ -1227,16 +1380,23 @@ impl ToValue for ConnectivityState {
 #[non_exhaustive]
 #[doc(alias = "NMCryptoError")]
 pub enum CryptoError {
+    /// generic failure
     #[doc(alias = "NM_CRYPTO_ERROR_FAILED")]
     Failed,
+    /// the certificate or key data provided
+    ///  was invalid
     #[doc(alias = "NM_CRYPTO_ERROR_INVALID_DATA")]
     InvalidData,
+    /// the password was invalid
     #[doc(alias = "NM_CRYPTO_ERROR_INVALID_PASSWORD")]
     InvalidPassword,
+    /// the data uses an unknown cipher
     #[doc(alias = "NM_CRYPTO_ERROR_UNKNOWN_CIPHER")]
     UnknownCipher,
+    /// decryption failed
     #[doc(alias = "NM_CRYPTO_ERROR_DECRYPTION_FAILED")]
     DecryptionFailed,
+    /// encryption failed
     #[doc(alias = "NM_CRYPTO_ERROR_ENCRYPTION_FAILED")]
     EncryptionFailed,
     #[doc(hidden)]
@@ -1356,26 +1516,43 @@ impl ToValue for CryptoError {
 #[non_exhaustive]
 #[doc(alias = "NMDeviceError")]
 pub enum DeviceError {
+    /// unknown or unclassified error
     #[doc(alias = "NM_DEVICE_ERROR_FAILED")]
     Failed,
+    /// NetworkManager failed to create the device
     #[doc(alias = "NM_DEVICE_ERROR_CREATION_FAILED")]
     CreationFailed,
+    /// the specified connection is not valid
     #[doc(alias = "NM_DEVICE_ERROR_INVALID_CONNECTION")]
     InvalidConnection,
+    /// the specified connection is not
+    ///  compatible with this device.
     #[doc(alias = "NM_DEVICE_ERROR_INCOMPATIBLE_CONNECTION")]
     IncompatibleConnection,
+    /// the device does not have an active connection
     #[doc(alias = "NM_DEVICE_ERROR_NOT_ACTIVE")]
     NotActive,
+    /// the requested operation is only valid on
+    ///  software devices.
     #[doc(alias = "NM_DEVICE_ERROR_NOT_SOFTWARE")]
     NotSoftware,
+    /// the requested operation is not allowed at
+    ///  this time.
     #[doc(alias = "NM_DEVICE_ERROR_NOT_ALLOWED")]
     NotAllowed,
+    /// the "specific object" in the
+    ///  activation request (eg, the [`AccessPoint`][crate::AccessPoint] or [`WimaxNsp`][crate::WimaxNsp]) was not
+    ///  found.
     #[doc(alias = "NM_DEVICE_ERROR_SPECIFIC_OBJECT_NOT_FOUND")]
     SpecificObjectNotFound,
+    /// the version id did not match.
     #[doc(alias = "NM_DEVICE_ERROR_VERSION_ID_MISMATCH")]
     VersionIdMismatch,
+    /// the requested operation could not
+    ///  be completed due to missing dependencies.
     #[doc(alias = "NM_DEVICE_ERROR_MISSING_DEPENDENCIES")]
     MissingDependencies,
+    /// invalid argument. Since: 1.16.
     #[doc(alias = "NM_DEVICE_ERROR_INVALID_ARGUMENT")]
     InvalidArgument,
     #[doc(hidden)]
@@ -1510,30 +1687,65 @@ impl ToValue for DeviceError {
 #[non_exhaustive]
 #[doc(alias = "NMDeviceState")]
 pub enum DeviceState {
+    /// the device's state is unknown
     #[doc(alias = "NM_DEVICE_STATE_UNKNOWN")]
     Unknown,
+    /// the device is recognized, but not managed by
+    ///  NetworkManager
     #[doc(alias = "NM_DEVICE_STATE_UNMANAGED")]
     Unmanaged,
+    /// the device is managed by NetworkManager, but
+    ///  is not available for use. Reasons may include the wireless switched off,
+    ///  missing firmware, no ethernet carrier, missing supplicant or modem manager,
+    ///  etc.
     #[doc(alias = "NM_DEVICE_STATE_UNAVAILABLE")]
     Unavailable,
+    /// the device can be activated, but is currently
+    ///  idle and not connected to a network.
     #[doc(alias = "NM_DEVICE_STATE_DISCONNECTED")]
     Disconnected,
+    /// the device is preparing the connection to the
+    ///  network. This may include operations like changing the MAC address,
+    ///  setting physical link properties, and anything else required to connect
+    ///  to the requested network.
     #[doc(alias = "NM_DEVICE_STATE_PREPARE")]
     Prepare,
+    /// the device is connecting to the requested network.
+    ///  This may include operations like associating with the Wi-Fi AP, dialing
+    ///  the modem, connecting to the remote Bluetooth device, etc.
     #[doc(alias = "NM_DEVICE_STATE_CONFIG")]
     Config,
+    /// the device requires more information to continue
+    ///  connecting to the requested network. This includes secrets like WiFi
+    ///  passphrases, login passwords, PIN codes, etc.
     #[doc(alias = "NM_DEVICE_STATE_NEED_AUTH")]
     NeedAuth,
+    /// the device is requesting IPv4 and/or IPv6
+    ///  addresses and routing information from the network.
     #[doc(alias = "NM_DEVICE_STATE_IP_CONFIG")]
     IpConfig,
+    /// the device is checking whether further action is
+    ///  required for the requested network connection. This may include checking
+    ///  whether only local network access is available, whether a captive portal
+    ///  is blocking access to the Internet, etc.
     #[doc(alias = "NM_DEVICE_STATE_IP_CHECK")]
     IpCheck,
+    /// the device is waiting for a secondary
+    ///  connection (like a VPN) which must activated before the device can be
+    ///  activated
     #[doc(alias = "NM_DEVICE_STATE_SECONDARIES")]
     Secondaries,
+    /// the device has a network connection, either local
+    ///  or global.
     #[doc(alias = "NM_DEVICE_STATE_ACTIVATED")]
     Activated,
+    /// a disconnection from the current network
+    ///  connection was requested, and the device is cleaning up resources used for
+    ///  that connection. The network connection may still be valid.
     #[doc(alias = "NM_DEVICE_STATE_DEACTIVATING")]
     Deactivating,
+    /// the device failed to connect to the requested
+    ///  network and is cleaning up the connection request
     #[doc(alias = "NM_DEVICE_STATE_FAILED")]
     Failed,
     #[doc(hidden)]
@@ -1648,140 +1860,208 @@ impl ToValue for DeviceState {
 #[non_exhaustive]
 #[doc(alias = "NMDeviceStateReason")]
 pub enum DeviceStateReason {
+    /// No reason given
     #[doc(alias = "NM_DEVICE_STATE_REASON_NONE")]
     None,
+    /// Unknown error
     #[doc(alias = "NM_DEVICE_STATE_REASON_UNKNOWN")]
     Unknown,
+    /// Device is now managed
     #[doc(alias = "NM_DEVICE_STATE_REASON_NOW_MANAGED")]
     NowManaged,
+    /// Device is now unmanaged
     #[doc(alias = "NM_DEVICE_STATE_REASON_NOW_UNMANAGED")]
     NowUnmanaged,
+    /// The device could not be readied for configuration
     #[doc(alias = "NM_DEVICE_STATE_REASON_CONFIG_FAILED")]
     ConfigFailed,
+    /// IP configuration could not be reserved (no available address, timeout, etc)
     #[doc(alias = "NM_DEVICE_STATE_REASON_IP_CONFIG_UNAVAILABLE")]
     IpConfigUnavailable,
+    /// The IP config is no longer valid
     #[doc(alias = "NM_DEVICE_STATE_REASON_IP_CONFIG_EXPIRED")]
     IpConfigExpired,
+    /// Secrets were required, but not provided
     #[doc(alias = "NM_DEVICE_STATE_REASON_NO_SECRETS")]
     NoSecrets,
+    /// 802.1x supplicant disconnected
     #[doc(alias = "NM_DEVICE_STATE_REASON_SUPPLICANT_DISCONNECT")]
     SupplicantDisconnect,
+    /// 802.1x supplicant configuration failed
     #[doc(alias = "NM_DEVICE_STATE_REASON_SUPPLICANT_CONFIG_FAILED")]
     SupplicantConfigFailed,
+    /// 802.1x supplicant failed
     #[doc(alias = "NM_DEVICE_STATE_REASON_SUPPLICANT_FAILED")]
     SupplicantFailed,
+    /// 802.1x supplicant took too long to authenticate
     #[doc(alias = "NM_DEVICE_STATE_REASON_SUPPLICANT_TIMEOUT")]
     SupplicantTimeout,
+    /// PPP service failed to start
     #[doc(alias = "NM_DEVICE_STATE_REASON_PPP_START_FAILED")]
     PppStartFailed,
+    /// PPP service disconnected
     #[doc(alias = "NM_DEVICE_STATE_REASON_PPP_DISCONNECT")]
     PppDisconnect,
+    /// PPP failed
     #[doc(alias = "NM_DEVICE_STATE_REASON_PPP_FAILED")]
     PppFailed,
+    /// DHCP client failed to start
     #[doc(alias = "NM_DEVICE_STATE_REASON_DHCP_START_FAILED")]
     DhcpStartFailed,
+    /// DHCP client error
     #[doc(alias = "NM_DEVICE_STATE_REASON_DHCP_ERROR")]
     DhcpError,
+    /// DHCP client failed
     #[doc(alias = "NM_DEVICE_STATE_REASON_DHCP_FAILED")]
     DhcpFailed,
+    /// Shared connection service failed to start
     #[doc(alias = "NM_DEVICE_STATE_REASON_SHARED_START_FAILED")]
     SharedStartFailed,
+    /// Shared connection service failed
     #[doc(alias = "NM_DEVICE_STATE_REASON_SHARED_FAILED")]
     SharedFailed,
+    /// AutoIP service failed to start
     #[doc(alias = "NM_DEVICE_STATE_REASON_AUTOIP_START_FAILED")]
     AutoipStartFailed,
+    /// AutoIP service error
     #[doc(alias = "NM_DEVICE_STATE_REASON_AUTOIP_ERROR")]
     AutoipError,
+    /// AutoIP service failed
     #[doc(alias = "NM_DEVICE_STATE_REASON_AUTOIP_FAILED")]
     AutoipFailed,
+    /// The line is busy
     #[doc(alias = "NM_DEVICE_STATE_REASON_MODEM_BUSY")]
     ModemBusy,
+    /// No dial tone
     #[doc(alias = "NM_DEVICE_STATE_REASON_MODEM_NO_DIAL_TONE")]
     ModemNoDialTone,
+    /// No carrier could be established
     #[doc(alias = "NM_DEVICE_STATE_REASON_MODEM_NO_CARRIER")]
     ModemNoCarrier,
+    /// The dialing request timed out
     #[doc(alias = "NM_DEVICE_STATE_REASON_MODEM_DIAL_TIMEOUT")]
     ModemDialTimeout,
+    /// The dialing attempt failed
     #[doc(alias = "NM_DEVICE_STATE_REASON_MODEM_DIAL_FAILED")]
     ModemDialFailed,
+    /// Modem initialization failed
     #[doc(alias = "NM_DEVICE_STATE_REASON_MODEM_INIT_FAILED")]
     ModemInitFailed,
+    /// Failed to select the specified APN
     #[doc(alias = "NM_DEVICE_STATE_REASON_GSM_APN_FAILED")]
     GsmApnFailed,
+    /// Not searching for networks
     #[doc(alias = "NM_DEVICE_STATE_REASON_GSM_REGISTRATION_NOT_SEARCHING")]
     GsmRegistrationNotSearching,
+    /// Network registration denied
     #[doc(alias = "NM_DEVICE_STATE_REASON_GSM_REGISTRATION_DENIED")]
     GsmRegistrationDenied,
+    /// Network registration timed out
     #[doc(alias = "NM_DEVICE_STATE_REASON_GSM_REGISTRATION_TIMEOUT")]
     GsmRegistrationTimeout,
+    /// Failed to register with the requested network
     #[doc(alias = "NM_DEVICE_STATE_REASON_GSM_REGISTRATION_FAILED")]
     GsmRegistrationFailed,
+    /// PIN check failed
     #[doc(alias = "NM_DEVICE_STATE_REASON_GSM_PIN_CHECK_FAILED")]
     GsmPinCheckFailed,
+    /// Necessary firmware for the device may be missing
     #[doc(alias = "NM_DEVICE_STATE_REASON_FIRMWARE_MISSING")]
     FirmwareMissing,
+    /// The device was removed
     #[doc(alias = "NM_DEVICE_STATE_REASON_REMOVED")]
     Removed,
+    /// NetworkManager went to sleep
     #[doc(alias = "NM_DEVICE_STATE_REASON_SLEEPING")]
     Sleeping,
+    /// The device's active connection disappeared
     #[doc(alias = "NM_DEVICE_STATE_REASON_CONNECTION_REMOVED")]
     ConnectionRemoved,
+    /// Device disconnected by user or client
     #[doc(alias = "NM_DEVICE_STATE_REASON_USER_REQUESTED")]
     UserRequested,
+    /// Carrier/link changed
     #[doc(alias = "NM_DEVICE_STATE_REASON_CARRIER")]
     Carrier,
+    /// The device's existing connection was assumed
     #[doc(alias = "NM_DEVICE_STATE_REASON_CONNECTION_ASSUMED")]
     ConnectionAssumed,
+    /// The supplicant is now available
     #[doc(alias = "NM_DEVICE_STATE_REASON_SUPPLICANT_AVAILABLE")]
     SupplicantAvailable,
+    /// The modem could not be found
     #[doc(alias = "NM_DEVICE_STATE_REASON_MODEM_NOT_FOUND")]
     ModemNotFound,
+    /// The Bluetooth connection failed or timed out
     #[doc(alias = "NM_DEVICE_STATE_REASON_BT_FAILED")]
     BtFailed,
+    /// GSM Modem's SIM Card not inserted
     #[doc(alias = "NM_DEVICE_STATE_REASON_GSM_SIM_NOT_INSERTED")]
     GsmSimNotInserted,
+    /// GSM Modem's SIM Pin required
     #[doc(alias = "NM_DEVICE_STATE_REASON_GSM_SIM_PIN_REQUIRED")]
     GsmSimPinRequired,
+    /// GSM Modem's SIM Puk required
     #[doc(alias = "NM_DEVICE_STATE_REASON_GSM_SIM_PUK_REQUIRED")]
     GsmSimPukRequired,
+    /// GSM Modem's SIM wrong
     #[doc(alias = "NM_DEVICE_STATE_REASON_GSM_SIM_WRONG")]
     GsmSimWrong,
+    /// InfiniBand device does not support connected mode
     #[doc(alias = "NM_DEVICE_STATE_REASON_INFINIBAND_MODE")]
     InfinibandMode,
+    /// A dependency of the connection failed
     #[doc(alias = "NM_DEVICE_STATE_REASON_DEPENDENCY_FAILED")]
     DependencyFailed,
+    /// Problem with the RFC 2684 Ethernet over ADSL bridge
     #[doc(alias = "NM_DEVICE_STATE_REASON_BR2684_FAILED")]
     Br2684Failed,
+    /// ModemManager not running
     #[doc(alias = "NM_DEVICE_STATE_REASON_MODEM_MANAGER_UNAVAILABLE")]
     ModemManagerUnavailable,
+    /// The Wi-Fi network could not be found
     #[doc(alias = "NM_DEVICE_STATE_REASON_SSID_NOT_FOUND")]
     SsidNotFound,
+    /// A secondary connection of the base connection failed
     #[doc(alias = "NM_DEVICE_STATE_REASON_SECONDARY_CONNECTION_FAILED")]
     SecondaryConnectionFailed,
+    /// DCB or FCoE setup failed
     #[doc(alias = "NM_DEVICE_STATE_REASON_DCB_FCOE_FAILED")]
     DcbFcoeFailed,
+    /// teamd control failed
     #[doc(alias = "NM_DEVICE_STATE_REASON_TEAMD_CONTROL_FAILED")]
     TeamdControlFailed,
+    /// Modem failed or no longer available
     #[doc(alias = "NM_DEVICE_STATE_REASON_MODEM_FAILED")]
     ModemFailed,
+    /// Modem now ready and available
     #[doc(alias = "NM_DEVICE_STATE_REASON_MODEM_AVAILABLE")]
     ModemAvailable,
+    /// SIM PIN was incorrect
     #[doc(alias = "NM_DEVICE_STATE_REASON_SIM_PIN_INCORRECT")]
     SimPinIncorrect,
+    /// New connection activation was enqueued
     #[doc(alias = "NM_DEVICE_STATE_REASON_NEW_ACTIVATION")]
     NewActivation,
+    /// the device's parent changed
     #[doc(alias = "NM_DEVICE_STATE_REASON_PARENT_CHANGED")]
     ParentChanged,
+    /// the device parent's management changed
     #[doc(alias = "NM_DEVICE_STATE_REASON_PARENT_MANAGED_CHANGED")]
     ParentManagedChanged,
+    /// problem communicating with Open vSwitch database
     #[doc(alias = "NM_DEVICE_STATE_REASON_OVSDB_FAILED")]
     OvsdbFailed,
+    /// a duplicate IP address was detected
     #[doc(alias = "NM_DEVICE_STATE_REASON_IP_ADDRESS_DUPLICATE")]
     IpAddressDuplicate,
+    /// The selected IP method is not supported
     #[doc(alias = "NM_DEVICE_STATE_REASON_IP_METHOD_UNSUPPORTED")]
     IpMethodUnsupported,
+    /// configuration of SR-IOV parameters failed
     #[doc(alias = "NM_DEVICE_STATE_REASON_SRIOV_CONFIGURATION_FAILED")]
     SriovConfigurationFailed,
+    /// The Wi-Fi P2P peer could not be found
     #[doc(alias = "NM_DEVICE_STATE_REASON_PEER_NOT_FOUND")]
     PeerNotFound,
     #[doc(hidden)]
@@ -2074,68 +2354,101 @@ impl ToValue for DeviceStateReason {
 #[non_exhaustive]
 #[doc(alias = "NMDeviceType")]
 pub enum DeviceType {
+    /// unknown device
     #[doc(alias = "NM_DEVICE_TYPE_UNKNOWN")]
     Unknown,
+    /// a wired ethernet device
     #[doc(alias = "NM_DEVICE_TYPE_ETHERNET")]
     Ethernet,
+    /// an 802.11 Wi-Fi device
     #[doc(alias = "NM_DEVICE_TYPE_WIFI")]
     Wifi,
+    /// not used
     #[doc(alias = "NM_DEVICE_TYPE_UNUSED1")]
     Unused1,
+    /// not used
     #[doc(alias = "NM_DEVICE_TYPE_UNUSED2")]
     Unused2,
+    /// a Bluetooth device supporting PAN or DUN access protocols
     #[doc(alias = "NM_DEVICE_TYPE_BT")]
     Bt,
+    /// an OLPC XO mesh networking device
     #[doc(alias = "NM_DEVICE_TYPE_OLPC_MESH")]
     OlpcMesh,
+    /// an 802.16e Mobile WiMAX broadband device
     #[doc(alias = "NM_DEVICE_TYPE_WIMAX")]
     Wimax,
+    /// a modem supporting analog telephone, CDMA/EVDO,
+    /// GSM/UMTS, or LTE network access protocols
     #[doc(alias = "NM_DEVICE_TYPE_MODEM")]
     Modem,
+    /// an IP-over-InfiniBand device
     #[doc(alias = "NM_DEVICE_TYPE_INFINIBAND")]
     Infiniband,
+    /// a bond master interface
     #[doc(alias = "NM_DEVICE_TYPE_BOND")]
     Bond,
+    /// an 802.1Q VLAN interface
     #[doc(alias = "NM_DEVICE_TYPE_VLAN")]
     Vlan,
+    /// ADSL modem
     #[doc(alias = "NM_DEVICE_TYPE_ADSL")]
     Adsl,
+    /// a bridge master interface
     #[doc(alias = "NM_DEVICE_TYPE_BRIDGE")]
     Bridge,
+    /// generic support for unrecognized device types
     #[doc(alias = "NM_DEVICE_TYPE_GENERIC")]
     Generic,
+    /// a team master interface
     #[doc(alias = "NM_DEVICE_TYPE_TEAM")]
     Team,
+    /// a TUN or TAP interface
     #[doc(alias = "NM_DEVICE_TYPE_TUN")]
     Tun,
+    /// a IP tunnel interface
     #[doc(alias = "NM_DEVICE_TYPE_IP_TUNNEL")]
     IpTunnel,
+    /// a MACVLAN interface
     #[doc(alias = "NM_DEVICE_TYPE_MACVLAN")]
     Macvlan,
+    /// a VXLAN interface
     #[doc(alias = "NM_DEVICE_TYPE_VXLAN")]
     Vxlan,
+    /// a VETH interface
     #[doc(alias = "NM_DEVICE_TYPE_VETH")]
     Veth,
+    /// a MACsec interface
     #[doc(alias = "NM_DEVICE_TYPE_MACSEC")]
     Macsec,
+    /// a dummy interface
     #[doc(alias = "NM_DEVICE_TYPE_DUMMY")]
     Dummy,
+    /// a PPP interface
     #[doc(alias = "NM_DEVICE_TYPE_PPP")]
     Ppp,
+    /// a Open vSwitch interface
     #[doc(alias = "NM_DEVICE_TYPE_OVS_INTERFACE")]
     OvsInterface,
+    /// a Open vSwitch port
     #[doc(alias = "NM_DEVICE_TYPE_OVS_PORT")]
     OvsPort,
+    /// a Open vSwitch bridge
     #[doc(alias = "NM_DEVICE_TYPE_OVS_BRIDGE")]
     OvsBridge,
+    /// a IEEE 802.15.4 (WPAN) MAC Layer Device
     #[doc(alias = "NM_DEVICE_TYPE_WPAN")]
     Wpan,
+    /// 6LoWPAN interface
     #[doc(alias = "NM_DEVICE_TYPE_6LOWPAN")]
     _6lowpan,
+    /// a WireGuard interface
     #[doc(alias = "NM_DEVICE_TYPE_WIREGUARD")]
     Wireguard,
+    /// an 802.11 Wi-Fi P2P device. Since: 1.16.
     #[doc(alias = "NM_DEVICE_TYPE_WIFI_P2P")]
     WifiP2p,
+    /// A VRF (Virtual Routing and Forwarding) interface. Since: 1.24.
     #[doc(alias = "NM_DEVICE_TYPE_VRF")]
     Vrf,
     #[doc(hidden)]
@@ -2309,28 +2622,40 @@ impl ToValue for DeviceType {
 #[non_exhaustive]
 #[doc(alias = "NMIPTunnelMode")]
 pub enum IPTunnelMode {
+    /// Unknown/unset tunnel mode
     #[doc(alias = "NM_IP_TUNNEL_MODE_UNKNOWN")]
     Unknown,
+    /// IP in IP tunnel
     #[doc(alias = "NM_IP_TUNNEL_MODE_IPIP")]
     Ipip,
+    /// GRE tunnel
     #[doc(alias = "NM_IP_TUNNEL_MODE_GRE")]
     Gre,
+    /// SIT tunnel
     #[doc(alias = "NM_IP_TUNNEL_MODE_SIT")]
     Sit,
+    /// ISATAP tunnel
     #[doc(alias = "NM_IP_TUNNEL_MODE_ISATAP")]
     Isatap,
+    /// VTI tunnel
     #[doc(alias = "NM_IP_TUNNEL_MODE_VTI")]
     Vti,
+    /// IPv6 in IPv6 tunnel
     #[doc(alias = "NM_IP_TUNNEL_MODE_IP6IP6")]
     Ip6ip6,
+    /// IPv4 in IPv6 tunnel
     #[doc(alias = "NM_IP_TUNNEL_MODE_IPIP6")]
     Ipip6,
+    /// IPv6 GRE tunnel
     #[doc(alias = "NM_IP_TUNNEL_MODE_IP6GRE")]
     Ip6gre,
+    /// IPv6 VTI tunnel
     #[doc(alias = "NM_IP_TUNNEL_MODE_VTI6")]
     Vti6,
+    /// GRETAP tunnel
     #[doc(alias = "NM_IP_TUNNEL_MODE_GRETAP")]
     Gretap,
+    /// IPv6 GRETAP tunnel
     #[doc(alias = "NM_IP_TUNNEL_MODE_IP6GRETAP")]
     Ip6gretap,
     #[doc(hidden)]
@@ -2459,8 +2784,11 @@ impl ToValue for IPTunnelMode {
 #[non_exhaustive]
 #[doc(alias = "NMKeyfileHandlerType")]
 pub enum KeyfileHandlerType {
+    /// a warning.
     #[doc(alias = "NM_KEYFILE_HANDLER_TYPE_WARN")]
     Warn,
+    /// for handling certificates while writing
+    ///  a connection to keyfile.
     #[doc(alias = "NM_KEYFILE_HANDLER_TYPE_WRITE_CERT")]
     WriteCert,
     #[doc(hidden)]
@@ -2558,12 +2886,16 @@ impl ToValue for KeyfileHandlerType {
 #[non_exhaustive]
 #[doc(alias = "NMKeyfileWarnSeverity")]
 pub enum KeyfileWarnSeverity {
+    /// debug message
     #[doc(alias = "NM_KEYFILE_WARN_SEVERITY_DEBUG")]
     Debug,
+    /// info message
     #[doc(alias = "NM_KEYFILE_WARN_SEVERITY_INFO")]
     Info,
+    /// info message about a missing file
     #[doc(alias = "NM_KEYFILE_WARN_SEVERITY_INFO_MISSING_FILE")]
     InfoMissingFile,
+    /// a warning message
     #[doc(alias = "NM_KEYFILE_WARN_SEVERITY_WARN")]
     Warn,
     #[doc(hidden)]
@@ -2668,32 +3000,53 @@ impl ToValue for KeyfileWarnSeverity {
 #[non_exhaustive]
 #[doc(alias = "NMManagerError")]
 pub enum ManagerError {
+    /// unknown or unclassified error
     #[doc(alias = "NM_MANAGER_ERROR_FAILED")]
     Failed,
+    /// Permission denied.
     #[doc(alias = "NM_MANAGER_ERROR_PERMISSION_DENIED")]
     PermissionDenied,
+    /// The requested connection is not known.
     #[doc(alias = "NM_MANAGER_ERROR_UNKNOWN_CONNECTION")]
     UnknownConnection,
+    /// The requested device is not known.
     #[doc(alias = "NM_MANAGER_ERROR_UNKNOWN_DEVICE")]
     UnknownDevice,
+    /// The requested connection cannot be
+    ///  activated at this time.
     #[doc(alias = "NM_MANAGER_ERROR_CONNECTION_NOT_AVAILABLE")]
     ConnectionNotAvailable,
+    /// The request could not be completed
+    ///  because a required connection is not active.
     #[doc(alias = "NM_MANAGER_ERROR_CONNECTION_NOT_ACTIVE")]
     ConnectionNotActive,
+    /// The connection to be activated was
+    ///  already active on another device.
     #[doc(alias = "NM_MANAGER_ERROR_CONNECTION_ALREADY_ACTIVE")]
     ConnectionAlreadyActive,
+    /// An activation request failed due to a
+    ///  dependency being unavailable.
     #[doc(alias = "NM_MANAGER_ERROR_DEPENDENCY_FAILED")]
     DependencyFailed,
+    /// The manager is already in the requested
+    ///  sleep/wake state.
     #[doc(alias = "NM_MANAGER_ERROR_ALREADY_ASLEEP_OR_AWAKE")]
     AlreadyAsleepOrAwake,
+    /// The network is already
+    ///  enabled/disabled.
     #[doc(alias = "NM_MANAGER_ERROR_ALREADY_ENABLED_OR_DISABLED")]
     AlreadyEnabledOrDisabled,
+    /// Unknown log level in SetLogging
     #[doc(alias = "NM_MANAGER_ERROR_UNKNOWN_LOG_LEVEL")]
     UnknownLogLevel,
+    /// Unknown log domain in SetLogging
     #[doc(alias = "NM_MANAGER_ERROR_UNKNOWN_LOG_DOMAIN")]
     UnknownLogDomain,
+    /// Invalid arguments for D-Bus request
     #[doc(alias = "NM_MANAGER_ERROR_INVALID_ARGUMENTS")]
     InvalidArguments,
+    /// A plug-in was needed to complete the
+    ///  activation but is not available.
     #[doc(alias = "NM_MANAGER_ERROR_MISSING_PLUGIN")]
     MissingPlugin,
     #[doc(hidden)]
@@ -2870,14 +3223,19 @@ impl ToValue for ManagerError {
 #[non_exhaustive]
 #[doc(alias = "NMMetered")]
 pub enum Metered {
+    /// The metered status is unknown
     #[doc(alias = "NM_METERED_UNKNOWN")]
     Unknown,
+    /// Metered, the value was explicitly configured
     #[doc(alias = "NM_METERED_YES")]
     Yes,
+    /// Not metered, the value was explicitly configured
     #[doc(alias = "NM_METERED_NO")]
     No,
+    /// Metered, the value was guessed
     #[doc(alias = "NM_METERED_GUESS_YES")]
     GuessYes,
+    /// Not metered, the value was guessed
     #[doc(alias = "NM_METERED_GUESS_NO")]
     GuessNo,
     #[doc(hidden)]
@@ -2984,12 +3342,16 @@ impl ToValue for Metered {
 #[non_exhaustive]
 #[doc(alias = "NMRollbackResult")]
 pub enum RollbackResult {
+    /// the rollback succeeded.
     #[doc(alias = "NM_ROLLBACK_RESULT_OK")]
     Ok,
+    /// the device no longer exists.
     #[doc(alias = "NM_ROLLBACK_RESULT_ERR_NO_DEVICE")]
     ErrNoDevice,
+    /// the device is now unmanaged.
     #[doc(alias = "NM_ROLLBACK_RESULT_ERR_DEVICE_UNMANAGED")]
     ErrDeviceUnmanaged,
+    /// other errors during rollback.
     #[doc(alias = "NM_ROLLBACK_RESULT_ERR_FAILED")]
     ErrFailed,
     #[doc(hidden)]
@@ -3058,16 +3420,26 @@ impl FromGlib<ffi::NMRollbackResult> for RollbackResult {
 #[non_exhaustive]
 #[doc(alias = "NMSecretAgentError")]
 pub enum SecretAgentError {
+    /// unknown or unclassified error
     #[doc(alias = "NM_SECRET_AGENT_ERROR_FAILED")]
     Failed,
+    /// the caller (ie, NetworkManager) is
+    ///  not authorized to make this request
     #[doc(alias = "NM_SECRET_AGENT_ERROR_PERMISSION_DENIED")]
     PermissionDenied,
+    /// the connection for which secrets
+    ///  were requested is invalid
     #[doc(alias = "NM_SECRET_AGENT_ERROR_INVALID_CONNECTION")]
     InvalidConnection,
+    /// the request was canceled by the user
     #[doc(alias = "NM_SECRET_AGENT_ERROR_USER_CANCELED")]
     UserCanceled,
+    /// the agent canceled the request
+    ///  because it was requested to do so by NetworkManager
     #[doc(alias = "NM_SECRET_AGENT_ERROR_AGENT_CANCELED")]
     AgentCanceled,
+    /// the agent cannot find any secrets for this
+    ///  connection
     #[doc(alias = "NM_SECRET_AGENT_ERROR_NO_SECRETS")]
     NoSecrets,
     #[doc(hidden)]
@@ -3184,12 +3556,18 @@ impl ToValue for SecretAgentError {
 #[non_exhaustive]
 #[doc(alias = "NMSetting8021xCKFormat")]
 pub enum Setting8021xCKFormat {
+    /// unknown file format
     #[doc(alias = "NM_SETTING_802_1X_CK_FORMAT_UNKNOWN")]
     Unknown,
+    /// file contains an X.509 format certificate
     #[doc(alias = "NM_SETTING_802_1X_CK_FORMAT_X509")]
     X509,
+    /// file contains an old-style OpenSSL PEM
+    /// or DER private key
     #[doc(alias = "NM_SETTING_802_1X_CK_FORMAT_RAW_KEY")]
     RawKey,
+    /// file contains a PKCS#<!-- -->12 certificate
+    /// and private key
     #[doc(alias = "NM_SETTING_802_1X_CK_FORMAT_PKCS12")]
     Pkcs12,
     #[doc(hidden)]
@@ -3279,12 +3657,20 @@ impl ToValue for Setting8021xCKFormat {
 #[non_exhaustive]
 #[doc(alias = "NMSetting8021xCKScheme")]
 pub enum Setting8021xCKScheme {
+    /// unknown certificate or private key
+    /// scheme
     #[doc(alias = "NM_SETTING_802_1X_CK_SCHEME_UNKNOWN")]
     Unknown,
+    /// certificate or key is stored as the raw
+    /// item data
     #[doc(alias = "NM_SETTING_802_1X_CK_SCHEME_BLOB")]
     Blob,
+    /// certificate or key is stored as a path
+    /// to a file containing the certificate or key data
     #[doc(alias = "NM_SETTING_802_1X_CK_SCHEME_PATH")]
     Path,
+    /// certificate or key is stored as a
+    /// URI of an object on a PKCS`11` token
     #[doc(alias = "NM_SETTING_802_1X_CK_SCHEME_PKCS11")]
     Pkcs11,
     #[doc(hidden)]
@@ -3373,22 +3759,49 @@ impl ToValue for Setting8021xCKScheme {
 #[non_exhaustive]
 #[doc(alias = "NMSettingCompareFlags")]
 pub enum SettingCompareFlags {
+    /// match all properties exactly
     #[doc(alias = "NM_SETTING_COMPARE_FLAG_EXACT")]
     Exact,
+    /// match only important attributes, like SSID,
+    ///  type, security settings, etc. Does not match, for example, connection ID
+    ///  or UUID.
     #[doc(alias = "NM_SETTING_COMPARE_FLAG_FUZZY")]
     Fuzzy,
+    /// ignore the connection's ID
     #[doc(alias = "NM_SETTING_COMPARE_FLAG_IGNORE_ID")]
     IgnoreId,
+    /// ignore all secrets
     #[doc(alias = "NM_SETTING_COMPARE_FLAG_IGNORE_SECRETS")]
     IgnoreSecrets,
+    /// ignore secrets for which
+    ///  the secret's flags indicate the secret is owned by a user secret agent
+    ///  (ie, the secret's flag includes [`SettingSecretFlags::AGENT_OWNED`][crate::SettingSecretFlags::AGENT_OWNED])
     #[doc(alias = "NM_SETTING_COMPARE_FLAG_IGNORE_AGENT_OWNED_SECRETS")]
     IgnoreAgentOwnedSecrets,
+    /// ignore secrets for which
+    ///  the secret's flags indicate the secret should not be saved to persistent
+    ///  storage (ie, the secret's flag includes [`SettingSecretFlags::NOT_SAVED`][crate::SettingSecretFlags::NOT_SAVED])
     #[doc(alias = "NM_SETTING_COMPARE_FLAG_IGNORE_NOT_SAVED_SECRETS")]
     IgnoreNotSavedSecrets,
+    /// if this flag is set,
+    ///  `nm_setting_diff()` and `nm_connection_diff()` will also include properties that
+    ///  are set to their default value. See also [`DiffResultNoDefault`][Self::DiffResultNoDefault].
     #[doc(alias = "NM_SETTING_COMPARE_FLAG_DIFF_RESULT_WITH_DEFAULT")]
     DiffResultWithDefault,
+    /// if this flag is set,
+    ///  `nm_setting_diff()` and `nm_connection_diff()` will not include properties that
+    ///  are set to their default value. This is the opposite of
+    ///  [`DiffResultWithDefault`][Self::DiffResultWithDefault]. If both flags are set together,
+    ///  [`DiffResultWithDefault`][Self::DiffResultWithDefault] wins. If both flags are unset,
+    ///  this means to exclude default properties if there is a setting to compare,
+    ///  but include all properties, if the setting 'b' is missing. This is the legacy
+    ///  behaviour of libnm-util, where `nm_setting_diff()` behaved differently depending
+    ///  on whether the setting 'b' was available. If [`DiffResultWithDefault`][Self::DiffResultWithDefault]
+    ///  is set, `nm_setting_diff()` will also set the flags [`SettingDiffResult::InADefault`][crate::SettingDiffResult::InADefault]
+    ///  and [`SettingDiffResult::InBDefault`][crate::SettingDiffResult::InBDefault], if the values are default values.
     #[doc(alias = "NM_SETTING_COMPARE_FLAG_DIFF_RESULT_NO_DEFAULT")]
     DiffResultNoDefault,
+    /// ignore the connection's timestamp
     #[doc(alias = "NM_SETTING_COMPARE_FLAG_IGNORE_TIMESTAMP")]
     IgnoreTimestamp,
     #[doc(hidden)]
@@ -3496,10 +3909,15 @@ impl ToValue for SettingCompareFlags {
 #[non_exhaustive]
 #[doc(alias = "NMSettingConnectionAutoconnectSlaves")]
 pub enum SettingConnectionAutoconnectSlaves {
+    /// default value
     #[doc(alias = "NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES_DEFAULT")]
     Default,
+    /// slaves are not brought up when
+    ///  master is activated
     #[doc(alias = "NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES_NO")]
     No,
+    /// slaves are brought up when
+    ///  master is activated
     #[doc(alias = "NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES_YES")]
     Yes,
     #[doc(hidden)]
@@ -3579,15 +3997,131 @@ impl ToValue for SettingConnectionAutoconnectSlaves {
     }
 }
 
+/// [`SettingConnectionDnsOverTls`][crate::SettingConnectionDnsOverTls] values indicate whether DNSOverTls should be enabled.
+#[cfg(any(feature = "v1_34", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+#[doc(alias = "NMSettingConnectionDnsOverTls")]
+pub enum SettingConnectionDnsOverTls {
+    /// default value
+    #[doc(alias = "NM_SETTING_CONNECTION_DNS_OVER_TLS_DEFAULT")]
+    Default,
+    /// disable DNSOverTls
+    #[doc(alias = "NM_SETTING_CONNECTION_DNS_OVER_TLS_NO")]
+    No,
+    /// enable opportunistic mode
+    #[doc(alias = "NM_SETTING_CONNECTION_DNS_OVER_TLS_OPPORTUNISTIC")]
+    Opportunistic,
+    /// enable strict mode
+    #[doc(alias = "NM_SETTING_CONNECTION_DNS_OVER_TLS_YES")]
+    Yes,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+#[cfg(any(feature = "v1_34", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+impl fmt::Display for SettingConnectionDnsOverTls {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "SettingConnectionDnsOverTls::{}",
+            match *self {
+                Self::Default => "Default",
+                Self::No => "No",
+                Self::Opportunistic => "Opportunistic",
+                Self::Yes => "Yes",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
+#[cfg(any(feature = "v1_34", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+#[doc(hidden)]
+impl IntoGlib for SettingConnectionDnsOverTls {
+    type GlibType = ffi::NMSettingConnectionDnsOverTls;
+
+    fn into_glib(self) -> ffi::NMSettingConnectionDnsOverTls {
+        match self {
+            Self::Default => ffi::NM_SETTING_CONNECTION_DNS_OVER_TLS_DEFAULT,
+            Self::No => ffi::NM_SETTING_CONNECTION_DNS_OVER_TLS_NO,
+            Self::Opportunistic => ffi::NM_SETTING_CONNECTION_DNS_OVER_TLS_OPPORTUNISTIC,
+            Self::Yes => ffi::NM_SETTING_CONNECTION_DNS_OVER_TLS_YES,
+            Self::__Unknown(value) => value,
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_34", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+#[doc(hidden)]
+impl FromGlib<ffi::NMSettingConnectionDnsOverTls> for SettingConnectionDnsOverTls {
+    unsafe fn from_glib(value: ffi::NMSettingConnectionDnsOverTls) -> Self {
+        match value {
+            ffi::NM_SETTING_CONNECTION_DNS_OVER_TLS_DEFAULT => Self::Default,
+            ffi::NM_SETTING_CONNECTION_DNS_OVER_TLS_NO => Self::No,
+            ffi::NM_SETTING_CONNECTION_DNS_OVER_TLS_OPPORTUNISTIC => Self::Opportunistic,
+            ffi::NM_SETTING_CONNECTION_DNS_OVER_TLS_YES => Self::Yes,
+            value => Self::__Unknown(value),
+        }
+    }
+}
+
+#[cfg(any(feature = "v1_34", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+impl StaticType for SettingConnectionDnsOverTls {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_setting_connection_dns_over_tls_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_34", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+impl glib::value::ValueType for SettingConnectionDnsOverTls {
+    type Type = Self;
+}
+
+#[cfg(any(feature = "v1_34", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+unsafe impl<'a> FromValue<'a> for SettingConnectionDnsOverTls {
+    type Checker = glib::value::GenericValueTypeChecker<Self>;
+
+    unsafe fn from_value(value: &'a glib::Value) -> Self {
+        from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+#[cfg(any(feature = "v1_34", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+impl ToValue for SettingConnectionDnsOverTls {
+    fn to_value(&self) -> glib::Value {
+        let mut value = glib::Value::for_value_type::<Self>();
+        unsafe {
+            glib::gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, self.into_glib());
+        }
+        value
+    }
+
+    fn value_type(&self) -> glib::Type {
+        Self::static_type()
+    }
+}
+
 /// [`SettingConnectionLldp`][crate::SettingConnectionLldp] values indicate whether LLDP should be enabled.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "NMSettingConnectionLldp")]
 pub enum SettingConnectionLldp {
+    /// default value
     #[doc(alias = "NM_SETTING_CONNECTION_LLDP_DEFAULT")]
     Default,
+    /// disable LLDP
     #[doc(alias = "NM_SETTING_CONNECTION_LLDP_DISABLE")]
     Disable,
+    /// enable reception of LLDP frames
     #[doc(alias = "NM_SETTING_CONNECTION_LLDP_ENABLE_RX")]
     EnableRx,
     #[doc(hidden)]
@@ -3674,12 +4208,16 @@ impl ToValue for SettingConnectionLldp {
 #[non_exhaustive]
 #[doc(alias = "NMSettingConnectionLlmnr")]
 pub enum SettingConnectionLlmnr {
+    /// default value
     #[doc(alias = "NM_SETTING_CONNECTION_LLMNR_DEFAULT")]
     Default,
+    /// disable LLMNR
     #[doc(alias = "NM_SETTING_CONNECTION_LLMNR_NO")]
     No,
+    /// support only resolving, do not register hostname
     #[doc(alias = "NM_SETTING_CONNECTION_LLMNR_RESOLVE")]
     Resolve,
+    /// enable LLMNR
     #[doc(alias = "NM_SETTING_CONNECTION_LLMNR_YES")]
     Yes,
     #[doc(hidden)]
@@ -3783,12 +4321,16 @@ impl ToValue for SettingConnectionLlmnr {
 #[non_exhaustive]
 #[doc(alias = "NMSettingConnectionMdns")]
 pub enum SettingConnectionMdns {
+    /// default value
     #[doc(alias = "NM_SETTING_CONNECTION_MDNS_DEFAULT")]
     Default,
+    /// disable mDNS
     #[doc(alias = "NM_SETTING_CONNECTION_MDNS_NO")]
     No,
+    /// support only resolving, do not register hostname
     #[doc(alias = "NM_SETTING_CONNECTION_MDNS_RESOLVE")]
     Resolve,
+    /// enable mDNS
     #[doc(alias = "NM_SETTING_CONNECTION_MDNS_YES")]
     Yes,
     #[doc(hidden)]
@@ -3890,14 +4432,21 @@ impl ToValue for SettingConnectionMdns {
 #[non_exhaustive]
 #[doc(alias = "NMSettingDiffResult")]
 pub enum SettingDiffResult {
+    /// unknown result
     #[doc(alias = "NM_SETTING_DIFF_RESULT_UNKNOWN")]
     Unknown,
+    /// the property is present in setting A
     #[doc(alias = "NM_SETTING_DIFF_RESULT_IN_A")]
     InA,
+    /// the property is present in setting B
     #[doc(alias = "NM_SETTING_DIFF_RESULT_IN_B")]
     InB,
+    /// the property is present in
+    /// setting A but is set to the default value. This flag is only set,
+    /// if you specify [`SettingCompareFlags::DiffResultWithDefault`][crate::SettingCompareFlags::DiffResultWithDefault].
     #[doc(alias = "NM_SETTING_DIFF_RESULT_IN_A_DEFAULT")]
     InADefault,
+    /// analog to [`InADefault`][Self::InADefault].
     #[doc(alias = "NM_SETTING_DIFF_RESULT_IN_B_DEFAULT")]
     InBDefault,
     #[doc(hidden)]
@@ -3991,8 +4540,14 @@ impl ToValue for SettingDiffResult {
 #[non_exhaustive]
 #[doc(alias = "NMSettingIP6ConfigAddrGenMode")]
 pub enum SettingIP6ConfigAddrGenMode {
+    /// The Interface Identifier is derived
+    /// from the interface hardware address.
     #[doc(alias = "NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE_EUI64")]
     Eui64,
+    /// The Interface Identifier
+    /// is created by using a cryptographically secure hash of a secret host-specific
+    /// key along with the connection identification and the network address as
+    /// specified by RFC7217.
     #[doc(alias = "NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE_STABLE_PRIVACY")]
     StablePrivacy,
     #[doc(hidden)]
@@ -4089,12 +4644,18 @@ impl ToValue for SettingIP6ConfigAddrGenMode {
 #[non_exhaustive]
 #[doc(alias = "NMSettingIP6ConfigPrivacy")]
 pub enum SettingIP6ConfigPrivacy {
+    /// unknown or no value specified
     #[doc(alias = "NM_SETTING_IP6_CONFIG_PRIVACY_UNKNOWN")]
     Unknown,
+    /// IPv6 Privacy Extensions are disabled
     #[doc(alias = "NM_SETTING_IP6_CONFIG_PRIVACY_DISABLED")]
     Disabled,
+    /// IPv6 Privacy Extensions
+    /// are enabled, but public addresses are preferred over temporary addresses
     #[doc(alias = "NM_SETTING_IP6_CONFIG_PRIVACY_PREFER_PUBLIC_ADDR")]
     PreferPublicAddr,
+    /// IPv6 Privacy Extensions
+    /// are enabled and temporary addresses are preferred over public addresses
     #[doc(alias = "NM_SETTING_IP6_CONFIG_PRIVACY_PREFER_TEMP_ADDR")]
     PreferTempAddr,
     #[doc(hidden)]
@@ -4182,10 +4743,14 @@ impl ToValue for SettingIP6ConfigPrivacy {
 #[non_exhaustive]
 #[doc(alias = "NMSettingMacRandomization")]
 pub enum SettingMacRandomization {
+    /// the default value, which unless
+    /// overridden by user-controlled defaults configuration, is "never".
     #[doc(alias = "NM_SETTING_MAC_RANDOMIZATION_DEFAULT")]
     Default,
+    /// the device's MAC address is always used.
     #[doc(alias = "NM_SETTING_MAC_RANDOMIZATION_NEVER")]
     Never,
+    /// a random MAC address is used.
     #[doc(alias = "NM_SETTING_MAC_RANDOMIZATION_ALWAYS")]
     Always,
     #[doc(hidden)]
@@ -4273,8 +4838,10 @@ impl ToValue for SettingMacRandomization {
 #[non_exhaustive]
 #[doc(alias = "NMSettingMacsecMode")]
 pub enum SettingMacsecMode {
+    /// The CAK is pre-shared
     #[doc(alias = "NM_SETTING_MACSEC_MODE_PSK")]
     Psk,
+    /// The CAK is the result of participation in EAP
     #[doc(alias = "NM_SETTING_MACSEC_MODE_EAP")]
     Eap,
     #[doc(hidden)]
@@ -4372,10 +4939,16 @@ impl ToValue for SettingMacsecMode {
 #[non_exhaustive]
 #[doc(alias = "NMSettingMacsecValidation")]
 pub enum SettingMacsecValidation {
+    /// All incoming frames are accepted if
+    ///  possible
     #[doc(alias = "NM_SETTING_MACSEC_VALIDATION_DISABLE")]
     Disable,
+    /// Non protected, invalid, or impossible to
+    ///  verify frames are accepted and counted as "invalid"
     #[doc(alias = "NM_SETTING_MACSEC_VALIDATION_CHECK")]
     Check,
+    /// Non protected, invalid, or impossible to
+    ///  verify frames are dropped
     #[doc(alias = "NM_SETTING_MACSEC_VALIDATION_STRICT")]
     Strict,
     #[doc(hidden)]
@@ -4473,16 +5046,22 @@ impl ToValue for SettingMacsecValidation {
 #[non_exhaustive]
 #[doc(alias = "NMSettingMacvlanMode")]
 pub enum SettingMacvlanMode {
+    /// unknown/unset mode
     #[doc(alias = "NM_SETTING_MACVLAN_MODE_UNKNOWN")]
     Unknown,
+    /// Virtual Ethernet Port Aggregator mode
     #[doc(alias = "NM_SETTING_MACVLAN_MODE_VEPA")]
     Vepa,
+    /// bridge mode
     #[doc(alias = "NM_SETTING_MACVLAN_MODE_BRIDGE")]
     Bridge,
+    /// private mode
     #[doc(alias = "NM_SETTING_MACVLAN_MODE_PRIVATE")]
     Private,
+    /// passthru mode
     #[doc(alias = "NM_SETTING_MACVLAN_MODE_PASSTHRU")]
     Passthru,
+    /// source mode
     #[doc(alias = "NM_SETTING_MACVLAN_MODE_SOURCE")]
     Source,
     #[doc(hidden)]
@@ -4578,8 +5157,10 @@ impl ToValue for SettingMacvlanMode {
 #[non_exhaustive]
 #[doc(alias = "NMSettingProxyMethod")]
 pub enum SettingProxyMethod {
+    /// No Proxy for the Connection
     #[doc(alias = "NM_SETTING_PROXY_METHOD_NONE")]
     None,
+    /// DHCP obtained Proxy/ Manual override
     #[doc(alias = "NM_SETTING_PROXY_METHOD_AUTO")]
     Auto,
     #[doc(hidden)]
@@ -4675,10 +5256,13 @@ impl ToValue for SettingProxyMethod {
 #[non_exhaustive]
 #[doc(alias = "NMSettingSerialParity")]
 pub enum SettingSerialParity {
+    /// No parity bits (default)
     #[doc(alias = "NM_SETTING_SERIAL_PARITY_NONE")]
     None,
+    /// Even parity
     #[doc(alias = "NM_SETTING_SERIAL_PARITY_EVEN")]
     Even,
+    /// Odd parity
     #[doc(alias = "NM_SETTING_SERIAL_PARITY_ODD")]
     Odd,
     #[doc(hidden)]
@@ -4763,10 +5347,13 @@ impl ToValue for SettingSerialParity {
 #[non_exhaustive]
 #[doc(alias = "NMSettingTunMode")]
 pub enum SettingTunMode {
+    /// an unknown device type
     #[doc(alias = "NM_SETTING_TUN_MODE_UNKNOWN")]
     Unknown,
+    /// a TUN device
     #[doc(alias = "NM_SETTING_TUN_MODE_TUN")]
     Tun,
+    /// a TAP device
     #[doc(alias = "NM_SETTING_TUN_MODE_TAP")]
     Tap,
     #[doc(hidden)]
@@ -4851,12 +5438,16 @@ impl ToValue for SettingTunMode {
 #[non_exhaustive]
 #[doc(alias = "NMSettingWirelessPowersave")]
 pub enum SettingWirelessPowersave {
+    /// use the default value
     #[doc(alias = "NM_SETTING_WIRELESS_POWERSAVE_DEFAULT")]
     Default,
+    /// don't touch existing setting
     #[doc(alias = "NM_SETTING_WIRELESS_POWERSAVE_IGNORE")]
     Ignore,
+    /// disable powersave
     #[doc(alias = "NM_SETTING_WIRELESS_POWERSAVE_DISABLE")]
     Disable,
+    /// enable powersave
     #[doc(alias = "NM_SETTING_WIRELESS_POWERSAVE_ENABLE")]
     Enable,
     #[doc(hidden)]
@@ -4946,12 +5537,16 @@ impl ToValue for SettingWirelessPowersave {
 #[non_exhaustive]
 #[doc(alias = "NMSettingWirelessSecurityFils")]
 pub enum SettingWirelessSecurityFils {
+    /// use the default value
     #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_FILS_DEFAULT")]
     Default,
+    /// disable FILS
     #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_FILS_DISABLE")]
     Disable,
+    /// enable FILS if the supplicant and the AP support it
     #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_FILS_OPTIONAL")]
     Optional,
+    /// require FILS and fail if not available
     #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_FILS_REQUIRED")]
     Required,
     #[doc(hidden)]
@@ -5053,12 +5648,16 @@ impl ToValue for SettingWirelessSecurityFils {
 #[non_exhaustive]
 #[doc(alias = "NMSettingWirelessSecurityPmf")]
 pub enum SettingWirelessSecurityPmf {
+    /// use the default value
     #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_PMF_DEFAULT")]
     Default,
+    /// disable PMF
     #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_PMF_DISABLE")]
     Disable,
+    /// enable PMF if the supplicant and the AP support it
     #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_PMF_OPTIONAL")]
     Optional,
+    /// require PMF and fail if not available
     #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_PMF_REQUIRED")]
     Required,
     #[doc(hidden)]
@@ -5151,20 +5750,29 @@ impl ToValue for SettingWirelessSecurityPmf {
 #[non_exhaustive]
 #[doc(alias = "NMSettingsError")]
 pub enum SettingsError {
+    /// unknown or unclassified error
     #[doc(alias = "NM_SETTINGS_ERROR_FAILED")]
     Failed,
+    /// permission denied
     #[doc(alias = "NM_SETTINGS_ERROR_PERMISSION_DENIED")]
     PermissionDenied,
+    /// the requested operation is not supported by any
+    ///  active settings backend
     #[doc(alias = "NM_SETTINGS_ERROR_NOT_SUPPORTED")]
     NotSupported,
+    /// the connection was invalid
     #[doc(alias = "NM_SETTINGS_ERROR_INVALID_CONNECTION")]
     InvalidConnection,
+    /// attempted to modify a read-only connection
     #[doc(alias = "NM_SETTINGS_ERROR_READ_ONLY_CONNECTION")]
     ReadOnlyConnection,
+    /// a connection with that UUID already exists
     #[doc(alias = "NM_SETTINGS_ERROR_UUID_EXISTS")]
     UuidExists,
+    /// attempted to set an invalid hostname
     #[doc(alias = "NM_SETTINGS_ERROR_INVALID_HOSTNAME")]
     InvalidHostname,
+    /// invalid arguments
     #[doc(alias = "NM_SETTINGS_ERROR_INVALID_ARGUMENTS")]
     InvalidArguments,
     #[doc(hidden)]
@@ -5290,8 +5898,10 @@ impl ToValue for SettingsError {
 #[non_exhaustive]
 #[doc(alias = "NMSriovVFVlanProtocol")]
 pub enum SriovVFVlanProtocol {
+    /// use 802.1Q
     #[doc(alias = "NM_SRIOV_VF_VLAN_PROTOCOL_802_1Q")]
     _1q,
+    /// use 802.1ad
     #[doc(alias = "NM_SRIOV_VF_VLAN_PROTOCOL_802_1AD")]
     _1ad,
     #[doc(hidden)]
@@ -5387,20 +5997,46 @@ impl ToValue for SriovVFVlanProtocol {
 #[non_exhaustive]
 #[doc(alias = "NMState")]
 pub enum State {
+    /// Networking state is unknown. This indicates a daemon error
+    ///  that makes it unable to reasonably assess the state. In such event the
+    ///  applications are expected to assume Internet connectivity might be present
+    ///  and not disable controls that require network access.
+    ///  The graphical shells may hide the network accessibility indicator altogether
+    ///  since no meaningful status indication can be provided.
     #[doc(alias = "NM_STATE_UNKNOWN")]
     Unknown,
+    /// Networking is not enabled, the system is being suspended or
+    ///  resumed from suspend.
     #[doc(alias = "NM_STATE_ASLEEP")]
     Asleep,
+    /// There is no active network connection.
+    ///  The graphical shell should indicate no network connectivity and the
+    ///  applications should not attempt to access the network.
     #[doc(alias = "NM_STATE_DISCONNECTED")]
     Disconnected,
+    /// Network connections are being cleaned up.
+    ///  The applications should tear down their network sessions.
     #[doc(alias = "NM_STATE_DISCONNECTING")]
     Disconnecting,
+    /// A network connection is being started
+    ///  The graphical shell should indicate the network is being connected while
+    ///  the applications should still make no attempts to connect the network.
     #[doc(alias = "NM_STATE_CONNECTING")]
     Connecting,
+    /// There is only local IPv4 and/or IPv6 connectivity,
+    ///  but no default route to access the Internet. The graphical shell should
+    ///  indicate no network connectivity.
     #[doc(alias = "NM_STATE_CONNECTED_LOCAL")]
     ConnectedLocal,
+    /// There is only site-wide IPv4 and/or IPv6 connectivity.
+    ///  This means a default route is available, but the Internet connectivity check
+    ///  (see "Connectivity" property) did not succeed. The graphical shell should
+    ///  indicate limited network connectivity.
     #[doc(alias = "NM_STATE_CONNECTED_SITE")]
     ConnectedSite,
+    /// There is global IPv4 and/or IPv6 Internet connectivity
+    ///  This means the Internet connectivity check succeeded, the graphical shell should
+    ///  indicate full network connectivity.
     #[doc(alias = "NM_STATE_CONNECTED_GLOBAL")]
     ConnectedGlobal,
     #[doc(hidden)]
@@ -5502,10 +6138,13 @@ impl ToValue for State {
 #[non_exhaustive]
 #[doc(alias = "NMTernary")]
 pub enum Ternary {
+    /// use the globally-configured default value.
     #[doc(alias = "NM_TERNARY_DEFAULT")]
     Default,
+    /// the option is disabled.
     #[doc(alias = "NM_TERNARY_FALSE")]
     False,
+    /// the option is enabled.
     #[doc(alias = "NM_TERNARY_TRUE")]
     True,
     #[doc(hidden)]
@@ -5606,28 +6245,42 @@ impl ToValue for Ternary {
 #[non_exhaustive]
 #[doc(alias = "NMUtilsSecurityType")]
 pub enum UtilsSecurityType {
+    /// unknown or invalid security, placeholder and not used
     #[doc(alias = "NMU_SEC_INVALID")]
     Invalid,
+    /// unencrypted and open
     #[doc(alias = "NMU_SEC_NONE")]
     None,
+    /// static WEP keys are used for encryption
     #[doc(alias = "NMU_SEC_STATIC_WEP")]
     StaticWep,
+    /// Cisco LEAP is used for authentication and for generating the
+    /// dynamic WEP keys automatically
     #[doc(alias = "NMU_SEC_LEAP")]
     Leap,
+    /// standard 802.1x is used for authentication and
+    /// generating the dynamic WEP keys automatically
     #[doc(alias = "NMU_SEC_DYNAMIC_WEP")]
     DynamicWep,
+    /// WPA1 is used with Pre-Shared Keys (PSK)
     #[doc(alias = "NMU_SEC_WPA_PSK")]
     WpaPsk,
+    /// WPA1 is used with 802.1x authentication
     #[doc(alias = "NMU_SEC_WPA_ENTERPRISE")]
     WpaEnterprise,
+    /// WPA2/RSN is used with Pre-Shared Keys (PSK)
     #[doc(alias = "NMU_SEC_WPA2_PSK")]
     Wpa2Psk,
+    /// WPA2 is used with 802.1x authentication
     #[doc(alias = "NMU_SEC_WPA2_ENTERPRISE")]
     Wpa2Enterprise,
+    /// is used with WPA3 Enterprise
     #[doc(alias = "NMU_SEC_SAE")]
     Sae,
+    /// is used with Enhanced Open
     #[doc(alias = "NMU_SEC_OWE")]
     Owe,
+    /// is used with WPA3 Enterprise Suite-B 192 bit mode. Since: 1.30.
     #[doc(alias = "NMU_SEC_WPA3_SUITE_B_192")]
     Wpa3SuiteB192,
     #[doc(hidden)]
@@ -5740,8 +6393,10 @@ impl ToValue for UtilsSecurityType {
 #[non_exhaustive]
 #[doc(alias = "NMVlanPriorityMap")]
 pub enum VlanPriorityMap {
+    /// map for incoming data
     #[doc(alias = "NM_VLAN_INGRESS_MAP")]
     IngressMap,
+    /// map for outgoing data
     #[doc(alias = "NM_VLAN_EGRESS_MAP")]
     EgressMap,
     #[doc(hidden)]
@@ -5823,20 +6478,32 @@ impl ToValue for VlanPriorityMap {
 #[non_exhaustive]
 #[doc(alias = "NMVpnConnectionState")]
 pub enum VpnConnectionState {
+    /// The state of the VPN connection is
+    ///  unknown.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_UNKNOWN")]
     Unknown,
+    /// The VPN connection is preparing to
+    ///  connect.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_PREPARE")]
     Prepare,
+    /// The VPN connection needs authorization
+    ///  credentials.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_NEED_AUTH")]
     NeedAuth,
+    /// The VPN connection is being established.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_CONNECT")]
     Connect,
+    /// The VPN connection is getting an IP
+    ///  address.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_IP_CONFIG_GET")]
     IpConfigGet,
+    /// The VPN connection is active.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_ACTIVATED")]
     Activated,
+    /// The VPN connection failed.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_FAILED")]
     Failed,
+    /// The VPN connection is disconnected.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_DISCONNECTED")]
     Disconnected,
     #[doc(hidden)]
@@ -5936,28 +6603,52 @@ impl ToValue for VpnConnectionState {
 #[non_exhaustive]
 #[doc(alias = "NMVpnConnectionStateReason")]
 pub enum VpnConnectionStateReason {
+    /// The reason for the VPN connection
+    ///  state change is unknown.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_REASON_UNKNOWN")]
     Unknown,
+    /// No reason was given for the VPN
+    ///  connection state change.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_REASON_NONE")]
     None,
+    /// The VPN connection changed
+    ///  state because the user disconnected it.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_REASON_USER_DISCONNECTED")]
     UserDisconnected,
+    /// The VPN connection
+    ///  changed state because the device it was using was disconnected.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_REASON_DEVICE_DISCONNECTED")]
     DeviceDisconnected,
+    /// The service providing the
+    ///  VPN connection was stopped.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_REASON_SERVICE_STOPPED")]
     ServiceStopped,
+    /// The IP config of the VPN
+    ///  connection was invalid.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_REASON_IP_CONFIG_INVALID")]
     IpConfigInvalid,
+    /// The connection attempt to
+    ///  the VPN service timed out.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_REASON_CONNECT_TIMEOUT")]
     ConnectTimeout,
+    /// A timeout occurred
+    ///  while starting the service providing the VPN connection.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_REASON_SERVICE_START_TIMEOUT")]
     ServiceStartTimeout,
+    /// Starting the service
+    ///  starting the service providing the VPN connection failed.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_REASON_SERVICE_START_FAILED")]
     ServiceStartFailed,
+    /// Necessary secrets for the VPN
+    ///  connection were not provided.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_REASON_NO_SECRETS")]
     NoSecrets,
+    /// Authentication to the VPN
+    ///  server failed.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_REASON_LOGIN_FAILED")]
     LoginFailed,
+    /// The connection was
+    ///  deleted from settings.
     #[doc(alias = "NM_VPN_CONNECTION_STATE_REASON_CONNECTION_REMOVED")]
     ConnectionRemoved,
     #[doc(hidden)]
@@ -6070,24 +6761,46 @@ impl ToValue for VpnConnectionStateReason {
 #[non_exhaustive]
 #[doc(alias = "NMVpnPluginError")]
 pub enum VpnPluginError {
+    /// unknown or unclassified error
     #[doc(alias = "NM_VPN_PLUGIN_ERROR_FAILED")]
     Failed,
+    /// the plugin is already starting,
+    ///  and another connect request was received
     #[doc(alias = "NM_VPN_PLUGIN_ERROR_STARTING_IN_PROGRESS")]
     StartingInProgress,
+    /// the plugin is already connected, and
+    ///  another connect request was received
     #[doc(alias = "NM_VPN_PLUGIN_ERROR_ALREADY_STARTED")]
     AlreadyStarted,
+    /// the plugin is already stopping,
+    ///  and another stop request was received
     #[doc(alias = "NM_VPN_PLUGIN_ERROR_STOPPING_IN_PROGRESS")]
     StoppingInProgress,
+    /// the plugin is already stopped, and
+    ///  another disconnect request was received
     #[doc(alias = "NM_VPN_PLUGIN_ERROR_ALREADY_STOPPED")]
     AlreadyStopped,
+    /// the operation could not be performed in
+    ///  this state
     #[doc(alias = "NM_VPN_PLUGIN_ERROR_WRONG_STATE")]
     WrongState,
+    /// the operation could not be performed as
+    ///  the request contained malformed arguments, or arguments of unexpected type.
+    ///  Usually means that one of the VPN setting data items or secrets was not of
+    ///  the expected type (ie int, string, bool, etc).
     #[doc(alias = "NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS")]
     BadArguments,
+    /// a child process failed to launch
     #[doc(alias = "NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED")]
     LaunchFailed,
+    /// the operation could not be performed
+    ///  because the connection was invalid. Usually means that the connection's
+    ///  VPN setting was missing some required data item or secret.
     #[doc(alias = "NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION")]
     InvalidConnection,
+    /// the operation could not be
+    ///  performed as the plugin does not support interactive operations, such as
+    ///  ConnectInteractive() or NewSecrets()
     #[doc(alias = "NM_VPN_PLUGIN_ERROR_INTERACTIVE_NOT_SUPPORTED")]
     InteractiveNotSupported,
     #[doc(hidden)]
@@ -6221,10 +6934,14 @@ impl ToValue for VpnPluginError {
 #[non_exhaustive]
 #[doc(alias = "NMVpnPluginFailure")]
 pub enum VpnPluginFailure {
+    /// Login failed.
     #[doc(alias = "NM_VPN_PLUGIN_FAILURE_LOGIN_FAILED")]
     LoginFailed,
+    /// Connect failed.
     #[doc(alias = "NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED")]
     ConnectFailed,
+    /// Invalid IP configuration returned from
+    ///  the VPN plugin.
     #[doc(alias = "NM_VPN_PLUGIN_FAILURE_BAD_IP_CONFIG")]
     BadIpConfig,
     #[doc(hidden)]
@@ -6309,18 +7026,25 @@ impl ToValue for VpnPluginFailure {
 #[non_exhaustive]
 #[doc(alias = "NMVpnServiceState")]
 pub enum VpnServiceState {
+    /// The state of the VPN plugin is unknown.
     #[doc(alias = "NM_VPN_SERVICE_STATE_UNKNOWN")]
     Unknown,
+    /// The VPN plugin is initialized.
     #[doc(alias = "NM_VPN_SERVICE_STATE_INIT")]
     Init,
+    /// Not used.
     #[doc(alias = "NM_VPN_SERVICE_STATE_SHUTDOWN")]
     Shutdown,
+    /// The plugin is attempting to connect to a VPN server.
     #[doc(alias = "NM_VPN_SERVICE_STATE_STARTING")]
     Starting,
+    /// The plugin has connected to a VPN server.
     #[doc(alias = "NM_VPN_SERVICE_STATE_STARTED")]
     Started,
+    /// The plugin is disconnecting from the VPN server.
     #[doc(alias = "NM_VPN_SERVICE_STATE_STOPPING")]
     Stopping,
+    /// The plugin has disconnected from the VPN server.
     #[doc(alias = "NM_VPN_SERVICE_STATE_STOPPED")]
     Stopped,
     #[doc(hidden)]
@@ -6425,10 +7149,19 @@ impl ToValue for VpnServiceState {
 #[non_exhaustive]
 #[doc(alias = "NMWepKeyType")]
 pub enum WepKeyType {
+    /// unknown WEP key type
     #[doc(alias = "NM_WEP_KEY_TYPE_UNKNOWN")]
     Unknown,
+    /// indicates a hexadecimal or ASCII formatted WEP key.
+    /// Hex keys are either 10 or 26 hexadecimal characters (ie "5f782f2f5f" or
+    /// "732f2d712e4a394a375d366931"), while ASCII keys are either 5 or 13 ASCII
+    /// characters (ie "abcde" or "blahblah99$*1").
     #[doc(alias = "NM_WEP_KEY_TYPE_KEY")]
     Key,
+    /// indicates a WEP passphrase (ex "I bought a duck
+    /// on my way back from the market 235Q&^%^*%") instead of a hexadecimal or ASCII
+    /// key. Passphrases are between 8 and 64 characters inclusive and are hashed
+    /// the actual WEP key using the MD5 hash algorithm.
     #[doc(alias = "NM_WEP_KEY_TYPE_PASSPHRASE")]
     Passphrase,
     #[doc(hidden)]
@@ -6513,12 +7246,16 @@ impl ToValue for WepKeyType {
 #[non_exhaustive]
 #[doc(alias = "NMWimaxNspNetworkType")]
 pub enum WimaxNspNetworkType {
+    /// unknown network type
     #[doc(alias = "NM_WIMAX_NSP_NETWORK_TYPE_UNKNOWN")]
     Unknown,
+    /// home network
     #[doc(alias = "NM_WIMAX_NSP_NETWORK_TYPE_HOME")]
     Home,
+    /// partner network
     #[doc(alias = "NM_WIMAX_NSP_NETWORK_TYPE_PARTNER")]
     Partner,
+    /// roaming partner network
     #[doc(alias = "NM_WIMAX_NSP_NETWORK_TYPE_ROAMING_PARTNER")]
     RoamingPartner,
     #[doc(hidden)]
@@ -6606,14 +7343,25 @@ impl ToValue for WimaxNspNetworkType {
 #[non_exhaustive]
 #[doc(alias = "NM80211Mode")]
 pub enum _80211Mode {
+    /// the device or access point mode is unknown
     #[doc(alias = "NM_802_11_MODE_UNKNOWN")]
     Unknown,
+    /// for both devices and access point objects, indicates
+    ///  the object is part of an Ad-Hoc 802.11 network without a central
+    ///  coordinating access point.
     #[doc(alias = "NM_802_11_MODE_ADHOC")]
     Adhoc,
+    /// the device or access point is in infrastructure mode.
+    ///  For devices, this indicates the device is an 802.11 client/station. For
+    ///  access point objects, this indicates the object is an access point that
+    ///  provides connectivity to clients.
     #[doc(alias = "NM_802_11_MODE_INFRA")]
     Infra,
+    /// the device is an access point/hotspot. Not valid for
+    ///  access point objects; used only for hotspot mode on the local machine.
     #[doc(alias = "NM_802_11_MODE_AP")]
     Ap,
+    /// the device is a 802.11s mesh point. Since: 1.20.
     #[doc(alias = "NM_802_11_MODE_MESH")]
     Mesh,
     #[doc(hidden)]

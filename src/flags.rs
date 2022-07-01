@@ -185,6 +185,8 @@ bitflags! {
         const DISCONNECT_NEW_DEVICES = ffi::NM_CHECKPOINT_CREATE_FLAG_DISCONNECT_NEW_DEVICES as u32;
         #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_ALLOW_OVERLAPPING")]
         const ALLOW_OVERLAPPING = ffi::NM_CHECKPOINT_CREATE_FLAG_ALLOW_OVERLAPPING as u32;
+        #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_NO_PRESERVE_EXTERNAL_PORTS")]
+        const NO_PRESERVE_EXTERNAL_PORTS = ffi::NM_CHECKPOINT_CREATE_FLAG_NO_PRESERVE_EXTERNAL_PORTS as u32;
     }
 }
 
@@ -581,6 +583,8 @@ bitflags! {
         const GSM_UMTS = ffi::NM_DEVICE_MODEM_CAPABILITY_GSM_UMTS as u32;
         #[doc(alias = "NM_DEVICE_MODEM_CAPABILITY_LTE")]
         const LTE = ffi::NM_DEVICE_MODEM_CAPABILITY_LTE as u32;
+        #[doc(alias = "NM_DEVICE_MODEM_CAPABILITY_5GNR")]
+        const __5GNR = ffi::NM_DEVICE_MODEM_CAPABILITY_5GNR as u32;
     }
 }
 
@@ -1197,6 +1201,88 @@ unsafe impl<'a> FromValue<'a> for ManagerReloadFlags {
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 impl ToValue for ManagerReloadFlags {
+    fn to_value(&self) -> glib::Value {
+        let mut value = glib::Value::for_value_type::<Self>();
+        unsafe {
+            glib::gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, self.into_glib());
+        }
+        value
+    }
+
+    fn value_type(&self) -> glib::Type {
+        Self::static_type()
+    }
+}
+
+#[cfg(any(feature = "v1_38", feature = "dox"))]
+bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+    #[doc(alias = "NMRadioFlags")]
+    pub struct RadioFlags: u32 {
+        #[doc(alias = "NM_RADIO_FLAG_NONE")]
+        const NONE = ffi::NM_RADIO_FLAG_NONE as u32;
+        #[doc(alias = "NM_RADIO_FLAG_WLAN_AVAILABLE")]
+        const WLAN_AVAILABLE = ffi::NM_RADIO_FLAG_WLAN_AVAILABLE as u32;
+        #[doc(alias = "NM_RADIO_FLAG_WWAN_AVAILABLE")]
+        const WWAN_AVAILABLE = ffi::NM_RADIO_FLAG_WWAN_AVAILABLE as u32;
+    }
+}
+
+#[cfg(any(feature = "v1_38", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+impl fmt::Display for RadioFlags {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        <Self as fmt::Debug>::fmt(self, f)
+    }
+}
+
+#[cfg(any(feature = "v1_38", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+#[doc(hidden)]
+impl IntoGlib for RadioFlags {
+    type GlibType = ffi::NMRadioFlags;
+
+    fn into_glib(self) -> ffi::NMRadioFlags {
+        self.bits()
+    }
+}
+
+#[cfg(any(feature = "v1_38", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+#[doc(hidden)]
+impl FromGlib<ffi::NMRadioFlags> for RadioFlags {
+    unsafe fn from_glib(value: ffi::NMRadioFlags) -> Self {
+        Self::from_bits_truncate(value)
+    }
+}
+
+#[cfg(any(feature = "v1_38", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+impl StaticType for RadioFlags {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_radio_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_38", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+impl glib::value::ValueType for RadioFlags {
+    type Type = Self;
+}
+
+#[cfg(any(feature = "v1_38", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+unsafe impl<'a> FromValue<'a> for RadioFlags {
+    type Checker = glib::value::GenericValueTypeChecker<Self>;
+
+    unsafe fn from_value(value: &'a glib::Value) -> Self {
+        from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
+    }
+}
+
+#[cfg(any(feature = "v1_38", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+impl ToValue for RadioFlags {
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {

@@ -84,10 +84,8 @@ impl BridgeVlan {
                 vid_start.as_mut_ptr(),
                 vid_end.as_mut_ptr(),
             ));
-            let vid_start = vid_start.assume_init();
-            let vid_end = vid_end.assume_init();
             if ret {
-                Some((vid_start, vid_end))
+                Some((vid_start.assume_init(), vid_end.assume_init()))
             } else {
                 None
             }

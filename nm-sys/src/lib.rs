@@ -6,9 +6,6 @@
 #![allow(clippy::approx_constant, clippy::type_complexity, clippy::unreadable_literal, clippy::upper_case_acronyms)]
 #![cfg_attr(feature = "dox", feature(doc_cfg))]
 
-use glib_sys as glib;
-use gobject_sys as gobject;
-use gio_sys as gio;
 
 #[allow(unused_imports)]
 use libc::{c_int, c_char, c_uchar, c_float, c_uint, c_double,
@@ -346,6 +343,12 @@ pub const NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES_DEFAULT: NMSettingConnectionA
 pub const NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES_NO: NMSettingConnectionAutoconnectSlaves = 0;
 pub const NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES_YES: NMSettingConnectionAutoconnectSlaves = 1;
 
+pub type NMSettingConnectionDnsOverTls = c_int;
+pub const NM_SETTING_CONNECTION_DNS_OVER_TLS_DEFAULT: NMSettingConnectionDnsOverTls = -1;
+pub const NM_SETTING_CONNECTION_DNS_OVER_TLS_NO: NMSettingConnectionDnsOverTls = 0;
+pub const NM_SETTING_CONNECTION_DNS_OVER_TLS_OPPORTUNISTIC: NMSettingConnectionDnsOverTls = 1;
+pub const NM_SETTING_CONNECTION_DNS_OVER_TLS_YES: NMSettingConnectionDnsOverTls = 2;
+
 pub type NMSettingConnectionLldp = c_int;
 pub const NM_SETTING_CONNECTION_LLDP_DEFAULT: NMSettingConnectionLldp = -1;
 pub const NM_SETTING_CONNECTION_LLDP_DISABLE: NMSettingConnectionLldp = 0;
@@ -608,6 +611,7 @@ pub const NM_CLIENT_NM_RUNNING: *const c_char = b"nm-running\0" as *const u8 as 
 pub const NM_CLIENT_PERMISSIONS_STATE: *const c_char = b"permissions-state\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_PERMISSION_CHANGED: *const c_char = b"permission-changed\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_PRIMARY_CONNECTION: *const c_char = b"primary-connection\0" as *const u8 as *const c_char;
+pub const NM_CLIENT_RADIO_FLAGS: *const c_char = b"radio-flags\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_STARTUP: *const c_char = b"startup\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_STATE: *const c_char = b"state\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_VERSION: *const c_char = b"version\0" as *const u8 as *const c_char;
@@ -618,6 +622,7 @@ pub const NM_CLIENT_WIRELESS_HARDWARE_ENABLED: *const c_char = b"wireless-hardwa
 pub const NM_CLIENT_WWAN_ENABLED: *const c_char = b"wwan-enabled\0" as *const u8 as *const c_char;
 pub const NM_CLIENT_WWAN_HARDWARE_ENABLED: *const c_char = b"wwan-hardware-enabled\0" as *const u8 as *const c_char;
 pub const NM_CONNECTION_CHANGED: *const c_char = b"changed\0" as *const u8 as *const c_char;
+pub const NM_CONNECTION_NORMALIZE_PARAM_IP4_CONFIG_METHOD: *const c_char = b"ip4-config-method\0" as *const u8 as *const c_char;
 pub const NM_CONNECTION_NORMALIZE_PARAM_IP6_CONFIG_METHOD: *const c_char = b"ip6-config-method\0" as *const u8 as *const c_char;
 pub const NM_CONNECTION_SECRETS_CLEARED: *const c_char = b"secrets-cleared\0" as *const u8 as *const c_char;
 pub const NM_CONNECTION_SECRETS_UPDATED: *const c_char = b"secrets-updated\0" as *const u8 as *const c_char;
@@ -745,6 +750,7 @@ pub const NM_DEVICE_OVS_BRIDGE_SLAVES: *const c_char = b"slaves\0" as *const u8 
 pub const NM_DEVICE_OVS_PORT_SLAVES: *const c_char = b"slaves\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_PATH: *const c_char = b"path\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_PHYSICAL_PORT_ID: *const c_char = b"physical-port-id\0" as *const u8 as *const c_char;
+pub const NM_DEVICE_PORTS: *const c_char = b"ports\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_PRODUCT: *const c_char = b"product\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_REAL: *const c_char = b"real\0" as *const u8 as *const c_char;
 pub const NM_DEVICE_STATE: *const c_char = b"state\0" as *const u8 as *const c_char;
@@ -950,8 +956,9 @@ pub const NM_LLDP_DEST_NEAREST_BRIDGE: *const c_char = b"nearest-bridge\0" as *c
 pub const NM_LLDP_DEST_NEAREST_CUSTOMER_BRIDGE: *const c_char = b"nearest-customer-bridge\0" as *const u8 as *const c_char;
 pub const NM_LLDP_DEST_NEAREST_NON_TPMR_BRIDGE: *const c_char = b"nearest-non-tpmr-bridge\0" as *const u8 as *const c_char;
 pub const NM_MAJOR_VERSION: c_int = 1;
-pub const NM_MICRO_VERSION: c_int = 12;
-pub const NM_MINOR_VERSION: c_int = 32;
+pub const NM_MICRO_VERSION: c_int = 2;
+pub const NM_MINOR_VERSION: c_int = 38;
+pub const NM_OBJECT_CLIENT: *const c_char = b"client\0" as *const u8 as *const c_char;
 pub const NM_OBJECT_PATH: *const c_char = b"path\0" as *const u8 as *const c_char;
 pub const NM_REMOTE_CONNECTION_DBUS_CONNECTION: *const c_char = b"dbus-connection\0" as *const u8 as *const c_char;
 pub const NM_REMOTE_CONNECTION_FILENAME: *const c_char = b"filename\0" as *const u8 as *const c_char;
@@ -1064,6 +1071,8 @@ pub const NM_SETTING_BOND_OPTION_TLB_DYNAMIC_LB: *const c_char = b"tlb_dynamic_l
 pub const NM_SETTING_BOND_OPTION_UPDELAY: *const c_char = b"updelay\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BOND_OPTION_USE_CARRIER: *const c_char = b"use_carrier\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BOND_OPTION_XMIT_HASH_POLICY: *const c_char = b"xmit_hash_policy\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BOND_PORT_QUEUE_ID: *const c_char = b"queue-id\0" as *const u8 as *const c_char;
+pub const NM_SETTING_BOND_PORT_SETTING_NAME: *const c_char = b"bond-port\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BOND_SETTING_NAME: *const c_char = b"bond\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_AGEING_TIME: *const c_char = b"ageing-time\0" as *const u8 as *const c_char;
 pub const NM_SETTING_BRIDGE_FORWARD_DELAY: *const c_char = b"forward-delay\0" as *const u8 as *const c_char;
@@ -1112,6 +1121,7 @@ pub const NM_SETTING_CONNECTION_AUTOCONNECT_PRIORITY_MAX: c_int = 999;
 pub const NM_SETTING_CONNECTION_AUTOCONNECT_PRIORITY_MIN: c_int = -999;
 pub const NM_SETTING_CONNECTION_AUTOCONNECT_RETRIES: *const c_char = b"autoconnect-retries\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES: *const c_char = b"autoconnect-slaves\0" as *const u8 as *const c_char;
+pub const NM_SETTING_CONNECTION_DNS_OVER_TLS: *const c_char = b"dns-over-tls\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CONNECTION_GATEWAY_PING_TIMEOUT: *const c_char = b"gateway-ping-timeout\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CONNECTION_ID: *const c_char = b"id\0" as *const u8 as *const c_char;
 pub const NM_SETTING_CONNECTION_INTERFACE_NAME: *const c_char = b"interface-name\0" as *const u8 as *const c_char;
@@ -1291,6 +1301,7 @@ pub const NM_SETTING_OVS_BRIDGE_RSTP_ENABLE: *const c_char = b"rstp-enable\0" as
 pub const NM_SETTING_OVS_BRIDGE_SETTING_NAME: *const c_char = b"ovs-bridge\0" as *const u8 as *const c_char;
 pub const NM_SETTING_OVS_BRIDGE_STP_ENABLE: *const c_char = b"stp-enable\0" as *const u8 as *const c_char;
 pub const NM_SETTING_OVS_DPDK_DEVARGS: *const c_char = b"devargs\0" as *const u8 as *const c_char;
+pub const NM_SETTING_OVS_DPDK_N_RXQ: *const c_char = b"n-rxq\0" as *const u8 as *const c_char;
 pub const NM_SETTING_OVS_DPDK_SETTING_NAME: *const c_char = b"ovs-dpdk\0" as *const u8 as *const c_char;
 pub const NM_SETTING_OVS_EXTERNAL_IDS_DATA: *const c_char = b"data\0" as *const u8 as *const c_char;
 pub const NM_SETTING_OVS_EXTERNAL_IDS_SETTING_NAME: *const c_char = b"ovs-external-ids\0" as *const u8 as *const c_char;
@@ -1652,6 +1663,7 @@ pub const NM_CHECKPOINT_CREATE_FLAG_DESTROY_ALL: NMCheckpointCreateFlags = 1;
 pub const NM_CHECKPOINT_CREATE_FLAG_DELETE_NEW_CONNECTIONS: NMCheckpointCreateFlags = 2;
 pub const NM_CHECKPOINT_CREATE_FLAG_DISCONNECT_NEW_DEVICES: NMCheckpointCreateFlags = 4;
 pub const NM_CHECKPOINT_CREATE_FLAG_ALLOW_OVERLAPPING: NMCheckpointCreateFlags = 8;
+pub const NM_CHECKPOINT_CREATE_FLAG_NO_PRESERVE_EXTERNAL_PORTS: NMCheckpointCreateFlags = 16;
 
 pub type NMClientInstanceFlags = c_uint;
 pub const NM_CLIENT_INSTANCE_FLAGS_NONE: NMClientInstanceFlags = 0;
@@ -1687,6 +1699,7 @@ pub const NM_DEVICE_MODEM_CAPABILITY_POTS: NMDeviceModemCapabilities = 1;
 pub const NM_DEVICE_MODEM_CAPABILITY_CDMA_EVDO: NMDeviceModemCapabilities = 2;
 pub const NM_DEVICE_MODEM_CAPABILITY_GSM_UMTS: NMDeviceModemCapabilities = 4;
 pub const NM_DEVICE_MODEM_CAPABILITY_LTE: NMDeviceModemCapabilities = 8;
+pub const NM_DEVICE_MODEM_CAPABILITY_5GNR: NMDeviceModemCapabilities = 64;
 
 pub type NMDeviceWifiCapabilities = c_uint;
 pub const NM_WIFI_DEVICE_CAP_NONE: NMDeviceWifiCapabilities = 0;
@@ -1737,6 +1750,11 @@ pub type NMManagerReloadFlags = c_uint;
 pub const NM_MANAGER_RELOAD_FLAG_CONF: NMManagerReloadFlags = 1;
 pub const NM_MANAGER_RELOAD_FLAG_DNS_RC: NMManagerReloadFlags = 2;
 pub const NM_MANAGER_RELOAD_FLAG_DNS_FULL: NMManagerReloadFlags = 4;
+
+pub type NMRadioFlags = c_uint;
+pub const NM_RADIO_FLAG_NONE: NMRadioFlags = 0;
+pub const NM_RADIO_FLAG_WLAN_AVAILABLE: NMRadioFlags = 1;
+pub const NM_RADIO_FLAG_WWAN_AVAILABLE: NMRadioFlags = 2;
 
 pub type NMSecretAgentCapabilities = c_uint;
 pub const NM_SECRET_AGENT_CAPABILITY_NONE: NMSecretAgentCapabilities = 0;
@@ -2328,6 +2346,14 @@ pub struct _NMSettingBondClass {
 }
 
 pub type NMSettingBondClass = *mut _NMSettingBondClass;
+
+#[repr(C)]
+pub struct _NMSettingBondPortClass {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
+
+pub type NMSettingBondPortClass = *mut _NMSettingBondPortClass;
 
 #[repr(C)]
 pub struct _NMSettingBridgeClass {
@@ -3563,6 +3589,19 @@ impl ::std::fmt::Debug for NMSettingBond {
 }
 
 #[repr(C)]
+pub struct NMSettingBondPort {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
+
+impl ::std::fmt::Debug for NMSettingBondPort {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("NMSettingBondPort @ {:p}", self))
+         .finish()
+    }
+}
+
+#[repr(C)]
 pub struct NMSettingBridge {
     _data: [u8; 0],
     _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
@@ -4457,6 +4496,13 @@ extern "C" {
     pub fn nm_setting_connection_autoconnect_slaves_get_type() -> GType;
 
     //=========================================================================
+    // NMSettingConnectionDnsOverTls
+    //=========================================================================
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    pub fn nm_setting_connection_dns_over_tls_get_type() -> GType;
+
+    //=========================================================================
     // NMSettingConnectionLldp
     //=========================================================================
     pub fn nm_setting_connection_lldp_get_type() -> GType;
@@ -4723,6 +4769,13 @@ extern "C" {
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     pub fn nm_manager_reload_flags_get_type() -> GType;
+
+    //=========================================================================
+    // NMRadioFlags
+    //=========================================================================
+    #[cfg(any(feature = "v1_38", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+    pub fn nm_radio_flags_get_type() -> GType;
 
     //=========================================================================
     // NMSecretAgentCapabilities
@@ -5010,8 +5063,8 @@ extern "C" {
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     pub fn nm_ip_routing_rule_get_tos(self_: *const NMIPRoutingRule) -> u8;
-    #[cfg(any(feature = "v1_32", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
     pub fn nm_ip_routing_rule_get_uid_range(self_: *const NMIPRoutingRule, out_range_start: *mut u32, out_range_end: *mut u32) -> gboolean;
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
@@ -5061,8 +5114,8 @@ extern "C" {
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     pub fn nm_ip_routing_rule_set_tos(self_: *mut NMIPRoutingRule, tos: u8);
-    #[cfg(any(feature = "v1_32", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
     pub fn nm_ip_routing_rule_set_uid_range(self_: *mut NMIPRoutingRule, uid_range_start: u32, uid_range_end: u32);
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
@@ -5587,6 +5640,9 @@ extern "C" {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     pub fn nm_client_get_permissions_state(self_: *mut NMClient) -> NMTernary;
     pub fn nm_client_get_primary_connection(client: *mut NMClient) -> *mut NMActiveConnection;
+    #[cfg(any(feature = "v1_38", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+    pub fn nm_client_get_radio_flags(client: *mut NMClient) -> NMRadioFlags;
     pub fn nm_client_get_startup(client: *mut NMClient) -> gboolean;
     pub fn nm_client_get_state(client: *mut NMClient) -> NMState;
     pub fn nm_client_get_version(client: *mut NMClient) -> *const c_char;
@@ -5676,6 +5732,9 @@ extern "C" {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn nm_device_get_path(device: *mut NMDevice) -> *const c_char;
     pub fn nm_device_get_physical_port_id(device: *mut NMDevice) -> *const c_char;
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    pub fn nm_device_get_ports(device: *mut NMDevice) -> *const glib::GPtrArray;
     pub fn nm_device_get_product(device: *mut NMDevice) -> *const c_char;
     pub fn nm_device_get_setting_type(device: *mut NMDevice) -> GType;
     pub fn nm_device_get_state(device: *mut NMDevice) -> NMDeviceState;
@@ -6455,6 +6514,17 @@ extern "C" {
     pub fn nm_setting_bond_remove_option(setting: *mut NMSettingBond, name: *const c_char) -> gboolean;
 
     //=========================================================================
+    // NMSettingBondPort
+    //=========================================================================
+    pub fn nm_setting_bond_port_get_type() -> GType;
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    pub fn nm_setting_bond_port_new() -> *mut NMSetting;
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    pub fn nm_setting_bond_port_get_queue_id(setting: *mut NMSettingBondPort) -> u32;
+
+    //=========================================================================
     // NMSettingBridge
     //=========================================================================
     pub fn nm_setting_bridge_get_type() -> GType;
@@ -6571,6 +6641,9 @@ extern "C" {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_setting_connection_get_autoconnect_slaves(setting: *mut NMSettingConnection) -> NMSettingConnectionAutoconnectSlaves;
     pub fn nm_setting_connection_get_connection_type(setting: *mut NMSettingConnection) -> *const c_char;
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    pub fn nm_setting_connection_get_dns_over_tls(setting: *mut NMSettingConnection) -> NMSettingConnectionDnsOverTls;
     pub fn nm_setting_connection_get_gateway_ping_timeout(setting: *mut NMSettingConnection) -> u32;
     pub fn nm_setting_connection_get_id(setting: *mut NMSettingConnection) -> *const c_char;
     pub fn nm_setting_connection_get_interface_name(setting: *mut NMSettingConnection) -> *const c_char;
@@ -7114,6 +7187,9 @@ extern "C" {
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     pub fn nm_setting_ovs_dpdk_get_devargs(self_: *mut NMSettingOvsDpdk) -> *const c_char;
+    #[cfg(any(feature = "v1_36", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_36")))]
+    pub fn nm_setting_ovs_dpdk_get_n_rxq(self_: *mut NMSettingOvsDpdk) -> u32;
 
     //=========================================================================
     // NMSettingOvsExternalIDs

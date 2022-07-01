@@ -181,6 +181,9 @@ pub use self::setting_bluetooth::SettingBluetooth;
 mod setting_bond;
 pub use self::setting_bond::SettingBond;
 
+mod setting_bond_port;
+pub use self::setting_bond_port::SettingBondPort;
+
 mod setting_bridge;
 pub use self::setting_bridge::SettingBridge;
 
@@ -464,6 +467,9 @@ pub use self::enums::Setting8021xCKFormat;
 pub use self::enums::Setting8021xCKScheme;
 pub use self::enums::SettingCompareFlags;
 pub use self::enums::SettingConnectionAutoconnectSlaves;
+#[cfg(any(feature = "v1_34", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+pub use self::enums::SettingConnectionDnsOverTls;
 pub use self::enums::SettingConnectionLldp;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
@@ -547,6 +553,9 @@ pub use self::flags::KeyfileHandlerFlags;
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 pub use self::flags::ManagerReloadFlags;
+#[cfg(any(feature = "v1_38", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+pub use self::flags::RadioFlags;
 pub use self::flags::SecretAgentCapabilities;
 pub use self::flags::SecretAgentGetSecretsFlags;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
@@ -644,6 +653,7 @@ pub use self::constants::CLIENT_NM_RUNNING;
 pub use self::constants::CLIENT_PERMISSIONS_STATE;
 pub use self::constants::CLIENT_PERMISSION_CHANGED;
 pub use self::constants::CLIENT_PRIMARY_CONNECTION;
+pub use self::constants::CLIENT_RADIO_FLAGS;
 pub use self::constants::CLIENT_STARTUP;
 pub use self::constants::CLIENT_STATE;
 pub use self::constants::CLIENT_VERSION;
@@ -654,6 +664,7 @@ pub use self::constants::CLIENT_WIRELESS_HARDWARE_ENABLED;
 pub use self::constants::CLIENT_WWAN_ENABLED;
 pub use self::constants::CLIENT_WWAN_HARDWARE_ENABLED;
 pub use self::constants::CONNECTION_CHANGED;
+pub use self::constants::CONNECTION_NORMALIZE_PARAM_IP4_CONFIG_METHOD;
 pub use self::constants::CONNECTION_NORMALIZE_PARAM_IP6_CONFIG_METHOD;
 pub use self::constants::CONNECTION_SECRETS_CLEARED;
 pub use self::constants::CONNECTION_SECRETS_UPDATED;
@@ -781,6 +792,7 @@ pub use self::constants::DEVICE_OVS_BRIDGE_SLAVES;
 pub use self::constants::DEVICE_OVS_PORT_SLAVES;
 pub use self::constants::DEVICE_PATH;
 pub use self::constants::DEVICE_PHYSICAL_PORT_ID;
+pub use self::constants::DEVICE_PORTS;
 pub use self::constants::DEVICE_PRODUCT;
 pub use self::constants::DEVICE_REAL;
 pub use self::constants::DEVICE_STATE;
@@ -985,6 +997,7 @@ pub use self::constants::LLDP_ATTR_SYSTEM_NAME;
 pub use self::constants::LLDP_DEST_NEAREST_BRIDGE;
 pub use self::constants::LLDP_DEST_NEAREST_CUSTOMER_BRIDGE;
 pub use self::constants::LLDP_DEST_NEAREST_NON_TPMR_BRIDGE;
+pub use self::constants::OBJECT_CLIENT;
 pub use self::constants::OBJECT_PATH;
 pub use self::constants::REMOTE_CONNECTION_DBUS_CONNECTION;
 pub use self::constants::REMOTE_CONNECTION_FILENAME;
@@ -1097,6 +1110,8 @@ pub use self::constants::SETTING_BOND_OPTION_TLB_DYNAMIC_LB;
 pub use self::constants::SETTING_BOND_OPTION_UPDELAY;
 pub use self::constants::SETTING_BOND_OPTION_USE_CARRIER;
 pub use self::constants::SETTING_BOND_OPTION_XMIT_HASH_POLICY;
+pub use self::constants::SETTING_BOND_PORT_QUEUE_ID;
+pub use self::constants::SETTING_BOND_PORT_SETTING_NAME;
 pub use self::constants::SETTING_BOND_SETTING_NAME;
 pub use self::constants::SETTING_BRIDGE_AGEING_TIME;
 pub use self::constants::SETTING_BRIDGE_FORWARD_DELAY;
@@ -1142,6 +1157,7 @@ pub use self::constants::SETTING_CONNECTION_AUTOCONNECT;
 pub use self::constants::SETTING_CONNECTION_AUTOCONNECT_PRIORITY;
 pub use self::constants::SETTING_CONNECTION_AUTOCONNECT_RETRIES;
 pub use self::constants::SETTING_CONNECTION_AUTOCONNECT_SLAVES;
+pub use self::constants::SETTING_CONNECTION_DNS_OVER_TLS;
 pub use self::constants::SETTING_CONNECTION_GATEWAY_PING_TIMEOUT;
 pub use self::constants::SETTING_CONNECTION_ID;
 pub use self::constants::SETTING_CONNECTION_INTERFACE_NAME;
@@ -1320,6 +1336,7 @@ pub use self::constants::SETTING_OVS_BRIDGE_RSTP_ENABLE;
 pub use self::constants::SETTING_OVS_BRIDGE_SETTING_NAME;
 pub use self::constants::SETTING_OVS_BRIDGE_STP_ENABLE;
 pub use self::constants::SETTING_OVS_DPDK_DEVARGS;
+pub use self::constants::SETTING_OVS_DPDK_N_RXQ;
 pub use self::constants::SETTING_OVS_DPDK_SETTING_NAME;
 pub use self::constants::SETTING_OVS_EXTERNAL_IDS_DATA;
 pub use self::constants::SETTING_OVS_EXTERNAL_IDS_SETTING_NAME;

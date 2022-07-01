@@ -89,7 +89,7 @@ impl SettingProxy {
     ///
     /// # Returns
     ///
-    /// the PAC script
+    /// the PAC script.
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_proxy_get_pac_script")]
@@ -125,7 +125,8 @@ impl SettingProxy {
         glib::ObjectExt::set_property(self, "method", &method)
     }
 
-    /// PAC script for the connection.
+    /// PAC script for the connection. This is an UTF-8 encoded javascript code
+    /// that defines a FindProxyForURL() function.
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "pac-script")]

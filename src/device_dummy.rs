@@ -15,6 +15,8 @@ glib::wrapper! {
     }
 }
 
+impl DeviceDummy {}
+
 impl fmt::Display for DeviceDummy {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.write_str("DeviceDummy")

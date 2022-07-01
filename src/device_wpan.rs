@@ -15,6 +15,8 @@ glib::wrapper! {
     }
 }
 
+impl DeviceWpan {}
+
 impl fmt::Display for DeviceWpan {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.write_str("DeviceWpan")

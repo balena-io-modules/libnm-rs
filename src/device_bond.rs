@@ -35,11 +35,16 @@ impl DeviceBond {
 
     /// Gets the devices currently enslaved to `self`.
     ///
+    /// # Deprecated since 1.34
+    ///
+    /// Use [`DeviceExt::ports()`][crate::prelude::DeviceExt::ports()] instead.
+    ///
     /// # Returns
     ///
     /// the [`glib::PtrArray`][crate::glib::PtrArray] containing
     /// `NMDevices` that are slaves of `self`. This is the internal
     /// copy used by the device, and must not be modified.
+    #[cfg_attr(feature = "v1_34", deprecated = "Since 1.34")]
     #[doc(alias = "nm_device_bond_get_slaves")]
     #[doc(alias = "get_slaves")]
     pub fn slaves(&self) -> Vec<Device> {

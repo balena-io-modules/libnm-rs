@@ -2163,7 +2163,7 @@ impl Setting8021x {
     //#[cfg(any(feature = "v1_2", feature = "dox"))]
     //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     //#[doc(alias = "nm_setting_802_1x_check_cert_scheme")]
-    //pub fn check_cert_scheme(pdata: /*Unimplemented*/Option<Fundamental: Pointer>, length: usize) -> Result<Setting8021xCKScheme, glib::Error> {
+    //pub fn check_cert_scheme(pdata: /*Unimplemented*/Option<Basic: Pointer>, length: usize) -> Result<Setting8021xCKScheme, glib::Error> {
     //    unsafe { TODO: call ffi:nm_setting_802_1x_check_cert_scheme() }
     //}
 

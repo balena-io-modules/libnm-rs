@@ -63,7 +63,7 @@ impl IPRoute {
     }
 
     //#[doc(alias = "nm_ip_route_new_binary")]
-    //pub fn new_binary(family: i32, dest: /*Unimplemented*/Option<Fundamental: Pointer>, prefix: u32, next_hop: /*Unimplemented*/Option<Fundamental: Pointer>, metric: i64) -> Result<IPRoute, glib::Error> {
+    //pub fn new_binary(family: i32, dest: /*Unimplemented*/Option<Basic: Pointer>, prefix: u32, next_hop: /*Unimplemented*/Option<Basic: Pointer>, metric: i64) -> Result<IPRoute, glib::Error> {
     //    unsafe { TODO: call ffi:nm_ip_route_new_binary() }
     //}
 
@@ -151,7 +151,7 @@ impl IPRoute {
 
     //#[doc(alias = "nm_ip_route_get_dest_binary")]
     //#[doc(alias = "get_dest_binary")]
-    //pub fn dest_binary(&self, dest: /*Unimplemented*/Option<Fundamental: Pointer>) {
+    //pub fn dest_binary(&self, dest: /*Unimplemented*/Option<Basic: Pointer>) {
     //    unsafe { TODO: call ffi:nm_ip_route_get_dest_binary() }
     //}
 
@@ -194,7 +194,7 @@ impl IPRoute {
 
     //#[doc(alias = "nm_ip_route_get_next_hop_binary")]
     //#[doc(alias = "get_next_hop_binary")]
-    //pub fn is_next_hop_binary(&self, next_hop: /*Unimplemented*/Option<Fundamental: Pointer>) -> bool {
+    //pub fn is_next_hop_binary(&self, next_hop: /*Unimplemented*/Option<Basic: Pointer>) -> bool {
     //    unsafe { TODO: call ffi:nm_ip_route_get_next_hop_binary() }
     //}
 
@@ -239,7 +239,7 @@ impl IPRoute {
     }
 
     //#[doc(alias = "nm_ip_route_set_dest_binary")]
-    //pub fn set_dest_binary(&self, dest: /*Unimplemented*/Option<Fundamental: Pointer>) {
+    //pub fn set_dest_binary(&self, dest: /*Unimplemented*/Option<Basic: Pointer>) {
     //    unsafe { TODO: call ffi:nm_ip_route_set_dest_binary() }
     //}
 
@@ -268,7 +268,7 @@ impl IPRoute {
     }
 
     //#[doc(alias = "nm_ip_route_set_next_hop_binary")]
-    //pub fn set_next_hop_binary(&self, next_hop: /*Unimplemented*/Option<Fundamental: Pointer>) {
+    //pub fn set_next_hop_binary(&self, next_hop: /*Unimplemented*/Option<Basic: Pointer>) {
     //    unsafe { TODO: call ffi:nm_ip_route_set_next_hop_binary() }
     //}
 
@@ -315,10 +315,9 @@ impl IPRoute {
                 known.as_mut_ptr(),
                 &mut error,
             );
-            let known = known.assume_init();
             assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
-                Ok(from_glib(known))
+                Ok(from_glib(known.assume_init()))
             } else {
                 Err(from_glib_full(error))
             }

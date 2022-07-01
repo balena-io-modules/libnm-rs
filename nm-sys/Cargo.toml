@@ -18,13 +18,16 @@ name = 'nm_sys'
 [dependencies]
 libc = '0.2'
 
-[dependencies.glib-sys]
+[dependencies.glib]
+package = 'glib-sys'
 git = 'https://github.com/gtk-rs/gtk-rs-core'
 
-[dependencies.gio-sys]
+[dependencies.gio]
+package = 'gio-sys'
 git = 'https://github.com/gtk-rs/gtk-rs-core'
 
-[dependencies.gobject-sys]
+[dependencies.gobject]
+package = 'gobject-sys'
 git = 'https://github.com/gtk-rs/gtk-rs-core'
 
 [build-dependencies]
@@ -51,4 +54,7 @@ v1_26 = ['v1_24']
 v1_28 = ['v1_26']
 v1_30 = ['v1_28']
 v1_32 = ['v1_30']
+v1_34 = ['v1_32']
+v1_36 = ['v1_34']
+v1_38 = ['v1_36']
 dox = []

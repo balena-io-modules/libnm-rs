@@ -26,6 +26,9 @@ use crate::Metered;
 #[cfg(any(feature = "v1_24", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
 use crate::Object;
+#[cfg(any(feature = "v1_38", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+use crate::RadioFlags;
 use crate::RemoteConnection;
 #[cfg(any(feature = "v1_20", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
@@ -146,9 +149,7 @@ impl Client {
     /// ## `callback`
     /// callback to be called when the activation has started
     #[doc(alias = "nm_client_activate_connection_async")]
-    pub fn activate_connection_async<
-        P: FnOnce(Result<ActiveConnection, glib::Error>) + Send + 'static,
-    >(
+    pub fn activate_connection_async<P: FnOnce(Result<ActiveConnection, glib::Error>) + 'static>(
         &self,
         connection: Option<&impl IsA<Connection>>,
         device: Option<&impl IsA<Device>>,
@@ -156,9 +157,20 @@ impl Client {
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn activate_connection_async_trampoline<
-            P: FnOnce(Result<ActiveConnection, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<ActiveConnection, glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -175,7 +187,9 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = activate_connection_async_trampoline::<P>;
@@ -246,7 +260,7 @@ impl Client {
     /// callback to be called when the activation has started
     #[doc(alias = "nm_client_add_and_activate_connection_async")]
     pub fn add_and_activate_connection_async<
-        P: FnOnce(Result<ActiveConnection, glib::Error>) + Send + 'static,
+        P: FnOnce(Result<ActiveConnection, glib::Error>) + 'static,
     >(
         &self,
         partial: Option<&impl IsA<Connection>>,
@@ -255,9 +269,20 @@ impl Client {
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn add_and_activate_connection_async_trampoline<
-            P: FnOnce(Result<ActiveConnection, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<ActiveConnection, glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -274,7 +299,9 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = add_and_activate_connection_async_trampoline::<P>;
@@ -338,7 +365,7 @@ impl Client {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     #[doc(alias = "nm_client_add_connection2")]
     pub fn add_connection2<
-        P: FnOnce(Result<(RemoteConnection, glib::Variant), glib::Error>) + Send + 'static,
+        P: FnOnce(Result<(RemoteConnection, glib::Variant), glib::Error>) + 'static,
     >(
         &self,
         settings: &glib::Variant,
@@ -348,9 +375,20 @@ impl Client {
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn add_connection2_trampoline<
-            P: FnOnce(Result<(RemoteConnection, glib::Variant), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(RemoteConnection, glib::Variant), glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -369,7 +407,9 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = add_connection2_trampoline::<P>;
@@ -441,18 +481,27 @@ impl Client {
     /// ## `callback`
     /// callback to be called when the add operation completes
     #[doc(alias = "nm_client_add_connection_async")]
-    pub fn add_connection_async<
-        P: FnOnce(Result<RemoteConnection, glib::Error>) + Send + 'static,
-    >(
+    pub fn add_connection_async<P: FnOnce(Result<RemoteConnection, glib::Error>) + 'static>(
         &self,
         connection: &impl IsA<Connection>,
         save_to_disk: bool,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn add_connection_async_trampoline<
-            P: FnOnce(Result<RemoteConnection, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<RemoteConnection, glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -466,7 +515,9 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = add_connection_async_trampoline::<P>;
@@ -542,16 +593,25 @@ impl Client {
     /// ## `callback`
     /// callback to call with the result
     #[doc(alias = "nm_client_check_connectivity_async")]
-    pub fn check_connectivity_async<
-        P: FnOnce(Result<ConnectivityState, glib::Error>) + Send + 'static,
-    >(
+    pub fn check_connectivity_async<P: FnOnce(Result<ConnectivityState, glib::Error>) + 'static>(
         &self,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn check_connectivity_async_trampoline<
-            P: FnOnce(Result<ConnectivityState, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<ConnectivityState, glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -565,7 +625,9 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = check_connectivity_async_trampoline::<P>;
@@ -604,18 +666,27 @@ impl Client {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_client_checkpoint_adjust_rollback_timeout")]
-    pub fn checkpoint_adjust_rollback_timeout<
-        P: FnOnce(Result<(), glib::Error>) + Send + 'static,
-    >(
+    pub fn checkpoint_adjust_rollback_timeout<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         checkpoint_path: &str,
         add_timeout: u32,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn checkpoint_adjust_rollback_timeout_trampoline<
-            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -632,7 +703,9 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = checkpoint_adjust_rollback_timeout_trampoline::<P>;
@@ -671,15 +744,26 @@ impl Client {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_client_checkpoint_destroy")]
-    pub fn checkpoint_destroy<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    pub fn checkpoint_destroy<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         checkpoint_path: &str,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn checkpoint_destroy_trampoline<
-            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -693,7 +777,9 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = checkpoint_destroy_trampoline::<P>;
@@ -725,7 +811,7 @@ impl Client {
     //#[cfg(any(feature = "v1_12", feature = "dox"))]
     //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     //#[doc(alias = "nm_client_checkpoint_rollback")]
-    //pub fn checkpoint_rollback<P: FnOnce(Result</*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }, glib::Error>) + Send + 'static>(&self, checkpoint_path: &str, cancellable: Option<&impl IsA<gio::Cancellable>>, callback: P) {
+    //pub fn checkpoint_rollback<P: FnOnce(Result</*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 7 }, glib::Error>) + 'static>(&self, checkpoint_path: &str, cancellable: Option<&impl IsA<gio::Cancellable>>, callback: P) {
     //    unsafe { TODO: call ffi:nm_client_checkpoint_rollback() }
     //}
 
@@ -852,7 +938,7 @@ impl Client {
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "nm_client_dbus_call")]
-    pub fn dbus_call<P: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static>(
+    pub fn dbus_call<P: FnOnce(Result<glib::Variant, glib::Error>) + 'static>(
         &self,
         object_path: &str,
         interface_name: &str,
@@ -863,9 +949,20 @@ impl Client {
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn dbus_call_trampoline<
-            P: FnOnce(Result<glib::Variant, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<glib::Variant, glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -878,7 +975,9 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = dbus_call_trampoline::<P>;
@@ -953,7 +1052,7 @@ impl Client {
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "nm_client_dbus_set_property")]
-    pub fn dbus_set_property<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    pub fn dbus_set_property<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         object_path: &str,
         interface_name: &str,
@@ -963,9 +1062,20 @@ impl Client {
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn dbus_set_property_trampoline<
-            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -979,7 +1089,9 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = dbus_set_property_trampoline::<P>;
@@ -1072,15 +1184,26 @@ impl Client {
     /// ## `callback`
     /// callback to be called when the deactivation has completed
     #[doc(alias = "nm_client_deactivate_connection_async")]
-    pub fn deactivate_connection_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    pub fn deactivate_connection_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         active: &impl IsA<ActiveConnection>,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn deactivate_connection_async_trampoline<
-            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -1097,7 +1220,9 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = deactivate_connection_async_trampoline::<P>;
@@ -1622,6 +1747,19 @@ impl Client {
         unsafe { from_glib_none(ffi::nm_client_get_primary_connection(self.to_glib_none().0)) }
     }
 
+    /// Get radio flags.
+    ///
+    /// # Returns
+    ///
+    /// the [`RadioFlags`][crate::RadioFlags].
+    #[cfg(any(feature = "v1_38", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+    #[doc(alias = "nm_client_get_radio_flags")]
+    #[doc(alias = "get_radio_flags")]
+    pub fn radio_flags(&self) -> RadioFlags {
+        unsafe { from_glib(ffi::nm_client_get_radio_flags(self.to_glib_none().0)) }
+    }
+
     /// Tests whether the daemon is still in the process of activating
     /// connections at startup.
     ///
@@ -1713,16 +1851,25 @@ impl Client {
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     #[doc(alias = "nm_client_reload")]
-    pub fn reload<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    pub fn reload<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         flags: ManagerReloadFlags,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
-        unsafe extern "C" fn reload_trampoline<
-            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
-        >(
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
+        unsafe extern "C" fn reload_trampoline<P: FnOnce(Result<(), glib::Error>) + 'static>(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
             user_data: glib::ffi::gpointer,
@@ -1734,7 +1881,9 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = reload_trampoline::<P>;
@@ -1805,14 +1954,25 @@ impl Client {
     /// ## `callback`
     /// callback to be called when the reload operation completes
     #[doc(alias = "nm_client_reload_connections_async")]
-    pub fn reload_connections_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    pub fn reload_connections_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn reload_connections_async_trampoline<
-            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -1826,7 +1986,9 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = reload_connections_async_trampoline::<P>;
@@ -1899,15 +2061,26 @@ impl Client {
     /// ## `callback`
     /// callback to be called when the operation completes
     #[doc(alias = "nm_client_save_hostname_async")]
-    pub fn save_hostname_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    pub fn save_hostname_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         hostname: Option<&str>,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn save_hostname_async_trampoline<
-            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -1920,7 +2093,9 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = save_hostname_async_trampoline::<P>;
@@ -2299,13 +2474,24 @@ impl Client {
     /// ## `callback`
     /// callback to call when the client is created
     #[doc(alias = "nm_client_new_async")]
-    pub fn new_async<P: FnOnce(Result<Client, glib::Error>) + Send + 'static>(
+    pub fn new_async<P: FnOnce(Result<Client, glib::Error>) + 'static>(
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn new_async_trampoline<
-            P: FnOnce(Result<Client, glib::Error>) + Send + 'static,
+            P: FnOnce(Result<Client, glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -2318,7 +2504,9 @@ impl Client {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = new_async_trampoline::<P>;
@@ -3192,6 +3380,31 @@ impl Client {
                 b"notify::primary-connection\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_primary_connection_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_38", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+    #[doc(alias = "radio-flags")]
+    pub fn connect_radio_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_radio_flags_trampoline<F: Fn(&Client) + 'static>(
+            this: *mut ffi::NMClient,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::radio-flags\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_radio_flags_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

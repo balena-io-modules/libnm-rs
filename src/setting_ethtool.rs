@@ -101,8 +101,7 @@ impl SettingEthtool {
                     self.to_glib_none().0,
                     out_length.as_mut_ptr(),
                 ));
-            let out_length = out_length.assume_init();
-            (ret, out_length)
+            (ret, out_length.assume_init())
         }
     }
 

@@ -138,7 +138,7 @@ pub trait DeviceExt: 'static {
     /// ## `callback`
     /// callback to be called when delete operation completes
     #[doc(alias = "nm_device_delete_async")]
-    fn delete_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    fn delete_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
@@ -176,7 +176,7 @@ pub trait DeviceExt: 'static {
     /// ## `callback`
     /// callback to be called when the disconnect operation completes
     #[doc(alias = "nm_device_disconnect_async")]
-    fn disconnect_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    fn disconnect_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
@@ -262,9 +262,7 @@ pub trait DeviceExt: 'static {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_get_applied_connection_async")]
     #[doc(alias = "get_applied_connection_async")]
-    fn applied_connection_async<
-        P: FnOnce(Result<(Connection, u64), glib::Error>) + Send + 'static,
-    >(
+    fn applied_connection_async<P: FnOnce(Result<(Connection, u64), glib::Error>) + 'static>(
         &self,
         flags: u32,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
@@ -544,6 +542,19 @@ pub trait DeviceExt: 'static {
     #[doc(alias = "get_physical_port_id")]
     fn physical_port_id(&self) -> Option<glib::GString>;
 
+    /// Gets the devices currently set as port of `self`.
+    ///
+    /// # Returns
+    ///
+    /// the [`glib::PtrArray`][crate::glib::PtrArray] containing `NMDevices` that
+    /// are slaves of `self`. This is the internal copy used by the device and
+    /// must not be modified.
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    #[doc(alias = "nm_device_get_ports")]
+    #[doc(alias = "get_ports")]
+    fn ports(&self) -> Vec<Device>;
+
     /// Gets the product string of the [`Device`][crate::Device].
     ///
     /// # Returns
@@ -691,7 +702,7 @@ pub trait DeviceExt: 'static {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_device_reapply_async")]
-    fn reapply_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    fn reapply_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         connection: Option<&impl IsA<Connection>>,
         version_id: u64,
@@ -762,7 +773,7 @@ pub trait DeviceExt: 'static {
     fn ip6_connectivity(&self) -> ConnectivityState;
 
     //#[doc(alias = "lldp-neighbors")]
-    //fn get_property_lldp_neighbors(&self) -> /*Unimplemented*/Vec<Fundamental: Pointer>;
+    //fn get_property_lldp_neighbors(&self) -> /*Unimplemented*/Vec<Basic: Pointer>;
 
     /// Notifies the state change of a [`Device`][crate::Device].
     /// ## `new_state`
@@ -868,6 +879,11 @@ pub trait DeviceExt: 'static {
     #[doc(alias = "physical-port-id")]
     fn connect_physical_port_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    #[doc(alias = "ports")]
+    fn connect_ports_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
     #[doc(alias = "product")]
     fn connect_product_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -933,14 +949,25 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    fn delete_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    fn delete_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn delete_async_trampoline<
-            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -953,7 +980,9 @@ impl<O: IsA<Device>> DeviceExt for O {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = delete_async_trampoline::<P>;
@@ -997,14 +1026,25 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    fn disconnect_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    fn disconnect_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn disconnect_async_trampoline<
-            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -1017,7 +1057,9 @@ impl<O: IsA<Device>> DeviceExt for O {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = disconnect_async_trampoline::<P>;
@@ -1075,9 +1117,8 @@ impl<O: IsA<Device>> DeviceExt for O {
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
-            let version_id = version_id.assume_init();
             if error.is_null() {
-                Ok((from_glib_full(ret), version_id))
+                Ok((from_glib_full(ret), version_id.assume_init()))
             } else {
                 Err(from_glib_full(error))
             }
@@ -1086,17 +1127,26 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    fn applied_connection_async<
-        P: FnOnce(Result<(Connection, u64), glib::Error>) + Send + 'static,
-    >(
+    fn applied_connection_async<P: FnOnce(Result<(Connection, u64), glib::Error>) + 'static>(
         &self,
         flags: u32,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn applied_connection_async_trampoline<
-            P: FnOnce(Result<(Connection, u64), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(Connection, u64), glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -1110,13 +1160,14 @@ impl<O: IsA<Device>> DeviceExt for O {
                 version_id.as_mut_ptr(),
                 &mut error,
             );
-            let version_id = version_id.assume_init();
             let result = if error.is_null() {
-                Ok((from_glib_full(ret), version_id))
+                Ok((from_glib_full(ret), version_id.assume_init()))
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = applied_connection_async_trampoline::<P>;
@@ -1324,6 +1375,16 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    fn ports(&self) -> Vec<Device> {
+        unsafe {
+            FromGlibPtrContainer::from_glib_none(ffi::nm_device_get_ports(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
+
     fn product(&self) -> Option<glib::GString> {
         unsafe { from_glib_none(ffi::nm_device_get_product(self.as_ref().to_glib_none().0)) }
     }
@@ -1404,7 +1465,7 @@ impl<O: IsA<Device>> DeviceExt for O {
 
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-    fn reapply_async<P: FnOnce(Result<(), glib::Error>) + Send + 'static>(
+    fn reapply_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         connection: Option<&impl IsA<Connection>>,
         version_id: u64,
@@ -1412,9 +1473,20 @@ impl<O: IsA<Device>> DeviceExt for O {
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
-        let user_data: Box_<P> = Box_::new(callback);
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
         unsafe extern "C" fn reapply_async_trampoline<
-            P: FnOnce(Result<(), glib::Error>) + Send + 'static,
+            P: FnOnce(Result<(), glib::Error>) + 'static,
         >(
             _source_object: *mut glib::gobject_ffi::GObject,
             res: *mut gio::ffi::GAsyncResult,
@@ -1427,7 +1499,9 @@ impl<O: IsA<Device>> DeviceExt for O {
             } else {
                 Err(from_glib_full(error))
             };
-            let callback: Box_<P> = Box_::from_raw(user_data as *mut _);
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
             callback(result);
         }
         let callback = reapply_async_trampoline::<P>;
@@ -1500,7 +1574,7 @@ impl<O: IsA<Device>> DeviceExt for O {
         glib::ObjectExt::property(self.as_ref(), "ip6-connectivity")
     }
 
-    //fn get_property_lldp_neighbors(&self) -> /*Unimplemented*/Vec<Fundamental: Pointer> {
+    //fn get_property_lldp_neighbors(&self) -> /*Unimplemented*/Vec<Basic: Pointer> {
     //    glib::ObjectExt::property(self.as_ref(), "lldp-neighbors")
     //}
 
@@ -2155,6 +2229,30 @@ impl<O: IsA<Device>> DeviceExt for O {
                 b"notify::physical-port-id\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_physical_port_id_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_34", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
+    fn connect_ports_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_ports_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
+            this: *mut ffi::NMDevice,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(Device::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::ports\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_ports_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

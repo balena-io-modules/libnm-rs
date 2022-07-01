@@ -131,7 +131,7 @@ pub trait ConnectionExt: 'static {
     fn dump(&self);
 
     //#[doc(alias = "nm_connection_for_each_setting_value")]
-    //fn for_each_setting_value(&self, func: /*Unimplemented*/FnMut(&Setting, &str, /*Ignored*/glib::Value, /*Ignored*/glib::ParamFlags), user_data: /*Unimplemented*/Option<Fundamental: Pointer>);
+    //fn for_each_setting_value(&self, func: /*Unimplemented*/FnMut(&Setting, &str, /*Ignored*/glib::Value, /*Ignored*/glib::ParamFlags), user_data: /*Unimplemented*/Option<Basic: Pointer>);
 
     /// A shortcut to return the type from the connection's [`SettingConnection`][crate::SettingConnection].
     ///
@@ -820,7 +820,7 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         }
     }
 
-    //fn for_each_setting_value(&self, func: /*Unimplemented*/FnMut(&Setting, &str, /*Ignored*/glib::Value, /*Ignored*/glib::ParamFlags), user_data: /*Unimplemented*/Option<Fundamental: Pointer>) {
+    //fn for_each_setting_value(&self, func: /*Unimplemented*/FnMut(&Setting, &str, /*Ignored*/glib::Value, /*Ignored*/glib::ParamFlags), user_data: /*Unimplemented*/Option<Basic: Pointer>) {
     //    unsafe { TODO: call ffi:nm_connection_for_each_setting_value() }
     //}
 

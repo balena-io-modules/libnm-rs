@@ -46,7 +46,7 @@ impl IPAddress {
     }
 
     //#[doc(alias = "nm_ip_address_new_binary")]
-    //pub fn new_binary(family: i32, addr: /*Unimplemented*/Option<Fundamental: Pointer>, prefix: u32) -> Result<IPAddress, glib::Error> {
+    //pub fn new_binary(family: i32, addr: /*Unimplemented*/Option<Basic: Pointer>, prefix: u32) -> Result<IPAddress, glib::Error> {
     //    unsafe { TODO: call ffi:nm_ip_address_new_binary() }
     //}
 
@@ -116,7 +116,7 @@ impl IPAddress {
 
     //#[doc(alias = "nm_ip_address_get_address_binary")]
     //#[doc(alias = "get_address_binary")]
-    //pub fn address_binary(&self, addr: /*Unimplemented*/Option<Fundamental: Pointer>) {
+    //pub fn address_binary(&self, addr: /*Unimplemented*/Option<Basic: Pointer>) {
     //    unsafe { TODO: call ffi:nm_ip_address_get_address_binary() }
     //}
 
@@ -177,7 +177,7 @@ impl IPAddress {
     }
 
     //#[doc(alias = "nm_ip_address_set_address_binary")]
-    //pub fn set_address_binary(&self, addr: /*Unimplemented*/Option<Fundamental: Pointer>) {
+    //pub fn set_address_binary(&self, addr: /*Unimplemented*/Option<Basic: Pointer>) {
     //    unsafe { TODO: call ffi:nm_ip_address_set_address_binary() }
     //}
 

@@ -162,8 +162,7 @@ impl SettingWireGuard {
                 public_key.to_glib_none().0,
                 out_idx.as_mut_ptr(),
             ));
-            let out_idx = out_idx.assume_init();
-            (ret, out_idx)
+            (ret, out_idx.assume_init())
         }
     }
 

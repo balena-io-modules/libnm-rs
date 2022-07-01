@@ -113,6 +113,7 @@ impl Results {
 }
 
 #[test]
+#[cfg(target_os = "linux")]
 fn cross_validate_constants_with_c() {
     let mut c_constants: Vec<(String, String)> = Vec::new();
 
@@ -153,6 +154,7 @@ fn cross_validate_constants_with_c() {
 }
 
 #[test]
+#[cfg(target_os = "linux")]
 fn cross_validate_layout_with_c() {
     let mut c_layouts = Vec::new();
 
@@ -253,6 +255,7 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
     ("NMManagerError", Layout {size: size_of::<NMManagerError>(), alignment: align_of::<NMManagerError>()}),
     ("NMManagerReloadFlags", Layout {size: size_of::<NMManagerReloadFlags>(), alignment: align_of::<NMManagerReloadFlags>()}),
     ("NMMetered", Layout {size: size_of::<NMMetered>(), alignment: align_of::<NMMetered>()}),
+    ("NMRadioFlags", Layout {size: size_of::<NMRadioFlags>(), alignment: align_of::<NMRadioFlags>()}),
     ("NMRollbackResult", Layout {size: size_of::<NMRollbackResult>(), alignment: align_of::<NMRollbackResult>()}),
     ("NMSecretAgentCapabilities", Layout {size: size_of::<NMSecretAgentCapabilities>(), alignment: align_of::<NMSecretAgentCapabilities>()}),
     ("NMSecretAgentError", Layout {size: size_of::<NMSecretAgentError>(), alignment: align_of::<NMSecretAgentError>()}),
@@ -264,6 +267,7 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
     ("NMSetting8021xCKScheme", Layout {size: size_of::<NMSetting8021xCKScheme>(), alignment: align_of::<NMSetting8021xCKScheme>()}),
     ("NMSettingCompareFlags", Layout {size: size_of::<NMSettingCompareFlags>(), alignment: align_of::<NMSettingCompareFlags>()}),
     ("NMSettingConnectionAutoconnectSlaves", Layout {size: size_of::<NMSettingConnectionAutoconnectSlaves>(), alignment: align_of::<NMSettingConnectionAutoconnectSlaves>()}),
+    ("NMSettingConnectionDnsOverTls", Layout {size: size_of::<NMSettingConnectionDnsOverTls>(), alignment: align_of::<NMSettingConnectionDnsOverTls>()}),
     ("NMSettingConnectionLldp", Layout {size: size_of::<NMSettingConnectionLldp>(), alignment: align_of::<NMSettingConnectionLldp>()}),
     ("NMSettingConnectionLlmnr", Layout {size: size_of::<NMSettingConnectionLlmnr>(), alignment: align_of::<NMSettingConnectionLlmnr>()}),
     ("NMSettingConnectionMdns", Layout {size: size_of::<NMSettingConnectionMdns>(), alignment: align_of::<NMSettingConnectionMdns>()}),
@@ -425,6 +429,7 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("(guint) NM_CHECKPOINT_CREATE_FLAG_DESTROY_ALL", "1"),
     ("(guint) NM_CHECKPOINT_CREATE_FLAG_DISCONNECT_NEW_DEVICES", "4"),
     ("(guint) NM_CHECKPOINT_CREATE_FLAG_NONE", "0"),
+    ("(guint) NM_CHECKPOINT_CREATE_FLAG_NO_PRESERVE_EXTERNAL_PORTS", "16"),
     ("NM_CHECKPOINT_DEVICES", "devices"),
     ("NM_CHECKPOINT_ROLLBACK_TIMEOUT", "rollback-timeout"),
     ("NM_CLIENT_ACTIVATING_CONNECTION", "activating-connection"),
@@ -488,6 +493,7 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("(gint) NM_CLIENT_PERMISSION_WIFI_SHARE_OPEN", "8"),
     ("(gint) NM_CLIENT_PERMISSION_WIFI_SHARE_PROTECTED", "7"),
     ("NM_CLIENT_PRIMARY_CONNECTION", "primary-connection"),
+    ("NM_CLIENT_RADIO_FLAGS", "radio-flags"),
     ("NM_CLIENT_STARTUP", "startup"),
     ("NM_CLIENT_STATE", "state"),
     ("NM_CLIENT_VERSION", "version"),
@@ -510,6 +516,7 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("(gint) NM_CONNECTION_MULTI_CONNECT_MANUAL_MULTIPLE", "2"),
     ("(gint) NM_CONNECTION_MULTI_CONNECT_MULTIPLE", "3"),
     ("(gint) NM_CONNECTION_MULTI_CONNECT_SINGLE", "1"),
+    ("NM_CONNECTION_NORMALIZE_PARAM_IP4_CONFIG_METHOD", "ip4-config-method"),
     ("NM_CONNECTION_NORMALIZE_PARAM_IP6_CONFIG_METHOD", "ip6-config-method"),
     ("NM_CONNECTION_SECRETS_CLEARED", "secrets-cleared"),
     ("NM_CONNECTION_SECRETS_UPDATED", "secrets-updated"),
@@ -664,6 +671,7 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("NM_DEVICE_MANAGED", "managed"),
     ("NM_DEVICE_METERED", "metered"),
     ("NM_DEVICE_MODEM_APN", "apn"),
+    ("(guint) NM_DEVICE_MODEM_CAPABILITY_5GNR", "64"),
     ("(guint) NM_DEVICE_MODEM_CAPABILITY_CDMA_EVDO", "2"),
     ("(guint) NM_DEVICE_MODEM_CAPABILITY_GSM_UMTS", "4"),
     ("(guint) NM_DEVICE_MODEM_CAPABILITY_LTE", "8"),
@@ -682,6 +690,7 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("NM_DEVICE_OVS_PORT_SLAVES", "slaves"),
     ("NM_DEVICE_PATH", "path"),
     ("NM_DEVICE_PHYSICAL_PORT_ID", "physical-port-id"),
+    ("NM_DEVICE_PORTS", "ports"),
     ("NM_DEVICE_PRODUCT", "product"),
     ("NM_DEVICE_REAL", "real"),
     ("NM_DEVICE_STATE", "state"),
@@ -1059,9 +1068,13 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("(gint) NM_METERED_NO", "2"),
     ("(gint) NM_METERED_UNKNOWN", "0"),
     ("(gint) NM_METERED_YES", "1"),
-    ("NM_MICRO_VERSION", "12"),
-    ("NM_MINOR_VERSION", "32"),
+    ("NM_MICRO_VERSION", "2"),
+    ("NM_MINOR_VERSION", "38"),
+    ("NM_OBJECT_CLIENT", "client"),
     ("NM_OBJECT_PATH", "path"),
+    ("(guint) NM_RADIO_FLAG_NONE", "0"),
+    ("(guint) NM_RADIO_FLAG_WLAN_AVAILABLE", "1"),
+    ("(guint) NM_RADIO_FLAG_WWAN_AVAILABLE", "2"),
     ("NM_REMOTE_CONNECTION_DBUS_CONNECTION", "dbus-connection"),
     ("NM_REMOTE_CONNECTION_FILENAME", "filename"),
     ("NM_REMOTE_CONNECTION_FLAGS", "flags"),
@@ -1231,6 +1244,8 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("NM_SETTING_BOND_OPTION_UPDELAY", "updelay"),
     ("NM_SETTING_BOND_OPTION_USE_CARRIER", "use_carrier"),
     ("NM_SETTING_BOND_OPTION_XMIT_HASH_POLICY", "xmit_hash_policy"),
+    ("NM_SETTING_BOND_PORT_QUEUE_ID", "queue-id"),
+    ("NM_SETTING_BOND_PORT_SETTING_NAME", "bond-port"),
     ("NM_SETTING_BOND_SETTING_NAME", "bond"),
     ("NM_SETTING_BRIDGE_AGEING_TIME", "ageing-time"),
     ("NM_SETTING_BRIDGE_FORWARD_DELAY", "forward-delay"),
@@ -1291,6 +1306,11 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("(gint) NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES_DEFAULT", "-1"),
     ("(gint) NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES_NO", "0"),
     ("(gint) NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES_YES", "1"),
+    ("NM_SETTING_CONNECTION_DNS_OVER_TLS", "dns-over-tls"),
+    ("(gint) NM_SETTING_CONNECTION_DNS_OVER_TLS_DEFAULT", "-1"),
+    ("(gint) NM_SETTING_CONNECTION_DNS_OVER_TLS_NO", "0"),
+    ("(gint) NM_SETTING_CONNECTION_DNS_OVER_TLS_OPPORTUNISTIC", "1"),
+    ("(gint) NM_SETTING_CONNECTION_DNS_OVER_TLS_YES", "2"),
     ("NM_SETTING_CONNECTION_GATEWAY_PING_TIMEOUT", "gateway-ping-timeout"),
     ("NM_SETTING_CONNECTION_ID", "id"),
     ("NM_SETTING_CONNECTION_INTERFACE_NAME", "interface-name"),
@@ -1510,6 +1530,7 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("NM_SETTING_OVS_BRIDGE_SETTING_NAME", "ovs-bridge"),
     ("NM_SETTING_OVS_BRIDGE_STP_ENABLE", "stp-enable"),
     ("NM_SETTING_OVS_DPDK_DEVARGS", "devargs"),
+    ("NM_SETTING_OVS_DPDK_N_RXQ", "n-rxq"),
     ("NM_SETTING_OVS_DPDK_SETTING_NAME", "ovs-dpdk"),
     ("NM_SETTING_OVS_EXTERNAL_IDS_DATA", "data"),
     ("NM_SETTING_OVS_EXTERNAL_IDS_SETTING_NAME", "ovs-external-ids"),

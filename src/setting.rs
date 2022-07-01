@@ -55,7 +55,7 @@ impl fmt::Display for Setting {
 ///
 /// # Implementors
 ///
-/// [`Setting6Lowpan`][struct@crate::Setting6Lowpan], [`Setting8021x`][struct@crate::Setting8021x], [`SettingAdsl`][struct@crate::SettingAdsl], [`SettingBluetooth`][struct@crate::SettingBluetooth], [`SettingBond`][struct@crate::SettingBond], [`SettingBridgePort`][struct@crate::SettingBridgePort], [`SettingBridge`][struct@crate::SettingBridge], [`SettingCdma`][struct@crate::SettingCdma], [`SettingConnection`][struct@crate::SettingConnection], [`SettingDcb`][struct@crate::SettingDcb], [`SettingDummy`][struct@crate::SettingDummy], [`SettingEthtool`][struct@crate::SettingEthtool], [`SettingGeneric`][struct@crate::SettingGeneric], [`SettingGsm`][struct@crate::SettingGsm], [`SettingHostname`][struct@crate::SettingHostname], [`SettingIPConfig`][struct@crate::SettingIPConfig], [`SettingIPTunnel`][struct@crate::SettingIPTunnel], [`SettingInfiniband`][struct@crate::SettingInfiniband], [`SettingMacsec`][struct@crate::SettingMacsec], [`SettingMacvlan`][struct@crate::SettingMacvlan], [`SettingMatch`][struct@crate::SettingMatch], [`SettingOlpcMesh`][struct@crate::SettingOlpcMesh], [`SettingOvsBridge`][struct@crate::SettingOvsBridge], [`SettingOvsDpdk`][struct@crate::SettingOvsDpdk], [`SettingOvsExternalIDs`][struct@crate::SettingOvsExternalIDs], [`SettingOvsInterface`][struct@crate::SettingOvsInterface], [`SettingOvsPatch`][struct@crate::SettingOvsPatch], [`SettingOvsPort`][struct@crate::SettingOvsPort], [`SettingPpp`][struct@crate::SettingPpp], [`SettingPppoe`][struct@crate::SettingPppoe], [`SettingProxy`][struct@crate::SettingProxy], [`SettingSerial`][struct@crate::SettingSerial], [`SettingSriov`][struct@crate::SettingSriov], [`SettingTCConfig`][struct@crate::SettingTCConfig], [`SettingTeamPort`][struct@crate::SettingTeamPort], [`SettingTeam`][struct@crate::SettingTeam], [`SettingTun`][struct@crate::SettingTun], [`SettingUser`][struct@crate::SettingUser], [`SettingVeth`][struct@crate::SettingVeth], [`SettingVlan`][struct@crate::SettingVlan], [`SettingVpn`][struct@crate::SettingVpn], [`SettingVrf`][struct@crate::SettingVrf], [`SettingVxlan`][struct@crate::SettingVxlan], [`SettingWifiP2P`][struct@crate::SettingWifiP2P], [`SettingWimax`][struct@crate::SettingWimax], [`SettingWireGuard`][struct@crate::SettingWireGuard], [`SettingWired`][struct@crate::SettingWired], [`SettingWirelessSecurity`][struct@crate::SettingWirelessSecurity], [`SettingWireless`][struct@crate::SettingWireless], [`SettingWpan`][struct@crate::SettingWpan], [`Setting`][struct@crate::Setting]
+/// [`Setting6Lowpan`][struct@crate::Setting6Lowpan], [`Setting8021x`][struct@crate::Setting8021x], [`SettingAdsl`][struct@crate::SettingAdsl], [`SettingBluetooth`][struct@crate::SettingBluetooth], [`SettingBondPort`][struct@crate::SettingBondPort], [`SettingBond`][struct@crate::SettingBond], [`SettingBridgePort`][struct@crate::SettingBridgePort], [`SettingBridge`][struct@crate::SettingBridge], [`SettingCdma`][struct@crate::SettingCdma], [`SettingConnection`][struct@crate::SettingConnection], [`SettingDcb`][struct@crate::SettingDcb], [`SettingDummy`][struct@crate::SettingDummy], [`SettingEthtool`][struct@crate::SettingEthtool], [`SettingGeneric`][struct@crate::SettingGeneric], [`SettingGsm`][struct@crate::SettingGsm], [`SettingHostname`][struct@crate::SettingHostname], [`SettingIPConfig`][struct@crate::SettingIPConfig], [`SettingIPTunnel`][struct@crate::SettingIPTunnel], [`SettingInfiniband`][struct@crate::SettingInfiniband], [`SettingMacsec`][struct@crate::SettingMacsec], [`SettingMacvlan`][struct@crate::SettingMacvlan], [`SettingMatch`][struct@crate::SettingMatch], [`SettingOlpcMesh`][struct@crate::SettingOlpcMesh], [`SettingOvsBridge`][struct@crate::SettingOvsBridge], [`SettingOvsDpdk`][struct@crate::SettingOvsDpdk], [`SettingOvsExternalIDs`][struct@crate::SettingOvsExternalIDs], [`SettingOvsInterface`][struct@crate::SettingOvsInterface], [`SettingOvsPatch`][struct@crate::SettingOvsPatch], [`SettingOvsPort`][struct@crate::SettingOvsPort], [`SettingPpp`][struct@crate::SettingPpp], [`SettingPppoe`][struct@crate::SettingPppoe], [`SettingProxy`][struct@crate::SettingProxy], [`SettingSerial`][struct@crate::SettingSerial], [`SettingSriov`][struct@crate::SettingSriov], [`SettingTCConfig`][struct@crate::SettingTCConfig], [`SettingTeamPort`][struct@crate::SettingTeamPort], [`SettingTeam`][struct@crate::SettingTeam], [`SettingTun`][struct@crate::SettingTun], [`SettingUser`][struct@crate::SettingUser], [`SettingVeth`][struct@crate::SettingVeth], [`SettingVlan`][struct@crate::SettingVlan], [`SettingVpn`][struct@crate::SettingVpn], [`SettingVrf`][struct@crate::SettingVrf], [`SettingVxlan`][struct@crate::SettingVxlan], [`SettingWifiP2P`][struct@crate::SettingWifiP2P], [`SettingWimax`][struct@crate::SettingWimax], [`SettingWireGuard`][struct@crate::SettingWireGuard], [`SettingWired`][struct@crate::SettingWired], [`SettingWirelessSecurity`][struct@crate::SettingWirelessSecurity], [`SettingWireless`][struct@crate::SettingWireless], [`SettingWpan`][struct@crate::SettingWpan], [`Setting`][struct@crate::Setting]
 pub trait SettingExt: 'static {
     #[doc(alias = "nm_setting_compare")]
     fn compare(&self, b: &impl IsA<Setting>, flags: SettingCompareFlags) -> bool;
@@ -74,7 +74,7 @@ pub trait SettingExt: 'static {
     fn duplicate(&self) -> Option<Setting>;
 
     //#[doc(alias = "nm_setting_enumerate_values")]
-    //fn enumerate_values(&self, func: /*Unimplemented*/FnMut(&Setting, &str, /*Ignored*/glib::Value, /*Ignored*/glib::ParamFlags), user_data: /*Unimplemented*/Option<Fundamental: Pointer>);
+    //fn enumerate_values(&self, func: /*Unimplemented*/FnMut(&Setting, &str, /*Ignored*/glib::Value, /*Ignored*/glib::ParamFlags), user_data: /*Unimplemented*/Option<Basic: Pointer>);
 
     /// Gets the D-Bus marshalling type of a property. `property_name` is a D-Bus
     /// property name, which may not necessarily be a [`glib::Object`][crate::glib::Object] property.
@@ -276,7 +276,7 @@ impl<O: IsA<Setting>> SettingExt for O {
         unsafe { from_glib_full(ffi::nm_setting_duplicate(self.as_ref().to_glib_none().0)) }
     }
 
-    //fn enumerate_values(&self, func: /*Unimplemented*/FnMut(&Setting, &str, /*Ignored*/glib::Value, /*Ignored*/glib::ParamFlags), user_data: /*Unimplemented*/Option<Fundamental: Pointer>) {
+    //fn enumerate_values(&self, func: /*Unimplemented*/FnMut(&Setting, &str, /*Ignored*/glib::Value, /*Ignored*/glib::ParamFlags), user_data: /*Unimplemented*/Option<Basic: Pointer>) {
     //    unsafe { TODO: call ffi:nm_setting_enumerate_values() }
     //}
 
@@ -336,9 +336,8 @@ impl<O: IsA<Setting>> SettingExt for O {
                 opt_name.to_glib_none().0,
                 out_value.as_mut_ptr(),
             ));
-            let out_value = out_value.assume_init();
             if ret {
-                Some(from_glib(out_value))
+                Some(from_glib(out_value.assume_init()))
             } else {
                 None
             }
@@ -355,9 +354,8 @@ impl<O: IsA<Setting>> SettingExt for O {
                 opt_name.to_glib_none().0,
                 out_value.as_mut_ptr(),
             ));
-            let out_value = out_value.assume_init();
             if ret {
-                Some(out_value)
+                Some(out_value.assume_init())
             } else {
                 None
             }

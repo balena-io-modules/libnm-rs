@@ -41,7 +41,7 @@ impl SriovVF {
         unsafe { from_glib_full(ffi::nm_sriov_vf_new(index)) }
     }
 
-    /// Adds a VLAN to the VF.
+    /// Adds a VLAN to the VF. Currently kernel only supports one VLAN per VF.
     /// ## `vlan_id`
     /// the VLAN id
     ///
@@ -131,7 +131,8 @@ impl SriovVF {
         unsafe { ffi::nm_sriov_vf_get_index(self.to_glib_none().0) }
     }
 
-    /// Returns the VLANs currently configured on the VF.
+    /// Returns the VLANs currently configured on the VF. Currently kernel only
+    /// supports one VLAN per VF.
     ///
     /// # Returns
     ///
@@ -270,10 +271,9 @@ impl SriovVF {
                 known.as_mut_ptr(),
                 &mut error,
             );
-            let known = known.assume_init();
             assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
-                Ok(from_glib(known))
+                Ok(from_glib(known.assume_init()))
             } else {
                 Err(from_glib_full(error))
             }

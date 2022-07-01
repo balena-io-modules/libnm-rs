@@ -63,11 +63,33 @@ impl SettingOvsDpdk {
         unsafe { from_glib_none(ffi::nm_setting_ovs_dpdk_get_devargs(self.to_glib_none().0)) }
     }
 
+    ///
+    /// # Returns
+    ///
+    /// the `property::SettingOvsDpdk::n-rxq` property of the setting
+    #[cfg(any(feature = "v1_36", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_36")))]
+    #[doc(alias = "nm_setting_ovs_dpdk_get_n_rxq")]
+    #[doc(alias = "get_n_rxq")]
+    pub fn n_rxq(&self) -> u32 {
+        unsafe { ffi::nm_setting_ovs_dpdk_get_n_rxq(self.to_glib_none().0) }
+    }
+
     /// Open vSwitch DPDK device arguments.
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     pub fn set_devargs(&self, devargs: Option<&str>) {
         glib::ObjectExt::set_property(self, "devargs", &devargs)
+    }
+
+    /// Open vSwitch DPDK number of rx queues.
+    /// Defaults to zero which means to leave the parameter in OVS unspecified
+    /// and effectively configures one queue.
+    #[cfg(any(feature = "v1_36", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_36")))]
+    #[doc(alias = "n-rxq")]
+    pub fn set_n_rxq(&self, n_rxq: u32) {
+        glib::ObjectExt::set_property(self, "n-rxq", &n_rxq)
     }
 
     #[cfg(any(feature = "v1_20", feature = "dox"))]
@@ -89,6 +111,31 @@ impl SettingOvsDpdk {
                 b"notify::devargs\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_devargs_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_36", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_36")))]
+    #[doc(alias = "n-rxq")]
+    pub fn connect_n_rxq_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_n_rxq_trampoline<F: Fn(&SettingOvsDpdk) + 'static>(
+            this: *mut ffi::NMSettingOvsDpdk,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::n-rxq\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_n_rxq_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

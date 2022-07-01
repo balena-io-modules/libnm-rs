@@ -343,7 +343,10 @@ impl SettingDcb {
     }
 
     /// The FCoE controller mode; either [`SETTING_DCB_FCOE_MODE_FABRIC`][crate::SETTING_DCB_FCOE_MODE_FABRIC]
-    /// (default) or [`SETTING_DCB_FCOE_MODE_VN2VN`][crate::SETTING_DCB_FCOE_MODE_VN2VN].
+    /// or [`SETTING_DCB_FCOE_MODE_VN2VN`][crate::SETTING_DCB_FCOE_MODE_VN2VN].
+    ///
+    /// Since 1.34, [`None`] is the default and means [`SETTING_DCB_FCOE_MODE_FABRIC`][crate::SETTING_DCB_FCOE_MODE_FABRIC].
+    /// Before 1.34, [`None`] was rejected as invalid and the default was [`SETTING_DCB_FCOE_MODE_FABRIC`][crate::SETTING_DCB_FCOE_MODE_FABRIC].
     #[doc(alias = "app-fcoe-mode")]
     pub fn set_app_fcoe_mode(&self, app_fcoe_mode: Option<&str>) {
         glib::ObjectExt::set_property(self, "app-fcoe-mode", &app_fcoe_mode)

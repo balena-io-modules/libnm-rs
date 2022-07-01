@@ -36,11 +36,16 @@ glib::wrapper! {
 impl DeviceOvsBridge {
     /// Gets the ports currently enslaved to `self`.
     ///
+    /// # Deprecated since 1.34
+    ///
+    /// Use [`DeviceExt::ports()`][crate::prelude::DeviceExt::ports()] instead.
+    ///
     /// # Returns
     ///
     /// the [`glib::PtrArray`][crate::glib::PtrArray] containing
     /// `NMDevices` that are slaves of `self`. This is the internal
     /// copy used by the device, and must not be modified.
+    #[cfg_attr(feature = "v1_34", deprecated = "Since 1.34")]
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_device_ovs_bridge_get_slaves")]

@@ -177,10 +177,8 @@ impl SettingVlan {
                 out_from.as_mut_ptr(),
                 out_to.as_mut_ptr(),
             ));
-            let out_from = out_from.assume_init();
-            let out_to = out_to.assume_init();
             if ret {
-                Some((out_from, out_to))
+                Some((out_from.assume_init(), out_to.assume_init()))
             } else {
                 None
             }

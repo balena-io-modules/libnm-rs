@@ -80,14 +80,14 @@ pub fn ethtool_optname_is_ring(optname: Option<&str>) -> bool {
 //#[cfg(any(feature = "v1_30", feature = "dox"))]
 //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 //#[doc(alias = "nm_keyfile_read")]
-//pub fn keyfile_read(keyfile: &glib::KeyFile, base_dir: &str, handler_flags: KeyfileHandlerFlags, handler: /*Unimplemented*/FnMut(&glib::KeyFile, &Connection, &KeyfileHandlerType, /*Ignored*/KeyfileHandlerData) -> bool, user_data: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<Connection, glib::Error> {
+//pub fn keyfile_read(keyfile: &glib::KeyFile, base_dir: &str, handler_flags: KeyfileHandlerFlags, handler: /*Unimplemented*/FnMut(&glib::KeyFile, &Connection, &KeyfileHandlerType, /*Ignored*/KeyfileHandlerData) -> bool, user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<Connection, glib::Error> {
 //    unsafe { TODO: call ffi:nm_keyfile_read() }
 //}
 
 //#[cfg(any(feature = "v1_30", feature = "dox"))]
 //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 //#[doc(alias = "nm_keyfile_write")]
-//pub fn keyfile_write(connection: &impl IsA<Connection>, handler_flags: KeyfileHandlerFlags, handler: /*Unimplemented*/FnMut(&Connection, &glib::KeyFile, &KeyfileHandlerType, /*Ignored*/KeyfileHandlerData) -> bool, user_data: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<glib::KeyFile, glib::Error> {
+//pub fn keyfile_write(connection: &impl IsA<Connection>, handler_flags: KeyfileHandlerFlags, handler: /*Unimplemented*/FnMut(&Connection, &glib::KeyFile, &KeyfileHandlerType, /*Ignored*/KeyfileHandlerData) -> bool, user_data: /*Unimplemented*/Option<Basic: Pointer>) -> Result<glib::KeyFile, glib::Error> {
 //    unsafe { TODO: call ffi:nm_keyfile_write() }
 //}
 
@@ -295,9 +295,8 @@ pub fn utils_file_is_private_key(filename: &str) -> Option<bool> {
             filename.to_glib_none().0,
             out_encrypted.as_mut_ptr(),
         ));
-        let out_encrypted = out_encrypted.assume_init();
         if ret {
-            Some(from_glib(out_encrypted))
+            Some(from_glib(out_encrypted.assume_init()))
         } else {
             None
         }
@@ -382,7 +381,7 @@ pub fn utils_hwaddr_len(type_: i32) -> usize {
 }
 
 //#[doc(alias = "nm_utils_hwaddr_matches")]
-//pub fn utils_hwaddr_matches(hwaddr1: /*Unimplemented*/Option<Fundamental: Pointer>, hwaddr1_len: isize, hwaddr2: /*Unimplemented*/Option<Fundamental: Pointer>, hwaddr2_len: isize) -> bool {
+//pub fn utils_hwaddr_matches(hwaddr1: /*Unimplemented*/Option<Basic: Pointer>, hwaddr1_len: isize, hwaddr2: /*Unimplemented*/Option<Basic: Pointer>, hwaddr2_len: isize) -> bool {
 //    unsafe { TODO: call ffi:nm_utils_hwaddr_matches() }
 //}
 
@@ -815,7 +814,7 @@ pub fn utils_is_valid_iface_name(name: Option<&str>) -> Result<(), glib::Error> 
 //#[cfg(any(feature = "v1_8", feature = "dox"))]
 //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 //#[doc(alias = "nm_utils_parse_variant_attributes")]
-//pub fn utils_parse_variant_attributes(string: &str, attr_separator: glib::Char, key_value_separator: glib::Char, ignore_unknown: bool, spec: /*Ignored*/&VariantAttributeSpec) -> Result</*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 2, id: 200 }, glib::Error> {
+//pub fn utils_parse_variant_attributes(string: &str, attr_separator: glib::Char, key_value_separator: glib::Char, ignore_unknown: bool, spec: /*Ignored*/&VariantAttributeSpec) -> Result</*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 2, id: 201 }, glib::Error> {
 //    unsafe { TODO: call ffi:nm_utils_parse_variant_attributes() }
 //}
 
