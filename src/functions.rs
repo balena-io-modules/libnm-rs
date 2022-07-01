@@ -430,9 +430,9 @@ pub fn utils_iface_valid_name(name: Option<&str>) -> bool {
 /// the destination buffer, it must contain at least
 ///  `<literal>`INET_ADDRSTRLEN`</literal>` or `NM_UTILS_INET_ADDRSTRLEN`
 ///  characters. If set to [`None`], it will return a pointer to an internal, static
-///  buffer (shared with [`utils_inet6_ntop()`][crate::utils_inet6_ntop()]). Beware, that the internal
+///  buffer (shared with `nm_utils_inet6_ntop()`). Beware, that the internal
 ///  buffer will be overwritten with ever new call of [`utils_inet4_ntop()`][crate::utils_inet4_ntop()] or
-///  [`utils_inet6_ntop()`][crate::utils_inet6_ntop()] that does not provide its own `dst` buffer. Since
+///  `nm_utils_inet6_ntop()` that does not provide its own `dst` buffer. Since
 ///  1.28, the internal buffer is thread local and thus thread safe. Before
 ///  it was not thread safe. When in doubt, pass your own
 ///  `dst` buffer to avoid these issues.
@@ -444,28 +444,6 @@ pub fn utils_iface_valid_name(name: Option<&str>) -> bool {
 #[doc(alias = "nm_utils_inet4_ntop")]
 pub fn utils_inet4_ntop(inaddr: u32, dst: &str) -> Option<glib::GString> {
     unsafe { from_glib_none(ffi::nm_utils_inet4_ntop(inaddr, dst.to_glib_none().0)) }
-}
-
-/// Wrapper for inet_ntop.
-/// ## `dst`
-/// the destination buffer, it must contain at least
-///  `<literal>`INET6_ADDRSTRLEN`</literal>` or `NM_UTILS_INET_ADDRSTRLEN`
-///  characters. If set to [`None`], it will return a pointer to an internal, static
-///  buffer (shared with [`utils_inet4_ntop()`][crate::utils_inet4_ntop()]). Beware, that the internal
-///  buffer will be overwritten with ever new call of [`utils_inet4_ntop()`][crate::utils_inet4_ntop()] or
-///  [`utils_inet6_ntop()`][crate::utils_inet6_ntop()] that does not provide its own `dst` buffer. Since
-///  1.28, the internal buffer is thread local and thus thread safe. Before
-///  it was not thread safe. When in doubt, pass your own
-///  `dst` buffer to avoid these issues.
-///
-/// # Returns
-///
-/// the input buffer `dst`, or a pointer to an
-///  internal, static buffer. [`None`] is not allowed as `in6addr`,
-///  otherwise, this function cannot fail.
-#[doc(alias = "nm_utils_inet6_ntop")]
-pub fn utils_inet6_ntop(dst: &str) -> Option<glib::GString> {
-    unsafe { from_glib_none(ffi::nm_utils_inet6_ntop(dst.to_glib_none().0)) }
 }
 
 /// Utility function to convert a [`glib::PtrArray`][crate::glib::PtrArray] of [`IPAddress`][crate::IPAddress] objects representing

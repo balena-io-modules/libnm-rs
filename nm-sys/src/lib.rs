@@ -8268,7 +8268,6 @@ extern "C" {
     pub fn nm_utils_hwaddr_valid(asc: *const c_char, length: ssize_t) -> gboolean;
     pub fn nm_utils_iface_valid_name(name: *const c_char) -> gboolean;
     pub fn nm_utils_inet4_ntop(inaddr: u32, dst: *mut c_char) -> *const c_char;
-    pub fn nm_utils_inet6_ntop(dst: *mut c_char) -> *const c_char;
     pub fn nm_utils_ip4_addresses_to_variant(addresses: *mut glib::GPtrArray, gateway: *const c_char) -> *mut glib::GVariant;
     pub fn nm_utils_ip4_get_default_prefix(ip: u32) -> u32;
     pub fn nm_utils_ip4_netmask_to_prefix(netmask: u32) -> u32;
