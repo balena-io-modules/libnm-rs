@@ -101,6 +101,23 @@ impl DeviceWifi {
         unsafe { from_glib(ffi::nm_device_wifi_get_capabilities(self.to_glib_none().0)) }
     }
 
+    /// Gets the actual hardware (MAC) address of the [`DeviceWifi`][crate::DeviceWifi]
+    ///
+    /// # Deprecated since 1.24
+    ///
+    /// Use [`DeviceExt::hw_address()`][crate::prelude::DeviceExt::hw_address()] instead.
+    ///
+    /// # Returns
+    ///
+    /// the actual hardware address. This is the internal string used by the
+    /// device, and must not be modified.
+    #[cfg_attr(feature = "v1_24", deprecated = "Since 1.24")]
+    #[doc(alias = "nm_device_wifi_get_hw_address")]
+    #[doc(alias = "get_hw_address")]
+    pub fn hw_address(&self) -> Option<glib::GString> {
+        unsafe { from_glib_none(ffi::nm_device_wifi_get_hw_address(self.to_glib_none().0)) }
+    }
+
     /// Returns the timestamp (in CLOCK_BOOTTIME milliseconds) for the last finished
     /// network scan. A value of -1 means the device never scanned for access points.
     ///

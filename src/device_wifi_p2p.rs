@@ -26,6 +26,27 @@ glib::wrapper! {
 }
 
 impl DeviceWifiP2P {
+    /// Gets the actual hardware (MAC) address of the [`DeviceWifiP2P`][crate::DeviceWifiP2P]
+    ///
+    /// # Deprecated since 1.24
+    ///
+    /// Use [`DeviceExt::hw_address()`][crate::prelude::DeviceExt::hw_address()] instead.
+    ///
+    /// # Returns
+    ///
+    /// the actual hardware address. This is the internal string used by the
+    /// device, and must not be modified.
+    #[cfg_attr(feature = "v1_24", deprecated = "Since 1.24")]
+    #[doc(alias = "nm_device_wifi_p2p_get_hw_address")]
+    #[doc(alias = "get_hw_address")]
+    pub fn hw_address(&self) -> Option<glib::GString> {
+        unsafe {
+            from_glib_none(ffi::nm_device_wifi_p2p_get_hw_address(
+                self.to_glib_none().0,
+            ))
+        }
+    }
+
     /// Gets a [`WifiP2PPeer`][crate::WifiP2PPeer] by path.
     /// ## `path`
     /// the object path of the peer

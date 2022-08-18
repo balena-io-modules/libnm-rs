@@ -4,6 +4,9 @@
 
 use crate::Device;
 use crate::Object;
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+use glib::translate::*;
 use std::fmt;
 
 glib::wrapper! {
@@ -15,7 +18,26 @@ glib::wrapper! {
     }
 }
 
-impl DeviceDummy {}
+impl DeviceDummy {
+    /// Gets the hardware (MAC) address of the [`DeviceDummy`][crate::DeviceDummy]
+    ///
+    /// # Deprecated since 1.24
+    ///
+    /// Use [`DeviceExt::hw_address()`][crate::prelude::DeviceExt::hw_address()] instead.
+    ///
+    /// # Returns
+    ///
+    /// the hardware address. This is the internal string used by the
+    /// device, and must not be modified.
+    #[cfg_attr(feature = "v1_24", deprecated = "Since 1.24")]
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+    #[doc(alias = "nm_device_dummy_get_hw_address")]
+    #[doc(alias = "get_hw_address")]
+    pub fn hw_address(&self) -> Option<glib::GString> {
+        unsafe { from_glib_none(ffi::nm_device_dummy_get_hw_address(self.to_glib_none().0)) }
+    }
+}
 
 impl fmt::Display for DeviceDummy {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

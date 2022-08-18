@@ -45,6 +45,25 @@ impl DeviceTun {
         unsafe { ffi::nm_device_tun_get_group(self.to_glib_none().0) }
     }
 
+    /// Gets the hardware (MAC) address of the [`DeviceTun`][crate::DeviceTun]
+    ///
+    /// # Deprecated since 1.24
+    ///
+    /// Use [`DeviceExt::hw_address()`][crate::prelude::DeviceExt::hw_address()] instead.
+    ///
+    /// # Returns
+    ///
+    /// the hardware address. This is the internal string used by the
+    /// device, and must not be modified.
+    #[cfg_attr(feature = "v1_24", deprecated = "Since 1.24")]
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[doc(alias = "nm_device_tun_get_hw_address")]
+    #[doc(alias = "get_hw_address")]
+    pub fn hw_address(&self) -> Option<glib::GString> {
+        unsafe { from_glib_none(ffi::nm_device_tun_get_hw_address(self.to_glib_none().0)) }
+    }
+
     /// Returns the TUN/TAP mode for the device.
     ///
     /// # Returns

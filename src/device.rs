@@ -528,6 +528,20 @@ pub trait DeviceExt: 'static {
     #[doc(alias = "get_nm_plugin_missing")]
     fn is_nm_plugin_missing(&self) -> bool;
 
+    /// Gets the path of the [`Device`][crate::Device] as exposed by the udev property ID_PATH.
+    ///
+    /// # Returns
+    ///
+    /// the path of the device.
+    ///
+    /// The string is backslash escaped (C escaping) for invalid characters. The escaping
+    /// can be reverted with `g_strcompress()`, however the result may not be valid UTF-8.
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
+    #[doc(alias = "nm_device_get_path")]
+    #[doc(alias = "get_path")]
+    fn path(&self) -> Option<glib::GString>;
+
     /// Gets the physical port ID of the [`Device`][crate::Device]. If non-[`None`], this is
     /// an opaque string that can be used to recognize when
     /// seemingly-unrelated `NMDevices` are actually just different virtual
@@ -870,11 +884,6 @@ pub trait DeviceExt: 'static {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm-plugin-missing")]
     fn connect_nm_plugin_missing_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[cfg(any(feature = "v1_26", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
-    #[doc(alias = "path")]
-    fn connect_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     #[doc(alias = "physical-port-id")]
     fn connect_physical_port_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -1365,6 +1374,12 @@ impl<O: IsA<Device>> DeviceExt for O {
                 self.as_ref().to_glib_none().0,
             ))
         }
+    }
+
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
+    fn path(&self) -> Option<glib::GString> {
+        unsafe { from_glib_none(ffi::nm_device_get_path(self.as_ref().to_glib_none().0)) }
     }
 
     fn physical_port_id(&self) -> Option<glib::GString> {
@@ -2180,30 +2195,6 @@ impl<O: IsA<Device>> DeviceExt for O {
                 b"notify::nm-plugin-missing\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_nm_plugin_missing_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-
-    #[cfg(any(feature = "v1_26", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
-    fn connect_path_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_path_trampoline<P: IsA<Device>, F: Fn(&P) + 'static>(
-            this: *mut ffi::NMDevice,
-            _param_spec: glib::ffi::gpointer,
-            f: glib::ffi::gpointer,
-        ) {
-            let f: &F = &*(f as *const F);
-            f(Device::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::path\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_path_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

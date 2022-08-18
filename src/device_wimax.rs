@@ -91,6 +91,23 @@ impl DeviceWimax {
         unsafe { ffi::nm_device_wimax_get_cinr(self.to_glib_none().0) }
     }
 
+    /// Gets the hardware (MAC) address of the [`DeviceWimax`][crate::DeviceWimax]
+    ///
+    /// # Deprecated since 1.2
+    ///
+    /// WiMAX is no longer supported.
+    ///
+    /// # Returns
+    ///
+    /// the hardware address. This is the internal string used by the
+    ///  device, and must not be modified.
+    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
+    #[doc(alias = "nm_device_wimax_get_hw_address")]
+    #[doc(alias = "get_hw_address")]
+    pub fn hw_address(&self) -> Option<glib::GString> {
+        unsafe { from_glib_none(ffi::nm_device_wimax_get_hw_address(self.to_glib_none().0)) }
+    }
+
     /// Gets a [`WimaxNsp`][crate::WimaxNsp] by path.
     ///
     /// # Deprecated since 1.2
@@ -333,30 +350,6 @@ impl DeviceWimax {
                 b"notify::cinr\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_cinr_trampoline::<F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-
-    #[cfg_attr(feature = "v1_2", deprecated = "Since 1.2")]
-    #[doc(alias = "hw-address")]
-    pub fn connect_hw_address_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_hw_address_trampoline<F: Fn(&DeviceWimax) + 'static>(
-            this: *mut ffi::NMDeviceWimax,
-            _param_spec: glib::ffi::gpointer,
-            f: glib::ffi::gpointer,
-        ) {
-            let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this))
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::hw-address\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_hw_address_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

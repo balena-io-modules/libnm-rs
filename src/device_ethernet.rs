@@ -42,6 +42,21 @@ pub trait DeviceEthernetExt: 'static {
     #[doc(alias = "get_carrier")]
     fn is_carrier(&self) -> bool;
 
+    /// Gets the active hardware (MAC) address of the [`DeviceEthernet`][crate::DeviceEthernet]
+    ///
+    /// # Deprecated since 1.24
+    ///
+    /// Use [`DeviceExt::hw_address()`][crate::prelude::DeviceExt::hw_address()] instead.
+    ///
+    /// # Returns
+    ///
+    /// the active hardware address. This is the internal string used by the
+    /// device, and must not be modified.
+    #[cfg_attr(feature = "v1_24", deprecated = "Since 1.24")]
+    #[doc(alias = "nm_device_ethernet_get_hw_address")]
+    #[doc(alias = "get_hw_address")]
+    fn hw_address(&self) -> Option<glib::GString>;
+
     /// Gets the permanent hardware (MAC) address of the [`DeviceEthernet`][crate::DeviceEthernet]
     ///
     /// # Returns
@@ -96,6 +111,14 @@ impl<O: IsA<DeviceEthernet>> DeviceEthernetExt for O {
     fn is_carrier(&self) -> bool {
         unsafe {
             from_glib(ffi::nm_device_ethernet_get_carrier(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
+
+    fn hw_address(&self) -> Option<glib::GString> {
+        unsafe {
+            from_glib_none(ffi::nm_device_ethernet_get_hw_address(
                 self.as_ref().to_glib_none().0,
             ))
         }

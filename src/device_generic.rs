@@ -22,6 +22,23 @@ glib::wrapper! {
 }
 
 impl DeviceGeneric {
+    /// Gets the hardware address of the [`DeviceGeneric`][crate::DeviceGeneric]
+    ///
+    /// # Deprecated since 1.24
+    ///
+    /// Use [`DeviceExt::hw_address()`][crate::prelude::DeviceExt::hw_address()] instead.
+    ///
+    /// # Returns
+    ///
+    /// the hardware address. This is the internal string used by the
+    /// device, and must not be modified.
+    #[cfg_attr(feature = "v1_24", deprecated = "Since 1.24")]
+    #[doc(alias = "nm_device_generic_get_hw_address")]
+    #[doc(alias = "get_hw_address")]
+    pub fn hw_address(&self) -> Option<glib::GString> {
+        unsafe { from_glib_none(ffi::nm_device_generic_get_hw_address(self.to_glib_none().0)) }
+    }
+
     #[doc(alias = "type-description")]
     pub fn connect_type_description_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_type_description_trampoline<F: Fn(&DeviceGeneric) + 'static>(

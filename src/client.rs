@@ -1431,7 +1431,7 @@ impl Client {
     ///
     /// Use `nm_device_get_type()` or the NM_IS_DEVICE_XXXX() functions to determine
     /// what kind of device each member of the returned array is, and then you may
-    /// use device-specific methods such as `nm_device_ethernet_get_hw_address()`.
+    /// use device-specific methods such as [`DeviceEthernetExt::hw_address()`][crate::prelude::DeviceEthernetExt::hw_address()].
     ///
     /// # Returns
     ///
@@ -1702,7 +1702,7 @@ impl Client {
     /// Gets all the known network devices. Use `nm_device_get_type()` or the
     /// `<literal>`NM_IS_DEVICE_XXXX`</literal>` functions to determine what kind of
     /// device member of the returned array is, and then you may use device-specific
-    /// methods such as `nm_device_ethernet_get_hw_address()`.
+    /// methods such as [`DeviceEthernetExt::hw_address()`][crate::prelude::DeviceEthernetExt::hw_address()].
     ///
     /// # Returns
     ///

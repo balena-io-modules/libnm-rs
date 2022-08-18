@@ -4,6 +4,7 @@
 
 use crate::Device;
 use crate::Object;
+use glib::translate::*;
 use std::fmt;
 
 glib::wrapper! {
@@ -15,7 +16,24 @@ glib::wrapper! {
     }
 }
 
-impl DeviceWpan {}
+impl DeviceWpan {
+    /// Gets the active hardware (MAC) address of the [`DeviceWpan`][crate::DeviceWpan]
+    ///
+    /// # Deprecated since 1.24
+    ///
+    /// Use [`DeviceExt::hw_address()`][crate::prelude::DeviceExt::hw_address()] instead.
+    ///
+    /// # Returns
+    ///
+    /// the active hardware address. This is the internal string used by the
+    /// device, and must not be modified.
+    #[cfg_attr(feature = "v1_24", deprecated = "Since 1.24")]
+    #[doc(alias = "nm_device_wpan_get_hw_address")]
+    #[doc(alias = "get_hw_address")]
+    pub fn hw_address(&self) -> Option<glib::GString> {
+        unsafe { from_glib_none(ffi::nm_device_wpan_get_hw_address(self.to_glib_none().0)) }
+    }
+}
 
 impl fmt::Display for DeviceWpan {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
