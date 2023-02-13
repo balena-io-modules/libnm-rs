@@ -3,17 +3,25 @@
 // DO NOT EDIT
 
 use crate::Connection;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
-use std::ptr;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute, ptr};
 
 glib::wrapper! {
+    ///
+    ///
+    /// ## Signals
+    ///
+    ///
+    /// #### `changed`
+    ///
+    ///
+    /// # Implements
+    ///
+    /// [`VpnEditorExt`][trait@crate::prelude::VpnEditorExt]
     #[doc(alias = "NMVpnEditor")]
     pub struct VpnEditor(Interface<ffi::NMVpnEditor, ffi::NMVpnEditorInterface>);
 
@@ -60,7 +68,7 @@ impl<O: IsA<VpnEditor>> VpnEditorExt for O {
                 connection.as_ref().to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {

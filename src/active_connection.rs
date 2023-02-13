@@ -5,26 +5,151 @@
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use crate::ActivationStateFlags;
-use crate::ActiveConnectionState;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 use crate::ActiveConnectionStateReason;
-use crate::Device;
-use crate::DhcpConfig;
-use crate::IPConfig;
-use crate::Object;
-use crate::RemoteConnection;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::StaticType;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use crate::{ActiveConnectionState, Device, DhcpConfig, IPConfig, Object, RemoteConnection};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    ///
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `connection`
+    ///  The connection that this is an active instance of.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `default`
+    ///  Whether the active connection is the default IPv4 one.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `default6`
+    ///  Whether the active connection is the default IPv6 one.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `devices`
+    ///  The devices of the active connection.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `dhcp4-config`
+    ///  The IPv4 [`DhcpConfig`][crate::DhcpConfig] of the connection.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `dhcp6-config`
+    ///  The IPv6 [`DhcpConfig`][crate::DhcpConfig] of the connection.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `id`
+    ///  The active connection's ID
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `ip4-config`
+    ///  The IPv4 [`IPConfig`][crate::IPConfig] of the connection.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `ip6-config`
+    ///  The IPv6 [`IPConfig`][crate::IPConfig] of the connection.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `master`
+    ///  The master device if one exists.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `specific-object-path`
+    ///  The path to the "specific object" of the active connection; see
+    /// [`ActiveConnectionExt::specific_object_path()`][crate::prelude::ActiveConnectionExt::specific_object_path()] for more details.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `state`
+    ///  The state of the active connection.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `state-flags`
+    ///  The state flags of the active connection.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `type`
+    ///  The active connection's type
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `uuid`
+    ///  The active connection's UUID
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `vpn`
+    ///  Whether the active connection is a VPN connection.
+    ///
+    /// Readable
+    /// <details><summary><h4>Object</h4></summary>
+    ///
+    ///
+    /// #### `client`
+    ///  The NMClient instance as returned by `nm_object_get_client()`.
+    ///
+    /// When an NMObject gets removed from the NMClient cache,
+    /// the NMObject:path property stays unchanged, but this client
+    /// instance gets reset to [`None`]. You can use this property to
+    /// track removal of the object from the cache.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `path`
+    ///  The D-Bus object path.
+    ///
+    /// The D-Bus path of an object instance never changes, even if the object
+    /// gets removed from the cache. To see whether the object is still in the
+    /// cache, check NMObject:client.
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// ## Signals
+    ///
+    ///
+    /// #### `state-changed`
+    ///
+    ///
+    /// # Implements
+    ///
+    /// [`ActiveConnectionExt`][trait@crate::prelude::ActiveConnectionExt], [`ObjectExt`][trait@crate::prelude::ObjectExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMActiveConnection")]
     pub struct ActiveConnection(Object<ffi::NMActiveConnection, ffi::NMActiveConnectionClass>) @extends Object;
 
@@ -147,14 +272,9 @@ pub trait ActiveConnectionExt: 'static {
     #[doc(alias = "get_ip6_config")]
     fn ip6_config(&self) -> Option<IPConfig>;
 
-    /// Gets the master [`Device`][crate::Device] of the connection.
-    ///
-    /// # Returns
-    ///
-    /// the master [`Device`][crate::Device] of the [`ActiveConnection`][crate::ActiveConnection].
-    #[doc(alias = "nm_active_connection_get_master")]
-    #[doc(alias = "get_master")]
-    fn master(&self) -> Option<Device>;
+    //#[doc(alias = "nm_active_connection_get_master")]
+    //#[doc(alias = "get_master")]
+    //fn master(&self) -> /*Unimplemented*/Option<Basic: Pointer>;
 
     /// Gets the path of the "specific object" used at activation.
     ///
@@ -365,13 +485,9 @@ impl<O: IsA<ActiveConnection>> ActiveConnectionExt for O {
         }
     }
 
-    fn master(&self) -> Option<Device> {
-        unsafe {
-            from_glib_none(ffi::nm_active_connection_get_master(
-                self.as_ref().to_glib_none().0,
-            ))
-        }
-    }
+    //fn master(&self) -> /*Unimplemented*/Option<Basic: Pointer> {
+    //    unsafe { TODO: call ffi:nm_active_connection_get_master() }
+    //}
 
     fn specific_object_path(&self) -> Option<glib::GString> {
         unsafe {

@@ -2,40 +2,446 @@
 // from gir-files
 // DO NOT EDIT
 
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use crate::ConnectionMultiConnect;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use crate::Metered;
+#[cfg(any(feature = "v1_42", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
+use crate::MptcpFlags;
 use crate::Setting;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use crate::SettingConnectionAutoconnectSlaves;
 #[cfg(any(feature = "v1_34", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
 use crate::SettingConnectionDnsOverTls;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use crate::SettingConnectionLldp;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use crate::SettingConnectionLlmnr;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 use crate::SettingConnectionMdns;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::StaticType;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+use crate::{ConnectionMultiConnect, SettingConnectionLlmnr};
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+use crate::{Metered, SettingConnectionAutoconnectSlaves, SettingConnectionLldp};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// General Connection Profile Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `auth-retries`
+    ///  The number of retries for the authentication. Zero means to try indefinitely; -1 means
+    /// to use a global default. If the global default is not set, the authentication
+    /// retries for 3 times before failing the connection.
+    ///
+    /// Currently, this only applies to 802-1x authentication.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `autoconnect`
+    ///  Whether or not the connection should be automatically connected by
+    /// NetworkManager when the resources for the connection are available.
+    /// [`true`] to automatically activate the connection, [`false`] to require manual
+    /// intervention to activate the connection.
+    ///
+    /// Autoconnect happens when the circumstances are suitable. That means for
+    /// example that the device is currently managed and not active. Autoconnect
+    /// thus never replaces or competes with an already active profile.
+    ///
+    /// Note that autoconnect is not implemented for VPN profiles. See
+    /// [`secondaries`][struct@crate::SettingConnection#secondaries] as an alternative to automatically
+    /// connect VPN profiles.
+    ///
+    /// If multiple profiles are ready to autoconnect on the same device,
+    /// the one with the better "connection.autoconnect-priority" is chosen. If
+    /// the priorities are equal, then the most recently connected profile is activated.
+    /// If the profiles were not connected earlier or their
+    /// "connection.timestamp" is identical, the choice is undefined.
+    ///
+    /// Depending on "connection.multi-connect", a profile can (auto)connect only
+    /// once at a time or multiple times.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `autoconnect-priority`
+    ///  The autoconnect priority in range -999 to 999. If the connection is set
+    /// to autoconnect, connections with higher priority will be preferred.
+    /// The higher number means higher priority. Defaults to 0.
+    /// Note that this property only matters if there are more than one candidate
+    /// profile to select for autoconnect. In case of equal priority, the profile
+    /// used most recently is chosen.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `autoconnect-retries`
+    ///  The number of times a connection should be tried when autoactivating before
+    /// giving up. Zero means forever, -1 means the global default (4 times if not
+    /// overridden). Setting this to 1 means to try activation only once before
+    /// blocking autoconnect. Note that after a timeout, NetworkManager will try
+    /// to autoconnect again.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `autoconnect-slaves`
+    ///  Whether or not slaves of this connection should be automatically brought up
+    /// when NetworkManager activates this connection. This only has a real effect
+    /// for master connections. The properties [`autoconnect`][struct@crate::SettingConnection#autoconnect],
+    /// [`autoconnect-priority`][struct@crate::SettingConnection#autoconnect-priority] and [`autoconnect-retries`][struct@crate::SettingConnection#autoconnect-retries]
+    /// are unrelated to this setting.
+    /// The permitted values are: 0: leave slave connections untouched,
+    /// 1: activate all the slave connections with this connection, -1: default.
+    /// If -1 (default) is set, global connection.autoconnect-slaves is read to
+    /// determine the real value. If it is default as well, this fallbacks to 0.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dns-over-tls`
+    ///  Whether DNSOverTls (dns-over-tls) is enabled for the connection.
+    /// DNSOverTls is a technology which uses TLS to encrypt dns traffic.
+    ///
+    /// The permitted values are: "yes" (2) use DNSOverTls and disabled fallback,
+    /// "opportunistic" (1) use DNSOverTls but allow fallback to unencrypted resolution,
+    /// "no" (0) don't ever use DNSOverTls.
+    /// If unspecified "default" depends on the plugin used. Systemd-resolved
+    /// uses global setting.
+    ///
+    /// This feature requires a plugin which supports DNSOverTls. Otherwise, the
+    /// setting has no effect. One such plugin is dns-systemd-resolved.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `gateway-ping-timeout`
+    ///  If greater than zero, delay success of IP addressing until either the
+    /// timeout is reached, or an IP gateway replies to a ping.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `id`
+    ///  A human readable unique identifier for the connection, like "Work Wi-Fi"
+    /// or "T-Mobile 3G".
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `interface-name`
+    ///  The name of the network interface this connection is bound to. If not
+    /// set, then the connection can be attached to any interface of the
+    /// appropriate type (subject to restrictions imposed by other settings).
+    ///
+    /// For software devices this specifies the name of the created device.
+    ///
+    /// For connection types where interface names cannot easily be made
+    /// persistent (e.g. mobile broadband or USB Ethernet), this property should
+    /// not be used. Setting this property restricts the interfaces a connection
+    /// can be used with, and if interface names change or are reordered the
+    /// connection may be applied to the wrong interface.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `lldp`
+    ///  Whether LLDP is enabled for the connection.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `llmnr`
+    ///  Whether Link-Local Multicast Name Resolution (LLMNR) is enabled
+    /// for the connection. LLMNR is a protocol based on the Domain Name
+    /// System (DNS) packet format that allows both IPv4 and IPv6 hosts
+    /// to perform name resolution for hosts on the same local link.
+    ///
+    /// The permitted values are: "yes" (2) register hostname and resolving
+    /// for the connection, "no" (0) disable LLMNR for the interface, "resolve"
+    /// (1) do not register hostname but allow resolving of LLMNR host names
+    /// If unspecified, "default" ultimately depends on the DNS plugin (which
+    /// for systemd-resolved currently means "yes").
+    ///
+    /// This feature requires a plugin which supports LLMNR. Otherwise, the
+    /// setting has no effect. One such plugin is dns-systemd-resolved.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `master`
+    ///  Interface name of the master device or UUID of the master connection.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mdns`
+    ///  Whether mDNS is enabled for the connection.
+    ///
+    /// The permitted values are: "yes" (2) register hostname and resolving
+    /// for the connection, "no" (0) disable mDNS for the interface, "resolve"
+    /// (1) do not register hostname but allow resolving of mDNS host names
+    /// and "default" (-1) to allow lookup of a global default in NetworkManager.conf.
+    /// If unspecified, "default" ultimately depends on the DNS plugin (which
+    /// for systemd-resolved currently means "no").
+    ///
+    /// This feature requires a plugin which supports mDNS. Otherwise, the
+    /// setting has no effect. One such plugin is dns-systemd-resolved.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `metered`
+    ///  Whether the connection is metered.
+    ///
+    /// When updating this property on a currently activated connection,
+    /// the change takes effect immediately.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mptcp-flags`
+    ///  Whether to configure MPTCP endpoints and the address flags.
+    /// If MPTCP is enabled in NetworkManager, it will configure the
+    /// addresses of the interface as MPTCP endpoints. Note that
+    /// IPv4 loopback addresses (127.0.0.0/8), IPv4 link local
+    /// addresses (169.254.0.0/16), the IPv6 loopback address (::1),
+    /// IPv6 link local addresses (fe80::/10), IPv6 unique
+    /// local addresses (ULA, fc00::/7) and IPv6 privacy extension addresses
+    /// (rfc3041, ipv6.ip6-privacy) will be excluded from being
+    /// configured as endpoints.
+    ///
+    /// If "disabled" (0x1), MPTCP handling for the interface is disabled and
+    /// no endpoints are registered.
+    ///
+    /// The "enabled" (0x2) flag means that MPTCP handling is enabled.
+    /// This flag can also be implied from the presence of other flags.
+    ///
+    /// Even when enabled, MPTCP handling will by default still be disabled
+    /// unless "/proc/sys/net/mptcp/enabled" sysctl is on. NetworkManager
+    /// does not change the sysctl and this is up to the administrator
+    /// or distribution. To configure endpoints even if the sysctl is
+    /// disabled, "also-without-sysctl" (0x4) flag can be used. In that case,
+    /// NetworkManager doesn't look at the sysctl and configures endpoints
+    /// regardless.
+    ///
+    /// Even when enabled, NetworkManager will only configure MPTCP endpoints
+    /// for a certain address family, if there is a unicast default route (0.0.0.0/0
+    /// or ::/0) in the main routing table. The flag "also-without-default-route"
+    /// (0x8) can override that.
+    ///
+    /// When MPTCP handling is enabled then endpoints are configured with
+    /// the specified address flags "signal" (0x10), "subflow" (0x20), "backup" (0x40),
+    /// "fullmesh" (0x80). See ip-mptcp(8) manual for additional information about the flags.
+    ///
+    /// If the flags are zero (0x0), the global connection default from NetworkManager.conf is
+    /// honored. If still unspecified, the fallback is "enabled,subflow".
+    /// Note that this means that MPTCP is by default done depending on the
+    /// "/proc/sys/net/mptcp/enabled" sysctl.
+    ///
+    /// NetworkManager does not change the MPTCP limits nor enable MPTCP via
+    /// "/proc/sys/net/mptcp/enabled". That is a host configuration which the
+    /// admin can change via sysctl and ip-mptcp.
+    ///
+    /// Strict reverse path filtering (rp_filter) breaks many MPTCP use cases, so when
+    /// MPTCP handling for IPv4 addresses on the interface is enabled, NetworkManager would
+    /// loosen the strict reverse path filtering (1) to the loose setting (2).
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mud-url`
+    ///  If configured, set to a Manufacturer Usage Description (MUD) URL that points
+    /// to manufacturer-recommended network policies for IoT devices. It is transmitted
+    /// as a DHCPv4 or DHCPv6 option. The value must be a valid URL starting with "https://".
+    ///
+    /// The special value "none" is allowed to indicate that no MUD URL is used.
+    ///
+    /// If the per-profile value is unspecified (the default), a global connection default gets
+    /// consulted. If still unspecified, the ultimate default is "none".
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `multi-connect`
+    ///  Specifies whether the profile can be active multiple times at a particular
+    /// moment. The value is of type [`ConnectionMultiConnect`][crate::ConnectionMultiConnect].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `permissions`
+    ///  An array of strings defining what access a given user has to this
+    /// connection. If this is [`None`] or empty, all users are allowed to access
+    /// this connection; otherwise users are allowed if and only if they are in
+    /// this list. When this is not empty, the connection can be active only when
+    /// one of the specified users is logged into an active session. Each entry
+    /// is of the form "[type]:[id]:[reserved]"; for example, "user:dcbw:blah".
+    ///
+    /// At this time only the "user" [type] is allowed. Any other values are
+    /// ignored and reserved for future use. [id] is the username that this
+    /// permission refers to, which may not contain the ":" character. Any
+    /// [reserved] information present must be ignored and is reserved for future
+    /// use. All of [type], [id], and [reserved] must be valid UTF-8.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `read-only`
+    ///  [`false`] if the connection can be modified using the provided settings
+    /// service's D-Bus interface with the right privileges, or [`true`] if the
+    /// connection is read-only and cannot be modified.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `secondaries`
+    ///  List of connection UUIDs that should be activated when the base
+    /// connection itself is activated. Currently, only VPN connections are
+    /// supported.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `slave-type`
+    ///  Setting name of the device type of this slave's master connection (eg,
+    /// [`SETTING_BOND_SETTING_NAME`][crate::SETTING_BOND_SETTING_NAME]), or [`None`] if this connection is not a
+    /// slave.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `stable-id`
+    ///  This represents the identity of the connection used for various purposes.
+    /// It allows to configure multiple profiles to share the identity. Also,
+    /// the stable-id can contain placeholders that are substituted dynamically and
+    /// deterministically depending on the context.
+    ///
+    /// The stable-id is used for generating IPv6 stable private addresses
+    /// with ipv6.addr-gen-mode=stable-privacy. It is also used to seed the
+    /// generated cloned MAC address for ethernet.cloned-mac-address=stable
+    /// and wifi.cloned-mac-address=stable. It is also used as DHCP client
+    /// identifier with ipv4.dhcp-client-id=stable and to derive the DHCP
+    /// DUID with ipv6.dhcp-duid=stable-[llt,ll,uuid].
+    ///
+    /// Note that depending on the context where it is used, other parameters are
+    /// also seeded into the generation algorithm. For example, a per-host key
+    /// is commonly also included, so that different systems end up generating
+    /// different IDs. Or with ipv6.addr-gen-mode=stable-privacy, also the device's
+    /// name is included, so that different interfaces yield different addresses.
+    /// The per-host key is the identity of your machine and stored in /var/lib/NetworkManager/secret_key.
+    /// See NetworkManager(8) manual about the secret-key and the host identity.
+    ///
+    /// The '$' character is treated special to perform dynamic substitutions
+    /// at runtime. Currently, supported are "${CONNECTION}", "${DEVICE}", "${MAC}",
+    /// "${BOOT}", "${RANDOM}".
+    /// These effectively create unique IDs per-connection, per-device, per-boot,
+    /// or every time. Note that "${DEVICE}" corresponds to the interface name of the
+    /// device and "${MAC}" is the permanent MAC address of the device.
+    /// Any unrecognized patterns following '$' are treated verbatim, however
+    /// are reserved for future use. You are thus advised to avoid '$' or
+    /// escape it as "$$".
+    /// For example, set it to "${CONNECTION}-${BOOT}-${DEVICE}" to create a unique id for
+    /// this connection that changes with every reboot and differs depending on the
+    /// interface where the profile activates.
+    ///
+    /// If the value is unset, a global connection default is consulted. If the
+    /// value is still unset, the default is similar to "${CONNECTION}" and uses
+    /// a unique, fixed ID for the connection.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `timestamp`
+    ///  The time, in seconds since the Unix Epoch, that the connection was last
+    /// _successfully_ fully activated.
+    ///
+    /// NetworkManager updates the connection timestamp periodically when the
+    /// connection is active to ensure that an active connection has the latest
+    /// timestamp. The property is only meant for reading (changes to this
+    /// property will not be preserved).
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `type`
+    ///  Base type of the connection. For hardware-dependent connections, should
+    /// contain the setting name of the hardware-type specific setting (ie,
+    /// "802-3-ethernet" or "802-11-wireless" or "bluetooth", etc), and for
+    /// non-hardware dependent connections like VPN or otherwise, should contain
+    /// the setting name of that setting type (ie, "vpn" or "bridge", etc).
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `uuid`
+    ///  A universally unique identifier for the connection, for example generated
+    /// with libuuid. It should be assigned when the connection is created, and
+    /// never changed as long as the connection still applies to the same
+    /// network. For example, it should not be changed when the
+    /// [`id`][struct@crate::SettingConnection#id] property or [`SettingIP4Config`][crate::SettingIP4Config] changes, but
+    /// might need to be re-created when the Wi-Fi SSID, mobile broadband network
+    /// provider, or [`type`][struct@crate::SettingConnection#type] property changes.
+    ///
+    /// The UUID must be in the format "2815492f-7e56-435e-b2e9-246bd7cdc664"
+    /// (ie, contains only hexadecimal characters and "-"). A suitable UUID may
+    /// be generated by [`utils_uuid_generate()`][crate::utils_uuid_generate()] or
+    /// `nm_uuid_generate_from_string_str()`.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `wait-activation-delay`
+    ///  Time in milliseconds to wait for connection to be considered activated.
+    /// The wait will start after the pre-up dispatcher event.
+    ///
+    /// The value 0 means no wait time. The default value is -1, which
+    /// currently has the same meaning as no wait time.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `wait-device-timeout`
+    ///  Timeout in milliseconds to wait for device at startup.
+    /// During boot, devices may take a while to be detected by the driver.
+    /// This property will cause to delay NetworkManager-wait-online.service
+    /// and nm-online to give the device a chance to appear. This works by
+    /// waiting for the given timeout until a compatible device for the
+    /// profile is available and managed.
+    ///
+    /// The value 0 means no wait time. The default value is -1, which
+    /// currently has the same meaning as no wait time.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `zone`
+    ///  The trust level of a the connection. Free form case-insensitive string
+    /// (for example "Home", "Work", "Public"). [`None`] or unspecified zone means
+    /// the connection will be placed in the default zone as defined by the
+    /// firewall.
+    ///
+    /// When updating this property on a currently activated connection,
+    /// the change takes effect immediately.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingConnection")]
     pub struct SettingConnection(Object<ffi::NMSettingConnection, ffi::NMSettingConnectionClass>) @extends Setting;
 
@@ -57,7 +463,7 @@ impl SettingConnection {
 
     /// Adds a permission to the connection's permission list. At this time, only
     /// the "user" permission type is supported, and `pitem` must be a username. See
-    /// `property::SettingConnection::permissions`: for more details.
+    /// [`permissions`][struct@crate::SettingConnection#permissions]: for more details.
     /// ## `ptype`
     /// the permission type; at this time only "user" is supported
     /// ## `pitem`
@@ -102,7 +508,7 @@ impl SettingConnection {
         }
     }
 
-    /// Returns the value contained in the `property::SettingConnection::auth-retries` property.
+    /// Returns the value contained in the [`auth-retries`][struct@crate::SettingConnection#auth-retries] property.
     ///
     /// # Returns
     ///
@@ -116,7 +522,7 @@ impl SettingConnection {
         unsafe { ffi::nm_setting_connection_get_auth_retries(self.to_glib_none().0) }
     }
 
-    /// Returns the `property::SettingConnection::autoconnect` property of the connection.
+    /// Returns the [`autoconnect`][struct@crate::SettingConnection#autoconnect] property of the connection.
     ///
     /// # Returns
     ///
@@ -131,7 +537,7 @@ impl SettingConnection {
         }
     }
 
-    /// Returns the `property::SettingConnection::autoconnect-priority` property of the connection.
+    /// Returns the [`autoconnect-priority`][struct@crate::SettingConnection#autoconnect-priority] property of the connection.
     /// The higher number, the higher priority.
     ///
     /// # Returns
@@ -143,7 +549,7 @@ impl SettingConnection {
         unsafe { ffi::nm_setting_connection_get_autoconnect_priority(self.to_glib_none().0) }
     }
 
-    /// Returns the `property::SettingConnection::autoconnect-retries` property of the connection.
+    /// Returns the [`autoconnect-retries`][struct@crate::SettingConnection#autoconnect-retries] property of the connection.
     /// Zero means infinite, -1 means the global default value.
     ///
     /// # Returns
@@ -157,7 +563,7 @@ impl SettingConnection {
         unsafe { ffi::nm_setting_connection_get_autoconnect_retries(self.to_glib_none().0) }
     }
 
-    /// Returns the `property::SettingConnection::autoconnect-slaves` property of the connection.
+    /// Returns the [`autoconnect-slaves`][struct@crate::SettingConnection#autoconnect-slaves] property of the connection.
     ///
     /// # Returns
     ///
@@ -175,7 +581,7 @@ impl SettingConnection {
         }
     }
 
-    /// Returns the `property::SettingConnection::type` property of the connection.
+    /// Returns the [`type`][struct@crate::SettingConnection#type] property of the connection.
     ///
     /// # Returns
     ///
@@ -193,7 +599,7 @@ impl SettingConnection {
     ///
     /// # Returns
     ///
-    /// the `property::SettingConnection::dns-over-tls` property of the setting.
+    /// the [`dns-over-tls`][struct@crate::SettingConnection#dns-over-tls] property of the setting.
     #[cfg(any(feature = "v1_34", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
     #[doc(alias = "nm_setting_connection_get_dns_over_tls")]
@@ -209,7 +615,7 @@ impl SettingConnection {
     ///
     /// # Returns
     ///
-    /// the value contained in the `property::SettingConnection::gateway-ping-timeout`
+    /// the value contained in the [`gateway-ping-timeout`][struct@crate::SettingConnection#gateway-ping-timeout]
     /// property.
     #[doc(alias = "nm_setting_connection_get_gateway_ping_timeout")]
     #[doc(alias = "get_gateway_ping_timeout")]
@@ -217,7 +623,7 @@ impl SettingConnection {
         unsafe { ffi::nm_setting_connection_get_gateway_ping_timeout(self.to_glib_none().0) }
     }
 
-    /// Returns the `property::SettingConnection::id` property of the connection.
+    /// Returns the [`id`][struct@crate::SettingConnection#id] property of the connection.
     ///
     /// # Returns
     ///
@@ -228,7 +634,7 @@ impl SettingConnection {
         unsafe { from_glib_none(ffi::nm_setting_connection_get_id(self.to_glib_none().0)) }
     }
 
-    /// Returns the `property::SettingConnection::interface-name` property of the connection.
+    /// Returns the [`interface-name`][struct@crate::SettingConnection#interface-name] property of the connection.
     ///
     /// # Returns
     ///
@@ -243,7 +649,7 @@ impl SettingConnection {
         }
     }
 
-    /// Returns the `property::SettingConnection::lldp` property of the connection.
+    /// Returns the [`lldp`][struct@crate::SettingConnection#lldp] property of the connection.
     ///
     /// # Returns
     ///
@@ -260,7 +666,7 @@ impl SettingConnection {
     ///
     /// # Returns
     ///
-    /// the `property::SettingConnection::llmnr` property of the setting.
+    /// the [`llmnr`][struct@crate::SettingConnection#llmnr] property of the setting.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_setting_connection_get_llmnr")]
@@ -269,7 +675,7 @@ impl SettingConnection {
         unsafe { from_glib(ffi::nm_setting_connection_get_llmnr(self.to_glib_none().0)) }
     }
 
-    /// Returns the `property::SettingConnection::master` property of the connection.
+    /// Returns the [`master`][struct@crate::SettingConnection#master] property of the connection.
     ///
     /// # Returns
     ///
@@ -284,7 +690,7 @@ impl SettingConnection {
     ///
     /// # Returns
     ///
-    /// the `property::SettingConnection::mdns` property of the setting.
+    /// the [`mdns`][struct@crate::SettingConnection#mdns] property of the setting.
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_setting_connection_get_mdns")]
@@ -296,7 +702,7 @@ impl SettingConnection {
     ///
     /// # Returns
     ///
-    /// the `property::SettingConnection::metered` property of the setting.
+    /// the [`metered`][struct@crate::SettingConnection#metered] property of the setting.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_connection_get_metered")]
@@ -309,7 +715,23 @@ impl SettingConnection {
         }
     }
 
-    /// Returns the value contained in the `property::SettingConnection::mud-url`
+    ///
+    /// # Returns
+    ///
+    /// the [`mptcp-flags`][struct@crate::SettingConnection#mptcp-flags] property of the setting.
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
+    #[doc(alias = "nm_setting_connection_get_mptcp_flags")]
+    #[doc(alias = "get_mptcp_flags")]
+    pub fn mptcp_flags(&self) -> MptcpFlags {
+        unsafe {
+            from_glib(ffi::nm_setting_connection_get_mptcp_flags(
+                self.to_glib_none().0,
+            ))
+        }
+    }
+
+    /// Returns the value contained in the [`mud-url`][struct@crate::SettingConnection#mud-url]
     /// property.
     #[cfg(any(feature = "v1_26", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
@@ -326,7 +748,7 @@ impl SettingConnection {
     ///
     /// # Returns
     ///
-    /// the `property::SettingConnection::multi-connect` property of the connection.
+    /// the [`multi-connect`][struct@crate::SettingConnection#multi-connect] property of the connection.
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_setting_connection_get_multi_connect")]
@@ -339,7 +761,7 @@ impl SettingConnection {
         }
     }
 
-    /// Returns the number of entries in the `property::SettingConnection::permissions`
+    /// Returns the number of entries in the [`permissions`][struct@crate::SettingConnection#permissions]
     /// property of this setting.
     ///
     /// # Returns
@@ -361,7 +783,7 @@ impl SettingConnection {
         unsafe { ffi::nm_setting_connection_get_num_secondaries(self.to_glib_none().0) }
     }
 
-    /// Returns the `property::SettingConnection::read-only` property of the connection.
+    /// Returns the [`read-only`][struct@crate::SettingConnection#read-only] property of the connection.
     ///
     /// # Returns
     ///
@@ -396,7 +818,7 @@ impl SettingConnection {
         }
     }
 
-    /// Returns the `property::SettingConnection::slave-type` property of the connection.
+    /// Returns the [`slave-type`][struct@crate::SettingConnection#slave-type] property of the connection.
     ///
     /// # Returns
     ///
@@ -411,7 +833,7 @@ impl SettingConnection {
         }
     }
 
-    /// Returns the `property::SettingConnection::stable_id` property of the connection.
+    /// Returns the [`stable_id`][struct@crate::SettingConnection#stable_id] property of the connection.
     ///
     /// # Returns
     ///
@@ -428,7 +850,7 @@ impl SettingConnection {
         }
     }
 
-    /// Returns the `property::SettingConnection::timestamp` property of the connection.
+    /// Returns the [`timestamp`][struct@crate::SettingConnection#timestamp] property of the connection.
     ///
     /// # Returns
     ///
@@ -439,7 +861,7 @@ impl SettingConnection {
         unsafe { ffi::nm_setting_connection_get_timestamp(self.to_glib_none().0) }
     }
 
-    /// Returns the `property::SettingConnection::uuid` property of the connection.
+    /// Returns the [`uuid`][struct@crate::SettingConnection#uuid] property of the connection.
     ///
     /// # Returns
     ///
@@ -448,6 +870,19 @@ impl SettingConnection {
     #[doc(alias = "get_uuid")]
     pub fn uuid(&self) -> Option<glib::GString> {
         unsafe { from_glib_none(ffi::nm_setting_connection_get_uuid(self.to_glib_none().0)) }
+    }
+
+    ///
+    /// # Returns
+    ///
+    /// the [`SETTING_CONNECTION_WAIT_ACTIVATION_DELAY`][crate::SETTING_CONNECTION_WAIT_ACTIVATION_DELAY] property with
+    ///  the delay in milliseconds. -1 is the default.
+    #[cfg(any(feature = "v1_40", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    #[doc(alias = "nm_setting_connection_get_wait_activation_delay")]
+    #[doc(alias = "get_wait_activation_delay")]
+    pub fn wait_activation_delay(&self) -> i32 {
+        unsafe { ffi::nm_setting_connection_get_wait_activation_delay(self.to_glib_none().0) }
     }
 
     ///
@@ -463,7 +898,7 @@ impl SettingConnection {
         unsafe { ffi::nm_setting_connection_get_wait_device_timeout(self.to_glib_none().0) }
     }
 
-    /// Returns the `property::SettingConnection::zone` property of the connection.
+    /// Returns the [`zone`][struct@crate::SettingConnection#zone] property of the connection.
     ///
     /// # Returns
     ///
@@ -521,7 +956,7 @@ impl SettingConnection {
 
     /// Removes the permission from the connection.
     /// At this time, only the "user" permission type is supported, and `pitem` must
-    /// be a username. See `property::SettingConnection::permissions`: for more details.
+    /// be a username. See [`permissions`][struct@crate::SettingConnection#permissions]: for more details.
     /// ## `ptype`
     /// the permission type; at this time only "user" is supported
     /// ## `pitem`
@@ -598,7 +1033,7 @@ impl SettingConnection {
     /// thus never replaces or competes with an already active profile.
     ///
     /// Note that autoconnect is not implemented for VPN profiles. See
-    /// `property::SettingConnection::secondaries` as an alternative to automatically
+    /// [`secondaries`][struct@crate::SettingConnection#secondaries] as an alternative to automatically
     /// connect VPN profiles.
     ///
     /// If multiple profiles are ready to autoconnect on the same device,
@@ -646,8 +1081,8 @@ impl SettingConnection {
 
     /// Whether or not slaves of this connection should be automatically brought up
     /// when NetworkManager activates this connection. This only has a real effect
-    /// for master connections. The properties `property::SettingConnection::autoconnect`,
-    /// `property::SettingConnection::autoconnect-priority` and `property::SettingConnection::autoconnect-retries`
+    /// for master connections. The properties [`autoconnect`][struct@crate::SettingConnection#autoconnect],
+    /// [`autoconnect-priority`][struct@crate::SettingConnection#autoconnect-priority] and [`autoconnect-retries`][struct@crate::SettingConnection#autoconnect-retries]
     /// are unrelated to this setting.
     /// The permitted values are: 0: leave slave connections untouched,
     /// 1: activate all the slave connections with this connection, -1: default.
@@ -763,6 +1198,110 @@ impl SettingConnection {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn set_metered(&self, metered: Metered) {
         glib::ObjectExt::set_property(self, "metered", &metered)
+    }
+
+    /// Whether to configure MPTCP endpoints and the address flags.
+    /// If MPTCP is enabled in NetworkManager, it will configure the
+    /// addresses of the interface as MPTCP endpoints. Note that
+    /// IPv4 loopback addresses (127.0.0.0/8), IPv4 link local
+    /// addresses (169.254.0.0/16), the IPv6 loopback address (::1),
+    /// IPv6 link local addresses (fe80::/10), IPv6 unique
+    /// local addresses (ULA, fc00::/7) and IPv6 privacy extension addresses
+    /// (rfc3041, ipv6.ip6-privacy) will be excluded from being
+    /// configured as endpoints.
+    ///
+    /// If "disabled" (0x1), MPTCP handling for the interface is disabled and
+    /// no endpoints are registered.
+    ///
+    /// The "enabled" (0x2) flag means that MPTCP handling is enabled.
+    /// This flag can also be implied from the presence of other flags.
+    ///
+    /// Even when enabled, MPTCP handling will by default still be disabled
+    /// unless "/proc/sys/net/mptcp/enabled" sysctl is on. NetworkManager
+    /// does not change the sysctl and this is up to the administrator
+    /// or distribution. To configure endpoints even if the sysctl is
+    /// disabled, "also-without-sysctl" (0x4) flag can be used. In that case,
+    /// NetworkManager doesn't look at the sysctl and configures endpoints
+    /// regardless.
+    ///
+    /// Even when enabled, NetworkManager will only configure MPTCP endpoints
+    /// for a certain address family, if there is a unicast default route (0.0.0.0/0
+    /// or ::/0) in the main routing table. The flag "also-without-default-route"
+    /// (0x8) can override that.
+    ///
+    /// When MPTCP handling is enabled then endpoints are configured with
+    /// the specified address flags "signal" (0x10), "subflow" (0x20), "backup" (0x40),
+    /// "fullmesh" (0x80). See ip-mptcp(8) manual for additional information about the flags.
+    ///
+    /// If the flags are zero (0x0), the global connection default from NetworkManager.conf is
+    /// honored. If still unspecified, the fallback is "enabled,subflow".
+    /// Note that this means that MPTCP is by default done depending on the
+    /// "/proc/sys/net/mptcp/enabled" sysctl.
+    ///
+    /// NetworkManager does not change the MPTCP limits nor enable MPTCP via
+    /// "/proc/sys/net/mptcp/enabled". That is a host configuration which the
+    /// admin can change via sysctl and ip-mptcp.
+    ///
+    /// Strict reverse path filtering (rp_filter) breaks many MPTCP use cases, so when
+    /// MPTCP handling for IPv4 addresses on the interface is enabled, NetworkManager would
+    /// loosen the strict reverse path filtering (1) to the loose setting (2).
+    #[cfg(any(feature = "v1_40", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    #[doc(alias = "mptcp-flags")]
+    pub fn get_property_mptcp_flags(&self) -> u32 {
+        glib::ObjectExt::property(self, "mptcp-flags")
+    }
+
+    /// Whether to configure MPTCP endpoints and the address flags.
+    /// If MPTCP is enabled in NetworkManager, it will configure the
+    /// addresses of the interface as MPTCP endpoints. Note that
+    /// IPv4 loopback addresses (127.0.0.0/8), IPv4 link local
+    /// addresses (169.254.0.0/16), the IPv6 loopback address (::1),
+    /// IPv6 link local addresses (fe80::/10), IPv6 unique
+    /// local addresses (ULA, fc00::/7) and IPv6 privacy extension addresses
+    /// (rfc3041, ipv6.ip6-privacy) will be excluded from being
+    /// configured as endpoints.
+    ///
+    /// If "disabled" (0x1), MPTCP handling for the interface is disabled and
+    /// no endpoints are registered.
+    ///
+    /// The "enabled" (0x2) flag means that MPTCP handling is enabled.
+    /// This flag can also be implied from the presence of other flags.
+    ///
+    /// Even when enabled, MPTCP handling will by default still be disabled
+    /// unless "/proc/sys/net/mptcp/enabled" sysctl is on. NetworkManager
+    /// does not change the sysctl and this is up to the administrator
+    /// or distribution. To configure endpoints even if the sysctl is
+    /// disabled, "also-without-sysctl" (0x4) flag can be used. In that case,
+    /// NetworkManager doesn't look at the sysctl and configures endpoints
+    /// regardless.
+    ///
+    /// Even when enabled, NetworkManager will only configure MPTCP endpoints
+    /// for a certain address family, if there is a unicast default route (0.0.0.0/0
+    /// or ::/0) in the main routing table. The flag "also-without-default-route"
+    /// (0x8) can override that.
+    ///
+    /// When MPTCP handling is enabled then endpoints are configured with
+    /// the specified address flags "signal" (0x10), "subflow" (0x20), "backup" (0x40),
+    /// "fullmesh" (0x80). See ip-mptcp(8) manual for additional information about the flags.
+    ///
+    /// If the flags are zero (0x0), the global connection default from NetworkManager.conf is
+    /// honored. If still unspecified, the fallback is "enabled,subflow".
+    /// Note that this means that MPTCP is by default done depending on the
+    /// "/proc/sys/net/mptcp/enabled" sysctl.
+    ///
+    /// NetworkManager does not change the MPTCP limits nor enable MPTCP via
+    /// "/proc/sys/net/mptcp/enabled". That is a host configuration which the
+    /// admin can change via sysctl and ip-mptcp.
+    ///
+    /// Strict reverse path filtering (rp_filter) breaks many MPTCP use cases, so when
+    /// MPTCP handling for IPv4 addresses on the interface is enabled, NetworkManager would
+    /// loosen the strict reverse path filtering (1) to the loose setting (2).
+    #[cfg(any(feature = "v1_40", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    #[doc(alias = "mptcp-flags")]
+    pub fn set_mptcp_flags(&self, mptcp_flags: u32) {
+        glib::ObjectExt::set_property(self, "mptcp-flags", &mptcp_flags)
     }
 
     /// If configured, set to a Manufacturer Usage Description (MUD) URL that points
@@ -929,9 +1468,9 @@ impl SettingConnection {
     /// with libuuid. It should be assigned when the connection is created, and
     /// never changed as long as the connection still applies to the same
     /// network. For example, it should not be changed when the
-    /// `property::SettingConnection::id` property or [`SettingIP4Config`][crate::SettingIP4Config] changes, but
+    /// [`id`][struct@crate::SettingConnection#id] property or [`SettingIP4Config`][crate::SettingIP4Config] changes, but
     /// might need to be re-created when the Wi-Fi SSID, mobile broadband network
-    /// provider, or `property::SettingConnection::type` property changes.
+    /// provider, or [`type`][struct@crate::SettingConnection#type] property changes.
     ///
     /// The UUID must be in the format "2815492f-7e56-435e-b2e9-246bd7cdc664"
     /// (ie, contains only hexadecimal characters and "-"). A suitable UUID may
@@ -939,6 +1478,18 @@ impl SettingConnection {
     /// `nm_uuid_generate_from_string_str()`.
     pub fn set_uuid(&self, uuid: Option<&str>) {
         glib::ObjectExt::set_property(self, "uuid", &uuid)
+    }
+
+    /// Time in milliseconds to wait for connection to be considered activated.
+    /// The wait will start after the pre-up dispatcher event.
+    ///
+    /// The value 0 means no wait time. The default value is -1, which
+    /// currently has the same meaning as no wait time.
+    #[cfg(any(feature = "v1_40", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    #[doc(alias = "wait-activation-delay")]
+    pub fn set_wait_activation_delay(&self, wait_activation_delay: i32) {
+        glib::ObjectExt::set_property(self, "wait-activation-delay", &wait_activation_delay)
     }
 
     /// Timeout in milliseconds to wait for device at startup.
@@ -1326,6 +1877,31 @@ impl SettingConnection {
         }
     }
 
+    #[cfg(any(feature = "v1_40", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    #[doc(alias = "mptcp-flags")]
+    pub fn connect_mptcp_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_mptcp_flags_trampoline<F: Fn(&SettingConnection) + 'static>(
+            this: *mut ffi::NMSettingConnection,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::mptcp-flags\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mptcp_flags_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
     #[cfg(any(feature = "v1_26", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     #[doc(alias = "mud-url")]
@@ -1558,6 +2134,36 @@ impl SettingConnection {
                 b"notify::uuid\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_uuid_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_40", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    #[doc(alias = "wait-activation-delay")]
+    pub fn connect_wait_activation_delay_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_wait_activation_delay_trampoline<
+            F: Fn(&SettingConnection) + 'static,
+        >(
+            this: *mut ffi::NMSettingConnection,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::wait-activation-delay\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_wait_activation_delay_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

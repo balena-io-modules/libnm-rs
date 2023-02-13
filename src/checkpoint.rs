@@ -2,31 +2,63 @@
 // from gir-files
 // DO NOT EDIT
 
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
-use crate::Device;
-use crate::Object;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
-use glib::object::ObjectType as ObjectType_;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
-use glib::signal::connect_raw;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
-use glib::signal::SignalHandlerId;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
-use glib::translate::*;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
-use std::boxed::Box as Box_;
-use std::fmt;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
-use std::mem::transmute;
+use crate::{Device, Object};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    ///
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `created`
+    ///  The timestamp (in CLOCK_BOOTTIME milliseconds) of checkpoint creation.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `devices`
+    ///  The devices that are part of this checkpoint.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `rollback-timeout`
+    ///  Timeout in seconds for automatic rollback, or zero.
+    ///
+    /// Readable
+    /// <details><summary><h4>Object</h4></summary>
+    ///
+    ///
+    /// #### `client`
+    ///  The NMClient instance as returned by `nm_object_get_client()`.
+    ///
+    /// When an NMObject gets removed from the NMClient cache,
+    /// the NMObject:path property stays unchanged, but this client
+    /// instance gets reset to [`None`]. You can use this property to
+    /// track removal of the object from the cache.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `path`
+    ///  The D-Bus object path.
+    ///
+    /// The D-Bus path of an object instance never changes, even if the object
+    /// gets removed from the cache. To see whether the object is still in the
+    /// cache, check NMObject:client.
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`ObjectExt`][trait@crate::prelude::ObjectExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMCheckpoint")]
     pub struct Checkpoint(Object<ffi::NMCheckpoint, ffi::NMCheckpointClass>) @extends Object;
 
@@ -44,8 +76,6 @@ impl Checkpoint {
     /// # Returns
     ///
     /// the timestamp of checkpoint creation.
-    #[cfg(any(feature = "v1_12", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_checkpoint_get_created")]
     #[doc(alias = "get_created")]
     pub fn created(&self) -> i64 {
@@ -57,8 +87,6 @@ impl Checkpoint {
     /// # Returns
     ///
     /// the devices list.
-    #[cfg(any(feature = "v1_12", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_checkpoint_get_devices")]
     #[doc(alias = "get_devices")]
     pub fn devices(&self) -> Vec<Device> {
@@ -74,8 +102,6 @@ impl Checkpoint {
     /// # Returns
     ///
     /// the rollback timeout.
-    #[cfg(any(feature = "v1_12", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_checkpoint_get_rollback_timeout")]
     #[doc(alias = "get_rollback_timeout")]
     pub fn rollback_timeout(&self) -> u32 {

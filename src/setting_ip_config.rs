@@ -5,27 +5,371 @@
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 use crate::DhcpHostnameFlags;
-use crate::IPAddress;
-use crate::IPRoute;
 #[cfg(any(feature = "v1_18", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
 use crate::IPRoutingRule;
-use crate::Setting;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::StaticType;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
+use crate::{IPAddress, IPRoute, Setting};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
 #[cfg(any(feature = "v1_28", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_28")))]
 use std::mem;
-use std::mem::transmute;
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    ///
+    ///
+    /// This is an Abstract Base Class, you cannot instantiate it.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `dad-timeout`
+    ///  Timeout in milliseconds used to check for the presence of duplicate IP
+    /// addresses on the network. If an address conflict is detected, the
+    /// activation will fail. A zero value means that no duplicate address
+    /// detection is performed, -1 means the default value (either configuration
+    /// ipvx.dad-timeout override or zero). A value greater than zero is a
+    /// timeout in milliseconds.
+    ///
+    /// The property is currently implemented only for IPv4.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dhcp-hostname`
+    ///  If the [`dhcp-send-hostname`][struct@crate::SettingIPConfig#dhcp-send-hostname] property is [`true`], then the
+    /// specified name will be sent to the DHCP server when acquiring a lease.
+    /// This property and [`dhcp-fqdn`][struct@crate::SettingIP4Config#dhcp-fqdn] are mutually exclusive and
+    /// cannot be set at the same time.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dhcp-hostname-flags`
+    ///  Flags for the DHCP hostname and FQDN.
+    ///
+    /// Currently, this property only includes flags to control the FQDN flags
+    /// set in the DHCP FQDN option. Supported FQDN flags are
+    /// [`DhcpHostnameFlags::FQDN_SERV_UPDATE`][crate::DhcpHostnameFlags::FQDN_SERV_UPDATE],
+    /// [`DhcpHostnameFlags::FQDN_ENCODED`][crate::DhcpHostnameFlags::FQDN_ENCODED] and
+    /// [`DhcpHostnameFlags::FQDN_NO_UPDATE`][crate::DhcpHostnameFlags::FQDN_NO_UPDATE]. When no FQDN flag is set and
+    /// [`DhcpHostnameFlags::FQDN_CLEAR_FLAGS`][crate::DhcpHostnameFlags::FQDN_CLEAR_FLAGS] is set, the DHCP FQDN option will
+    /// contain no flag. Otherwise, if no FQDN flag is set and
+    /// [`DhcpHostnameFlags::FQDN_CLEAR_FLAGS`][crate::DhcpHostnameFlags::FQDN_CLEAR_FLAGS] is not set, the standard FQDN flags
+    /// are set in the request:
+    /// [`DhcpHostnameFlags::FQDN_SERV_UPDATE`][crate::DhcpHostnameFlags::FQDN_SERV_UPDATE],
+    /// [`DhcpHostnameFlags::FQDN_ENCODED`][crate::DhcpHostnameFlags::FQDN_ENCODED] for IPv4 and
+    /// [`DhcpHostnameFlags::FQDN_SERV_UPDATE`][crate::DhcpHostnameFlags::FQDN_SERV_UPDATE] for IPv6.
+    ///
+    /// When this property is set to the default value [`DhcpHostnameFlags::NONE`][crate::DhcpHostnameFlags::NONE],
+    /// a global default is looked up in NetworkManager configuration. If that value
+    /// is unset or also [`DhcpHostnameFlags::NONE`][crate::DhcpHostnameFlags::NONE], then the standard FQDN flags
+    /// described above are sent in the DHCP requests.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dhcp-iaid`
+    ///  A string containing the "Identity Association Identifier" (IAID) used
+    /// by the DHCP client. The property is a 32-bit decimal value or a
+    /// special value among "mac", "perm-mac", "ifname" and "stable". When
+    /// set to "mac" (or "perm-mac"), the last 4 bytes of the current (or
+    /// permanent) MAC address are used as IAID. When set to "ifname", the
+    /// IAID is computed by hashing the interface name. The special value
+    /// "stable" can be used to generate an IAID based on the stable-id (see
+    /// connection.stable-id), a per-host key and the interface name. When
+    /// the property is unset, the value from global configuration is used;
+    /// if no global default is set then the IAID is assumed to be
+    /// "ifname". Note that at the moment this property is ignored for IPv6
+    /// by dhclient, which always derives the IAID from the MAC address.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dhcp-reject-servers`
+    ///  Array of servers from which DHCP offers must be rejected. This property
+    /// is useful to avoid getting a lease from misconfigured or rogue servers.
+    ///
+    /// For DHCPv4, each element must be an IPv4 address, optionally
+    /// followed by a slash and a prefix length (e.g. "192.168.122.0/24").
+    ///
+    /// This property is currently not implemented for DHCPv6.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dhcp-send-hostname`
+    ///  If [`true`], a hostname is sent to the DHCP server when acquiring a lease.
+    /// Some DHCP servers use this hostname to update DNS databases, essentially
+    /// providing a static hostname for the computer. If the
+    /// [`dhcp-hostname`][struct@crate::SettingIPConfig#dhcp-hostname] property is [`None`] and this property is
+    /// [`true`], the current persistent hostname of the computer is sent.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dhcp-timeout`
+    ///  A timeout for a DHCP transaction in seconds. If zero (the default), a
+    /// globally configured default is used. If still unspecified, a device specific
+    /// timeout is used (usually 45 seconds).
+    ///
+    /// Set to 2147483647 (MAXINT32) for infinity.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dns`
+    ///  Array of IP addresses of DNS servers.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dns-options`
+    ///  Array of DNS options as described in man 5 resolv.conf.
+    ///
+    /// [`None`] means that the options are unset and left at the default.
+    /// In this case NetworkManager will use default options. This is
+    /// distinct from an empty list of properties.
+    ///
+    /// The currently supported options are "attempts", "debug", "edns0",
+    /// "inet6", "ip6-bytestring", "ip6-dotint", "ndots", "no-check-names",
+    /// "no-ip6-dotint", "no-reload", "no-tld-query", "rotate", "single-request",
+    /// "single-request-reopen", "timeout", "trust-ad", "use-vc".
+    ///
+    /// The "trust-ad" setting is only honored if the profile contributes
+    /// name servers to resolv.conf, and if all contributing profiles have
+    /// "trust-ad" enabled.
+    ///
+    /// When using a caching DNS plugin (dnsmasq or systemd-resolved in
+    /// NetworkManager.conf) then "edns0" and "trust-ad" are automatically
+    /// added.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dns-priority`
+    ///  DNS servers priority.
+    ///
+    /// The relative priority for DNS servers specified by this setting. A lower
+    /// numerical value is better (higher priority).
+    ///
+    /// Negative values have the special effect of excluding other configurations
+    /// with a greater numerical priority value; so in presence of at least one negative
+    /// priority, only DNS servers from connections with the lowest priority value will be used.
+    /// To avoid all DNS leaks, set the priority of the profile that should be used
+    /// to the most negative value of all active connections profiles.
+    ///
+    /// Zero selects a globally configured default value. If the latter is missing
+    /// or zero too, it defaults to 50 for VPNs (including WireGuard) and 100 for
+    /// other connections.
+    ///
+    /// Note that the priority is to order DNS settings for multiple active
+    /// connections. It does not disambiguate multiple DNS servers within the
+    /// same connection profile.
+    ///
+    /// When multiple devices have configurations with the same priority, VPNs will be
+    /// considered first, then devices with the best (lowest metric) default
+    /// route and then all other devices.
+    ///
+    /// When using dns=default, servers with higher priority will be on top of
+    /// resolv.conf. To prioritize a given server over another one within the
+    /// same connection, just specify them in the desired order.
+    /// Note that commonly the resolver tries name servers in /etc/resolv.conf
+    /// in the order listed, proceeding with the next server in the list
+    /// on failure. See for example the "rotate" option of the dns-options setting.
+    /// If there are any negative DNS priorities, then only name servers from
+    /// the devices with that lowest priority will be considered.
+    ///
+    /// When using a DNS resolver that supports Conditional Forwarding or
+    /// Split DNS (with dns=dnsmasq or dns=systemd-resolved settings), each connection
+    /// is used to query domains in its search list. The search domains determine which
+    /// name servers to ask, and the DNS priority is used to prioritize
+    /// name servers based on the domain. Queries for domains not present in any
+    /// search list are routed through connections having the '~.' special wildcard
+    /// domain, which is added automatically to connections with the default route
+    /// (or can be added manually). When multiple connections specify the same domain, the
+    /// one with the best priority (lowest numerical value) wins. If a sub domain
+    /// is configured on another interface it will be accepted regardless the priority,
+    /// unless parent domain on the other interface has a negative priority, which causes
+    /// the sub domain to be shadowed.
+    /// With Split DNS one can avoid undesired DNS leaks by properly configuring
+    /// DNS priorities and the search domains, so that only name servers of the desired
+    /// interface are configured.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dns-search`
+    ///  List of DNS search domains. Domains starting with a tilde ('~')
+    /// are considered 'routing' domains and are used only to decide the
+    /// interface over which a query must be forwarded; they are not used
+    /// to complete unqualified host names.
+    ///
+    /// When using a DNS plugin that supports Conditional Forwarding or
+    /// Split DNS, then the search domains specify which name servers to
+    /// query. This makes the behavior different from running with plain
+    /// /etc/resolv.conf. For more information see also the dns-priority setting.
+    ///
+    /// When set on a profile that also enabled DHCP, the DNS search list
+    /// received automatically (option 119 for DHCPv4 and option 24 for DHCPv6)
+    /// gets merged with the manual list. This can be prevented by setting
+    /// "ignore-auto-dns". Note that if no DNS searches are configured, the
+    /// fallback will be derived from the domain from DHCP (option 15).
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `gateway`
+    ///  The gateway associated with this configuration. This is only meaningful
+    /// if [`addresses`][struct@crate::SettingIPConfig#addresses] is also set.
+    ///
+    /// Setting the gateway causes NetworkManager to configure a standard default route
+    /// with the gateway as next hop. This is ignored if [`never-default`][struct@crate::SettingIPConfig#never-default]
+    /// is set. An alternative is to configure the default route explicitly with a manual
+    /// route and /0 as prefix length.
+    ///
+    /// Note that the gateway usually conflicts with routing that NetworkManager configures
+    /// for WireGuard interfaces, so usually it should not be set in that case. See
+    /// [`ip4-auto-default-route`][struct@crate::SettingWireGuard#ip4-auto-default-route].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `ignore-auto-dns`
+    ///  When [`method`][struct@crate::SettingIPConfig#method] is set to "auto" and this property to
+    /// [`true`], automatically configured name servers and search domains are
+    /// ignored and only name servers and search domains specified in the
+    /// [`dns`][struct@crate::SettingIPConfig#dns] and [`dns-search`][struct@crate::SettingIPConfig#dns-search] properties, if
+    /// any, are used.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `ignore-auto-routes`
+    ///  When [`method`][struct@crate::SettingIPConfig#method] is set to "auto" and this property to
+    /// [`true`], automatically configured routes are ignored and only routes
+    /// specified in the [`routes`][struct@crate::SettingIPConfig#routes] property, if any, are used.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `may-fail`
+    ///  If [`true`], allow overall network configuration to proceed even if the
+    /// configuration specified by this property times out. Note that at least
+    /// one IP configuration must succeed or overall network configuration will
+    /// still fail. For example, in IPv6-only networks, setting this property to
+    /// [`true`] on the [`SettingIP4Config`][crate::SettingIP4Config] allows the overall network configuration
+    /// to succeed if IPv4 configuration fails but IPv6 configuration completes
+    /// successfully.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `method`
+    ///  IP configuration method.
+    ///
+    /// [`SettingIP4Config`][crate::SettingIP4Config] and [`SettingIP6Config`][crate::SettingIP6Config] both support "disabled",
+    /// "auto", "manual", and "link-local". See the subclass-specific
+    /// documentation for other values.
+    ///
+    /// In general, for the "auto" method, properties such as
+    /// [`dns`][struct@crate::SettingIPConfig#dns] and [`routes`][struct@crate::SettingIPConfig#routes] specify information
+    /// that is added on to the information returned from automatic
+    /// configuration. The [`ignore-auto-routes`][struct@crate::SettingIPConfig#ignore-auto-routes] and
+    /// [`ignore-auto-dns`][struct@crate::SettingIPConfig#ignore-auto-dns] properties modify this behavior.
+    ///
+    /// For methods that imply no upstream network, such as "shared" or
+    /// "link-local", these properties must be empty.
+    ///
+    /// For IPv4 method "shared", the IP subnet can be configured by adding one
+    /// manual IPv4 address or otherwise 10.42.x.0/24 is chosen. Note that the
+    /// shared method must be configured on the interface which shares the internet
+    /// to a subnet, not on the uplink which is shared.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `never-default`
+    ///  If [`true`], this connection will never be the default connection for this
+    /// IP type, meaning it will never be assigned the default route by
+    /// NetworkManager.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `required-timeout`
+    ///  The minimum time interval in milliseconds for which dynamic IP configuration
+    /// should be tried before the connection succeeds.
+    ///
+    /// This property is useful for example if both IPv4 and IPv6 are enabled and
+    /// are allowed to fail. Normally the connection succeeds as soon as one of
+    /// the two address families completes; by setting a required timeout for
+    /// e.g. IPv4, one can ensure that even if IP6 succeeds earlier than IPv4,
+    /// NetworkManager waits some time for IPv4 before the connection becomes
+    /// active.
+    ///
+    /// Note that if [`may-fail`][struct@crate::SettingIPConfig#may-fail] is FALSE for the same address
+    /// family, this property has no effect as NetworkManager needs to wait for
+    /// the full DHCP timeout.
+    ///
+    /// A zero value means that no required timeout is present, -1 means the
+    /// default value (either configuration ipvx.required-timeout override or
+    /// zero).
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `route-metric`
+    ///  The default metric for routes that don't explicitly specify a metric.
+    /// The default value -1 means that the metric is chosen automatically
+    /// based on the device type.
+    /// The metric applies to dynamic routes, manual (static) routes that
+    /// don't have an explicit metric setting, address prefix routes, and
+    /// the default route.
+    /// Note that for IPv6, the kernel accepts zero (0) but coerces it to
+    /// 1024 (user default). Hence, setting this property to zero effectively
+    /// mean setting it to 1024.
+    /// For IPv4, zero is a regular value for the metric.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `route-table`
+    ///  Enable policy routing (source routing) and set the routing table used when adding routes.
+    ///
+    /// This affects all routes, including device-routes, IPv4LL, DHCP, SLAAC, default-routes
+    /// and static routes. But note that static routes can individually overwrite the setting
+    /// by explicitly specifying a non-zero routing table.
+    ///
+    /// If the table setting is left at zero, it is eligible to be overwritten via global
+    /// configuration. If the property is zero even after applying the global configuration
+    /// value, policy routing is disabled for the address family of this connection.
+    ///
+    /// Policy routing disabled means that NetworkManager will add all routes to the main
+    /// table (except static routes that explicitly configure a different table). Additionally,
+    /// NetworkManager will not delete any extraneous routes from tables except the main table.
+    /// This is to preserve backward compatibility for users who manage routing tables outside
+    /// of NetworkManager.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingIPConfigExt`][trait@crate::prelude::SettingIPConfigExt], [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingIPConfig")]
     pub struct SettingIPConfig(Object<ffi::NMSettingIPConfig, ffi::NMSettingIPConfigClass>) @extends Setting;
 
@@ -177,14 +521,14 @@ pub trait SettingIPConfigExt: 'static {
     ///
     /// # Returns
     ///
-    /// the `property::SettingIPConfig::dad-timeout` property.
+    /// the [`dad-timeout`][struct@crate::SettingIPConfig#dad-timeout] property.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_ip_config_get_dad_timeout")]
     #[doc(alias = "get_dad_timeout")]
     fn dad_timeout(&self) -> i32;
 
-    /// Returns the value contained in the `property::SettingIPConfig::dhcp-hostname`
+    /// Returns the value contained in the [`dhcp-hostname`][struct@crate::SettingIPConfig#dhcp-hostname]
     /// property.
     ///
     /// # Returns
@@ -194,7 +538,7 @@ pub trait SettingIPConfigExt: 'static {
     #[doc(alias = "get_dhcp_hostname")]
     fn dhcp_hostname(&self) -> Option<glib::GString>;
 
-    /// Returns the value contained in the `property::SettingIPConfig::dhcp-hostname-flags`
+    /// Returns the value contained in the [`dhcp-hostname-flags`][struct@crate::SettingIPConfig#dhcp-hostname-flags]
     /// property.
     ///
     /// # Returns
@@ -206,14 +550,14 @@ pub trait SettingIPConfigExt: 'static {
     #[doc(alias = "get_dhcp_hostname_flags")]
     fn dhcp_hostname_flags(&self) -> DhcpHostnameFlags;
 
-    /// Returns the value contained in the `property::SettingIPConfig::dhcp-iaid`
+    /// Returns the value contained in the [`dhcp-iaid`][struct@crate::SettingIPConfig#dhcp-iaid]
     /// property.
     ///
     /// # Returns
     ///
     /// the configured DHCP IAID (Identity Association Identifier)
-    #[cfg(any(feature = "v1_22", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     #[doc(alias = "nm_setting_ip_config_get_dhcp_iaid")]
     #[doc(alias = "get_dhcp_iaid")]
     fn dhcp_iaid(&self) -> Option<glib::GString>;
@@ -230,7 +574,7 @@ pub trait SettingIPConfigExt: 'static {
     #[doc(alias = "get_dhcp_reject_servers")]
     fn dhcp_reject_servers(&self) -> Vec<glib::GString>;
 
-    /// Returns the value contained in the `property::SettingIPConfig::dhcp-send-hostname`
+    /// Returns the value contained in the [`dhcp-send-hostname`][struct@crate::SettingIPConfig#dhcp-send-hostname]
     /// property.
     ///
     /// # Returns
@@ -242,7 +586,7 @@ pub trait SettingIPConfigExt: 'static {
     #[doc(alias = "get_dhcp_send_hostname")]
     fn is_dhcp_send_hostname(&self) -> bool;
 
-    /// Returns the value contained in the `property::SettingIPConfig::dhcp-timeout`
+    /// Returns the value contained in the [`dhcp-timeout`][struct@crate::SettingIPConfig#dhcp-timeout]
     /// property.
     ///
     /// # Returns
@@ -306,7 +650,7 @@ pub trait SettingIPConfigExt: 'static {
     #[doc(alias = "get_gateway")]
     fn gateway(&self) -> Option<glib::GString>;
 
-    /// Returns the value contained in the `property::SettingIPConfig::ignore-auto-dns`
+    /// Returns the value contained in the [`ignore-auto-dns`][struct@crate::SettingIPConfig#ignore-auto-dns]
     /// property.
     ///
     /// # Returns
@@ -317,7 +661,7 @@ pub trait SettingIPConfigExt: 'static {
     #[doc(alias = "get_ignore_auto_dns")]
     fn ignores_auto_dns(&self) -> bool;
 
-    /// Returns the value contained in the `property::SettingIPConfig::ignore-auto-routes`
+    /// Returns the value contained in the [`ignore-auto-routes`][struct@crate::SettingIPConfig#ignore-auto-routes]
     /// property.
     ///
     /// # Returns
@@ -328,7 +672,7 @@ pub trait SettingIPConfigExt: 'static {
     #[doc(alias = "get_ignore_auto_routes")]
     fn ignores_auto_routes(&self) -> bool;
 
-    /// Returns the value contained in the `property::SettingIPConfig::may-fail`
+    /// Returns the value contained in the [`may-fail`][struct@crate::SettingIPConfig#may-fail]
     /// property.
     ///
     /// # Returns
@@ -342,14 +686,14 @@ pub trait SettingIPConfigExt: 'static {
     ///
     /// # Returns
     ///
-    /// the `property::SettingIPConfig::method` property of the setting; see
+    /// the [`method`][struct@crate::SettingIPConfig#method] property of the setting; see
     /// [`SettingIP4Config`][crate::SettingIP4Config] and [`SettingIP6Config`][crate::SettingIP6Config] for details of the
     /// methods available with each type.
     #[doc(alias = "nm_setting_ip_config_get_method")]
     #[doc(alias = "get_method")]
     fn method(&self) -> Option<glib::GString>;
 
-    /// Returns the value contained in the `property::SettingIPConfig::never-default`
+    /// Returns the value contained in the [`never-default`][struct@crate::SettingIPConfig#never-default]
     /// property.
     ///
     /// # Returns
@@ -412,7 +756,7 @@ pub trait SettingIPConfigExt: 'static {
     #[doc(alias = "get_num_routing_rules")]
     fn num_routing_rules(&self) -> u32;
 
-    /// Returns the value contained in the `property::SettingIPConfig::required-timeout`
+    /// Returns the value contained in the [`required-timeout`][struct@crate::SettingIPConfig#required-timeout]
     /// property.
     ///
     /// # Returns
@@ -434,18 +778,18 @@ pub trait SettingIPConfigExt: 'static {
     #[doc(alias = "get_route")]
     fn route(&self, idx: i32) -> Option<IPRoute>;
 
-    /// Returns the value contained in the `property::SettingIPConfig::route-metric`
+    /// Returns the value contained in the [`route-metric`][struct@crate::SettingIPConfig#route-metric]
     /// property.
     ///
     /// # Returns
     ///
     /// the route metric that is used for routes that don't explicitly
-    /// specify a metric. See `property::SettingIPConfig::route-metric` for more details.
+    /// specify a metric. See [`route-metric`][struct@crate::SettingIPConfig#route-metric] for more details.
     #[doc(alias = "nm_setting_ip_config_get_route_metric")]
     #[doc(alias = "get_route_metric")]
     fn route_metric(&self) -> i64;
 
-    /// Returns the value contained in the `property::SettingIPConfig::route-table`
+    /// Returns the value contained in the [`route-table`][struct@crate::SettingIPConfig#route-table]
     /// property.
     ///
     /// # Returns
@@ -478,6 +822,8 @@ pub trait SettingIPConfigExt: 'static {
     /// # Returns
     ///
     /// whether DNS options are initialized or left unset (the default).
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_ip_config_has_dns_options")]
     fn has_dns_options(&self) -> bool;
 
@@ -596,9 +942,9 @@ pub trait SettingIPConfigExt: 'static {
     #[doc(alias = "dad-timeout")]
     fn set_dad_timeout(&self, dad_timeout: i32);
 
-    /// If the `property::SettingIPConfig::dhcp-send-hostname` property is [`true`], then the
+    /// If the [`dhcp-send-hostname`][struct@crate::SettingIPConfig#dhcp-send-hostname] property is [`true`], then the
     /// specified name will be sent to the DHCP server when acquiring a lease.
-    /// This property and `property::SettingIP4Config::dhcp-fqdn` are mutually exclusive and
+    /// This property and [`dhcp-fqdn`][struct@crate::SettingIP4Config#dhcp-fqdn] are mutually exclusive and
     /// cannot be set at the same time.
     #[doc(alias = "dhcp-hostname")]
     fn set_dhcp_hostname(&self, dhcp_hostname: Option<&str>);
@@ -642,6 +988,23 @@ pub trait SettingIPConfigExt: 'static {
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     #[doc(alias = "dhcp-iaid")]
+    fn get_property_dhcp_iaid(&self) -> Option<glib::GString>;
+
+    /// A string containing the "Identity Association Identifier" (IAID) used
+    /// by the DHCP client. The property is a 32-bit decimal value or a
+    /// special value among "mac", "perm-mac", "ifname" and "stable". When
+    /// set to "mac" (or "perm-mac"), the last 4 bytes of the current (or
+    /// permanent) MAC address are used as IAID. When set to "ifname", the
+    /// IAID is computed by hashing the interface name. The special value
+    /// "stable" can be used to generate an IAID based on the stable-id (see
+    /// connection.stable-id), a per-host key and the interface name. When
+    /// the property is unset, the value from global configuration is used;
+    /// if no global default is set then the IAID is assumed to be
+    /// "ifname". Note that at the moment this property is ignored for IPv6
+    /// by dhclient, which always derives the IAID from the MAC address.
+    #[cfg(any(feature = "v1_22", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+    #[doc(alias = "dhcp-iaid")]
     fn set_dhcp_iaid(&self, dhcp_iaid: Option<&str>);
 
     /// Array of servers from which DHCP offers must be rejected. This property
@@ -659,7 +1022,7 @@ pub trait SettingIPConfigExt: 'static {
     /// If [`true`], a hostname is sent to the DHCP server when acquiring a lease.
     /// Some DHCP servers use this hostname to update DNS databases, essentially
     /// providing a static hostname for the computer. If the
-    /// `property::SettingIPConfig::dhcp-hostname` property is [`None`] and this property is
+    /// [`dhcp-hostname`][struct@crate::SettingIPConfig#dhcp-hostname] property is [`None`] and this property is
     /// [`true`], the current persistent hostname of the computer is sent.
     #[doc(alias = "dhcp-send-hostname")]
     fn set_dhcp_send_hostname(&self, dhcp_send_hostname: bool);
@@ -781,7 +1144,7 @@ pub trait SettingIPConfigExt: 'static {
     #[doc(alias = "dns-priority")]
     fn set_dns_priority(&self, dns_priority: i32);
 
-    /// Array of DNS search domains. Domains starting with a tilde ('~')
+    /// List of DNS search domains. Domains starting with a tilde ('~')
     /// are considered 'routing' domains and are used only to decide the
     /// interface over which a query must be forwarded; they are not used
     /// to complete unqualified host names.
@@ -790,31 +1153,39 @@ pub trait SettingIPConfigExt: 'static {
     /// Split DNS, then the search domains specify which name servers to
     /// query. This makes the behavior different from running with plain
     /// /etc/resolv.conf. For more information see also the dns-priority setting.
+    ///
+    /// When set on a profile that also enabled DHCP, the DNS search list
+    /// received automatically (option 119 for DHCPv4 and option 24 for DHCPv6)
+    /// gets merged with the manual list. This can be prevented by setting
+    /// "ignore-auto-dns". Note that if no DNS searches are configured, the
+    /// fallback will be derived from the domain from DHCP (option 15).
     #[doc(alias = "dns-search")]
     fn set_dns_search(&self, dns_search: &[&str]);
 
     /// The gateway associated with this configuration. This is only meaningful
-    /// if `property::SettingIPConfig::addresses` is also set.
+    /// if [`addresses`][struct@crate::SettingIPConfig#addresses] is also set.
     ///
-    /// The gateway's main purpose is to control the next hop of the standard default route on the device.
-    /// Hence, the gateway property conflicts with `property::SettingIPConfig::never-default` and will be
-    /// automatically dropped if the IP configuration is set to never-default.
+    /// Setting the gateway causes NetworkManager to configure a standard default route
+    /// with the gateway as next hop. This is ignored if [`never-default`][struct@crate::SettingIPConfig#never-default]
+    /// is set. An alternative is to configure the default route explicitly with a manual
+    /// route and /0 as prefix length.
     ///
-    /// As an alternative to set the gateway, configure a static default route with /0 as prefix
-    /// length.
+    /// Note that the gateway usually conflicts with routing that NetworkManager configures
+    /// for WireGuard interfaces, so usually it should not be set in that case. See
+    /// [`ip4-auto-default-route`][struct@crate::SettingWireGuard#ip4-auto-default-route].
     fn set_gateway(&self, gateway: Option<&str>);
 
-    /// When `property::SettingIPConfig::method` is set to "auto" and this property to
+    /// When [`method`][struct@crate::SettingIPConfig#method] is set to "auto" and this property to
     /// [`true`], automatically configured name servers and search domains are
     /// ignored and only name servers and search domains specified in the
-    /// `property::SettingIPConfig::dns` and `property::SettingIPConfig::dns-search` properties, if
+    /// [`dns`][struct@crate::SettingIPConfig#dns] and [`dns-search`][struct@crate::SettingIPConfig#dns-search] properties, if
     /// any, are used.
     #[doc(alias = "ignore-auto-dns")]
     fn set_ignore_auto_dns(&self, ignore_auto_dns: bool);
 
-    /// When `property::SettingIPConfig::method` is set to "auto" and this property to
+    /// When [`method`][struct@crate::SettingIPConfig#method] is set to "auto" and this property to
     /// [`true`], automatically configured routes are ignored and only routes
-    /// specified in the `property::SettingIPConfig::routes` property, if any, are used.
+    /// specified in the [`routes`][struct@crate::SettingIPConfig#routes] property, if any, are used.
     #[doc(alias = "ignore-auto-routes")]
     fn set_ignore_auto_routes(&self, ignore_auto_routes: bool);
 
@@ -835,10 +1206,10 @@ pub trait SettingIPConfigExt: 'static {
     /// documentation for other values.
     ///
     /// In general, for the "auto" method, properties such as
-    /// `property::SettingIPConfig::dns` and `property::SettingIPConfig::routes` specify information
+    /// [`dns`][struct@crate::SettingIPConfig#dns] and [`routes`][struct@crate::SettingIPConfig#routes] specify information
     /// that is added on to the information returned from automatic
-    /// configuration. The `property::SettingIPConfig::ignore-auto-routes` and
-    /// `property::SettingIPConfig::ignore-auto-dns` properties modify this behavior.
+    /// configuration. The [`ignore-auto-routes`][struct@crate::SettingIPConfig#ignore-auto-routes] and
+    /// [`ignore-auto-dns`][struct@crate::SettingIPConfig#ignore-auto-dns] properties modify this behavior.
     ///
     /// For methods that imply no upstream network, such as "shared" or
     /// "link-local", these properties must be empty.
@@ -865,7 +1236,7 @@ pub trait SettingIPConfigExt: 'static {
     /// NetworkManager waits some time for IPv4 before the connection becomes
     /// active.
     ///
-    /// Note that if `property::SettingIPConfig::may-fail` is FALSE for the same address
+    /// Note that if [`may-fail`][struct@crate::SettingIPConfig#may-fail] is FALSE for the same address
     /// family, this property has no effect as NetworkManager needs to wait for
     /// the full DHCP timeout.
     ///
@@ -1141,8 +1512,8 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_22", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     fn dhcp_iaid(&self) -> Option<glib::GString> {
         unsafe {
             from_glib_none(ffi::nm_setting_ip_config_get_dhcp_iaid(
@@ -1161,7 +1532,7 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
                     self.as_ref().to_glib_none().0,
                     out_len.as_mut_ptr(),
                 ),
-                out_len.assume_init() as usize,
+                out_len.assume_init() as _,
             );
             ret
         }
@@ -1328,6 +1699,8 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
         }
     }
 
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     fn has_dns_options(&self) -> bool {
         unsafe {
             from_glib(ffi::nm_setting_ip_config_has_dns_options(
@@ -1448,6 +1821,12 @@ impl<O: IsA<SettingIPConfig>> SettingIPConfigExt for O {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     fn set_dhcp_hostname_flags(&self, dhcp_hostname_flags: u32) {
         glib::ObjectExt::set_property(self.as_ref(), "dhcp-hostname-flags", &dhcp_hostname_flags)
+    }
+
+    #[cfg(any(feature = "v1_22", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+    fn get_property_dhcp_iaid(&self) -> Option<glib::GString> {
+        glib::ObjectExt::property(self.as_ref(), "dhcp-iaid")
     }
 
     #[cfg(any(feature = "v1_22", feature = "dox"))]

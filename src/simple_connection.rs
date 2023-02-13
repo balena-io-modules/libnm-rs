@@ -3,13 +3,15 @@
 // DO NOT EDIT
 
 use crate::Connection;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
-use std::ptr;
+use glib::{prelude::*, translate::*};
+use std::{fmt, ptr};
 
 glib::wrapper! {
+    ///
+    ///
+    /// # Implements
+    ///
+    /// [`trait@glib::ObjectExt`], [`ConnectionExt`][trait@crate::prelude::ConnectionExt]
     #[doc(alias = "NMSimpleConnection")]
     pub struct SimpleConnection(Object<ffi::NMSimpleConnection, ffi::NMSimpleConnectionClass>) @implements Connection;
 

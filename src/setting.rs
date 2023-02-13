@@ -2,23 +2,35 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::Connection;
-use crate::SettingCompareFlags;
-use crate::SettingSecretFlags;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
+use crate::{Connection, SettingCompareFlags, SettingSecretFlags};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
 #[cfg(any(feature = "v1_26", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
 use std::mem;
-use std::mem::transmute;
-use std::ptr;
+use std::{boxed::Box as Box_, fmt, mem::transmute, ptr};
 
 glib::wrapper! {
+    ///
+    ///
+    /// This is an Abstract Base Class, you cannot instantiate it.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSetting")]
     pub struct Setting(Object<ffi::NMSetting, ffi::NMSettingClass>);
 
@@ -101,7 +113,7 @@ pub trait SettingExt: 'static {
     //#[cfg(any(feature = "v1_26", feature = "dox"))]
     //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     //#[doc(alias = "nm_setting_option_clear_by_name")]
-    //fn option_clear_by_name(&self, predicate: Option<&mut dyn (FnMut(&str) -> bool)>);
+    //fn option_clear_by_name(&self, predicate: Option<&mut dyn (FnMut() -> bool)>);
 
     /// ## `opt_name`
     /// the option name to request.
@@ -295,7 +307,7 @@ impl<O: IsA<Setting>> SettingExt for O {
 
     //#[cfg(any(feature = "v1_26", feature = "dox"))]
     //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
-    //fn option_clear_by_name(&self, predicate: Option<&mut dyn (FnMut(&str) -> bool)>) {
+    //fn option_clear_by_name(&self, predicate: Option<&mut dyn (FnMut() -> bool)>) {
     //    unsafe { TODO: call ffi:nm_setting_option_clear_by_name() }
     //}
 
@@ -320,7 +332,7 @@ impl<O: IsA<Setting>> SettingExt for O {
                     self.as_ref().to_glib_none().0,
                     out_len.as_mut_ptr(),
                 ),
-                out_len.assume_init() as usize,
+                out_len.assume_init() as _,
             );
             ret
         }
@@ -411,7 +423,7 @@ impl<O: IsA<Setting>> SettingExt for O {
                 flags.into_glib(),
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -432,7 +444,7 @@ impl<O: IsA<Setting>> SettingExt for O {
                 connection.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -451,7 +463,7 @@ impl<O: IsA<Setting>> SettingExt for O {
                 connection.map(|p| p.as_ref()).to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {

@@ -2,28 +2,46 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::DeviceWifiCapabilities;
-use crate::IPAddress;
-use crate::IPRoute;
+#[cfg(any(feature = "v1_40", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+use crate::Connection;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use crate::SriovVF;
+use crate::{
+    DeviceWifiCapabilities, IPAddress, IPRoute, UtilsSecurityType, WepKeyType, _80211ApFlags,
+    _80211ApSecurityFlags,
+};
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
-use crate::TCAction;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
-use crate::TCQdisc;
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
-use crate::TCTfilter;
-use crate::UtilsSecurityType;
-use crate::WepKeyType;
-use crate::_80211ApFlags;
-use crate::_80211ApSecurityFlags;
+use crate::{TCAction, TCQdisc, TCTfilter};
 use glib::translate::*;
 use std::mem;
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 use std::ptr;
+
+/// ## `filename`
+/// name of the file to attempt to read into a new [`Connection`][crate::Connection]
+///
+/// # Returns
+///
+/// a new [`Connection`][crate::Connection] imported from `path`, or [`None`]
+/// on error or if the file with `filename` was not recognized as a WireGuard config
+#[cfg(any(feature = "v1_40", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+#[doc(alias = "nm_conn_wireguard_import")]
+pub fn conn_wireguard_import(filename: &str) -> Result<Connection, glib::Error> {
+    unsafe {
+        let mut error = ptr::null_mut();
+        let ret = ffi::nm_conn_wireguard_import(filename.to_glib_none().0, &mut error);
+        if error.is_null() {
+            Ok(from_glib_full(ret))
+        } else {
+            Err(from_glib_full(error))
+        }
+    }
+}
 
 /// Checks whether `optname` is a valid option name for a coalesce setting.
 ///
@@ -44,6 +62,10 @@ pub fn ethtool_optname_is_coalesce(optname: Option<&str>) -> bool {
 /// Checks whether `optname` is a valid option name for an offload feature.
 ///
 /// `Returns`: [`true`], if `optname` is valid
+///
+/// Note that [`ethtool_optname_is_feature()`][crate::ethtool_optname_is_feature()] was first added to the libnm header files
+/// in 1.14.0 but forgot to actually add to the library. This happened belatedly in 1.20.0 and
+/// the stable versions 1.18.2, 1.16.4 and 1.14.8 (with linker version "libnm_1_14_8").
 /// ## `optname`
 /// the option name to check
 #[cfg(any(feature = "v1_20", feature = "dox"))]
@@ -245,7 +267,7 @@ pub fn utils_enum_to_str(type_: glib::types::Type, value: i32) -> Option<glib::G
 /// and will be overwritten by subsequent calls to this function
 #[doc(alias = "nm_utils_escape_ssid")]
 pub fn utils_escape_ssid(ssid: &[u8]) -> Option<glib::GString> {
-    let len = ssid.len() as usize;
+    let len = ssid.len() as _;
     unsafe { from_glib_none(ffi::nm_utils_escape_ssid(ssid.to_glib_none().0, len)) }
 }
 
@@ -303,11 +325,20 @@ pub fn utils_file_is_private_key(filename: &str) -> Option<bool> {
     }
 }
 
+//#[cfg(any(feature = "v1_8", feature = "dox"))]
+//#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 //#[doc(alias = "nm_utils_format_variant_attributes")]
-//pub fn utils_format_variant_attributes(attributes: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 25 }/TypeId { ns_id: 0, id: 25 }, attr_separator: glib::Char, key_value_separator: glib::Char) -> Option<glib::GString> {
+//pub fn utils_format_variant_attributes(attributes: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 2, id: 203 }, attr_separator: glib::Char, key_value_separator: glib::Char) -> Option<glib::GString> {
 //    unsafe { TODO: call ffi:nm_utils_format_variant_attributes() }
 //}
 
+/// Gets current time in milliseconds of CLOCK_BOOTTIME.
+///
+/// # Returns
+///
+/// time in milliseconds
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 #[doc(alias = "nm_utils_get_timestamp_msec")]
 pub fn utils_get_timestamp_msec() -> i64 {
     unsafe { ffi::nm_utils_get_timestamp_msec() }
@@ -341,7 +372,7 @@ pub fn utils_hexstr2bin(hex: &str) -> Option<glib::Bytes> {
 /// be parsed
 #[doc(alias = "nm_utils_hwaddr_atoba")]
 pub fn utils_hwaddr_atoba(asc: &str) -> Option<glib::ByteArray> {
-    let length = asc.len() as usize;
+    let length = asc.len() as _;
     unsafe { from_glib_full(ffi::nm_utils_hwaddr_atoba(asc.to_glib_none().0, length)) }
 }
 
@@ -360,7 +391,7 @@ pub fn utils_hwaddr_atoba(asc: &str) -> Option<glib::ByteArray> {
 ///  be a valid hardware address of the indicated length, [`None`] if not.
 #[doc(alias = "nm_utils_hwaddr_canonical")]
 pub fn utils_hwaddr_canonical(asc: &str) -> Option<glib::GString> {
-    let length = asc.len() as isize;
+    let length = asc.len() as _;
     unsafe { from_glib_full(ffi::nm_utils_hwaddr_canonical(asc.to_glib_none().0, length)) }
 }
 
@@ -399,7 +430,7 @@ pub fn utils_hwaddr_len(type_: i32) -> usize {
 ///  of the indicated length, [`false`] if not.
 #[doc(alias = "nm_utils_hwaddr_valid")]
 pub fn utils_hwaddr_valid(asc: &str) -> bool {
-    let length = asc.len() as isize;
+    let length = asc.len() as _;
     unsafe { from_glib(ffi::nm_utils_hwaddr_valid(asc.to_glib_none().0, length)) }
 }
 
@@ -418,6 +449,7 @@ pub fn utils_hwaddr_valid(asc: &str) -> bool {
 /// Before 1.20, this function did not accept [`None`] as `name` argument. If you
 ///  want to run against older versions of libnm, don't pass [`None`].
 #[cfg_attr(feature = "v1_6", deprecated = "Since 1.6")]
+#[allow(deprecated)]
 #[doc(alias = "nm_utils_iface_valid_name")]
 pub fn utils_iface_valid_name(name: Option<&str>) -> bool {
     unsafe { from_glib(ffi::nm_utils_iface_valid_name(name.to_glib_none().0)) }
@@ -488,7 +520,13 @@ pub fn utils_ip4_get_default_prefix(ip: u32) -> u32 {
 }
 
 /// ## `netmask`
-/// an IPv4 netmask in network byte order
+/// an IPv4 netmask in network byte order.
+///  Usually the netmask has all leading bits up to the prefix
+///  set so that the netmask is identical to having the first
+///  prefix bits of the address set.
+///  If that is not the case and there are "holes" in the
+///  mask, the prefix is determined based on the lowest bit
+///  set.
 ///
 /// # Returns
 ///
@@ -499,7 +537,7 @@ pub fn utils_ip4_netmask_to_prefix(netmask: u32) -> u32 {
 }
 
 /// ## `prefix`
-/// a CIDR prefix
+/// a CIDR prefix, must be not larger than 32.
 ///
 /// # Returns
 ///
@@ -617,6 +655,8 @@ pub fn utils_ip6_routes_to_variant(routes: &[&IPRoute]) -> Option<glib::Variant>
 ///
 /// a newly allocated
 ///  [`glib::PtrArray`][crate::glib::PtrArray] of [`IPAddress`][crate::IPAddress] objects
+#[cfg(any(feature = "v1_42", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
 #[doc(alias = "nm_utils_ip_addresses_from_variant")]
 pub fn utils_ip_addresses_from_variant(value: &glib::Variant, family: i32) -> Vec<IPAddress> {
     unsafe {
@@ -638,6 +678,8 @@ pub fn utils_ip_addresses_from_variant(value: &glib::Variant, family: i32) -> Ve
 /// # Returns
 ///
 /// a new floating [`glib::Variant`][struct@crate::glib::Variant] representing `addresses`.
+#[cfg(any(feature = "v1_42", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
 #[doc(alias = "nm_utils_ip_addresses_to_variant")]
 pub fn utils_ip_addresses_to_variant(addresses: &[&IPAddress]) -> Option<glib::Variant> {
     unsafe {
@@ -660,6 +702,8 @@ pub fn utils_ip_addresses_to_variant(addresses: &[&IPAddress]) -> Option<glib::V
 ///
 /// a newly allocated
 ///  [`glib::PtrArray`][crate::glib::PtrArray] of [`IPRoute`][crate::IPRoute] objects
+#[cfg(any(feature = "v1_42", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
 #[doc(alias = "nm_utils_ip_routes_from_variant")]
 pub fn utils_ip_routes_from_variant(value: &glib::Variant, family: i32) -> Vec<IPRoute> {
     unsafe {
@@ -680,6 +724,8 @@ pub fn utils_ip_routes_from_variant(value: &glib::Variant, family: i32) -> Vec<I
 /// # Returns
 ///
 /// a new floating [`glib::Variant`][struct@crate::glib::Variant] representing `routes`.
+#[cfg(any(feature = "v1_42", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
 #[doc(alias = "nm_utils_ip_routes_to_variant")]
 pub fn utils_ip_routes_to_variant(routes: &[&IPRoute]) -> Option<glib::Variant> {
     unsafe { from_glib_none(ffi::nm_utils_ip_routes_to_variant(routes.to_glib_none().0)) }
@@ -711,7 +757,7 @@ pub fn utils_ipaddr_valid(family: i32, ip: &str) -> bool {
 /// [`true`] if the SSID is "empty", [`false`] if it is not
 #[doc(alias = "nm_utils_is_empty_ssid")]
 pub fn utils_is_empty_ssid(ssid: &[u8]) -> bool {
-    let len = ssid.len() as usize;
+    let len = ssid.len() as _;
     unsafe { from_glib(ffi::nm_utils_is_empty_ssid(ssid.to_glib_none().0, len)) }
 }
 
@@ -731,7 +777,7 @@ pub fn utils_is_json_object(str: &str) -> Result<(), glib::Error> {
     unsafe {
         let mut error = ptr::null_mut();
         let is_ok = ffi::nm_utils_is_json_object(str.to_glib_none().0, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(())
         } else {
@@ -757,6 +803,7 @@ pub fn utils_is_json_object(str: &str) -> Result<(), glib::Error> {
 /// In older versions, [`utils_is_uuid()`][crate::utils_is_uuid()] did not accept [`None`] as `str`
 /// argument. Don't pass [`None`] if you run against older versions of libnm.
 #[cfg_attr(feature = "v1_32", deprecated = "Since 1.32")]
+#[allow(deprecated)]
 #[doc(alias = "nm_utils_is_uuid")]
 pub fn utils_is_uuid(str: Option<&str>) -> bool {
     unsafe { from_glib(ffi::nm_utils_is_uuid(str.to_glib_none().0)) }
@@ -775,12 +822,14 @@ pub fn utils_is_uuid(str: Option<&str>) -> bool {
 ///
 /// Before 1.20, this function did not accept [`None`] as `name` argument. If you
 ///  want to run against older versions of libnm, don't pass [`None`].
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
 #[doc(alias = "nm_utils_is_valid_iface_name")]
 pub fn utils_is_valid_iface_name(name: Option<&str>) -> Result<(), glib::Error> {
     unsafe {
         let mut error = ptr::null_mut();
         let is_ok = ffi::nm_utils_is_valid_iface_name(name.to_glib_none().0, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(())
         } else {
@@ -792,7 +841,7 @@ pub fn utils_is_valid_iface_name(name: Option<&str>) -> Result<(), glib::Error> 
 //#[cfg(any(feature = "v1_8", feature = "dox"))]
 //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 //#[doc(alias = "nm_utils_parse_variant_attributes")]
-//pub fn utils_parse_variant_attributes(string: &str, attr_separator: glib::Char, key_value_separator: glib::Char, ignore_unknown: bool, spec: /*Ignored*/&VariantAttributeSpec) -> Result</*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 2, id: 201 }, glib::Error> {
+//pub fn utils_parse_variant_attributes(string: &str, attr_separator: glib::Char, key_value_separator: glib::Char, ignore_unknown: bool, spec: /*Ignored*/&VariantAttributeSpec) -> Result</*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 2, id: 203 }, glib::Error> {
 //    unsafe { TODO: call ffi:nm_utils_parse_variant_attributes() }
 //}
 
@@ -836,8 +885,8 @@ pub fn utils_print(output_mode: i32, msg: &str) {
 /// [`true`] if the SSIDs are the same, [`false`] if they are not
 #[doc(alias = "nm_utils_same_ssid")]
 pub fn utils_same_ssid(ssid1: &[u8], ssid2: &[u8], ignore_trailing_null: bool) -> bool {
-    let len1 = ssid1.len() as usize;
-    let len2 = ssid2.len() as usize;
+    let len1 = ssid1.len() as _;
+    let len2 = ssid2.len() as _;
     unsafe {
         from_glib(ffi::nm_utils_same_ssid(
             ssid1.to_glib_none().0,
@@ -980,7 +1029,7 @@ pub fn utils_sriov_vf_to_str(vf: &SriovVF, omit_index: bool) -> Result<glib::GSt
 /// Returns [`None`] on errors.
 #[doc(alias = "nm_utils_ssid_to_utf8")]
 pub fn utils_ssid_to_utf8(ssid: &[u8]) -> Option<glib::GString> {
-    let len = ssid.len() as usize;
+    let len = ssid.len() as _;
     unsafe { from_glib_full(ffi::nm_utils_ssid_to_utf8(ssid.to_glib_none().0, len)) }
 }
 
@@ -1126,7 +1175,7 @@ pub fn utils_tc_tfilter_to_str(tfilter: &TCTfilter) -> Result<glib::GString, gli
 /// # Returns
 ///
 /// a newly allocated UUID suitable for use as the [`SettingConnection`][crate::SettingConnection]
-/// object's `property::SettingConnection::id`: property. Should be freed with `g_free()`
+/// object's [`id`][struct@crate::SettingConnection#id]: property. Should be freed with `g_free()`
 #[doc(alias = "nm_utils_uuid_generate")]
 pub fn utils_uuid_generate() -> Option<glib::GString> {
     unsafe { from_glib_full(ffi::nm_utils_uuid_generate()) }

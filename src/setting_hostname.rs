@@ -2,19 +2,90 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::Setting;
-use crate::Ternary;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use crate::{Setting, Ternary};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// Hostname settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `from-dhcp`
+    ///  Whether the system hostname can be determined from DHCP on
+    /// this connection.
+    ///
+    /// When set to [`Ternary::Default`][crate::Ternary::Default], the value from global configuration
+    /// is used. If the property doesn't have a value in the global
+    /// configuration, NetworkManager assumes the value to be [`Ternary::True`][crate::Ternary::True].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `from-dns-lookup`
+    ///  Whether the system hostname can be determined from reverse
+    /// DNS lookup of addresses on this device.
+    ///
+    /// When set to [`Ternary::Default`][crate::Ternary::Default], the value from global configuration
+    /// is used. If the property doesn't have a value in the global
+    /// configuration, NetworkManager assumes the value to be [`Ternary::True`][crate::Ternary::True].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `only-from-default`
+    ///  If set to [`Ternary::True`][crate::Ternary::True], NetworkManager attempts to get
+    /// the hostname via DHCPv4/DHCPv6 or reverse DNS lookup on this
+    /// device only when the device has the default route for the given
+    /// address family (IPv4/IPv6).
+    ///
+    /// If set to [`Ternary::False`][crate::Ternary::False], the hostname can be set from this
+    /// device even if it doesn't have the default route.
+    ///
+    /// When set to [`Ternary::Default`][crate::Ternary::Default], the value from global configuration
+    /// is used. If the property doesn't have a value in the global
+    /// configuration, NetworkManager assumes the value to be [`Ternary::False`][crate::Ternary::False].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `priority`
+    ///  The relative priority of this connection to determine the
+    /// system hostname. A lower numerical value is better (higher
+    /// priority). A connection with higher priority is considered
+    /// before connections with lower priority.
+    ///
+    /// If the value is zero, it can be overridden by a global value
+    /// from NetworkManager configuration. If the property doesn't have
+    /// a value in the global configuration, the value is assumed to be
+    /// 100.
+    ///
+    /// Negative values have the special effect of excluding other
+    /// connections with a greater numerical priority value; so in
+    /// presence of at least one negative priority, only connections
+    /// with the lowest priority value will be used to determine the
+    /// hostname.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingHostname")]
     pub struct SettingHostname(Object<ffi::NMSettingHostname, ffi::NMSettingHostnameClass>) @extends Setting;
 
@@ -29,12 +100,14 @@ impl SettingHostname {
     /// # Returns
     ///
     /// the new empty [`SettingHostname`][crate::SettingHostname] object
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     #[doc(alias = "nm_setting_hostname_new")]
     pub fn new() -> SettingHostname {
         unsafe { Setting::from_glib_full(ffi::nm_setting_hostname_new()).unsafe_cast() }
     }
 
-    /// Returns the value contained in the `property::SettingHostname::from-dhcp`
+    /// Returns the value contained in the [`from-dhcp`][struct@crate::SettingHostname#from-dhcp]
     /// property.
     ///
     /// # Returns
@@ -50,7 +123,7 @@ impl SettingHostname {
         }
     }
 
-    /// Returns the value contained in the `property::SettingHostname::from-dns-lookup`
+    /// Returns the value contained in the [`from-dns-lookup`][struct@crate::SettingHostname#from-dns-lookup]
     /// property.
     ///
     /// # Returns
@@ -66,7 +139,7 @@ impl SettingHostname {
         }
     }
 
-    /// Returns the value contained in the `property::SettingHostname::only-from-default`
+    /// Returns the value contained in the [`only-from-default`][struct@crate::SettingHostname#only-from-default]
     /// property.
     ///
     /// # Returns
@@ -82,7 +155,7 @@ impl SettingHostname {
         }
     }
 
-    /// Returns the value contained in the `property::SettingHostname::priority`
+    /// Returns the value contained in the [`priority`][struct@crate::SettingHostname#priority]
     /// property.
     ///
     /// # Returns
@@ -267,8 +340,8 @@ impl SettingHostname {
     }
 }
 
-#[cfg(any(feature = "v1_30", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
+#[cfg(any(feature = "v1_42", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
 impl Default for SettingHostname {
     fn default() -> Self {
         Self::new()

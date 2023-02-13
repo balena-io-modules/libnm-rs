@@ -3,30 +3,39 @@
 // DO NOT EDIT
 
 use crate::Setting;
-use glib::object::Cast;
-#[cfg(any(feature = "v1_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
-use glib::object::ObjectType as ObjectType_;
-#[cfg(any(feature = "v1_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
-use glib::signal::connect_raw;
-#[cfg(any(feature = "v1_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-#[cfg(any(feature = "v1_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem;
-#[cfg(any(feature = "v1_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
-use std::mem::transmute;
-#[cfg(any(feature = "v1_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
-use std::ptr;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem, mem::transmute, ptr};
 
 glib::wrapper! {
+    /// General User Profile Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `data`
+    ///  A dictionary of key/value pairs with user data. This data is ignored by NetworkManager
+    /// and can be used at the users discretion. The keys only support a strict ascii format,
+    /// but the values can be arbitrary UTF8 strings up to a certain length.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingUser")]
     pub struct SettingUser(Object<ffi::NMSettingUser, ffi::NMSettingUserClass>) @extends Setting;
 
@@ -53,8 +62,6 @@ impl SettingUser {
     ///
     /// the value associated with `key` or [`None`] if no such
     ///  value exists.
-    #[cfg(any(feature = "v1_8", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "nm_setting_user_get_data")]
     #[doc(alias = "get_data")]
     pub fn data(&self, key: &str) -> Option<glib::GString> {
@@ -78,7 +85,7 @@ impl SettingUser {
             let mut out_len = mem::MaybeUninit::uninit();
             let ret = FromGlibContainer::from_glib_none_num(
                 ffi::nm_setting_user_get_keys(self.to_glib_none().0, out_len.as_mut_ptr()),
-                out_len.assume_init() as usize,
+                out_len.assume_init() as _,
             );
             ret
         }
@@ -94,8 +101,6 @@ impl SettingUser {
     /// [`true`] if the operation was successful. The operation
     ///  can fail if `key` or `val` are not valid strings according
     ///  to [`check_key()`][Self::check_key()] and [`check_val()`][Self::check_val()].
-    #[cfg(any(feature = "v1_8", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "nm_setting_user_set_data")]
     pub fn set_data(&self, key: &str, val: Option<&str>) -> Result<(), glib::Error> {
         unsafe {
@@ -106,7 +111,7 @@ impl SettingUser {
                 val.to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -126,14 +131,12 @@ impl SettingUser {
     /// # Returns
     ///
     /// [`true`] if `key` is a valid user data key.
-    #[cfg(any(feature = "v1_8", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "nm_setting_user_check_key")]
     pub fn check_key(key: &str) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let is_ok = ffi::nm_setting_user_check_key(key.to_glib_none().0, &mut error);
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -150,14 +153,12 @@ impl SettingUser {
     /// # Returns
     ///
     /// [`true`] if `val` is a valid user data value.
-    #[cfg(any(feature = "v1_8", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "nm_setting_user_check_val")]
     pub fn check_val(val: &str) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let is_ok = ffi::nm_setting_user_check_val(val.to_glib_none().0, &mut error);
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -192,6 +193,8 @@ impl SettingUser {
     }
 }
 
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 impl Default for SettingUser {
     fn default() -> Self {
         Self::new()

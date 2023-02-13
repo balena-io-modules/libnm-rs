@@ -3,15 +3,59 @@
 // DO NOT EDIT
 
 use crate::Object;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    ///
+    ///
+    /// This is an Abstract Base Class, you cannot instantiate it.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `family`
+    ///  The IP address family of the configuration; either
+    /// `<literal>`AF_INET`</literal>` or `<literal>`AF_INET6`</literal>`.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `options`
+    ///  The `GHashTable` containing options of the configuration.
+    ///
+    /// Readable
+    /// <details><summary><h4>Object</h4></summary>
+    ///
+    ///
+    /// #### `client`
+    ///  The NMClient instance as returned by `nm_object_get_client()`.
+    ///
+    /// When an NMObject gets removed from the NMClient cache,
+    /// the NMObject:path property stays unchanged, but this client
+    /// instance gets reset to [`None`]. You can use this property to
+    /// track removal of the object from the cache.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `path`
+    ///  The D-Bus object path.
+    ///
+    /// The D-Bus path of an object instance never changes, even if the object
+    /// gets removed from the cache. To see whether the object is still in the
+    /// cache, check NMObject:client.
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`ObjectExt`][trait@crate::prelude::ObjectExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMDhcpConfig")]
     pub struct DhcpConfig(Object<ffi::NMDhcpConfig, ffi::NMDhcpConfigClass>) @extends Object;
 

@@ -2,37 +2,106 @@
 // from gir-files
 // DO NOT EDIT
 
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
-use crate::Connection;
-use crate::Object;
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
-use crate::_80211ApFlags;
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
-use glib::object::IsA;
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
-use glib::object::ObjectType as ObjectType_;
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
-use glib::signal::connect_raw;
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
-use glib::signal::SignalHandlerId;
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
-use glib::translate::*;
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
-use std::boxed::Box as Box_;
-use std::fmt;
-#[cfg(any(feature = "v1_16", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
-use std::mem::transmute;
+use crate::{Connection, Object, _80211ApFlags};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    ///
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `flags`
+    ///  The flags of the P2P peer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `hw-address`
+    ///  The hardware address of the P2P peer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `last-seen`
+    ///  The timestamp (in CLOCK_BOOTTIME seconds) for the last time the
+    /// P2P peer was found. A value of -1 means the peer has never been seen.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `manufacturer`
+    ///  The manufacturer of the P2P peer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `model`
+    ///  The model of the P2P peer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `model-number`
+    ///  The hardware address of the P2P peer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `name`
+    ///  The name of the P2P peer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `serial`
+    ///  The serial number of the P2P peer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `strength`
+    ///  The current signal strength of the P2P peer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `wfd-ies`
+    ///  The WFD information elements of the P2P peer.
+    ///
+    /// Readable
+    /// <details><summary><h4>Object</h4></summary>
+    ///
+    ///
+    /// #### `client`
+    ///  The NMClient instance as returned by `nm_object_get_client()`.
+    ///
+    /// When an NMObject gets removed from the NMClient cache,
+    /// the NMObject:path property stays unchanged, but this client
+    /// instance gets reset to [`None`]. You can use this property to
+    /// track removal of the object from the cache.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `path`
+    ///  The D-Bus object path.
+    ///
+    /// The D-Bus path of an object instance never changes, even if the object
+    /// gets removed from the cache. To see whether the object is still in the
+    /// cache, check NMObject:client.
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`ObjectExt`][trait@crate::prelude::ObjectExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMWifiP2PPeer")]
     pub struct WifiP2PPeer(Object<ffi::NMWifiP2PPeer, ffi::NMWifiP2PPeerClass>) @extends Object;
 
@@ -52,8 +121,6 @@ impl WifiP2PPeer {
     ///
     /// [`true`] if the connection may be activated with this Wi-Fi P2P Peer,
     /// [`false`] if it cannot be.
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "nm_wifi_p2p_peer_connection_valid")]
     pub fn connection_valid(&self, connection: &impl IsA<Connection>) -> bool {
         unsafe {
@@ -82,8 +149,6 @@ impl WifiP2PPeer {
     /// an array of
     /// `NMConnections` that could be activated with the given `self`. The array should
     /// be freed with `g_ptr_array_unref()` when it is no longer required.
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "nm_wifi_p2p_peer_filter_connections")]
     pub fn filter_connections(&self, connections: &[Connection]) -> Vec<Connection> {
         unsafe {
@@ -99,8 +164,6 @@ impl WifiP2PPeer {
     /// # Returns
     ///
     /// the flags
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "nm_wifi_p2p_peer_get_flags")]
     #[doc(alias = "get_flags")]
     pub fn flags(&self) -> _80211ApFlags {
@@ -112,8 +175,6 @@ impl WifiP2PPeer {
     /// # Returns
     ///
     /// the hardware address
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "nm_wifi_p2p_peer_get_hw_address")]
     #[doc(alias = "get_hw_address")]
     pub fn hw_address(&self) -> Option<glib::GString> {
@@ -126,8 +187,6 @@ impl WifiP2PPeer {
     /// # Returns
     ///
     /// the last seen time in seconds
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "nm_wifi_p2p_peer_get_last_seen")]
     #[doc(alias = "get_last_seen")]
     pub fn last_seen(&self) -> i32 {
@@ -139,8 +198,6 @@ impl WifiP2PPeer {
     /// # Returns
     ///
     /// the manufacturer
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "nm_wifi_p2p_peer_get_manufacturer")]
     #[doc(alias = "get_manufacturer")]
     pub fn manufacturer(&self) -> Option<glib::GString> {
@@ -156,8 +213,6 @@ impl WifiP2PPeer {
     /// # Returns
     ///
     /// the model
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "nm_wifi_p2p_peer_get_model")]
     #[doc(alias = "get_model")]
     pub fn model(&self) -> Option<glib::GString> {
@@ -169,8 +224,6 @@ impl WifiP2PPeer {
     /// # Returns
     ///
     /// the model number
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "nm_wifi_p2p_peer_get_model_number")]
     #[doc(alias = "get_model_number")]
     pub fn model_number(&self) -> Option<glib::GString> {
@@ -186,8 +239,6 @@ impl WifiP2PPeer {
     /// # Returns
     ///
     /// the name
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "nm_wifi_p2p_peer_get_name")]
     #[doc(alias = "get_name")]
     pub fn name(&self) -> Option<glib::GString> {
@@ -199,8 +250,6 @@ impl WifiP2PPeer {
     /// # Returns
     ///
     /// the serial number
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "nm_wifi_p2p_peer_get_serial")]
     #[doc(alias = "get_serial")]
     pub fn serial(&self) -> Option<glib::GString> {
@@ -212,8 +261,6 @@ impl WifiP2PPeer {
     /// # Returns
     ///
     /// the signal strength (0 to 100)
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "nm_wifi_p2p_peer_get_strength")]
     #[doc(alias = "get_strength")]
     pub fn strength(&self) -> u8 {
@@ -225,8 +272,6 @@ impl WifiP2PPeer {
     /// # Returns
     ///
     /// the [`glib::Bytes`][crate::glib::Bytes] containing the WFD IEs, or [`None`].
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     #[doc(alias = "nm_wifi_p2p_peer_get_wfd_ies")]
     #[doc(alias = "get_wfd_ies")]
     pub fn wfd_ies(&self) -> Option<glib::Bytes> {

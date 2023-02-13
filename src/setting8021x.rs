@@ -2,25 +2,548 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::Setting;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 use crate::Setting8021xAuthFlags;
-use crate::Setting8021xCKFormat;
-use crate::Setting8021xCKScheme;
-use crate::SettingSecretFlags;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::StaticType;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use crate::{Setting, Setting8021xCKFormat, Setting8021xCKScheme, SettingSecretFlags};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// IEEE 802.1x Authentication Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `altsubject-matches`
+    ///  List of strings to be matched against the altSubjectName of the
+    /// certificate presented by the authentication server. If the list is empty,
+    /// no verification of the server certificate's altSubjectName is performed.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `anonymous-identity`
+    ///  Anonymous identity string for EAP authentication methods. Used as the
+    /// unencrypted identity with EAP types that support different tunneled
+    /// identity like EAP-TTLS.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `auth-timeout`
+    ///  A timeout for the authentication. Zero means the global default; if the
+    /// global default is not set, the authentication timeout is 25 seconds.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `ca-cert`
+    ///  Contains the CA certificate if used by the EAP method specified in the
+    /// [`eap`][struct@crate::Setting8021x#eap] property.
+    ///
+    /// Certificate data is specified using a "scheme"; three are currently
+    /// supported: blob, path and pkcs`11` URL. When using the blob scheme this property
+    /// should be set to the certificate's DER encoded data. When using the path
+    /// scheme, this property should be set to the full UTF-8 encoded path of the
+    /// certificate, prefixed with the string "file://" and ending with a terminating
+    /// NUL byte.
+    /// This property can be unset even if the EAP method supports CA certificates,
+    /// but this allows man-in-the-middle attacks and is NOT recommended.
+    ///
+    /// Note that enabling NMSetting8021x:system-ca-certs will override this
+    /// setting to use the built-in path, if the built-in path is not a directory.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_ca_cert()` function instead.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `ca-cert-password`
+    ///  The password used to access the CA certificate stored in
+    /// [`ca-cert`][struct@crate::Setting8021x#ca-cert] property. Only makes sense if the certificate
+    /// is stored on a PKCS#<!-- -->11 token that requires a login.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `ca-cert-password-flags`
+    ///  Flags indicating how to handle the [`ca-cert-password`][struct@crate::Setting8021x#ca-cert-password] property.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `ca-path`
+    ///  UTF-8 encoded path to a directory containing PEM or DER formatted
+    /// certificates to be added to the verification chain in addition to the
+    /// certificate specified in the [`ca-cert`][struct@crate::Setting8021x#ca-cert] property.
+    ///
+    /// If NMSetting8021x:system-ca-certs is enabled and the built-in CA
+    /// path is an existing directory, then this setting is ignored.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `client-cert`
+    ///  Contains the client certificate if used by the EAP method specified in
+    /// the [`eap`][struct@crate::Setting8021x#eap] property.
+    ///
+    /// Certificate data is specified using a "scheme"; two are currently
+    /// supported: blob and path. When using the blob scheme (which is backwards
+    /// compatible with NM 0.7.x) this property should be set to the
+    /// certificate's DER encoded data. When using the path scheme, this property
+    /// should be set to the full UTF-8 encoded path of the certificate, prefixed
+    /// with the string "file://" and ending with a terminating NUL byte.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_client_cert()` function instead.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `client-cert-password`
+    ///  The password used to access the client certificate stored in
+    /// [`client-cert`][struct@crate::Setting8021x#client-cert] property. Only makes sense if the certificate
+    /// is stored on a PKCS#<!-- -->11 token that requires a login.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `client-cert-password-flags`
+    ///  Flags indicating how to handle the [`client-cert-password`][struct@crate::Setting8021x#client-cert-password] property.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `domain-match`
+    ///  Constraint for server domain name. If set, this list of FQDNs is used as
+    /// a match requirement for dNSName element(s) of the certificate presented
+    /// by the authentication server. If a matching dNSName is found, this
+    /// constraint is met. If no dNSName values are present, this constraint is
+    /// matched against SubjectName CN using the same comparison.
+    /// Multiple valid FQDNs can be passed as a ";" delimited list.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `domain-suffix-match`
+    ///  Constraint for server domain name. If set, this FQDN is used as a suffix
+    /// match requirement for dNSName element(s) of the certificate presented by
+    /// the authentication server. If a matching dNSName is found, this
+    /// constraint is met. If no dNSName values are present, this constraint is
+    /// matched against SubjectName CN using same suffix match comparison.
+    /// Since version 1.24, multiple valid FQDNs can be passed as a ";" delimited
+    /// list.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `eap`
+    ///  The allowed EAP method to be used when authenticating to the network with
+    /// 802.1x. Valid methods are: "leap", "md5", "tls", "peap", "ttls", "pwd",
+    /// and "fast". Each method requires different configuration using the
+    /// properties of this setting; refer to wpa_supplicant documentation for the
+    /// allowed combinations.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `identity`
+    ///  Identity string for EAP authentication methods. Often the user's user or
+    /// login name.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `optional`
+    ///  Whether the 802.1X authentication is optional. If [`true`], the activation
+    /// will continue even after a timeout or an authentication failure. Setting
+    /// the property to [`true`] is currently allowed only for Ethernet connections.
+    /// If set to [`false`], the activation can continue only after a successful
+    /// authentication.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `pac-file`
+    ///  UTF-8 encoded file path containing PAC for EAP-FAST.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `password`
+    ///  UTF-8 encoded password used for EAP authentication methods. If both the
+    /// [`password`][struct@crate::Setting8021x#password] property and the [`password-raw`][struct@crate::Setting8021x#password-raw]
+    /// property are specified, [`password`][struct@crate::Setting8021x#password] is preferred.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `password-flags`
+    ///  Flags indicating how to handle the [`password`][struct@crate::Setting8021x#password] property.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `password-raw`
+    ///  Password used for EAP authentication methods, given as a byte array to
+    /// allow passwords in other encodings than UTF-8 to be used. If both the
+    /// [`password`][struct@crate::Setting8021x#password] property and the [`password-raw`][struct@crate::Setting8021x#password-raw]
+    /// property are specified, [`password`][struct@crate::Setting8021x#password] is preferred.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `password-raw-flags`
+    ///  Flags indicating how to handle the [`password-raw`][struct@crate::Setting8021x#password-raw] property.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase1-auth-flags`
+    ///  Specifies authentication flags to use in "phase 1" outer
+    /// authentication using [`Setting8021xAuthFlags`][crate::Setting8021xAuthFlags] options.
+    /// The individual TLS versions can be explicitly disabled. If a certain
+    /// TLS disable flag is not set, it is up to the supplicant to allow
+    /// or forbid it. The TLS options map to tls_disable_tlsv1_x settings.
+    /// See the wpa_supplicant documentation for more details.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase1-fast-provisioning`
+    ///  Enables or disables in-line provisioning of EAP-FAST credentials when
+    /// FAST is specified as the EAP method in the [`eap`][struct@crate::Setting8021x#eap] property.
+    /// Recognized values are "0" (disabled), "1" (allow unauthenticated
+    /// provisioning), "2" (allow authenticated provisioning), and "3" (allow
+    /// both authenticated and unauthenticated provisioning). See the
+    /// wpa_supplicant documentation for more details.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase1-peaplabel`
+    ///  Forces use of the new PEAP label during key derivation. Some RADIUS
+    /// servers may require forcing the new PEAP label to interoperate with
+    /// PEAPv1. Set to "1" to force use of the new PEAP label. See the
+    /// wpa_supplicant documentation for more details.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase1-peapver`
+    ///  Forces which PEAP version is used when PEAP is set as the EAP method in
+    /// the [`eap`][struct@crate::Setting8021x#eap] property. When unset, the version reported by
+    /// the server will be used. Sometimes when using older RADIUS servers, it
+    /// is necessary to force the client to use a particular PEAP version. To do
+    /// so, this property may be set to "0" or "1" to force that specific PEAP
+    /// version.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-altsubject-matches`
+    ///  List of strings to be matched against the altSubjectName of the
+    /// certificate presented by the authentication server during the inner
+    /// "phase 2" authentication. If the list is empty, no verification of the
+    /// server certificate's altSubjectName is performed.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-auth`
+    ///  Specifies the allowed "phase 2" inner authentication method when an EAP
+    /// method that uses an inner TLS tunnel is specified in the [`eap`][struct@crate::Setting8021x#eap]
+    /// property. For TTLS this property selects one of the supported non-EAP
+    /// inner methods: "pap", "chap", "mschap", "mschapv2" while
+    /// [`phase2-autheap`][struct@crate::Setting8021x#phase2-autheap] selects an EAP inner method. For PEAP
+    /// this selects an inner EAP method, one of: "gtc", "otp", "md5" and "tls".
+    /// Each "phase 2" inner method requires specific parameters for successful
+    /// authentication; see the wpa_supplicant documentation for more details.
+    /// Both [`phase2-auth`][struct@crate::Setting8021x#phase2-auth] and [`phase2-autheap`][struct@crate::Setting8021x#phase2-autheap] cannot
+    /// be specified.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-autheap`
+    ///  Specifies the allowed "phase 2" inner EAP-based authentication method
+    /// when TTLS is specified in the [`eap`][struct@crate::Setting8021x#eap] property. Recognized
+    /// EAP-based "phase 2" methods are "md5", "mschapv2", "otp", "gtc", and
+    /// "tls". Each "phase 2" inner method requires specific parameters for
+    /// successful authentication; see the wpa_supplicant documentation for
+    /// more details.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-ca-cert`
+    ///  Contains the "phase 2" CA certificate if used by the EAP method specified
+    /// in the [`phase2-auth`][struct@crate::Setting8021x#phase2-auth] or [`phase2-autheap`][struct@crate::Setting8021x#phase2-autheap]
+    /// properties.
+    ///
+    /// Certificate data is specified using a "scheme"; three are currently
+    /// supported: blob, path and pkcs`11` URL. When using the blob scheme this property
+    /// should be set to the certificate's DER encoded data. When using the path
+    /// scheme, this property should be set to the full UTF-8 encoded path of the
+    /// certificate, prefixed with the string "file://" and ending with a terminating
+    /// NUL byte.
+    /// This property can be unset even if the EAP method supports CA certificates,
+    /// but this allows man-in-the-middle attacks and is NOT recommended.
+    ///
+    /// Note that enabling NMSetting8021x:system-ca-certs will override this
+    /// setting to use the built-in path, if the built-in path is not a directory.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_phase2_ca_cert()` function instead.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-ca-cert-password`
+    ///  The password used to access the "phase2" CA certificate stored in
+    /// [`phase2-ca-cert`][struct@crate::Setting8021x#phase2-ca-cert] property. Only makes sense if the certificate
+    /// is stored on a PKCS#<!-- -->11 token that requires a login.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-ca-cert-password-flags`
+    ///  Flags indicating how to handle the [`phase2-ca-cert-password`][struct@crate::Setting8021x#phase2-ca-cert-password] property.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-ca-path`
+    ///  UTF-8 encoded path to a directory containing PEM or DER formatted
+    /// certificates to be added to the verification chain in addition to the
+    /// certificate specified in the [`phase2-ca-cert`][struct@crate::Setting8021x#phase2-ca-cert] property.
+    ///
+    /// If NMSetting8021x:system-ca-certs is enabled and the built-in CA
+    /// path is an existing directory, then this setting is ignored.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-client-cert`
+    ///  Contains the "phase 2" client certificate if used by the EAP method
+    /// specified in the [`phase2-auth`][struct@crate::Setting8021x#phase2-auth] or
+    /// [`phase2-autheap`][struct@crate::Setting8021x#phase2-autheap] properties.
+    ///
+    /// Certificate data is specified using a "scheme"; two are currently
+    /// supported: blob and path. When using the blob scheme (which is backwards
+    /// compatible with NM 0.7.x) this property should be set to the
+    /// certificate's DER encoded data. When using the path scheme, this property
+    /// should be set to the full UTF-8 encoded path of the certificate, prefixed
+    /// with the string "file://" and ending with a terminating NUL byte. This
+    /// property can be unset even if the EAP method supports CA certificates,
+    /// but this allows man-in-the-middle attacks and is NOT recommended.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_phase2_client_cert()` function instead.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-client-cert-password`
+    ///  The password used to access the "phase2" client certificate stored in
+    /// [`phase2-client-cert`][struct@crate::Setting8021x#phase2-client-cert] property. Only makes sense if the certificate
+    /// is stored on a PKCS#<!-- -->11 token that requires a login.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-client-cert-password-flags`
+    ///  Flags indicating how to handle the [`phase2-client-cert-password`][struct@crate::Setting8021x#phase2-client-cert-password] property.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-domain-match`
+    ///  Constraint for server domain name. If set, this list of FQDNs is used as
+    /// a match requirement for dNSName element(s) of the certificate presented
+    /// by the authentication server during the inner "phase 2" authentication.
+    /// If a matching dNSName is found, this constraint is met. If no dNSName
+    /// values are present, this constraint is matched against SubjectName CN
+    /// using the same comparison.
+    /// Multiple valid FQDNs can be passed as a ";" delimited list.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-domain-suffix-match`
+    ///  Constraint for server domain name. If set, this FQDN is used as a suffix
+    /// match requirement for dNSName element(s) of the certificate presented by
+    /// the authentication server during the inner "phase 2" authentication. If
+    /// a matching dNSName is found, this constraint is met. If no dNSName
+    /// values are present, this constraint is matched against SubjectName CN
+    /// using same suffix match comparison.
+    /// Since version 1.24, multiple valid FQDNs can be passed as a ";" delimited
+    /// list.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-private-key`
+    ///  Contains the "phase 2" inner private key when the
+    /// [`phase2-auth`][struct@crate::Setting8021x#phase2-auth] or [`phase2-autheap`][struct@crate::Setting8021x#phase2-autheap] property is
+    /// set to "tls".
+    ///
+    /// Key data is specified using a "scheme"; two are currently supported: blob
+    /// and path. When using the blob scheme and private keys, this property
+    /// should be set to the key's encrypted PEM encoded data. When using private
+    /// keys with the path scheme, this property should be set to the full UTF-8
+    /// encoded path of the key, prefixed with the string "file://" and ending
+    /// with a terminating NUL byte. When using PKCS#<!-- -->12 format private
+    /// keys and the blob scheme, this property should be set to the
+    /// PKCS#<!-- -->12 data and the [`phase2-private-key-password`][struct@crate::Setting8021x#phase2-private-key-password]
+    /// property must be set to password used to decrypt the PKCS#<!-- -->12
+    /// certificate and key. When using PKCS#<!-- -->12 files and the path
+    /// scheme, this property should be set to the full UTF-8 encoded path of the
+    /// key, prefixed with the string "file://" and ending with a terminating
+    /// NUL byte, and as with the blob scheme the
+    /// [`phase2-private-key-password`][struct@crate::Setting8021x#phase2-private-key-password] property must be set to the
+    /// password used to decode the PKCS#<!-- -->12 private key and certificate.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_phase2_private_key()` function instead.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-private-key-password`
+    ///  The password used to decrypt the "phase 2" private key specified in the
+    /// [`phase2-private-key`][struct@crate::Setting8021x#phase2-private-key] property when the private key either
+    /// uses the path scheme, or is a PKCS#<!-- -->12 format key. Setting this
+    /// property directly is not generally necessary except when returning
+    /// secrets to NetworkManager; it is generally set automatically when setting
+    /// the private key by the `nm_setting_802_1x_set_phase2_private_key()`
+    /// function.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-private-key-password-flags`
+    ///  Flags indicating how to handle the
+    /// [`phase2-private-key-password`][struct@crate::Setting8021x#phase2-private-key-password] property.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `phase2-subject-match`
+    ///  Substring to be matched against the subject of the certificate presented
+    /// by the authentication server during the inner "phase 2"
+    /// authentication. When unset, no verification of the authentication server
+    /// certificate's subject is performed. This property provides little security,
+    /// if any, and its use is deprecated in favor of
+    /// NMSetting8021x:phase2-domain-suffix-match.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `pin`
+    ///  PIN used for EAP authentication methods.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `pin-flags`
+    ///  Flags indicating how to handle the [`pin`][struct@crate::Setting8021x#pin] property.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `private-key`
+    ///  Contains the private key when the [`eap`][struct@crate::Setting8021x#eap] property is set to
+    /// "tls".
+    ///
+    /// Key data is specified using a "scheme"; two are currently supported: blob
+    /// and path. When using the blob scheme and private keys, this property
+    /// should be set to the key's encrypted PEM encoded data. When using private
+    /// keys with the path scheme, this property should be set to the full UTF-8
+    /// encoded path of the key, prefixed with the string "file://" and ending
+    /// with a terminating NUL byte. When using PKCS#<!-- -->12 format private
+    /// keys and the blob scheme, this property should be set to the
+    /// PKCS#<!-- -->12 data and the [`private-key-password`][struct@crate::Setting8021x#private-key-password]
+    /// property must be set to password used to decrypt the PKCS#<!-- -->12
+    /// certificate and key. When using PKCS#<!-- -->12 files and the path
+    /// scheme, this property should be set to the full UTF-8 encoded path of the
+    /// key, prefixed with the string "file://" and ending with a terminating
+    /// NUL byte, and as with the blob scheme the "private-key-password" property
+    /// must be set to the password used to decode the PKCS#<!-- -->12 private
+    /// key and certificate.
+    ///
+    /// Setting this property directly is discouraged; use the
+    /// `nm_setting_802_1x_set_private_key()` function instead.
+    ///
+    /// WARNING: [`private-key`][struct@crate::Setting8021x#private-key] is not a "secret" property, and thus
+    /// unencrypted private key data using the BLOB scheme may be readable by
+    /// unprivileged users. Private keys should always be encrypted with a
+    /// private key password to prevent unauthorized access to unencrypted
+    /// private key data.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `private-key-password`
+    ///  The password used to decrypt the private key specified in the
+    /// [`private-key`][struct@crate::Setting8021x#private-key] property when the private key either uses the
+    /// path scheme, or if the private key is a PKCS#<!-- -->12 format key. Setting this
+    /// property directly is not generally necessary except when returning
+    /// secrets to NetworkManager; it is generally set automatically when setting
+    /// the private key by the `nm_setting_802_1x_set_private_key()` function.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `private-key-password-flags`
+    ///  Flags indicating how to handle the [`private-key-password`][struct@crate::Setting8021x#private-key-password]
+    /// property.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `subject-match`
+    ///  Substring to be matched against the subject of the certificate presented
+    /// by the authentication server. When unset, no verification of the
+    /// authentication server certificate's subject is performed. This property
+    /// provides little security, if any, and its use is deprecated in favor of
+    /// NMSetting8021x:domain-suffix-match.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `system-ca-certs`
+    ///  When [`true`], overrides the [`ca-path`][struct@crate::Setting8021x#ca-path] and
+    /// [`phase2-ca-path`][struct@crate::Setting8021x#phase2-ca-path] properties using the system CA directory
+    /// specified at configure time with the --system-ca-path switch. The
+    /// certificates in this directory are added to the verification chain in
+    /// addition to any certificates specified by the [`ca-cert`][struct@crate::Setting8021x#ca-cert] and
+    /// [`phase2-ca-cert`][struct@crate::Setting8021x#phase2-ca-cert] properties. If the path provided with
+    /// --system-ca-path is rather a file name (bundle of trusted CA certificates),
+    /// it overrides [`ca-cert`][struct@crate::Setting8021x#ca-cert] and [`phase2-ca-cert`][struct@crate::Setting8021x#phase2-ca-cert]
+    /// properties instead (sets ca_cert/ca_cert2 options for wpa_supplicant).
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSetting8021x")]
     pub struct Setting8021x(Object<ffi::NMSetting8021x, ffi::NMSetting8021xClass>) @extends Setting;
 
@@ -61,7 +584,7 @@ impl Setting8021x {
     }
 
     /// Adds an allowed EAP method. The setting is not valid until at least one
-    /// EAP method has been added. See `property::Setting8021x::eap` property for a list of
+    /// EAP method has been added. See [`eap`][struct@crate::Setting8021x#eap] property for a list of
     /// allowed EAP methods.
     /// ## `eap`
     /// the name of the EAP method to allow for this connection
@@ -145,7 +668,7 @@ impl Setting8021x {
 
     /// Returns the anonymous identifier used by some EAP methods (like TTLS) to
     /// authenticate the user in the outer unencrypted "phase 1" authentication. The
-    /// inner "phase 2" authentication will use the `property::Setting8021x::identity` in
+    /// inner "phase 2" authentication will use the [`identity`][struct@crate::Setting8021x#identity] in
     /// a secure form, if applicable for that EAP method.
     ///
     /// # Returns
@@ -161,7 +684,7 @@ impl Setting8021x {
         }
     }
 
-    /// Returns the value contained in the `property::Setting8021x::auth-timeout` property.
+    /// Returns the value contained in the [`auth-timeout`][struct@crate::Setting8021x#auth-timeout] property.
     ///
     /// # Returns
     ///
@@ -199,7 +722,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the password used to access the CA certificate stored in
-    /// `property::Setting8021x::ca-cert` property. Only makes sense if the certificate
+    /// [`ca-cert`][struct@crate::Setting8021x#ca-cert] property. Only makes sense if the certificate
     /// is stored on a PKCS#<!-- -->11 token that requires a login.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
@@ -217,7 +740,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the
-    /// `property::Setting8021x::ca-cert-password`
+    /// [`ca-cert-password`][struct@crate::Setting8021x#ca-cert-password]
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "nm_setting_802_1x_get_ca_cert_password_flags")]
@@ -294,7 +817,7 @@ impl Setting8021x {
     /// Returns the path of the CA certificate directory if previously set. Systems
     /// will often have a directory that contains multiple individual CA certificates
     /// which the supplicant can then add to the verification chain. This may be
-    /// used in addition to the `property::Setting8021x::ca-cert` property to add more CA
+    /// used in addition to the [`ca-cert`][struct@crate::Setting8021x#ca-cert] property to add more CA
     /// certificates for verifying the network to client.
     ///
     /// # Returns
@@ -327,7 +850,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the password used to access the client certificate stored in
-    /// `property::Setting8021x::client-cert` property. Only makes sense if the certificate
+    /// [`client-cert`][struct@crate::Setting8021x#client-cert] property. Only makes sense if the certificate
     /// is stored on a PKCS#<!-- -->11 token that requires a login.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
@@ -345,7 +868,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the
-    /// `property::Setting8021x::client-cert-password`
+    /// [`client-cert-password`][struct@crate::Setting8021x#client-cert-password]
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "nm_setting_802_1x_get_client_cert_password_flags")]
@@ -419,7 +942,7 @@ impl Setting8021x {
     ///
     /// # Returns
     ///
-    /// the `property::Setting8021x::domain-match` property.
+    /// the [`domain-match`][struct@crate::Setting8021x#domain-match] property.
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "nm_setting_802_1x_get_domain_match")]
@@ -435,7 +958,7 @@ impl Setting8021x {
     ///
     /// # Returns
     ///
-    /// the `property::Setting8021x::domain-suffix-match` property.
+    /// the [`domain-suffix-match`][struct@crate::Setting8021x#domain-suffix-match] property.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_802_1x_get_domain_suffix_match")]
@@ -479,7 +1002,7 @@ impl Setting8021x {
     }
 
     /// Returns the number of entries in the
-    /// `property::Setting8021x::altsubject-matches` property of this setting.
+    /// [`altsubject-matches`][struct@crate::Setting8021x#altsubject-matches] property of this setting.
     ///
     /// # Returns
     ///
@@ -506,7 +1029,7 @@ impl Setting8021x {
     }
 
     /// Returns the number of entries in the
-    /// `property::Setting8021x::phase2-altsubject-matches` property of this setting.
+    /// [`phase2-altsubject-matches`][struct@crate::Setting8021x#phase2-altsubject-matches] property of this setting.
     ///
     /// # Returns
     ///
@@ -517,7 +1040,7 @@ impl Setting8021x {
         unsafe { ffi::nm_setting_802_1x_get_num_phase2_altsubject_matches(self.to_glib_none().0) }
     }
 
-    /// Returns the value contained in the `property::Setting8021x::optional` property.
+    /// Returns the value contained in the [`optional`][struct@crate::Setting8021x#optional] property.
     ///
     /// # Returns
     ///
@@ -546,7 +1069,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the password used by the authentication method, if any, as specified
-    ///  by the `property::Setting8021x::password` property
+    ///  by the [`password`][struct@crate::Setting8021x#password] property
     #[doc(alias = "nm_setting_802_1x_get_password")]
     #[doc(alias = "get_password")]
     pub fn password(&self) -> Option<glib::GString> {
@@ -556,7 +1079,7 @@ impl Setting8021x {
     ///
     /// # Returns
     ///
-    /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the `property::Setting8021x::password`
+    /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the [`password`][struct@crate::Setting8021x#password]
     #[doc(alias = "nm_setting_802_1x_get_password_flags")]
     #[doc(alias = "get_password_flags")]
     pub fn password_flags(&self) -> SettingSecretFlags {
@@ -572,7 +1095,7 @@ impl Setting8021x {
     ///
     /// the password used by the authentication method as a
     /// UTF-8-encoded array of bytes, as specified by the
-    /// `property::Setting8021x::password-raw` property
+    /// [`password-raw`][struct@crate::Setting8021x#password-raw] property
     #[doc(alias = "nm_setting_802_1x_get_password_raw")]
     #[doc(alias = "get_password_raw")]
     pub fn password_raw(&self) -> Option<glib::Bytes> {
@@ -587,7 +1110,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the
-    ///  `property::Setting8021x::password-raw`
+    ///  [`password-raw`][struct@crate::Setting8021x#password-raw]
     #[doc(alias = "nm_setting_802_1x_get_password_raw_flags")]
     #[doc(alias = "get_password_raw_flags")]
     pub fn password_raw_flags(&self) -> SettingSecretFlags {
@@ -618,7 +1141,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// whether "phase 1" PEAP fast provisioning should be used, as specified
-    ///  by the `property::Setting8021x::phase1-fast-provisioning` property. See the
+    ///  by the [`phase1-fast-provisioning`][struct@crate::Setting8021x#phase1-fast-provisioning] property. See the
     ///  wpa_supplicant documentation for more details.
     #[doc(alias = "nm_setting_802_1x_get_phase1_fast_provisioning")]
     #[doc(alias = "get_phase1_fast_provisioning")]
@@ -635,7 +1158,7 @@ impl Setting8021x {
     ///
     /// whether the "phase 1" PEAP label is new-style or old-style, to be
     ///  used when authenticating with EAP-PEAP, as contained in the
-    ///  `property::Setting8021x::phase1-peaplabel` property. Valid values are [`None`] (unset),
+    ///  [`phase1-peaplabel`][struct@crate::Setting8021x#phase1-peaplabel] property. Valid values are [`None`] (unset),
     ///  "0" (use old-style label), and "1" (use new-style label). See the
     ///  wpa_supplicant documentation for more details.
     #[doc(alias = "nm_setting_802_1x_get_phase1_peaplabel")]
@@ -652,7 +1175,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the "phase 1" PEAP version to be used when authenticating with
-    ///  EAP-PEAP as contained in the `property::Setting8021x::phase1-peapver` property. Valid
+    ///  EAP-PEAP as contained in the [`phase1-peapver`][struct@crate::Setting8021x#phase1-peapver] property. Valid
     ///  values are [`None`] (unset), "0" (PEAP version 0), and "1" (PEAP version 1).
     #[doc(alias = "nm_setting_802_1x_get_phase1_peapver")]
     #[doc(alias = "get_phase1_peapver")]
@@ -686,7 +1209,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the "phase 2" non-EAP (ex MD5) allowed authentication method as
-    ///  specified by the `property::Setting8021x::phase2-auth` property.
+    ///  specified by the [`phase2-auth`][struct@crate::Setting8021x#phase2-auth] property.
     #[doc(alias = "nm_setting_802_1x_get_phase2_auth")]
     #[doc(alias = "get_phase2_auth")]
     pub fn phase2_auth(&self) -> Option<glib::GString> {
@@ -701,7 +1224,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the "phase 2" EAP-based (ex TLS) allowed authentication method as
-    ///  specified by the `property::Setting8021x::phase2-autheap` property.
+    ///  specified by the [`phase2-autheap`][struct@crate::Setting8021x#phase2-autheap] property.
     #[doc(alias = "nm_setting_802_1x_get_phase2_autheap")]
     #[doc(alias = "get_phase2_autheap")]
     pub fn phase2_autheap(&self) -> Option<glib::GString> {
@@ -736,7 +1259,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the password used to access the "phase2" CA certificate stored in
-    /// `property::Setting8021x::phase2-ca-cert` property. Only makes sense if the certificate
+    /// [`phase2-ca-cert`][struct@crate::Setting8021x#phase2-ca-cert] property. Only makes sense if the certificate
     /// is stored on a PKCS#<!-- -->11 token that requires a login.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
@@ -754,7 +1277,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the
-    /// `property::Setting8021x::phase2-private-key-password`
+    /// [`phase2-private-key-password`][struct@crate::Setting8021x#phase2-private-key-password]
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "nm_setting_802_1x_get_phase2_ca_cert_password_flags")]
@@ -832,7 +1355,7 @@ impl Setting8021x {
     /// Returns the path of the "phase 2" CA certificate directory if previously set.
     /// Systems will often have a directory that contains multiple individual CA
     /// certificates which the supplicant can then add to the verification chain.
-    /// This may be used in addition to the `property::Setting8021x::phase2-ca-cert` property
+    /// This may be used in addition to the [`phase2-ca-cert`][struct@crate::Setting8021x#phase2-ca-cert] property
     /// to add more CA certificates for verifying the network to client.
     ///
     /// # Returns
@@ -869,7 +1392,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the password used to access the "phase2" client certificate stored in
-    /// `property::Setting8021x::phase2-client-cert` property. Only makes sense if the certificate
+    /// [`phase2-client-cert`][struct@crate::Setting8021x#phase2-client-cert] property. Only makes sense if the certificate
     /// is stored on a PKCS#<!-- -->11 token that requires a login.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
@@ -887,7 +1410,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the
-    /// `property::Setting8021x::phase2-client-cert-password`
+    /// [`phase2-client-cert-password`][struct@crate::Setting8021x#phase2-client-cert-password]
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "nm_setting_802_1x_get_phase2_client_cert_password_flags")]
@@ -964,7 +1487,7 @@ impl Setting8021x {
     ///
     /// # Returns
     ///
-    /// the `property::Setting8021x::phase2-domain-match` property.
+    /// the [`phase2-domain-match`][struct@crate::Setting8021x#phase2-domain-match] property.
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "nm_setting_802_1x_get_phase2_domain_match")]
@@ -980,7 +1503,7 @@ impl Setting8021x {
     ///
     /// # Returns
     ///
-    /// the `property::Setting8021x::phase2-domain-suffix-match` property.
+    /// the [`phase2-domain-suffix-match`][struct@crate::Setting8021x#phase2-domain-suffix-match] property.
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_802_1x_get_phase2_domain_suffix_match")]
@@ -1018,7 +1541,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the data format of the "phase 2" private key data stored in the
-    ///  `property::Setting8021x::phase2-private-key` property
+    ///  [`phase2-private-key`][struct@crate::Setting8021x#phase2-private-key] property
     #[doc(alias = "nm_setting_802_1x_get_phase2_private_key_format")]
     #[doc(alias = "get_phase2_private_key_format")]
     pub fn phase2_private_key_format(&self) -> Setting8021xCKFormat {
@@ -1034,7 +1557,7 @@ impl Setting8021x {
     ///
     /// the private key password used to decrypt the private key if
     ///  previously set with `nm_setting_802_1x_set_phase2_private_key()` or the
-    ///  `property::Setting8021x::phase2-private-key-password` property.
+    ///  [`phase2-private-key-password`][struct@crate::Setting8021x#phase2-private-key-password] property.
     #[doc(alias = "nm_setting_802_1x_get_phase2_private_key_password")]
     #[doc(alias = "get_phase2_private_key_password")]
     pub fn phase2_private_key_password(&self) -> Option<glib::GString> {
@@ -1049,7 +1572,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the
-    /// `property::Setting8021x::phase2-private-key-password`
+    /// [`phase2-private-key-password`][struct@crate::Setting8021x#phase2-private-key-password]
     #[doc(alias = "nm_setting_802_1x_get_phase2_private_key_password_flags")]
     #[doc(alias = "get_phase2_private_key_password_flags")]
     pub fn phase2_private_key_password_flags(&self) -> SettingSecretFlags {
@@ -1124,7 +1647,7 @@ impl Setting8021x {
     ///
     /// # Returns
     ///
-    /// the `property::Setting8021x::phase2-subject-match` property. This is
+    /// the [`phase2-subject-match`][struct@crate::Setting8021x#phase2-subject-match] property. This is
     /// the substring to be matched against the subject of the "phase 2"
     /// authentication server certificate, or [`None`] no subject verification
     /// is to be performed.
@@ -1142,7 +1665,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the PIN used by the authentication method, if any, as specified
-    ///  by the `property::Setting8021x::pin` property
+    ///  by the [`pin`][struct@crate::Setting8021x#pin] property
     #[doc(alias = "nm_setting_802_1x_get_pin")]
     #[doc(alias = "get_pin")]
     pub fn pin(&self) -> Option<glib::GString> {
@@ -1153,7 +1676,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the
-    /// `property::Setting8021x::pin`
+    /// [`pin`][struct@crate::Setting8021x#pin]
     #[doc(alias = "nm_setting_802_1x_get_pin_flags")]
     #[doc(alias = "get_pin_flags")]
     pub fn pin_flags(&self) -> SettingSecretFlags {
@@ -1185,7 +1708,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the data format of the private key data stored in the
-    ///  `property::Setting8021x::private-key` property
+    ///  [`private-key`][struct@crate::Setting8021x#private-key] property
     #[doc(alias = "nm_setting_802_1x_get_private_key_format")]
     #[doc(alias = "get_private_key_format")]
     pub fn private_key_format(&self) -> Setting8021xCKFormat {
@@ -1201,7 +1724,7 @@ impl Setting8021x {
     ///
     /// the private key password used to decrypt the private key if
     ///  previously set with `nm_setting_802_1x_set_private_key()`, or the
-    ///  `property::Setting8021x::private-key-password` property.
+    ///  [`private-key-password`][struct@crate::Setting8021x#private-key-password] property.
     #[doc(alias = "nm_setting_802_1x_get_private_key_password")]
     #[doc(alias = "get_private_key_password")]
     pub fn private_key_password(&self) -> Option<glib::GString> {
@@ -1216,7 +1739,7 @@ impl Setting8021x {
     /// # Returns
     ///
     /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the
-    /// `property::Setting8021x::private-key-password`
+    /// [`private-key-password`][struct@crate::Setting8021x#private-key-password]
     #[doc(alias = "nm_setting_802_1x_get_private_key_password_flags")]
     #[doc(alias = "get_private_key_password_flags")]
     pub fn private_key_password_flags(&self) -> SettingSecretFlags {
@@ -1291,7 +1814,7 @@ impl Setting8021x {
     ///
     /// # Returns
     ///
-    /// the `property::Setting8021x::subject-match` property. This is the
+    /// the [`subject-match`][struct@crate::Setting8021x#subject-match] property. This is the
     /// substring to be matched against the subject of the authentication
     /// server certificate, or [`None`] no subject verification is to be
     /// performed.
@@ -1305,9 +1828,9 @@ impl Setting8021x {
         }
     }
 
-    /// Sets the `property::Setting8021x::system-ca-certs` property. The
-    /// `property::Setting8021x::ca-path` and `property::Setting8021x::phase2-ca-path`
-    /// properties are ignored if the `property::Setting8021x::system-ca-certs` property is
+    /// Sets the [`system-ca-certs`][struct@crate::Setting8021x#system-ca-certs] property. The
+    /// [`ca-path`][struct@crate::Setting8021x#ca-path] and [`phase2-ca-path`][struct@crate::Setting8021x#phase2-ca-path]
+    /// properties are ignored if the [`system-ca-certs`][struct@crate::Setting8021x#system-ca-certs] property is
     /// [`true`], in which case a system-wide CA certificate directory specified at
     /// compile time (using the --system-ca-path configure option) is used in place
     /// of these properties.
@@ -1444,7 +1967,7 @@ impl Setting8021x {
     }
 
     /// Contains the CA certificate if used by the EAP method specified in the
-    /// `property::Setting8021x::eap` property.
+    /// [`eap`][struct@crate::Setting8021x#eap] property.
     ///
     /// Certificate data is specified using a "scheme"; three are currently
     /// supported: blob, path and pkcs`11` URL. When using the blob scheme this property
@@ -1466,7 +1989,7 @@ impl Setting8021x {
     }
 
     /// Contains the CA certificate if used by the EAP method specified in the
-    /// `property::Setting8021x::eap` property.
+    /// [`eap`][struct@crate::Setting8021x#eap] property.
     ///
     /// Certificate data is specified using a "scheme"; three are currently
     /// supported: blob, path and pkcs`11` URL. When using the blob scheme this property
@@ -1488,7 +2011,7 @@ impl Setting8021x {
     }
 
     /// The password used to access the CA certificate stored in
-    /// `property::Setting8021x::ca-cert` property. Only makes sense if the certificate
+    /// [`ca-cert`][struct@crate::Setting8021x#ca-cert] property. Only makes sense if the certificate
     /// is stored on a PKCS#<!-- -->11 token that requires a login.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
@@ -1497,7 +2020,7 @@ impl Setting8021x {
         glib::ObjectExt::set_property(self, "ca-cert-password", &ca_cert_password)
     }
 
-    /// Flags indicating how to handle the `property::Setting8021x::ca-cert-password` property.
+    /// Flags indicating how to handle the [`ca-cert-password`][struct@crate::Setting8021x#ca-cert-password] property.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "ca-cert-password-flags")]
@@ -1507,7 +2030,7 @@ impl Setting8021x {
 
     /// UTF-8 encoded path to a directory containing PEM or DER formatted
     /// certificates to be added to the verification chain in addition to the
-    /// certificate specified in the `property::Setting8021x::ca-cert` property.
+    /// certificate specified in the [`ca-cert`][struct@crate::Setting8021x#ca-cert] property.
     ///
     /// If NMSetting8021x:system-ca-certs is enabled and the built-in CA
     /// path is an existing directory, then this setting is ignored.
@@ -1517,7 +2040,7 @@ impl Setting8021x {
     }
 
     /// Contains the client certificate if used by the EAP method specified in
-    /// the `property::Setting8021x::eap` property.
+    /// the [`eap`][struct@crate::Setting8021x#eap] property.
     ///
     /// Certificate data is specified using a "scheme"; two are currently
     /// supported: blob and path. When using the blob scheme (which is backwards
@@ -1534,7 +2057,7 @@ impl Setting8021x {
     }
 
     /// Contains the client certificate if used by the EAP method specified in
-    /// the `property::Setting8021x::eap` property.
+    /// the [`eap`][struct@crate::Setting8021x#eap] property.
     ///
     /// Certificate data is specified using a "scheme"; two are currently
     /// supported: blob and path. When using the blob scheme (which is backwards
@@ -1551,7 +2074,7 @@ impl Setting8021x {
     }
 
     /// The password used to access the client certificate stored in
-    /// `property::Setting8021x::client-cert` property. Only makes sense if the certificate
+    /// [`client-cert`][struct@crate::Setting8021x#client-cert] property. Only makes sense if the certificate
     /// is stored on a PKCS#<!-- -->11 token that requires a login.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
@@ -1560,7 +2083,7 @@ impl Setting8021x {
         glib::ObjectExt::set_property(self, "client-cert-password", &client_cert_password)
     }
 
-    /// Flags indicating how to handle the `property::Setting8021x::client-cert-password` property.
+    /// Flags indicating how to handle the [`client-cert-password`][struct@crate::Setting8021x#client-cert-password] property.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "client-cert-password-flags")]
@@ -1641,13 +2164,13 @@ impl Setting8021x {
     }
 
     /// UTF-8 encoded password used for EAP authentication methods. If both the
-    /// `property::Setting8021x::password` property and the `property::Setting8021x::password-raw`
-    /// property are specified, `property::Setting8021x::password` is preferred.
+    /// [`password`][struct@crate::Setting8021x#password] property and the [`password-raw`][struct@crate::Setting8021x#password-raw]
+    /// property are specified, [`password`][struct@crate::Setting8021x#password] is preferred.
     pub fn set_password(&self, password: Option<&str>) {
         glib::ObjectExt::set_property(self, "password", &password)
     }
 
-    /// Flags indicating how to handle the `property::Setting8021x::password` property.
+    /// Flags indicating how to handle the [`password`][struct@crate::Setting8021x#password] property.
     #[doc(alias = "password-flags")]
     pub fn set_password_flags(&self, password_flags: SettingSecretFlags) {
         glib::ObjectExt::set_property(self, "password-flags", &password_flags)
@@ -1655,14 +2178,14 @@ impl Setting8021x {
 
     /// Password used for EAP authentication methods, given as a byte array to
     /// allow passwords in other encodings than UTF-8 to be used. If both the
-    /// `property::Setting8021x::password` property and the `property::Setting8021x::password-raw`
-    /// property are specified, `property::Setting8021x::password` is preferred.
+    /// [`password`][struct@crate::Setting8021x#password] property and the [`password-raw`][struct@crate::Setting8021x#password-raw]
+    /// property are specified, [`password`][struct@crate::Setting8021x#password] is preferred.
     #[doc(alias = "password-raw")]
     pub fn set_password_raw(&self, password_raw: Option<&glib::Bytes>) {
         glib::ObjectExt::set_property(self, "password-raw", &password_raw)
     }
 
-    /// Flags indicating how to handle the `property::Setting8021x::password-raw` property.
+    /// Flags indicating how to handle the [`password-raw`][struct@crate::Setting8021x#password-raw] property.
     #[doc(alias = "password-raw-flags")]
     pub fn set_password_raw_flags(&self, password_raw_flags: SettingSecretFlags) {
         glib::ObjectExt::set_property(self, "password-raw-flags", &password_raw_flags)
@@ -1682,7 +2205,7 @@ impl Setting8021x {
     }
 
     /// Enables or disables in-line provisioning of EAP-FAST credentials when
-    /// FAST is specified as the EAP method in the `property::Setting8021x::eap` property.
+    /// FAST is specified as the EAP method in the [`eap`][struct@crate::Setting8021x#eap] property.
     /// Recognized values are "0" (disabled), "1" (allow unauthenticated
     /// provisioning), "2" (allow authenticated provisioning), and "3" (allow
     /// both authenticated and unauthenticated provisioning). See the
@@ -1702,7 +2225,7 @@ impl Setting8021x {
     }
 
     /// Forces which PEAP version is used when PEAP is set as the EAP method in
-    /// the `property::Setting8021x::eap` property. When unset, the version reported by
+    /// the [`eap`][struct@crate::Setting8021x#eap] property. When unset, the version reported by
     /// the server will be used. Sometimes when using older RADIUS servers, it
     /// is necessary to force the client to use a particular PEAP version. To do
     /// so, this property may be set to "0" or "1" to force that specific PEAP
@@ -1735,14 +2258,14 @@ impl Setting8021x {
     }
 
     /// Specifies the allowed "phase 2" inner authentication method when an EAP
-    /// method that uses an inner TLS tunnel is specified in the `property::Setting8021x::eap`
+    /// method that uses an inner TLS tunnel is specified in the [`eap`][struct@crate::Setting8021x#eap]
     /// property. For TTLS this property selects one of the supported non-EAP
     /// inner methods: "pap", "chap", "mschap", "mschapv2" while
-    /// `property::Setting8021x::phase2-autheap` selects an EAP inner method. For PEAP
+    /// [`phase2-autheap`][struct@crate::Setting8021x#phase2-autheap] selects an EAP inner method. For PEAP
     /// this selects an inner EAP method, one of: "gtc", "otp", "md5" and "tls".
     /// Each "phase 2" inner method requires specific parameters for successful
     /// authentication; see the wpa_supplicant documentation for more details.
-    /// Both `property::Setting8021x::phase2-auth` and `property::Setting8021x::phase2-autheap` cannot
+    /// Both [`phase2-auth`][struct@crate::Setting8021x#phase2-auth] and [`phase2-autheap`][struct@crate::Setting8021x#phase2-autheap] cannot
     /// be specified.
     #[doc(alias = "phase2-auth")]
     pub fn set_phase2_auth(&self, phase2_auth: Option<&str>) {
@@ -1750,7 +2273,7 @@ impl Setting8021x {
     }
 
     /// Specifies the allowed "phase 2" inner EAP-based authentication method
-    /// when TTLS is specified in the `property::Setting8021x::eap` property. Recognized
+    /// when TTLS is specified in the [`eap`][struct@crate::Setting8021x#eap] property. Recognized
     /// EAP-based "phase 2" methods are "md5", "mschapv2", "otp", "gtc", and
     /// "tls". Each "phase 2" inner method requires specific parameters for
     /// successful authentication; see the wpa_supplicant documentation for
@@ -1761,7 +2284,7 @@ impl Setting8021x {
     }
 
     /// Contains the "phase 2" CA certificate if used by the EAP method specified
-    /// in the `property::Setting8021x::phase2-auth` or `property::Setting8021x::phase2-autheap`
+    /// in the [`phase2-auth`][struct@crate::Setting8021x#phase2-auth] or [`phase2-autheap`][struct@crate::Setting8021x#phase2-autheap]
     /// properties.
     ///
     /// Certificate data is specified using a "scheme"; three are currently
@@ -1784,7 +2307,7 @@ impl Setting8021x {
     }
 
     /// Contains the "phase 2" CA certificate if used by the EAP method specified
-    /// in the `property::Setting8021x::phase2-auth` or `property::Setting8021x::phase2-autheap`
+    /// in the [`phase2-auth`][struct@crate::Setting8021x#phase2-auth] or [`phase2-autheap`][struct@crate::Setting8021x#phase2-autheap]
     /// properties.
     ///
     /// Certificate data is specified using a "scheme"; three are currently
@@ -1807,7 +2330,7 @@ impl Setting8021x {
     }
 
     /// The password used to access the "phase2" CA certificate stored in
-    /// `property::Setting8021x::phase2-ca-cert` property. Only makes sense if the certificate
+    /// [`phase2-ca-cert`][struct@crate::Setting8021x#phase2-ca-cert] property. Only makes sense if the certificate
     /// is stored on a PKCS#<!-- -->11 token that requires a login.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
@@ -1816,7 +2339,7 @@ impl Setting8021x {
         glib::ObjectExt::set_property(self, "phase2-ca-cert-password", &phase2_ca_cert_password)
     }
 
-    /// Flags indicating how to handle the `property::Setting8021x::phase2-ca-cert-password` property.
+    /// Flags indicating how to handle the [`phase2-ca-cert-password`][struct@crate::Setting8021x#phase2-ca-cert-password] property.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "phase2-ca-cert-password-flags")]
@@ -1833,7 +2356,7 @@ impl Setting8021x {
 
     /// UTF-8 encoded path to a directory containing PEM or DER formatted
     /// certificates to be added to the verification chain in addition to the
-    /// certificate specified in the `property::Setting8021x::phase2-ca-cert` property.
+    /// certificate specified in the [`phase2-ca-cert`][struct@crate::Setting8021x#phase2-ca-cert] property.
     ///
     /// If NMSetting8021x:system-ca-certs is enabled and the built-in CA
     /// path is an existing directory, then this setting is ignored.
@@ -1843,8 +2366,8 @@ impl Setting8021x {
     }
 
     /// Contains the "phase 2" client certificate if used by the EAP method
-    /// specified in the `property::Setting8021x::phase2-auth` or
-    /// `property::Setting8021x::phase2-autheap` properties.
+    /// specified in the [`phase2-auth`][struct@crate::Setting8021x#phase2-auth] or
+    /// [`phase2-autheap`][struct@crate::Setting8021x#phase2-autheap] properties.
     ///
     /// Certificate data is specified using a "scheme"; two are currently
     /// supported: blob and path. When using the blob scheme (which is backwards
@@ -1863,8 +2386,8 @@ impl Setting8021x {
     }
 
     /// Contains the "phase 2" client certificate if used by the EAP method
-    /// specified in the `property::Setting8021x::phase2-auth` or
-    /// `property::Setting8021x::phase2-autheap` properties.
+    /// specified in the [`phase2-auth`][struct@crate::Setting8021x#phase2-auth] or
+    /// [`phase2-autheap`][struct@crate::Setting8021x#phase2-autheap] properties.
     ///
     /// Certificate data is specified using a "scheme"; two are currently
     /// supported: blob and path. When using the blob scheme (which is backwards
@@ -1883,7 +2406,7 @@ impl Setting8021x {
     }
 
     /// The password used to access the "phase2" client certificate stored in
-    /// `property::Setting8021x::phase2-client-cert` property. Only makes sense if the certificate
+    /// [`phase2-client-cert`][struct@crate::Setting8021x#phase2-client-cert] property. Only makes sense if the certificate
     /// is stored on a PKCS#<!-- -->11 token that requires a login.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
@@ -1896,7 +2419,7 @@ impl Setting8021x {
         )
     }
 
-    /// Flags indicating how to handle the `property::Setting8021x::phase2-client-cert-password` property.
+    /// Flags indicating how to handle the [`phase2-client-cert-password`][struct@crate::Setting8021x#phase2-client-cert-password] property.
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "phase2-client-cert-password-flags")]
@@ -1945,7 +2468,7 @@ impl Setting8021x {
     }
 
     /// Contains the "phase 2" inner private key when the
-    /// `property::Setting8021x::phase2-auth` or `property::Setting8021x::phase2-autheap` property is
+    /// [`phase2-auth`][struct@crate::Setting8021x#phase2-auth] or [`phase2-autheap`][struct@crate::Setting8021x#phase2-autheap] property is
     /// set to "tls".
     ///
     /// Key data is specified using a "scheme"; two are currently supported: blob
@@ -1955,13 +2478,13 @@ impl Setting8021x {
     /// encoded path of the key, prefixed with the string "file://" and ending
     /// with a terminating NUL byte. When using PKCS#<!-- -->12 format private
     /// keys and the blob scheme, this property should be set to the
-    /// PKCS#<!-- -->12 data and the `property::Setting8021x::phase2-private-key-password`
+    /// PKCS#<!-- -->12 data and the [`phase2-private-key-password`][struct@crate::Setting8021x#phase2-private-key-password]
     /// property must be set to password used to decrypt the PKCS#<!-- -->12
     /// certificate and key. When using PKCS#<!-- -->12 files and the path
     /// scheme, this property should be set to the full UTF-8 encoded path of the
     /// key, prefixed with the string "file://" and ending with a terminating
     /// NUL byte, and as with the blob scheme the
-    /// `property::Setting8021x::phase2-private-key-password` property must be set to the
+    /// [`phase2-private-key-password`][struct@crate::Setting8021x#phase2-private-key-password] property must be set to the
     /// password used to decode the PKCS#<!-- -->12 private key and certificate.
     ///
     /// Setting this property directly is discouraged; use the
@@ -1972,7 +2495,7 @@ impl Setting8021x {
     }
 
     /// Contains the "phase 2" inner private key when the
-    /// `property::Setting8021x::phase2-auth` or `property::Setting8021x::phase2-autheap` property is
+    /// [`phase2-auth`][struct@crate::Setting8021x#phase2-auth] or [`phase2-autheap`][struct@crate::Setting8021x#phase2-autheap] property is
     /// set to "tls".
     ///
     /// Key data is specified using a "scheme"; two are currently supported: blob
@@ -1982,13 +2505,13 @@ impl Setting8021x {
     /// encoded path of the key, prefixed with the string "file://" and ending
     /// with a terminating NUL byte. When using PKCS#<!-- -->12 format private
     /// keys and the blob scheme, this property should be set to the
-    /// PKCS#<!-- -->12 data and the `property::Setting8021x::phase2-private-key-password`
+    /// PKCS#<!-- -->12 data and the [`phase2-private-key-password`][struct@crate::Setting8021x#phase2-private-key-password]
     /// property must be set to password used to decrypt the PKCS#<!-- -->12
     /// certificate and key. When using PKCS#<!-- -->12 files and the path
     /// scheme, this property should be set to the full UTF-8 encoded path of the
     /// key, prefixed with the string "file://" and ending with a terminating
     /// NUL byte, and as with the blob scheme the
-    /// `property::Setting8021x::phase2-private-key-password` property must be set to the
+    /// [`phase2-private-key-password`][struct@crate::Setting8021x#phase2-private-key-password] property must be set to the
     /// password used to decode the PKCS#<!-- -->12 private key and certificate.
     ///
     /// Setting this property directly is discouraged; use the
@@ -1999,7 +2522,7 @@ impl Setting8021x {
     }
 
     /// The password used to decrypt the "phase 2" private key specified in the
-    /// `property::Setting8021x::phase2-private-key` property when the private key either
+    /// [`phase2-private-key`][struct@crate::Setting8021x#phase2-private-key] property when the private key either
     /// uses the path scheme, or is a PKCS#<!-- -->12 format key. Setting this
     /// property directly is not generally necessary except when returning
     /// secrets to NetworkManager; it is generally set automatically when setting
@@ -2015,7 +2538,7 @@ impl Setting8021x {
     }
 
     /// Flags indicating how to handle the
-    /// `property::Setting8021x::phase2-private-key-password` property.
+    /// [`phase2-private-key-password`][struct@crate::Setting8021x#phase2-private-key-password] property.
     #[doc(alias = "phase2-private-key-password-flags")]
     pub fn set_phase2_private_key_password_flags(
         &self,
@@ -2044,13 +2567,13 @@ impl Setting8021x {
         glib::ObjectExt::set_property(self, "pin", &pin)
     }
 
-    /// Flags indicating how to handle the `property::Setting8021x::pin` property.
+    /// Flags indicating how to handle the [`pin`][struct@crate::Setting8021x#pin] property.
     #[doc(alias = "pin-flags")]
     pub fn set_pin_flags(&self, pin_flags: SettingSecretFlags) {
         glib::ObjectExt::set_property(self, "pin-flags", &pin_flags)
     }
 
-    /// Contains the private key when the `property::Setting8021x::eap` property is set to
+    /// Contains the private key when the [`eap`][struct@crate::Setting8021x#eap] property is set to
     /// "tls".
     ///
     /// Key data is specified using a "scheme"; two are currently supported: blob
@@ -2060,7 +2583,7 @@ impl Setting8021x {
     /// encoded path of the key, prefixed with the string "file://" and ending
     /// with a terminating NUL byte. When using PKCS#<!-- -->12 format private
     /// keys and the blob scheme, this property should be set to the
-    /// PKCS#<!-- -->12 data and the `property::Setting8021x::private-key-password`
+    /// PKCS#<!-- -->12 data and the [`private-key-password`][struct@crate::Setting8021x#private-key-password]
     /// property must be set to password used to decrypt the PKCS#<!-- -->12
     /// certificate and key. When using PKCS#<!-- -->12 files and the path
     /// scheme, this property should be set to the full UTF-8 encoded path of the
@@ -2072,7 +2595,7 @@ impl Setting8021x {
     /// Setting this property directly is discouraged; use the
     /// `nm_setting_802_1x_set_private_key()` function instead.
     ///
-    /// WARNING: `property::Setting8021x::private-key` is not a "secret" property, and thus
+    /// WARNING: [`private-key`][struct@crate::Setting8021x#private-key] is not a "secret" property, and thus
     /// unencrypted private key data using the BLOB scheme may be readable by
     /// unprivileged users. Private keys should always be encrypted with a
     /// private key password to prevent unauthorized access to unencrypted
@@ -2082,7 +2605,7 @@ impl Setting8021x {
         glib::ObjectExt::property(self, "private-key")
     }
 
-    /// Contains the private key when the `property::Setting8021x::eap` property is set to
+    /// Contains the private key when the [`eap`][struct@crate::Setting8021x#eap] property is set to
     /// "tls".
     ///
     /// Key data is specified using a "scheme"; two are currently supported: blob
@@ -2092,7 +2615,7 @@ impl Setting8021x {
     /// encoded path of the key, prefixed with the string "file://" and ending
     /// with a terminating NUL byte. When using PKCS#<!-- -->12 format private
     /// keys and the blob scheme, this property should be set to the
-    /// PKCS#<!-- -->12 data and the `property::Setting8021x::private-key-password`
+    /// PKCS#<!-- -->12 data and the [`private-key-password`][struct@crate::Setting8021x#private-key-password]
     /// property must be set to password used to decrypt the PKCS#<!-- -->12
     /// certificate and key. When using PKCS#<!-- -->12 files and the path
     /// scheme, this property should be set to the full UTF-8 encoded path of the
@@ -2104,7 +2627,7 @@ impl Setting8021x {
     /// Setting this property directly is discouraged; use the
     /// `nm_setting_802_1x_set_private_key()` function instead.
     ///
-    /// WARNING: `property::Setting8021x::private-key` is not a "secret" property, and thus
+    /// WARNING: [`private-key`][struct@crate::Setting8021x#private-key] is not a "secret" property, and thus
     /// unencrypted private key data using the BLOB scheme may be readable by
     /// unprivileged users. Private keys should always be encrypted with a
     /// private key password to prevent unauthorized access to unencrypted
@@ -2115,7 +2638,7 @@ impl Setting8021x {
     }
 
     /// The password used to decrypt the private key specified in the
-    /// `property::Setting8021x::private-key` property when the private key either uses the
+    /// [`private-key`][struct@crate::Setting8021x#private-key] property when the private key either uses the
     /// path scheme, or if the private key is a PKCS#<!-- -->12 format key. Setting this
     /// property directly is not generally necessary except when returning
     /// secrets to NetworkManager; it is generally set automatically when setting
@@ -2125,7 +2648,7 @@ impl Setting8021x {
         glib::ObjectExt::set_property(self, "private-key-password", &private_key_password)
     }
 
-    /// Flags indicating how to handle the `property::Setting8021x::private-key-password`
+    /// Flags indicating how to handle the [`private-key-password`][struct@crate::Setting8021x#private-key-password]
     /// property.
     #[doc(alias = "private-key-password-flags")]
     pub fn set_private_key_password_flags(&self, private_key_password_flags: SettingSecretFlags) {
@@ -2146,14 +2669,14 @@ impl Setting8021x {
         glib::ObjectExt::set_property(self, "subject-match", &subject_match)
     }
 
-    /// When [`true`], overrides the `property::Setting8021x::ca-path` and
-    /// `property::Setting8021x::phase2-ca-path` properties using the system CA directory
+    /// When [`true`], overrides the [`ca-path`][struct@crate::Setting8021x#ca-path] and
+    /// [`phase2-ca-path`][struct@crate::Setting8021x#phase2-ca-path] properties using the system CA directory
     /// specified at configure time with the --system-ca-path switch. The
     /// certificates in this directory are added to the verification chain in
-    /// addition to any certificates specified by the `property::Setting8021x::ca-cert` and
-    /// `property::Setting8021x::phase2-ca-cert` properties. If the path provided with
+    /// addition to any certificates specified by the [`ca-cert`][struct@crate::Setting8021x#ca-cert] and
+    /// [`phase2-ca-cert`][struct@crate::Setting8021x#phase2-ca-cert] properties. If the path provided with
     /// --system-ca-path is rather a file name (bundle of trusted CA certificates),
-    /// it overrides `property::Setting8021x::ca-cert` and `property::Setting8021x::phase2-ca-cert`
+    /// it overrides [`ca-cert`][struct@crate::Setting8021x#ca-cert] and [`phase2-ca-cert`][struct@crate::Setting8021x#phase2-ca-cert]
     /// properties instead (sets ca_cert/ca_cert2 options for wpa_supplicant).
     #[doc(alias = "system-ca-certs")]
     pub fn set_system_ca_certs(&self, system_ca_certs: bool) {

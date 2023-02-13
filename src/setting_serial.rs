@@ -2,19 +2,65 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::Setting;
-use crate::SettingSerialParity;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use crate::{Setting, SettingSerialParity};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// Serial Link Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `baud`
+    ///  Speed to use for communication over the serial port. Note that this
+    /// value usually has no effect for mobile broadband modems as they generally
+    /// ignore speed settings and use the highest available speed.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `bits`
+    ///  Byte-width of the serial communication. The 8 in "8n1" for example.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `parity`
+    ///  Parity setting of the serial port.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `send-delay`
+    ///  Time to delay between each byte sent to the modem, in microseconds.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `stopbits`
+    ///  Number of stop bits for communication on the serial port. Either 1 or 2.
+    /// The 1 in "8n1" for example.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingSerial")]
     pub struct SettingSerial(Object<ffi::NMSettingSerial, ffi::NMSettingSerialClass>) @extends Setting;
 
@@ -37,7 +83,7 @@ impl SettingSerial {
     ///
     /// # Returns
     ///
-    /// the `property::SettingSerial::baud` property of the setting
+    /// the [`baud`][struct@crate::SettingSerial#baud] property of the setting
     #[doc(alias = "nm_setting_serial_get_baud")]
     #[doc(alias = "get_baud")]
     pub fn baud(&self) -> u32 {
@@ -47,7 +93,7 @@ impl SettingSerial {
     ///
     /// # Returns
     ///
-    /// the `property::SettingSerial::bits` property of the setting
+    /// the [`bits`][struct@crate::SettingSerial#bits] property of the setting
     #[doc(alias = "nm_setting_serial_get_bits")]
     #[doc(alias = "get_bits")]
     pub fn bits(&self) -> u32 {
@@ -57,7 +103,7 @@ impl SettingSerial {
     ///
     /// # Returns
     ///
-    /// the `property::SettingSerial::parity` property of the setting
+    /// the [`parity`][struct@crate::SettingSerial#parity] property of the setting
     #[doc(alias = "nm_setting_serial_get_parity")]
     #[doc(alias = "get_parity")]
     pub fn parity(&self) -> SettingSerialParity {
@@ -67,7 +113,7 @@ impl SettingSerial {
     ///
     /// # Returns
     ///
-    /// the `property::SettingSerial::send-delay` property of the setting
+    /// the [`send-delay`][struct@crate::SettingSerial#send-delay] property of the setting
     #[doc(alias = "nm_setting_serial_get_send_delay")]
     #[doc(alias = "get_send_delay")]
     pub fn send_delay(&self) -> u64 {
@@ -77,7 +123,7 @@ impl SettingSerial {
     ///
     /// # Returns
     ///
-    /// the `property::SettingSerial::stopbits` property of the setting
+    /// the [`stopbits`][struct@crate::SettingSerial#stopbits] property of the setting
     #[doc(alias = "nm_setting_serial_get_stopbits")]
     #[doc(alias = "get_stopbits")]
     pub fn stopbits(&self) -> u32 {

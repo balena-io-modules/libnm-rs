@@ -2,85 +2,70 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::ConnectionSerializationFlags;
-use crate::Setting;
-use crate::Setting8021x;
-use crate::SettingAdsl;
-use crate::SettingBluetooth;
-use crate::SettingBond;
-use crate::SettingBridge;
-use crate::SettingBridgePort;
-use crate::SettingCdma;
-use crate::SettingCompareFlags;
-use crate::SettingConnection;
-use crate::SettingDcb;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 use crate::SettingDummy;
-use crate::SettingGeneric;
-use crate::SettingGsm;
-use crate::SettingIP4Config;
-use crate::SettingIP6Config;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use crate::SettingIPTunnel;
-use crate::SettingInfiniband;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
-use crate::SettingMacsec;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use crate::SettingMacvlan;
-use crate::SettingOlpcMesh;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use crate::SettingOvsBridge;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use crate::SettingOvsInterface;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use crate::SettingOvsPatch;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use crate::SettingOvsPort;
-use crate::SettingPpp;
-use crate::SettingPppoe;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
-use crate::SettingProxy;
-use crate::SettingSerial;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 use crate::SettingTCConfig;
-use crate::SettingTeam;
-use crate::SettingTeamPort;
+use crate::{
+    ConnectionSerializationFlags, Setting, Setting8021x, SettingAdsl, SettingBluetooth,
+    SettingBond, SettingBridge, SettingBridgePort, SettingCdma, SettingCompareFlags,
+    SettingConnection, SettingDcb, SettingGeneric, SettingGsm, SettingIP4Config, SettingIP6Config,
+    SettingInfiniband, SettingOlpcMesh, SettingPpp, SettingPppoe, SettingSerial, SettingTeam,
+    SettingTeamPort, SettingVlan, SettingVpn, SettingWimax, SettingWired, SettingWireless,
+    SettingWirelessSecurity,
+};
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use crate::SettingTun;
-use crate::SettingVlan;
-use crate::SettingVpn;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use crate::SettingVxlan;
-use crate::SettingWimax;
-use crate::SettingWired;
-use crate::SettingWireless;
-use crate::SettingWirelessSecurity;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
+use crate::{SettingIPTunnel, SettingMacvlan, SettingVxlan};
+#[cfg(any(feature = "v1_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
+use crate::{SettingMacsec, SettingProxy};
+#[cfg(any(feature = "v1_14", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+use crate::{SettingOvsBridge, SettingOvsInterface, SettingOvsPatch, SettingOvsPort, SettingTun};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 use std::mem;
-use std::mem::transmute;
-use std::ptr;
+use std::{boxed::Box as Box_, fmt, mem::transmute, ptr};
 
 glib::wrapper! {
+    /// NMConnection is the interface implemented by [`RemoteConnection`][crate::RemoteConnection] on the
+    /// client side, and `NMSettingsConnection` on the daemon side.
+    ///
+    /// ## Signals
+    ///
+    ///
+    /// #### `changed`
+    ///  The ::changed signal is emitted when any property (including secrets)
+    /// of any setting of the connection is modified, or when settings are
+    /// added or removed.
+    ///
+    ///
+    ///
+    ///
+    /// #### `secrets-cleared`
+    ///  The ::secrets-cleared signal is emitted when the secrets of a connection
+    /// are cleared.
+    ///
+    ///
+    ///
+    ///
+    /// #### `secrets-updated`
+    ///  The ::secrets-updated signal is emitted when the secrets of a setting
+    /// have been changed.
+    ///
+    ///
+    ///
+    /// # Implements
+    ///
+    /// [`ConnectionExt`][trait@crate::prelude::ConnectionExt]
     #[doc(alias = "NMConnection")]
     pub struct Connection(Interface<ffi::NMConnection, ffi::NMConnectionInterface>);
 
@@ -106,14 +91,11 @@ pub trait ConnectionExt: 'static {
     /// ## `setting`
     /// the [`Setting`][crate::Setting] to add to the connection object
     #[doc(alias = "nm_connection_add_setting")]
-    fn add_setting(&self, setting: &impl IsA<Setting>);
+    fn add_setting(&self, setting: impl IsA<Setting>);
 
-    /// Clears and frees any secrets that may be stored in the connection, to avoid
-    /// keeping secret data in memory when not needed.
     #[doc(alias = "nm_connection_clear_secrets")]
     fn clear_secrets(&self);
 
-    /// Deletes all of `self`'s settings.
     #[doc(alias = "nm_connection_clear_settings")]
     fn clear_settings(&self);
 
@@ -123,608 +105,253 @@ pub trait ConnectionExt: 'static {
     //#[doc(alias = "nm_connection_diff")]
     //fn diff(&self, b: &impl IsA<Connection>, flags: SettingCompareFlags, out_settings: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 41 }) -> bool;
 
-    /// Print the connection (including secrets!) to stdout. For debugging
-    /// purposes ONLY, should NOT be used for serialization of the setting,
-    /// or machine-parsed in any way. The output format is not guaranteed to
-    /// be stable and may change at any time.
     #[doc(alias = "nm_connection_dump")]
     fn dump(&self);
 
     //#[doc(alias = "nm_connection_for_each_setting_value")]
     //fn for_each_setting_value(&self, func: /*Unimplemented*/FnMut(&Setting, &str, /*Ignored*/glib::Value, /*Ignored*/glib::ParamFlags), user_data: /*Unimplemented*/Option<Basic: Pointer>);
 
-    /// A shortcut to return the type from the connection's [`SettingConnection`][crate::SettingConnection].
-    ///
-    /// # Returns
-    ///
-    /// the type from the connection's 'connection' setting
     #[doc(alias = "nm_connection_get_connection_type")]
     #[doc(alias = "get_connection_type")]
     fn connection_type(&self) -> Option<glib::GString>;
 
-    /// A shortcut to return the ID from the connection's [`SettingConnection`][crate::SettingConnection].
-    ///
-    /// # Returns
-    ///
-    /// the ID from the connection's 'connection' setting
     #[doc(alias = "nm_connection_get_id")]
     #[doc(alias = "get_id")]
     fn id(&self) -> Option<glib::GString>;
 
-    /// Returns the interface name as stored in NMSettingConnection:interface_name.
-    /// If the connection contains no NMSettingConnection, it will return [`None`].
-    ///
-    /// For hardware devices and software devices created outside of NetworkManager,
-    /// this name is used to match the device. for software devices created by
-    /// NetworkManager, this is the name of the created interface.
-    ///
-    /// # Returns
-    ///
-    /// Name of the kernel interface or [`None`]
     #[doc(alias = "nm_connection_get_interface_name")]
     #[doc(alias = "get_interface_name")]
     fn interface_name(&self) -> Option<glib::GString>;
 
-    /// Returns the connection's D-Bus path.
-    ///
-    /// # Returns
-    ///
-    /// the D-Bus path of the connection, previously set by a call to
-    /// [`set_path()`][Self::set_path()].
     #[doc(alias = "nm_connection_get_path")]
     #[doc(alias = "get_path")]
     fn path(&self) -> Option<glib::GString>;
 
-    /// Gets the [`Setting`][crate::Setting] with the given `GType`, if one has been previously added
-    /// to the [`Connection`][crate::Connection].
-    /// ## `setting_type`
-    /// the `GType` of the setting object to return
-    ///
-    /// # Returns
-    ///
-    /// the [`Setting`][crate::Setting], or [`None`] if no setting of that type was previously
-    /// added to the [`Connection`][crate::Connection]
     #[doc(alias = "nm_connection_get_setting")]
     #[doc(alias = "get_setting")]
     fn setting(&self, setting_type: glib::types::Type) -> Option<Setting>;
 
-    /// A shortcut to return any [`Setting8021x`][crate::Setting8021x] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`Setting8021x`][crate::Setting8021x] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_802_1x")]
     #[doc(alias = "get_setting_802_1x")]
     fn setting_802_1x(&self) -> Option<Setting8021x>;
 
-    /// A shortcut to return any [`SettingAdsl`][crate::SettingAdsl] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingAdsl`][crate::SettingAdsl] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_adsl")]
     #[doc(alias = "get_setting_adsl")]
     fn setting_adsl(&self) -> Option<SettingAdsl>;
 
-    /// A shortcut to return any [`SettingBluetooth`][crate::SettingBluetooth] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingBluetooth`][crate::SettingBluetooth] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_bluetooth")]
     #[doc(alias = "get_setting_bluetooth")]
     fn setting_bluetooth(&self) -> Option<SettingBluetooth>;
 
-    /// A shortcut to return any [`SettingBond`][crate::SettingBond] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingBond`][crate::SettingBond] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_bond")]
     #[doc(alias = "get_setting_bond")]
     fn setting_bond(&self) -> Option<SettingBond>;
 
-    /// A shortcut to return any [`SettingBridge`][crate::SettingBridge] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingBridge`][crate::SettingBridge] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_bridge")]
     #[doc(alias = "get_setting_bridge")]
     fn setting_bridge(&self) -> Option<SettingBridge>;
 
-    /// A shortcut to return any [`SettingBridgePort`][crate::SettingBridgePort] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingBridgePort`][crate::SettingBridgePort] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_bridge_port")]
     #[doc(alias = "get_setting_bridge_port")]
     fn setting_bridge_port(&self) -> Option<SettingBridgePort>;
 
-    /// Gets the [`Setting`][crate::Setting] with the given name, if one has been previously added
-    /// the [`Connection`][crate::Connection].
-    /// ## `name`
-    /// a setting name
-    ///
-    /// # Returns
-    ///
-    /// the [`Setting`][crate::Setting], or [`None`] if no setting with that name was previously
-    /// added to the [`Connection`][crate::Connection]
     #[doc(alias = "nm_connection_get_setting_by_name")]
     #[doc(alias = "get_setting_by_name")]
     fn setting_by_name(&self, name: &str) -> Option<Setting>;
 
-    /// A shortcut to return any [`SettingCdma`][crate::SettingCdma] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingCdma`][crate::SettingCdma] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_cdma")]
     #[doc(alias = "get_setting_cdma")]
     fn setting_cdma(&self) -> Option<SettingCdma>;
 
-    /// A shortcut to return any [`SettingConnection`][crate::SettingConnection] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingConnection`][crate::SettingConnection] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_connection")]
     #[doc(alias = "get_setting_connection")]
     fn setting_connection(&self) -> Option<SettingConnection>;
 
-    /// A shortcut to return any [`SettingDcb`][crate::SettingDcb] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingDcb`][crate::SettingDcb] if the connection contains one, otherwise NULL
     #[doc(alias = "nm_connection_get_setting_dcb")]
     #[doc(alias = "get_setting_dcb")]
     fn setting_dcb(&self) -> Option<SettingDcb>;
 
-    /// A shortcut to return any [`SettingDummy`][crate::SettingDummy] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingDummy`][crate::SettingDummy] if the connection contains one, otherwise [`None`]
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "nm_connection_get_setting_dummy")]
     #[doc(alias = "get_setting_dummy")]
     fn setting_dummy(&self) -> Option<SettingDummy>;
 
-    /// A shortcut to return any [`SettingGeneric`][crate::SettingGeneric] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingGeneric`][crate::SettingGeneric] if the connection contains one, otherwise NULL
     #[doc(alias = "nm_connection_get_setting_generic")]
     #[doc(alias = "get_setting_generic")]
     fn setting_generic(&self) -> Option<SettingGeneric>;
 
-    /// A shortcut to return any [`SettingGsm`][crate::SettingGsm] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingGsm`][crate::SettingGsm] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_gsm")]
     #[doc(alias = "get_setting_gsm")]
     fn setting_gsm(&self) -> Option<SettingGsm>;
 
-    /// A shortcut to return any [`SettingInfiniband`][crate::SettingInfiniband] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingInfiniband`][crate::SettingInfiniband] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_infiniband")]
     #[doc(alias = "get_setting_infiniband")]
     fn setting_infiniband(&self) -> Option<SettingInfiniband>;
 
-    /// A shortcut to return any [`SettingIP4Config`][crate::SettingIP4Config] the connection might contain.
-    ///
-    /// Note that it returns the value as type [`SettingIPConfig`][crate::SettingIPConfig], since the vast
-    /// majority of IPv4-setting-related methods are on that type, not
-    /// [`SettingIP4Config`][crate::SettingIP4Config].
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingIP4Config`][crate::SettingIP4Config] if the
-    /// connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_ip4_config")]
     #[doc(alias = "get_setting_ip4_config")]
     fn setting_ip4_config(&self) -> Option<SettingIP4Config>;
 
-    /// A shortcut to return any [`SettingIP6Config`][crate::SettingIP6Config] the connection might contain.
-    ///
-    /// Note that it returns the value as type [`SettingIPConfig`][crate::SettingIPConfig], since the vast
-    /// majority of IPv6-setting-related methods are on that type, not
-    /// [`SettingIP6Config`][crate::SettingIP6Config].
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingIP6Config`][crate::SettingIP6Config] if the
-    /// connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_ip6_config")]
     #[doc(alias = "get_setting_ip6_config")]
     fn setting_ip6_config(&self) -> Option<SettingIP6Config>;
 
-    /// A shortcut to return any [`SettingIPTunnel`][crate::SettingIPTunnel] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingIPTunnel`][crate::SettingIPTunnel] if the connection contains one, otherwise [`None`]
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_connection_get_setting_ip_tunnel")]
     #[doc(alias = "get_setting_ip_tunnel")]
     fn setting_ip_tunnel(&self) -> Option<SettingIPTunnel>;
 
-    /// A shortcut to return any [`SettingMacsec`][crate::SettingMacsec] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingMacsec`][crate::SettingMacsec] if the connection contains one, otherwise [`None`]
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_connection_get_setting_macsec")]
     #[doc(alias = "get_setting_macsec")]
     fn setting_macsec(&self) -> Option<SettingMacsec>;
 
-    /// A shortcut to return any [`SettingMacvlan`][crate::SettingMacvlan] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingMacvlan`][crate::SettingMacvlan] if the connection contains one, otherwise [`None`]
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_connection_get_setting_macvlan")]
     #[doc(alias = "get_setting_macvlan")]
     fn setting_macvlan(&self) -> Option<SettingMacvlan>;
 
-    /// A shortcut to return any [`SettingOlpcMesh`][crate::SettingOlpcMesh] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingOlpcMesh`][crate::SettingOlpcMesh] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_olpc_mesh")]
     #[doc(alias = "get_setting_olpc_mesh")]
     fn setting_olpc_mesh(&self) -> Option<SettingOlpcMesh>;
 
-    /// A shortcut to return any [`SettingOvsBridge`][crate::SettingOvsBridge] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingOvsBridge`][crate::SettingOvsBridge] if the connection contains one, otherwise [`None`]
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_connection_get_setting_ovs_bridge")]
     #[doc(alias = "get_setting_ovs_bridge")]
     fn setting_ovs_bridge(&self) -> Option<SettingOvsBridge>;
 
-    /// A shortcut to return any [`SettingOvsInterface`][crate::SettingOvsInterface] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingOvsInterface`][crate::SettingOvsInterface] if the connection contains one, otherwise [`None`]
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_connection_get_setting_ovs_interface")]
     #[doc(alias = "get_setting_ovs_interface")]
     fn setting_ovs_interface(&self) -> Option<SettingOvsInterface>;
 
-    /// A shortcut to return any [`SettingOvsPatch`][crate::SettingOvsPatch] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingOvsPatch`][crate::SettingOvsPatch] if the connection contains one, otherwise [`None`]
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_connection_get_setting_ovs_patch")]
     #[doc(alias = "get_setting_ovs_patch")]
     fn setting_ovs_patch(&self) -> Option<SettingOvsPatch>;
 
-    /// A shortcut to return any [`SettingOvsPort`][crate::SettingOvsPort] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingOvsPort`][crate::SettingOvsPort] if the connection contains one, otherwise [`None`]
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_connection_get_setting_ovs_port")]
     #[doc(alias = "get_setting_ovs_port")]
     fn setting_ovs_port(&self) -> Option<SettingOvsPort>;
 
-    /// A shortcut to return any [`SettingPpp`][crate::SettingPpp] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingPpp`][crate::SettingPpp] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_ppp")]
     #[doc(alias = "get_setting_ppp")]
     fn setting_ppp(&self) -> Option<SettingPpp>;
 
-    /// A shortcut to return any [`SettingPppoe`][crate::SettingPppoe] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingPppoe`][crate::SettingPppoe] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_pppoe")]
     #[doc(alias = "get_setting_pppoe")]
     fn setting_pppoe(&self) -> Option<SettingPppoe>;
 
-    /// A shortcut to return any [`SettingProxy`][crate::SettingProxy] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingProxy`][crate::SettingProxy] if the connection contains one, otherwise [`None`]
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_connection_get_setting_proxy")]
     #[doc(alias = "get_setting_proxy")]
     fn setting_proxy(&self) -> Option<SettingProxy>;
 
-    /// A shortcut to return any [`SettingSerial`][crate::SettingSerial] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingSerial`][crate::SettingSerial] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_serial")]
     #[doc(alias = "get_setting_serial")]
     fn setting_serial(&self) -> Option<SettingSerial>;
 
-    /// A shortcut to return any [`SettingTCConfig`][crate::SettingTCConfig] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingTCConfig`][crate::SettingTCConfig] if the connection contains one, otherwise [`None`]
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_connection_get_setting_tc_config")]
     #[doc(alias = "get_setting_tc_config")]
     fn setting_tc_config(&self) -> Option<SettingTCConfig>;
 
-    /// A shortcut to return any [`SettingTeam`][crate::SettingTeam] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingTeam`][crate::SettingTeam] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_team")]
     #[doc(alias = "get_setting_team")]
     fn setting_team(&self) -> Option<SettingTeam>;
 
-    /// A shortcut to return any [`SettingTeamPort`][crate::SettingTeamPort] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingTeamPort`][crate::SettingTeamPort] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_team_port")]
     #[doc(alias = "get_setting_team_port")]
     fn setting_team_port(&self) -> Option<SettingTeamPort>;
 
-    /// A shortcut to return any [`SettingTun`][crate::SettingTun] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingTun`][crate::SettingTun] if the connection contains one, otherwise [`None`]
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_connection_get_setting_tun")]
     #[doc(alias = "get_setting_tun")]
     fn setting_tun(&self) -> Option<SettingTun>;
 
-    /// A shortcut to return any [`SettingVlan`][crate::SettingVlan] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingVlan`][crate::SettingVlan] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_vlan")]
     #[doc(alias = "get_setting_vlan")]
     fn setting_vlan(&self) -> Option<SettingVlan>;
 
-    /// A shortcut to return any [`SettingVpn`][crate::SettingVpn] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingVpn`][crate::SettingVpn] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_vpn")]
     #[doc(alias = "get_setting_vpn")]
     fn setting_vpn(&self) -> Option<SettingVpn>;
 
-    /// A shortcut to return any [`SettingVxlan`][crate::SettingVxlan] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingVxlan`][crate::SettingVxlan] if the connection contains one, otherwise [`None`]
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_connection_get_setting_vxlan")]
     #[doc(alias = "get_setting_vxlan")]
     fn setting_vxlan(&self) -> Option<SettingVxlan>;
 
-    /// A shortcut to return any [`SettingWimax`][crate::SettingWimax] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingWimax`][crate::SettingWimax] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_wimax")]
     #[doc(alias = "get_setting_wimax")]
     fn setting_wimax(&self) -> Option<SettingWimax>;
 
-    /// A shortcut to return any [`SettingWired`][crate::SettingWired] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingWired`][crate::SettingWired] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_wired")]
     #[doc(alias = "get_setting_wired")]
     fn setting_wired(&self) -> Option<SettingWired>;
 
-    /// A shortcut to return any [`SettingWireless`][crate::SettingWireless] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingWireless`][crate::SettingWireless] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_wireless")]
     #[doc(alias = "get_setting_wireless")]
     fn setting_wireless(&self) -> Option<SettingWireless>;
 
-    /// A shortcut to return any [`SettingWirelessSecurity`][crate::SettingWirelessSecurity] the connection might contain.
-    ///
-    /// # Returns
-    ///
-    /// an [`SettingWirelessSecurity`][crate::SettingWirelessSecurity] if the connection contains one, otherwise [`None`]
     #[doc(alias = "nm_connection_get_setting_wireless_security")]
     #[doc(alias = "get_setting_wireless_security")]
     fn setting_wireless_security(&self) -> Option<SettingWirelessSecurity>;
 
-    /// Retrieves the settings in `self`.
-    ///
-    /// The returned array is [`None`]-terminated.
-    ///
-    /// # Returns
-    ///
-    /// a
-    ///  [`None`]-terminated array containing every setting of
-    ///  `self`.
-    ///  If the connection has no settings, [`None`] is returned.
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_connection_get_settings")]
     #[doc(alias = "get_settings")]
     fn settings(&self) -> Vec<Setting>;
 
-    /// A shortcut to return the UUID from the connection's [`SettingConnection`][crate::SettingConnection].
-    ///
-    /// # Returns
-    ///
-    /// the UUID from the connection's 'connection' setting
     #[doc(alias = "nm_connection_get_uuid")]
     #[doc(alias = "get_uuid")]
     fn uuid(&self) -> Option<glib::GString>;
 
-    /// Returns the name that [`Device::disambiguate_names()`][crate::Device::disambiguate_names()] would
-    /// return for the virtual device that would be created for `self`.
-    /// Eg, "VLAN (eth1.1)".
-    ///
-    /// # Returns
-    ///
-    /// the name of `self`'s device,
-    ///  or [`None`] if `self` is not a virtual connection type
     #[doc(alias = "nm_connection_get_virtual_device_description")]
     #[doc(alias = "get_virtual_device_description")]
     fn virtual_device_description(&self) -> Option<glib::GString>;
 
-    /// A convenience function to check if the given `self` is a particular
-    /// type (ie wired, Wi-Fi, ppp, etc). Checks the `property::SettingConnection::type`
-    /// property of the connection and matches that against `type_`.
-    /// ## `type_`
-    /// a setting name to check the connection's type against (like
-    /// [`SETTING_WIRELESS_SETTING_NAME`][crate::SETTING_WIRELESS_SETTING_NAME] or [`SETTING_WIRED_SETTING_NAME`][crate::SETTING_WIRED_SETTING_NAME])
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if the connection is of the given `type_`, [`false`] if not
     #[doc(alias = "nm_connection_is_type")]
     fn is_type(&self, type_: &str) -> bool;
 
-    /// Checks if `self` refers to a virtual device (and thus can potentially be
-    /// activated even if the device it refers to doesn't exist).
-    ///
-    /// # Returns
-    ///
-    /// whether `self` refers to a virtual device
     #[doc(alias = "nm_connection_is_virtual")]
     fn is_virtual(&self) -> bool;
 
-    /// Returns the name of the first setting object in the connection which would
-    /// need secrets to make a successful connection. The returned hints are only
-    /// intended as a guide to what secrets may be required, because in some
-    /// circumstances, there is no way to conclusively determine exactly which
-    /// secrets are needed.
-    ///
-    /// # Returns
-    ///
-    /// the setting name of the [`Setting`][crate::Setting] object which has invalid or
-    ///  missing secrets
-    ///
-    /// ## `hints`
-    ///
-    ///  the address of a pointer to a [`glib::PtrArray`][crate::glib::PtrArray], initialized to [`None`], which on
-    ///  return points to an allocated [`glib::PtrArray`][crate::glib::PtrArray] containing the property names of
-    ///  secrets of the [`Setting`][crate::Setting] which may be required; the caller owns the array
-    ///  and must free the array itself with `g_ptr_array_free()`, but not free its
-    ///  elements
     #[doc(alias = "nm_connection_need_secrets")]
     fn need_secrets(&self) -> (glib::GString, Vec<glib::GString>);
 
     //#[doc(alias = "nm_connection_normalize")]
     //fn normalize(&self, parameters: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 25 }) -> Result<bool, glib::Error>;
 
-    /// Removes the [`Setting`][crate::Setting] with the given `GType` from the [`Connection`][crate::Connection]. This
-    /// operation dereferences the [`Setting`][crate::Setting] object.
-    /// ## `setting_type`
-    /// the `GType` of the setting object to remove
     #[doc(alias = "nm_connection_remove_setting")]
     fn remove_setting(&self, setting_type: glib::types::Type);
 
-    /// Replaces `self`'s settings with `new_settings` (which must be
-    /// syntactically valid, and describe a known type of connection, but does not
-    /// need to result in a connection that passes [`verify()`][Self::verify()]).
-    /// ## `new_settings`
-    /// a [`glib::Variant`][struct@crate::glib::Variant] of type `NM_VARIANT_TYPE_CONNECTION`, with the new settings
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if connection was updated, [`false`] if `new_settings` could not
-    ///  be deserialized (in which case `self` will be unchanged).
     #[doc(alias = "nm_connection_replace_settings")]
     fn replace_settings(&self, new_settings: &glib::Variant) -> Result<(), glib::Error>;
 
-    /// Deep-copies the settings of `new_connection` and replaces the settings of `self`
-    /// with the copied settings.
-    /// ## `new_connection`
-    /// a [`Connection`][crate::Connection] to replace the settings of `self` with
     #[doc(alias = "nm_connection_replace_settings_from_connection")]
     fn replace_settings_from_connection(&self, new_connection: &impl IsA<Connection>);
 
-    /// Sets the D-Bus path of the connection. This property is not serialized, and
-    /// is only for the reference of the caller. Sets the `property::Connection::path`
-    /// property.
-    /// ## `path`
-    /// the D-Bus path of the connection as given by the settings service
-    /// which provides the connection
     #[doc(alias = "nm_connection_set_path")]
     fn set_path(&self, path: &str);
 
-    /// Converts the [`Connection`][crate::Connection] into a [`glib::Variant`][struct@crate::glib::Variant] of type
-    /// `NM_VARIANT_TYPE_CONNECTION` describing the connection, suitable for
-    /// marshalling over D-Bus or otherwise serializing.
-    /// ## `flags`
-    /// serialization flags, e.g. [`ConnectionSerializationFlags::ALL`][crate::ConnectionSerializationFlags::ALL]
-    ///
-    /// # Returns
-    ///
-    /// a new floating [`glib::Variant`][struct@crate::glib::Variant] describing the connection,
-    /// its settings, and each setting's properties.
     #[doc(alias = "nm_connection_to_dbus")]
     fn to_dbus(&self, flags: ConnectionSerializationFlags) -> Option<glib::Variant>;
 
-    /// Update the specified setting's secrets, given a dictionary of secrets
-    /// intended for that setting (deserialized from D-Bus for example). Will also
-    /// extract the given setting's secrets hash if given a connection dictionary.
-    /// If `setting_name` is [`None`], expects a fully serialized [`Connection`][crate::Connection] as
-    /// returned by [`to_dbus()`][Self::to_dbus()] and will update all secrets from all
-    /// settings contained in `secrets`.
-    /// ## `setting_name`
-    /// the setting object name to which the secrets apply
-    /// ## `secrets`
-    /// a [`glib::Variant`][struct@crate::glib::Variant] of secrets, of type `NM_VARIANT_TYPE_CONNECTION`
-    ///  or `NM_VARIANT_TYPE_SETTING`
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if the secrets were successfully updated, [`false`] if the update
-    /// failed (tried to update secrets for a setting that doesn't exist, etc)
     #[doc(alias = "nm_connection_update_secrets")]
     fn update_secrets(
         &self,
@@ -732,58 +359,30 @@ pub trait ConnectionExt: 'static {
         secrets: &glib::Variant,
     ) -> Result<(), glib::Error>;
 
-    /// Validates the connection and all its settings. Each setting's properties
-    /// have allowed values, and some values are dependent on other values. For
-    /// example, if a Wi-Fi connection is security enabled, the [`SettingWireless`][crate::SettingWireless]
-    /// setting object's 'security' property must contain the setting name of the
-    /// [`SettingWirelessSecurity`][crate::SettingWirelessSecurity] object, which must also be present in the
-    /// connection for the connection to be valid. As another example, the
-    /// [`SettingWired`][crate::SettingWired] object's 'mac-address' property must be a validly formatted
-    /// MAC address. The returned [`glib::Error`][crate::glib::Error] contains information about which
-    /// setting and which property failed validation, and how it failed validation.
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if the connection is valid, [`false`] if it is not
     #[doc(alias = "nm_connection_verify")]
     fn verify(&self) -> Result<(), glib::Error>;
 
-    /// Verifies the secrets in the connection.
-    ///
-    /// # Returns
-    ///
-    /// [`true`] if the secrets are valid, [`false`] if they are not
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_connection_verify_secrets")]
     fn verify_secrets(&self) -> Result<(), glib::Error>;
 
-    /// The ::changed signal is emitted when any property (including secrets)
-    /// of any setting of the connection is modified, or when settings are
-    /// added or removed.
     #[doc(alias = "changed")]
     fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    /// The ::secrets-cleared signal is emitted when the secrets of a connection
-    /// are cleared.
     #[doc(alias = "secrets-cleared")]
     fn connect_secrets_cleared<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    /// The ::secrets-updated signal is emitted when the secrets of a setting
-    /// have been changed.
-    /// ## `setting_name`
-    /// the setting name of the [`Setting`][crate::Setting] for which secrets were
-    /// updated
     #[doc(alias = "secrets-updated")]
     fn connect_secrets_updated<F: Fn(&Self, &str) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
 impl<O: IsA<Connection>> ConnectionExt for O {
-    fn add_setting(&self, setting: &impl IsA<Setting>) {
+    fn add_setting(&self, setting: impl IsA<Setting>) {
         unsafe {
             ffi::nm_connection_add_setting(
                 self.as_ref().to_glib_none().0,
-                setting.as_ref().to_glib_full(),
+                setting.upcast().into_glib_ptr(),
             );
         }
     }
@@ -1026,8 +625,8 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     fn setting_ovs_bridge(&self) -> Option<SettingOvsBridge> {
         unsafe {
             from_glib_none(ffi::nm_connection_get_setting_ovs_bridge(
@@ -1036,8 +635,8 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     fn setting_ovs_interface(&self) -> Option<SettingOvsInterface> {
         unsafe {
             from_glib_none(ffi::nm_connection_get_setting_ovs_interface(
@@ -1046,8 +645,8 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     fn setting_ovs_patch(&self) -> Option<SettingOvsPatch> {
         unsafe {
             from_glib_none(ffi::nm_connection_get_setting_ovs_patch(
@@ -1056,8 +655,8 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     fn setting_ovs_port(&self) -> Option<SettingOvsPort> {
         unsafe {
             from_glib_none(ffi::nm_connection_get_setting_ovs_port(
@@ -1126,8 +725,8 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     fn setting_tun(&self) -> Option<SettingTun> {
         unsafe {
             from_glib_none(ffi::nm_connection_get_setting_tun(
@@ -1204,7 +803,7 @@ impl<O: IsA<Connection>> ConnectionExt for O {
                     self.as_ref().to_glib_none().0,
                     out_length.as_mut_ptr(),
                 ),
-                out_length.assume_init() as usize,
+                out_length.assume_init() as _,
             );
             ret
         }
@@ -1271,7 +870,7 @@ impl<O: IsA<Connection>> ConnectionExt for O {
                 new_settings.to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -1317,7 +916,7 @@ impl<O: IsA<Connection>> ConnectionExt for O {
                 secrets.to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -1330,7 +929,7 @@ impl<O: IsA<Connection>> ConnectionExt for O {
         unsafe {
             let mut error = ptr::null_mut();
             let is_ok = ffi::nm_connection_verify(self.as_ref().to_glib_none().0, &mut error);
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -1346,7 +945,7 @@ impl<O: IsA<Connection>> ConnectionExt for O {
             let mut error = ptr::null_mut();
             let is_ok =
                 ffi::nm_connection_verify_secrets(self.as_ref().to_glib_none().0, &mut error);
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {

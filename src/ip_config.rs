@@ -2,18 +2,91 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::IPAddress;
-use crate::IPRoute;
-use crate::Object;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use crate::{IPAddress, IPRoute, Object};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    ///
+    ///
+    /// This is an Abstract Base Class, you cannot instantiate it.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `addresses`
+    ///  A [`glib::PtrArray`][crate::glib::PtrArray] containing the addresses ([`IPAddress`][crate::IPAddress]) of the configuration.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `domains`
+    ///  The array containing domain strings of the configuration.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `family`
+    ///  The IP address family of the configuration; either
+    /// `<literal>`AF_INET`</literal>` or `<literal>`AF_INET6`</literal>`.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `gateway`
+    ///  The IP gateway address of the configuration as string.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `nameservers`
+    ///  The array containing name server IP addresses of the configuration.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `searches`
+    ///  The array containing DNS search strings of the configuration.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `wins-servers`
+    ///  The array containing WINS server IP addresses of the configuration.
+    /// (This will always be empty for IPv6 configurations.)
+    ///
+    /// Readable
+    /// <details><summary><h4>Object</h4></summary>
+    ///
+    ///
+    /// #### `client`
+    ///  The NMClient instance as returned by `nm_object_get_client()`.
+    ///
+    /// When an NMObject gets removed from the NMClient cache,
+    /// the NMObject:path property stays unchanged, but this client
+    /// instance gets reset to [`None`]. You can use this property to
+    /// track removal of the object from the cache.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `path`
+    ///  The D-Bus object path.
+    ///
+    /// The D-Bus path of an object instance never changes, even if the object
+    /// gets removed from the cache. To see whether the object is still in the
+    /// cache, check NMObject:client.
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`ObjectExt`][trait@crate::prelude::ObjectExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMIPConfig")]
     pub struct IPConfig(Object<ffi::NMIPConfig, ffi::NMIPConfigClass>) @extends Object;
 

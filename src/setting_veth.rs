@@ -5,31 +5,41 @@
 use crate::Setting;
 #[cfg(any(feature = "v1_30", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
-use glib::object::Cast;
-#[cfg(any(feature = "v1_30", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
-use glib::object::ObjectType as ObjectType_;
-#[cfg(any(feature = "v1_30", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
-use glib::signal::connect_raw;
-#[cfg(any(feature = "v1_30", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
-use glib::signal::SignalHandlerId;
-#[cfg(any(feature = "v1_30", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
-use glib::translate::*;
-#[cfg(any(feature = "v1_30", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
-use glib::ToValue;
-#[cfg(any(feature = "v1_30", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
-use std::boxed::Box as Box_;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
 use std::fmt;
 #[cfg(any(feature = "v1_30", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
-use std::mem::transmute;
+use std::{boxed::Box as Box_, mem::transmute};
 
 glib::wrapper! {
+    /// Veth Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `peer`
+    ///  This property specifies the peer interface name of the veth. This
+    /// property is mandatory.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingVeth")]
     pub struct SettingVeth(Object<ffi::NMSettingVeth, ffi::NMSettingVethClass>) @extends Setting;
 
@@ -54,7 +64,7 @@ impl SettingVeth {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVeth::peer` property of the setting
+    /// the [`peer`][struct@crate::SettingVeth#peer] property of the setting
     #[cfg(any(feature = "v1_30", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
     #[doc(alias = "nm_setting_veth_get_peer")]

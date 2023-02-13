@@ -2,27 +2,76 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::VpnPluginFailure;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use crate::VpnServiceState;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use glib::StaticType;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
-use std::ptr;
+use crate::{VpnPluginFailure, VpnServiceState};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute, ptr};
 
 glib::wrapper! {
+    ///
+    ///
+    /// This is an Abstract Base Class, you cannot instantiate it.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `service-name`
+    ///  The D-Bus service name of this plugin.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `state`
+    ///  The state of the plugin.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `watch-peer`
+    ///  Whether to watch for D-Bus peer's changes.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    /// ## Signals
+    ///
+    ///
+    /// #### `config`
+    ///
+    ///
+    ///
+    /// #### `failure`
+    ///
+    ///
+    ///
+    /// #### `ip4-config`
+    ///
+    ///
+    ///
+    /// #### `ip6-config`
+    ///
+    ///
+    ///
+    /// #### `login-banner`
+    ///
+    ///
+    ///
+    /// #### `quit`
+    ///
+    ///
+    ///
+    /// #### `secrets-required`
+    ///
+    ///
+    ///
+    /// #### `state-changed`
+    ///
+    ///
+    /// # Implements
+    ///
+    /// [`VpnServicePluginExt`][trait@crate::prelude::VpnServicePluginExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMVpnServicePlugin")]
     pub struct VpnServicePlugin(Object<ffi::NMVpnServicePlugin, ffi::NMVpnServicePluginClass>);
 
@@ -34,16 +83,12 @@ glib::wrapper! {
 impl VpnServicePlugin {
     pub const NONE: Option<&'static VpnServicePlugin> = None;
 
-    //#[cfg(any(feature = "v1_2", feature = "dox"))]
-    //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     //#[doc(alias = "nm_vpn_service_plugin_get_secret_flags")]
     //#[doc(alias = "get_secret_flags")]
     //pub fn secret_flags(data: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 25 }/TypeId { ns_id: 0, id: 25 }, secret_name: &str) -> Option<SettingSecretFlags> {
     //    unsafe { TODO: call ffi:nm_vpn_service_plugin_get_secret_flags() }
     //}
 
-    //#[cfg(any(feature = "v1_2", feature = "dox"))]
-    //#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     //#[doc(alias = "nm_vpn_service_plugin_read_vpn_details")]
     //pub fn read_vpn_details(fd: i32, out_data: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 25 }/TypeId { ns_id: 0, id: 25 }, out_secrets: /*Unknown conversion*//*Unimplemented*/HashTable TypeId { ns_id: 0, id: 25 }/TypeId { ns_id: 0, id: 25 }) -> bool {
     //    unsafe { TODO: call ffi:nm_vpn_service_plugin_read_vpn_details() }
@@ -62,8 +107,6 @@ pub trait VpnServicePluginExt: 'static {
     #[doc(alias = "nm_vpn_service_plugin_failure")]
     fn failure(&self, reason: VpnPluginFailure);
 
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_vpn_service_plugin_get_connection")]
     #[doc(alias = "get_connection")]
     fn connection(&self) -> Option<gio::DBusConnection>;
@@ -149,7 +192,7 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
             let mut error = ptr::null_mut();
             let is_ok =
                 ffi::nm_vpn_service_plugin_disconnect(self.as_ref().to_glib_none().0, &mut error);
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -164,8 +207,6 @@ impl<O: IsA<VpnServicePlugin>> VpnServicePluginExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     fn connection(&self) -> Option<gio::DBusConnection> {
         unsafe {
             from_glib_full(ffi::nm_vpn_service_plugin_get_connection(

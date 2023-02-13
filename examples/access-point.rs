@@ -47,7 +47,7 @@ async fn run(opts: Opts) -> Result<()> {
     let connection = create_connection(device.iface().as_deref(), &opts)?;
 
     let active_connection = client
-        .add_and_activate_connection_future(Some(&connection), &device, None)
+        .add_and_activate_connection_future(Some(&connection), Some(&device), None)
         .await
         .context("Failed to add and activate connection")?;
 
@@ -103,20 +103,20 @@ fn create_connection(interface: Option<&str>, opts: &Opts) -> Result<SimpleConne
     s_connection.set_id(Some(&opts.ssid));
     s_connection.set_autoconnect(false);
     s_connection.set_interface_name(interface);
-    connection.add_setting(&s_connection);
+    connection.add_setting(s_connection);
 
     let s_wireless = SettingWireless::new();
     s_wireless.set_ssid(Some(&(opts.ssid.as_bytes().into())));
     s_wireless.set_band(Some("bg"));
     s_wireless.set_hidden(false);
     s_wireless.set_mode(Some(&SETTING_WIRELESS_MODE_AP));
-    connection.add_setting(&s_wireless);
+    connection.add_setting(s_wireless);
 
     if let Some(password) = &opts.password {
         let s_wireless_security = SettingWirelessSecurity::new();
         s_wireless_security.set_key_mgmt(Some("wpa-psk"));
         s_wireless_security.set_psk(Some(password));
-        connection.add_setting(&s_wireless_security);
+        connection.add_setting(s_wireless_security);
     }
 
     let s_ip4 = SettingIP4Config::new();
@@ -128,7 +128,7 @@ fn create_connection(interface: Option<&str>, opts: &Opts) -> Result<SimpleConne
     } else {
         s_ip4.set_method(Some(&SETTING_IP4_CONFIG_METHOD_SHARED));
     }
-    connection.add_setting(&s_ip4);
+    connection.add_setting(s_ip4);
 
     Ok(connection)
 }

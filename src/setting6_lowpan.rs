@@ -3,33 +3,38 @@
 // DO NOT EDIT
 
 use crate::Setting;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use glib::object::Cast;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use glib::object::ObjectType as ObjectType_;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use glib::signal::connect_raw;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use glib::signal::SignalHandlerId;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use glib::translate::*;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use glib::ToValue;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use std::boxed::Box as Box_;
-use std::fmt;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// 6LoWPAN Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `parent`
+    ///  If given, specifies the parent interface name or parent connection UUID
+    /// from which this 6LowPAN interface should be created.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSetting6Lowpan")]
     pub struct Setting6Lowpan(Object<ffi::NMSetting6Lowpan, ffi::NMSetting6LowpanClass>) @extends Setting;
 
@@ -44,8 +49,8 @@ impl Setting6Lowpan {
     /// # Returns
     ///
     /// the new empty [`Setting6Lowpan`][crate::Setting6Lowpan] object
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     #[doc(alias = "nm_setting_6lowpan_new")]
     pub fn new() -> Setting6Lowpan {
         unsafe { Setting::from_glib_full(ffi::nm_setting_6lowpan_new()).unsafe_cast() }
@@ -54,13 +59,21 @@ impl Setting6Lowpan {
     ///
     /// # Returns
     ///
-    /// the `property::Setting6Lowpan::parent` property of the setting
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+    /// the [`parent`][struct@crate::Setting6Lowpan#parent] property of the setting
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     #[doc(alias = "nm_setting_6lowpan_get_parent")]
     #[doc(alias = "get_parent")]
     pub fn parent(&self) -> Option<glib::GString> {
         unsafe { from_glib_none(ffi::nm_setting_6lowpan_get_parent(self.to_glib_none().0)) }
+    }
+
+    /// If given, specifies the parent interface name or parent connection UUID
+    /// from which this 6LowPAN interface should be created.
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+    pub fn get_property_parent(&self) -> Option<glib::GString> {
+        glib::ObjectExt::property(self, "parent")
     }
 
     /// If given, specifies the parent interface name or parent connection UUID
@@ -97,8 +110,8 @@ impl Setting6Lowpan {
     }
 }
 
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+#[cfg(any(feature = "v1_42", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
 impl Default for Setting6Lowpan {
     fn default() -> Self {
         Self::new()

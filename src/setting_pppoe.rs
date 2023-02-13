@@ -2,19 +2,68 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::Setting;
-use crate::SettingSecretFlags;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use crate::{Setting, SettingSecretFlags};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// PPP-over-Ethernet Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `parent`
+    ///  If given, specifies the parent interface name on which this PPPoE
+    /// connection should be created. If this property is not specified,
+    /// the connection is activated on the interface specified in
+    /// [`interface-name`][struct@crate::SettingConnection#interface-name] of [`SettingConnection`][crate::SettingConnection].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `password`
+    ///  Password used to authenticate with the PPPoE service.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `password-flags`
+    ///  Flags indicating how to handle the [`password`][struct@crate::SettingPppoe#password] property.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `service`
+    ///  If specified, instruct PPPoE to only initiate sessions with access
+    /// concentrators that provide the specified service. For most providers,
+    /// this should be left blank. It is only required if there are multiple
+    /// access concentrators or a specific service is known to be required.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `username`
+    ///  Username used to authenticate with the PPPoE service.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingPppoe")]
     pub struct SettingPppoe(Object<ffi::NMSettingPppoe, ffi::NMSettingPppoeClass>) @extends Setting;
 
@@ -37,7 +86,7 @@ impl SettingPppoe {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPppoe::parent` property of the setting
+    /// the [`parent`][struct@crate::SettingPppoe#parent] property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_setting_pppoe_get_parent")]
@@ -49,7 +98,7 @@ impl SettingPppoe {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPppoe::password` property of the setting
+    /// the [`password`][struct@crate::SettingPppoe#password] property of the setting
     #[doc(alias = "nm_setting_pppoe_get_password")]
     #[doc(alias = "get_password")]
     pub fn password(&self) -> Option<glib::GString> {
@@ -59,7 +108,7 @@ impl SettingPppoe {
     ///
     /// # Returns
     ///
-    /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the `property::SettingPppoe::password`
+    /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the [`password`][struct@crate::SettingPppoe#password]
     #[doc(alias = "nm_setting_pppoe_get_password_flags")]
     #[doc(alias = "get_password_flags")]
     pub fn password_flags(&self) -> SettingSecretFlags {
@@ -73,7 +122,7 @@ impl SettingPppoe {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPppoe::service` property of the setting
+    /// the [`service`][struct@crate::SettingPppoe#service] property of the setting
     #[doc(alias = "nm_setting_pppoe_get_service")]
     #[doc(alias = "get_service")]
     pub fn service(&self) -> Option<glib::GString> {
@@ -83,7 +132,7 @@ impl SettingPppoe {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPppoe::username` property of the setting
+    /// the [`username`][struct@crate::SettingPppoe#username] property of the setting
     #[doc(alias = "nm_setting_pppoe_get_username")]
     #[doc(alias = "get_username")]
     pub fn username(&self) -> Option<glib::GString> {
@@ -93,7 +142,7 @@ impl SettingPppoe {
     /// If given, specifies the parent interface name on which this PPPoE
     /// connection should be created. If this property is not specified,
     /// the connection is activated on the interface specified in
-    /// `property::SettingConnection::interface-name` of [`SettingConnection`][crate::SettingConnection].
+    /// [`interface-name`][struct@crate::SettingConnection#interface-name] of [`SettingConnection`][crate::SettingConnection].
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     pub fn set_parent(&self, parent: Option<&str>) {
@@ -105,7 +154,7 @@ impl SettingPppoe {
         glib::ObjectExt::set_property(self, "password", &password)
     }
 
-    /// Flags indicating how to handle the `property::SettingPppoe::password` property.
+    /// Flags indicating how to handle the [`password`][struct@crate::SettingPppoe#password] property.
     #[doc(alias = "password-flags")]
     pub fn set_password_flags(&self, password_flags: SettingSecretFlags) {
         glib::ObjectExt::set_property(self, "password-flags", &password_flags)

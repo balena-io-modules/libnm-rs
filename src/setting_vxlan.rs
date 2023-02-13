@@ -5,31 +5,138 @@
 use crate::Setting;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use glib::object::Cast;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use glib::object::ObjectType as ObjectType_;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use glib::signal::connect_raw;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use glib::signal::SignalHandlerId;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use glib::translate::*;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use glib::ToValue;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use std::boxed::Box as Box_;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
 use std::fmt;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use std::mem::transmute;
+use std::{boxed::Box as Box_, mem::transmute};
 
 glib::wrapper! {
+    /// VXLAN Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `ageing`
+    ///  Specifies the lifetime in seconds of FDB entries learnt by the kernel.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `destination-port`
+    ///  Specifies the UDP destination port to communicate to the remote VXLAN
+    /// tunnel endpoint.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `id`
+    ///  Specifies the VXLAN Network Identifier (or VXLAN Segment Identifier) to
+    /// use.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `l2-miss`
+    ///  Specifies whether netlink LL ADDR miss notifications are generated.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `l3-miss`
+    ///  Specifies whether netlink IP ADDR miss notifications are generated.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `learning`
+    ///  Specifies whether unknown source link layer addresses and IP addresses
+    /// are entered into the VXLAN device forwarding database.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `limit`
+    ///  Specifies the maximum number of FDB entries. A value of zero means that
+    /// the kernel will store unlimited entries.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `local`
+    ///  If given, specifies the source IP address to use in outgoing packets.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `parent`
+    ///  If given, specifies the parent interface name or parent connection UUID.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `proxy`
+    ///  Specifies whether ARP proxy is turned on.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `remote`
+    ///  Specifies the unicast destination IP address to use in outgoing packets
+    /// when the destination link layer address is not known in the VXLAN device
+    /// forwarding database, or the multicast IP address to join.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `rsc`
+    ///  Specifies whether route short circuit is turned on.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `source-port-max`
+    ///  Specifies the maximum UDP source port to communicate to the remote VXLAN
+    /// tunnel endpoint.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `source-port-min`
+    ///  Specifies the minimum UDP source port to communicate to the remote VXLAN
+    /// tunnel endpoint.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `tos`
+    ///  Specifies the TOS value to use in outgoing packets.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `ttl`
+    ///  Specifies the time-to-live value to use in outgoing packets.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingVxlan")]
     pub struct SettingVxlan(Object<ffi::NMSettingVxlan, ffi::NMSettingVxlanClass>) @extends Setting;
 
@@ -54,7 +161,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::ageing` property of the setting
+    /// the [`ageing`][struct@crate::SettingVxlan#ageing] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_ageing")]
@@ -66,7 +173,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::destination-port` property of the setting
+    /// the [`destination-port`][struct@crate::SettingVxlan#destination-port] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_destination_port")]
@@ -78,7 +185,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::id` property of the setting
+    /// the [`id`][struct@crate::SettingVxlan#id] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_id")]
@@ -90,7 +197,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::l2_miss` property of the setting
+    /// the [`l2_miss`][struct@crate::SettingVxlan#l2_miss] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_l2_miss")]
@@ -102,7 +209,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::l3_miss` property of the setting
+    /// the [`l3_miss`][struct@crate::SettingVxlan#l3_miss] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_l3_miss")]
@@ -114,7 +221,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::learning` property of the setting
+    /// the [`learning`][struct@crate::SettingVxlan#learning] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_learning")]
@@ -126,7 +233,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::limit` property of the setting
+    /// the [`limit`][struct@crate::SettingVxlan#limit] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_limit")]
@@ -138,7 +245,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::local` property of the setting
+    /// the [`local`][struct@crate::SettingVxlan#local] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_local")]
@@ -150,7 +257,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::parent` property of the setting
+    /// the [`parent`][struct@crate::SettingVxlan#parent] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_parent")]
@@ -162,7 +269,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::proxy` property of the setting
+    /// the [`proxy`][struct@crate::SettingVxlan#proxy] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_proxy")]
@@ -174,7 +281,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::remote` property of the setting
+    /// the [`remote`][struct@crate::SettingVxlan#remote] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_remote")]
@@ -186,7 +293,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::rsc` property of the setting
+    /// the [`rsc`][struct@crate::SettingVxlan#rsc] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_rsc")]
@@ -198,7 +305,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::source-port-max` property of the setting
+    /// the [`source-port-max`][struct@crate::SettingVxlan#source-port-max] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_source_port_max")]
@@ -210,7 +317,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::source-port-min` property of the setting
+    /// the [`source-port-min`][struct@crate::SettingVxlan#source-port-min] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_source_port_min")]
@@ -222,7 +329,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::tos` property of the setting
+    /// the [`tos`][struct@crate::SettingVxlan#tos] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_tos")]
@@ -234,7 +341,7 @@ impl SettingVxlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVxlan::ttl` property of the setting
+    /// the [`ttl`][struct@crate::SettingVxlan#ttl] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vxlan_get_ttl")]

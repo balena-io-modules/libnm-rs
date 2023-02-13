@@ -10,6 +10,62 @@ use glib::translate::*;
 use std::mem;
 
 glib::wrapper! {
+    /// Supported attributes are:
+    ///
+    /// - [`LLDP_ATTR_CHASSIS_ID_TYPE`][crate::LLDP_ATTR_CHASSIS_ID_TYPE] (type: 'u')
+    /// - [`LLDP_ATTR_CHASSIS_ID`][crate::LLDP_ATTR_CHASSIS_ID] (type: 's')
+    /// - [`LLDP_ATTR_DESTINATION`][crate::LLDP_ATTR_DESTINATION] (type: 's')
+    /// - [`LLDP_ATTR_IEEE_802_1_PPVID`][crate::LLDP_ATTR_IEEE_802_1_PPVID] (type: 'u'). This attribute only reports the first PPVID
+    ///  and therefore it is deprecated in favor of NM_LLDP_ATTR_IEEE_802_1_PPVIDS which reports
+    ///  all the PPVID.
+    /// - [`LLDP_ATTR_IEEE_802_1_PPVID_FLAGS`][crate::LLDP_ATTR_IEEE_802_1_PPVID_FLAGS] (type: 'u'). This attribute only reports the first PPVID
+    ///  and therefore it is deprecated in favor of NM_LLDP_ATTR_IEEE_802_1_PPVIDS which reports
+    ///  all the PPVID.
+    /// - [`LLDP_ATTR_IEEE_802_1_PPVIDS`][crate::LLDP_ATTR_IEEE_802_1_PPVIDS] (type: 'aa{sv}')
+    ///
+    ///  An array of dictionaries where each element has keys:
+    ///  - flags (type: 'u')
+    ///  - ppvid (type: 'u')
+    /// - [`LLDP_ATTR_IEEE_802_1_PVID`][crate::LLDP_ATTR_IEEE_802_1_PVID] (type: 'u')
+    /// - [`LLDP_ATTR_IEEE_802_1_VID`][crate::LLDP_ATTR_IEEE_802_1_VID] (type: 'u'). This attribute only reports the first VLAN
+    ///  and therefore it is deprecated in favor of NM_LLDP_ATTR_IEEE_802_1_VLANS which reports
+    ///  all the VLANs.
+    /// - [`LLDP_ATTR_IEEE_802_1_VLAN_NAME`][crate::LLDP_ATTR_IEEE_802_1_VLAN_NAME] (type: 's'). This attribute only reports the first VLAN
+    ///  and therefore it is deprecated in favor of NM_LLDP_ATTR_IEEE_802_1_VLANS which reports
+    ///  all the VLANs.
+    /// - [`LLDP_ATTR_IEEE_802_1_VLANS`][crate::LLDP_ATTR_IEEE_802_1_VLANS] (type: 'aa{sv}')
+    ///
+    ///  An array of dictionaries where each element has keys:
+    ///  - name (type: 's')
+    ///  - vid (type: 'u')
+    /// - [`LLDP_ATTR_IEEE_802_3_MAC_PHY_CONF`][crate::LLDP_ATTR_IEEE_802_3_MAC_PHY_CONF] (type: 'a{sv}')
+    ///
+    ///  Dictionary where each element has keys:
+    ///  - autoneg (type: 'u')
+    ///  - operational-mau-type (type: 'u')
+    ///  - pmd-autoneg-cap (type: 'u')
+    /// - [`LLDP_ATTR_IEEE_802_3_MAX_FRAME_SIZE`][crate::LLDP_ATTR_IEEE_802_3_MAX_FRAME_SIZE] (type: 'u')
+    /// - [`LLDP_ATTR_IEEE_802_3_POWER_VIA_MDI`][crate::LLDP_ATTR_IEEE_802_3_POWER_VIA_MDI] (type: 'a{sv}')
+    ///
+    ///  Dictionary where each element has keys:
+    ///  - mdi-power-support (type: 'u')
+    ///  - power-class (type: 'u')
+    ///  - pse-power-pair (type: 'u')
+    /// - [`LLDP_ATTR_MANAGEMENT_ADDRESSES`][crate::LLDP_ATTR_MANAGEMENT_ADDRESSES] (type: 'aa{sv}')
+    ///
+    ///  An array of dictionaries where each element has keys:
+    ///  - address (type: 'ay')
+    ///  - address-subtype (type: 'u')
+    ///  - interface-number (type: 'u')
+    ///  - interface-number-subtype (type: 'u')
+    ///  - object-id (type: 'ay')
+    /// - [`LLDP_ATTR_PORT_DESCRIPTION`][crate::LLDP_ATTR_PORT_DESCRIPTION] (type: 's')
+    /// - [`LLDP_ATTR_PORT_ID_TYPE`][crate::LLDP_ATTR_PORT_ID_TYPE] (type: 'u')
+    /// - [`LLDP_ATTR_PORT_ID`][crate::LLDP_ATTR_PORT_ID] (type: 's')
+    /// - [`LLDP_ATTR_RAW`][crate::LLDP_ATTR_RAW] (type: 'ay')
+    /// - [`LLDP_ATTR_SYSTEM_CAPABILITIES`][crate::LLDP_ATTR_SYSTEM_CAPABILITIES] (type: 'u')
+    /// - [`LLDP_ATTR_SYSTEM_DESCRIPTION`][crate::LLDP_ATTR_SYSTEM_DESCRIPTION] (type: 's')
+    /// - [`LLDP_ATTR_SYSTEM_NAME`][crate::LLDP_ATTR_SYSTEM_NAME] (type: 's')
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct LldpNeighbor(Shared<ffi::NMLldpNeighbor>);
 

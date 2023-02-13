@@ -301,6 +301,9 @@ impl IPRoutingRule {
     ///
     /// [`true`] if a uid range is set.
     ///
+    /// This API was wrongly introduced in the header files for 1.32, but the
+    /// symbols were not exported. The API only works since 1.34 and newer.
+    ///
     /// ## `out_range_start`
     /// returns the start of the range
     ///  or 0 if the range is not set.
@@ -524,6 +527,9 @@ impl IPRoutingRule {
 
     /// For a valid range, start must be less or equal to end.
     /// If set to an invalid range, the range gets unset.
+    ///
+    /// This API was wrongly introduced in the header files for 1.32, but the
+    /// symbols were not exported. The API only works since 1.34 and newer.
     /// ## `uid_range_start`
     /// the uid_range start to set.
     /// ## `uid_range_end`
@@ -559,7 +565,7 @@ impl IPRoutingRule {
         unsafe {
             let mut error = ptr::null_mut();
             let is_ok = ffi::nm_ip_routing_rule_validate(self.to_glib_none().0, &mut error);
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {

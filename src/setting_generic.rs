@@ -3,11 +3,15 @@
 // DO NOT EDIT
 
 use crate::Setting;
-use glib::object::Cast;
-use glib::translate::*;
+use glib::{prelude::*, translate::*};
 use std::fmt;
 
 glib::wrapper! {
+    /// Generic Link Settings
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingGeneric")]
     pub struct SettingGeneric(Object<ffi::NMSettingGeneric, ffi::NMSettingGenericClass>) @extends Setting;
 

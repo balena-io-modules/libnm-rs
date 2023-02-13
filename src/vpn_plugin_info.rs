@@ -7,31 +7,47 @@
 use crate::VpnEditorPlugin;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use glib::object::IsA;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use glib::object::ObjectType as ObjectType_;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use glib::signal::connect_raw;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use glib::signal::SignalHandlerId;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use glib::translate::*;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use std::boxed::Box as Box_;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
 use std::fmt;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use std::mem::transmute;
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
-use std::ptr;
+use std::{boxed::Box as Box_, mem::transmute, ptr};
 
 glib::wrapper! {
+    ///
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `filename`
+    ///  The filename from which the info was loaded.
+    /// Can be [`None`] if the instance was not loaded from
+    /// a file (i.e. the keyfile instance was passed to the
+    /// constructor).
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `keyfile`
+    ///  Initialize the instance with a different keyfile instance.
+    /// When passing a keyfile instance, the constructor will not
+    /// try to read from filename.
+    ///
+    /// Writeable | Construct Only
+    ///
+    ///
+    /// #### `name`
+    ///  The name of the VPN plugin.
+    ///
+    /// Readable
+    ///
+    /// # Implements
+    ///
+    /// [`trait@glib::ObjectExt`]
     #[doc(alias = "NMVpnPluginInfo")]
     pub struct VpnPluginInfo(Object<ffi::NMVpnPluginInfo, ffi::NMVpnPluginInfoClass>);
 
@@ -314,8 +330,8 @@ impl VpnPluginInfo {
     /// # Returns
     ///
     /// [`true`] if the service supports multiple instances with different bus names, otherwise [`false`]
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     #[doc(alias = "nm_vpn_plugin_info_supports_multiple")]
     pub fn supports_multiple(&self) -> bool {
         unsafe {

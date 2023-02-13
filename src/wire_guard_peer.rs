@@ -2,12 +2,12 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::SettingCompareFlags;
-use crate::SettingSecretFlags;
+use crate::{SettingCompareFlags, SettingSecretFlags};
 use glib::translate::*;
 use std::ptr;
 
 glib::wrapper! {
+    /// The settings of one WireGuard peer.
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct WireGuardPeer(Shared<ffi::NMWireGuardPeer>);
 
@@ -192,7 +192,7 @@ impl WireGuardPeer {
                 check_secrets.into_glib(),
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {

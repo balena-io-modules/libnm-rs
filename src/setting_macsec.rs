@@ -5,40 +5,100 @@
 use crate::Setting;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
-use crate::SettingMacsecMode;
+use crate::{SettingMacsecMode, SettingMacsecValidation, SettingSecretFlags};
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
-use crate::SettingMacsecValidation;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
-use crate::SettingSecretFlags;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
-use glib::object::Cast;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
-use glib::object::ObjectType as ObjectType_;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
-use glib::signal::connect_raw;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
-use glib::signal::SignalHandlerId;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
-use glib::translate::*;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
-use glib::ToValue;
-#[cfg(any(feature = "v1_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
-use std::boxed::Box as Box_;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
 use std::fmt;
 #[cfg(any(feature = "v1_6", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
-use std::mem::transmute;
+use std::{boxed::Box as Box_, mem::transmute};
 
 glib::wrapper! {
+    /// MACSec Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `encrypt`
+    ///  Whether the transmitted traffic must be encrypted.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mka-cak`
+    ///  The pre-shared CAK (Connectivity Association Key) for MACsec
+    /// Key Agreement. Must be a string of 32 hexadecimal characters.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mka-cak-flags`
+    ///  Flags indicating how to handle the [`mka-cak`][struct@crate::SettingMacsec#mka-cak]
+    /// property.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mka-ckn`
+    ///  The pre-shared CKN (Connectivity-association Key Name) for
+    /// MACsec Key Agreement. Must be a string of hexadecimal characters
+    /// with a even length between 2 and 64.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mode`
+    ///  Specifies how the CAK (Connectivity Association Key) for MKA (MACsec Key
+    /// Agreement) is obtained.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `parent`
+    ///  If given, specifies the parent interface name or parent connection UUID
+    /// from which this MACSEC interface should be created. If this property is
+    /// not specified, the connection must contain an [`SettingWired`][crate::SettingWired] setting
+    /// with a [`mac-address`][struct@crate::SettingWired#mac-address] property.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `port`
+    ///  The port component of the SCI (Secure Channel Identifier), between 1 and 65534.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `send-sci`
+    ///  Specifies whether the SCI (Secure Channel Identifier) is included
+    /// in every packet.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `validation`
+    ///  Specifies the validation mode for incoming frames.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingMacsec")]
     pub struct SettingMacsec(Object<ffi::NMSettingMacsec, ffi::NMSettingMacsecClass>) @extends Setting;
 
@@ -63,7 +123,7 @@ impl SettingMacsec {
     ///
     /// # Returns
     ///
-    /// the `property::SettingMacsec::encrypt` property of the setting
+    /// the [`encrypt`][struct@crate::SettingMacsec#encrypt] property of the setting
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_encrypt")]
@@ -75,7 +135,7 @@ impl SettingMacsec {
     ///
     /// # Returns
     ///
-    /// the `property::SettingMacsec::mka-cak` property of the setting
+    /// the [`mka-cak`][struct@crate::SettingMacsec#mka-cak] property of the setting
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_mka_cak")]
@@ -87,7 +147,7 @@ impl SettingMacsec {
     ///
     /// # Returns
     ///
-    /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the `property::SettingMacsec::mka-cak`
+    /// the [`SettingSecretFlags`][crate::SettingSecretFlags] pertaining to the [`mka-cak`][struct@crate::SettingMacsec#mka-cak]
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_mka_cak_flags")]
@@ -103,7 +163,7 @@ impl SettingMacsec {
     ///
     /// # Returns
     ///
-    /// the `property::SettingMacsec::mka-ckn` property of the setting
+    /// the [`mka-ckn`][struct@crate::SettingMacsec#mka-ckn] property of the setting
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_mka_ckn")]
@@ -115,7 +175,7 @@ impl SettingMacsec {
     ///
     /// # Returns
     ///
-    /// the `property::SettingMacsec::mode` property of the setting
+    /// the [`mode`][struct@crate::SettingMacsec#mode] property of the setting
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_mode")]
@@ -127,7 +187,7 @@ impl SettingMacsec {
     ///
     /// # Returns
     ///
-    /// the `property::SettingMacsec::parent` property of the setting
+    /// the [`parent`][struct@crate::SettingMacsec#parent] property of the setting
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_parent")]
@@ -139,7 +199,7 @@ impl SettingMacsec {
     ///
     /// # Returns
     ///
-    /// the `property::SettingMacsec::port` property of the setting
+    /// the [`port`][struct@crate::SettingMacsec#port] property of the setting
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_port")]
@@ -151,7 +211,7 @@ impl SettingMacsec {
     ///
     /// # Returns
     ///
-    /// the `property::SettingMacsec::send-sci` property of the setting
+    /// the [`send-sci`][struct@crate::SettingMacsec#send-sci] property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_setting_macsec_get_send_sci")]
@@ -163,7 +223,7 @@ impl SettingMacsec {
     ///
     /// # Returns
     ///
-    /// the `property::SettingMacsec::validation` property of the setting
+    /// the [`validation`][struct@crate::SettingMacsec#validation] property of the setting
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "nm_setting_macsec_get_validation")]
@@ -180,7 +240,7 @@ impl SettingMacsec {
     }
 
     /// The pre-shared CAK (Connectivity Association Key) for MACsec
-    /// Key Agreement.
+    /// Key Agreement. Must be a string of 32 hexadecimal characters.
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "mka-cak")]
@@ -188,7 +248,7 @@ impl SettingMacsec {
         glib::ObjectExt::set_property(self, "mka-cak", &mka_cak)
     }
 
-    /// Flags indicating how to handle the `property::SettingMacsec::mka-cak`
+    /// Flags indicating how to handle the [`mka-cak`][struct@crate::SettingMacsec#mka-cak]
     /// property.
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
@@ -198,7 +258,8 @@ impl SettingMacsec {
     }
 
     /// The pre-shared CKN (Connectivity-association Key Name) for
-    /// MACsec Key Agreement.
+    /// MACsec Key Agreement. Must be a string of hexadecimal characters
+    /// with a even length between 2 and 64.
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     #[doc(alias = "mka-ckn")]
@@ -217,7 +278,7 @@ impl SettingMacsec {
     /// If given, specifies the parent interface name or parent connection UUID
     /// from which this MACSEC interface should be created. If this property is
     /// not specified, the connection must contain an [`SettingWired`][crate::SettingWired] setting
-    /// with a `property::SettingWired::mac-address` property.
+    /// with a [`mac-address`][struct@crate::SettingWired#mac-address] property.
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     pub fn set_parent(&self, parent: Option<&str>) {

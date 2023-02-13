@@ -2,11 +2,15 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::Device;
-use crate::Object;
+use crate::{Device, Object};
 use std::fmt;
 
 glib::wrapper! {
+    ///
+    ///
+    /// # Implements
+    ///
+    /// [`DeviceExt`][trait@crate::prelude::DeviceExt], [`ObjectExt`][trait@crate::prelude::ObjectExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMDeviceOvsInterface")]
     pub struct DeviceOvsInterface(Object<ffi::NMDeviceOvsInterface, ffi::NMDeviceOvsInterfaceClass>) @extends Device, Object;
 

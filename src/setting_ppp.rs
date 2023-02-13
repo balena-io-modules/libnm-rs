@@ -3,17 +3,160 @@
 // DO NOT EDIT
 
 use crate::Setting;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// Point-to-Point Protocol Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `baud`
+    ///  If non-zero, instruct pppd to set the serial port to the specified
+    /// baudrate. This value should normally be left as 0 to automatically
+    /// choose the speed.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `crtscts`
+    ///  If [`true`], specify that pppd should set the serial port to use hardware
+    /// flow control with RTS and CTS signals. This value should normally be set
+    /// to [`false`].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `lcp-echo-failure`
+    ///  If non-zero, instruct pppd to presume the connection to the peer has
+    /// failed if the specified number of LCP echo-requests go unanswered by the
+    /// peer. The "lcp-echo-interval" property must also be set to a non-zero
+    /// value if this property is used.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `lcp-echo-interval`
+    ///  If non-zero, instruct pppd to send an LCP echo-request frame to the peer
+    /// every n seconds (where n is the specified value). Note that some PPP
+    /// peers will respond to echo requests and some will not, and it is not
+    /// possible to autodetect this.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mppe-stateful`
+    ///  If [`true`], stateful MPPE is used. See pppd documentation for more
+    /// information on stateful MPPE.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mru`
+    ///  If non-zero, instruct pppd to request that the peer send packets no
+    /// larger than the specified size. If non-zero, the MRU should be between
+    /// 128 and 16384.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mtu`
+    ///  If non-zero, instruct pppd to send packets no larger than the specified
+    /// size.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `no-vj-comp`
+    ///  If [`true`], Van Jacobsen TCP header compression will not be requested.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `noauth`
+    ///  If [`true`], do not require the other side (usually the PPP server) to
+    /// authenticate itself to the client. If [`false`], require authentication
+    /// from the remote side. In almost all cases, this should be [`true`].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `nobsdcomp`
+    ///  If [`true`], BSD compression will not be requested.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `nodeflate`
+    ///  If [`true`], "deflate" compression will not be requested.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `refuse-chap`
+    ///  If [`true`], the CHAP authentication method will not be used.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `refuse-eap`
+    ///  If [`true`], the EAP authentication method will not be used.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `refuse-mschap`
+    ///  If [`true`], the MSCHAP authentication method will not be used.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `refuse-mschapv2`
+    ///  If [`true`], the MSCHAPv2 authentication method will not be used.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `refuse-pap`
+    ///  If [`true`], the PAP authentication method will not be used.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `require-mppe`
+    ///  If [`true`], MPPE (Microsoft Point-to-Point Encryption) will be required for
+    /// the PPP session. If either 64-bit or 128-bit MPPE is not available the
+    /// session will fail. Note that MPPE is not used on mobile broadband
+    /// connections.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `require-mppe-128`
+    ///  If [`true`], 128-bit MPPE (Microsoft Point-to-Point Encryption) will be
+    /// required for the PPP session, and the "require-mppe" property must also
+    /// be set to [`true`]. If 128-bit MPPE is not available the session will fail.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingPpp")]
     pub struct SettingPpp(Object<ffi::NMSettingPpp, ffi::NMSettingPppClass>) @extends Setting;
 
@@ -36,7 +179,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::baud` property of the setting
+    /// the [`baud`][struct@crate::SettingPpp#baud] property of the setting
     #[doc(alias = "nm_setting_ppp_get_baud")]
     #[doc(alias = "get_baud")]
     pub fn baud(&self) -> u32 {
@@ -46,7 +189,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::crtscts` property of the setting
+    /// the [`crtscts`][struct@crate::SettingPpp#crtscts] property of the setting
     #[doc(alias = "nm_setting_ppp_get_crtscts")]
     #[doc(alias = "get_crtscts")]
     pub fn is_crtscts(&self) -> bool {
@@ -56,7 +199,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::lcp-echo-failure` property of the setting
+    /// the [`lcp-echo-failure`][struct@crate::SettingPpp#lcp-echo-failure] property of the setting
     #[doc(alias = "nm_setting_ppp_get_lcp_echo_failure")]
     #[doc(alias = "get_lcp_echo_failure")]
     pub fn lcp_echo_failure(&self) -> u32 {
@@ -66,7 +209,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::lcp-echo-interval` property of the setting
+    /// the [`lcp-echo-interval`][struct@crate::SettingPpp#lcp-echo-interval] property of the setting
     #[doc(alias = "nm_setting_ppp_get_lcp_echo_interval")]
     #[doc(alias = "get_lcp_echo_interval")]
     pub fn lcp_echo_interval(&self) -> u32 {
@@ -76,7 +219,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::mppe-stateful` property of the setting
+    /// the [`mppe-stateful`][struct@crate::SettingPpp#mppe-stateful] property of the setting
     #[doc(alias = "nm_setting_ppp_get_mppe_stateful")]
     #[doc(alias = "get_mppe_stateful")]
     pub fn is_mppe_stateful(&self) -> bool {
@@ -86,7 +229,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::mru` property of the setting
+    /// the [`mru`][struct@crate::SettingPpp#mru] property of the setting
     #[doc(alias = "nm_setting_ppp_get_mru")]
     #[doc(alias = "get_mru")]
     pub fn mru(&self) -> u32 {
@@ -96,7 +239,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::mtu` property of the setting
+    /// the [`mtu`][struct@crate::SettingPpp#mtu] property of the setting
     #[doc(alias = "nm_setting_ppp_get_mtu")]
     #[doc(alias = "get_mtu")]
     pub fn mtu(&self) -> u32 {
@@ -106,7 +249,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::no-vj-comp` property of the setting
+    /// the [`no-vj-comp`][struct@crate::SettingPpp#no-vj-comp] property of the setting
     #[doc(alias = "nm_setting_ppp_get_no_vj_comp")]
     #[doc(alias = "get_no_vj_comp")]
     pub fn is_no_vj_comp(&self) -> bool {
@@ -116,7 +259,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::noauth` property of the setting
+    /// the [`noauth`][struct@crate::SettingPpp#noauth] property of the setting
     #[doc(alias = "nm_setting_ppp_get_noauth")]
     #[doc(alias = "get_noauth")]
     pub fn is_noauth(&self) -> bool {
@@ -126,7 +269,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::nobsdcomp` property of the setting
+    /// the [`nobsdcomp`][struct@crate::SettingPpp#nobsdcomp] property of the setting
     #[doc(alias = "nm_setting_ppp_get_nobsdcomp")]
     #[doc(alias = "get_nobsdcomp")]
     pub fn is_nobsdcomp(&self) -> bool {
@@ -136,7 +279,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::nodeflate` property of the setting
+    /// the [`nodeflate`][struct@crate::SettingPpp#nodeflate] property of the setting
     #[doc(alias = "nm_setting_ppp_get_nodeflate")]
     #[doc(alias = "get_nodeflate")]
     pub fn is_nodeflate(&self) -> bool {
@@ -146,7 +289,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::refuse-chap` property of the setting
+    /// the [`refuse-chap`][struct@crate::SettingPpp#refuse-chap] property of the setting
     #[doc(alias = "nm_setting_ppp_get_refuse_chap")]
     #[doc(alias = "get_refuse_chap")]
     pub fn is_refuse_chap(&self) -> bool {
@@ -156,7 +299,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::refuse-eap` property of the setting
+    /// the [`refuse-eap`][struct@crate::SettingPpp#refuse-eap] property of the setting
     #[doc(alias = "nm_setting_ppp_get_refuse_eap")]
     #[doc(alias = "get_refuse_eap")]
     pub fn is_refuse_eap(&self) -> bool {
@@ -166,7 +309,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::refuse-mschap` property of the setting
+    /// the [`refuse-mschap`][struct@crate::SettingPpp#refuse-mschap] property of the setting
     #[doc(alias = "nm_setting_ppp_get_refuse_mschap")]
     #[doc(alias = "get_refuse_mschap")]
     pub fn is_refuse_mschap(&self) -> bool {
@@ -176,7 +319,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::refuse-mschapv2` property of the setting
+    /// the [`refuse-mschapv2`][struct@crate::SettingPpp#refuse-mschapv2] property of the setting
     #[doc(alias = "nm_setting_ppp_get_refuse_mschapv2")]
     #[doc(alias = "get_refuse_mschapv2")]
     pub fn is_refuse_mschapv2(&self) -> bool {
@@ -190,7 +333,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::refuse-pap` property of the setting
+    /// the [`refuse-pap`][struct@crate::SettingPpp#refuse-pap] property of the setting
     #[doc(alias = "nm_setting_ppp_get_refuse_pap")]
     #[doc(alias = "get_refuse_pap")]
     pub fn is_refuse_pap(&self) -> bool {
@@ -200,7 +343,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::require-mppe` property of the setting
+    /// the [`require-mppe`][struct@crate::SettingPpp#require-mppe] property of the setting
     #[doc(alias = "nm_setting_ppp_get_require_mppe")]
     #[doc(alias = "get_require_mppe")]
     pub fn requires_mppe(&self) -> bool {
@@ -210,7 +353,7 @@ impl SettingPpp {
     ///
     /// # Returns
     ///
-    /// the `property::SettingPpp::require-mppe-128` property of the setting
+    /// the [`require-mppe-128`][struct@crate::SettingPpp#require-mppe-128] property of the setting
     #[doc(alias = "nm_setting_ppp_get_require_mppe_128")]
     #[doc(alias = "get_require_mppe_128")]
     pub fn requires_mppe_128(&self) -> bool {

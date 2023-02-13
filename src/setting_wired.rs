@@ -9,18 +9,230 @@ use crate::SettingWiredWakeOnLan;
 #[cfg(any(feature = "v1_32", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
 use crate::Ternary;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::StaticType;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// Wired Ethernet Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `accept-all-mac-addresses`
+    ///  When [`true`], setup the interface to accept packets for all MAC addresses.
+    /// This is enabling the kernel interface flag IFF_PROMISC.
+    /// When [`false`], the interface will only accept the packets with the
+    /// interface destination mac address or broadcast.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `auto-negotiate`
+    ///  When [`true`], enforce auto-negotiation of speed and duplex mode.
+    /// If "speed" and "duplex" properties are both specified, only that
+    /// single mode will be advertised and accepted during the link
+    /// auto-negotiation process: this works only for BASE-T 802.3 specifications
+    /// and is useful for enforcing gigabits modes, as in these cases link
+    /// negotiation is mandatory.
+    /// When [`false`], "speed" and "duplex" properties should be both set or
+    /// link configuration will be skipped.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `cloned-mac-address`
+    ///  If specified, request that the device use this MAC address instead.
+    /// This is known as MAC cloning or spoofing.
+    ///
+    /// Beside explicitly specifying a MAC address, the special values "preserve", "permanent",
+    /// "random" and "stable" are supported.
+    /// "preserve" means not to touch the MAC address on activation.
+    /// "permanent" means to use the permanent hardware address if the device
+    /// has one (otherwise this is treated as "preserve").
+    /// "random" creates a random MAC address on each connect.
+    /// "stable" creates a hashed MAC address based on connection.stable-id and a
+    /// machine dependent key.
+    ///
+    /// If unspecified, the value can be overwritten via global defaults, see manual
+    /// of NetworkManager.conf. If still unspecified, it defaults to "preserve"
+    /// (older versions of NetworkManager may use a different default value).
+    ///
+    /// On D-Bus, this field is expressed as "assigned-mac-address" or the deprecated
+    /// "cloned-mac-address".
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `duplex`
+    ///  When a value is set, either "half" or "full", configures the device
+    /// to use the specified duplex mode. If "auto-negotiate" is "yes" the
+    /// specified duplex mode will be the only one advertised during link
+    /// negotiation: this works only for BASE-T 802.3 specifications and is
+    /// useful for enforcing gigabits modes, as in these cases link negotiation
+    /// is mandatory.
+    /// If the value is unset (the default), the link configuration will be
+    /// either skipped (if "auto-negotiate" is "no", the default) or will
+    /// be auto-negotiated (if "auto-negotiate" is "yes") and the local device
+    /// will advertise all the supported duplex modes.
+    /// Must be set together with the "speed" property if specified.
+    /// Before specifying a duplex mode be sure your device supports it.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `generate-mac-address-mask`
+    ///  With [`cloned-mac-address`][struct@crate::SettingWired#cloned-mac-address] setting "random" or "stable",
+    /// by default all bits of the MAC address are scrambled and a locally-administered,
+    /// unicast MAC address is created. This property allows to specify that certain bits
+    /// are fixed. Note that the least significant bit of the first MAC address will
+    /// always be unset to create a unicast MAC address.
+    ///
+    /// If the property is [`None`], it is eligible to be overwritten by a default
+    /// connection setting. If the value is still [`None`] or an empty string, the
+    /// default is to create a locally-administered, unicast MAC address.
+    ///
+    /// If the value contains one MAC address, this address is used as mask. The set
+    /// bits of the mask are to be filled with the current MAC address of the device,
+    /// while the unset bits are subject to randomization.
+    /// Setting "FE:FF:FF:00:00:00" means to preserve the OUI of the current MAC address
+    /// and only randomize the lower 3 bytes using the "random" or "stable" algorithm.
+    ///
+    /// If the value contains one additional MAC address after the mask,
+    /// this address is used instead of the current MAC address to fill the bits
+    /// that shall not be randomized. For example, a value of
+    /// "FE:FF:FF:00:00:00 68:F7:28:00:00:00" will set the OUI of the MAC address
+    /// to 68:F7:28, while the lower bits are randomized. A value of
+    /// "02:00:00:00:00:00 00:00:00:00:00:00" will create a fully scrambled
+    /// globally-administered, burned-in MAC address.
+    ///
+    /// If the value contains more than one additional MAC addresses, one of
+    /// them is chosen randomly. For example, "02:00:00:00:00:00 00:00:00:00:00:00 02:00:00:00:00:00"
+    /// will create a fully scrambled MAC address, randomly locally or globally
+    /// administered.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mac-address`
+    ///  If specified, this connection will only apply to the Ethernet device
+    /// whose permanent MAC address matches. This property does not change the
+    /// MAC address of the device (i.e. MAC spoofing).
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mac-address-blacklist`
+    ///  If specified, this connection will never apply to the Ethernet device
+    /// whose permanent MAC address matches an address in the list. Each MAC
+    /// address is in the standard hex-digits-and-colons notation
+    /// (00:11:22:33:44:55).
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mtu`
+    ///  If non-zero, only transmit packets of the specified size or smaller,
+    /// breaking larger packets up into multiple Ethernet frames.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `port`
+    ///  Specific port type to use if the device supports multiple
+    /// attachment methods. One of "tp" (Twisted Pair), "aui" (Attachment Unit
+    /// Interface), "bnc" (Thin Ethernet) or "mii" (Media Independent Interface).
+    /// If the device supports only one port type, this setting is ignored.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `s390-nettype`
+    ///  s390 network device type; one of "qeth", "lcs", or "ctc", representing
+    /// the different types of virtual network devices available on s390 systems.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `s390-options`
+    ///  Dictionary of key/value pairs of s390-specific device options. Both keys
+    /// and values must be strings. Allowed keys include "portno", "layer2",
+    /// "portname", "protocol", among others. Key names must contain only
+    /// alphanumeric characters (ie, [a-zA-Z0-9]).
+    ///
+    /// Currently, NetworkManager itself does nothing with this information.
+    /// However, s390utils ships a udev rule which parses this information
+    /// and applies it to the interface.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `s390-subchannels`
+    ///  Identifies specific subchannels that this network device uses for
+    /// communication with z/VM or s390 host. Like the
+    /// [`mac-address`][struct@crate::SettingWired#mac-address] property for non-z/VM devices, this property
+    /// can be used to ensure this connection only applies to the network device
+    /// that uses these subchannels. The list should contain exactly 3 strings,
+    /// and each string may only be composed of hexadecimal characters and the
+    /// period (.) character.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `speed`
+    ///  When a value greater than 0 is set, configures the device to use
+    /// the specified speed. If "auto-negotiate" is "yes" the specified
+    /// speed will be the only one advertised during link negotiation:
+    /// this works only for BASE-T 802.3 specifications and is useful for
+    /// enforcing gigabit speeds, as in this case link negotiation is
+    /// mandatory.
+    /// If the value is unset (0, the default), the link configuration will be
+    /// either skipped (if "auto-negotiate" is "no", the default) or will
+    /// be auto-negotiated (if "auto-negotiate" is "yes") and the local device
+    /// will advertise all the supported speeds.
+    /// In Mbit/s, ie 100 == 100Mbit/s.
+    /// Must be set together with the "duplex" property when non-zero.
+    /// Before specifying a speed value be sure your device supports it.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `wake-on-lan`
+    ///  The [`SettingWiredWakeOnLan`][crate::SettingWiredWakeOnLan] options to enable. Not all devices support all options.
+    /// May be any combination of [`SettingWiredWakeOnLan::PHY`][crate::SettingWiredWakeOnLan::PHY],
+    /// [`SettingWiredWakeOnLan::UNICAST`][crate::SettingWiredWakeOnLan::UNICAST], [`SettingWiredWakeOnLan::MULTICAST`][crate::SettingWiredWakeOnLan::MULTICAST],
+    /// [`SettingWiredWakeOnLan::BROADCAST`][crate::SettingWiredWakeOnLan::BROADCAST], [`SettingWiredWakeOnLan::ARP`][crate::SettingWiredWakeOnLan::ARP],
+    /// [`SettingWiredWakeOnLan::MAGIC`][crate::SettingWiredWakeOnLan::MAGIC] or the special values
+    /// [`SettingWiredWakeOnLan::DEFAULT`][crate::SettingWiredWakeOnLan::DEFAULT] (to use global settings) and
+    /// [`SettingWiredWakeOnLan::IGNORE`][crate::SettingWiredWakeOnLan::IGNORE] (to disable management of Wake-on-LAN in
+    /// NetworkManager).
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `wake-on-lan-password`
+    ///  If specified, the password used with magic-packet-based
+    /// Wake-on-LAN, represented as an Ethernet MAC address. If [`None`],
+    /// no password will be required.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingWired")]
     pub struct SettingWired(Object<ffi::NMSettingWired, ffi::NMSettingWiredClass>) @extends Setting;
 
@@ -40,7 +252,7 @@ impl SettingWired {
         unsafe { Setting::from_glib_full(ffi::nm_setting_wired_new()).unsafe_cast() }
     }
 
-    /// Adds a new MAC address to the `property::SettingWired::mac-address-blacklist` property.
+    /// Adds a new MAC address to the [`mac-address-blacklist`][struct@crate::SettingWired#mac-address-blacklist] property.
     /// ## `mac`
     /// the MAC address string (hex-digits-and-colons notation) to blacklist
     ///
@@ -93,7 +305,7 @@ impl SettingWired {
     ///
     /// # Returns
     ///
-    /// the `property::SettingWired::accept-all-mac-addresses` property of the setting
+    /// the [`accept-all-mac-addresses`][struct@crate::SettingWired#accept-all-mac-addresses] property of the setting
     #[cfg(any(feature = "v1_32", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
     #[doc(alias = "nm_setting_wired_get_accept_all_mac_addresses")]
@@ -109,7 +321,7 @@ impl SettingWired {
     ///
     /// # Returns
     ///
-    /// the `property::SettingWired::auto-negotiate` property of the setting
+    /// the [`auto-negotiate`][struct@crate::SettingWired#auto-negotiate] property of the setting
     #[doc(alias = "nm_setting_wired_get_auto_negotiate")]
     #[doc(alias = "get_auto_negotiate")]
     pub fn is_auto_negotiate(&self) -> bool {
@@ -123,7 +335,7 @@ impl SettingWired {
     ///
     /// # Returns
     ///
-    /// the `property::SettingWired::cloned-mac-address` property of the setting
+    /// the [`cloned-mac-address`][struct@crate::SettingWired#cloned-mac-address] property of the setting
     #[doc(alias = "nm_setting_wired_get_cloned_mac_address")]
     #[doc(alias = "get_cloned_mac_address")]
     pub fn cloned_mac_address(&self) -> Option<glib::GString> {
@@ -137,7 +349,7 @@ impl SettingWired {
     ///
     /// # Returns
     ///
-    /// the `property::SettingWired::duplex` property of the setting
+    /// the [`duplex`][struct@crate::SettingWired#duplex] property of the setting
     #[doc(alias = "nm_setting_wired_get_duplex")]
     #[doc(alias = "get_duplex")]
     pub fn duplex(&self) -> Option<glib::GString> {
@@ -147,7 +359,7 @@ impl SettingWired {
     ///
     /// # Returns
     ///
-    /// the `property::SettingWired::generate-mac-address-mask` property of the setting
+    /// the [`generate-mac-address-mask`][struct@crate::SettingWired#generate-mac-address-mask] property of the setting
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
     #[doc(alias = "nm_setting_wired_get_generate_mac_address_mask")]
@@ -163,7 +375,7 @@ impl SettingWired {
     ///
     /// # Returns
     ///
-    /// the `property::SettingWired::mac-address` property of the setting
+    /// the [`mac-address`][struct@crate::SettingWired#mac-address] property of the setting
     #[doc(alias = "nm_setting_wired_get_mac_address")]
     #[doc(alias = "get_mac_address")]
     pub fn mac_address(&self) -> Option<glib::GString> {
@@ -173,7 +385,7 @@ impl SettingWired {
     ///
     /// # Returns
     ///
-    /// the `property::SettingWired::mac-address-blacklist` property of the setting
+    /// the [`mac-address-blacklist`][struct@crate::SettingWired#mac-address-blacklist] property of the setting
     #[doc(alias = "nm_setting_wired_get_mac_address_blacklist")]
     #[doc(alias = "get_mac_address_blacklist")]
     pub fn mac_address_blacklist(&self) -> Vec<glib::GString> {
@@ -205,7 +417,7 @@ impl SettingWired {
     ///
     /// # Returns
     ///
-    /// the `property::SettingWired::mtu` property of the setting
+    /// the [`mtu`][struct@crate::SettingWired#mtu] property of the setting
     #[doc(alias = "nm_setting_wired_get_mtu")]
     #[doc(alias = "get_mtu")]
     pub fn mtu(&self) -> u32 {
@@ -238,7 +450,7 @@ impl SettingWired {
     ///
     /// # Returns
     ///
-    /// the `property::SettingWired::port` property of the setting
+    /// the [`port`][struct@crate::SettingWired#port] property of the setting
     #[doc(alias = "nm_setting_wired_get_port")]
     #[doc(alias = "get_port")]
     pub fn port(&self) -> Option<glib::GString> {
@@ -302,7 +514,7 @@ impl SettingWired {
     ///
     /// # Returns
     ///
-    /// the `property::SettingWired::speed` property of the setting
+    /// the [`speed`][struct@crate::SettingWired#speed] property of the setting
     #[doc(alias = "nm_setting_wired_get_speed")]
     #[doc(alias = "get_speed")]
     pub fn speed(&self) -> u32 {
@@ -467,7 +679,7 @@ impl SettingWired {
         glib::ObjectExt::set_property(self, "duplex", &duplex)
     }
 
-    /// With `property::SettingWired::cloned-mac-address` setting "random" or "stable",
+    /// With [`cloned-mac-address`][struct@crate::SettingWired#cloned-mac-address] setting "random" or "stable",
     /// by default all bits of the MAC address are scrambled and a locally-administered,
     /// unicast MAC address is created. This property allows to specify that certain bits
     /// are fixed. Note that the least significant bit of the first MAC address will
@@ -500,7 +712,7 @@ impl SettingWired {
         glib::ObjectExt::property(self, "generate-mac-address-mask")
     }
 
-    /// With `property::SettingWired::cloned-mac-address` setting "random" or "stable",
+    /// With [`cloned-mac-address`][struct@crate::SettingWired#cloned-mac-address] setting "random" or "stable",
     /// by default all bits of the MAC address are scrambled and a locally-administered,
     /// unicast MAC address is created. This property allows to specify that certain bits
     /// are fixed. Note that the least significant bit of the first MAC address will
@@ -587,7 +799,7 @@ impl SettingWired {
 
     /// Identifies specific subchannels that this network device uses for
     /// communication with z/VM or s390 host. Like the
-    /// `property::SettingWired::mac-address` property for non-z/VM devices, this property
+    /// [`mac-address`][struct@crate::SettingWired#mac-address] property for non-z/VM devices, this property
     /// can be used to ensure this connection only applies to the network device
     /// that uses these subchannels. The list should contain exactly 3 strings,
     /// and each string may only be composed of hexadecimal characters and the

@@ -5,34 +5,40 @@
 use crate::Setting;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use glib::object::Cast;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use glib::object::ObjectType as ObjectType_;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use glib::signal::connect_raw;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use glib::signal::SignalHandlerId;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use glib::translate::*;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use glib::StaticType;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use glib::ToValue;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use std::boxed::Box as Box_;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
 use std::fmt;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use std::mem::transmute;
+use std::{boxed::Box as Box_, mem::transmute};
 
 glib::wrapper! {
+    /// Open vSwitch Interface Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `type`
+    ///  The interface type. Either "internal", "system", "patch", "dpdk", or empty.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingOvsInterface")]
     pub struct SettingOvsInterface(Object<ffi::NMSettingOvsInterface, ffi::NMSettingOvsInterfaceClass>) @extends Setting;
 
@@ -57,7 +63,7 @@ impl SettingOvsInterface {
     ///
     /// # Returns
     ///
-    /// the `property::SettingOvsInterface::type` property of the setting
+    /// the [`type`][struct@crate::SettingOvsInterface#type] property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_setting_ovs_interface_get_interface_type")]

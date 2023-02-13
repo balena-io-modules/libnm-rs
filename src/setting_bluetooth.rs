@@ -3,18 +3,44 @@
 // DO NOT EDIT
 
 use crate::Setting;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::StaticType;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// Bluetooth Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `bdaddr`
+    ///  The Bluetooth address of the device.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `type`
+    ///  Either "dun" for Dial-Up Networking connections or "panu" for Personal
+    /// Area Networking connections to devices supporting the NAP profile.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingBluetooth")]
     pub struct SettingBluetooth(Object<ffi::NMSettingBluetooth, ffi::NMSettingBluetoothClass>) @extends Setting;
 

@@ -135,6 +135,10 @@ pub const NM_DEVICE_ERROR_VERSION_ID_MISMATCH: NMDeviceError = 8;
 pub const NM_DEVICE_ERROR_MISSING_DEPENDENCIES: NMDeviceError = 9;
 pub const NM_DEVICE_ERROR_INVALID_ARGUMENT: NMDeviceError = 10;
 
+pub type NMDeviceReapplyFlags = c_int;
+pub const NM_DEVICE_REAPPLY_FLAGS_NONE: NMDeviceReapplyFlags = 0;
+pub const NM_DEVICE_REAPPLY_FLAGS_PRESERVE_EXTERNAL_IP: NMDeviceReapplyFlags = 1;
+
 pub type NMDeviceState = c_int;
 pub const NM_DEVICE_STATE_UNKNOWN: NMDeviceState = 0;
 pub const NM_DEVICE_STATE_UNMANAGED: NMDeviceState = 10;
@@ -373,9 +377,17 @@ pub const NM_SETTING_DIFF_RESULT_IN_B: NMSettingDiffResult = 2;
 pub const NM_SETTING_DIFF_RESULT_IN_A_DEFAULT: NMSettingDiffResult = 4;
 pub const NM_SETTING_DIFF_RESULT_IN_B_DEFAULT: NMSettingDiffResult = 8;
 
+pub type NMSettingIP4LinkLocal = c_int;
+pub const NM_SETTING_IP4_LL_DEFAULT: NMSettingIP4LinkLocal = 0;
+pub const NM_SETTING_IP4_LL_AUTO: NMSettingIP4LinkLocal = 1;
+pub const NM_SETTING_IP4_LL_DISABLED: NMSettingIP4LinkLocal = 2;
+pub const NM_SETTING_IP4_LL_ENABLED: NMSettingIP4LinkLocal = 3;
+
 pub type NMSettingIP6ConfigAddrGenMode = c_int;
 pub const NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE_EUI64: NMSettingIP6ConfigAddrGenMode = 0;
 pub const NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE_STABLE_PRIVACY: NMSettingIP6ConfigAddrGenMode = 1;
+pub const NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE_DEFAULT_OR_EUI64: NMSettingIP6ConfigAddrGenMode = 2;
+pub const NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE_DEFAULT: NMSettingIP6ConfigAddrGenMode = 3;
 
 pub type NMSettingIP6ConfigPrivacy = c_int;
 pub const NM_SETTING_IP6_CONFIG_PRIVACY_UNKNOWN: NMSettingIP6ConfigPrivacy = -1;
@@ -546,1073 +558,1081 @@ pub const NM_WIMAX_NSP_NETWORK_TYPE_PARTNER: NMWimaxNspNetworkType = 2;
 pub const NM_WIMAX_NSP_NETWORK_TYPE_ROAMING_PARTNER: NMWimaxNspNetworkType = 3;
 
 // Constants
-pub const NM_ACCESS_POINT_BSSID: *const c_char = b"bssid\0" as *const u8 as *const c_char;
-pub const NM_ACCESS_POINT_FLAGS: *const c_char = b"flags\0" as *const u8 as *const c_char;
-pub const NM_ACCESS_POINT_FREQUENCY: *const c_char = b"frequency\0" as *const u8 as *const c_char;
-pub const NM_ACCESS_POINT_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_ACCESS_POINT_LAST_SEEN: *const c_char = b"last-seen\0" as *const u8 as *const c_char;
-pub const NM_ACCESS_POINT_MAX_BITRATE: *const c_char = b"max-bitrate\0" as *const u8 as *const c_char;
-pub const NM_ACCESS_POINT_MODE: *const c_char = b"mode\0" as *const u8 as *const c_char;
-pub const NM_ACCESS_POINT_RSN_FLAGS: *const c_char = b"rsn-flags\0" as *const u8 as *const c_char;
-pub const NM_ACCESS_POINT_SSID: *const c_char = b"ssid\0" as *const u8 as *const c_char;
-pub const NM_ACCESS_POINT_STRENGTH: *const c_char = b"strength\0" as *const u8 as *const c_char;
-pub const NM_ACCESS_POINT_WPA_FLAGS: *const c_char = b"wpa-flags\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_CONNECTION: *const c_char = b"connection\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_DEFAULT: *const c_char = b"default\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_DEFAULT6: *const c_char = b"default6\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_DEVICES: *const c_char = b"devices\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_DHCP4_CONFIG: *const c_char = b"dhcp4-config\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_DHCP6_CONFIG: *const c_char = b"dhcp6-config\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_ID: *const c_char = b"id\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_IP4_CONFIG: *const c_char = b"ip4-config\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_IP6_CONFIG: *const c_char = b"ip6-config\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_MASTER: *const c_char = b"master\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_SPECIFIC_OBJECT_PATH: *const c_char = b"specific-object-path\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_STATE: *const c_char = b"state\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_STATE_FLAGS: *const c_char = b"state-flags\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_TYPE: *const c_char = b"type\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_UUID: *const c_char = b"uuid\0" as *const u8 as *const c_char;
-pub const NM_ACTIVE_CONNECTION_VPN: *const c_char = b"vpn\0" as *const u8 as *const c_char;
+pub const NM_ACCESS_POINT_BSSID: &[u8] = b"bssid\0";
+pub const NM_ACCESS_POINT_FLAGS: &[u8] = b"flags\0";
+pub const NM_ACCESS_POINT_FREQUENCY: &[u8] = b"frequency\0";
+pub const NM_ACCESS_POINT_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_ACCESS_POINT_LAST_SEEN: &[u8] = b"last-seen\0";
+pub const NM_ACCESS_POINT_MAX_BITRATE: &[u8] = b"max-bitrate\0";
+pub const NM_ACCESS_POINT_MODE: &[u8] = b"mode\0";
+pub const NM_ACCESS_POINT_RSN_FLAGS: &[u8] = b"rsn-flags\0";
+pub const NM_ACCESS_POINT_SSID: &[u8] = b"ssid\0";
+pub const NM_ACCESS_POINT_STRENGTH: &[u8] = b"strength\0";
+pub const NM_ACCESS_POINT_WPA_FLAGS: &[u8] = b"wpa-flags\0";
+pub const NM_ACTIVE_CONNECTION_CONNECTION: &[u8] = b"connection\0";
+pub const NM_ACTIVE_CONNECTION_DEFAULT: &[u8] = b"default\0";
+pub const NM_ACTIVE_CONNECTION_DEFAULT6: &[u8] = b"default6\0";
+pub const NM_ACTIVE_CONNECTION_DEVICES: &[u8] = b"devices\0";
+pub const NM_ACTIVE_CONNECTION_DHCP4_CONFIG: &[u8] = b"dhcp4-config\0";
+pub const NM_ACTIVE_CONNECTION_DHCP6_CONFIG: &[u8] = b"dhcp6-config\0";
+pub const NM_ACTIVE_CONNECTION_ID: &[u8] = b"id\0";
+pub const NM_ACTIVE_CONNECTION_IP4_CONFIG: &[u8] = b"ip4-config\0";
+pub const NM_ACTIVE_CONNECTION_IP6_CONFIG: &[u8] = b"ip6-config\0";
+pub const NM_ACTIVE_CONNECTION_MASTER: &[u8] = b"master\0";
+pub const NM_ACTIVE_CONNECTION_SPECIFIC_OBJECT_PATH: &[u8] = b"specific-object-path\0";
+pub const NM_ACTIVE_CONNECTION_STATE: &[u8] = b"state\0";
+pub const NM_ACTIVE_CONNECTION_STATE_FLAGS: &[u8] = b"state-flags\0";
+pub const NM_ACTIVE_CONNECTION_TYPE: &[u8] = b"type\0";
+pub const NM_ACTIVE_CONNECTION_UUID: &[u8] = b"uuid\0";
+pub const NM_ACTIVE_CONNECTION_VPN: &[u8] = b"vpn\0";
 pub const NM_BRIDGE_VLAN_VID_MAX: c_int = 4094;
 pub const NM_BRIDGE_VLAN_VID_MIN: c_int = 1;
-pub const NM_CHECKPOINT_CREATED: *const c_char = b"created\0" as *const u8 as *const c_char;
-pub const NM_CHECKPOINT_DEVICES: *const c_char = b"devices\0" as *const u8 as *const c_char;
-pub const NM_CHECKPOINT_ROLLBACK_TIMEOUT: *const c_char = b"rollback-timeout\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_ACTIVATING_CONNECTION: *const c_char = b"activating-connection\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_ACTIVE_CONNECTIONS: *const c_char = b"active-connections\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_ACTIVE_CONNECTION_ADDED: *const c_char = b"active-connection-added\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_ACTIVE_CONNECTION_REMOVED: *const c_char = b"active-connection-removed\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_ALL_DEVICES: *const c_char = b"all-devices\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_ANY_DEVICE_ADDED: *const c_char = b"any-device-added\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_ANY_DEVICE_REMOVED: *const c_char = b"any-device-removed\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_CAN_MODIFY: *const c_char = b"can-modify\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_CAPABILITIES: *const c_char = b"capabilities\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_CHECKPOINTS: *const c_char = b"checkpoints\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_CONNECTIONS: *const c_char = b"connections\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_CONNECTION_ADDED: *const c_char = b"connection-added\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_CONNECTION_REMOVED: *const c_char = b"connection-removed\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_CONNECTIVITY: *const c_char = b"connectivity\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_CONNECTIVITY_CHECK_AVAILABLE: *const c_char = b"connectivity-check-available\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_CONNECTIVITY_CHECK_ENABLED: *const c_char = b"connectivity-check-enabled\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_CONNECTIVITY_CHECK_URI: *const c_char = b"connectivity-check-uri\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_DBUS_CONNECTION: *const c_char = b"dbus-connection\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_DBUS_NAME_OWNER: *const c_char = b"dbus-name-owner\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_DEVICES: *const c_char = b"devices\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_DEVICE_ADDED: *const c_char = b"device-added\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_DEVICE_REMOVED: *const c_char = b"device-removed\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_DNS_CONFIGURATION: *const c_char = b"dns-configuration\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_DNS_MODE: *const c_char = b"dns-mode\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_DNS_RC_MANAGER: *const c_char = b"dns-rc-manager\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_HOSTNAME: *const c_char = b"hostname\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_INSTANCE_FLAGS: *const c_char = b"instance-flags\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_METERED: *const c_char = b"metered\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_NETWORKING_ENABLED: *const c_char = b"networking-enabled\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_NM_RUNNING: *const c_char = b"nm-running\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_PERMISSIONS_STATE: *const c_char = b"permissions-state\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_PERMISSION_CHANGED: *const c_char = b"permission-changed\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_PRIMARY_CONNECTION: *const c_char = b"primary-connection\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_RADIO_FLAGS: *const c_char = b"radio-flags\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_STARTUP: *const c_char = b"startup\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_STATE: *const c_char = b"state\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_VERSION: *const c_char = b"version\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_WIMAX_ENABLED: *const c_char = b"wimax-enabled\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_WIMAX_HARDWARE_ENABLED: *const c_char = b"wimax-hardware-enabled\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_WIRELESS_ENABLED: *const c_char = b"wireless-enabled\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_WIRELESS_HARDWARE_ENABLED: *const c_char = b"wireless-hardware-enabled\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_WWAN_ENABLED: *const c_char = b"wwan-enabled\0" as *const u8 as *const c_char;
-pub const NM_CLIENT_WWAN_HARDWARE_ENABLED: *const c_char = b"wwan-hardware-enabled\0" as *const u8 as *const c_char;
-pub const NM_CONNECTION_CHANGED: *const c_char = b"changed\0" as *const u8 as *const c_char;
-pub const NM_CONNECTION_NORMALIZE_PARAM_IP4_CONFIG_METHOD: *const c_char = b"ip4-config-method\0" as *const u8 as *const c_char;
-pub const NM_CONNECTION_NORMALIZE_PARAM_IP6_CONFIG_METHOD: *const c_char = b"ip6-config-method\0" as *const u8 as *const c_char;
-pub const NM_CONNECTION_SECRETS_CLEARED: *const c_char = b"secrets-cleared\0" as *const u8 as *const c_char;
-pub const NM_CONNECTION_SECRETS_UPDATED: *const c_char = b"secrets-updated\0" as *const u8 as *const c_char;
-pub const NM_DBUS_INTERFACE: *const c_char = b"org.freedesktop.NetworkManager\0" as *const u8 as *const c_char;
-pub const NM_DBUS_INTERFACE_DNS_MANAGER: *const c_char = b"org.freedesktop.NetworkManager.DnsManager\0" as *const u8 as *const c_char;
-pub const NM_DBUS_INTERFACE_SETTINGS: *const c_char = b"org.freedesktop.NetworkManager.Settings\0" as *const u8 as *const c_char;
-pub const NM_DBUS_INTERFACE_SETTINGS_CONNECTION: *const c_char = b"org.freedesktop.NetworkManager.Settings.Connection\0" as *const u8 as *const c_char;
-pub const NM_DBUS_INTERFACE_SETTINGS_CONNECTION_SECRETS: *const c_char = b"org.freedesktop.NetworkManager.Settings.Connection.Secrets\0" as *const u8 as *const c_char;
-pub const NM_DBUS_INTERFACE_VPN: *const c_char = b"org.freedesktop.NetworkManager.VPN.Manager\0" as *const u8 as *const c_char;
-pub const NM_DBUS_INTERFACE_VPN_CONNECTION: *const c_char = b"org.freedesktop.NetworkManager.VPN.Connection\0" as *const u8 as *const c_char;
-pub const NM_DBUS_INVALID_VPN_CONNECTION: *const c_char = b"org.freedesktop.NetworkManager.VPNConnections.InvalidVPNConnection\0" as *const u8 as *const c_char;
-pub const NM_DBUS_NO_ACTIVE_VPN_CONNECTION: *const c_char = b"org.freedesktop.NetworkManager.VPNConnections.NoActiveVPNConnection\0" as *const u8 as *const c_char;
-pub const NM_DBUS_NO_VPN_CONNECTIONS: *const c_char = b"org.freedesktop.NetworkManager.VPNConnections.NoVPNConnections\0" as *const u8 as *const c_char;
-pub const NM_DBUS_PATH: *const c_char = b"/org/freedesktop/NetworkManager\0" as *const u8 as *const c_char;
-pub const NM_DBUS_PATH_AGENT_MANAGER: *const c_char = b"/org/freedesktop/NetworkManager/AgentManager\0" as *const u8 as *const c_char;
-pub const NM_DBUS_PATH_DNS_MANAGER: *const c_char = b"/org/freedesktop/NetworkManager/DnsManager\0" as *const u8 as *const c_char;
-pub const NM_DBUS_PATH_SECRET_AGENT: *const c_char = b"/org/freedesktop/NetworkManager/SecretAgent\0" as *const u8 as *const c_char;
-pub const NM_DBUS_PATH_SETTINGS: *const c_char = b"/org/freedesktop/NetworkManager/Settings\0" as *const u8 as *const c_char;
-pub const NM_DBUS_PATH_SETTINGS_CONNECTION: *const c_char = b"/org/freedesktop/NetworkManager/Settings/Connection\0" as *const u8 as *const c_char;
-pub const NM_DBUS_PATH_VPN: *const c_char = b"/org/freedesktop/NetworkManager/VPN/Manager\0" as *const u8 as *const c_char;
-pub const NM_DBUS_PATH_VPN_CONNECTION: *const c_char = b"/org/freedesktop/NetworkManager/VPN/Connection\0" as *const u8 as *const c_char;
-pub const NM_DBUS_SERVICE: *const c_char = b"org.freedesktop.NetworkManager\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_ALREADY_STARTED: *const c_char = b"AlreadyStarted\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_ALREADY_STOPPED: *const c_char = b"AlreadyStopped\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_BAD_ARGUMENTS: *const c_char = b"BadArguments\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_ERROR_PREFIX: *const c_char = b"org.freedesktop.NetworkManager.VPN.Error\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_INTERACTIVE_NOT_SUPPORTED: *const c_char = b"InteractiveNotSupported\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_SIGNAL_CONNECT_FAILED: *const c_char = b"ConnectFailed\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_SIGNAL_IP4_CONFIG: *const c_char = b"IP4Config\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_SIGNAL_IP_CONFIG_BAD: *const c_char = b"IPConfigBad\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_SIGNAL_LAUNCH_FAILED: *const c_char = b"LaunchFailed\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_SIGNAL_LOGIN_BANNER: *const c_char = b"LoginBanner\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_SIGNAL_LOGIN_FAILED: *const c_char = b"LoginFailed\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_SIGNAL_STATE_CHANGE: *const c_char = b"StateChange\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_SIGNAL_VPN_CONFIG_BAD: *const c_char = b"VPNConfigBad\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_STARTING_IN_PROGRESS: *const c_char = b"StartingInProgress\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_STOPPING_IN_PROGRESS: *const c_char = b"StoppingInProgress\0" as *const u8 as *const c_char;
-pub const NM_DBUS_VPN_WRONG_STATE: *const c_char = b"WrongState\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_6LOWPAN_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_6LOWPAN_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_ACTIVE_CONNECTION: *const c_char = b"active-connection\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_ADSL_CARRIER: *const c_char = b"carrier\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_AUTOCONNECT: *const c_char = b"autoconnect\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_AVAILABLE_CONNECTIONS: *const c_char = b"available-connections\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_BOND_CARRIER: *const c_char = b"carrier\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_BOND_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_BOND_SLAVES: *const c_char = b"slaves\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_BRIDGE_CARRIER: *const c_char = b"carrier\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_BRIDGE_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_BRIDGE_SLAVES: *const c_char = b"slaves\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_BT_CAPABILITIES: *const c_char = b"bt-capabilities\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_BT_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_BT_NAME: *const c_char = b"name\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_CAPABILITIES: *const c_char = b"capabilities\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_DEVICE_TYPE: *const c_char = b"device-type\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_DHCP4_CONFIG: *const c_char = b"dhcp4-config\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_DHCP6_CONFIG: *const c_char = b"dhcp6-config\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_DRIVER: *const c_char = b"driver\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_DRIVER_VERSION: *const c_char = b"driver-version\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_DUMMY_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_ETHERNET_CARRIER: *const c_char = b"carrier\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_ETHERNET_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_ETHERNET_PERMANENT_HW_ADDRESS: *const c_char = b"perm-hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_ETHERNET_S390_SUBCHANNELS: *const c_char = b"s390-subchannels\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_ETHERNET_SPEED: *const c_char = b"speed\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_FIRMWARE_MISSING: *const c_char = b"firmware-missing\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_FIRMWARE_VERSION: *const c_char = b"firmware-version\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_GENERIC_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_GENERIC_TYPE_DESCRIPTION: *const c_char = b"type-description\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_INFINIBAND_CARRIER: *const c_char = b"carrier\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_INFINIBAND_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_INTERFACE: *const c_char = b"interface\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_INTERFACE_FLAGS: *const c_char = b"interface-flags\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP4_CONFIG: *const c_char = b"ip4-config\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP4_CONNECTIVITY: *const c_char = b"ip4-connectivity\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP6_CONFIG: *const c_char = b"ip6-config\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP6_CONNECTIVITY: *const c_char = b"ip6-connectivity\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP_INTERFACE: *const c_char = b"ip-interface\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP_TUNNEL_ENCAPSULATION_LIMIT: *const c_char = b"encapsulation-limit\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP_TUNNEL_FLAGS: *const c_char = b"flags\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP_TUNNEL_FLOW_LABEL: *const c_char = b"flow-label\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP_TUNNEL_INPUT_KEY: *const c_char = b"input-key\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP_TUNNEL_LOCAL: *const c_char = b"local\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP_TUNNEL_MODE: *const c_char = b"mode\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP_TUNNEL_OUTPUT_KEY: *const c_char = b"output-key\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP_TUNNEL_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP_TUNNEL_PATH_MTU_DISCOVERY: *const c_char = b"path-mtu-discovery\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP_TUNNEL_REMOTE: *const c_char = b"remote\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP_TUNNEL_TOS: *const c_char = b"tos\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_IP_TUNNEL_TTL: *const c_char = b"ttl\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_LLDP_NEIGHBORS: *const c_char = b"lldp-neighbors\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACSEC_CIPHER_SUITE: *const c_char = b"cipher-suite\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACSEC_ENCODING_SA: *const c_char = b"encoding-sa\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACSEC_ENCRYPT: *const c_char = b"encrypt\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACSEC_ES: *const c_char = b"es\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACSEC_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACSEC_ICV_LENGTH: *const c_char = b"icv-length\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACSEC_INCLUDE_SCI: *const c_char = b"include-sci\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACSEC_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACSEC_PROTECT: *const c_char = b"protect\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACSEC_REPLAY_PROTECT: *const c_char = b"replay-protect\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACSEC_SCB: *const c_char = b"scb\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACSEC_SCI: *const c_char = b"sci\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACSEC_VALIDATION: *const c_char = b"validation\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACSEC_WINDOW: *const c_char = b"window\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACVLAN_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACVLAN_MODE: *const c_char = b"mode\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACVLAN_NO_PROMISC: *const c_char = b"no-promisc\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACVLAN_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MACVLAN_TAP: *const c_char = b"tap\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MANAGED: *const c_char = b"managed\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_METERED: *const c_char = b"metered\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MODEM_APN: *const c_char = b"apn\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MODEM_CURRENT_CAPABILITIES: *const c_char = b"current-capabilities\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MODEM_DEVICE_ID: *const c_char = b"device-id\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MODEM_MODEM_CAPABILITIES: *const c_char = b"modem-capabilities\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MODEM_OPERATOR_CODE: *const c_char = b"operator-code\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_MTU: *const c_char = b"mtu\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_NM_PLUGIN_MISSING: *const c_char = b"nm-plugin-missing\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_OLPC_MESH_ACTIVE_CHANNEL: *const c_char = b"active-channel\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_OLPC_MESH_COMPANION: *const c_char = b"companion\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_OLPC_MESH_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_OVS_BRIDGE_SLAVES: *const c_char = b"slaves\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_OVS_PORT_SLAVES: *const c_char = b"slaves\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_PATH: *const c_char = b"path\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_PHYSICAL_PORT_ID: *const c_char = b"physical-port-id\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_PORTS: *const c_char = b"ports\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_PRODUCT: *const c_char = b"product\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_REAL: *const c_char = b"real\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_STATE: *const c_char = b"state\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_STATE_REASON: *const c_char = b"state-reason\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_TEAM_CARRIER: *const c_char = b"carrier\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_TEAM_CONFIG: *const c_char = b"config\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_TEAM_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_TEAM_SLAVES: *const c_char = b"slaves\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_TUN_GROUP: *const c_char = b"group\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_TUN_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_TUN_MODE: *const c_char = b"mode\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_TUN_MULTI_QUEUE: *const c_char = b"multi-queue\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_TUN_NO_PI: *const c_char = b"no-pi\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_TUN_OWNER: *const c_char = b"owner\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_TUN_VNET_HDR: *const c_char = b"vnet-hdr\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_UDI: *const c_char = b"udi\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VENDOR: *const c_char = b"vendor\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VETH_PEER: *const c_char = b"peer\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VLAN_CARRIER: *const c_char = b"carrier\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VLAN_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VLAN_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VLAN_VLAN_ID: *const c_char = b"vlan-id\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VRF_TABLE: *const c_char = b"table\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_AGEING: *const c_char = b"ageing\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_CARRIER: *const c_char = b"carrier\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_DST_PORT: *const c_char = b"dst-port\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_GROUP: *const c_char = b"group\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_ID: *const c_char = b"id\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_L2MISS: *const c_char = b"l2miss\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_L3MISS: *const c_char = b"l3miss\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_LEARNING: *const c_char = b"learning\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_LIMIT: *const c_char = b"limit\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_LOCAL: *const c_char = b"local\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_PROXY: *const c_char = b"proxy\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_RSC: *const c_char = b"rsc\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_SRC_PORT_MAX: *const c_char = b"src-port-max\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_SRC_PORT_MIN: *const c_char = b"src-port-min\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_TOS: *const c_char = b"tos\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_VXLAN_TTL: *const c_char = b"ttl\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIFI_ACCESS_POINTS: *const c_char = b"access-points\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIFI_ACTIVE_ACCESS_POINT: *const c_char = b"active-access-point\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIFI_BITRATE: *const c_char = b"bitrate\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIFI_CAPABILITIES: *const c_char = b"wireless-capabilities\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIFI_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIFI_LAST_SCAN: *const c_char = b"last-scan\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIFI_MODE: *const c_char = b"mode\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIFI_P2P_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIFI_P2P_PEERS: *const c_char = b"peers\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIFI_P2P_WFDIES: *const c_char = b"wfdies\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIFI_PERMANENT_HW_ADDRESS: *const c_char = b"perm-hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIMAX_ACTIVE_NSP: *const c_char = b"active-nsp\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIMAX_BSID: *const c_char = b"bsid\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIMAX_CENTER_FREQUENCY: *const c_char = b"center-frequency\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIMAX_CINR: *const c_char = b"cinr\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIMAX_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIMAX_NSPS: *const c_char = b"nsps\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIMAX_RSSI: *const c_char = b"rssi\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIMAX_TX_POWER: *const c_char = b"tx-power\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIREGUARD_FWMARK: *const c_char = b"fwmark\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIREGUARD_LISTEN_PORT: *const c_char = b"listen-port\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WIREGUARD_PUBLIC_KEY: *const c_char = b"public-key\0" as *const u8 as *const c_char;
-pub const NM_DEVICE_WPAN_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_DHCP_CONFIG_FAMILY: *const c_char = b"family\0" as *const u8 as *const c_char;
-pub const NM_DHCP_CONFIG_OPTIONS: *const c_char = b"options\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_RX: *const c_char = b"coalesce-adaptive-rx\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_TX: *const c_char = b"coalesce-adaptive-tx\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_PKT_RATE_HIGH: *const c_char = b"coalesce-pkt-rate-high\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_PKT_RATE_LOW: *const c_char = b"coalesce-pkt-rate-low\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES: *const c_char = b"coalesce-rx-frames\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_HIGH: *const c_char = b"coalesce-rx-frames-high\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_IRQ: *const c_char = b"coalesce-rx-frames-irq\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_LOW: *const c_char = b"coalesce-rx-frames-low\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS: *const c_char = b"coalesce-rx-usecs\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_HIGH: *const c_char = b"coalesce-rx-usecs-high\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_IRQ: *const c_char = b"coalesce-rx-usecs-irq\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_LOW: *const c_char = b"coalesce-rx-usecs-low\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_SAMPLE_INTERVAL: *const c_char = b"coalesce-sample-interval\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_STATS_BLOCK_USECS: *const c_char = b"coalesce-stats-block-usecs\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES: *const c_char = b"coalesce-tx-frames\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_HIGH: *const c_char = b"coalesce-tx-frames-high\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_IRQ: *const c_char = b"coalesce-tx-frames-irq\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_LOW: *const c_char = b"coalesce-tx-frames-low\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS: *const c_char = b"coalesce-tx-usecs\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_HIGH: *const c_char = b"coalesce-tx-usecs-high\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_IRQ: *const c_char = b"coalesce-tx-usecs-irq\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_LOW: *const c_char = b"coalesce-tx-usecs-low\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_ESP_HW_OFFLOAD: *const c_char = b"feature-esp-hw-offload\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_ESP_TX_CSUM_HW_OFFLOAD: *const c_char = b"feature-esp-tx-csum-hw-offload\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_FCOE_MTU: *const c_char = b"feature-fcoe-mtu\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_GRO: *const c_char = b"feature-gro\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_GSO: *const c_char = b"feature-gso\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_HIGHDMA: *const c_char = b"feature-highdma\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_HW_TC_OFFLOAD: *const c_char = b"feature-hw-tc-offload\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_L2_FWD_OFFLOAD: *const c_char = b"feature-l2-fwd-offload\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_LOOPBACK: *const c_char = b"feature-loopback\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_LRO: *const c_char = b"feature-lro\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_MACSEC_HW_OFFLOAD: *const c_char = b"feature-macsec-hw-offload\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_NTUPLE: *const c_char = b"feature-ntuple\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_RX: *const c_char = b"feature-rx\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_RXHASH: *const c_char = b"feature-rxhash\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_RXVLAN: *const c_char = b"feature-rxvlan\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_ALL: *const c_char = b"feature-rx-all\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_FCS: *const c_char = b"feature-rx-fcs\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_GRO_HW: *const c_char = b"feature-rx-gro-hw\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_GRO_LIST: *const c_char = b"feature-rx-gro-list\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_UDP_GRO_FORWARDING: *const c_char = b"feature-rx-udp-gro-forwarding\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_UDP_TUNNEL_PORT_OFFLOAD: *const c_char = b"feature-rx-udp_tunnel-port-offload\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_FILTER: *const c_char = b"feature-rx-vlan-filter\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_FILTER: *const c_char = b"feature-rx-vlan-stag-filter\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_HW_PARSE: *const c_char = b"feature-rx-vlan-stag-hw-parse\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_SG: *const c_char = b"feature-sg\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_RECORD: *const c_char = b"feature-tls-hw-record\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_RX_OFFLOAD: *const c_char = b"feature-tls-hw-rx-offload\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_TX_OFFLOAD: *const c_char = b"feature-tls-hw-tx-offload\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TSO: *const c_char = b"feature-tso\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX: *const c_char = b"feature-tx\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TXVLAN: *const c_char = b"feature-txvlan\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_FCOE_CRC: *const c_char = b"feature-tx-checksum-fcoe-crc\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IPV4: *const c_char = b"feature-tx-checksum-ipv4\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IPV6: *const c_char = b"feature-tx-checksum-ipv6\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IP_GENERIC: *const c_char = b"feature-tx-checksum-ip-generic\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_SCTP: *const c_char = b"feature-tx-checksum-sctp\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_ESP_SEGMENTATION: *const c_char = b"feature-tx-esp-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_FCOE_SEGMENTATION: *const c_char = b"feature-tx-fcoe-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_GRE_CSUM_SEGMENTATION: *const c_char = b"feature-tx-gre-csum-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_GRE_SEGMENTATION: *const c_char = b"feature-tx-gre-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_LIST: *const c_char = b"feature-tx-gso-list\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_PARTIAL: *const c_char = b"feature-tx-gso-partial\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_ROBUST: *const c_char = b"feature-tx-gso-robust\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_IPXIP4_SEGMENTATION: *const c_char = b"feature-tx-ipxip4-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_IPXIP6_SEGMENTATION: *const c_char = b"feature-tx-ipxip6-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_NOCACHE_COPY: *const c_char = b"feature-tx-nocache-copy\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_SCATTER_GATHER: *const c_char = b"feature-tx-scatter-gather\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_SCATTER_GATHER_FRAGLIST: *const c_char = b"feature-tx-scatter-gather-fraglist\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_SCTP_SEGMENTATION: *const c_char = b"feature-tx-sctp-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP6_SEGMENTATION: *const c_char = b"feature-tx-tcp6-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_ECN_SEGMENTATION: *const c_char = b"feature-tx-tcp-ecn-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_MANGLEID_SEGMENTATION: *const c_char = b"feature-tx-tcp-mangleid-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_SEGMENTATION: *const c_char = b"feature-tx-tcp-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_TUNNEL_REMCSUM_SEGMENTATION: *const c_char = b"feature-tx-tunnel-remcsum-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_SEGMENTATION: *const c_char = b"feature-tx-udp-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_CSUM_SEGMENTATION: *const c_char = b"feature-tx-udp_tnl-csum-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_SEGMENTATION: *const c_char = b"feature-tx-udp_tnl-segmentation\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_VLAN_STAG_HW_INSERT: *const c_char = b"feature-tx-vlan-stag-hw-insert\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_PAUSE_AUTONEG: *const c_char = b"pause-autoneg\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_PAUSE_RX: *const c_char = b"pause-rx\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_PAUSE_TX: *const c_char = b"pause-tx\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_RING_RX: *const c_char = b"ring-rx\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_RING_RX_JUMBO: *const c_char = b"ring-rx-jumbo\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_RING_RX_MINI: *const c_char = b"ring-rx-mini\0" as *const u8 as *const c_char;
-pub const NM_ETHTOOL_OPTNAME_RING_TX: *const c_char = b"ring-tx\0" as *const u8 as *const c_char;
-pub const NM_IP_ADDRESS_ATTRIBUTE_LABEL: *const c_char = b"label\0" as *const u8 as *const c_char;
-pub const NM_IP_CONFIG_ADDRESSES: *const c_char = b"addresses\0" as *const u8 as *const c_char;
-pub const NM_IP_CONFIG_DOMAINS: *const c_char = b"domains\0" as *const u8 as *const c_char;
-pub const NM_IP_CONFIG_FAMILY: *const c_char = b"family\0" as *const u8 as *const c_char;
-pub const NM_IP_CONFIG_GATEWAY: *const c_char = b"gateway\0" as *const u8 as *const c_char;
-pub const NM_IP_CONFIG_NAMESERVERS: *const c_char = b"nameservers\0" as *const u8 as *const c_char;
-pub const NM_IP_CONFIG_ROUTES: *const c_char = b"routes\0" as *const u8 as *const c_char;
-pub const NM_IP_CONFIG_SEARCHES: *const c_char = b"searches\0" as *const u8 as *const c_char;
-pub const NM_IP_CONFIG_WINS_SERVERS: *const c_char = b"wins-servers\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_CWND: *const c_char = b"cwnd\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_FROM: *const c_char = b"from\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_INITCWND: *const c_char = b"initcwnd\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_INITRWND: *const c_char = b"initrwnd\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_LOCK_CWND: *const c_char = b"lock-cwnd\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_LOCK_INITCWND: *const c_char = b"lock-initcwnd\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_LOCK_INITRWND: *const c_char = b"lock-initrwnd\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_LOCK_MTU: *const c_char = b"lock-mtu\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_LOCK_WINDOW: *const c_char = b"lock-window\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_MTU: *const c_char = b"mtu\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_ONLINK: *const c_char = b"onlink\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_SCOPE: *const c_char = b"scope\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_SRC: *const c_char = b"src\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_TABLE: *const c_char = b"table\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_TOS: *const c_char = b"tos\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_TYPE: *const c_char = b"type\0" as *const u8 as *const c_char;
-pub const NM_IP_ROUTE_ATTRIBUTE_WINDOW: *const c_char = b"window\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_CHASSIS_ID: *const c_char = b"chassis-id\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_CHASSIS_ID_TYPE: *const c_char = b"chassis-id-type\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_DESTINATION: *const c_char = b"destination\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_IEEE_802_1_PPVID: *const c_char = b"ieee-802-1-ppvid\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_IEEE_802_1_PPVIDS: *const c_char = b"ieee-802-1-ppvids\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_IEEE_802_1_PPVID_FLAGS: *const c_char = b"ieee-802-1-ppvid-flags\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_IEEE_802_1_PVID: *const c_char = b"ieee-802-1-pvid\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_IEEE_802_1_VID: *const c_char = b"ieee-802-1-vid\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_IEEE_802_1_VLANS: *const c_char = b"ieee-802-1-vlans\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_IEEE_802_1_VLAN_NAME: *const c_char = b"ieee-802-1-vlan-name\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_IEEE_802_3_MAC_PHY_CONF: *const c_char = b"ieee-802-3-mac-phy-conf\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_IEEE_802_3_MAX_FRAME_SIZE: *const c_char = b"ieee-802-3-max-frame-size\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_IEEE_802_3_POWER_VIA_MDI: *const c_char = b"ieee-802-3-power-via-mdi\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_MANAGEMENT_ADDRESSES: *const c_char = b"management-addresses\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_MUD_URL: *const c_char = b"mud-url\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_PORT_DESCRIPTION: *const c_char = b"port-description\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_PORT_ID: *const c_char = b"port-id\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_PORT_ID_TYPE: *const c_char = b"port-id-type\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_RAW: *const c_char = b"raw\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_SYSTEM_CAPABILITIES: *const c_char = b"system-capabilities\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_SYSTEM_DESCRIPTION: *const c_char = b"system-description\0" as *const u8 as *const c_char;
-pub const NM_LLDP_ATTR_SYSTEM_NAME: *const c_char = b"system-name\0" as *const u8 as *const c_char;
-pub const NM_LLDP_DEST_NEAREST_BRIDGE: *const c_char = b"nearest-bridge\0" as *const u8 as *const c_char;
-pub const NM_LLDP_DEST_NEAREST_CUSTOMER_BRIDGE: *const c_char = b"nearest-customer-bridge\0" as *const u8 as *const c_char;
-pub const NM_LLDP_DEST_NEAREST_NON_TPMR_BRIDGE: *const c_char = b"nearest-non-tpmr-bridge\0" as *const u8 as *const c_char;
+pub const NM_CHECKPOINT_CREATED: &[u8] = b"created\0";
+pub const NM_CHECKPOINT_DEVICES: &[u8] = b"devices\0";
+pub const NM_CHECKPOINT_ROLLBACK_TIMEOUT: &[u8] = b"rollback-timeout\0";
+pub const NM_CLIENT_ACTIVATING_CONNECTION: &[u8] = b"activating-connection\0";
+pub const NM_CLIENT_ACTIVE_CONNECTIONS: &[u8] = b"active-connections\0";
+pub const NM_CLIENT_ACTIVE_CONNECTION_ADDED: &[u8] = b"active-connection-added\0";
+pub const NM_CLIENT_ACTIVE_CONNECTION_REMOVED: &[u8] = b"active-connection-removed\0";
+pub const NM_CLIENT_ALL_DEVICES: &[u8] = b"all-devices\0";
+pub const NM_CLIENT_ANY_DEVICE_ADDED: &[u8] = b"any-device-added\0";
+pub const NM_CLIENT_ANY_DEVICE_REMOVED: &[u8] = b"any-device-removed\0";
+pub const NM_CLIENT_CAN_MODIFY: &[u8] = b"can-modify\0";
+pub const NM_CLIENT_CAPABILITIES: &[u8] = b"capabilities\0";
+pub const NM_CLIENT_CHECKPOINTS: &[u8] = b"checkpoints\0";
+pub const NM_CLIENT_CONNECTIONS: &[u8] = b"connections\0";
+pub const NM_CLIENT_CONNECTION_ADDED: &[u8] = b"connection-added\0";
+pub const NM_CLIENT_CONNECTION_REMOVED: &[u8] = b"connection-removed\0";
+pub const NM_CLIENT_CONNECTIVITY: &[u8] = b"connectivity\0";
+pub const NM_CLIENT_CONNECTIVITY_CHECK_AVAILABLE: &[u8] = b"connectivity-check-available\0";
+pub const NM_CLIENT_CONNECTIVITY_CHECK_ENABLED: &[u8] = b"connectivity-check-enabled\0";
+pub const NM_CLIENT_CONNECTIVITY_CHECK_URI: &[u8] = b"connectivity-check-uri\0";
+pub const NM_CLIENT_DBUS_CONNECTION: &[u8] = b"dbus-connection\0";
+pub const NM_CLIENT_DBUS_NAME_OWNER: &[u8] = b"dbus-name-owner\0";
+pub const NM_CLIENT_DEVICES: &[u8] = b"devices\0";
+pub const NM_CLIENT_DEVICE_ADDED: &[u8] = b"device-added\0";
+pub const NM_CLIENT_DEVICE_REMOVED: &[u8] = b"device-removed\0";
+pub const NM_CLIENT_DNS_CONFIGURATION: &[u8] = b"dns-configuration\0";
+pub const NM_CLIENT_DNS_MODE: &[u8] = b"dns-mode\0";
+pub const NM_CLIENT_DNS_RC_MANAGER: &[u8] = b"dns-rc-manager\0";
+pub const NM_CLIENT_HOSTNAME: &[u8] = b"hostname\0";
+pub const NM_CLIENT_INSTANCE_FLAGS: &[u8] = b"instance-flags\0";
+pub const NM_CLIENT_METERED: &[u8] = b"metered\0";
+pub const NM_CLIENT_NETWORKING_ENABLED: &[u8] = b"networking-enabled\0";
+pub const NM_CLIENT_NM_RUNNING: &[u8] = b"nm-running\0";
+pub const NM_CLIENT_PERMISSIONS_STATE: &[u8] = b"permissions-state\0";
+pub const NM_CLIENT_PERMISSION_CHANGED: &[u8] = b"permission-changed\0";
+pub const NM_CLIENT_PRIMARY_CONNECTION: &[u8] = b"primary-connection\0";
+pub const NM_CLIENT_RADIO_FLAGS: &[u8] = b"radio-flags\0";
+pub const NM_CLIENT_STARTUP: &[u8] = b"startup\0";
+pub const NM_CLIENT_STATE: &[u8] = b"state\0";
+pub const NM_CLIENT_VERSION: &[u8] = b"version\0";
+pub const NM_CLIENT_WIMAX_ENABLED: &[u8] = b"wimax-enabled\0";
+pub const NM_CLIENT_WIMAX_HARDWARE_ENABLED: &[u8] = b"wimax-hardware-enabled\0";
+pub const NM_CLIENT_WIRELESS_ENABLED: &[u8] = b"wireless-enabled\0";
+pub const NM_CLIENT_WIRELESS_HARDWARE_ENABLED: &[u8] = b"wireless-hardware-enabled\0";
+pub const NM_CLIENT_WWAN_ENABLED: &[u8] = b"wwan-enabled\0";
+pub const NM_CLIENT_WWAN_HARDWARE_ENABLED: &[u8] = b"wwan-hardware-enabled\0";
+pub const NM_CONNECTION_CHANGED: &[u8] = b"changed\0";
+pub const NM_CONNECTION_NORMALIZE_PARAM_IP4_CONFIG_METHOD: &[u8] = b"ip4-config-method\0";
+pub const NM_CONNECTION_NORMALIZE_PARAM_IP6_CONFIG_METHOD: &[u8] = b"ip6-config-method\0";
+pub const NM_CONNECTION_SECRETS_CLEARED: &[u8] = b"secrets-cleared\0";
+pub const NM_CONNECTION_SECRETS_UPDATED: &[u8] = b"secrets-updated\0";
+pub const NM_DBUS_INTERFACE: &[u8] = b"org.freedesktop.NetworkManager\0";
+pub const NM_DBUS_INTERFACE_DNS_MANAGER: &[u8] = b"org.freedesktop.NetworkManager.DnsManager\0";
+pub const NM_DBUS_INTERFACE_SETTINGS: &[u8] = b"org.freedesktop.NetworkManager.Settings\0";
+pub const NM_DBUS_INTERFACE_SETTINGS_CONNECTION: &[u8] = b"org.freedesktop.NetworkManager.Settings.Connection\0";
+pub const NM_DBUS_INTERFACE_SETTINGS_CONNECTION_SECRETS: &[u8] = b"org.freedesktop.NetworkManager.Settings.Connection.Secrets\0";
+pub const NM_DBUS_INTERFACE_VPN: &[u8] = b"org.freedesktop.NetworkManager.VPN.Manager\0";
+pub const NM_DBUS_INTERFACE_VPN_CONNECTION: &[u8] = b"org.freedesktop.NetworkManager.VPN.Connection\0";
+pub const NM_DBUS_INVALID_VPN_CONNECTION: &[u8] = b"org.freedesktop.NetworkManager.VPNConnections.InvalidVPNConnection\0";
+pub const NM_DBUS_NO_ACTIVE_VPN_CONNECTION: &[u8] = b"org.freedesktop.NetworkManager.VPNConnections.NoActiveVPNConnection\0";
+pub const NM_DBUS_NO_VPN_CONNECTIONS: &[u8] = b"org.freedesktop.NetworkManager.VPNConnections.NoVPNConnections\0";
+pub const NM_DBUS_PATH: &[u8] = b"/org/freedesktop/NetworkManager\0";
+pub const NM_DBUS_PATH_AGENT_MANAGER: &[u8] = b"/org/freedesktop/NetworkManager/AgentManager\0";
+pub const NM_DBUS_PATH_DNS_MANAGER: &[u8] = b"/org/freedesktop/NetworkManager/DnsManager\0";
+pub const NM_DBUS_PATH_SECRET_AGENT: &[u8] = b"/org/freedesktop/NetworkManager/SecretAgent\0";
+pub const NM_DBUS_PATH_SETTINGS: &[u8] = b"/org/freedesktop/NetworkManager/Settings\0";
+pub const NM_DBUS_PATH_SETTINGS_CONNECTION: &[u8] = b"/org/freedesktop/NetworkManager/Settings/Connection\0";
+pub const NM_DBUS_PATH_VPN: &[u8] = b"/org/freedesktop/NetworkManager/VPN/Manager\0";
+pub const NM_DBUS_PATH_VPN_CONNECTION: &[u8] = b"/org/freedesktop/NetworkManager/VPN/Connection\0";
+pub const NM_DBUS_SERVICE: &[u8] = b"org.freedesktop.NetworkManager\0";
+pub const NM_DBUS_VPN_ALREADY_STARTED: &[u8] = b"AlreadyStarted\0";
+pub const NM_DBUS_VPN_ALREADY_STOPPED: &[u8] = b"AlreadyStopped\0";
+pub const NM_DBUS_VPN_BAD_ARGUMENTS: &[u8] = b"BadArguments\0";
+pub const NM_DBUS_VPN_ERROR_PREFIX: &[u8] = b"org.freedesktop.NetworkManager.VPN.Error\0";
+pub const NM_DBUS_VPN_INTERACTIVE_NOT_SUPPORTED: &[u8] = b"InteractiveNotSupported\0";
+pub const NM_DBUS_VPN_SIGNAL_CONNECT_FAILED: &[u8] = b"ConnectFailed\0";
+pub const NM_DBUS_VPN_SIGNAL_IP4_CONFIG: &[u8] = b"IP4Config\0";
+pub const NM_DBUS_VPN_SIGNAL_IP_CONFIG_BAD: &[u8] = b"IPConfigBad\0";
+pub const NM_DBUS_VPN_SIGNAL_LAUNCH_FAILED: &[u8] = b"LaunchFailed\0";
+pub const NM_DBUS_VPN_SIGNAL_LOGIN_BANNER: &[u8] = b"LoginBanner\0";
+pub const NM_DBUS_VPN_SIGNAL_LOGIN_FAILED: &[u8] = b"LoginFailed\0";
+pub const NM_DBUS_VPN_SIGNAL_STATE_CHANGE: &[u8] = b"StateChange\0";
+pub const NM_DBUS_VPN_SIGNAL_VPN_CONFIG_BAD: &[u8] = b"VPNConfigBad\0";
+pub const NM_DBUS_VPN_STARTING_IN_PROGRESS: &[u8] = b"StartingInProgress\0";
+pub const NM_DBUS_VPN_STOPPING_IN_PROGRESS: &[u8] = b"StoppingInProgress\0";
+pub const NM_DBUS_VPN_WRONG_STATE: &[u8] = b"WrongState\0";
+pub const NM_DEVICE_6LOWPAN_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_6LOWPAN_PARENT: &[u8] = b"parent\0";
+pub const NM_DEVICE_ACTIVE_CONNECTION: &[u8] = b"active-connection\0";
+pub const NM_DEVICE_ADSL_CARRIER: &[u8] = b"carrier\0";
+pub const NM_DEVICE_AUTOCONNECT: &[u8] = b"autoconnect\0";
+pub const NM_DEVICE_AVAILABLE_CONNECTIONS: &[u8] = b"available-connections\0";
+pub const NM_DEVICE_BOND_CARRIER: &[u8] = b"carrier\0";
+pub const NM_DEVICE_BOND_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_BOND_SLAVES: &[u8] = b"slaves\0";
+pub const NM_DEVICE_BRIDGE_CARRIER: &[u8] = b"carrier\0";
+pub const NM_DEVICE_BRIDGE_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_BRIDGE_SLAVES: &[u8] = b"slaves\0";
+pub const NM_DEVICE_BT_CAPABILITIES: &[u8] = b"bt-capabilities\0";
+pub const NM_DEVICE_BT_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_BT_NAME: &[u8] = b"name\0";
+pub const NM_DEVICE_CAPABILITIES: &[u8] = b"capabilities\0";
+pub const NM_DEVICE_DEVICE_TYPE: &[u8] = b"device-type\0";
+pub const NM_DEVICE_DHCP4_CONFIG: &[u8] = b"dhcp4-config\0";
+pub const NM_DEVICE_DHCP6_CONFIG: &[u8] = b"dhcp6-config\0";
+pub const NM_DEVICE_DRIVER: &[u8] = b"driver\0";
+pub const NM_DEVICE_DRIVER_VERSION: &[u8] = b"driver-version\0";
+pub const NM_DEVICE_DUMMY_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_ETHERNET_CARRIER: &[u8] = b"carrier\0";
+pub const NM_DEVICE_ETHERNET_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_ETHERNET_PERMANENT_HW_ADDRESS: &[u8] = b"perm-hw-address\0";
+pub const NM_DEVICE_ETHERNET_S390_SUBCHANNELS: &[u8] = b"s390-subchannels\0";
+pub const NM_DEVICE_ETHERNET_SPEED: &[u8] = b"speed\0";
+pub const NM_DEVICE_FIRMWARE_MISSING: &[u8] = b"firmware-missing\0";
+pub const NM_DEVICE_FIRMWARE_VERSION: &[u8] = b"firmware-version\0";
+pub const NM_DEVICE_GENERIC_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_GENERIC_TYPE_DESCRIPTION: &[u8] = b"type-description\0";
+pub const NM_DEVICE_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_INFINIBAND_CARRIER: &[u8] = b"carrier\0";
+pub const NM_DEVICE_INFINIBAND_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_INTERFACE: &[u8] = b"interface\0";
+pub const NM_DEVICE_INTERFACE_FLAGS: &[u8] = b"interface-flags\0";
+pub const NM_DEVICE_IP4_CONFIG: &[u8] = b"ip4-config\0";
+pub const NM_DEVICE_IP4_CONNECTIVITY: &[u8] = b"ip4-connectivity\0";
+pub const NM_DEVICE_IP6_CONFIG: &[u8] = b"ip6-config\0";
+pub const NM_DEVICE_IP6_CONNECTIVITY: &[u8] = b"ip6-connectivity\0";
+pub const NM_DEVICE_IP_INTERFACE: &[u8] = b"ip-interface\0";
+pub const NM_DEVICE_IP_TUNNEL_ENCAPSULATION_LIMIT: &[u8] = b"encapsulation-limit\0";
+pub const NM_DEVICE_IP_TUNNEL_FLAGS: &[u8] = b"flags\0";
+pub const NM_DEVICE_IP_TUNNEL_FLOW_LABEL: &[u8] = b"flow-label\0";
+pub const NM_DEVICE_IP_TUNNEL_INPUT_KEY: &[u8] = b"input-key\0";
+pub const NM_DEVICE_IP_TUNNEL_LOCAL: &[u8] = b"local\0";
+pub const NM_DEVICE_IP_TUNNEL_MODE: &[u8] = b"mode\0";
+pub const NM_DEVICE_IP_TUNNEL_OUTPUT_KEY: &[u8] = b"output-key\0";
+pub const NM_DEVICE_IP_TUNNEL_PARENT: &[u8] = b"parent\0";
+pub const NM_DEVICE_IP_TUNNEL_PATH_MTU_DISCOVERY: &[u8] = b"path-mtu-discovery\0";
+pub const NM_DEVICE_IP_TUNNEL_REMOTE: &[u8] = b"remote\0";
+pub const NM_DEVICE_IP_TUNNEL_TOS: &[u8] = b"tos\0";
+pub const NM_DEVICE_IP_TUNNEL_TTL: &[u8] = b"ttl\0";
+pub const NM_DEVICE_LLDP_NEIGHBORS: &[u8] = b"lldp-neighbors\0";
+pub const NM_DEVICE_MACSEC_CIPHER_SUITE: &[u8] = b"cipher-suite\0";
+pub const NM_DEVICE_MACSEC_ENCODING_SA: &[u8] = b"encoding-sa\0";
+pub const NM_DEVICE_MACSEC_ENCRYPT: &[u8] = b"encrypt\0";
+pub const NM_DEVICE_MACSEC_ES: &[u8] = b"es\0";
+pub const NM_DEVICE_MACSEC_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_MACSEC_ICV_LENGTH: &[u8] = b"icv-length\0";
+pub const NM_DEVICE_MACSEC_INCLUDE_SCI: &[u8] = b"include-sci\0";
+pub const NM_DEVICE_MACSEC_PARENT: &[u8] = b"parent\0";
+pub const NM_DEVICE_MACSEC_PROTECT: &[u8] = b"protect\0";
+pub const NM_DEVICE_MACSEC_REPLAY_PROTECT: &[u8] = b"replay-protect\0";
+pub const NM_DEVICE_MACSEC_SCB: &[u8] = b"scb\0";
+pub const NM_DEVICE_MACSEC_SCI: &[u8] = b"sci\0";
+pub const NM_DEVICE_MACSEC_VALIDATION: &[u8] = b"validation\0";
+pub const NM_DEVICE_MACSEC_WINDOW: &[u8] = b"window\0";
+pub const NM_DEVICE_MACVLAN_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_MACVLAN_MODE: &[u8] = b"mode\0";
+pub const NM_DEVICE_MACVLAN_NO_PROMISC: &[u8] = b"no-promisc\0";
+pub const NM_DEVICE_MACVLAN_PARENT: &[u8] = b"parent\0";
+pub const NM_DEVICE_MACVLAN_TAP: &[u8] = b"tap\0";
+pub const NM_DEVICE_MANAGED: &[u8] = b"managed\0";
+pub const NM_DEVICE_METERED: &[u8] = b"metered\0";
+pub const NM_DEVICE_MODEM_APN: &[u8] = b"apn\0";
+pub const NM_DEVICE_MODEM_CURRENT_CAPABILITIES: &[u8] = b"current-capabilities\0";
+pub const NM_DEVICE_MODEM_DEVICE_ID: &[u8] = b"device-id\0";
+pub const NM_DEVICE_MODEM_MODEM_CAPABILITIES: &[u8] = b"modem-capabilities\0";
+pub const NM_DEVICE_MODEM_OPERATOR_CODE: &[u8] = b"operator-code\0";
+pub const NM_DEVICE_MTU: &[u8] = b"mtu\0";
+pub const NM_DEVICE_NM_PLUGIN_MISSING: &[u8] = b"nm-plugin-missing\0";
+pub const NM_DEVICE_OLPC_MESH_ACTIVE_CHANNEL: &[u8] = b"active-channel\0";
+pub const NM_DEVICE_OLPC_MESH_COMPANION: &[u8] = b"companion\0";
+pub const NM_DEVICE_OLPC_MESH_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_OVS_BRIDGE_SLAVES: &[u8] = b"slaves\0";
+pub const NM_DEVICE_OVS_PORT_SLAVES: &[u8] = b"slaves\0";
+pub const NM_DEVICE_PATH: &[u8] = b"path\0";
+pub const NM_DEVICE_PHYSICAL_PORT_ID: &[u8] = b"physical-port-id\0";
+pub const NM_DEVICE_PORTS: &[u8] = b"ports\0";
+pub const NM_DEVICE_PRODUCT: &[u8] = b"product\0";
+pub const NM_DEVICE_REAL: &[u8] = b"real\0";
+pub const NM_DEVICE_STATE: &[u8] = b"state\0";
+pub const NM_DEVICE_STATE_REASON: &[u8] = b"state-reason\0";
+pub const NM_DEVICE_TEAM_CARRIER: &[u8] = b"carrier\0";
+pub const NM_DEVICE_TEAM_CONFIG: &[u8] = b"config\0";
+pub const NM_DEVICE_TEAM_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_TEAM_SLAVES: &[u8] = b"slaves\0";
+pub const NM_DEVICE_TUN_GROUP: &[u8] = b"group\0";
+pub const NM_DEVICE_TUN_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_TUN_MODE: &[u8] = b"mode\0";
+pub const NM_DEVICE_TUN_MULTI_QUEUE: &[u8] = b"multi-queue\0";
+pub const NM_DEVICE_TUN_NO_PI: &[u8] = b"no-pi\0";
+pub const NM_DEVICE_TUN_OWNER: &[u8] = b"owner\0";
+pub const NM_DEVICE_TUN_VNET_HDR: &[u8] = b"vnet-hdr\0";
+pub const NM_DEVICE_UDI: &[u8] = b"udi\0";
+pub const NM_DEVICE_VENDOR: &[u8] = b"vendor\0";
+pub const NM_DEVICE_VETH_PEER: &[u8] = b"peer\0";
+pub const NM_DEVICE_VLAN_CARRIER: &[u8] = b"carrier\0";
+pub const NM_DEVICE_VLAN_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_VLAN_PARENT: &[u8] = b"parent\0";
+pub const NM_DEVICE_VLAN_VLAN_ID: &[u8] = b"vlan-id\0";
+pub const NM_DEVICE_VRF_TABLE: &[u8] = b"table\0";
+pub const NM_DEVICE_VXLAN_AGEING: &[u8] = b"ageing\0";
+pub const NM_DEVICE_VXLAN_CARRIER: &[u8] = b"carrier\0";
+pub const NM_DEVICE_VXLAN_DST_PORT: &[u8] = b"dst-port\0";
+pub const NM_DEVICE_VXLAN_GROUP: &[u8] = b"group\0";
+pub const NM_DEVICE_VXLAN_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_VXLAN_ID: &[u8] = b"id\0";
+pub const NM_DEVICE_VXLAN_L2MISS: &[u8] = b"l2miss\0";
+pub const NM_DEVICE_VXLAN_L3MISS: &[u8] = b"l3miss\0";
+pub const NM_DEVICE_VXLAN_LEARNING: &[u8] = b"learning\0";
+pub const NM_DEVICE_VXLAN_LIMIT: &[u8] = b"limit\0";
+pub const NM_DEVICE_VXLAN_LOCAL: &[u8] = b"local\0";
+pub const NM_DEVICE_VXLAN_PARENT: &[u8] = b"parent\0";
+pub const NM_DEVICE_VXLAN_PROXY: &[u8] = b"proxy\0";
+pub const NM_DEVICE_VXLAN_RSC: &[u8] = b"rsc\0";
+pub const NM_DEVICE_VXLAN_SRC_PORT_MAX: &[u8] = b"src-port-max\0";
+pub const NM_DEVICE_VXLAN_SRC_PORT_MIN: &[u8] = b"src-port-min\0";
+pub const NM_DEVICE_VXLAN_TOS: &[u8] = b"tos\0";
+pub const NM_DEVICE_VXLAN_TTL: &[u8] = b"ttl\0";
+pub const NM_DEVICE_WIFI_ACCESS_POINTS: &[u8] = b"access-points\0";
+pub const NM_DEVICE_WIFI_ACTIVE_ACCESS_POINT: &[u8] = b"active-access-point\0";
+pub const NM_DEVICE_WIFI_BITRATE: &[u8] = b"bitrate\0";
+pub const NM_DEVICE_WIFI_CAPABILITIES: &[u8] = b"wireless-capabilities\0";
+pub const NM_DEVICE_WIFI_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_WIFI_LAST_SCAN: &[u8] = b"last-scan\0";
+pub const NM_DEVICE_WIFI_MODE: &[u8] = b"mode\0";
+pub const NM_DEVICE_WIFI_P2P_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_WIFI_P2P_PEERS: &[u8] = b"peers\0";
+pub const NM_DEVICE_WIFI_P2P_WFDIES: &[u8] = b"wfdies\0";
+pub const NM_DEVICE_WIFI_PERMANENT_HW_ADDRESS: &[u8] = b"perm-hw-address\0";
+pub const NM_DEVICE_WIMAX_ACTIVE_NSP: &[u8] = b"active-nsp\0";
+pub const NM_DEVICE_WIMAX_BSID: &[u8] = b"bsid\0";
+pub const NM_DEVICE_WIMAX_CENTER_FREQUENCY: &[u8] = b"center-frequency\0";
+pub const NM_DEVICE_WIMAX_CINR: &[u8] = b"cinr\0";
+pub const NM_DEVICE_WIMAX_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DEVICE_WIMAX_NSPS: &[u8] = b"nsps\0";
+pub const NM_DEVICE_WIMAX_RSSI: &[u8] = b"rssi\0";
+pub const NM_DEVICE_WIMAX_TX_POWER: &[u8] = b"tx-power\0";
+pub const NM_DEVICE_WIREGUARD_FWMARK: &[u8] = b"fwmark\0";
+pub const NM_DEVICE_WIREGUARD_LISTEN_PORT: &[u8] = b"listen-port\0";
+pub const NM_DEVICE_WIREGUARD_PUBLIC_KEY: &[u8] = b"public-key\0";
+pub const NM_DEVICE_WPAN_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_DHCP_CONFIG_FAMILY: &[u8] = b"family\0";
+pub const NM_DHCP_CONFIG_OPTIONS: &[u8] = b"options\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_RX: &[u8] = b"coalesce-adaptive-rx\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_TX: &[u8] = b"coalesce-adaptive-tx\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_PKT_RATE_HIGH: &[u8] = b"coalesce-pkt-rate-high\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_PKT_RATE_LOW: &[u8] = b"coalesce-pkt-rate-low\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES: &[u8] = b"coalesce-rx-frames\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_HIGH: &[u8] = b"coalesce-rx-frames-high\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_IRQ: &[u8] = b"coalesce-rx-frames-irq\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_LOW: &[u8] = b"coalesce-rx-frames-low\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS: &[u8] = b"coalesce-rx-usecs\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_HIGH: &[u8] = b"coalesce-rx-usecs-high\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_IRQ: &[u8] = b"coalesce-rx-usecs-irq\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_LOW: &[u8] = b"coalesce-rx-usecs-low\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_SAMPLE_INTERVAL: &[u8] = b"coalesce-sample-interval\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_STATS_BLOCK_USECS: &[u8] = b"coalesce-stats-block-usecs\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES: &[u8] = b"coalesce-tx-frames\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_HIGH: &[u8] = b"coalesce-tx-frames-high\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_IRQ: &[u8] = b"coalesce-tx-frames-irq\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_LOW: &[u8] = b"coalesce-tx-frames-low\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS: &[u8] = b"coalesce-tx-usecs\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_HIGH: &[u8] = b"coalesce-tx-usecs-high\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_IRQ: &[u8] = b"coalesce-tx-usecs-irq\0";
+pub const NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_LOW: &[u8] = b"coalesce-tx-usecs-low\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_ESP_HW_OFFLOAD: &[u8] = b"feature-esp-hw-offload\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_ESP_TX_CSUM_HW_OFFLOAD: &[u8] = b"feature-esp-tx-csum-hw-offload\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_FCOE_MTU: &[u8] = b"feature-fcoe-mtu\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_GRO: &[u8] = b"feature-gro\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_GSO: &[u8] = b"feature-gso\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_HIGHDMA: &[u8] = b"feature-highdma\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_HW_TC_OFFLOAD: &[u8] = b"feature-hw-tc-offload\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_L2_FWD_OFFLOAD: &[u8] = b"feature-l2-fwd-offload\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_LOOPBACK: &[u8] = b"feature-loopback\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_LRO: &[u8] = b"feature-lro\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_MACSEC_HW_OFFLOAD: &[u8] = b"feature-macsec-hw-offload\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_NTUPLE: &[u8] = b"feature-ntuple\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_RX: &[u8] = b"feature-rx\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_RXHASH: &[u8] = b"feature-rxhash\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_RXVLAN: &[u8] = b"feature-rxvlan\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_ALL: &[u8] = b"feature-rx-all\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_FCS: &[u8] = b"feature-rx-fcs\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_GRO_HW: &[u8] = b"feature-rx-gro-hw\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_GRO_LIST: &[u8] = b"feature-rx-gro-list\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_UDP_GRO_FORWARDING: &[u8] = b"feature-rx-udp-gro-forwarding\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_UDP_TUNNEL_PORT_OFFLOAD: &[u8] = b"feature-rx-udp_tunnel-port-offload\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_FILTER: &[u8] = b"feature-rx-vlan-filter\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_FILTER: &[u8] = b"feature-rx-vlan-stag-filter\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_HW_PARSE: &[u8] = b"feature-rx-vlan-stag-hw-parse\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_SG: &[u8] = b"feature-sg\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_RECORD: &[u8] = b"feature-tls-hw-record\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_RX_OFFLOAD: &[u8] = b"feature-tls-hw-rx-offload\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_TX_OFFLOAD: &[u8] = b"feature-tls-hw-tx-offload\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TSO: &[u8] = b"feature-tso\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX: &[u8] = b"feature-tx\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TXVLAN: &[u8] = b"feature-txvlan\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_FCOE_CRC: &[u8] = b"feature-tx-checksum-fcoe-crc\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IPV4: &[u8] = b"feature-tx-checksum-ipv4\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IPV6: &[u8] = b"feature-tx-checksum-ipv6\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IP_GENERIC: &[u8] = b"feature-tx-checksum-ip-generic\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_SCTP: &[u8] = b"feature-tx-checksum-sctp\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_ESP_SEGMENTATION: &[u8] = b"feature-tx-esp-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_FCOE_SEGMENTATION: &[u8] = b"feature-tx-fcoe-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_GRE_CSUM_SEGMENTATION: &[u8] = b"feature-tx-gre-csum-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_GRE_SEGMENTATION: &[u8] = b"feature-tx-gre-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_LIST: &[u8] = b"feature-tx-gso-list\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_PARTIAL: &[u8] = b"feature-tx-gso-partial\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_ROBUST: &[u8] = b"feature-tx-gso-robust\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_IPXIP4_SEGMENTATION: &[u8] = b"feature-tx-ipxip4-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_IPXIP6_SEGMENTATION: &[u8] = b"feature-tx-ipxip6-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_NOCACHE_COPY: &[u8] = b"feature-tx-nocache-copy\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_SCATTER_GATHER: &[u8] = b"feature-tx-scatter-gather\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_SCATTER_GATHER_FRAGLIST: &[u8] = b"feature-tx-scatter-gather-fraglist\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_SCTP_SEGMENTATION: &[u8] = b"feature-tx-sctp-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP6_SEGMENTATION: &[u8] = b"feature-tx-tcp6-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_ECN_SEGMENTATION: &[u8] = b"feature-tx-tcp-ecn-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_MANGLEID_SEGMENTATION: &[u8] = b"feature-tx-tcp-mangleid-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_SEGMENTATION: &[u8] = b"feature-tx-tcp-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_TUNNEL_REMCSUM_SEGMENTATION: &[u8] = b"feature-tx-tunnel-remcsum-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_SEGMENTATION: &[u8] = b"feature-tx-udp-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_CSUM_SEGMENTATION: &[u8] = b"feature-tx-udp_tnl-csum-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_SEGMENTATION: &[u8] = b"feature-tx-udp_tnl-segmentation\0";
+pub const NM_ETHTOOL_OPTNAME_FEATURE_TX_VLAN_STAG_HW_INSERT: &[u8] = b"feature-tx-vlan-stag-hw-insert\0";
+pub const NM_ETHTOOL_OPTNAME_PAUSE_AUTONEG: &[u8] = b"pause-autoneg\0";
+pub const NM_ETHTOOL_OPTNAME_PAUSE_RX: &[u8] = b"pause-rx\0";
+pub const NM_ETHTOOL_OPTNAME_PAUSE_TX: &[u8] = b"pause-tx\0";
+pub const NM_ETHTOOL_OPTNAME_RING_RX: &[u8] = b"ring-rx\0";
+pub const NM_ETHTOOL_OPTNAME_RING_RX_JUMBO: &[u8] = b"ring-rx-jumbo\0";
+pub const NM_ETHTOOL_OPTNAME_RING_RX_MINI: &[u8] = b"ring-rx-mini\0";
+pub const NM_ETHTOOL_OPTNAME_RING_TX: &[u8] = b"ring-tx\0";
+pub const NM_IP_ADDRESS_ATTRIBUTE_LABEL: &[u8] = b"label\0";
+pub const NM_IP_CONFIG_ADDRESSES: &[u8] = b"addresses\0";
+pub const NM_IP_CONFIG_DOMAINS: &[u8] = b"domains\0";
+pub const NM_IP_CONFIG_FAMILY: &[u8] = b"family\0";
+pub const NM_IP_CONFIG_GATEWAY: &[u8] = b"gateway\0";
+pub const NM_IP_CONFIG_NAMESERVERS: &[u8] = b"nameservers\0";
+pub const NM_IP_CONFIG_ROUTES: &[u8] = b"routes\0";
+pub const NM_IP_CONFIG_SEARCHES: &[u8] = b"searches\0";
+pub const NM_IP_CONFIG_WINS_SERVERS: &[u8] = b"wins-servers\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_ADVMSS: &[u8] = b"advmss\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_CWND: &[u8] = b"cwnd\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_FROM: &[u8] = b"from\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_INITCWND: &[u8] = b"initcwnd\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_INITRWND: &[u8] = b"initrwnd\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_LOCK_ADVMSS: &[u8] = b"lock-advmss\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_LOCK_CWND: &[u8] = b"lock-cwnd\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_LOCK_INITCWND: &[u8] = b"lock-initcwnd\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_LOCK_INITRWND: &[u8] = b"lock-initrwnd\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_LOCK_MTU: &[u8] = b"lock-mtu\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_LOCK_WINDOW: &[u8] = b"lock-window\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_MTU: &[u8] = b"mtu\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_ONLINK: &[u8] = b"onlink\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_QUICKACK: &[u8] = b"quickack\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_RTO_MIN: &[u8] = b"rto_min\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_SCOPE: &[u8] = b"scope\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_SRC: &[u8] = b"src\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_TABLE: &[u8] = b"table\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_TOS: &[u8] = b"tos\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_TYPE: &[u8] = b"type\0";
+pub const NM_IP_ROUTE_ATTRIBUTE_WINDOW: &[u8] = b"window\0";
+pub const NM_LLDP_ATTR_CHASSIS_ID: &[u8] = b"chassis-id\0";
+pub const NM_LLDP_ATTR_CHASSIS_ID_TYPE: &[u8] = b"chassis-id-type\0";
+pub const NM_LLDP_ATTR_DESTINATION: &[u8] = b"destination\0";
+pub const NM_LLDP_ATTR_IEEE_802_1_PPVID: &[u8] = b"ieee-802-1-ppvid\0";
+pub const NM_LLDP_ATTR_IEEE_802_1_PPVIDS: &[u8] = b"ieee-802-1-ppvids\0";
+pub const NM_LLDP_ATTR_IEEE_802_1_PPVID_FLAGS: &[u8] = b"ieee-802-1-ppvid-flags\0";
+pub const NM_LLDP_ATTR_IEEE_802_1_PVID: &[u8] = b"ieee-802-1-pvid\0";
+pub const NM_LLDP_ATTR_IEEE_802_1_VID: &[u8] = b"ieee-802-1-vid\0";
+pub const NM_LLDP_ATTR_IEEE_802_1_VLANS: &[u8] = b"ieee-802-1-vlans\0";
+pub const NM_LLDP_ATTR_IEEE_802_1_VLAN_NAME: &[u8] = b"ieee-802-1-vlan-name\0";
+pub const NM_LLDP_ATTR_IEEE_802_3_MAC_PHY_CONF: &[u8] = b"ieee-802-3-mac-phy-conf\0";
+pub const NM_LLDP_ATTR_IEEE_802_3_MAX_FRAME_SIZE: &[u8] = b"ieee-802-3-max-frame-size\0";
+pub const NM_LLDP_ATTR_IEEE_802_3_POWER_VIA_MDI: &[u8] = b"ieee-802-3-power-via-mdi\0";
+pub const NM_LLDP_ATTR_MANAGEMENT_ADDRESSES: &[u8] = b"management-addresses\0";
+pub const NM_LLDP_ATTR_MUD_URL: &[u8] = b"mud-url\0";
+pub const NM_LLDP_ATTR_PORT_DESCRIPTION: &[u8] = b"port-description\0";
+pub const NM_LLDP_ATTR_PORT_ID: &[u8] = b"port-id\0";
+pub const NM_LLDP_ATTR_PORT_ID_TYPE: &[u8] = b"port-id-type\0";
+pub const NM_LLDP_ATTR_RAW: &[u8] = b"raw\0";
+pub const NM_LLDP_ATTR_SYSTEM_CAPABILITIES: &[u8] = b"system-capabilities\0";
+pub const NM_LLDP_ATTR_SYSTEM_DESCRIPTION: &[u8] = b"system-description\0";
+pub const NM_LLDP_ATTR_SYSTEM_NAME: &[u8] = b"system-name\0";
+pub const NM_LLDP_DEST_NEAREST_BRIDGE: &[u8] = b"nearest-bridge\0";
+pub const NM_LLDP_DEST_NEAREST_CUSTOMER_BRIDGE: &[u8] = b"nearest-customer-bridge\0";
+pub const NM_LLDP_DEST_NEAREST_NON_TPMR_BRIDGE: &[u8] = b"nearest-non-tpmr-bridge\0";
 pub const NM_MAJOR_VERSION: c_int = 1;
-pub const NM_MICRO_VERSION: c_int = 4;
-pub const NM_MINOR_VERSION: c_int = 38;
-pub const NM_OBJECT_CLIENT: *const c_char = b"client\0" as *const u8 as *const c_char;
-pub const NM_OBJECT_PATH: *const c_char = b"path\0" as *const u8 as *const c_char;
-pub const NM_REMOTE_CONNECTION_DBUS_CONNECTION: *const c_char = b"dbus-connection\0" as *const u8 as *const c_char;
-pub const NM_REMOTE_CONNECTION_FILENAME: *const c_char = b"filename\0" as *const u8 as *const c_char;
-pub const NM_REMOTE_CONNECTION_FLAGS: *const c_char = b"flags\0" as *const u8 as *const c_char;
-pub const NM_REMOTE_CONNECTION_PATH: *const c_char = b"path\0" as *const u8 as *const c_char;
-pub const NM_REMOTE_CONNECTION_UNSAVED: *const c_char = b"unsaved\0" as *const u8 as *const c_char;
-pub const NM_REMOTE_CONNECTION_VISIBLE: *const c_char = b"visible\0" as *const u8 as *const c_char;
-pub const NM_SECRET_AGENT_OLD_AUTO_REGISTER: *const c_char = b"auto-register\0" as *const u8 as *const c_char;
-pub const NM_SECRET_AGENT_OLD_CAPABILITIES: *const c_char = b"capabilities\0" as *const u8 as *const c_char;
-pub const NM_SECRET_AGENT_OLD_DBUS_CONNECTION: *const c_char = b"dbus-connection\0" as *const u8 as *const c_char;
-pub const NM_SECRET_AGENT_OLD_IDENTIFIER: *const c_char = b"identifier\0" as *const u8 as *const c_char;
-pub const NM_SECRET_AGENT_OLD_REGISTERED: *const c_char = b"registered\0" as *const u8 as *const c_char;
-pub const NM_SETTING_6LOWPAN_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
-pub const NM_SETTING_6LOWPAN_SETTING_NAME: *const c_char = b"6lowpan\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_ALTSUBJECT_MATCHES: *const c_char = b"altsubject-matches\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_ANONYMOUS_IDENTITY: *const c_char = b"anonymous-identity\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_AUTH_TIMEOUT: *const c_char = b"auth-timeout\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_CA_CERT: *const c_char = b"ca-cert\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_CA_CERT_PASSWORD: *const c_char = b"ca-cert-password\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_CA_CERT_PASSWORD_FLAGS: *const c_char = b"ca-cert-password-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_CA_PATH: *const c_char = b"ca-path\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_CERT_SCHEME_PREFIX_PATH: *const c_char = b"file://\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_CERT_SCHEME_PREFIX_PKCS11: *const c_char = b"pkcs11:\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_CLIENT_CERT: *const c_char = b"client-cert\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_CLIENT_CERT_PASSWORD: *const c_char = b"client-cert-password\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_CLIENT_CERT_PASSWORD_FLAGS: *const c_char = b"client-cert-password-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_DOMAIN_MATCH: *const c_char = b"domain-match\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_DOMAIN_SUFFIX_MATCH: *const c_char = b"domain-suffix-match\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_EAP: *const c_char = b"eap\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_IDENTITY: *const c_char = b"identity\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_OPTIONAL: *const c_char = b"optional\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PAC_FILE: *const c_char = b"pac-file\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PASSWORD: *const c_char = b"password\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PASSWORD_FLAGS: *const c_char = b"password-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PASSWORD_RAW: *const c_char = b"password-raw\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PASSWORD_RAW_FLAGS: *const c_char = b"password-raw-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE1_AUTH_FLAGS: *const c_char = b"phase1-auth-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE1_FAST_PROVISIONING: *const c_char = b"phase1-fast-provisioning\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE1_PEAPLABEL: *const c_char = b"phase1-peaplabel\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE1_PEAPVER: *const c_char = b"phase1-peapver\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_ALTSUBJECT_MATCHES: *const c_char = b"phase2-altsubject-matches\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_AUTH: *const c_char = b"phase2-auth\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_AUTHEAP: *const c_char = b"phase2-autheap\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_CA_CERT: *const c_char = b"phase2-ca-cert\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_CA_CERT_PASSWORD: *const c_char = b"phase2-ca-cert-password\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_CA_CERT_PASSWORD_FLAGS: *const c_char = b"phase2-ca-cert-password-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_CA_PATH: *const c_char = b"phase2-ca-path\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_CLIENT_CERT: *const c_char = b"phase2-client-cert\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD: *const c_char = b"phase2-client-cert-password\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD_FLAGS: *const c_char = b"phase2-client-cert-password-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_DOMAIN_MATCH: *const c_char = b"phase2-domain-match\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_DOMAIN_SUFFIX_MATCH: *const c_char = b"phase2-domain-suffix-match\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_PRIVATE_KEY: *const c_char = b"phase2-private-key\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD: *const c_char = b"phase2-private-key-password\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD_FLAGS: *const c_char = b"phase2-private-key-password-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PHASE2_SUBJECT_MATCH: *const c_char = b"phase2-subject-match\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PIN: *const c_char = b"pin\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PIN_FLAGS: *const c_char = b"pin-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PRIVATE_KEY: *const c_char = b"private-key\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD: *const c_char = b"private-key-password\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD_FLAGS: *const c_char = b"private-key-password-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_SETTING_NAME: *const c_char = b"802-1x\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_SUBJECT_MATCH: *const c_char = b"subject-match\0" as *const u8 as *const c_char;
-pub const NM_SETTING_802_1X_SYSTEM_CA_CERTS: *const c_char = b"system-ca-certs\0" as *const u8 as *const c_char;
-pub const NM_SETTING_ADSL_ENCAPSULATION: *const c_char = b"encapsulation\0" as *const u8 as *const c_char;
-pub const NM_SETTING_ADSL_ENCAPSULATION_LLC: *const c_char = b"llc\0" as *const u8 as *const c_char;
-pub const NM_SETTING_ADSL_ENCAPSULATION_VCMUX: *const c_char = b"vcmux\0" as *const u8 as *const c_char;
-pub const NM_SETTING_ADSL_PASSWORD: *const c_char = b"password\0" as *const u8 as *const c_char;
-pub const NM_SETTING_ADSL_PASSWORD_FLAGS: *const c_char = b"password-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_ADSL_PROTOCOL: *const c_char = b"protocol\0" as *const u8 as *const c_char;
-pub const NM_SETTING_ADSL_PROTOCOL_IPOATM: *const c_char = b"ipoatm\0" as *const u8 as *const c_char;
-pub const NM_SETTING_ADSL_PROTOCOL_PPPOA: *const c_char = b"pppoa\0" as *const u8 as *const c_char;
-pub const NM_SETTING_ADSL_PROTOCOL_PPPOE: *const c_char = b"pppoe\0" as *const u8 as *const c_char;
-pub const NM_SETTING_ADSL_SETTING_NAME: *const c_char = b"adsl\0" as *const u8 as *const c_char;
-pub const NM_SETTING_ADSL_USERNAME: *const c_char = b"username\0" as *const u8 as *const c_char;
-pub const NM_SETTING_ADSL_VCI: *const c_char = b"vci\0" as *const u8 as *const c_char;
-pub const NM_SETTING_ADSL_VPI: *const c_char = b"vpi\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BLUETOOTH_BDADDR: *const c_char = b"bdaddr\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BLUETOOTH_SETTING_NAME: *const c_char = b"bluetooth\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BLUETOOTH_TYPE: *const c_char = b"type\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BLUETOOTH_TYPE_DUN: *const c_char = b"dun\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BLUETOOTH_TYPE_NAP: *const c_char = b"nap\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BLUETOOTH_TYPE_PANU: *const c_char = b"panu\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTIONS: *const c_char = b"options\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_ACTIVE_SLAVE: *const c_char = b"active_slave\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_AD_ACTOR_SYSTEM: *const c_char = b"ad_actor_system\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_AD_ACTOR_SYS_PRIO: *const c_char = b"ad_actor_sys_prio\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_AD_SELECT: *const c_char = b"ad_select\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_AD_USER_PORT_KEY: *const c_char = b"ad_user_port_key\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_ALL_SLAVES_ACTIVE: *const c_char = b"all_slaves_active\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_ARP_ALL_TARGETS: *const c_char = b"arp_all_targets\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_ARP_INTERVAL: *const c_char = b"arp_interval\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_ARP_IP_TARGET: *const c_char = b"arp_ip_target\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_ARP_VALIDATE: *const c_char = b"arp_validate\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_DOWNDELAY: *const c_char = b"downdelay\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_FAIL_OVER_MAC: *const c_char = b"fail_over_mac\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_LACP_RATE: *const c_char = b"lacp_rate\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_LP_INTERVAL: *const c_char = b"lp_interval\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_MIIMON: *const c_char = b"miimon\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_MIN_LINKS: *const c_char = b"min_links\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_MODE: *const c_char = b"mode\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_NUM_GRAT_ARP: *const c_char = b"num_grat_arp\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_NUM_UNSOL_NA: *const c_char = b"num_unsol_na\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_PACKETS_PER_SLAVE: *const c_char = b"packets_per_slave\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_PEER_NOTIF_DELAY: *const c_char = b"peer_notif_delay\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_PRIMARY: *const c_char = b"primary\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_PRIMARY_RESELECT: *const c_char = b"primary_reselect\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_RESEND_IGMP: *const c_char = b"resend_igmp\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_TLB_DYNAMIC_LB: *const c_char = b"tlb_dynamic_lb\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_UPDELAY: *const c_char = b"updelay\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_USE_CARRIER: *const c_char = b"use_carrier\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_OPTION_XMIT_HASH_POLICY: *const c_char = b"xmit_hash_policy\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_PORT_QUEUE_ID: *const c_char = b"queue-id\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_PORT_SETTING_NAME: *const c_char = b"bond-port\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BOND_SETTING_NAME: *const c_char = b"bond\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_AGEING_TIME: *const c_char = b"ageing-time\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_FORWARD_DELAY: *const c_char = b"forward-delay\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_GROUP_ADDRESS: *const c_char = b"group-address\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_GROUP_FORWARD_MASK: *const c_char = b"group-forward-mask\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_HELLO_TIME: *const c_char = b"hello-time\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MAC_ADDRESS: *const c_char = b"mac-address\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MAX_AGE: *const c_char = b"max-age\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MULTICAST_HASH_MAX: *const c_char = b"multicast-hash-max\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MULTICAST_LAST_MEMBER_COUNT: *const c_char = b"multicast-last-member-count\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MULTICAST_LAST_MEMBER_INTERVAL: *const c_char = b"multicast-last-member-interval\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MULTICAST_MEMBERSHIP_INTERVAL: *const c_char = b"multicast-membership-interval\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MULTICAST_QUERIER: *const c_char = b"multicast-querier\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MULTICAST_QUERIER_INTERVAL: *const c_char = b"multicast-querier-interval\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MULTICAST_QUERY_INTERVAL: *const c_char = b"multicast-query-interval\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MULTICAST_QUERY_RESPONSE_INTERVAL: *const c_char = b"multicast-query-response-interval\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MULTICAST_QUERY_USE_IFADDR: *const c_char = b"multicast-query-use-ifaddr\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MULTICAST_ROUTER: *const c_char = b"multicast-router\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MULTICAST_SNOOPING: *const c_char = b"multicast-snooping\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_COUNT: *const c_char = b"multicast-startup-query-count\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_INTERVAL: *const c_char = b"multicast-startup-query-interval\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_PORT_HAIRPIN_MODE: *const c_char = b"hairpin-mode\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_PORT_PATH_COST: *const c_char = b"path-cost\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_PORT_PRIORITY: *const c_char = b"priority\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_PORT_SETTING_NAME: *const c_char = b"bridge-port\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_PORT_VLANS: *const c_char = b"vlans\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_PRIORITY: *const c_char = b"priority\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_SETTING_NAME: *const c_char = b"bridge\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_STP: *const c_char = b"stp\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_VLANS: *const c_char = b"vlans\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_VLAN_DEFAULT_PVID: *const c_char = b"vlan-default-pvid\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_VLAN_FILTERING: *const c_char = b"vlan-filtering\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_VLAN_PROTOCOL: *const c_char = b"vlan-protocol\0" as *const u8 as *const c_char;
-pub const NM_SETTING_BRIDGE_VLAN_STATS_ENABLED: *const c_char = b"vlan-stats-enabled\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CDMA_MTU: *const c_char = b"mtu\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CDMA_NUMBER: *const c_char = b"number\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CDMA_PASSWORD: *const c_char = b"password\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CDMA_PASSWORD_FLAGS: *const c_char = b"password-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CDMA_SETTING_NAME: *const c_char = b"cdma\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CDMA_USERNAME: *const c_char = b"username\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_AUTH_RETRIES: *const c_char = b"auth-retries\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_AUTOCONNECT: *const c_char = b"autoconnect\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_AUTOCONNECT_PRIORITY: *const c_char = b"autoconnect-priority\0" as *const u8 as *const c_char;
+pub const NM_MICRO_VERSION: c_int = 10;
+pub const NM_MINOR_VERSION: c_int = 40;
+pub const NM_OBJECT_CLIENT: &[u8] = b"client\0";
+pub const NM_OBJECT_PATH: &[u8] = b"path\0";
+pub const NM_REMOTE_CONNECTION_DBUS_CONNECTION: &[u8] = b"dbus-connection\0";
+pub const NM_REMOTE_CONNECTION_FILENAME: &[u8] = b"filename\0";
+pub const NM_REMOTE_CONNECTION_FLAGS: &[u8] = b"flags\0";
+pub const NM_REMOTE_CONNECTION_PATH: &[u8] = b"path\0";
+pub const NM_REMOTE_CONNECTION_UNSAVED: &[u8] = b"unsaved\0";
+pub const NM_REMOTE_CONNECTION_VISIBLE: &[u8] = b"visible\0";
+pub const NM_SECRET_AGENT_OLD_AUTO_REGISTER: &[u8] = b"auto-register\0";
+pub const NM_SECRET_AGENT_OLD_CAPABILITIES: &[u8] = b"capabilities\0";
+pub const NM_SECRET_AGENT_OLD_DBUS_CONNECTION: &[u8] = b"dbus-connection\0";
+pub const NM_SECRET_AGENT_OLD_IDENTIFIER: &[u8] = b"identifier\0";
+pub const NM_SECRET_AGENT_OLD_REGISTERED: &[u8] = b"registered\0";
+pub const NM_SETTING_6LOWPAN_PARENT: &[u8] = b"parent\0";
+pub const NM_SETTING_6LOWPAN_SETTING_NAME: &[u8] = b"6lowpan\0";
+pub const NM_SETTING_802_1X_ALTSUBJECT_MATCHES: &[u8] = b"altsubject-matches\0";
+pub const NM_SETTING_802_1X_ANONYMOUS_IDENTITY: &[u8] = b"anonymous-identity\0";
+pub const NM_SETTING_802_1X_AUTH_TIMEOUT: &[u8] = b"auth-timeout\0";
+pub const NM_SETTING_802_1X_CA_CERT: &[u8] = b"ca-cert\0";
+pub const NM_SETTING_802_1X_CA_CERT_PASSWORD: &[u8] = b"ca-cert-password\0";
+pub const NM_SETTING_802_1X_CA_CERT_PASSWORD_FLAGS: &[u8] = b"ca-cert-password-flags\0";
+pub const NM_SETTING_802_1X_CA_PATH: &[u8] = b"ca-path\0";
+pub const NM_SETTING_802_1X_CERT_SCHEME_PREFIX_PATH: &[u8] = b"file://\0";
+pub const NM_SETTING_802_1X_CERT_SCHEME_PREFIX_PKCS11: &[u8] = b"pkcs11:\0";
+pub const NM_SETTING_802_1X_CLIENT_CERT: &[u8] = b"client-cert\0";
+pub const NM_SETTING_802_1X_CLIENT_CERT_PASSWORD: &[u8] = b"client-cert-password\0";
+pub const NM_SETTING_802_1X_CLIENT_CERT_PASSWORD_FLAGS: &[u8] = b"client-cert-password-flags\0";
+pub const NM_SETTING_802_1X_DOMAIN_MATCH: &[u8] = b"domain-match\0";
+pub const NM_SETTING_802_1X_DOMAIN_SUFFIX_MATCH: &[u8] = b"domain-suffix-match\0";
+pub const NM_SETTING_802_1X_EAP: &[u8] = b"eap\0";
+pub const NM_SETTING_802_1X_IDENTITY: &[u8] = b"identity\0";
+pub const NM_SETTING_802_1X_OPTIONAL: &[u8] = b"optional\0";
+pub const NM_SETTING_802_1X_PAC_FILE: &[u8] = b"pac-file\0";
+pub const NM_SETTING_802_1X_PASSWORD: &[u8] = b"password\0";
+pub const NM_SETTING_802_1X_PASSWORD_FLAGS: &[u8] = b"password-flags\0";
+pub const NM_SETTING_802_1X_PASSWORD_RAW: &[u8] = b"password-raw\0";
+pub const NM_SETTING_802_1X_PASSWORD_RAW_FLAGS: &[u8] = b"password-raw-flags\0";
+pub const NM_SETTING_802_1X_PHASE1_AUTH_FLAGS: &[u8] = b"phase1-auth-flags\0";
+pub const NM_SETTING_802_1X_PHASE1_FAST_PROVISIONING: &[u8] = b"phase1-fast-provisioning\0";
+pub const NM_SETTING_802_1X_PHASE1_PEAPLABEL: &[u8] = b"phase1-peaplabel\0";
+pub const NM_SETTING_802_1X_PHASE1_PEAPVER: &[u8] = b"phase1-peapver\0";
+pub const NM_SETTING_802_1X_PHASE2_ALTSUBJECT_MATCHES: &[u8] = b"phase2-altsubject-matches\0";
+pub const NM_SETTING_802_1X_PHASE2_AUTH: &[u8] = b"phase2-auth\0";
+pub const NM_SETTING_802_1X_PHASE2_AUTHEAP: &[u8] = b"phase2-autheap\0";
+pub const NM_SETTING_802_1X_PHASE2_CA_CERT: &[u8] = b"phase2-ca-cert\0";
+pub const NM_SETTING_802_1X_PHASE2_CA_CERT_PASSWORD: &[u8] = b"phase2-ca-cert-password\0";
+pub const NM_SETTING_802_1X_PHASE2_CA_CERT_PASSWORD_FLAGS: &[u8] = b"phase2-ca-cert-password-flags\0";
+pub const NM_SETTING_802_1X_PHASE2_CA_PATH: &[u8] = b"phase2-ca-path\0";
+pub const NM_SETTING_802_1X_PHASE2_CLIENT_CERT: &[u8] = b"phase2-client-cert\0";
+pub const NM_SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD: &[u8] = b"phase2-client-cert-password\0";
+pub const NM_SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD_FLAGS: &[u8] = b"phase2-client-cert-password-flags\0";
+pub const NM_SETTING_802_1X_PHASE2_DOMAIN_MATCH: &[u8] = b"phase2-domain-match\0";
+pub const NM_SETTING_802_1X_PHASE2_DOMAIN_SUFFIX_MATCH: &[u8] = b"phase2-domain-suffix-match\0";
+pub const NM_SETTING_802_1X_PHASE2_PRIVATE_KEY: &[u8] = b"phase2-private-key\0";
+pub const NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD: &[u8] = b"phase2-private-key-password\0";
+pub const NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD_FLAGS: &[u8] = b"phase2-private-key-password-flags\0";
+pub const NM_SETTING_802_1X_PHASE2_SUBJECT_MATCH: &[u8] = b"phase2-subject-match\0";
+pub const NM_SETTING_802_1X_PIN: &[u8] = b"pin\0";
+pub const NM_SETTING_802_1X_PIN_FLAGS: &[u8] = b"pin-flags\0";
+pub const NM_SETTING_802_1X_PRIVATE_KEY: &[u8] = b"private-key\0";
+pub const NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD: &[u8] = b"private-key-password\0";
+pub const NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD_FLAGS: &[u8] = b"private-key-password-flags\0";
+pub const NM_SETTING_802_1X_SETTING_NAME: &[u8] = b"802-1x\0";
+pub const NM_SETTING_802_1X_SUBJECT_MATCH: &[u8] = b"subject-match\0";
+pub const NM_SETTING_802_1X_SYSTEM_CA_CERTS: &[u8] = b"system-ca-certs\0";
+pub const NM_SETTING_ADSL_ENCAPSULATION: &[u8] = b"encapsulation\0";
+pub const NM_SETTING_ADSL_ENCAPSULATION_LLC: &[u8] = b"llc\0";
+pub const NM_SETTING_ADSL_ENCAPSULATION_VCMUX: &[u8] = b"vcmux\0";
+pub const NM_SETTING_ADSL_PASSWORD: &[u8] = b"password\0";
+pub const NM_SETTING_ADSL_PASSWORD_FLAGS: &[u8] = b"password-flags\0";
+pub const NM_SETTING_ADSL_PROTOCOL: &[u8] = b"protocol\0";
+pub const NM_SETTING_ADSL_PROTOCOL_IPOATM: &[u8] = b"ipoatm\0";
+pub const NM_SETTING_ADSL_PROTOCOL_PPPOA: &[u8] = b"pppoa\0";
+pub const NM_SETTING_ADSL_PROTOCOL_PPPOE: &[u8] = b"pppoe\0";
+pub const NM_SETTING_ADSL_SETTING_NAME: &[u8] = b"adsl\0";
+pub const NM_SETTING_ADSL_USERNAME: &[u8] = b"username\0";
+pub const NM_SETTING_ADSL_VCI: &[u8] = b"vci\0";
+pub const NM_SETTING_ADSL_VPI: &[u8] = b"vpi\0";
+pub const NM_SETTING_BLUETOOTH_BDADDR: &[u8] = b"bdaddr\0";
+pub const NM_SETTING_BLUETOOTH_SETTING_NAME: &[u8] = b"bluetooth\0";
+pub const NM_SETTING_BLUETOOTH_TYPE: &[u8] = b"type\0";
+pub const NM_SETTING_BLUETOOTH_TYPE_DUN: &[u8] = b"dun\0";
+pub const NM_SETTING_BLUETOOTH_TYPE_NAP: &[u8] = b"nap\0";
+pub const NM_SETTING_BLUETOOTH_TYPE_PANU: &[u8] = b"panu\0";
+pub const NM_SETTING_BOND_OPTIONS: &[u8] = b"options\0";
+pub const NM_SETTING_BOND_OPTION_ACTIVE_SLAVE: &[u8] = b"active_slave\0";
+pub const NM_SETTING_BOND_OPTION_AD_ACTOR_SYSTEM: &[u8] = b"ad_actor_system\0";
+pub const NM_SETTING_BOND_OPTION_AD_ACTOR_SYS_PRIO: &[u8] = b"ad_actor_sys_prio\0";
+pub const NM_SETTING_BOND_OPTION_AD_SELECT: &[u8] = b"ad_select\0";
+pub const NM_SETTING_BOND_OPTION_AD_USER_PORT_KEY: &[u8] = b"ad_user_port_key\0";
+pub const NM_SETTING_BOND_OPTION_ALL_SLAVES_ACTIVE: &[u8] = b"all_slaves_active\0";
+pub const NM_SETTING_BOND_OPTION_ARP_ALL_TARGETS: &[u8] = b"arp_all_targets\0";
+pub const NM_SETTING_BOND_OPTION_ARP_INTERVAL: &[u8] = b"arp_interval\0";
+pub const NM_SETTING_BOND_OPTION_ARP_IP_TARGET: &[u8] = b"arp_ip_target\0";
+pub const NM_SETTING_BOND_OPTION_ARP_VALIDATE: &[u8] = b"arp_validate\0";
+pub const NM_SETTING_BOND_OPTION_DOWNDELAY: &[u8] = b"downdelay\0";
+pub const NM_SETTING_BOND_OPTION_FAIL_OVER_MAC: &[u8] = b"fail_over_mac\0";
+pub const NM_SETTING_BOND_OPTION_LACP_RATE: &[u8] = b"lacp_rate\0";
+pub const NM_SETTING_BOND_OPTION_LP_INTERVAL: &[u8] = b"lp_interval\0";
+pub const NM_SETTING_BOND_OPTION_MIIMON: &[u8] = b"miimon\0";
+pub const NM_SETTING_BOND_OPTION_MIN_LINKS: &[u8] = b"min_links\0";
+pub const NM_SETTING_BOND_OPTION_MODE: &[u8] = b"mode\0";
+pub const NM_SETTING_BOND_OPTION_NUM_GRAT_ARP: &[u8] = b"num_grat_arp\0";
+pub const NM_SETTING_BOND_OPTION_NUM_UNSOL_NA: &[u8] = b"num_unsol_na\0";
+pub const NM_SETTING_BOND_OPTION_PACKETS_PER_SLAVE: &[u8] = b"packets_per_slave\0";
+pub const NM_SETTING_BOND_OPTION_PEER_NOTIF_DELAY: &[u8] = b"peer_notif_delay\0";
+pub const NM_SETTING_BOND_OPTION_PRIMARY: &[u8] = b"primary\0";
+pub const NM_SETTING_BOND_OPTION_PRIMARY_RESELECT: &[u8] = b"primary_reselect\0";
+pub const NM_SETTING_BOND_OPTION_RESEND_IGMP: &[u8] = b"resend_igmp\0";
+pub const NM_SETTING_BOND_OPTION_TLB_DYNAMIC_LB: &[u8] = b"tlb_dynamic_lb\0";
+pub const NM_SETTING_BOND_OPTION_UPDELAY: &[u8] = b"updelay\0";
+pub const NM_SETTING_BOND_OPTION_USE_CARRIER: &[u8] = b"use_carrier\0";
+pub const NM_SETTING_BOND_OPTION_XMIT_HASH_POLICY: &[u8] = b"xmit_hash_policy\0";
+pub const NM_SETTING_BOND_PORT_QUEUE_ID: &[u8] = b"queue-id\0";
+pub const NM_SETTING_BOND_PORT_SETTING_NAME: &[u8] = b"bond-port\0";
+pub const NM_SETTING_BOND_SETTING_NAME: &[u8] = b"bond\0";
+pub const NM_SETTING_BRIDGE_AGEING_TIME: &[u8] = b"ageing-time\0";
+pub const NM_SETTING_BRIDGE_FORWARD_DELAY: &[u8] = b"forward-delay\0";
+pub const NM_SETTING_BRIDGE_GROUP_ADDRESS: &[u8] = b"group-address\0";
+pub const NM_SETTING_BRIDGE_GROUP_FORWARD_MASK: &[u8] = b"group-forward-mask\0";
+pub const NM_SETTING_BRIDGE_HELLO_TIME: &[u8] = b"hello-time\0";
+pub const NM_SETTING_BRIDGE_MAC_ADDRESS: &[u8] = b"mac-address\0";
+pub const NM_SETTING_BRIDGE_MAX_AGE: &[u8] = b"max-age\0";
+pub const NM_SETTING_BRIDGE_MULTICAST_HASH_MAX: &[u8] = b"multicast-hash-max\0";
+pub const NM_SETTING_BRIDGE_MULTICAST_LAST_MEMBER_COUNT: &[u8] = b"multicast-last-member-count\0";
+pub const NM_SETTING_BRIDGE_MULTICAST_LAST_MEMBER_INTERVAL: &[u8] = b"multicast-last-member-interval\0";
+pub const NM_SETTING_BRIDGE_MULTICAST_MEMBERSHIP_INTERVAL: &[u8] = b"multicast-membership-interval\0";
+pub const NM_SETTING_BRIDGE_MULTICAST_QUERIER: &[u8] = b"multicast-querier\0";
+pub const NM_SETTING_BRIDGE_MULTICAST_QUERIER_INTERVAL: &[u8] = b"multicast-querier-interval\0";
+pub const NM_SETTING_BRIDGE_MULTICAST_QUERY_INTERVAL: &[u8] = b"multicast-query-interval\0";
+pub const NM_SETTING_BRIDGE_MULTICAST_QUERY_RESPONSE_INTERVAL: &[u8] = b"multicast-query-response-interval\0";
+pub const NM_SETTING_BRIDGE_MULTICAST_QUERY_USE_IFADDR: &[u8] = b"multicast-query-use-ifaddr\0";
+pub const NM_SETTING_BRIDGE_MULTICAST_ROUTER: &[u8] = b"multicast-router\0";
+pub const NM_SETTING_BRIDGE_MULTICAST_SNOOPING: &[u8] = b"multicast-snooping\0";
+pub const NM_SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_COUNT: &[u8] = b"multicast-startup-query-count\0";
+pub const NM_SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_INTERVAL: &[u8] = b"multicast-startup-query-interval\0";
+pub const NM_SETTING_BRIDGE_PORT_HAIRPIN_MODE: &[u8] = b"hairpin-mode\0";
+pub const NM_SETTING_BRIDGE_PORT_PATH_COST: &[u8] = b"path-cost\0";
+pub const NM_SETTING_BRIDGE_PORT_PRIORITY: &[u8] = b"priority\0";
+pub const NM_SETTING_BRIDGE_PORT_SETTING_NAME: &[u8] = b"bridge-port\0";
+pub const NM_SETTING_BRIDGE_PORT_VLANS: &[u8] = b"vlans\0";
+pub const NM_SETTING_BRIDGE_PRIORITY: &[u8] = b"priority\0";
+pub const NM_SETTING_BRIDGE_SETTING_NAME: &[u8] = b"bridge\0";
+pub const NM_SETTING_BRIDGE_STP: &[u8] = b"stp\0";
+pub const NM_SETTING_BRIDGE_VLANS: &[u8] = b"vlans\0";
+pub const NM_SETTING_BRIDGE_VLAN_DEFAULT_PVID: &[u8] = b"vlan-default-pvid\0";
+pub const NM_SETTING_BRIDGE_VLAN_FILTERING: &[u8] = b"vlan-filtering\0";
+pub const NM_SETTING_BRIDGE_VLAN_PROTOCOL: &[u8] = b"vlan-protocol\0";
+pub const NM_SETTING_BRIDGE_VLAN_STATS_ENABLED: &[u8] = b"vlan-stats-enabled\0";
+pub const NM_SETTING_CDMA_MTU: &[u8] = b"mtu\0";
+pub const NM_SETTING_CDMA_NUMBER: &[u8] = b"number\0";
+pub const NM_SETTING_CDMA_PASSWORD: &[u8] = b"password\0";
+pub const NM_SETTING_CDMA_PASSWORD_FLAGS: &[u8] = b"password-flags\0";
+pub const NM_SETTING_CDMA_SETTING_NAME: &[u8] = b"cdma\0";
+pub const NM_SETTING_CDMA_USERNAME: &[u8] = b"username\0";
+pub const NM_SETTING_CONNECTION_AUTH_RETRIES: &[u8] = b"auth-retries\0";
+pub const NM_SETTING_CONNECTION_AUTOCONNECT: &[u8] = b"autoconnect\0";
+pub const NM_SETTING_CONNECTION_AUTOCONNECT_PRIORITY: &[u8] = b"autoconnect-priority\0";
 pub const NM_SETTING_CONNECTION_AUTOCONNECT_PRIORITY_DEFAULT: c_int = 0;
 pub const NM_SETTING_CONNECTION_AUTOCONNECT_PRIORITY_MAX: c_int = 999;
 pub const NM_SETTING_CONNECTION_AUTOCONNECT_PRIORITY_MIN: c_int = -999;
-pub const NM_SETTING_CONNECTION_AUTOCONNECT_RETRIES: *const c_char = b"autoconnect-retries\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES: *const c_char = b"autoconnect-slaves\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_DNS_OVER_TLS: *const c_char = b"dns-over-tls\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_GATEWAY_PING_TIMEOUT: *const c_char = b"gateway-ping-timeout\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_ID: *const c_char = b"id\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_INTERFACE_NAME: *const c_char = b"interface-name\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_LLDP: *const c_char = b"lldp\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_LLMNR: *const c_char = b"llmnr\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_MASTER: *const c_char = b"master\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_MDNS: *const c_char = b"mdns\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_METERED: *const c_char = b"metered\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_MUD_URL: *const c_char = b"mud-url\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_MULTI_CONNECT: *const c_char = b"multi-connect\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_PERMISSIONS: *const c_char = b"permissions\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_READ_ONLY: *const c_char = b"read-only\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_SECONDARIES: *const c_char = b"secondaries\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_SETTING_NAME: *const c_char = b"connection\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_SLAVE_TYPE: *const c_char = b"slave-type\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_STABLE_ID: *const c_char = b"stable-id\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_TIMESTAMP: *const c_char = b"timestamp\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_TYPE: *const c_char = b"type\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_UUID: *const c_char = b"uuid\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_WAIT_DEVICE_TIMEOUT: *const c_char = b"wait-device-timeout\0" as *const u8 as *const c_char;
-pub const NM_SETTING_CONNECTION_ZONE: *const c_char = b"zone\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_APP_FCOE_FLAGS: *const c_char = b"app-fcoe-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_APP_FCOE_MODE: *const c_char = b"app-fcoe-mode\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_APP_FCOE_PRIORITY: *const c_char = b"app-fcoe-priority\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_APP_FIP_FLAGS: *const c_char = b"app-fip-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_APP_FIP_PRIORITY: *const c_char = b"app-fip-priority\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_APP_ISCSI_FLAGS: *const c_char = b"app-iscsi-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_APP_ISCSI_PRIORITY: *const c_char = b"app-iscsi-priority\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_FCOE_MODE_FABRIC: *const c_char = b"fabric\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_FCOE_MODE_VN2VN: *const c_char = b"vn2vn\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_PRIORITY_BANDWIDTH: *const c_char = b"priority-bandwidth\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_PRIORITY_FLOW_CONTROL: *const c_char = b"priority-flow-control\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_PRIORITY_FLOW_CONTROL_FLAGS: *const c_char = b"priority-flow-control-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_PRIORITY_GROUP_BANDWIDTH: *const c_char = b"priority-group-bandwidth\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_PRIORITY_GROUP_FLAGS: *const c_char = b"priority-group-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_PRIORITY_GROUP_ID: *const c_char = b"priority-group-id\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_PRIORITY_STRICT_BANDWIDTH: *const c_char = b"priority-strict-bandwidth\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_PRIORITY_TRAFFIC_CLASS: *const c_char = b"priority-traffic-class\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DCB_SETTING_NAME: *const c_char = b"dcb\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_ATTEMPTS: *const c_char = b"attempts\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_DEBUG: *const c_char = b"debug\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_EDNS0: *const c_char = b"edns0\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_INET6: *const c_char = b"inet6\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_IP6_BYTESTRING: *const c_char = b"ip6-bytestring\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_IP6_DOTINT: *const c_char = b"ip6-dotint\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_NDOTS: *const c_char = b"ndots\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_NO_CHECK_NAMES: *const c_char = b"no-check-names\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_NO_IP6_DOTINT: *const c_char = b"no-ip6-dotint\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_NO_RELOAD: *const c_char = b"no-reload\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_NO_TLD_QUERY: *const c_char = b"no-tld-query\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_ROTATE: *const c_char = b"rotate\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_SINGLE_REQUEST: *const c_char = b"single-request\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_SINGLE_REQUEST_REOPEN: *const c_char = b"single-request-reopen\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_TIMEOUT: *const c_char = b"timeout\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_TRUST_AD: *const c_char = b"trust-ad\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DNS_OPTION_USE_VC: *const c_char = b"use-vc\0" as *const u8 as *const c_char;
-pub const NM_SETTING_DUMMY_SETTING_NAME: *const c_char = b"dummy\0" as *const u8 as *const c_char;
-pub const NM_SETTING_ETHTOOL_SETTING_NAME: *const c_char = b"ethtool\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GENERIC_SETTING_NAME: *const c_char = b"generic\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_APN: *const c_char = b"apn\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_AUTO_CONFIG: *const c_char = b"auto-config\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_DEVICE_ID: *const c_char = b"device-id\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_HOME_ONLY: *const c_char = b"home-only\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_MTU: *const c_char = b"mtu\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_NETWORK_ID: *const c_char = b"network-id\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_NUMBER: *const c_char = b"number\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_PASSWORD: *const c_char = b"password\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_PASSWORD_FLAGS: *const c_char = b"password-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_PIN: *const c_char = b"pin\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_PIN_FLAGS: *const c_char = b"pin-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_SETTING_NAME: *const c_char = b"gsm\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_SIM_ID: *const c_char = b"sim-id\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_SIM_OPERATOR_ID: *const c_char = b"sim-operator-id\0" as *const u8 as *const c_char;
-pub const NM_SETTING_GSM_USERNAME: *const c_char = b"username\0" as *const u8 as *const c_char;
-pub const NM_SETTING_HOSTNAME_FROM_DHCP: *const c_char = b"from-dhcp\0" as *const u8 as *const c_char;
-pub const NM_SETTING_HOSTNAME_FROM_DNS_LOOKUP: *const c_char = b"from-dns-lookup\0" as *const u8 as *const c_char;
-pub const NM_SETTING_HOSTNAME_ONLY_FROM_DEFAULT: *const c_char = b"only-from-default\0" as *const u8 as *const c_char;
-pub const NM_SETTING_HOSTNAME_PRIORITY: *const c_char = b"priority\0" as *const u8 as *const c_char;
-pub const NM_SETTING_HOSTNAME_SETTING_NAME: *const c_char = b"hostname\0" as *const u8 as *const c_char;
-pub const NM_SETTING_INFINIBAND_MAC_ADDRESS: *const c_char = b"mac-address\0" as *const u8 as *const c_char;
-pub const NM_SETTING_INFINIBAND_MTU: *const c_char = b"mtu\0" as *const u8 as *const c_char;
-pub const NM_SETTING_INFINIBAND_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
-pub const NM_SETTING_INFINIBAND_P_KEY: *const c_char = b"p-key\0" as *const u8 as *const c_char;
-pub const NM_SETTING_INFINIBAND_SETTING_NAME: *const c_char = b"infiniband\0" as *const u8 as *const c_char;
-pub const NM_SETTING_INFINIBAND_TRANSPORT_MODE: *const c_char = b"transport-mode\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID: *const c_char = b"dhcp-client-id\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP4_CONFIG_DHCP_FQDN: *const c_char = b"dhcp-fqdn\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP4_CONFIG_DHCP_VENDOR_CLASS_IDENTIFIER: *const c_char = b"dhcp-vendor-class-identifier\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP4_CONFIG_METHOD_AUTO: *const c_char = b"auto\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP4_CONFIG_METHOD_DISABLED: *const c_char = b"disabled\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL: *const c_char = b"link-local\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP4_CONFIG_METHOD_MANUAL: *const c_char = b"manual\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP4_CONFIG_METHOD_SHARED: *const c_char = b"shared\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP4_CONFIG_SETTING_NAME: *const c_char = b"ipv4\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE: *const c_char = b"addr-gen-mode\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP6_CONFIG_DHCP_DUID: *const c_char = b"dhcp-duid\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP6_CONFIG_IP6_PRIVACY: *const c_char = b"ip6-privacy\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP6_CONFIG_METHOD_AUTO: *const c_char = b"auto\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP6_CONFIG_METHOD_DHCP: *const c_char = b"dhcp\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP6_CONFIG_METHOD_DISABLED: *const c_char = b"disabled\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP6_CONFIG_METHOD_IGNORE: *const c_char = b"ignore\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL: *const c_char = b"link-local\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP6_CONFIG_METHOD_MANUAL: *const c_char = b"manual\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP6_CONFIG_METHOD_SHARED: *const c_char = b"shared\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP6_CONFIG_RA_TIMEOUT: *const c_char = b"ra-timeout\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP6_CONFIG_SETTING_NAME: *const c_char = b"ipv6\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP6_CONFIG_TOKEN: *const c_char = b"token\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_ADDRESSES: *const c_char = b"addresses\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_DAD_TIMEOUT: *const c_char = b"dad-timeout\0" as *const u8 as *const c_char;
+pub const NM_SETTING_CONNECTION_AUTOCONNECT_RETRIES: &[u8] = b"autoconnect-retries\0";
+pub const NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES: &[u8] = b"autoconnect-slaves\0";
+pub const NM_SETTING_CONNECTION_DNS_OVER_TLS: &[u8] = b"dns-over-tls\0";
+pub const NM_SETTING_CONNECTION_GATEWAY_PING_TIMEOUT: &[u8] = b"gateway-ping-timeout\0";
+pub const NM_SETTING_CONNECTION_ID: &[u8] = b"id\0";
+pub const NM_SETTING_CONNECTION_INTERFACE_NAME: &[u8] = b"interface-name\0";
+pub const NM_SETTING_CONNECTION_LLDP: &[u8] = b"lldp\0";
+pub const NM_SETTING_CONNECTION_LLMNR: &[u8] = b"llmnr\0";
+pub const NM_SETTING_CONNECTION_MASTER: &[u8] = b"master\0";
+pub const NM_SETTING_CONNECTION_MDNS: &[u8] = b"mdns\0";
+pub const NM_SETTING_CONNECTION_METERED: &[u8] = b"metered\0";
+pub const NM_SETTING_CONNECTION_MPTCP_FLAGS: &[u8] = b"mptcp-flags\0";
+pub const NM_SETTING_CONNECTION_MUD_URL: &[u8] = b"mud-url\0";
+pub const NM_SETTING_CONNECTION_MULTI_CONNECT: &[u8] = b"multi-connect\0";
+pub const NM_SETTING_CONNECTION_PERMISSIONS: &[u8] = b"permissions\0";
+pub const NM_SETTING_CONNECTION_READ_ONLY: &[u8] = b"read-only\0";
+pub const NM_SETTING_CONNECTION_SECONDARIES: &[u8] = b"secondaries\0";
+pub const NM_SETTING_CONNECTION_SETTING_NAME: &[u8] = b"connection\0";
+pub const NM_SETTING_CONNECTION_SLAVE_TYPE: &[u8] = b"slave-type\0";
+pub const NM_SETTING_CONNECTION_STABLE_ID: &[u8] = b"stable-id\0";
+pub const NM_SETTING_CONNECTION_TIMESTAMP: &[u8] = b"timestamp\0";
+pub const NM_SETTING_CONNECTION_TYPE: &[u8] = b"type\0";
+pub const NM_SETTING_CONNECTION_UUID: &[u8] = b"uuid\0";
+pub const NM_SETTING_CONNECTION_WAIT_ACTIVATION_DELAY: &[u8] = b"wait-activation-delay\0";
+pub const NM_SETTING_CONNECTION_WAIT_DEVICE_TIMEOUT: &[u8] = b"wait-device-timeout\0";
+pub const NM_SETTING_CONNECTION_ZONE: &[u8] = b"zone\0";
+pub const NM_SETTING_DCB_APP_FCOE_FLAGS: &[u8] = b"app-fcoe-flags\0";
+pub const NM_SETTING_DCB_APP_FCOE_MODE: &[u8] = b"app-fcoe-mode\0";
+pub const NM_SETTING_DCB_APP_FCOE_PRIORITY: &[u8] = b"app-fcoe-priority\0";
+pub const NM_SETTING_DCB_APP_FIP_FLAGS: &[u8] = b"app-fip-flags\0";
+pub const NM_SETTING_DCB_APP_FIP_PRIORITY: &[u8] = b"app-fip-priority\0";
+pub const NM_SETTING_DCB_APP_ISCSI_FLAGS: &[u8] = b"app-iscsi-flags\0";
+pub const NM_SETTING_DCB_APP_ISCSI_PRIORITY: &[u8] = b"app-iscsi-priority\0";
+pub const NM_SETTING_DCB_FCOE_MODE_FABRIC: &[u8] = b"fabric\0";
+pub const NM_SETTING_DCB_FCOE_MODE_VN2VN: &[u8] = b"vn2vn\0";
+pub const NM_SETTING_DCB_PRIORITY_BANDWIDTH: &[u8] = b"priority-bandwidth\0";
+pub const NM_SETTING_DCB_PRIORITY_FLOW_CONTROL: &[u8] = b"priority-flow-control\0";
+pub const NM_SETTING_DCB_PRIORITY_FLOW_CONTROL_FLAGS: &[u8] = b"priority-flow-control-flags\0";
+pub const NM_SETTING_DCB_PRIORITY_GROUP_BANDWIDTH: &[u8] = b"priority-group-bandwidth\0";
+pub const NM_SETTING_DCB_PRIORITY_GROUP_FLAGS: &[u8] = b"priority-group-flags\0";
+pub const NM_SETTING_DCB_PRIORITY_GROUP_ID: &[u8] = b"priority-group-id\0";
+pub const NM_SETTING_DCB_PRIORITY_STRICT_BANDWIDTH: &[u8] = b"priority-strict-bandwidth\0";
+pub const NM_SETTING_DCB_PRIORITY_TRAFFIC_CLASS: &[u8] = b"priority-traffic-class\0";
+pub const NM_SETTING_DCB_SETTING_NAME: &[u8] = b"dcb\0";
+pub const NM_SETTING_DNS_OPTION_ATTEMPTS: &[u8] = b"attempts\0";
+pub const NM_SETTING_DNS_OPTION_DEBUG: &[u8] = b"debug\0";
+pub const NM_SETTING_DNS_OPTION_EDNS0: &[u8] = b"edns0\0";
+pub const NM_SETTING_DNS_OPTION_INET6: &[u8] = b"inet6\0";
+pub const NM_SETTING_DNS_OPTION_IP6_BYTESTRING: &[u8] = b"ip6-bytestring\0";
+pub const NM_SETTING_DNS_OPTION_IP6_DOTINT: &[u8] = b"ip6-dotint\0";
+pub const NM_SETTING_DNS_OPTION_NDOTS: &[u8] = b"ndots\0";
+pub const NM_SETTING_DNS_OPTION_NO_CHECK_NAMES: &[u8] = b"no-check-names\0";
+pub const NM_SETTING_DNS_OPTION_NO_IP6_DOTINT: &[u8] = b"no-ip6-dotint\0";
+pub const NM_SETTING_DNS_OPTION_NO_RELOAD: &[u8] = b"no-reload\0";
+pub const NM_SETTING_DNS_OPTION_NO_TLD_QUERY: &[u8] = b"no-tld-query\0";
+pub const NM_SETTING_DNS_OPTION_ROTATE: &[u8] = b"rotate\0";
+pub const NM_SETTING_DNS_OPTION_SINGLE_REQUEST: &[u8] = b"single-request\0";
+pub const NM_SETTING_DNS_OPTION_SINGLE_REQUEST_REOPEN: &[u8] = b"single-request-reopen\0";
+pub const NM_SETTING_DNS_OPTION_TIMEOUT: &[u8] = b"timeout\0";
+pub const NM_SETTING_DNS_OPTION_TRUST_AD: &[u8] = b"trust-ad\0";
+pub const NM_SETTING_DNS_OPTION_USE_VC: &[u8] = b"use-vc\0";
+pub const NM_SETTING_DUMMY_SETTING_NAME: &[u8] = b"dummy\0";
+pub const NM_SETTING_ETHTOOL_SETTING_NAME: &[u8] = b"ethtool\0";
+pub const NM_SETTING_GENERIC_SETTING_NAME: &[u8] = b"generic\0";
+pub const NM_SETTING_GSM_APN: &[u8] = b"apn\0";
+pub const NM_SETTING_GSM_AUTO_CONFIG: &[u8] = b"auto-config\0";
+pub const NM_SETTING_GSM_DEVICE_ID: &[u8] = b"device-id\0";
+pub const NM_SETTING_GSM_HOME_ONLY: &[u8] = b"home-only\0";
+pub const NM_SETTING_GSM_MTU: &[u8] = b"mtu\0";
+pub const NM_SETTING_GSM_NETWORK_ID: &[u8] = b"network-id\0";
+pub const NM_SETTING_GSM_NUMBER: &[u8] = b"number\0";
+pub const NM_SETTING_GSM_PASSWORD: &[u8] = b"password\0";
+pub const NM_SETTING_GSM_PASSWORD_FLAGS: &[u8] = b"password-flags\0";
+pub const NM_SETTING_GSM_PIN: &[u8] = b"pin\0";
+pub const NM_SETTING_GSM_PIN_FLAGS: &[u8] = b"pin-flags\0";
+pub const NM_SETTING_GSM_SETTING_NAME: &[u8] = b"gsm\0";
+pub const NM_SETTING_GSM_SIM_ID: &[u8] = b"sim-id\0";
+pub const NM_SETTING_GSM_SIM_OPERATOR_ID: &[u8] = b"sim-operator-id\0";
+pub const NM_SETTING_GSM_USERNAME: &[u8] = b"username\0";
+pub const NM_SETTING_HOSTNAME_FROM_DHCP: &[u8] = b"from-dhcp\0";
+pub const NM_SETTING_HOSTNAME_FROM_DNS_LOOKUP: &[u8] = b"from-dns-lookup\0";
+pub const NM_SETTING_HOSTNAME_ONLY_FROM_DEFAULT: &[u8] = b"only-from-default\0";
+pub const NM_SETTING_HOSTNAME_PRIORITY: &[u8] = b"priority\0";
+pub const NM_SETTING_HOSTNAME_SETTING_NAME: &[u8] = b"hostname\0";
+pub const NM_SETTING_INFINIBAND_MAC_ADDRESS: &[u8] = b"mac-address\0";
+pub const NM_SETTING_INFINIBAND_MTU: &[u8] = b"mtu\0";
+pub const NM_SETTING_INFINIBAND_PARENT: &[u8] = b"parent\0";
+pub const NM_SETTING_INFINIBAND_P_KEY: &[u8] = b"p-key\0";
+pub const NM_SETTING_INFINIBAND_SETTING_NAME: &[u8] = b"infiniband\0";
+pub const NM_SETTING_INFINIBAND_TRANSPORT_MODE: &[u8] = b"transport-mode\0";
+pub const NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID: &[u8] = b"dhcp-client-id\0";
+pub const NM_SETTING_IP4_CONFIG_DHCP_FQDN: &[u8] = b"dhcp-fqdn\0";
+pub const NM_SETTING_IP4_CONFIG_DHCP_VENDOR_CLASS_IDENTIFIER: &[u8] = b"dhcp-vendor-class-identifier\0";
+pub const NM_SETTING_IP4_CONFIG_LINK_LOCAL: &[u8] = b"link-local\0";
+pub const NM_SETTING_IP4_CONFIG_METHOD_AUTO: &[u8] = b"auto\0";
+pub const NM_SETTING_IP4_CONFIG_METHOD_DISABLED: &[u8] = b"disabled\0";
+pub const NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL: &[u8] = b"link-local\0";
+pub const NM_SETTING_IP4_CONFIG_METHOD_MANUAL: &[u8] = b"manual\0";
+pub const NM_SETTING_IP4_CONFIG_METHOD_SHARED: &[u8] = b"shared\0";
+pub const NM_SETTING_IP4_CONFIG_SETTING_NAME: &[u8] = b"ipv4\0";
+pub const NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE: &[u8] = b"addr-gen-mode\0";
+pub const NM_SETTING_IP6_CONFIG_DHCP_DUID: &[u8] = b"dhcp-duid\0";
+pub const NM_SETTING_IP6_CONFIG_IP6_PRIVACY: &[u8] = b"ip6-privacy\0";
+pub const NM_SETTING_IP6_CONFIG_METHOD_AUTO: &[u8] = b"auto\0";
+pub const NM_SETTING_IP6_CONFIG_METHOD_DHCP: &[u8] = b"dhcp\0";
+pub const NM_SETTING_IP6_CONFIG_METHOD_DISABLED: &[u8] = b"disabled\0";
+pub const NM_SETTING_IP6_CONFIG_METHOD_IGNORE: &[u8] = b"ignore\0";
+pub const NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL: &[u8] = b"link-local\0";
+pub const NM_SETTING_IP6_CONFIG_METHOD_MANUAL: &[u8] = b"manual\0";
+pub const NM_SETTING_IP6_CONFIG_METHOD_SHARED: &[u8] = b"shared\0";
+pub const NM_SETTING_IP6_CONFIG_MTU: &[u8] = b"mtu\0";
+pub const NM_SETTING_IP6_CONFIG_RA_TIMEOUT: &[u8] = b"ra-timeout\0";
+pub const NM_SETTING_IP6_CONFIG_SETTING_NAME: &[u8] = b"ipv6\0";
+pub const NM_SETTING_IP6_CONFIG_TOKEN: &[u8] = b"token\0";
+pub const NM_SETTING_IP_CONFIG_ADDRESSES: &[u8] = b"addresses\0";
+pub const NM_SETTING_IP_CONFIG_DAD_TIMEOUT: &[u8] = b"dad-timeout\0";
 pub const NM_SETTING_IP_CONFIG_DAD_TIMEOUT_MAX: c_int = 30000;
-pub const NM_SETTING_IP_CONFIG_DHCP_HOSTNAME: *const c_char = b"dhcp-hostname\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_DHCP_HOSTNAME_FLAGS: *const c_char = b"dhcp-hostname-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_DHCP_IAID: *const c_char = b"dhcp-iaid\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_DHCP_REJECT_SERVERS: *const c_char = b"dhcp-reject-servers\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_DHCP_SEND_HOSTNAME: *const c_char = b"dhcp-send-hostname\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_DHCP_TIMEOUT: *const c_char = b"dhcp-timeout\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_DNS: *const c_char = b"dns\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_DNS_OPTIONS: *const c_char = b"dns-options\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_DNS_PRIORITY: *const c_char = b"dns-priority\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_DNS_SEARCH: *const c_char = b"dns-search\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_GATEWAY: *const c_char = b"gateway\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_IGNORE_AUTO_DNS: *const c_char = b"ignore-auto-dns\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_IGNORE_AUTO_ROUTES: *const c_char = b"ignore-auto-routes\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_MAY_FAIL: *const c_char = b"may-fail\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_METHOD: *const c_char = b"method\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_NEVER_DEFAULT: *const c_char = b"never-default\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_REQUIRED_TIMEOUT: *const c_char = b"required-timeout\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_ROUTES: *const c_char = b"routes\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_ROUTE_METRIC: *const c_char = b"route-metric\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_ROUTE_TABLE: *const c_char = b"route-table\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_CONFIG_ROUTING_RULES: *const c_char = b"routing-rules\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_TUNNEL_ENCAPSULATION_LIMIT: *const c_char = b"encapsulation-limit\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_TUNNEL_FLAGS: *const c_char = b"flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_TUNNEL_FLOW_LABEL: *const c_char = b"flow-label\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_TUNNEL_INPUT_KEY: *const c_char = b"input-key\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_TUNNEL_LOCAL: *const c_char = b"local\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_TUNNEL_MODE: *const c_char = b"mode\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_TUNNEL_MTU: *const c_char = b"mtu\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_TUNNEL_OUTPUT_KEY: *const c_char = b"output-key\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_TUNNEL_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_TUNNEL_PATH_MTU_DISCOVERY: *const c_char = b"path-mtu-discovery\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_TUNNEL_REMOTE: *const c_char = b"remote\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_TUNNEL_SETTING_NAME: *const c_char = b"ip-tunnel\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_TUNNEL_TOS: *const c_char = b"tos\0" as *const u8 as *const c_char;
-pub const NM_SETTING_IP_TUNNEL_TTL: *const c_char = b"ttl\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MACSEC_ENCRYPT: *const c_char = b"encrypt\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MACSEC_MKA_CAK: *const c_char = b"mka-cak\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MACSEC_MKA_CAK_FLAGS: *const c_char = b"mka-cak-flags\0" as *const u8 as *const c_char;
+pub const NM_SETTING_IP_CONFIG_DHCP_HOSTNAME: &[u8] = b"dhcp-hostname\0";
+pub const NM_SETTING_IP_CONFIG_DHCP_HOSTNAME_FLAGS: &[u8] = b"dhcp-hostname-flags\0";
+pub const NM_SETTING_IP_CONFIG_DHCP_IAID: &[u8] = b"dhcp-iaid\0";
+pub const NM_SETTING_IP_CONFIG_DHCP_REJECT_SERVERS: &[u8] = b"dhcp-reject-servers\0";
+pub const NM_SETTING_IP_CONFIG_DHCP_SEND_HOSTNAME: &[u8] = b"dhcp-send-hostname\0";
+pub const NM_SETTING_IP_CONFIG_DHCP_TIMEOUT: &[u8] = b"dhcp-timeout\0";
+pub const NM_SETTING_IP_CONFIG_DNS: &[u8] = b"dns\0";
+pub const NM_SETTING_IP_CONFIG_DNS_OPTIONS: &[u8] = b"dns-options\0";
+pub const NM_SETTING_IP_CONFIG_DNS_PRIORITY: &[u8] = b"dns-priority\0";
+pub const NM_SETTING_IP_CONFIG_DNS_SEARCH: &[u8] = b"dns-search\0";
+pub const NM_SETTING_IP_CONFIG_GATEWAY: &[u8] = b"gateway\0";
+pub const NM_SETTING_IP_CONFIG_IGNORE_AUTO_DNS: &[u8] = b"ignore-auto-dns\0";
+pub const NM_SETTING_IP_CONFIG_IGNORE_AUTO_ROUTES: &[u8] = b"ignore-auto-routes\0";
+pub const NM_SETTING_IP_CONFIG_MAY_FAIL: &[u8] = b"may-fail\0";
+pub const NM_SETTING_IP_CONFIG_METHOD: &[u8] = b"method\0";
+pub const NM_SETTING_IP_CONFIG_NEVER_DEFAULT: &[u8] = b"never-default\0";
+pub const NM_SETTING_IP_CONFIG_REQUIRED_TIMEOUT: &[u8] = b"required-timeout\0";
+pub const NM_SETTING_IP_CONFIG_ROUTES: &[u8] = b"routes\0";
+pub const NM_SETTING_IP_CONFIG_ROUTE_METRIC: &[u8] = b"route-metric\0";
+pub const NM_SETTING_IP_CONFIG_ROUTE_TABLE: &[u8] = b"route-table\0";
+pub const NM_SETTING_IP_CONFIG_ROUTING_RULES: &[u8] = b"routing-rules\0";
+pub const NM_SETTING_IP_TUNNEL_ENCAPSULATION_LIMIT: &[u8] = b"encapsulation-limit\0";
+pub const NM_SETTING_IP_TUNNEL_FLAGS: &[u8] = b"flags\0";
+pub const NM_SETTING_IP_TUNNEL_FLOW_LABEL: &[u8] = b"flow-label\0";
+pub const NM_SETTING_IP_TUNNEL_INPUT_KEY: &[u8] = b"input-key\0";
+pub const NM_SETTING_IP_TUNNEL_LOCAL: &[u8] = b"local\0";
+pub const NM_SETTING_IP_TUNNEL_MODE: &[u8] = b"mode\0";
+pub const NM_SETTING_IP_TUNNEL_MTU: &[u8] = b"mtu\0";
+pub const NM_SETTING_IP_TUNNEL_OUTPUT_KEY: &[u8] = b"output-key\0";
+pub const NM_SETTING_IP_TUNNEL_PARENT: &[u8] = b"parent\0";
+pub const NM_SETTING_IP_TUNNEL_PATH_MTU_DISCOVERY: &[u8] = b"path-mtu-discovery\0";
+pub const NM_SETTING_IP_TUNNEL_REMOTE: &[u8] = b"remote\0";
+pub const NM_SETTING_IP_TUNNEL_SETTING_NAME: &[u8] = b"ip-tunnel\0";
+pub const NM_SETTING_IP_TUNNEL_TOS: &[u8] = b"tos\0";
+pub const NM_SETTING_IP_TUNNEL_TTL: &[u8] = b"ttl\0";
+pub const NM_SETTING_MACSEC_ENCRYPT: &[u8] = b"encrypt\0";
+pub const NM_SETTING_MACSEC_MKA_CAK: &[u8] = b"mka-cak\0";
+pub const NM_SETTING_MACSEC_MKA_CAK_FLAGS: &[u8] = b"mka-cak-flags\0";
 pub const NM_SETTING_MACSEC_MKA_CAK_LENGTH: c_int = 32;
-pub const NM_SETTING_MACSEC_MKA_CKN: *const c_char = b"mka-ckn\0" as *const u8 as *const c_char;
+pub const NM_SETTING_MACSEC_MKA_CKN: &[u8] = b"mka-ckn\0";
 pub const NM_SETTING_MACSEC_MKA_CKN_LENGTH: c_int = 64;
-pub const NM_SETTING_MACSEC_MODE: *const c_char = b"mode\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MACSEC_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MACSEC_PORT: *const c_char = b"port\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MACSEC_SEND_SCI: *const c_char = b"send-sci\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MACSEC_SETTING_NAME: *const c_char = b"macsec\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MACSEC_VALIDATION: *const c_char = b"validation\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MACVLAN_MODE: *const c_char = b"mode\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MACVLAN_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MACVLAN_PROMISCUOUS: *const c_char = b"promiscuous\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MACVLAN_SETTING_NAME: *const c_char = b"macvlan\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MACVLAN_TAP: *const c_char = b"tap\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MATCH_DRIVER: *const c_char = b"driver\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MATCH_INTERFACE_NAME: *const c_char = b"interface-name\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MATCH_KERNEL_COMMAND_LINE: *const c_char = b"kernel-command-line\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MATCH_PATH: *const c_char = b"path\0" as *const u8 as *const c_char;
-pub const NM_SETTING_MATCH_SETTING_NAME: *const c_char = b"match\0" as *const u8 as *const c_char;
-pub const NM_SETTING_NAME: *const c_char = b"name\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OLPC_MESH_CHANNEL: *const c_char = b"channel\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OLPC_MESH_DHCP_ANYCAST_ADDRESS: *const c_char = b"dhcp-anycast-address\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OLPC_MESH_SETTING_NAME: *const c_char = b"802-11-olpc-mesh\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OLPC_MESH_SSID: *const c_char = b"ssid\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_BRIDGE_DATAPATH_TYPE: *const c_char = b"datapath-type\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_BRIDGE_FAIL_MODE: *const c_char = b"fail-mode\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_BRIDGE_MCAST_SNOOPING_ENABLE: *const c_char = b"mcast-snooping-enable\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_BRIDGE_RSTP_ENABLE: *const c_char = b"rstp-enable\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_BRIDGE_SETTING_NAME: *const c_char = b"ovs-bridge\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_BRIDGE_STP_ENABLE: *const c_char = b"stp-enable\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_DPDK_DEVARGS: *const c_char = b"devargs\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_DPDK_N_RXQ: *const c_char = b"n-rxq\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_DPDK_SETTING_NAME: *const c_char = b"ovs-dpdk\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_EXTERNAL_IDS_DATA: *const c_char = b"data\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_EXTERNAL_IDS_SETTING_NAME: *const c_char = b"ovs-external-ids\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_INTERFACE_SETTING_NAME: *const c_char = b"ovs-interface\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_INTERFACE_TYPE: *const c_char = b"type\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_PATCH_PEER: *const c_char = b"peer\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_PATCH_SETTING_NAME: *const c_char = b"ovs-patch\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_PORT_BOND_DOWNDELAY: *const c_char = b"bond-downdelay\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_PORT_BOND_MODE: *const c_char = b"bond-mode\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_PORT_BOND_UPDELAY: *const c_char = b"bond-updelay\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_PORT_LACP: *const c_char = b"lacp\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_PORT_SETTING_NAME: *const c_char = b"ovs-port\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_PORT_TAG: *const c_char = b"tag\0" as *const u8 as *const c_char;
-pub const NM_SETTING_OVS_PORT_VLAN_MODE: *const c_char = b"vlan-mode\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PARAM_FUZZY_IGNORE: c_int = 8;
-pub const NM_SETTING_PARAM_REQUIRED: c_int = 2;
-pub const NM_SETTING_PARAM_SECRET: c_int = 4;
-pub const NM_SETTING_PPPOE_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPPOE_PASSWORD: *const c_char = b"password\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPPOE_PASSWORD_FLAGS: *const c_char = b"password-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPPOE_SERVICE: *const c_char = b"service\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPPOE_SETTING_NAME: *const c_char = b"pppoe\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPPOE_USERNAME: *const c_char = b"username\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_BAUD: *const c_char = b"baud\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_CRTSCTS: *const c_char = b"crtscts\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_LCP_ECHO_FAILURE: *const c_char = b"lcp-echo-failure\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_LCP_ECHO_INTERVAL: *const c_char = b"lcp-echo-interval\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_MPPE_STATEFUL: *const c_char = b"mppe-stateful\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_MRU: *const c_char = b"mru\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_MTU: *const c_char = b"mtu\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_NOAUTH: *const c_char = b"noauth\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_NOBSDCOMP: *const c_char = b"nobsdcomp\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_NODEFLATE: *const c_char = b"nodeflate\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_NO_VJ_COMP: *const c_char = b"no-vj-comp\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_REFUSE_CHAP: *const c_char = b"refuse-chap\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_REFUSE_EAP: *const c_char = b"refuse-eap\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_REFUSE_MSCHAP: *const c_char = b"refuse-mschap\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_REFUSE_MSCHAPV2: *const c_char = b"refuse-mschapv2\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_REFUSE_PAP: *const c_char = b"refuse-pap\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_REQUIRE_MPPE: *const c_char = b"require-mppe\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_REQUIRE_MPPE_128: *const c_char = b"require-mppe-128\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PPP_SETTING_NAME: *const c_char = b"ppp\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PROXY_BROWSER_ONLY: *const c_char = b"browser-only\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PROXY_METHOD: *const c_char = b"method\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PROXY_PAC_SCRIPT: *const c_char = b"pac-script\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PROXY_PAC_URL: *const c_char = b"pac-url\0" as *const u8 as *const c_char;
-pub const NM_SETTING_PROXY_SETTING_NAME: *const c_char = b"proxy\0" as *const u8 as *const c_char;
-pub const NM_SETTING_SERIAL_BAUD: *const c_char = b"baud\0" as *const u8 as *const c_char;
-pub const NM_SETTING_SERIAL_BITS: *const c_char = b"bits\0" as *const u8 as *const c_char;
-pub const NM_SETTING_SERIAL_PARITY: *const c_char = b"parity\0" as *const u8 as *const c_char;
-pub const NM_SETTING_SERIAL_SEND_DELAY: *const c_char = b"send-delay\0" as *const u8 as *const c_char;
-pub const NM_SETTING_SERIAL_SETTING_NAME: *const c_char = b"serial\0" as *const u8 as *const c_char;
-pub const NM_SETTING_SERIAL_STOPBITS: *const c_char = b"stopbits\0" as *const u8 as *const c_char;
-pub const NM_SETTING_SRIOV_AUTOPROBE_DRIVERS: *const c_char = b"autoprobe-drivers\0" as *const u8 as *const c_char;
-pub const NM_SETTING_SRIOV_SETTING_NAME: *const c_char = b"sriov\0" as *const u8 as *const c_char;
-pub const NM_SETTING_SRIOV_TOTAL_VFS: *const c_char = b"total-vfs\0" as *const u8 as *const c_char;
-pub const NM_SETTING_SRIOV_VFS: *const c_char = b"vfs\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TC_CONFIG_QDISCS: *const c_char = b"qdiscs\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TC_CONFIG_SETTING_NAME: *const c_char = b"tc\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TC_CONFIG_TFILTERS: *const c_char = b"tfilters\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_CONFIG: *const c_char = b"config\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_LINK_WATCHERS: *const c_char = b"link-watchers\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_MCAST_REJOIN_COUNT: *const c_char = b"mcast-rejoin-count\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_MCAST_REJOIN_INTERVAL: *const c_char = b"mcast-rejoin-interval\0" as *const u8 as *const c_char;
+pub const NM_SETTING_MACSEC_MODE: &[u8] = b"mode\0";
+pub const NM_SETTING_MACSEC_PARENT: &[u8] = b"parent\0";
+pub const NM_SETTING_MACSEC_PORT: &[u8] = b"port\0";
+pub const NM_SETTING_MACSEC_SEND_SCI: &[u8] = b"send-sci\0";
+pub const NM_SETTING_MACSEC_SETTING_NAME: &[u8] = b"macsec\0";
+pub const NM_SETTING_MACSEC_VALIDATION: &[u8] = b"validation\0";
+pub const NM_SETTING_MACVLAN_MODE: &[u8] = b"mode\0";
+pub const NM_SETTING_MACVLAN_PARENT: &[u8] = b"parent\0";
+pub const NM_SETTING_MACVLAN_PROMISCUOUS: &[u8] = b"promiscuous\0";
+pub const NM_SETTING_MACVLAN_SETTING_NAME: &[u8] = b"macvlan\0";
+pub const NM_SETTING_MACVLAN_TAP: &[u8] = b"tap\0";
+pub const NM_SETTING_MATCH_DRIVER: &[u8] = b"driver\0";
+pub const NM_SETTING_MATCH_INTERFACE_NAME: &[u8] = b"interface-name\0";
+pub const NM_SETTING_MATCH_KERNEL_COMMAND_LINE: &[u8] = b"kernel-command-line\0";
+pub const NM_SETTING_MATCH_PATH: &[u8] = b"path\0";
+pub const NM_SETTING_MATCH_SETTING_NAME: &[u8] = b"match\0";
+pub const NM_SETTING_NAME: &[u8] = b"name\0";
+pub const NM_SETTING_OLPC_MESH_CHANNEL: &[u8] = b"channel\0";
+pub const NM_SETTING_OLPC_MESH_DHCP_ANYCAST_ADDRESS: &[u8] = b"dhcp-anycast-address\0";
+pub const NM_SETTING_OLPC_MESH_SETTING_NAME: &[u8] = b"802-11-olpc-mesh\0";
+pub const NM_SETTING_OLPC_MESH_SSID: &[u8] = b"ssid\0";
+pub const NM_SETTING_OVS_BRIDGE_DATAPATH_TYPE: &[u8] = b"datapath-type\0";
+pub const NM_SETTING_OVS_BRIDGE_FAIL_MODE: &[u8] = b"fail-mode\0";
+pub const NM_SETTING_OVS_BRIDGE_MCAST_SNOOPING_ENABLE: &[u8] = b"mcast-snooping-enable\0";
+pub const NM_SETTING_OVS_BRIDGE_RSTP_ENABLE: &[u8] = b"rstp-enable\0";
+pub const NM_SETTING_OVS_BRIDGE_SETTING_NAME: &[u8] = b"ovs-bridge\0";
+pub const NM_SETTING_OVS_BRIDGE_STP_ENABLE: &[u8] = b"stp-enable\0";
+pub const NM_SETTING_OVS_DPDK_DEVARGS: &[u8] = b"devargs\0";
+pub const NM_SETTING_OVS_DPDK_N_RXQ: &[u8] = b"n-rxq\0";
+pub const NM_SETTING_OVS_DPDK_SETTING_NAME: &[u8] = b"ovs-dpdk\0";
+pub const NM_SETTING_OVS_EXTERNAL_IDS_DATA: &[u8] = b"data\0";
+pub const NM_SETTING_OVS_EXTERNAL_IDS_SETTING_NAME: &[u8] = b"ovs-external-ids\0";
+pub const NM_SETTING_OVS_INTERFACE_SETTING_NAME: &[u8] = b"ovs-interface\0";
+pub const NM_SETTING_OVS_INTERFACE_TYPE: &[u8] = b"type\0";
+pub const NM_SETTING_OVS_PATCH_PEER: &[u8] = b"peer\0";
+pub const NM_SETTING_OVS_PATCH_SETTING_NAME: &[u8] = b"ovs-patch\0";
+pub const NM_SETTING_OVS_PORT_BOND_DOWNDELAY: &[u8] = b"bond-downdelay\0";
+pub const NM_SETTING_OVS_PORT_BOND_MODE: &[u8] = b"bond-mode\0";
+pub const NM_SETTING_OVS_PORT_BOND_UPDELAY: &[u8] = b"bond-updelay\0";
+pub const NM_SETTING_OVS_PORT_LACP: &[u8] = b"lacp\0";
+pub const NM_SETTING_OVS_PORT_SETTING_NAME: &[u8] = b"ovs-port\0";
+pub const NM_SETTING_OVS_PORT_TAG: &[u8] = b"tag\0";
+pub const NM_SETTING_OVS_PORT_VLAN_MODE: &[u8] = b"vlan-mode\0";
+pub const NM_SETTING_PARAM_FUZZY_IGNORE: c_int = 2048;
+pub const NM_SETTING_PARAM_REQUIRED: c_int = 512;
+pub const NM_SETTING_PARAM_SECRET: c_int = 1024;
+pub const NM_SETTING_PPPOE_PARENT: &[u8] = b"parent\0";
+pub const NM_SETTING_PPPOE_PASSWORD: &[u8] = b"password\0";
+pub const NM_SETTING_PPPOE_PASSWORD_FLAGS: &[u8] = b"password-flags\0";
+pub const NM_SETTING_PPPOE_SERVICE: &[u8] = b"service\0";
+pub const NM_SETTING_PPPOE_SETTING_NAME: &[u8] = b"pppoe\0";
+pub const NM_SETTING_PPPOE_USERNAME: &[u8] = b"username\0";
+pub const NM_SETTING_PPP_BAUD: &[u8] = b"baud\0";
+pub const NM_SETTING_PPP_CRTSCTS: &[u8] = b"crtscts\0";
+pub const NM_SETTING_PPP_LCP_ECHO_FAILURE: &[u8] = b"lcp-echo-failure\0";
+pub const NM_SETTING_PPP_LCP_ECHO_INTERVAL: &[u8] = b"lcp-echo-interval\0";
+pub const NM_SETTING_PPP_MPPE_STATEFUL: &[u8] = b"mppe-stateful\0";
+pub const NM_SETTING_PPP_MRU: &[u8] = b"mru\0";
+pub const NM_SETTING_PPP_MTU: &[u8] = b"mtu\0";
+pub const NM_SETTING_PPP_NOAUTH: &[u8] = b"noauth\0";
+pub const NM_SETTING_PPP_NOBSDCOMP: &[u8] = b"nobsdcomp\0";
+pub const NM_SETTING_PPP_NODEFLATE: &[u8] = b"nodeflate\0";
+pub const NM_SETTING_PPP_NO_VJ_COMP: &[u8] = b"no-vj-comp\0";
+pub const NM_SETTING_PPP_REFUSE_CHAP: &[u8] = b"refuse-chap\0";
+pub const NM_SETTING_PPP_REFUSE_EAP: &[u8] = b"refuse-eap\0";
+pub const NM_SETTING_PPP_REFUSE_MSCHAP: &[u8] = b"refuse-mschap\0";
+pub const NM_SETTING_PPP_REFUSE_MSCHAPV2: &[u8] = b"refuse-mschapv2\0";
+pub const NM_SETTING_PPP_REFUSE_PAP: &[u8] = b"refuse-pap\0";
+pub const NM_SETTING_PPP_REQUIRE_MPPE: &[u8] = b"require-mppe\0";
+pub const NM_SETTING_PPP_REQUIRE_MPPE_128: &[u8] = b"require-mppe-128\0";
+pub const NM_SETTING_PPP_SETTING_NAME: &[u8] = b"ppp\0";
+pub const NM_SETTING_PROXY_BROWSER_ONLY: &[u8] = b"browser-only\0";
+pub const NM_SETTING_PROXY_METHOD: &[u8] = b"method\0";
+pub const NM_SETTING_PROXY_PAC_SCRIPT: &[u8] = b"pac-script\0";
+pub const NM_SETTING_PROXY_PAC_URL: &[u8] = b"pac-url\0";
+pub const NM_SETTING_PROXY_SETTING_NAME: &[u8] = b"proxy\0";
+pub const NM_SETTING_SERIAL_BAUD: &[u8] = b"baud\0";
+pub const NM_SETTING_SERIAL_BITS: &[u8] = b"bits\0";
+pub const NM_SETTING_SERIAL_PARITY: &[u8] = b"parity\0";
+pub const NM_SETTING_SERIAL_SEND_DELAY: &[u8] = b"send-delay\0";
+pub const NM_SETTING_SERIAL_SETTING_NAME: &[u8] = b"serial\0";
+pub const NM_SETTING_SERIAL_STOPBITS: &[u8] = b"stopbits\0";
+pub const NM_SETTING_SRIOV_AUTOPROBE_DRIVERS: &[u8] = b"autoprobe-drivers\0";
+pub const NM_SETTING_SRIOV_SETTING_NAME: &[u8] = b"sriov\0";
+pub const NM_SETTING_SRIOV_TOTAL_VFS: &[u8] = b"total-vfs\0";
+pub const NM_SETTING_SRIOV_VFS: &[u8] = b"vfs\0";
+pub const NM_SETTING_TC_CONFIG_QDISCS: &[u8] = b"qdiscs\0";
+pub const NM_SETTING_TC_CONFIG_SETTING_NAME: &[u8] = b"tc\0";
+pub const NM_SETTING_TC_CONFIG_TFILTERS: &[u8] = b"tfilters\0";
+pub const NM_SETTING_TEAM_CONFIG: &[u8] = b"config\0";
+pub const NM_SETTING_TEAM_LINK_WATCHERS: &[u8] = b"link-watchers\0";
+pub const NM_SETTING_TEAM_MCAST_REJOIN_COUNT: &[u8] = b"mcast-rejoin-count\0";
+pub const NM_SETTING_TEAM_MCAST_REJOIN_INTERVAL: &[u8] = b"mcast-rejoin-interval\0";
 pub const NM_SETTING_TEAM_NOTIFY_MCAST_COUNT_ACTIVEBACKUP_DEFAULT: c_int = 1;
-pub const NM_SETTING_TEAM_NOTIFY_PEERS_COUNT: *const c_char = b"notify-peers-count\0" as *const u8 as *const c_char;
+pub const NM_SETTING_TEAM_NOTIFY_PEERS_COUNT: &[u8] = b"notify-peers-count\0";
 pub const NM_SETTING_TEAM_NOTIFY_PEERS_COUNT_ACTIVEBACKUP_DEFAULT: c_int = 1;
-pub const NM_SETTING_TEAM_NOTIFY_PEERS_INTERVAL: *const c_char = b"notify-peers-interval\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_PORT_CONFIG: *const c_char = b"config\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_PORT_LACP_KEY: *const c_char = b"lacp-key\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_PORT_LACP_PRIO: *const c_char = b"lacp-prio\0" as *const u8 as *const c_char;
+pub const NM_SETTING_TEAM_NOTIFY_PEERS_INTERVAL: &[u8] = b"notify-peers-interval\0";
+pub const NM_SETTING_TEAM_PORT_CONFIG: &[u8] = b"config\0";
+pub const NM_SETTING_TEAM_PORT_LACP_KEY: &[u8] = b"lacp-key\0";
+pub const NM_SETTING_TEAM_PORT_LACP_PRIO: &[u8] = b"lacp-prio\0";
 pub const NM_SETTING_TEAM_PORT_LACP_PRIO_DEFAULT: c_int = 255;
-pub const NM_SETTING_TEAM_PORT_LINK_WATCHERS: *const c_char = b"link-watchers\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_PORT_PRIO: *const c_char = b"prio\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_PORT_QUEUE_ID: *const c_char = b"queue-id\0" as *const u8 as *const c_char;
+pub const NM_SETTING_TEAM_PORT_LINK_WATCHERS: &[u8] = b"link-watchers\0";
+pub const NM_SETTING_TEAM_PORT_PRIO: &[u8] = b"prio\0";
+pub const NM_SETTING_TEAM_PORT_QUEUE_ID: &[u8] = b"queue-id\0";
 pub const NM_SETTING_TEAM_PORT_QUEUE_ID_DEFAULT: c_int = -1;
-pub const NM_SETTING_TEAM_PORT_SETTING_NAME: *const c_char = b"team-port\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_PORT_STICKY: *const c_char = b"sticky\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER: *const c_char = b"runner\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_ACTIVE: *const c_char = b"runner-active\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_ACTIVEBACKUP: *const c_char = b"activebackup\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY: *const c_char = b"runner-agg-select-policy\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_BANDWIDTH: *const c_char = b"bandwidth\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_COUNT: *const c_char = b"count\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_LACP_PRIO: *const c_char = b"lacp_prio\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_LACP_PRIO_STABLE: *const c_char = b"lacp_prio_stable\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_PORT_CONFIG: *const c_char = b"port_config\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_BROADCAST: *const c_char = b"broadcast\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_FAST_RATE: *const c_char = b"runner-fast-rate\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_HWADDR_POLICY: *const c_char = b"runner-hwaddr-policy\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_BY_ACTIVE: *const c_char = b"by_active\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_ONLY_ACTIVE: *const c_char = b"only_active\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_SAME_ALL: *const c_char = b"same_all\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_LACP: *const c_char = b"lacp\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_LOADBALANCE: *const c_char = b"loadbalance\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_MIN_PORTS: *const c_char = b"runner-min-ports\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_RANDOM: *const c_char = b"random\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_ROUNDROBIN: *const c_char = b"roundrobin\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_SYS_PRIO: *const c_char = b"runner-sys-prio\0" as *const u8 as *const c_char;
+pub const NM_SETTING_TEAM_PORT_SETTING_NAME: &[u8] = b"team-port\0";
+pub const NM_SETTING_TEAM_PORT_STICKY: &[u8] = b"sticky\0";
+pub const NM_SETTING_TEAM_RUNNER: &[u8] = b"runner\0";
+pub const NM_SETTING_TEAM_RUNNER_ACTIVE: &[u8] = b"runner-active\0";
+pub const NM_SETTING_TEAM_RUNNER_ACTIVEBACKUP: &[u8] = b"activebackup\0";
+pub const NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY: &[u8] = b"runner-agg-select-policy\0";
+pub const NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_BANDWIDTH: &[u8] = b"bandwidth\0";
+pub const NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_COUNT: &[u8] = b"count\0";
+pub const NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_LACP_PRIO: &[u8] = b"lacp_prio\0";
+pub const NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_LACP_PRIO_STABLE: &[u8] = b"lacp_prio_stable\0";
+pub const NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_PORT_CONFIG: &[u8] = b"port_config\0";
+pub const NM_SETTING_TEAM_RUNNER_BROADCAST: &[u8] = b"broadcast\0";
+pub const NM_SETTING_TEAM_RUNNER_FAST_RATE: &[u8] = b"runner-fast-rate\0";
+pub const NM_SETTING_TEAM_RUNNER_HWADDR_POLICY: &[u8] = b"runner-hwaddr-policy\0";
+pub const NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_BY_ACTIVE: &[u8] = b"by_active\0";
+pub const NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_ONLY_ACTIVE: &[u8] = b"only_active\0";
+pub const NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_SAME_ALL: &[u8] = b"same_all\0";
+pub const NM_SETTING_TEAM_RUNNER_LACP: &[u8] = b"lacp\0";
+pub const NM_SETTING_TEAM_RUNNER_LOADBALANCE: &[u8] = b"loadbalance\0";
+pub const NM_SETTING_TEAM_RUNNER_MIN_PORTS: &[u8] = b"runner-min-ports\0";
+pub const NM_SETTING_TEAM_RUNNER_RANDOM: &[u8] = b"random\0";
+pub const NM_SETTING_TEAM_RUNNER_ROUNDROBIN: &[u8] = b"roundrobin\0";
+pub const NM_SETTING_TEAM_RUNNER_SYS_PRIO: &[u8] = b"runner-sys-prio\0";
 pub const NM_SETTING_TEAM_RUNNER_SYS_PRIO_DEFAULT: c_int = 65535;
-pub const NM_SETTING_TEAM_RUNNER_TX_BALANCER: *const c_char = b"runner-tx-balancer\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_RUNNER_TX_BALANCER_INTERVAL: *const c_char = b"runner-tx-balancer-interval\0" as *const u8 as *const c_char;
+pub const NM_SETTING_TEAM_RUNNER_TX_BALANCER: &[u8] = b"runner-tx-balancer\0";
+pub const NM_SETTING_TEAM_RUNNER_TX_BALANCER_INTERVAL: &[u8] = b"runner-tx-balancer-interval\0";
 pub const NM_SETTING_TEAM_RUNNER_TX_BALANCER_INTERVAL_DEFAULT: c_int = 50;
-pub const NM_SETTING_TEAM_RUNNER_TX_HASH: *const c_char = b"runner-tx-hash\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TEAM_SETTING_NAME: *const c_char = b"team\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TUN_GROUP: *const c_char = b"group\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TUN_MODE: *const c_char = b"mode\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TUN_MULTI_QUEUE: *const c_char = b"multi-queue\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TUN_OWNER: *const c_char = b"owner\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TUN_PI: *const c_char = b"pi\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TUN_SETTING_NAME: *const c_char = b"tun\0" as *const u8 as *const c_char;
-pub const NM_SETTING_TUN_VNET_HDR: *const c_char = b"vnet-hdr\0" as *const u8 as *const c_char;
-pub const NM_SETTING_USER_DATA: *const c_char = b"data\0" as *const u8 as *const c_char;
-pub const NM_SETTING_USER_SETTING_NAME: *const c_char = b"user\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VETH_PEER: *const c_char = b"peer\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VETH_SETTING_NAME: *const c_char = b"veth\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VLAN_EGRESS_PRIORITY_MAP: *const c_char = b"egress-priority-map\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VLAN_FLAGS: *const c_char = b"flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VLAN_ID: *const c_char = b"id\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VLAN_INGRESS_PRIORITY_MAP: *const c_char = b"ingress-priority-map\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VLAN_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VLAN_SETTING_NAME: *const c_char = b"vlan\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VPN_DATA: *const c_char = b"data\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VPN_PERSISTENT: *const c_char = b"persistent\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VPN_SECRETS: *const c_char = b"secrets\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VPN_SERVICE_TYPE: *const c_char = b"service-type\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VPN_SETTING_NAME: *const c_char = b"vpn\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VPN_TIMEOUT: *const c_char = b"timeout\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VPN_USER_NAME: *const c_char = b"user-name\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VRF_SETTING_NAME: *const c_char = b"vrf\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VRF_TABLE: *const c_char = b"table\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_AGEING: *const c_char = b"ageing\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_DESTINATION_PORT: *const c_char = b"destination-port\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_ID: *const c_char = b"id\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_L2_MISS: *const c_char = b"l2-miss\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_L3_MISS: *const c_char = b"l3-miss\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_LEARNING: *const c_char = b"learning\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_LIMIT: *const c_char = b"limit\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_LOCAL: *const c_char = b"local\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_PARENT: *const c_char = b"parent\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_PROXY: *const c_char = b"proxy\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_REMOTE: *const c_char = b"remote\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_RSC: *const c_char = b"rsc\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_SETTING_NAME: *const c_char = b"vxlan\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_SOURCE_PORT_MAX: *const c_char = b"source-port-max\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_SOURCE_PORT_MIN: *const c_char = b"source-port-min\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_TOS: *const c_char = b"tos\0" as *const u8 as *const c_char;
-pub const NM_SETTING_VXLAN_TTL: *const c_char = b"ttl\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIFI_P2P_PEER: *const c_char = b"peer\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIFI_P2P_SETTING_NAME: *const c_char = b"wifi-p2p\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIFI_P2P_WFD_IES: *const c_char = b"wfd-ies\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIFI_P2P_WPS_METHOD: *const c_char = b"wps-method\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIMAX_MAC_ADDRESS: *const c_char = b"mac-address\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIMAX_NETWORK_NAME: *const c_char = b"network-name\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIMAX_SETTING_NAME: *const c_char = b"wimax\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_ACCEPT_ALL_MAC_ADDRESSES: *const c_char = b"accept-all-mac-addresses\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_AUTO_NEGOTIATE: *const c_char = b"auto-negotiate\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_CLONED_MAC_ADDRESS: *const c_char = b"cloned-mac-address\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_DUPLEX: *const c_char = b"duplex\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_GENERATE_MAC_ADDRESS_MASK: *const c_char = b"generate-mac-address-mask\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_MAC_ADDRESS: *const c_char = b"mac-address\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_MAC_ADDRESS_BLACKLIST: *const c_char = b"mac-address-blacklist\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_MTU: *const c_char = b"mtu\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_PORT: *const c_char = b"port\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_S390_NETTYPE: *const c_char = b"s390-nettype\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_S390_OPTIONS: *const c_char = b"s390-options\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_S390_SUBCHANNELS: *const c_char = b"s390-subchannels\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_SETTING_NAME: *const c_char = b"802-3-ethernet\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_SPEED: *const c_char = b"speed\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_WAKE_ON_LAN: *const c_char = b"wake-on-lan\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRED_WAKE_ON_LAN_PASSWORD: *const c_char = b"wake-on-lan-password\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIREGUARD_FWMARK: *const c_char = b"fwmark\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIREGUARD_IP4_AUTO_DEFAULT_ROUTE: *const c_char = b"ip4-auto-default-route\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIREGUARD_IP6_AUTO_DEFAULT_ROUTE: *const c_char = b"ip6-auto-default-route\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIREGUARD_LISTEN_PORT: *const c_char = b"listen-port\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIREGUARD_MTU: *const c_char = b"mtu\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIREGUARD_PEERS: *const c_char = b"peers\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIREGUARD_PEER_ROUTES: *const c_char = b"peer-routes\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIREGUARD_PRIVATE_KEY: *const c_char = b"private-key\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIREGUARD_PRIVATE_KEY_FLAGS: *const c_char = b"private-key-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIREGUARD_SETTING_NAME: *const c_char = b"wireguard\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_AP_ISOLATION: *const c_char = b"ap-isolation\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_BAND: *const c_char = b"band\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_BSSID: *const c_char = b"bssid\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_CHANNEL: *const c_char = b"channel\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_CLONED_MAC_ADDRESS: *const c_char = b"cloned-mac-address\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_GENERATE_MAC_ADDRESS_MASK: *const c_char = b"generate-mac-address-mask\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_HIDDEN: *const c_char = b"hidden\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_MAC_ADDRESS: *const c_char = b"mac-address\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_MAC_ADDRESS_BLACKLIST: *const c_char = b"mac-address-blacklist\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_MAC_ADDRESS_RANDOMIZATION: *const c_char = b"mac-address-randomization\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_MODE: *const c_char = b"mode\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_MODE_ADHOC: *const c_char = b"adhoc\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_MODE_AP: *const c_char = b"ap\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_MODE_INFRA: *const c_char = b"infrastructure\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_MODE_MESH: *const c_char = b"mesh\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_MTU: *const c_char = b"mtu\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_POWERSAVE: *const c_char = b"powersave\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_RATE: *const c_char = b"rate\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_AUTH_ALG: *const c_char = b"auth-alg\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_FILS: *const c_char = b"fils\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_GROUP: *const c_char = b"group\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_KEY_MGMT: *const c_char = b"key-mgmt\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD: *const c_char = b"leap-password\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD_FLAGS: *const c_char = b"leap-password-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME: *const c_char = b"leap-username\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_PAIRWISE: *const c_char = b"pairwise\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_PMF: *const c_char = b"pmf\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_PROTO: *const c_char = b"proto\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_PSK: *const c_char = b"psk\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_PSK_FLAGS: *const c_char = b"psk-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_SETTING_NAME: *const c_char = b"802-11-wireless-security\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_WEP_KEY0: *const c_char = b"wep-key0\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_WEP_KEY1: *const c_char = b"wep-key1\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_WEP_KEY2: *const c_char = b"wep-key2\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_WEP_KEY3: *const c_char = b"wep-key3\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_WEP_KEY_FLAGS: *const c_char = b"wep-key-flags\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_WEP_KEY_TYPE: *const c_char = b"wep-key-type\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX: *const c_char = b"wep-tx-keyidx\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SECURITY_WPS_METHOD: *const c_char = b"wps-method\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SEEN_BSSIDS: *const c_char = b"seen-bssids\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SETTING_NAME: *const c_char = b"802-11-wireless\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_SSID: *const c_char = b"ssid\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_TX_POWER: *const c_char = b"tx-power\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WIRELESS_WAKE_ON_WLAN: *const c_char = b"wake-on-wlan\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WPAN_CHANNEL: *const c_char = b"channel\0" as *const u8 as *const c_char;
+pub const NM_SETTING_TEAM_RUNNER_TX_HASH: &[u8] = b"runner-tx-hash\0";
+pub const NM_SETTING_TEAM_SETTING_NAME: &[u8] = b"team\0";
+pub const NM_SETTING_TUN_GROUP: &[u8] = b"group\0";
+pub const NM_SETTING_TUN_MODE: &[u8] = b"mode\0";
+pub const NM_SETTING_TUN_MULTI_QUEUE: &[u8] = b"multi-queue\0";
+pub const NM_SETTING_TUN_OWNER: &[u8] = b"owner\0";
+pub const NM_SETTING_TUN_PI: &[u8] = b"pi\0";
+pub const NM_SETTING_TUN_SETTING_NAME: &[u8] = b"tun\0";
+pub const NM_SETTING_TUN_VNET_HDR: &[u8] = b"vnet-hdr\0";
+pub const NM_SETTING_USER_DATA: &[u8] = b"data\0";
+pub const NM_SETTING_USER_SETTING_NAME: &[u8] = b"user\0";
+pub const NM_SETTING_VETH_PEER: &[u8] = b"peer\0";
+pub const NM_SETTING_VETH_SETTING_NAME: &[u8] = b"veth\0";
+pub const NM_SETTING_VLAN_EGRESS_PRIORITY_MAP: &[u8] = b"egress-priority-map\0";
+pub const NM_SETTING_VLAN_FLAGS: &[u8] = b"flags\0";
+pub const NM_SETTING_VLAN_ID: &[u8] = b"id\0";
+pub const NM_SETTING_VLAN_INGRESS_PRIORITY_MAP: &[u8] = b"ingress-priority-map\0";
+pub const NM_SETTING_VLAN_PARENT: &[u8] = b"parent\0";
+pub const NM_SETTING_VLAN_SETTING_NAME: &[u8] = b"vlan\0";
+pub const NM_SETTING_VPN_DATA: &[u8] = b"data\0";
+pub const NM_SETTING_VPN_PERSISTENT: &[u8] = b"persistent\0";
+pub const NM_SETTING_VPN_SECRETS: &[u8] = b"secrets\0";
+pub const NM_SETTING_VPN_SERVICE_TYPE: &[u8] = b"service-type\0";
+pub const NM_SETTING_VPN_SETTING_NAME: &[u8] = b"vpn\0";
+pub const NM_SETTING_VPN_TIMEOUT: &[u8] = b"timeout\0";
+pub const NM_SETTING_VPN_USER_NAME: &[u8] = b"user-name\0";
+pub const NM_SETTING_VRF_SETTING_NAME: &[u8] = b"vrf\0";
+pub const NM_SETTING_VRF_TABLE: &[u8] = b"table\0";
+pub const NM_SETTING_VXLAN_AGEING: &[u8] = b"ageing\0";
+pub const NM_SETTING_VXLAN_DESTINATION_PORT: &[u8] = b"destination-port\0";
+pub const NM_SETTING_VXLAN_ID: &[u8] = b"id\0";
+pub const NM_SETTING_VXLAN_L2_MISS: &[u8] = b"l2-miss\0";
+pub const NM_SETTING_VXLAN_L3_MISS: &[u8] = b"l3-miss\0";
+pub const NM_SETTING_VXLAN_LEARNING: &[u8] = b"learning\0";
+pub const NM_SETTING_VXLAN_LIMIT: &[u8] = b"limit\0";
+pub const NM_SETTING_VXLAN_LOCAL: &[u8] = b"local\0";
+pub const NM_SETTING_VXLAN_PARENT: &[u8] = b"parent\0";
+pub const NM_SETTING_VXLAN_PROXY: &[u8] = b"proxy\0";
+pub const NM_SETTING_VXLAN_REMOTE: &[u8] = b"remote\0";
+pub const NM_SETTING_VXLAN_RSC: &[u8] = b"rsc\0";
+pub const NM_SETTING_VXLAN_SETTING_NAME: &[u8] = b"vxlan\0";
+pub const NM_SETTING_VXLAN_SOURCE_PORT_MAX: &[u8] = b"source-port-max\0";
+pub const NM_SETTING_VXLAN_SOURCE_PORT_MIN: &[u8] = b"source-port-min\0";
+pub const NM_SETTING_VXLAN_TOS: &[u8] = b"tos\0";
+pub const NM_SETTING_VXLAN_TTL: &[u8] = b"ttl\0";
+pub const NM_SETTING_WIFI_P2P_PEER: &[u8] = b"peer\0";
+pub const NM_SETTING_WIFI_P2P_SETTING_NAME: &[u8] = b"wifi-p2p\0";
+pub const NM_SETTING_WIFI_P2P_WFD_IES: &[u8] = b"wfd-ies\0";
+pub const NM_SETTING_WIFI_P2P_WPS_METHOD: &[u8] = b"wps-method\0";
+pub const NM_SETTING_WIMAX_MAC_ADDRESS: &[u8] = b"mac-address\0";
+pub const NM_SETTING_WIMAX_NETWORK_NAME: &[u8] = b"network-name\0";
+pub const NM_SETTING_WIMAX_SETTING_NAME: &[u8] = b"wimax\0";
+pub const NM_SETTING_WIRED_ACCEPT_ALL_MAC_ADDRESSES: &[u8] = b"accept-all-mac-addresses\0";
+pub const NM_SETTING_WIRED_AUTO_NEGOTIATE: &[u8] = b"auto-negotiate\0";
+pub const NM_SETTING_WIRED_CLONED_MAC_ADDRESS: &[u8] = b"cloned-mac-address\0";
+pub const NM_SETTING_WIRED_DUPLEX: &[u8] = b"duplex\0";
+pub const NM_SETTING_WIRED_GENERATE_MAC_ADDRESS_MASK: &[u8] = b"generate-mac-address-mask\0";
+pub const NM_SETTING_WIRED_MAC_ADDRESS: &[u8] = b"mac-address\0";
+pub const NM_SETTING_WIRED_MAC_ADDRESS_BLACKLIST: &[u8] = b"mac-address-blacklist\0";
+pub const NM_SETTING_WIRED_MTU: &[u8] = b"mtu\0";
+pub const NM_SETTING_WIRED_PORT: &[u8] = b"port\0";
+pub const NM_SETTING_WIRED_S390_NETTYPE: &[u8] = b"s390-nettype\0";
+pub const NM_SETTING_WIRED_S390_OPTIONS: &[u8] = b"s390-options\0";
+pub const NM_SETTING_WIRED_S390_SUBCHANNELS: &[u8] = b"s390-subchannels\0";
+pub const NM_SETTING_WIRED_SETTING_NAME: &[u8] = b"802-3-ethernet\0";
+pub const NM_SETTING_WIRED_SPEED: &[u8] = b"speed\0";
+pub const NM_SETTING_WIRED_WAKE_ON_LAN: &[u8] = b"wake-on-lan\0";
+pub const NM_SETTING_WIRED_WAKE_ON_LAN_PASSWORD: &[u8] = b"wake-on-lan-password\0";
+pub const NM_SETTING_WIREGUARD_FWMARK: &[u8] = b"fwmark\0";
+pub const NM_SETTING_WIREGUARD_IP4_AUTO_DEFAULT_ROUTE: &[u8] = b"ip4-auto-default-route\0";
+pub const NM_SETTING_WIREGUARD_IP6_AUTO_DEFAULT_ROUTE: &[u8] = b"ip6-auto-default-route\0";
+pub const NM_SETTING_WIREGUARD_LISTEN_PORT: &[u8] = b"listen-port\0";
+pub const NM_SETTING_WIREGUARD_MTU: &[u8] = b"mtu\0";
+pub const NM_SETTING_WIREGUARD_PEERS: &[u8] = b"peers\0";
+pub const NM_SETTING_WIREGUARD_PEER_ROUTES: &[u8] = b"peer-routes\0";
+pub const NM_SETTING_WIREGUARD_PRIVATE_KEY: &[u8] = b"private-key\0";
+pub const NM_SETTING_WIREGUARD_PRIVATE_KEY_FLAGS: &[u8] = b"private-key-flags\0";
+pub const NM_SETTING_WIREGUARD_SETTING_NAME: &[u8] = b"wireguard\0";
+pub const NM_SETTING_WIRELESS_AP_ISOLATION: &[u8] = b"ap-isolation\0";
+pub const NM_SETTING_WIRELESS_BAND: &[u8] = b"band\0";
+pub const NM_SETTING_WIRELESS_BSSID: &[u8] = b"bssid\0";
+pub const NM_SETTING_WIRELESS_CHANNEL: &[u8] = b"channel\0";
+pub const NM_SETTING_WIRELESS_CLONED_MAC_ADDRESS: &[u8] = b"cloned-mac-address\0";
+pub const NM_SETTING_WIRELESS_GENERATE_MAC_ADDRESS_MASK: &[u8] = b"generate-mac-address-mask\0";
+pub const NM_SETTING_WIRELESS_HIDDEN: &[u8] = b"hidden\0";
+pub const NM_SETTING_WIRELESS_MAC_ADDRESS: &[u8] = b"mac-address\0";
+pub const NM_SETTING_WIRELESS_MAC_ADDRESS_BLACKLIST: &[u8] = b"mac-address-blacklist\0";
+pub const NM_SETTING_WIRELESS_MAC_ADDRESS_RANDOMIZATION: &[u8] = b"mac-address-randomization\0";
+pub const NM_SETTING_WIRELESS_MODE: &[u8] = b"mode\0";
+pub const NM_SETTING_WIRELESS_MODE_ADHOC: &[u8] = b"adhoc\0";
+pub const NM_SETTING_WIRELESS_MODE_AP: &[u8] = b"ap\0";
+pub const NM_SETTING_WIRELESS_MODE_INFRA: &[u8] = b"infrastructure\0";
+pub const NM_SETTING_WIRELESS_MODE_MESH: &[u8] = b"mesh\0";
+pub const NM_SETTING_WIRELESS_MTU: &[u8] = b"mtu\0";
+pub const NM_SETTING_WIRELESS_POWERSAVE: &[u8] = b"powersave\0";
+pub const NM_SETTING_WIRELESS_RATE: &[u8] = b"rate\0";
+pub const NM_SETTING_WIRELESS_SECURITY_AUTH_ALG: &[u8] = b"auth-alg\0";
+pub const NM_SETTING_WIRELESS_SECURITY_FILS: &[u8] = b"fils\0";
+pub const NM_SETTING_WIRELESS_SECURITY_GROUP: &[u8] = b"group\0";
+pub const NM_SETTING_WIRELESS_SECURITY_KEY_MGMT: &[u8] = b"key-mgmt\0";
+pub const NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD: &[u8] = b"leap-password\0";
+pub const NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD_FLAGS: &[u8] = b"leap-password-flags\0";
+pub const NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME: &[u8] = b"leap-username\0";
+pub const NM_SETTING_WIRELESS_SECURITY_PAIRWISE: &[u8] = b"pairwise\0";
+pub const NM_SETTING_WIRELESS_SECURITY_PMF: &[u8] = b"pmf\0";
+pub const NM_SETTING_WIRELESS_SECURITY_PROTO: &[u8] = b"proto\0";
+pub const NM_SETTING_WIRELESS_SECURITY_PSK: &[u8] = b"psk\0";
+pub const NM_SETTING_WIRELESS_SECURITY_PSK_FLAGS: &[u8] = b"psk-flags\0";
+pub const NM_SETTING_WIRELESS_SECURITY_SETTING_NAME: &[u8] = b"802-11-wireless-security\0";
+pub const NM_SETTING_WIRELESS_SECURITY_WEP_KEY0: &[u8] = b"wep-key0\0";
+pub const NM_SETTING_WIRELESS_SECURITY_WEP_KEY1: &[u8] = b"wep-key1\0";
+pub const NM_SETTING_WIRELESS_SECURITY_WEP_KEY2: &[u8] = b"wep-key2\0";
+pub const NM_SETTING_WIRELESS_SECURITY_WEP_KEY3: &[u8] = b"wep-key3\0";
+pub const NM_SETTING_WIRELESS_SECURITY_WEP_KEY_FLAGS: &[u8] = b"wep-key-flags\0";
+pub const NM_SETTING_WIRELESS_SECURITY_WEP_KEY_TYPE: &[u8] = b"wep-key-type\0";
+pub const NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX: &[u8] = b"wep-tx-keyidx\0";
+pub const NM_SETTING_WIRELESS_SECURITY_WPS_METHOD: &[u8] = b"wps-method\0";
+pub const NM_SETTING_WIRELESS_SEEN_BSSIDS: &[u8] = b"seen-bssids\0";
+pub const NM_SETTING_WIRELESS_SETTING_NAME: &[u8] = b"802-11-wireless\0";
+pub const NM_SETTING_WIRELESS_SSID: &[u8] = b"ssid\0";
+pub const NM_SETTING_WIRELESS_TX_POWER: &[u8] = b"tx-power\0";
+pub const NM_SETTING_WIRELESS_WAKE_ON_WLAN: &[u8] = b"wake-on-wlan\0";
+pub const NM_SETTING_WPAN_CHANNEL: &[u8] = b"channel\0";
 pub const NM_SETTING_WPAN_CHANNEL_DEFAULT: c_int = -1;
-pub const NM_SETTING_WPAN_MAC_ADDRESS: *const c_char = b"mac-address\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WPAN_PAGE: *const c_char = b"page\0" as *const u8 as *const c_char;
+pub const NM_SETTING_WPAN_MAC_ADDRESS: &[u8] = b"mac-address\0";
+pub const NM_SETTING_WPAN_PAGE: &[u8] = b"page\0";
 pub const NM_SETTING_WPAN_PAGE_DEFAULT: c_int = -1;
-pub const NM_SETTING_WPAN_PAN_ID: *const c_char = b"pan-id\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WPAN_SETTING_NAME: *const c_char = b"wpan\0" as *const u8 as *const c_char;
-pub const NM_SETTING_WPAN_SHORT_ADDRESS: *const c_char = b"short-address\0" as *const u8 as *const c_char;
-pub const NM_SRIOV_VF_ATTRIBUTE_MAC: *const c_char = b"mac\0" as *const u8 as *const c_char;
-pub const NM_SRIOV_VF_ATTRIBUTE_MAX_TX_RATE: *const c_char = b"max-tx-rate\0" as *const u8 as *const c_char;
-pub const NM_SRIOV_VF_ATTRIBUTE_MIN_TX_RATE: *const c_char = b"min-tx-rate\0" as *const u8 as *const c_char;
-pub const NM_SRIOV_VF_ATTRIBUTE_SPOOF_CHECK: *const c_char = b"spoof-check\0" as *const u8 as *const c_char;
-pub const NM_SRIOV_VF_ATTRIBUTE_TRUST: *const c_char = b"trust\0" as *const u8 as *const c_char;
-pub const NM_TEAM_LINK_WATCHER_ARP_PING: *const c_char = b"arp_ping\0" as *const u8 as *const c_char;
-pub const NM_TEAM_LINK_WATCHER_ETHTOOL: *const c_char = b"ethtool\0" as *const u8 as *const c_char;
-pub const NM_TEAM_LINK_WATCHER_NSNA_PING: *const c_char = b"nsna_ping\0" as *const u8 as *const c_char;
+pub const NM_SETTING_WPAN_PAN_ID: &[u8] = b"pan-id\0";
+pub const NM_SETTING_WPAN_SETTING_NAME: &[u8] = b"wpan\0";
+pub const NM_SETTING_WPAN_SHORT_ADDRESS: &[u8] = b"short-address\0";
+pub const NM_SRIOV_VF_ATTRIBUTE_MAC: &[u8] = b"mac\0";
+pub const NM_SRIOV_VF_ATTRIBUTE_MAX_TX_RATE: &[u8] = b"max-tx-rate\0";
+pub const NM_SRIOV_VF_ATTRIBUTE_MIN_TX_RATE: &[u8] = b"min-tx-rate\0";
+pub const NM_SRIOV_VF_ATTRIBUTE_SPOOF_CHECK: &[u8] = b"spoof-check\0";
+pub const NM_SRIOV_VF_ATTRIBUTE_TRUST: &[u8] = b"trust\0";
+pub const NM_TEAM_LINK_WATCHER_ARP_PING: &[u8] = b"arp_ping\0";
+pub const NM_TEAM_LINK_WATCHER_ETHTOOL: &[u8] = b"ethtool\0";
+pub const NM_TEAM_LINK_WATCHER_NSNA_PING: &[u8] = b"nsna_ping\0";
 pub const NM_UTILS_HWADDR_LEN_MAX: c_int = 20;
 pub const NM_VLAN_FLAGS_ALL: c_int = 15;
-pub const NM_VPN_CONNECTION_BANNER: *const c_char = b"banner\0" as *const u8 as *const c_char;
-pub const NM_VPN_CONNECTION_VPN_STATE: *const c_char = b"vpn-state\0" as *const u8 as *const c_char;
-pub const NM_VPN_DBUS_PLUGIN_INTERFACE: *const c_char = b"org.freedesktop.NetworkManager.VPN.Plugin\0" as *const u8 as *const c_char;
-pub const NM_VPN_DBUS_PLUGIN_PATH: *const c_char = b"/org/freedesktop/NetworkManager/VPN/Plugin\0" as *const u8 as *const c_char;
-pub const NM_VPN_EDITOR_PLUGIN_DESCRIPTION: *const c_char = b"description\0" as *const u8 as *const c_char;
-pub const NM_VPN_EDITOR_PLUGIN_NAME: *const c_char = b"name\0" as *const u8 as *const c_char;
-pub const NM_VPN_EDITOR_PLUGIN_SERVICE: *const c_char = b"service\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_CAN_PERSIST: *const c_char = b"can-persist\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_CONFIG_BANNER: *const c_char = b"banner\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_CONFIG_EXT_GATEWAY: *const c_char = b"gateway\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_CONFIG_HAS_IP4: *const c_char = b"has-ip4\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_CONFIG_HAS_IP6: *const c_char = b"has-ip6\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_CONFIG_MTU: *const c_char = b"mtu\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_CONFIG_PROXY_PAC: *const c_char = b"pac\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_CONFIG_TUNDEV: *const c_char = b"tundev\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_INFO_FILENAME: *const c_char = b"filename\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_INFO_KEYFILE: *const c_char = b"keyfile\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_INFO_KF_GROUP_CONNECTION: *const c_char = b"VPN Connection\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_INFO_KF_GROUP_GNOME: *const c_char = b"GNOME\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_INFO_KF_GROUP_LIBNM: *const c_char = b"libnm\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_INFO_NAME: *const c_char = b"name\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS: *const c_char = b"address\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP4_CONFIG_DNS: *const c_char = b"dns\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN: *const c_char = b"domain\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP4_CONFIG_DOMAINS: *const c_char = b"domains\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY: *const c_char = b"internal-gateway\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP4_CONFIG_MSS: *const c_char = b"mss\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP4_CONFIG_NBNS: *const c_char = b"nbns\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT: *const c_char = b"never-default\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP4_CONFIG_PREFIX: *const c_char = b"prefix\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP4_CONFIG_PRESERVE_ROUTES: *const c_char = b"preserve-routes\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP4_CONFIG_PTP: *const c_char = b"ptp\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP4_CONFIG_ROUTES: *const c_char = b"routes\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP6_CONFIG_ADDRESS: *const c_char = b"address\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP6_CONFIG_DNS: *const c_char = b"dns\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP6_CONFIG_DOMAIN: *const c_char = b"domain\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP6_CONFIG_DOMAINS: *const c_char = b"domains\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP6_CONFIG_INT_GATEWAY: *const c_char = b"internal-gateway\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP6_CONFIG_MSS: *const c_char = b"mss\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP6_CONFIG_NEVER_DEFAULT: *const c_char = b"never-default\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP6_CONFIG_PREFIX: *const c_char = b"prefix\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP6_CONFIG_PRESERVE_ROUTES: *const c_char = b"preserve-routes\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP6_CONFIG_PTP: *const c_char = b"ptp\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_IP6_CONFIG_ROUTES: *const c_char = b"routes\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_OLD_DBUS_SERVICE_NAME: *const c_char = b"service-name\0" as *const u8 as *const c_char;
-pub const NM_VPN_PLUGIN_OLD_STATE: *const c_char = b"state\0" as *const u8 as *const c_char;
-pub const NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME: *const c_char = b"service-name\0" as *const u8 as *const c_char;
-pub const NM_VPN_SERVICE_PLUGIN_DBUS_WATCH_PEER: *const c_char = b"watch-peer\0" as *const u8 as *const c_char;
-pub const NM_VPN_SERVICE_PLUGIN_STATE: *const c_char = b"state\0" as *const u8 as *const c_char;
-pub const NM_WIFI_P2P_PEER_FLAGS: *const c_char = b"flags\0" as *const u8 as *const c_char;
-pub const NM_WIFI_P2P_PEER_HW_ADDRESS: *const c_char = b"hw-address\0" as *const u8 as *const c_char;
-pub const NM_WIFI_P2P_PEER_LAST_SEEN: *const c_char = b"last-seen\0" as *const u8 as *const c_char;
-pub const NM_WIFI_P2P_PEER_MANUFACTURER: *const c_char = b"manufacturer\0" as *const u8 as *const c_char;
-pub const NM_WIFI_P2P_PEER_MODEL: *const c_char = b"model\0" as *const u8 as *const c_char;
-pub const NM_WIFI_P2P_PEER_MODEL_NUMBER: *const c_char = b"model-number\0" as *const u8 as *const c_char;
-pub const NM_WIFI_P2P_PEER_NAME: *const c_char = b"name\0" as *const u8 as *const c_char;
-pub const NM_WIFI_P2P_PEER_SERIAL: *const c_char = b"serial\0" as *const u8 as *const c_char;
-pub const NM_WIFI_P2P_PEER_STRENGTH: *const c_char = b"strength\0" as *const u8 as *const c_char;
-pub const NM_WIFI_P2P_PEER_WFD_IES: *const c_char = b"wfd-ies\0" as *const u8 as *const c_char;
-pub const NM_WIMAX_NSP_NAME: *const c_char = b"name\0" as *const u8 as *const c_char;
-pub const NM_WIMAX_NSP_NETWORK_TYPE: *const c_char = b"network-type\0" as *const u8 as *const c_char;
-pub const NM_WIMAX_NSP_SIGNAL_QUALITY: *const c_char = b"signal-quality\0" as *const u8 as *const c_char;
-pub const NM_WIREGUARD_PEER_ATTR_ALLOWED_IPS: *const c_char = b"allowed-ips\0" as *const u8 as *const c_char;
-pub const NM_WIREGUARD_PEER_ATTR_ENDPOINT: *const c_char = b"endpoint\0" as *const u8 as *const c_char;
-pub const NM_WIREGUARD_PEER_ATTR_PERSISTENT_KEEPALIVE: *const c_char = b"persistent-keepalive\0" as *const u8 as *const c_char;
-pub const NM_WIREGUARD_PEER_ATTR_PRESHARED_KEY: *const c_char = b"preshared-key\0" as *const u8 as *const c_char;
-pub const NM_WIREGUARD_PEER_ATTR_PRESHARED_KEY_FLAGS: *const c_char = b"preshared-key-flags\0" as *const u8 as *const c_char;
-pub const NM_WIREGUARD_PEER_ATTR_PUBLIC_KEY: *const c_char = b"public-key\0" as *const u8 as *const c_char;
+pub const NM_VPN_CONNECTION_BANNER: &[u8] = b"banner\0";
+pub const NM_VPN_CONNECTION_VPN_STATE: &[u8] = b"vpn-state\0";
+pub const NM_VPN_DBUS_PLUGIN_INTERFACE: &[u8] = b"org.freedesktop.NetworkManager.VPN.Plugin\0";
+pub const NM_VPN_DBUS_PLUGIN_PATH: &[u8] = b"/org/freedesktop/NetworkManager/VPN/Plugin\0";
+pub const NM_VPN_EDITOR_PLUGIN_DESCRIPTION: &[u8] = b"description\0";
+pub const NM_VPN_EDITOR_PLUGIN_NAME: &[u8] = b"name\0";
+pub const NM_VPN_EDITOR_PLUGIN_SERVICE: &[u8] = b"service\0";
+pub const NM_VPN_PLUGIN_CAN_PERSIST: &[u8] = b"can-persist\0";
+pub const NM_VPN_PLUGIN_CONFIG_BANNER: &[u8] = b"banner\0";
+pub const NM_VPN_PLUGIN_CONFIG_EXT_GATEWAY: &[u8] = b"gateway\0";
+pub const NM_VPN_PLUGIN_CONFIG_HAS_IP4: &[u8] = b"has-ip4\0";
+pub const NM_VPN_PLUGIN_CONFIG_HAS_IP6: &[u8] = b"has-ip6\0";
+pub const NM_VPN_PLUGIN_CONFIG_MTU: &[u8] = b"mtu\0";
+pub const NM_VPN_PLUGIN_CONFIG_PROXY_PAC: &[u8] = b"pac\0";
+pub const NM_VPN_PLUGIN_CONFIG_TUNDEV: &[u8] = b"tundev\0";
+pub const NM_VPN_PLUGIN_INFO_FILENAME: &[u8] = b"filename\0";
+pub const NM_VPN_PLUGIN_INFO_KEYFILE: &[u8] = b"keyfile\0";
+pub const NM_VPN_PLUGIN_INFO_KF_GROUP_CONNECTION: &[u8] = b"VPN Connection\0";
+pub const NM_VPN_PLUGIN_INFO_KF_GROUP_GNOME: &[u8] = b"GNOME\0";
+pub const NM_VPN_PLUGIN_INFO_KF_GROUP_LIBNM: &[u8] = b"libnm\0";
+pub const NM_VPN_PLUGIN_INFO_NAME: &[u8] = b"name\0";
+pub const NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS: &[u8] = b"address\0";
+pub const NM_VPN_PLUGIN_IP4_CONFIG_DNS: &[u8] = b"dns\0";
+pub const NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN: &[u8] = b"domain\0";
+pub const NM_VPN_PLUGIN_IP4_CONFIG_DOMAINS: &[u8] = b"domains\0";
+pub const NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY: &[u8] = b"internal-gateway\0";
+pub const NM_VPN_PLUGIN_IP4_CONFIG_MSS: &[u8] = b"mss\0";
+pub const NM_VPN_PLUGIN_IP4_CONFIG_NBNS: &[u8] = b"nbns\0";
+pub const NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT: &[u8] = b"never-default\0";
+pub const NM_VPN_PLUGIN_IP4_CONFIG_PREFIX: &[u8] = b"prefix\0";
+pub const NM_VPN_PLUGIN_IP4_CONFIG_PRESERVE_ROUTES: &[u8] = b"preserve-routes\0";
+pub const NM_VPN_PLUGIN_IP4_CONFIG_PTP: &[u8] = b"ptp\0";
+pub const NM_VPN_PLUGIN_IP4_CONFIG_ROUTES: &[u8] = b"routes\0";
+pub const NM_VPN_PLUGIN_IP6_CONFIG_ADDRESS: &[u8] = b"address\0";
+pub const NM_VPN_PLUGIN_IP6_CONFIG_DNS: &[u8] = b"dns\0";
+pub const NM_VPN_PLUGIN_IP6_CONFIG_DOMAIN: &[u8] = b"domain\0";
+pub const NM_VPN_PLUGIN_IP6_CONFIG_DOMAINS: &[u8] = b"domains\0";
+pub const NM_VPN_PLUGIN_IP6_CONFIG_INT_GATEWAY: &[u8] = b"internal-gateway\0";
+pub const NM_VPN_PLUGIN_IP6_CONFIG_MSS: &[u8] = b"mss\0";
+pub const NM_VPN_PLUGIN_IP6_CONFIG_NEVER_DEFAULT: &[u8] = b"never-default\0";
+pub const NM_VPN_PLUGIN_IP6_CONFIG_PREFIX: &[u8] = b"prefix\0";
+pub const NM_VPN_PLUGIN_IP6_CONFIG_PRESERVE_ROUTES: &[u8] = b"preserve-routes\0";
+pub const NM_VPN_PLUGIN_IP6_CONFIG_PTP: &[u8] = b"ptp\0";
+pub const NM_VPN_PLUGIN_IP6_CONFIG_ROUTES: &[u8] = b"routes\0";
+pub const NM_VPN_PLUGIN_OLD_DBUS_SERVICE_NAME: &[u8] = b"service-name\0";
+pub const NM_VPN_PLUGIN_OLD_STATE: &[u8] = b"state\0";
+pub const NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME: &[u8] = b"service-name\0";
+pub const NM_VPN_SERVICE_PLUGIN_DBUS_WATCH_PEER: &[u8] = b"watch-peer\0";
+pub const NM_VPN_SERVICE_PLUGIN_STATE: &[u8] = b"state\0";
+pub const NM_WIFI_P2P_PEER_FLAGS: &[u8] = b"flags\0";
+pub const NM_WIFI_P2P_PEER_HW_ADDRESS: &[u8] = b"hw-address\0";
+pub const NM_WIFI_P2P_PEER_LAST_SEEN: &[u8] = b"last-seen\0";
+pub const NM_WIFI_P2P_PEER_MANUFACTURER: &[u8] = b"manufacturer\0";
+pub const NM_WIFI_P2P_PEER_MODEL: &[u8] = b"model\0";
+pub const NM_WIFI_P2P_PEER_MODEL_NUMBER: &[u8] = b"model-number\0";
+pub const NM_WIFI_P2P_PEER_NAME: &[u8] = b"name\0";
+pub const NM_WIFI_P2P_PEER_SERIAL: &[u8] = b"serial\0";
+pub const NM_WIFI_P2P_PEER_STRENGTH: &[u8] = b"strength\0";
+pub const NM_WIFI_P2P_PEER_WFD_IES: &[u8] = b"wfd-ies\0";
+pub const NM_WIMAX_NSP_NAME: &[u8] = b"name\0";
+pub const NM_WIMAX_NSP_NETWORK_TYPE: &[u8] = b"network-type\0";
+pub const NM_WIMAX_NSP_SIGNAL_QUALITY: &[u8] = b"signal-quality\0";
+pub const NM_WIREGUARD_PEER_ATTR_ALLOWED_IPS: &[u8] = b"allowed-ips\0";
+pub const NM_WIREGUARD_PEER_ATTR_ENDPOINT: &[u8] = b"endpoint\0";
+pub const NM_WIREGUARD_PEER_ATTR_PERSISTENT_KEEPALIVE: &[u8] = b"persistent-keepalive\0";
+pub const NM_WIREGUARD_PEER_ATTR_PRESHARED_KEY: &[u8] = b"preshared-key\0";
+pub const NM_WIREGUARD_PEER_ATTR_PRESHARED_KEY_FLAGS: &[u8] = b"preshared-key-flags\0";
+pub const NM_WIREGUARD_PEER_ATTR_PUBLIC_KEY: &[u8] = b"public-key\0";
 pub const NM_WIREGUARD_PUBLIC_KEY_LEN: c_int = 32;
 pub const NM_WIREGUARD_SYMMETRIC_KEY_LEN: c_int = 32;
 
@@ -1750,6 +1770,17 @@ pub type NMManagerReloadFlags = c_uint;
 pub const NM_MANAGER_RELOAD_FLAG_CONF: NMManagerReloadFlags = 1;
 pub const NM_MANAGER_RELOAD_FLAG_DNS_RC: NMManagerReloadFlags = 2;
 pub const NM_MANAGER_RELOAD_FLAG_DNS_FULL: NMManagerReloadFlags = 4;
+
+pub type NMMptcpFlags = c_uint;
+pub const NM_MPTCP_FLAGS_NONE: NMMptcpFlags = 0;
+pub const NM_MPTCP_FLAGS_DISABLED: NMMptcpFlags = 1;
+pub const NM_MPTCP_FLAGS_ENABLED: NMMptcpFlags = 2;
+pub const NM_MPTCP_FLAGS_ALSO_WITHOUT_SYSCTL: NMMptcpFlags = 4;
+pub const NM_MPTCP_FLAGS_ALSO_WITHOUT_DEFAULT_ROUTE: NMMptcpFlags = 8;
+pub const NM_MPTCP_FLAGS_SIGNAL: NMMptcpFlags = 16;
+pub const NM_MPTCP_FLAGS_SUBFLOW: NMMptcpFlags = 32;
+pub const NM_MPTCP_FLAGS_BACKUP: NMMptcpFlags = 64;
+pub const NM_MPTCP_FLAGS_FULLMESH: NMMptcpFlags = 128;
 
 pub type NMRadioFlags = c_uint;
 pub const NM_RADIO_FLAG_NONE: NMRadioFlags = 0;
@@ -1898,7 +1929,7 @@ pub struct NMBridgeVlan {
 
 impl ::std::fmt::Debug for NMBridgeVlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMBridgeVlan @ {:p}", self))
+        f.debug_struct(&format!("NMBridgeVlan @ {self:p}"))
          .finish()
     }
 }
@@ -1930,7 +1961,7 @@ pub struct NMConnectionInterface {
 
 impl ::std::fmt::Debug for NMConnectionInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMConnectionInterface @ {:p}", self))
+        f.debug_struct(&format!("NMConnectionInterface @ {self:p}"))
          .field("parent", &self.parent)
          .field("secrets_updated", &self.secrets_updated)
          .field("secrets_cleared", &self.secrets_cleared)
@@ -2195,7 +2226,7 @@ pub struct NMDnsEntry {
 
 impl ::std::fmt::Debug for NMDnsEntry {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDnsEntry @ {:p}", self))
+        f.debug_struct(&format!("NMDnsEntry @ {self:p}"))
          .finish()
     }
 }
@@ -2208,7 +2239,7 @@ pub struct NMIPAddress {
 
 impl ::std::fmt::Debug for NMIPAddress {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMIPAddress @ {:p}", self))
+        f.debug_struct(&format!("NMIPAddress @ {self:p}"))
          .finish()
     }
 }
@@ -2229,7 +2260,7 @@ pub struct NMIPRoute {
 
 impl ::std::fmt::Debug for NMIPRoute {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMIPRoute @ {:p}", self))
+        f.debug_struct(&format!("NMIPRoute @ {self:p}"))
          .finish()
     }
 }
@@ -2242,7 +2273,7 @@ pub struct NMIPRoutingRule {
 
 impl ::std::fmt::Debug for NMIPRoutingRule {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMIPRoutingRule @ {:p}", self))
+        f.debug_struct(&format!("NMIPRoutingRule @ {self:p}"))
          .finish()
     }
 }
@@ -2263,7 +2294,7 @@ pub struct NMLldpNeighbor {
 
 impl ::std::fmt::Debug for NMLldpNeighbor {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMLldpNeighbor @ {:p}", self))
+        f.debug_struct(&format!("NMLldpNeighbor @ {self:p}"))
          .finish()
     }
 }
@@ -2297,7 +2328,7 @@ pub struct NMSecretAgentOldClass {
 
 impl ::std::fmt::Debug for NMSecretAgentOldClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSecretAgentOldClass @ {:p}", self))
+        f.debug_struct(&format!("NMSecretAgentOldClass @ {self:p}"))
          .field("parent", &self.parent)
          .field("get_secrets", &self.get_secrets)
          .field("cancel_get_secrets", &self.cancel_get_secrets)
@@ -2755,7 +2786,7 @@ pub struct NMSriovVF {
 
 impl ::std::fmt::Debug for NMSriovVF {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSriovVF @ {:p}", self))
+        f.debug_struct(&format!("NMSriovVF @ {self:p}"))
          .finish()
     }
 }
@@ -2768,7 +2799,7 @@ pub struct NMTCAction {
 
 impl ::std::fmt::Debug for NMTCAction {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMTCAction @ {:p}", self))
+        f.debug_struct(&format!("NMTCAction @ {self:p}"))
          .finish()
     }
 }
@@ -2781,7 +2812,7 @@ pub struct NMTCQdisc {
 
 impl ::std::fmt::Debug for NMTCQdisc {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMTCQdisc @ {:p}", self))
+        f.debug_struct(&format!("NMTCQdisc @ {self:p}"))
          .finish()
     }
 }
@@ -2794,7 +2825,7 @@ pub struct NMTCTfilter {
 
 impl ::std::fmt::Debug for NMTCTfilter {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMTCTfilter @ {:p}", self))
+        f.debug_struct(&format!("NMTCTfilter @ {self:p}"))
          .finish()
     }
 }
@@ -2807,7 +2838,7 @@ pub struct NMTeamLinkWatcher {
 
 impl ::std::fmt::Debug for NMTeamLinkWatcher {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMTeamLinkWatcher @ {:p}", self))
+        f.debug_struct(&format!("NMTeamLinkWatcher @ {self:p}"))
          .finish()
     }
 }
@@ -2840,7 +2871,7 @@ pub struct NMVpnEditorInterface {
 
 impl ::std::fmt::Debug for NMVpnEditorInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMVpnEditorInterface @ {:p}", self))
+        f.debug_struct(&format!("NMVpnEditorInterface @ {self:p}"))
          .field("g_iface", &self.g_iface)
          .field("get_widget", &self.get_widget)
          .field("placeholder", &self.placeholder)
@@ -2865,7 +2896,7 @@ pub struct NMVpnEditorPluginInterface {
 
 impl ::std::fmt::Debug for NMVpnEditorPluginInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMVpnEditorPluginInterface @ {:p}", self))
+        f.debug_struct(&format!("NMVpnEditorPluginInterface @ {self:p}"))
          .field("g_iface", &self.g_iface)
          .field("get_editor", &self.get_editor)
          .field("get_capabilities", &self.get_capabilities)
@@ -2915,7 +2946,7 @@ pub struct NMVpnPluginOldClass {
 
 impl ::std::fmt::Debug for NMVpnPluginOldClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMVpnPluginOldClass @ {:p}", self))
+        f.debug_struct(&format!("NMVpnPluginOldClass @ {self:p}"))
          .field("parent", &self.parent)
          .field("state_changed", &self.state_changed)
          .field("ip4_config", &self.ip4_config)
@@ -2954,7 +2985,7 @@ pub struct NMVpnServicePluginClass {
 
 impl ::std::fmt::Debug for NMVpnServicePluginClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMVpnServicePluginClass @ {:p}", self))
+        f.debug_struct(&format!("NMVpnServicePluginClass @ {self:p}"))
          .field("parent", &self.parent)
          .field("state_changed", &self.state_changed)
          .field("ip4_config", &self.ip4_config)
@@ -2996,7 +3027,7 @@ pub struct NMWireGuardPeer {
 
 impl ::std::fmt::Debug for NMWireGuardPeer {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMWireGuardPeer @ {:p}", self))
+        f.debug_struct(&format!("NMWireGuardPeer @ {self:p}"))
          .finish()
     }
 }
@@ -3010,7 +3041,7 @@ pub struct NMAccessPoint {
 
 impl ::std::fmt::Debug for NMAccessPoint {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMAccessPoint @ {:p}", self))
+        f.debug_struct(&format!("NMAccessPoint @ {self:p}"))
          .finish()
     }
 }
@@ -3023,7 +3054,7 @@ pub struct NMActiveConnection {
 
 impl ::std::fmt::Debug for NMActiveConnection {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMActiveConnection @ {:p}", self))
+        f.debug_struct(&format!("NMActiveConnection @ {self:p}"))
          .finish()
     }
 }
@@ -3036,7 +3067,7 @@ pub struct NMCheckpoint {
 
 impl ::std::fmt::Debug for NMCheckpoint {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMCheckpoint @ {:p}", self))
+        f.debug_struct(&format!("NMCheckpoint @ {self:p}"))
          .finish()
     }
 }
@@ -3049,7 +3080,7 @@ pub struct NMClient {
 
 impl ::std::fmt::Debug for NMClient {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMClient @ {:p}", self))
+        f.debug_struct(&format!("NMClient @ {self:p}"))
          .finish()
     }
 }
@@ -3062,7 +3093,7 @@ pub struct NMDevice {
 
 impl ::std::fmt::Debug for NMDevice {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDevice @ {:p}", self))
+        f.debug_struct(&format!("NMDevice @ {self:p}"))
          .finish()
     }
 }
@@ -3075,7 +3106,7 @@ pub struct NMDevice6Lowpan {
 
 impl ::std::fmt::Debug for NMDevice6Lowpan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDevice6Lowpan @ {:p}", self))
+        f.debug_struct(&format!("NMDevice6Lowpan @ {self:p}"))
          .finish()
     }
 }
@@ -3088,7 +3119,7 @@ pub struct NMDeviceAdsl {
 
 impl ::std::fmt::Debug for NMDeviceAdsl {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceAdsl @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceAdsl @ {self:p}"))
          .finish()
     }
 }
@@ -3101,7 +3132,7 @@ pub struct NMDeviceBond {
 
 impl ::std::fmt::Debug for NMDeviceBond {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceBond @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceBond @ {self:p}"))
          .finish()
     }
 }
@@ -3114,7 +3145,7 @@ pub struct NMDeviceBridge {
 
 impl ::std::fmt::Debug for NMDeviceBridge {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceBridge @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceBridge @ {self:p}"))
          .finish()
     }
 }
@@ -3127,7 +3158,7 @@ pub struct NMDeviceBt {
 
 impl ::std::fmt::Debug for NMDeviceBt {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceBt @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceBt @ {self:p}"))
          .finish()
     }
 }
@@ -3140,7 +3171,7 @@ pub struct NMDeviceDummy {
 
 impl ::std::fmt::Debug for NMDeviceDummy {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceDummy @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceDummy @ {self:p}"))
          .finish()
     }
 }
@@ -3153,7 +3184,7 @@ pub struct NMDeviceEthernet {
 
 impl ::std::fmt::Debug for NMDeviceEthernet {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceEthernet @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceEthernet @ {self:p}"))
          .finish()
     }
 }
@@ -3166,7 +3197,7 @@ pub struct NMDeviceGeneric {
 
 impl ::std::fmt::Debug for NMDeviceGeneric {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceGeneric @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceGeneric @ {self:p}"))
          .finish()
     }
 }
@@ -3179,7 +3210,7 @@ pub struct NMDeviceIPTunnel {
 
 impl ::std::fmt::Debug for NMDeviceIPTunnel {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceIPTunnel @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceIPTunnel @ {self:p}"))
          .finish()
     }
 }
@@ -3192,7 +3223,7 @@ pub struct NMDeviceInfiniband {
 
 impl ::std::fmt::Debug for NMDeviceInfiniband {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceInfiniband @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceInfiniband @ {self:p}"))
          .finish()
     }
 }
@@ -3205,7 +3236,7 @@ pub struct NMDeviceMacsec {
 
 impl ::std::fmt::Debug for NMDeviceMacsec {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceMacsec @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceMacsec @ {self:p}"))
          .finish()
     }
 }
@@ -3218,7 +3249,7 @@ pub struct NMDeviceMacvlan {
 
 impl ::std::fmt::Debug for NMDeviceMacvlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceMacvlan @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceMacvlan @ {self:p}"))
          .finish()
     }
 }
@@ -3231,7 +3262,7 @@ pub struct NMDeviceModem {
 
 impl ::std::fmt::Debug for NMDeviceModem {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceModem @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceModem @ {self:p}"))
          .finish()
     }
 }
@@ -3244,7 +3275,7 @@ pub struct NMDeviceOlpcMesh {
 
 impl ::std::fmt::Debug for NMDeviceOlpcMesh {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceOlpcMesh @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceOlpcMesh @ {self:p}"))
          .finish()
     }
 }
@@ -3257,7 +3288,7 @@ pub struct NMDeviceOvsBridge {
 
 impl ::std::fmt::Debug for NMDeviceOvsBridge {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceOvsBridge @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceOvsBridge @ {self:p}"))
          .finish()
     }
 }
@@ -3270,7 +3301,7 @@ pub struct NMDeviceOvsInterface {
 
 impl ::std::fmt::Debug for NMDeviceOvsInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceOvsInterface @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceOvsInterface @ {self:p}"))
          .finish()
     }
 }
@@ -3283,7 +3314,7 @@ pub struct NMDeviceOvsPort {
 
 impl ::std::fmt::Debug for NMDeviceOvsPort {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceOvsPort @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceOvsPort @ {self:p}"))
          .finish()
     }
 }
@@ -3296,7 +3327,7 @@ pub struct NMDevicePpp {
 
 impl ::std::fmt::Debug for NMDevicePpp {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDevicePpp @ {:p}", self))
+        f.debug_struct(&format!("NMDevicePpp @ {self:p}"))
          .finish()
     }
 }
@@ -3309,7 +3340,7 @@ pub struct NMDeviceTeam {
 
 impl ::std::fmt::Debug for NMDeviceTeam {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceTeam @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceTeam @ {self:p}"))
          .finish()
     }
 }
@@ -3322,7 +3353,7 @@ pub struct NMDeviceTun {
 
 impl ::std::fmt::Debug for NMDeviceTun {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceTun @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceTun @ {self:p}"))
          .finish()
     }
 }
@@ -3335,7 +3366,7 @@ pub struct NMDeviceVeth {
 
 impl ::std::fmt::Debug for NMDeviceVeth {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceVeth @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceVeth @ {self:p}"))
          .finish()
     }
 }
@@ -3348,7 +3379,7 @@ pub struct NMDeviceVlan {
 
 impl ::std::fmt::Debug for NMDeviceVlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceVlan @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceVlan @ {self:p}"))
          .finish()
     }
 }
@@ -3361,7 +3392,7 @@ pub struct NMDeviceVrf {
 
 impl ::std::fmt::Debug for NMDeviceVrf {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceVrf @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceVrf @ {self:p}"))
          .finish()
     }
 }
@@ -3374,7 +3405,7 @@ pub struct NMDeviceVxlan {
 
 impl ::std::fmt::Debug for NMDeviceVxlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceVxlan @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceVxlan @ {self:p}"))
          .finish()
     }
 }
@@ -3387,7 +3418,7 @@ pub struct NMDeviceWifi {
 
 impl ::std::fmt::Debug for NMDeviceWifi {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceWifi @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceWifi @ {self:p}"))
          .finish()
     }
 }
@@ -3400,7 +3431,7 @@ pub struct NMDeviceWifiP2P {
 
 impl ::std::fmt::Debug for NMDeviceWifiP2P {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceWifiP2P @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceWifiP2P @ {self:p}"))
          .finish()
     }
 }
@@ -3413,7 +3444,7 @@ pub struct NMDeviceWimax {
 
 impl ::std::fmt::Debug for NMDeviceWimax {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceWimax @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceWimax @ {self:p}"))
          .finish()
     }
 }
@@ -3426,7 +3457,7 @@ pub struct NMDeviceWireGuard {
 
 impl ::std::fmt::Debug for NMDeviceWireGuard {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceWireGuard @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceWireGuard @ {self:p}"))
          .finish()
     }
 }
@@ -3439,7 +3470,7 @@ pub struct NMDeviceWpan {
 
 impl ::std::fmt::Debug for NMDeviceWpan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDeviceWpan @ {:p}", self))
+        f.debug_struct(&format!("NMDeviceWpan @ {self:p}"))
          .finish()
     }
 }
@@ -3452,7 +3483,7 @@ pub struct NMDhcpConfig {
 
 impl ::std::fmt::Debug for NMDhcpConfig {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMDhcpConfig @ {:p}", self))
+        f.debug_struct(&format!("NMDhcpConfig @ {self:p}"))
          .finish()
     }
 }
@@ -3465,7 +3496,7 @@ pub struct NMIPConfig {
 
 impl ::std::fmt::Debug for NMIPConfig {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMIPConfig @ {:p}", self))
+        f.debug_struct(&format!("NMIPConfig @ {self:p}"))
          .finish()
     }
 }
@@ -3478,7 +3509,7 @@ pub struct NMObject {
 
 impl ::std::fmt::Debug for NMObject {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMObject @ {:p}", self))
+        f.debug_struct(&format!("NMObject @ {self:p}"))
          .finish()
     }
 }
@@ -3491,7 +3522,7 @@ pub struct NMRemoteConnection {
 
 impl ::std::fmt::Debug for NMRemoteConnection {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMRemoteConnection @ {:p}", self))
+        f.debug_struct(&format!("NMRemoteConnection @ {self:p}"))
          .finish()
     }
 }
@@ -3504,7 +3535,7 @@ pub struct NMSecretAgentOld {
 
 impl ::std::fmt::Debug for NMSecretAgentOld {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSecretAgentOld @ {:p}", self))
+        f.debug_struct(&format!("NMSecretAgentOld @ {self:p}"))
          .field("parent", &self.parent)
          .finish()
     }
@@ -3518,7 +3549,7 @@ pub struct NMSetting {
 
 impl ::std::fmt::Debug for NMSetting {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSetting @ {:p}", self))
+        f.debug_struct(&format!("NMSetting @ {self:p}"))
          .finish()
     }
 }
@@ -3531,7 +3562,7 @@ pub struct NMSetting6Lowpan {
 
 impl ::std::fmt::Debug for NMSetting6Lowpan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSetting6Lowpan @ {:p}", self))
+        f.debug_struct(&format!("NMSetting6Lowpan @ {self:p}"))
          .finish()
     }
 }
@@ -3544,7 +3575,7 @@ pub struct NMSetting8021x {
 
 impl ::std::fmt::Debug for NMSetting8021x {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSetting8021x @ {:p}", self))
+        f.debug_struct(&format!("NMSetting8021x @ {self:p}"))
          .finish()
     }
 }
@@ -3557,7 +3588,7 @@ pub struct NMSettingAdsl {
 
 impl ::std::fmt::Debug for NMSettingAdsl {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingAdsl @ {:p}", self))
+        f.debug_struct(&format!("NMSettingAdsl @ {self:p}"))
          .finish()
     }
 }
@@ -3570,7 +3601,7 @@ pub struct NMSettingBluetooth {
 
 impl ::std::fmt::Debug for NMSettingBluetooth {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingBluetooth @ {:p}", self))
+        f.debug_struct(&format!("NMSettingBluetooth @ {self:p}"))
          .finish()
     }
 }
@@ -3583,7 +3614,7 @@ pub struct NMSettingBond {
 
 impl ::std::fmt::Debug for NMSettingBond {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingBond @ {:p}", self))
+        f.debug_struct(&format!("NMSettingBond @ {self:p}"))
          .finish()
     }
 }
@@ -3596,7 +3627,7 @@ pub struct NMSettingBondPort {
 
 impl ::std::fmt::Debug for NMSettingBondPort {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingBondPort @ {:p}", self))
+        f.debug_struct(&format!("NMSettingBondPort @ {self:p}"))
          .finish()
     }
 }
@@ -3609,7 +3640,7 @@ pub struct NMSettingBridge {
 
 impl ::std::fmt::Debug for NMSettingBridge {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingBridge @ {:p}", self))
+        f.debug_struct(&format!("NMSettingBridge @ {self:p}"))
          .finish()
     }
 }
@@ -3622,7 +3653,7 @@ pub struct NMSettingBridgePort {
 
 impl ::std::fmt::Debug for NMSettingBridgePort {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingBridgePort @ {:p}", self))
+        f.debug_struct(&format!("NMSettingBridgePort @ {self:p}"))
          .finish()
     }
 }
@@ -3635,7 +3666,7 @@ pub struct NMSettingCdma {
 
 impl ::std::fmt::Debug for NMSettingCdma {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingCdma @ {:p}", self))
+        f.debug_struct(&format!("NMSettingCdma @ {self:p}"))
          .finish()
     }
 }
@@ -3648,7 +3679,7 @@ pub struct NMSettingConnection {
 
 impl ::std::fmt::Debug for NMSettingConnection {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingConnection @ {:p}", self))
+        f.debug_struct(&format!("NMSettingConnection @ {self:p}"))
          .finish()
     }
 }
@@ -3661,7 +3692,7 @@ pub struct NMSettingDcb {
 
 impl ::std::fmt::Debug for NMSettingDcb {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingDcb @ {:p}", self))
+        f.debug_struct(&format!("NMSettingDcb @ {self:p}"))
          .finish()
     }
 }
@@ -3674,7 +3705,7 @@ pub struct NMSettingDummy {
 
 impl ::std::fmt::Debug for NMSettingDummy {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingDummy @ {:p}", self))
+        f.debug_struct(&format!("NMSettingDummy @ {self:p}"))
          .finish()
     }
 }
@@ -3687,7 +3718,7 @@ pub struct NMSettingEthtool {
 
 impl ::std::fmt::Debug for NMSettingEthtool {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingEthtool @ {:p}", self))
+        f.debug_struct(&format!("NMSettingEthtool @ {self:p}"))
          .finish()
     }
 }
@@ -3700,7 +3731,7 @@ pub struct NMSettingGeneric {
 
 impl ::std::fmt::Debug for NMSettingGeneric {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingGeneric @ {:p}", self))
+        f.debug_struct(&format!("NMSettingGeneric @ {self:p}"))
          .finish()
     }
 }
@@ -3713,7 +3744,7 @@ pub struct NMSettingGsm {
 
 impl ::std::fmt::Debug for NMSettingGsm {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingGsm @ {:p}", self))
+        f.debug_struct(&format!("NMSettingGsm @ {self:p}"))
          .finish()
     }
 }
@@ -3726,7 +3757,7 @@ pub struct NMSettingHostname {
 
 impl ::std::fmt::Debug for NMSettingHostname {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingHostname @ {:p}", self))
+        f.debug_struct(&format!("NMSettingHostname @ {self:p}"))
          .finish()
     }
 }
@@ -3739,7 +3770,7 @@ pub struct NMSettingIP4Config {
 
 impl ::std::fmt::Debug for NMSettingIP4Config {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingIP4Config @ {:p}", self))
+        f.debug_struct(&format!("NMSettingIP4Config @ {self:p}"))
          .finish()
     }
 }
@@ -3752,7 +3783,7 @@ pub struct NMSettingIP6Config {
 
 impl ::std::fmt::Debug for NMSettingIP6Config {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingIP6Config @ {:p}", self))
+        f.debug_struct(&format!("NMSettingIP6Config @ {self:p}"))
          .finish()
     }
 }
@@ -3765,7 +3796,7 @@ pub struct NMSettingIPConfig {
 
 impl ::std::fmt::Debug for NMSettingIPConfig {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingIPConfig @ {:p}", self))
+        f.debug_struct(&format!("NMSettingIPConfig @ {self:p}"))
          .finish()
     }
 }
@@ -3778,7 +3809,7 @@ pub struct NMSettingIPTunnel {
 
 impl ::std::fmt::Debug for NMSettingIPTunnel {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingIPTunnel @ {:p}", self))
+        f.debug_struct(&format!("NMSettingIPTunnel @ {self:p}"))
          .finish()
     }
 }
@@ -3791,7 +3822,7 @@ pub struct NMSettingInfiniband {
 
 impl ::std::fmt::Debug for NMSettingInfiniband {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingInfiniband @ {:p}", self))
+        f.debug_struct(&format!("NMSettingInfiniband @ {self:p}"))
          .finish()
     }
 }
@@ -3804,7 +3835,7 @@ pub struct NMSettingMacsec {
 
 impl ::std::fmt::Debug for NMSettingMacsec {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingMacsec @ {:p}", self))
+        f.debug_struct(&format!("NMSettingMacsec @ {self:p}"))
          .finish()
     }
 }
@@ -3817,7 +3848,7 @@ pub struct NMSettingMacvlan {
 
 impl ::std::fmt::Debug for NMSettingMacvlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingMacvlan @ {:p}", self))
+        f.debug_struct(&format!("NMSettingMacvlan @ {self:p}"))
          .finish()
     }
 }
@@ -3830,7 +3861,7 @@ pub struct NMSettingMatch {
 
 impl ::std::fmt::Debug for NMSettingMatch {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingMatch @ {:p}", self))
+        f.debug_struct(&format!("NMSettingMatch @ {self:p}"))
          .finish()
     }
 }
@@ -3843,7 +3874,7 @@ pub struct NMSettingOlpcMesh {
 
 impl ::std::fmt::Debug for NMSettingOlpcMesh {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingOlpcMesh @ {:p}", self))
+        f.debug_struct(&format!("NMSettingOlpcMesh @ {self:p}"))
          .finish()
     }
 }
@@ -3856,7 +3887,7 @@ pub struct NMSettingOvsBridge {
 
 impl ::std::fmt::Debug for NMSettingOvsBridge {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingOvsBridge @ {:p}", self))
+        f.debug_struct(&format!("NMSettingOvsBridge @ {self:p}"))
          .finish()
     }
 }
@@ -3869,7 +3900,7 @@ pub struct NMSettingOvsDpdk {
 
 impl ::std::fmt::Debug for NMSettingOvsDpdk {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingOvsDpdk @ {:p}", self))
+        f.debug_struct(&format!("NMSettingOvsDpdk @ {self:p}"))
          .finish()
     }
 }
@@ -3882,7 +3913,7 @@ pub struct NMSettingOvsExternalIDs {
 
 impl ::std::fmt::Debug for NMSettingOvsExternalIDs {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingOvsExternalIDs @ {:p}", self))
+        f.debug_struct(&format!("NMSettingOvsExternalIDs @ {self:p}"))
          .finish()
     }
 }
@@ -3895,7 +3926,7 @@ pub struct NMSettingOvsInterface {
 
 impl ::std::fmt::Debug for NMSettingOvsInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingOvsInterface @ {:p}", self))
+        f.debug_struct(&format!("NMSettingOvsInterface @ {self:p}"))
          .finish()
     }
 }
@@ -3908,7 +3939,7 @@ pub struct NMSettingOvsPatch {
 
 impl ::std::fmt::Debug for NMSettingOvsPatch {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingOvsPatch @ {:p}", self))
+        f.debug_struct(&format!("NMSettingOvsPatch @ {self:p}"))
          .finish()
     }
 }
@@ -3921,7 +3952,7 @@ pub struct NMSettingOvsPort {
 
 impl ::std::fmt::Debug for NMSettingOvsPort {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingOvsPort @ {:p}", self))
+        f.debug_struct(&format!("NMSettingOvsPort @ {self:p}"))
          .finish()
     }
 }
@@ -3934,7 +3965,7 @@ pub struct NMSettingPpp {
 
 impl ::std::fmt::Debug for NMSettingPpp {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingPpp @ {:p}", self))
+        f.debug_struct(&format!("NMSettingPpp @ {self:p}"))
          .finish()
     }
 }
@@ -3947,7 +3978,7 @@ pub struct NMSettingPppoe {
 
 impl ::std::fmt::Debug for NMSettingPppoe {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingPppoe @ {:p}", self))
+        f.debug_struct(&format!("NMSettingPppoe @ {self:p}"))
          .finish()
     }
 }
@@ -3960,7 +3991,7 @@ pub struct NMSettingProxy {
 
 impl ::std::fmt::Debug for NMSettingProxy {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingProxy @ {:p}", self))
+        f.debug_struct(&format!("NMSettingProxy @ {self:p}"))
          .finish()
     }
 }
@@ -3973,7 +4004,7 @@ pub struct NMSettingSerial {
 
 impl ::std::fmt::Debug for NMSettingSerial {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingSerial @ {:p}", self))
+        f.debug_struct(&format!("NMSettingSerial @ {self:p}"))
          .finish()
     }
 }
@@ -3986,7 +4017,7 @@ pub struct NMSettingSriov {
 
 impl ::std::fmt::Debug for NMSettingSriov {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingSriov @ {:p}", self))
+        f.debug_struct(&format!("NMSettingSriov @ {self:p}"))
          .finish()
     }
 }
@@ -3999,7 +4030,7 @@ pub struct NMSettingTCConfig {
 
 impl ::std::fmt::Debug for NMSettingTCConfig {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingTCConfig @ {:p}", self))
+        f.debug_struct(&format!("NMSettingTCConfig @ {self:p}"))
          .finish()
     }
 }
@@ -4012,7 +4043,7 @@ pub struct NMSettingTeam {
 
 impl ::std::fmt::Debug for NMSettingTeam {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingTeam @ {:p}", self))
+        f.debug_struct(&format!("NMSettingTeam @ {self:p}"))
          .finish()
     }
 }
@@ -4025,7 +4056,7 @@ pub struct NMSettingTeamPort {
 
 impl ::std::fmt::Debug for NMSettingTeamPort {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingTeamPort @ {:p}", self))
+        f.debug_struct(&format!("NMSettingTeamPort @ {self:p}"))
          .finish()
     }
 }
@@ -4038,7 +4069,7 @@ pub struct NMSettingTun {
 
 impl ::std::fmt::Debug for NMSettingTun {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingTun @ {:p}", self))
+        f.debug_struct(&format!("NMSettingTun @ {self:p}"))
          .finish()
     }
 }
@@ -4051,7 +4082,7 @@ pub struct NMSettingUser {
 
 impl ::std::fmt::Debug for NMSettingUser {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingUser @ {:p}", self))
+        f.debug_struct(&format!("NMSettingUser @ {self:p}"))
          .finish()
     }
 }
@@ -4064,7 +4095,7 @@ pub struct NMSettingVeth {
 
 impl ::std::fmt::Debug for NMSettingVeth {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingVeth @ {:p}", self))
+        f.debug_struct(&format!("NMSettingVeth @ {self:p}"))
          .finish()
     }
 }
@@ -4077,7 +4108,7 @@ pub struct NMSettingVlan {
 
 impl ::std::fmt::Debug for NMSettingVlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingVlan @ {:p}", self))
+        f.debug_struct(&format!("NMSettingVlan @ {self:p}"))
          .finish()
     }
 }
@@ -4090,7 +4121,7 @@ pub struct NMSettingVpn {
 
 impl ::std::fmt::Debug for NMSettingVpn {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingVpn @ {:p}", self))
+        f.debug_struct(&format!("NMSettingVpn @ {self:p}"))
          .finish()
     }
 }
@@ -4103,7 +4134,7 @@ pub struct NMSettingVrf {
 
 impl ::std::fmt::Debug for NMSettingVrf {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingVrf @ {:p}", self))
+        f.debug_struct(&format!("NMSettingVrf @ {self:p}"))
          .finish()
     }
 }
@@ -4116,7 +4147,7 @@ pub struct NMSettingVxlan {
 
 impl ::std::fmt::Debug for NMSettingVxlan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingVxlan @ {:p}", self))
+        f.debug_struct(&format!("NMSettingVxlan @ {self:p}"))
          .finish()
     }
 }
@@ -4129,7 +4160,7 @@ pub struct NMSettingWifiP2P {
 
 impl ::std::fmt::Debug for NMSettingWifiP2P {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingWifiP2P @ {:p}", self))
+        f.debug_struct(&format!("NMSettingWifiP2P @ {self:p}"))
          .finish()
     }
 }
@@ -4142,7 +4173,7 @@ pub struct NMSettingWimax {
 
 impl ::std::fmt::Debug for NMSettingWimax {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingWimax @ {:p}", self))
+        f.debug_struct(&format!("NMSettingWimax @ {self:p}"))
          .finish()
     }
 }
@@ -4155,7 +4186,7 @@ pub struct NMSettingWireGuard {
 
 impl ::std::fmt::Debug for NMSettingWireGuard {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingWireGuard @ {:p}", self))
+        f.debug_struct(&format!("NMSettingWireGuard @ {self:p}"))
          .finish()
     }
 }
@@ -4168,7 +4199,7 @@ pub struct NMSettingWired {
 
 impl ::std::fmt::Debug for NMSettingWired {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingWired @ {:p}", self))
+        f.debug_struct(&format!("NMSettingWired @ {self:p}"))
          .finish()
     }
 }
@@ -4181,7 +4212,7 @@ pub struct NMSettingWireless {
 
 impl ::std::fmt::Debug for NMSettingWireless {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingWireless @ {:p}", self))
+        f.debug_struct(&format!("NMSettingWireless @ {self:p}"))
          .finish()
     }
 }
@@ -4194,7 +4225,7 @@ pub struct NMSettingWirelessSecurity {
 
 impl ::std::fmt::Debug for NMSettingWirelessSecurity {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingWirelessSecurity @ {:p}", self))
+        f.debug_struct(&format!("NMSettingWirelessSecurity @ {self:p}"))
          .finish()
     }
 }
@@ -4207,7 +4238,7 @@ pub struct NMSettingWpan {
 
 impl ::std::fmt::Debug for NMSettingWpan {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSettingWpan @ {:p}", self))
+        f.debug_struct(&format!("NMSettingWpan @ {self:p}"))
          .finish()
     }
 }
@@ -4220,7 +4251,7 @@ pub struct NMSimpleConnection {
 
 impl ::std::fmt::Debug for NMSimpleConnection {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMSimpleConnection @ {:p}", self))
+        f.debug_struct(&format!("NMSimpleConnection @ {self:p}"))
          .finish()
     }
 }
@@ -4233,7 +4264,7 @@ pub struct NMVpnConnection {
 
 impl ::std::fmt::Debug for NMVpnConnection {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMVpnConnection @ {:p}", self))
+        f.debug_struct(&format!("NMVpnConnection @ {self:p}"))
          .finish()
     }
 }
@@ -4246,7 +4277,7 @@ pub struct NMVpnPluginInfo {
 
 impl ::std::fmt::Debug for NMVpnPluginInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMVpnPluginInfo @ {:p}", self))
+        f.debug_struct(&format!("NMVpnPluginInfo @ {self:p}"))
          .finish()
     }
 }
@@ -4259,7 +4290,7 @@ pub struct NMVpnPluginOld {
 
 impl ::std::fmt::Debug for NMVpnPluginOld {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMVpnPluginOld @ {:p}", self))
+        f.debug_struct(&format!("NMVpnPluginOld @ {self:p}"))
          .field("parent", &self.parent)
          .finish()
     }
@@ -4273,7 +4304,7 @@ pub struct NMVpnServicePlugin {
 
 impl ::std::fmt::Debug for NMVpnServicePlugin {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMVpnServicePlugin @ {:p}", self))
+        f.debug_struct(&format!("NMVpnServicePlugin @ {self:p}"))
          .field("parent", &self.parent)
          .finish()
     }
@@ -4287,7 +4318,7 @@ pub struct NMWifiP2PPeer {
 
 impl ::std::fmt::Debug for NMWifiP2PPeer {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMWifiP2PPeer @ {:p}", self))
+        f.debug_struct(&format!("NMWifiP2PPeer @ {self:p}"))
          .finish()
     }
 }
@@ -4300,7 +4331,7 @@ pub struct NMWimaxNsp {
 
 impl ::std::fmt::Debug for NMWimaxNsp {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("NMWimaxNsp @ {:p}", self))
+        f.debug_struct(&format!("NMWimaxNsp @ {self:p}"))
          .finish()
     }
 }
@@ -4314,7 +4345,7 @@ pub struct NMConnection {
 
 impl ::std::fmt::Debug for NMConnection {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        write!(f, "NMConnection @ {:p}", self)
+        write!(f, "NMConnection @ {self:p}")
     }
 }
 
@@ -4326,7 +4357,7 @@ pub struct NMVpnEditor {
 
 impl ::std::fmt::Debug for NMVpnEditor {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        write!(f, "NMVpnEditor @ {:p}", self)
+        write!(f, "NMVpnEditor @ {self:p}")
     }
 }
 
@@ -4338,7 +4369,7 @@ pub struct NMVpnEditorPlugin {
 
 impl ::std::fmt::Debug for NMVpnEditorPlugin {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        write!(f, "NMVpnEditorPlugin @ {:p}", self)
+        write!(f, "NMVpnEditorPlugin @ {self:p}")
     }
 }
 
@@ -4372,6 +4403,8 @@ extern "C" {
     //=========================================================================
     // NMCapability
     //=========================================================================
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     pub fn nm_capability_get_type() -> GType;
 
     //=========================================================================
@@ -4493,6 +4526,8 @@ extern "C" {
     //=========================================================================
     // NMSettingConnectionAutoconnectSlaves
     //=========================================================================
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_setting_connection_autoconnect_slaves_get_type() -> GType;
 
     //=========================================================================
@@ -4505,6 +4540,8 @@ extern "C" {
     //=========================================================================
     // NMSettingConnectionLldp
     //=========================================================================
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_setting_connection_lldp_get_type() -> GType;
 
     //=========================================================================
@@ -4527,6 +4564,13 @@ extern "C" {
     pub fn nm_setting_diff_result_get_type() -> GType;
 
     //=========================================================================
+    // NMSettingIP4LinkLocal
+    //=========================================================================
+    #[cfg(any(feature = "v1_40", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    pub fn nm_setting_ip4_link_local_get_type() -> GType;
+
+    //=========================================================================
     // NMSettingIP6ConfigAddrGenMode
     //=========================================================================
     #[cfg(any(feature = "v1_2", feature = "dox"))]
@@ -4541,6 +4585,8 @@ extern "C" {
     //=========================================================================
     // NMSettingMacRandomization
     //=========================================================================
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_setting_mac_randomization_get_type() -> GType;
 
     //=========================================================================
@@ -4560,6 +4606,8 @@ extern "C" {
     //=========================================================================
     // NMSettingMacvlanMode
     //=========================================================================
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_setting_macvlan_mode_get_type() -> GType;
 
     //=========================================================================
@@ -4577,11 +4625,15 @@ extern "C" {
     //=========================================================================
     // NMSettingTunMode
     //=========================================================================
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_setting_tun_mode_get_type() -> GType;
 
     //=========================================================================
     // NMSettingWirelessPowersave
     //=========================================================================
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_setting_wireless_powersave_get_type() -> GType;
 
     //=========================================================================
@@ -4594,6 +4646,8 @@ extern "C" {
     //=========================================================================
     // NMSettingWirelessSecurityPmf
     //=========================================================================
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     pub fn nm_setting_wireless_security_pmf_get_type() -> GType;
 
     //=========================================================================
@@ -4692,8 +4746,8 @@ extern "C" {
     //=========================================================================
     // NMCheckpointCreateFlags
     //=========================================================================
-    #[cfg(any(feature = "v1_4", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn nm_checkpoint_create_flags_get_type() -> GType;
 
     //=========================================================================
@@ -4754,6 +4808,8 @@ extern "C" {
     //=========================================================================
     // NMIPTunnelFlags
     //=========================================================================
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn nm_ip_tunnel_flags_get_type() -> GType;
 
     //=========================================================================
@@ -4769,6 +4825,13 @@ extern "C" {
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     pub fn nm_manager_reload_flags_get_type() -> GType;
+
+    //=========================================================================
+    // NMMptcpFlags
+    //=========================================================================
+    #[cfg(any(feature = "v1_40", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    pub fn nm_mptcp_flags_get_type() -> GType;
 
     //=========================================================================
     // NMRadioFlags
@@ -4849,6 +4912,8 @@ extern "C" {
     //=========================================================================
     // NMTeamLinkWatcherArpPingFlags
     //=========================================================================
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn nm_team_link_watcher_arp_ping_flags_get_type() -> GType;
 
     //=========================================================================
@@ -4911,6 +4976,8 @@ extern "C" {
     //=========================================================================
     // NMDnsEntry
     //=========================================================================
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     pub fn nm_dns_entry_get_type() -> GType;
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
@@ -5212,8 +5279,8 @@ extern "C" {
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     pub fn nm_sriov_vf_unref(vf: *mut NMSriovVF);
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_sriov_vf_attribute_validate(name: *const c_char, value: *mut glib::GVariant, known: *mut gboolean, error: *mut *mut glib::GError) -> gboolean;
 
     //=========================================================================
@@ -5299,8 +5366,8 @@ extern "C" {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn nm_tc_tfilter_equal(tfilter: *mut NMTCTfilter, other: *mut NMTCTfilter) -> gboolean;
-    #[cfg(any(feature = "v1_12", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_tc_tfilter_get_action(tfilter: *mut NMTCTfilter) -> *mut NMTCAction;
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
@@ -5314,8 +5381,8 @@ extern "C" {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn nm_tc_tfilter_ref(tfilter: *mut NMTCTfilter);
-    #[cfg(any(feature = "v1_12", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_tc_tfilter_set_action(tfilter: *mut NMTCTfilter, action: *mut NMTCAction);
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
@@ -5504,6 +5571,8 @@ extern "C" {
     //=========================================================================
     // NMCheckpoint
     //=========================================================================
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn nm_checkpoint_get_type() -> GType;
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
@@ -5527,6 +5596,8 @@ extern "C" {
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     pub fn nm_client_add_and_activate_connection2(client: *mut NMClient, partial: *mut NMConnection, device: *mut NMDevice, specific_object: *const c_char, options: *mut glib::GVariant, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
+    #[cfg(any(feature = "v1_16", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     pub fn nm_client_add_and_activate_connection2_finish(client: *mut NMClient, result: *mut gio::GAsyncResult, out_result: *mut *mut glib::GVariant, error: *mut *mut glib::GError) -> *mut NMActiveConnection;
     pub fn nm_client_add_and_activate_connection_async(client: *mut NMClient, partial: *mut NMConnection, device: *mut NMDevice, specific_object: *const c_char, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
     pub fn nm_client_add_and_activate_connection_finish(client: *mut NMClient, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> *mut NMActiveConnection;
@@ -5767,12 +5838,11 @@ extern "C" {
     //=========================================================================
     // NMDevice6Lowpan
     //=========================================================================
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     pub fn nm_device_6lowpan_get_type() -> GType;
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-    pub fn nm_device_6lowpan_get_hw_address(device: *mut NMDevice6Lowpan) -> *const c_char;
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_device_6lowpan_get_parent(device: *mut NMDevice6Lowpan) -> *mut NMDevice;
 
     //=========================================================================
@@ -5808,6 +5878,8 @@ extern "C" {
     //=========================================================================
     // NMDeviceDummy
     //=========================================================================
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     pub fn nm_device_dummy_get_type() -> GType;
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
@@ -5834,6 +5906,8 @@ extern "C" {
     //=========================================================================
     // NMDeviceIPTunnel
     //=========================================================================
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_device_ip_tunnel_get_type() -> GType;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
@@ -5882,6 +5956,8 @@ extern "C" {
     //=========================================================================
     // NMDeviceMacsec
     //=========================================================================
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     pub fn nm_device_macsec_get_type() -> GType;
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
@@ -5904,8 +5980,8 @@ extern "C" {
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     pub fn nm_device_macsec_get_include_sci(device: *mut NMDeviceMacsec) -> gboolean;
-    #[cfg(any(feature = "v1_6", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_device_macsec_get_parent(device: *mut NMDeviceMacsec) -> *mut NMDevice;
     #[cfg(any(feature = "v1_6", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
@@ -5929,6 +6005,8 @@ extern "C" {
     //=========================================================================
     // NMDeviceMacvlan
     //=========================================================================
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_device_macvlan_get_type() -> GType;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
@@ -5973,6 +6051,8 @@ extern "C" {
     //=========================================================================
     // NMDeviceOvsBridge
     //=========================================================================
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     pub fn nm_device_ovs_bridge_get_type() -> GType;
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
@@ -5981,11 +6061,15 @@ extern "C" {
     //=========================================================================
     // NMDeviceOvsInterface
     //=========================================================================
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     pub fn nm_device_ovs_interface_get_type() -> GType;
 
     //=========================================================================
     // NMDeviceOvsPort
     //=========================================================================
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     pub fn nm_device_ovs_port_get_type() -> GType;
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
@@ -5994,6 +6078,8 @@ extern "C" {
     //=========================================================================
     // NMDevicePpp
     //=========================================================================
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     pub fn nm_device_ppp_get_type() -> GType;
 
     //=========================================================================
@@ -6010,6 +6096,8 @@ extern "C" {
     //=========================================================================
     // NMDeviceTun
     //=========================================================================
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_device_tun_get_type() -> GType;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
@@ -6023,6 +6111,8 @@ extern "C" {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_device_tun_get_multi_queue(device: *mut NMDeviceTun) -> gboolean;
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_device_tun_get_no_pi(device: *mut NMDeviceTun) -> gboolean;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
@@ -6034,9 +6124,11 @@ extern "C" {
     //=========================================================================
     // NMDeviceVeth
     //=========================================================================
-    pub fn nm_device_veth_get_type() -> GType;
     #[cfg(any(feature = "v1_30", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
+    pub fn nm_device_veth_get_type() -> GType;
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_device_veth_get_peer(device: *mut NMDeviceVeth) -> *mut NMDevice;
 
     //=========================================================================
@@ -6051,6 +6143,8 @@ extern "C" {
     //=========================================================================
     // NMDeviceVrf
     //=========================================================================
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     pub fn nm_device_vrf_get_type() -> GType;
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
@@ -6059,12 +6153,14 @@ extern "C" {
     //=========================================================================
     // NMDeviceVxlan
     //=========================================================================
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_device_vxlan_get_type() -> GType;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_device_vxlan_get_ageing(device: *mut NMDeviceVxlan) -> c_uint;
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_device_vxlan_get_carrier(device: *mut NMDeviceVxlan) -> gboolean;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
@@ -6099,8 +6195,8 @@ extern "C" {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_device_vxlan_get_proxy(device: *mut NMDeviceVxlan) -> gboolean;
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_device_vxlan_get_rsc(device: *mut NMDeviceVxlan) -> gboolean;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
@@ -6149,8 +6245,8 @@ extern "C" {
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     pub fn nm_device_wifi_p2p_get_hw_address(device: *mut NMDeviceWifiP2P) -> *const c_char;
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_device_wifi_p2p_get_peer_by_path(device: *mut NMDeviceWifiP2P, path: *const c_char) -> *mut NMWifiP2PPeer;
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
@@ -6185,6 +6281,8 @@ extern "C" {
     //=========================================================================
     // NMDeviceWireGuard
     //=========================================================================
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     pub fn nm_device_wireguard_get_type() -> GType;
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
@@ -6199,8 +6297,9 @@ extern "C" {
     //=========================================================================
     // NMDeviceWpan
     //=========================================================================
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     pub fn nm_device_wpan_get_type() -> GType;
-    pub fn nm_device_wpan_get_hw_address(device: *mut NMDeviceWpan) -> *const c_char;
 
     //=========================================================================
     // NMDhcpConfig
@@ -6259,6 +6358,8 @@ extern "C" {
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn nm_remote_connection_update2(connection: *mut NMRemoteConnection, settings: *mut glib::GVariant, flags: NMSettingsUpdate2Flags, args: *mut glib::GVariant, cancellable: *mut gio::GCancellable, callback: gio::GAsyncReadyCallback, user_data: gpointer);
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn nm_remote_connection_update2_finish(connection: *mut NMRemoteConnection, result: *mut gio::GAsyncResult, error: *mut *mut glib::GError) -> *mut glib::GVariant;
 
     //=========================================================================
@@ -6339,12 +6440,14 @@ extern "C" {
     //=========================================================================
     // NMSetting6Lowpan
     //=========================================================================
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     pub fn nm_setting_6lowpan_get_type() -> GType;
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_setting_6lowpan_new() -> *mut NMSetting;
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_setting_6lowpan_get_parent(setting: *mut NMSetting6Lowpan) -> *const c_char;
 
     //=========================================================================
@@ -6541,6 +6644,8 @@ extern "C" {
     pub fn nm_setting_bridge_clear_vlans(setting: *mut NMSettingBridge);
     pub fn nm_setting_bridge_get_ageing_time(setting: *mut NMSettingBridge) -> u32;
     pub fn nm_setting_bridge_get_forward_delay(setting: *mut NMSettingBridge) -> u16;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     pub fn nm_setting_bridge_get_group_address(setting: *const NMSettingBridge) -> *const c_char;
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
@@ -6548,20 +6653,44 @@ extern "C" {
     pub fn nm_setting_bridge_get_hello_time(setting: *mut NMSettingBridge) -> u16;
     pub fn nm_setting_bridge_get_mac_address(setting: *mut NMSettingBridge) -> *const c_char;
     pub fn nm_setting_bridge_get_max_age(setting: *mut NMSettingBridge) -> u16;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn nm_setting_bridge_get_multicast_hash_max(setting: *const NMSettingBridge) -> u32;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn nm_setting_bridge_get_multicast_last_member_count(setting: *const NMSettingBridge) -> u32;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn nm_setting_bridge_get_multicast_last_member_interval(setting: *const NMSettingBridge) -> u64;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn nm_setting_bridge_get_multicast_membership_interval(setting: *const NMSettingBridge) -> u64;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     pub fn nm_setting_bridge_get_multicast_querier(setting: *const NMSettingBridge) -> gboolean;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn nm_setting_bridge_get_multicast_querier_interval(setting: *const NMSettingBridge) -> u64;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn nm_setting_bridge_get_multicast_query_interval(setting: *const NMSettingBridge) -> u64;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn nm_setting_bridge_get_multicast_query_response_interval(setting: *const NMSettingBridge) -> u64;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     pub fn nm_setting_bridge_get_multicast_query_use_ifaddr(setting: *const NMSettingBridge) -> gboolean;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     pub fn nm_setting_bridge_get_multicast_router(setting: *const NMSettingBridge) -> *const c_char;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_setting_bridge_get_multicast_snooping(setting: *mut NMSettingBridge) -> gboolean;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn nm_setting_bridge_get_multicast_startup_query_count(setting: *const NMSettingBridge) -> u32;
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn nm_setting_bridge_get_multicast_startup_query_interval(setting: *const NMSettingBridge) -> u64;
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
@@ -6577,7 +6706,11 @@ extern "C" {
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     pub fn nm_setting_bridge_get_vlan_filtering(setting: *mut NMSettingBridge) -> gboolean;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     pub fn nm_setting_bridge_get_vlan_protocol(setting: *const NMSettingBridge) -> *const c_char;
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     pub fn nm_setting_bridge_get_vlan_stats_enabled(setting: *const NMSettingBridge) -> gboolean;
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
@@ -6664,6 +6797,9 @@ extern "C" {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_setting_connection_get_metered(setting: *mut NMSettingConnection) -> NMMetered;
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
+    pub fn nm_setting_connection_get_mptcp_flags(setting: *mut NMSettingConnection) -> NMMptcpFlags;
     #[cfg(any(feature = "v1_26", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn nm_setting_connection_get_mud_url(setting: *mut NMSettingConnection) -> *const c_char;
@@ -6680,6 +6816,9 @@ extern "C" {
     pub fn nm_setting_connection_get_stable_id(setting: *mut NMSettingConnection) -> *const c_char;
     pub fn nm_setting_connection_get_timestamp(setting: *mut NMSettingConnection) -> u64;
     pub fn nm_setting_connection_get_uuid(setting: *mut NMSettingConnection) -> *const c_char;
+    #[cfg(any(feature = "v1_40", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    pub fn nm_setting_connection_get_wait_activation_delay(setting: *mut NMSettingConnection) -> i32;
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     pub fn nm_setting_connection_get_wait_device_timeout(setting: *mut NMSettingConnection) -> i32;
@@ -6790,8 +6929,8 @@ extern "C" {
     #[cfg(any(feature = "v1_30", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
     pub fn nm_setting_hostname_get_type() -> GType;
-    #[cfg(any(feature = "v1_30", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_setting_hostname_new() -> *mut NMSetting;
     #[cfg(any(feature = "v1_30", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
@@ -6818,6 +6957,9 @@ extern "C" {
     #[cfg(any(feature = "v1_28", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_28")))]
     pub fn nm_setting_ip4_config_get_dhcp_vendor_class_identifier(setting: *mut NMSettingIP4Config) -> *const c_char;
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
+    pub fn nm_setting_ip4_config_get_link_local(setting: *mut NMSettingIP4Config) -> NMSettingIP4LinkLocal;
 
     //=========================================================================
     // NMSettingIP6Config
@@ -6831,6 +6973,9 @@ extern "C" {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn nm_setting_ip6_config_get_dhcp_duid(setting: *mut NMSettingIP6Config) -> *const c_char;
     pub fn nm_setting_ip6_config_get_ip6_privacy(setting: *mut NMSettingIP6Config) -> NMSettingIP6ConfigPrivacy;
+    #[cfg(any(feature = "v1_40", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    pub fn nm_setting_ip6_config_get_mtu(setting: *mut NMSettingIP6Config) -> u32;
     #[cfg(any(feature = "v1_24", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     pub fn nm_setting_ip6_config_get_ra_timeout(setting: *mut NMSettingIP6Config) -> i32;
@@ -6876,8 +7021,8 @@ extern "C" {
     #[cfg(any(feature = "v1_22", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     pub fn nm_setting_ip_config_get_dhcp_hostname_flags(setting: *mut NMSettingIPConfig) -> NMDhcpHostnameFlags;
-    #[cfg(any(feature = "v1_22", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_setting_ip_config_get_dhcp_iaid(setting: *mut NMSettingIPConfig) -> *const c_char;
     #[cfg(any(feature = "v1_28", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_28")))]
@@ -6921,6 +7066,8 @@ extern "C" {
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     pub fn nm_setting_ip_config_get_routing_rule(setting: *mut NMSettingIPConfig, idx: c_uint) -> *mut NMIPRoutingRule;
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_setting_ip_config_has_dns_options(setting: *mut NMSettingIPConfig) -> gboolean;
     pub fn nm_setting_ip_config_remove_address(setting: *mut NMSettingIPConfig, idx: c_int);
     pub fn nm_setting_ip_config_remove_address_by_value(setting: *mut NMSettingIPConfig, address: *mut NMIPAddress) -> gboolean;
@@ -6950,12 +7097,14 @@ extern "C" {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_setting_ip_tunnel_new() -> *mut NMSetting;
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_setting_ip_tunnel_get_encapsulation_limit(setting: *mut NMSettingIPTunnel) -> c_uint;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn nm_setting_ip_tunnel_get_flags(setting: *mut NMSettingIPTunnel) -> NMIPTunnelFlags;
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_setting_ip_tunnel_get_flow_label(setting: *mut NMSettingIPTunnel) -> c_uint;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
@@ -7165,8 +7314,8 @@ extern "C" {
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     pub fn nm_setting_ovs_bridge_new() -> *mut NMSetting;
-    #[cfg(any(feature = "v1_20", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_setting_ovs_bridge_get_datapath_type(self_: *mut NMSettingOvsBridge) -> *const c_char;
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
@@ -7211,6 +7360,8 @@ extern "C" {
     #[cfg(any(feature = "v1_30", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
     pub fn nm_setting_ovs_external_ids_get_data(setting: *mut NMSettingOvsExternalIDs, key: *const c_char) -> *const c_char;
+    #[cfg(any(feature = "v1_30", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
     pub fn nm_setting_ovs_external_ids_get_data_keys(setting: *mut NMSettingOvsExternalIDs, out_len: *mut c_uint) -> *const *const c_char;
     #[cfg(any(feature = "v1_30", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
@@ -7560,7 +7711,11 @@ extern "C" {
     //=========================================================================
     // NMSettingUser
     //=========================================================================
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     pub fn nm_setting_user_get_type() -> GType;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     pub fn nm_setting_user_new() -> *mut NMSetting;
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
@@ -7571,6 +7726,8 @@ extern "C" {
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     pub fn nm_setting_user_get_data(setting: *mut NMSettingUser, key: *const c_char) -> *const c_char;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     pub fn nm_setting_user_get_keys(setting: *mut NMSettingUser, out_len: *mut c_uint) -> *const *const c_char;
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
@@ -7619,6 +7776,8 @@ extern "C" {
     pub fn nm_setting_vpn_get_data_keys(setting: *mut NMSettingVpn, out_length: *mut c_uint) -> *mut *const c_char;
     pub fn nm_setting_vpn_get_num_data_items(setting: *mut NMSettingVpn) -> u32;
     pub fn nm_setting_vpn_get_num_secrets(setting: *mut NMSettingVpn) -> u32;
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_setting_vpn_get_persistent(setting: *mut NMSettingVpn) -> gboolean;
     pub fn nm_setting_vpn_get_secret(setting: *mut NMSettingVpn, key: *const c_char) -> *const c_char;
     #[cfg(any(feature = "v1_12", feature = "dox"))]
@@ -7889,6 +8048,8 @@ extern "C" {
     pub fn nm_setting_wireless_security_get_num_pairwise(setting: *mut NMSettingWirelessSecurity) -> u32;
     pub fn nm_setting_wireless_security_get_num_protos(setting: *mut NMSettingWirelessSecurity) -> u32;
     pub fn nm_setting_wireless_security_get_pairwise(setting: *mut NMSettingWirelessSecurity, i: u32) -> *const c_char;
+    #[cfg(any(feature = "v1_10", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     pub fn nm_setting_wireless_security_get_pmf(setting: *mut NMSettingWirelessSecurity) -> NMSettingWirelessSecurityPmf;
     pub fn nm_setting_wireless_security_get_proto(setting: *mut NMSettingWirelessSecurity, i: u32) -> *const c_char;
     pub fn nm_setting_wireless_security_get_psk(setting: *mut NMSettingWirelessSecurity) -> *const c_char;
@@ -7911,24 +8072,26 @@ extern "C" {
     //=========================================================================
     // NMSettingWpan
     //=========================================================================
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     pub fn nm_setting_wpan_get_type() -> GType;
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_setting_wpan_new() -> *mut NMSetting;
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_setting_wpan_get_channel(setting: *mut NMSettingWpan) -> i16;
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_setting_wpan_get_mac_address(setting: *mut NMSettingWpan) -> *const c_char;
-    #[cfg(any(feature = "v1_16", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_setting_wpan_get_page(setting: *mut NMSettingWpan) -> i16;
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_setting_wpan_get_pan_id(setting: *mut NMSettingWpan) -> u16;
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_setting_wpan_get_short_address(setting: *mut NMSettingWpan) -> u16;
 
     //=========================================================================
@@ -7998,8 +8161,8 @@ extern "C" {
     #[cfg(any(feature = "v1_4", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
     pub fn nm_vpn_plugin_info_supports_hints(self_: *mut NMVpnPluginInfo) -> gboolean;
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_vpn_plugin_info_supports_multiple(self_: *mut NMVpnPluginInfo) -> gboolean;
 
     //=========================================================================
@@ -8012,15 +8175,15 @@ extern "C" {
     pub fn nm_vpn_plugin_old_failure(plugin: *mut NMVpnPluginOld, reason: NMVpnPluginFailure);
     pub fn nm_vpn_plugin_old_get_connection(plugin: *mut NMVpnPluginOld) -> *mut gio::GDBusConnection;
     pub fn nm_vpn_plugin_old_get_state(plugin: *mut NMVpnPluginOld) -> NMVpnServiceState;
-    pub fn nm_vpn_plugin_old_set_config(plugin: *mut NMVpnPluginOld, config: *mut glib::GVariant);
     pub fn nm_vpn_plugin_old_set_ip4_config(plugin: *mut NMVpnPluginOld, ip4_config: *mut glib::GVariant);
-    pub fn nm_vpn_plugin_old_set_ip6_config(plugin: *mut NMVpnPluginOld, ip6_config: *mut glib::GVariant);
     pub fn nm_vpn_plugin_old_set_login_banner(plugin: *mut NMVpnPluginOld, banner: *const c_char);
     pub fn nm_vpn_plugin_old_set_state(plugin: *mut NMVpnPluginOld, state: NMVpnServiceState);
 
     //=========================================================================
     // NMVpnServicePlugin
     //=========================================================================
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_vpn_service_plugin_get_type() -> GType;
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
@@ -8028,14 +8191,26 @@ extern "C" {
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_vpn_service_plugin_read_vpn_details(fd: c_int, out_data: *mut *mut glib::GHashTable, out_secrets: *mut *mut glib::GHashTable) -> gboolean;
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_vpn_service_plugin_disconnect(plugin: *mut NMVpnServicePlugin, error: *mut *mut glib::GError) -> gboolean;
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_vpn_service_plugin_failure(plugin: *mut NMVpnServicePlugin, reason: NMVpnPluginFailure);
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_vpn_service_plugin_get_connection(plugin: *mut NMVpnServicePlugin) -> *mut gio::GDBusConnection;
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_vpn_service_plugin_set_config(plugin: *mut NMVpnServicePlugin, config: *mut glib::GVariant);
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_vpn_service_plugin_set_ip4_config(plugin: *mut NMVpnServicePlugin, ip4_config: *mut glib::GVariant);
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_vpn_service_plugin_set_ip6_config(plugin: *mut NMVpnServicePlugin, ip6_config: *mut glib::GVariant);
+    #[cfg(any(feature = "v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_vpn_service_plugin_set_login_banner(plugin: *mut NMVpnServicePlugin, banner: *const c_char);
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
@@ -8044,6 +8219,8 @@ extern "C" {
     //=========================================================================
     // NMWifiP2PPeer
     //=========================================================================
+    #[cfg(any(feature = "v1_16", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
     pub fn nm_wifi_p2p_peer_get_type() -> GType;
     #[cfg(any(feature = "v1_16", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_16")))]
@@ -8136,17 +8313,17 @@ extern "C" {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     pub fn nm_connection_get_setting_macvlan(connection: *mut NMConnection) -> *mut NMSettingMacvlan;
     pub fn nm_connection_get_setting_olpc_mesh(connection: *mut NMConnection) -> *mut NMSettingOlpcMesh;
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     pub fn nm_connection_get_setting_ovs_bridge(connection: *mut NMConnection) -> *mut NMSettingOvsBridge;
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     pub fn nm_connection_get_setting_ovs_interface(connection: *mut NMConnection) -> *mut NMSettingOvsInterface;
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     pub fn nm_connection_get_setting_ovs_patch(connection: *mut NMConnection) -> *mut NMSettingOvsPatch;
-    #[cfg(any(feature = "v1_10", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     pub fn nm_connection_get_setting_ovs_port(connection: *mut NMConnection) -> *mut NMSettingOvsPort;
     pub fn nm_connection_get_setting_ppp(connection: *mut NMConnection) -> *mut NMSettingPpp;
     pub fn nm_connection_get_setting_pppoe(connection: *mut NMConnection) -> *mut NMSettingPppoe;
@@ -8159,8 +8336,8 @@ extern "C" {
     pub fn nm_connection_get_setting_tc_config(connection: *mut NMConnection) -> *mut NMSettingTCConfig;
     pub fn nm_connection_get_setting_team(connection: *mut NMConnection) -> *mut NMSettingTeam;
     pub fn nm_connection_get_setting_team_port(connection: *mut NMConnection) -> *mut NMSettingTeamPort;
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[cfg(any(feature = "v1_14", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     pub fn nm_connection_get_setting_tun(connection: *mut NMConnection) -> *mut NMSettingTun;
     pub fn nm_connection_get_setting_vlan(connection: *mut NMConnection) -> *mut NMSettingVlan;
     pub fn nm_connection_get_setting_vpn(connection: *mut NMConnection) -> *mut NMSettingVpn;
@@ -8226,6 +8403,9 @@ extern "C" {
     //=========================================================================
     // Other functions
     //=========================================================================
+    #[cfg(any(feature = "v1_40", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    pub fn nm_conn_wireguard_import(filename: *const c_char, error: *mut *mut glib::GError) -> *mut NMConnection;
     #[cfg(any(feature = "v1_26", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     pub fn nm_ethtool_optname_is_coalesce(optname: *const c_char) -> gboolean;
@@ -8262,7 +8442,11 @@ extern "C" {
     pub fn nm_utils_file_is_certificate(filename: *const c_char) -> gboolean;
     pub fn nm_utils_file_is_pkcs12(filename: *const c_char) -> gboolean;
     pub fn nm_utils_file_is_private_key(filename: *const c_char, out_encrypted: *mut gboolean) -> gboolean;
+    #[cfg(any(feature = "v1_8", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     pub fn nm_utils_format_variant_attributes(attributes: *mut glib::GHashTable, attr_separator: c_char, key_value_separator: c_char) -> *mut c_char;
+    #[cfg(any(feature = "v1_12", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     pub fn nm_utils_get_timestamp_msec() -> i64;
     pub fn nm_utils_hexstr2bin(hex: *const c_char) -> *mut glib::GBytes;
     pub fn nm_utils_hwaddr_atoba(asc: *const c_char, length: size_t) -> *mut glib::GByteArray;
@@ -8281,9 +8465,17 @@ extern "C" {
     pub fn nm_utils_ip6_addresses_to_variant(addresses: *mut glib::GPtrArray, gateway: *const c_char) -> *mut glib::GVariant;
     pub fn nm_utils_ip6_routes_from_variant(value: *mut glib::GVariant) -> *mut glib::GPtrArray;
     pub fn nm_utils_ip6_routes_to_variant(routes: *mut glib::GPtrArray) -> *mut glib::GVariant;
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_utils_ip_addresses_from_variant(value: *mut glib::GVariant, family: c_int) -> *mut glib::GPtrArray;
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_utils_ip_addresses_to_variant(addresses: *mut glib::GPtrArray) -> *mut glib::GVariant;
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_utils_ip_routes_from_variant(value: *mut glib::GVariant, family: c_int) -> *mut glib::GPtrArray;
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     pub fn nm_utils_ip_routes_to_variant(routes: *mut glib::GPtrArray) -> *mut glib::GVariant;
     pub fn nm_utils_ipaddr_valid(family: c_int, ip: *const c_char) -> gboolean;
     pub fn nm_utils_is_empty_ssid(ssid: *const u8, len: size_t) -> gboolean;
@@ -8291,6 +8483,8 @@ extern "C" {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     pub fn nm_utils_is_json_object(str: *const c_char, error: *mut *mut glib::GError) -> gboolean;
     pub fn nm_utils_is_uuid(str: *const c_char) -> gboolean;
+    #[cfg(any(feature = "v1_6", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_6")))]
     pub fn nm_utils_is_valid_iface_name(name: *const c_char, error: *mut *mut glib::GError) -> gboolean;
     #[cfg(any(feature = "v1_8", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]

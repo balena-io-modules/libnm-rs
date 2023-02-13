@@ -3,17 +3,71 @@
 // DO NOT EDIT
 
 use crate::Setting;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// Infiniband Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `mac-address`
+    ///  If specified, this connection will only apply to the IPoIB device whose
+    /// permanent MAC address matches. This property does not change the MAC
+    /// address of the device (i.e. MAC spoofing).
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mtu`
+    ///  If non-zero, only transmit packets of the specified size or smaller,
+    /// breaking larger packets up into multiple frames.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `p-key`
+    ///  The InfiniBand P_Key to use for this device. A value of -1 means to use
+    /// the default P_Key (aka "the P_Key at index 0"). Otherwise, it is a 16-bit
+    /// unsigned integer, whose high bit is set if it is a "full membership"
+    /// P_Key.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `parent`
+    ///  The interface name of the parent device of this device. Normally [`None`],
+    /// but if the [`p_key`][struct@crate::SettingInfiniband#p_key] property is set, then you must
+    /// specify the base device by setting either this property or
+    /// [`mac-address`][struct@crate::SettingInfiniband#mac-address].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `transport-mode`
+    ///  The IP-over-InfiniBand transport mode. Either "datagram" or
+    /// "connected".
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingInfiniband")]
     pub struct SettingInfiniband(Object<ffi::NMSettingInfiniband, ffi::NMSettingInfinibandClass>) @extends Setting;
 
@@ -36,7 +90,7 @@ impl SettingInfiniband {
     ///
     /// # Returns
     ///
-    /// the `property::SettingInfiniband::mac-address` property of the setting
+    /// the [`mac-address`][struct@crate::SettingInfiniband#mac-address] property of the setting
     #[doc(alias = "nm_setting_infiniband_get_mac_address")]
     #[doc(alias = "get_mac_address")]
     pub fn mac_address(&self) -> Option<glib::GString> {
@@ -50,7 +104,7 @@ impl SettingInfiniband {
     ///
     /// # Returns
     ///
-    /// the `property::SettingInfiniband::mtu` property of the setting
+    /// the [`mtu`][struct@crate::SettingInfiniband#mtu] property of the setting
     #[doc(alias = "nm_setting_infiniband_get_mtu")]
     #[doc(alias = "get_mtu")]
     pub fn mtu(&self) -> u32 {
@@ -97,8 +151,8 @@ impl SettingInfiniband {
         }
     }
 
-    /// Returns the interface name created by combining `property::SettingInfiniband::parent`
-    /// and `property::SettingInfiniband::p-key`. (If either property is unset, this will
+    /// Returns the interface name created by combining [`parent`][struct@crate::SettingInfiniband#parent]
+    /// and [`p-key`][struct@crate::SettingInfiniband#p-key]. (If either property is unset, this will
     /// return [`None`].)
     ///
     /// # Returns
@@ -138,9 +192,9 @@ impl SettingInfiniband {
     }
 
     /// The interface name of the parent device of this device. Normally [`None`],
-    /// but if the `property::SettingInfiniband::p_key` property is set, then you must
+    /// but if the [`p_key`][struct@crate::SettingInfiniband#p_key] property is set, then you must
     /// specify the base device by setting either this property or
-    /// `property::SettingInfiniband::mac-address`.
+    /// [`mac-address`][struct@crate::SettingInfiniband#mac-address].
     pub fn set_parent(&self, parent: Option<&str>) {
         glib::ObjectExt::set_property(self, "parent", &parent)
     }

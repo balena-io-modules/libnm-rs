@@ -31,6 +31,7 @@ int main() {
     printf("%s;%zu;%zu\n", "NMDeviceError", sizeof(NMDeviceError), alignof(NMDeviceError));
     printf("%s;%zu;%zu\n", "NMDeviceInterfaceFlags", sizeof(NMDeviceInterfaceFlags), alignof(NMDeviceInterfaceFlags));
     printf("%s;%zu;%zu\n", "NMDeviceModemCapabilities", sizeof(NMDeviceModemCapabilities), alignof(NMDeviceModemCapabilities));
+    printf("%s;%zu;%zu\n", "NMDeviceReapplyFlags", sizeof(NMDeviceReapplyFlags), alignof(NMDeviceReapplyFlags));
     printf("%s;%zu;%zu\n", "NMDeviceState", sizeof(NMDeviceState), alignof(NMDeviceState));
     printf("%s;%zu;%zu\n", "NMDeviceStateReason", sizeof(NMDeviceStateReason), alignof(NMDeviceStateReason));
     printf("%s;%zu;%zu\n", "NMDeviceType", sizeof(NMDeviceType), alignof(NMDeviceType));
@@ -46,6 +47,7 @@ int main() {
     printf("%s;%zu;%zu\n", "NMManagerError", sizeof(NMManagerError), alignof(NMManagerError));
     printf("%s;%zu;%zu\n", "NMManagerReloadFlags", sizeof(NMManagerReloadFlags), alignof(NMManagerReloadFlags));
     printf("%s;%zu;%zu\n", "NMMetered", sizeof(NMMetered), alignof(NMMetered));
+    printf("%s;%zu;%zu\n", "NMMptcpFlags", sizeof(NMMptcpFlags), alignof(NMMptcpFlags));
     printf("%s;%zu;%zu\n", "NMRadioFlags", sizeof(NMRadioFlags), alignof(NMRadioFlags));
     printf("%s;%zu;%zu\n", "NMRollbackResult", sizeof(NMRollbackResult), alignof(NMRollbackResult));
     printf("%s;%zu;%zu\n", "NMSecretAgentCapabilities", sizeof(NMSecretAgentCapabilities), alignof(NMSecretAgentCapabilities));
@@ -64,6 +66,7 @@ int main() {
     printf("%s;%zu;%zu\n", "NMSettingConnectionMdns", sizeof(NMSettingConnectionMdns), alignof(NMSettingConnectionMdns));
     printf("%s;%zu;%zu\n", "NMSettingDcbFlags", sizeof(NMSettingDcbFlags), alignof(NMSettingDcbFlags));
     printf("%s;%zu;%zu\n", "NMSettingDiffResult", sizeof(NMSettingDiffResult), alignof(NMSettingDiffResult));
+    printf("%s;%zu;%zu\n", "NMSettingIP4LinkLocal", sizeof(NMSettingIP4LinkLocal), alignof(NMSettingIP4LinkLocal));
     printf("%s;%zu;%zu\n", "NMSettingIP6ConfigAddrGenMode", sizeof(NMSettingIP6ConfigAddrGenMode), alignof(NMSettingIP6ConfigAddrGenMode));
     printf("%s;%zu;%zu\n", "NMSettingIP6ConfigPrivacy", sizeof(NMSettingIP6ConfigPrivacy), alignof(NMSettingIP6ConfigPrivacy));
     printf("%s;%zu;%zu\n", "NMSettingMacRandomization", sizeof(NMSettingMacRandomization), alignof(NMSettingMacRandomization));

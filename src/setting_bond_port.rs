@@ -5,31 +5,41 @@
 use crate::Setting;
 #[cfg(any(feature = "v1_34", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
-use glib::object::Cast;
-#[cfg(any(feature = "v1_34", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
-use glib::object::ObjectType as ObjectType_;
-#[cfg(any(feature = "v1_34", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
-use glib::signal::connect_raw;
-#[cfg(any(feature = "v1_34", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
-use glib::signal::SignalHandlerId;
-#[cfg(any(feature = "v1_34", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
-use glib::translate::*;
-#[cfg(any(feature = "v1_34", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
-use glib::ToValue;
-#[cfg(any(feature = "v1_34", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
-use std::boxed::Box as Box_;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
 use std::fmt;
 #[cfg(any(feature = "v1_34", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
-use std::mem::transmute;
+use std::{boxed::Box as Box_, mem::transmute};
 
 glib::wrapper! {
+    /// Bond Port Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `queue-id`
+    ///  The queue ID of this bond port. The maximum value of queue ID is
+    /// the number of TX queues currently active in device.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingBondPort")]
     pub struct SettingBondPort(Object<ffi::NMSettingBondPort, ffi::NMSettingBondPortClass>) @extends Setting;
 
@@ -54,7 +64,7 @@ impl SettingBondPort {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBondPort::queue_id` property of the setting
+    /// the [`queue_id`][struct@crate::SettingBondPort#queue_id] property of the setting
     #[cfg(any(feature = "v1_34", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_34")))]
     #[doc(alias = "nm_setting_bond_port_get_queue_id")]

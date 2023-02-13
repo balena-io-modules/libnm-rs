@@ -3,36 +3,47 @@
 // DO NOT EDIT
 
 use bitflags::bitflags;
-use glib::translate::*;
-use glib::value::FromValue;
-use glib::value::ToValue;
-use glib::StaticType;
-use glib::Type;
+use glib::{translate::*, value::FromValue, value::ToValue, StaticType, Type};
 use std::fmt;
 
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 bitflags! {
+    /// Flags describing the current activation state.
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "NMActivationStateFlags")]
     pub struct ActivationStateFlags: u32 {
+        /// an alias for numeric zero, no flags set.
         #[doc(alias = "NM_ACTIVATION_STATE_FLAG_NONE")]
-        const NONE = ffi::NM_ACTIVATION_STATE_FLAG_NONE as u32;
+        const NONE = ffi::NM_ACTIVATION_STATE_FLAG_NONE as _;
+        /// the device is a master.
         #[doc(alias = "NM_ACTIVATION_STATE_FLAG_IS_MASTER")]
-        const IS_MASTER = ffi::NM_ACTIVATION_STATE_FLAG_IS_MASTER as u32;
+        const IS_MASTER = ffi::NM_ACTIVATION_STATE_FLAG_IS_MASTER as _;
+        /// the device is a slave.
         #[doc(alias = "NM_ACTIVATION_STATE_FLAG_IS_SLAVE")]
-        const IS_SLAVE = ffi::NM_ACTIVATION_STATE_FLAG_IS_SLAVE as u32;
+        const IS_SLAVE = ffi::NM_ACTIVATION_STATE_FLAG_IS_SLAVE as _;
+        /// layer2 is activated and ready.
         #[doc(alias = "NM_ACTIVATION_STATE_FLAG_LAYER2_READY")]
-        const LAYER2_READY = ffi::NM_ACTIVATION_STATE_FLAG_LAYER2_READY as u32;
+        const LAYER2_READY = ffi::NM_ACTIVATION_STATE_FLAG_LAYER2_READY as _;
+        /// IPv4 setting is completed.
         #[doc(alias = "NM_ACTIVATION_STATE_FLAG_IP4_READY")]
-        const IP4_READY = ffi::NM_ACTIVATION_STATE_FLAG_IP4_READY as u32;
+        const IP4_READY = ffi::NM_ACTIVATION_STATE_FLAG_IP4_READY as _;
+        /// IPv6 setting is completed.
         #[doc(alias = "NM_ACTIVATION_STATE_FLAG_IP6_READY")]
-        const IP6_READY = ffi::NM_ACTIVATION_STATE_FLAG_IP6_READY as u32;
+        const IP6_READY = ffi::NM_ACTIVATION_STATE_FLAG_IP6_READY as _;
+        /// The master has any slave devices attached.
+        ///  This only makes sense if the device is a master.
         #[doc(alias = "NM_ACTIVATION_STATE_FLAG_MASTER_HAS_SLAVES")]
-        const MASTER_HAS_SLAVES = ffi::NM_ACTIVATION_STATE_FLAG_MASTER_HAS_SLAVES as u32;
+        const MASTER_HAS_SLAVES = ffi::NM_ACTIVATION_STATE_FLAG_MASTER_HAS_SLAVES as _;
+        /// the lifetime
+        ///  of the activation is bound to the visibility of the connection profile,
+        ///  which in turn depends on "connection.permissions" and whether a session
+        ///  for the user exists. Since: 1.16.
         #[doc(alias = "NM_ACTIVATION_STATE_FLAG_LIFETIME_BOUND_TO_PROFILE_VISIBILITY")]
-        const LIFETIME_BOUND_TO_PROFILE_VISIBILITY = ffi::NM_ACTIVATION_STATE_FLAG_LIFETIME_BOUND_TO_PROFILE_VISIBILITY as u32;
+        const LIFETIME_BOUND_TO_PROFILE_VISIBILITY = ffi::NM_ACTIVATION_STATE_FLAG_LIFETIME_BOUND_TO_PROFILE_VISIBILITY as _;
+        /// the active connection was generated to
+        ///  represent an external configuration of a networking device. Since: 1.26.
         #[doc(alias = "NM_ACTIVATION_STATE_FLAG_EXTERNAL")]
-        const EXTERNAL = ffi::NM_ACTIVATION_STATE_FLAG_EXTERNAL as u32;
+        const EXTERNAL = ffi::NM_ACTIVATION_STATE_FLAG_EXTERNAL as _;
     }
 }
 
@@ -50,6 +61,7 @@ impl fmt::Display for ActivationStateFlags {
 impl IntoGlib for ActivationStateFlags {
     type GlibType = ffi::NMActivationStateFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMActivationStateFlags {
         self.bits()
     }
@@ -59,6 +71,7 @@ impl IntoGlib for ActivationStateFlags {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMActivationStateFlags> for ActivationStateFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMActivationStateFlags) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -67,8 +80,21 @@ impl FromGlib<ffi::NMActivationStateFlags> for ActivationStateFlags {
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 impl StaticType for ActivationStateFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_activation_state_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+impl glib::HasParamSpec for ActivationStateFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -83,6 +109,7 @@ impl glib::value::ValueType for ActivationStateFlags {
 unsafe impl<'a> FromValue<'a> for ActivationStateFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -91,6 +118,7 @@ unsafe impl<'a> FromValue<'a> for ActivationStateFlags {
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 impl ToValue for ActivationStateFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -99,20 +127,35 @@ impl ToValue for ActivationStateFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+impl From<ActivationStateFlags> for glib::Value {
+    #[inline]
+    fn from(v: ActivationStateFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
+    /// [`BluetoothCapabilities`][crate::BluetoothCapabilities] values indicate the usable capabilities of a
+    /// Bluetooth device.
     #[doc(alias = "NMBluetoothCapabilities")]
     pub struct BluetoothCapabilities: u32 {
+        /// device has no usable capabilities
         #[doc(alias = "NM_BT_CAPABILITY_NONE")]
-        const NONE = ffi::NM_BT_CAPABILITY_NONE as u32;
+        const NONE = ffi::NM_BT_CAPABILITY_NONE as _;
+        /// device provides Dial-Up Networking capability
         #[doc(alias = "NM_BT_CAPABILITY_DUN")]
-        const DUN = ffi::NM_BT_CAPABILITY_DUN as u32;
+        const DUN = ffi::NM_BT_CAPABILITY_DUN as _;
+        /// device provides Network Access Point capability
         #[doc(alias = "NM_BT_CAPABILITY_NAP")]
-        const NAP = ffi::NM_BT_CAPABILITY_NAP as u32;
+        const NAP = ffi::NM_BT_CAPABILITY_NAP as _;
     }
 }
 
@@ -126,6 +169,7 @@ impl fmt::Display for BluetoothCapabilities {
 impl IntoGlib for BluetoothCapabilities {
     type GlibType = ffi::NMBluetoothCapabilities;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMBluetoothCapabilities {
         self.bits()
     }
@@ -133,14 +177,26 @@ impl IntoGlib for BluetoothCapabilities {
 
 #[doc(hidden)]
 impl FromGlib<ffi::NMBluetoothCapabilities> for BluetoothCapabilities {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMBluetoothCapabilities) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for BluetoothCapabilities {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_bluetooth_capabilities_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for BluetoothCapabilities {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -151,12 +207,14 @@ impl glib::value::ValueType for BluetoothCapabilities {
 unsafe impl<'a> FromValue<'a> for BluetoothCapabilities {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for BluetoothCapabilities {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -165,86 +223,136 @@ impl ToValue for BluetoothCapabilities {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
-#[cfg(any(feature = "v1_4", feature = "dox"))]
-bitflags! {
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
-    #[doc(alias = "NMCheckpointCreateFlags")]
-    pub struct CheckpointCreateFlags: u32 {
-        #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_NONE")]
-        const NONE = ffi::NM_CHECKPOINT_CREATE_FLAG_NONE as u32;
-        #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_DESTROY_ALL")]
-        const DESTROY_ALL = ffi::NM_CHECKPOINT_CREATE_FLAG_DESTROY_ALL as u32;
-        #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_DELETE_NEW_CONNECTIONS")]
-        const DELETE_NEW_CONNECTIONS = ffi::NM_CHECKPOINT_CREATE_FLAG_DELETE_NEW_CONNECTIONS as u32;
-        #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_DISCONNECT_NEW_DEVICES")]
-        const DISCONNECT_NEW_DEVICES = ffi::NM_CHECKPOINT_CREATE_FLAG_DISCONNECT_NEW_DEVICES as u32;
-        #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_ALLOW_OVERLAPPING")]
-        const ALLOW_OVERLAPPING = ffi::NM_CHECKPOINT_CREATE_FLAG_ALLOW_OVERLAPPING as u32;
-        #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_NO_PRESERVE_EXTERNAL_PORTS")]
-        const NO_PRESERVE_EXTERNAL_PORTS = ffi::NM_CHECKPOINT_CREATE_FLAG_NO_PRESERVE_EXTERNAL_PORTS as u32;
+impl From<BluetoothCapabilities> for glib::Value {
+    #[inline]
+    fn from(v: BluetoothCapabilities) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
-#[cfg(any(feature = "v1_4", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+bitflags! {
+    /// The flags for CheckpointCreate call
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+    #[doc(alias = "NMCheckpointCreateFlags")]
+    pub struct CheckpointCreateFlags: u32 {
+        /// no flags
+        #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_NONE")]
+        const NONE = ffi::NM_CHECKPOINT_CREATE_FLAG_NONE as _;
+        /// when creating
+        ///  a new checkpoint, destroy all existing ones.
+        #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_DESTROY_ALL")]
+        const DESTROY_ALL = ffi::NM_CHECKPOINT_CREATE_FLAG_DESTROY_ALL as _;
+        /// upon rollback,
+        ///  delete any new connection added after the checkpoint. Since: 1.6.
+        #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_DELETE_NEW_CONNECTIONS")]
+        const DELETE_NEW_CONNECTIONS = ffi::NM_CHECKPOINT_CREATE_FLAG_DELETE_NEW_CONNECTIONS as _;
+        /// upon rollback,
+        ///  disconnect any new device appeared after the checkpoint. Since: 1.6.
+        #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_DISCONNECT_NEW_DEVICES")]
+        const DISCONNECT_NEW_DEVICES = ffi::NM_CHECKPOINT_CREATE_FLAG_DISCONNECT_NEW_DEVICES as _;
+        /// by default, creating
+        ///  a checkpoint fails if there are already existing checkoints that
+        ///  reference the same devices. With this flag, creation of such
+        ///  checkpoints is allowed, however, if an older checkpoint
+        ///  that references overlapping devices gets rolled back, it will
+        ///  automatically destroy this checkpoint during rollback. This
+        ///  allows to create several overlapping checkpoints in parallel,
+        ///  and rollback to them at will. With the special case that
+        ///  rolling back to an older checkpoint will invalidate all
+        ///  overlapping younger checkpoints. This opts-in that the
+        ///  checkpoint can be automatically destroyed by the rollback
+        ///  of an older checkpoint. Since: 1.12.
+        #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_ALLOW_OVERLAPPING")]
+        const ALLOW_OVERLAPPING = ffi::NM_CHECKPOINT_CREATE_FLAG_ALLOW_OVERLAPPING as _;
+        /// during rollback,
+        ///  by default externally added ports attached to bridge devices are preserved.
+        ///  With this flag, the rollback detaches all external ports.
+        ///  This only has an effect for bridge ports. Before 1.38, this was the default
+        ///  behavior. Since: 1.38.
+        #[doc(alias = "NM_CHECKPOINT_CREATE_FLAG_NO_PRESERVE_EXTERNAL_PORTS")]
+        const NO_PRESERVE_EXTERNAL_PORTS = ffi::NM_CHECKPOINT_CREATE_FLAG_NO_PRESERVE_EXTERNAL_PORTS as _;
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl fmt::Display for CheckpointCreateFlags {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         <Self as fmt::Debug>::fmt(self, f)
     }
 }
 
-#[cfg(any(feature = "v1_4", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 #[doc(hidden)]
 impl IntoGlib for CheckpointCreateFlags {
     type GlibType = ffi::NMCheckpointCreateFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMCheckpointCreateFlags {
         self.bits()
     }
 }
 
-#[cfg(any(feature = "v1_4", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMCheckpointCreateFlags> for CheckpointCreateFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMCheckpointCreateFlags) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
-#[cfg(any(feature = "v1_4", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl StaticType for CheckpointCreateFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_checkpoint_create_flags_get_type()) }
     }
 }
 
-#[cfg(any(feature = "v1_4", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+impl glib::HasParamSpec for CheckpointCreateFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl glib::value::ValueType for CheckpointCreateFlags {
     type Type = Self;
 }
 
-#[cfg(any(feature = "v1_4", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 unsafe impl<'a> FromValue<'a> for CheckpointCreateFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
-#[cfg(any(feature = "v1_4", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl ToValue for CheckpointCreateFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -253,8 +361,18 @@ impl ToValue for CheckpointCreateFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+impl From<CheckpointCreateFlags> for glib::Value {
+    #[inline]
+    fn from(v: CheckpointCreateFlags) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -263,10 +381,17 @@ bitflags! {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "NMClientInstanceFlags")]
     pub struct ClientInstanceFlags: u32 {
+        /// special value to indicate no flags.
         #[doc(alias = "NM_CLIENT_INSTANCE_FLAGS_NONE")]
-        const NONE = ffi::NM_CLIENT_INSTANCE_FLAGS_NONE as u32;
+        const NONE = ffi::NM_CLIENT_INSTANCE_FLAGS_NONE as _;
+        /// by default, NMClient
+        ///  will fetch the permissions via "GetPermissions" and refetch them when
+        ///  "CheckPermissions" signal gets received. By setting this flag, this behavior
+        ///  can be disabled. You can toggle this flag to enable and disable automatic
+        ///  fetching of the permissions. Watch also [`Client::permissions_state()`][crate::Client::permissions_state()]
+        ///  to know whether the permissions are up to date.
         #[doc(alias = "NM_CLIENT_INSTANCE_FLAGS_NO_AUTO_FETCH_PERMISSIONS")]
-        const NO_AUTO_FETCH_PERMISSIONS = ffi::NM_CLIENT_INSTANCE_FLAGS_NO_AUTO_FETCH_PERMISSIONS as u32;
+        const NO_AUTO_FETCH_PERMISSIONS = ffi::NM_CLIENT_INSTANCE_FLAGS_NO_AUTO_FETCH_PERMISSIONS as _;
     }
 }
 
@@ -284,6 +409,7 @@ impl fmt::Display for ClientInstanceFlags {
 impl IntoGlib for ClientInstanceFlags {
     type GlibType = ffi::NMClientInstanceFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMClientInstanceFlags {
         self.bits()
     }
@@ -293,6 +419,7 @@ impl IntoGlib for ClientInstanceFlags {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMClientInstanceFlags> for ClientInstanceFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMClientInstanceFlags) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -301,8 +428,21 @@ impl FromGlib<ffi::NMClientInstanceFlags> for ClientInstanceFlags {
 #[cfg(any(feature = "v1_24", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
 impl StaticType for ClientInstanceFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_client_instance_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
+impl glib::HasParamSpec for ClientInstanceFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -317,6 +457,7 @@ impl glib::value::ValueType for ClientInstanceFlags {
 unsafe impl<'a> FromValue<'a> for ClientInstanceFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -325,6 +466,7 @@ unsafe impl<'a> FromValue<'a> for ClientInstanceFlags {
 #[cfg(any(feature = "v1_24", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
 impl ToValue for ClientInstanceFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -333,30 +475,59 @@ impl ToValue for ClientInstanceFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+#[cfg(any(feature = "v1_24", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
+impl From<ClientInstanceFlags> for glib::Value {
+    #[inline]
+    fn from(v: ClientInstanceFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
+    /// These flags determine which properties are serialized when calling
+    /// [`ConnectionExt::to_dbus()`][crate::prelude::ConnectionExt::to_dbus()].
     #[doc(alias = "NMConnectionSerializationFlags")]
     pub struct ConnectionSerializationFlags: u32 {
+        /// serialize all properties (including secrets)
         #[doc(alias = "NM_CONNECTION_SERIALIZE_ALL")]
-        const ALL = ffi::NM_CONNECTION_SERIALIZE_ALL as u32;
+        const ALL = ffi::NM_CONNECTION_SERIALIZE_ALL as _;
+        /// serialize properties that are
+        ///  not secrets. Since 1.32.
         #[doc(alias = "NM_CONNECTION_SERIALIZE_WITH_NON_SECRET")]
-        const WITH_NON_SECRET = ffi::NM_CONNECTION_SERIALIZE_WITH_NON_SECRET as u32;
+        const WITH_NON_SECRET = ffi::NM_CONNECTION_SERIALIZE_WITH_NON_SECRET as _;
+        /// this is a deprecated alias for
+        ///  [`WITH_NON_SECRET`][Self::WITH_NON_SECRET].
         #[doc(alias = "NM_CONNECTION_SERIALIZE_NO_SECRETS")]
-        const NO_SECRETS = ffi::NM_CONNECTION_SERIALIZE_NO_SECRETS as u32;
+        const NO_SECRETS = ffi::NM_CONNECTION_SERIALIZE_NO_SECRETS as _;
+        /// serialize all secrets. This flag is
+        ///  ignored if any of [`WITH_SECRETS_AGENT_OWNED`][Self::WITH_SECRETS_AGENT_OWNED],
+        ///  [`WITH_SECRETS_SYSTEM_OWNED`][Self::WITH_SECRETS_SYSTEM_OWNED] or
+        ///  [`WITH_SECRETS_NOT_SAVED`][Self::WITH_SECRETS_NOT_SAVED] is set. Since 1.32.
         #[doc(alias = "NM_CONNECTION_SERIALIZE_WITH_SECRETS")]
-        const WITH_SECRETS = ffi::NM_CONNECTION_SERIALIZE_WITH_SECRETS as u32;
+        const WITH_SECRETS = ffi::NM_CONNECTION_SERIALIZE_WITH_SECRETS as _;
+        /// a deprecated alias for
+        ///  [`WITH_SECRETS`][Self::WITH_SECRETS].
         #[doc(alias = "NM_CONNECTION_SERIALIZE_ONLY_SECRETS")]
-        const ONLY_SECRETS = ffi::NM_CONNECTION_SERIALIZE_ONLY_SECRETS as u32;
+        const ONLY_SECRETS = ffi::NM_CONNECTION_SERIALIZE_ONLY_SECRETS as _;
+        /// serialize agent-owned
+        ///  secrets. Since: 1.20.
         #[doc(alias = "NM_CONNECTION_SERIALIZE_WITH_SECRETS_AGENT_OWNED")]
-        const WITH_SECRETS_AGENT_OWNED = ffi::NM_CONNECTION_SERIALIZE_WITH_SECRETS_AGENT_OWNED as u32;
+        const WITH_SECRETS_AGENT_OWNED = ffi::NM_CONNECTION_SERIALIZE_WITH_SECRETS_AGENT_OWNED as _;
+        /// serialize system-owned
+        ///  secrets. Since: 1.32.
         #[doc(alias = "NM_CONNECTION_SERIALIZE_WITH_SECRETS_SYSTEM_OWNED")]
-        const WITH_SECRETS_SYSTEM_OWNED = ffi::NM_CONNECTION_SERIALIZE_WITH_SECRETS_SYSTEM_OWNED as u32;
+        const WITH_SECRETS_SYSTEM_OWNED = ffi::NM_CONNECTION_SERIALIZE_WITH_SECRETS_SYSTEM_OWNED as _;
+        /// serialize secrets that
+        ///  are marked as never saved. Since: 1.32.
         #[doc(alias = "NM_CONNECTION_SERIALIZE_WITH_SECRETS_NOT_SAVED")]
-        const WITH_SECRETS_NOT_SAVED = ffi::NM_CONNECTION_SERIALIZE_WITH_SECRETS_NOT_SAVED as u32;
+        const WITH_SECRETS_NOT_SAVED = ffi::NM_CONNECTION_SERIALIZE_WITH_SECRETS_NOT_SAVED as _;
     }
 }
 
@@ -370,6 +541,7 @@ impl fmt::Display for ConnectionSerializationFlags {
 impl IntoGlib for ConnectionSerializationFlags {
     type GlibType = ffi::NMConnectionSerializationFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMConnectionSerializationFlags {
         self.bits()
     }
@@ -377,14 +549,26 @@ impl IntoGlib for ConnectionSerializationFlags {
 
 #[doc(hidden)]
 impl FromGlib<ffi::NMConnectionSerializationFlags> for ConnectionSerializationFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMConnectionSerializationFlags) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for ConnectionSerializationFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_connection_serialization_flags_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for ConnectionSerializationFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -395,12 +579,14 @@ impl glib::value::ValueType for ConnectionSerializationFlags {
 unsafe impl<'a> FromValue<'a> for ConnectionSerializationFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for ConnectionSerializationFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -409,24 +595,38 @@ impl ToValue for ConnectionSerializationFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<ConnectionSerializationFlags> for glib::Value {
+    #[inline]
+    fn from(v: ConnectionSerializationFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
+    /// General device capability flags.
     #[doc(alias = "NMDeviceCapabilities")]
     pub struct DeviceCapabilities: u32 {
+        /// device has no special capabilities
         #[doc(alias = "NM_DEVICE_CAP_NONE")]
-        const NONE = ffi::NM_DEVICE_CAP_NONE as u32;
+        const NONE = ffi::NM_DEVICE_CAP_NONE as _;
+        /// NetworkManager supports this device
         #[doc(alias = "NM_DEVICE_CAP_NM_SUPPORTED")]
-        const NM_SUPPORTED = ffi::NM_DEVICE_CAP_NM_SUPPORTED as u32;
+        const NM_SUPPORTED = ffi::NM_DEVICE_CAP_NM_SUPPORTED as _;
+        /// this device can indicate carrier status
         #[doc(alias = "NM_DEVICE_CAP_CARRIER_DETECT")]
-        const CARRIER_DETECT = ffi::NM_DEVICE_CAP_CARRIER_DETECT as u32;
+        const CARRIER_DETECT = ffi::NM_DEVICE_CAP_CARRIER_DETECT as _;
+        /// this device is a software device
         #[doc(alias = "NM_DEVICE_CAP_IS_SOFTWARE")]
-        const IS_SOFTWARE = ffi::NM_DEVICE_CAP_IS_SOFTWARE as u32;
+        const IS_SOFTWARE = ffi::NM_DEVICE_CAP_IS_SOFTWARE as _;
+        /// this device supports single-root I/O virtualization
         #[doc(alias = "NM_DEVICE_CAP_SRIOV")]
-        const SRIOV = ffi::NM_DEVICE_CAP_SRIOV as u32;
+        const SRIOV = ffi::NM_DEVICE_CAP_SRIOV as _;
     }
 }
 
@@ -440,6 +640,7 @@ impl fmt::Display for DeviceCapabilities {
 impl IntoGlib for DeviceCapabilities {
     type GlibType = ffi::NMDeviceCapabilities;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMDeviceCapabilities {
         self.bits()
     }
@@ -447,14 +648,26 @@ impl IntoGlib for DeviceCapabilities {
 
 #[doc(hidden)]
 impl FromGlib<ffi::NMDeviceCapabilities> for DeviceCapabilities {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMDeviceCapabilities) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for DeviceCapabilities {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_device_capabilities_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for DeviceCapabilities {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -465,12 +678,14 @@ impl glib::value::ValueType for DeviceCapabilities {
 unsafe impl<'a> FromValue<'a> for DeviceCapabilities {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for DeviceCapabilities {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -479,26 +694,46 @@ impl ToValue for DeviceCapabilities {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<DeviceCapabilities> for glib::Value {
+    #[inline]
+    fn from(v: DeviceCapabilities) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 bitflags! {
+    /// Flags for a network interface.
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     #[doc(alias = "NMDeviceInterfaceFlags")]
     pub struct DeviceInterfaceFlags: u32 {
+        /// the interface is enabled from the
+        ///  administrative point of view. Corresponds to kernel IFF_UP.
         #[doc(alias = "NM_DEVICE_INTERFACE_FLAG_UP")]
-        const UP = ffi::NM_DEVICE_INTERFACE_FLAG_UP as u32;
+        const UP = ffi::NM_DEVICE_INTERFACE_FLAG_UP as _;
+        /// the physical link is up. Corresponds
+        ///  to kernel IFF_LOWER_UP.
         #[doc(alias = "NM_DEVICE_INTERFACE_FLAG_LOWER_UP")]
-        const LOWER_UP = ffi::NM_DEVICE_INTERFACE_FLAG_LOWER_UP as u32;
+        const LOWER_UP = ffi::NM_DEVICE_INTERFACE_FLAG_LOWER_UP as _;
+        /// receive all packets. Corresponds to
+        ///  kernel IFF_PROMISC. Since: 1.32.
         #[doc(alias = "NM_DEVICE_INTERFACE_FLAG_PROMISC")]
-        const PROMISC = ffi::NM_DEVICE_INTERFACE_FLAG_PROMISC as u32;
+        const PROMISC = ffi::NM_DEVICE_INTERFACE_FLAG_PROMISC as _;
+        /// the interface has carrier. In most
+        ///  cases this is equal to the value of [`LOWER_UP`][Self::LOWER_UP].
+        ///  However some devices have a non-standard carrier detection mechanism.
         #[doc(alias = "NM_DEVICE_INTERFACE_FLAG_CARRIER")]
-        const CARRIER = ffi::NM_DEVICE_INTERFACE_FLAG_CARRIER as u32;
+        const CARRIER = ffi::NM_DEVICE_INTERFACE_FLAG_CARRIER as _;
+        /// the flag to indicate device
+        ///  LLDP status. Since: 1.32.
         #[doc(alias = "NM_DEVICE_INTERFACE_FLAG_LLDP_CLIENT_ENABLED")]
-        const LLDP_CLIENT_ENABLED = ffi::NM_DEVICE_INTERFACE_FLAG_LLDP_CLIENT_ENABLED as u32;
+        const LLDP_CLIENT_ENABLED = ffi::NM_DEVICE_INTERFACE_FLAG_LLDP_CLIENT_ENABLED as _;
     }
 }
 
@@ -516,6 +751,7 @@ impl fmt::Display for DeviceInterfaceFlags {
 impl IntoGlib for DeviceInterfaceFlags {
     type GlibType = ffi::NMDeviceInterfaceFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMDeviceInterfaceFlags {
         self.bits()
     }
@@ -525,6 +761,7 @@ impl IntoGlib for DeviceInterfaceFlags {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMDeviceInterfaceFlags> for DeviceInterfaceFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMDeviceInterfaceFlags) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -533,8 +770,21 @@ impl FromGlib<ffi::NMDeviceInterfaceFlags> for DeviceInterfaceFlags {
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 impl StaticType for DeviceInterfaceFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_device_interface_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+impl glib::HasParamSpec for DeviceInterfaceFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -549,6 +799,7 @@ impl glib::value::ValueType for DeviceInterfaceFlags {
 unsafe impl<'a> FromValue<'a> for DeviceInterfaceFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -557,6 +808,7 @@ unsafe impl<'a> FromValue<'a> for DeviceInterfaceFlags {
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 impl ToValue for DeviceInterfaceFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -565,26 +817,49 @@ impl ToValue for DeviceInterfaceFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+#[cfg(any(feature = "v1_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+impl From<DeviceInterfaceFlags> for glib::Value {
+    #[inline]
+    fn from(v: DeviceInterfaceFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
+    /// [`DeviceModemCapabilities`][crate::DeviceModemCapabilities] values indicate the generic radio access
+    /// technology families a modem device supports. For more information on the
+    /// specific access technologies the device supports use the ModemManager D-Bus
+    /// API.
     #[doc(alias = "NMDeviceModemCapabilities")]
     pub struct DeviceModemCapabilities: u32 {
+        /// modem has no usable capabilities
         #[doc(alias = "NM_DEVICE_MODEM_CAPABILITY_NONE")]
-        const NONE = ffi::NM_DEVICE_MODEM_CAPABILITY_NONE as u32;
+        const NONE = ffi::NM_DEVICE_MODEM_CAPABILITY_NONE as _;
+        /// modem uses the analog wired telephone
+        /// network and is not a wireless/cellular device
         #[doc(alias = "NM_DEVICE_MODEM_CAPABILITY_POTS")]
-        const POTS = ffi::NM_DEVICE_MODEM_CAPABILITY_POTS as u32;
+        const POTS = ffi::NM_DEVICE_MODEM_CAPABILITY_POTS as _;
+        /// modem supports at least one of CDMA
+        /// 1xRTT, EVDO revision 0, EVDO revision A, or EVDO revision B
         #[doc(alias = "NM_DEVICE_MODEM_CAPABILITY_CDMA_EVDO")]
-        const CDMA_EVDO = ffi::NM_DEVICE_MODEM_CAPABILITY_CDMA_EVDO as u32;
+        const CDMA_EVDO = ffi::NM_DEVICE_MODEM_CAPABILITY_CDMA_EVDO as _;
+        /// modem supports at least one of GSM,
+        /// GPRS, EDGE, UMTS, HSDPA, HSUPA, or HSPA+ packet switched data capability
         #[doc(alias = "NM_DEVICE_MODEM_CAPABILITY_GSM_UMTS")]
-        const GSM_UMTS = ffi::NM_DEVICE_MODEM_CAPABILITY_GSM_UMTS as u32;
+        const GSM_UMTS = ffi::NM_DEVICE_MODEM_CAPABILITY_GSM_UMTS as _;
+        /// modem has LTE data capability
         #[doc(alias = "NM_DEVICE_MODEM_CAPABILITY_LTE")]
-        const LTE = ffi::NM_DEVICE_MODEM_CAPABILITY_LTE as u32;
+        const LTE = ffi::NM_DEVICE_MODEM_CAPABILITY_LTE as _;
+        /// modem has 5GNR data capability (Since: 1.36)
         #[doc(alias = "NM_DEVICE_MODEM_CAPABILITY_5GNR")]
-        const __5GNR = ffi::NM_DEVICE_MODEM_CAPABILITY_5GNR as u32;
+        const __5GNR = ffi::NM_DEVICE_MODEM_CAPABILITY_5GNR as _;
     }
 }
 
@@ -598,6 +873,7 @@ impl fmt::Display for DeviceModemCapabilities {
 impl IntoGlib for DeviceModemCapabilities {
     type GlibType = ffi::NMDeviceModemCapabilities;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMDeviceModemCapabilities {
         self.bits()
     }
@@ -605,14 +881,26 @@ impl IntoGlib for DeviceModemCapabilities {
 
 #[doc(hidden)]
 impl FromGlib<ffi::NMDeviceModemCapabilities> for DeviceModemCapabilities {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMDeviceModemCapabilities) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for DeviceModemCapabilities {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_device_modem_capabilities_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for DeviceModemCapabilities {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -623,12 +911,14 @@ impl glib::value::ValueType for DeviceModemCapabilities {
 unsafe impl<'a> FromValue<'a> for DeviceModemCapabilities {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for DeviceModemCapabilities {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -637,42 +927,65 @@ impl ToValue for DeviceModemCapabilities {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<DeviceModemCapabilities> for glib::Value {
+    #[inline]
+    fn from(v: DeviceModemCapabilities) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
+    /// 802.11 specific device encryption and authentication capabilities.
     #[doc(alias = "NMDeviceWifiCapabilities")]
     pub struct DeviceWifiCapabilities: u32 {
+        /// device has no encryption/authentication capabilities
         #[doc(alias = "NM_WIFI_DEVICE_CAP_NONE")]
-        const NONE = ffi::NM_WIFI_DEVICE_CAP_NONE as u32;
+        const NONE = ffi::NM_WIFI_DEVICE_CAP_NONE as _;
+        /// device supports 40/64-bit WEP encryption
         #[doc(alias = "NM_WIFI_DEVICE_CAP_CIPHER_WEP40")]
-        const CIPHER_WEP40 = ffi::NM_WIFI_DEVICE_CAP_CIPHER_WEP40 as u32;
+        const CIPHER_WEP40 = ffi::NM_WIFI_DEVICE_CAP_CIPHER_WEP40 as _;
+        /// device supports 104/128-bit WEP encryption
         #[doc(alias = "NM_WIFI_DEVICE_CAP_CIPHER_WEP104")]
-        const CIPHER_WEP104 = ffi::NM_WIFI_DEVICE_CAP_CIPHER_WEP104 as u32;
+        const CIPHER_WEP104 = ffi::NM_WIFI_DEVICE_CAP_CIPHER_WEP104 as _;
+        /// device supports TKIP encryption
         #[doc(alias = "NM_WIFI_DEVICE_CAP_CIPHER_TKIP")]
-        const CIPHER_TKIP = ffi::NM_WIFI_DEVICE_CAP_CIPHER_TKIP as u32;
+        const CIPHER_TKIP = ffi::NM_WIFI_DEVICE_CAP_CIPHER_TKIP as _;
+        /// device supports AES/CCMP encryption
         #[doc(alias = "NM_WIFI_DEVICE_CAP_CIPHER_CCMP")]
-        const CIPHER_CCMP = ffi::NM_WIFI_DEVICE_CAP_CIPHER_CCMP as u32;
+        const CIPHER_CCMP = ffi::NM_WIFI_DEVICE_CAP_CIPHER_CCMP as _;
+        /// device supports WPA1 authentication
         #[doc(alias = "NM_WIFI_DEVICE_CAP_WPA")]
-        const WPA = ffi::NM_WIFI_DEVICE_CAP_WPA as u32;
+        const WPA = ffi::NM_WIFI_DEVICE_CAP_WPA as _;
+        /// device supports WPA2/RSN authentication
         #[doc(alias = "NM_WIFI_DEVICE_CAP_RSN")]
-        const RSN = ffi::NM_WIFI_DEVICE_CAP_RSN as u32;
+        const RSN = ffi::NM_WIFI_DEVICE_CAP_RSN as _;
+        /// device supports Access Point mode
         #[doc(alias = "NM_WIFI_DEVICE_CAP_AP")]
-        const AP = ffi::NM_WIFI_DEVICE_CAP_AP as u32;
+        const AP = ffi::NM_WIFI_DEVICE_CAP_AP as _;
+        /// device supports Ad-Hoc mode
         #[doc(alias = "NM_WIFI_DEVICE_CAP_ADHOC")]
-        const ADHOC = ffi::NM_WIFI_DEVICE_CAP_ADHOC as u32;
+        const ADHOC = ffi::NM_WIFI_DEVICE_CAP_ADHOC as _;
+        /// device reports frequency capabilities
         #[doc(alias = "NM_WIFI_DEVICE_CAP_FREQ_VALID")]
-        const FREQ_VALID = ffi::NM_WIFI_DEVICE_CAP_FREQ_VALID as u32;
+        const FREQ_VALID = ffi::NM_WIFI_DEVICE_CAP_FREQ_VALID as _;
+        /// device supports 2.4GHz frequencies
         #[doc(alias = "NM_WIFI_DEVICE_CAP_FREQ_2GHZ")]
-        const FREQ_2GHZ = ffi::NM_WIFI_DEVICE_CAP_FREQ_2GHZ as u32;
+        const FREQ_2GHZ = ffi::NM_WIFI_DEVICE_CAP_FREQ_2GHZ as _;
+        /// device supports 5GHz frequencies
         #[doc(alias = "NM_WIFI_DEVICE_CAP_FREQ_5GHZ")]
-        const FREQ_5GHZ = ffi::NM_WIFI_DEVICE_CAP_FREQ_5GHZ as u32;
+        const FREQ_5GHZ = ffi::NM_WIFI_DEVICE_CAP_FREQ_5GHZ as _;
+        /// device supports acting as a mesh point. Since: 1.20.
         #[doc(alias = "NM_WIFI_DEVICE_CAP_MESH")]
-        const MESH = ffi::NM_WIFI_DEVICE_CAP_MESH as u32;
+        const MESH = ffi::NM_WIFI_DEVICE_CAP_MESH as _;
+        /// device supports WPA2/RSN in an IBSS network. Since: 1.22.
         #[doc(alias = "NM_WIFI_DEVICE_CAP_IBSS_RSN")]
-        const IBSS_RSN = ffi::NM_WIFI_DEVICE_CAP_IBSS_RSN as u32;
+        const IBSS_RSN = ffi::NM_WIFI_DEVICE_CAP_IBSS_RSN as _;
     }
 }
 
@@ -686,6 +999,7 @@ impl fmt::Display for DeviceWifiCapabilities {
 impl IntoGlib for DeviceWifiCapabilities {
     type GlibType = ffi::NMDeviceWifiCapabilities;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMDeviceWifiCapabilities {
         self.bits()
     }
@@ -693,14 +1007,26 @@ impl IntoGlib for DeviceWifiCapabilities {
 
 #[doc(hidden)]
 impl FromGlib<ffi::NMDeviceWifiCapabilities> for DeviceWifiCapabilities {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMDeviceWifiCapabilities) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for DeviceWifiCapabilities {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_device_wifi_capabilities_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for DeviceWifiCapabilities {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -711,12 +1037,14 @@ impl glib::value::ValueType for DeviceWifiCapabilities {
 unsafe impl<'a> FromValue<'a> for DeviceWifiCapabilities {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for DeviceWifiCapabilities {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -725,26 +1053,56 @@ impl ToValue for DeviceWifiCapabilities {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<DeviceWifiCapabilities> for glib::Value {
+    #[inline]
+    fn from(v: DeviceWifiCapabilities) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 bitflags! {
+    /// [`DhcpHostnameFlags`][crate::DhcpHostnameFlags] describe flags related to the DHCP hostname and
+    /// FQDN.
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     #[doc(alias = "NMDhcpHostnameFlags")]
     pub struct DhcpHostnameFlags: u32 {
+        /// no flag set. The default value from
+        ///  Networkmanager global configuration is used. If such value is unset
+        ///  or still zero, the DHCP request will use standard FQDN flags, i.e.
+        ///  [`FQDN_SERV_UPDATE`][Self::FQDN_SERV_UPDATE] and
+        ///  [`FQDN_ENCODED`][Self::FQDN_ENCODED] for IPv4 and
+        ///  [`FQDN_SERV_UPDATE`][Self::FQDN_SERV_UPDATE] for IPv6.
         #[doc(alias = "NM_DHCP_HOSTNAME_FLAG_NONE")]
-        const NONE = ffi::NM_DHCP_HOSTNAME_FLAG_NONE as u32;
+        const NONE = ffi::NM_DHCP_HOSTNAME_FLAG_NONE as _;
+        /// whether the server should
+        ///  do the A RR (FQDN-to-address) DNS updates.
         #[doc(alias = "NM_DHCP_HOSTNAME_FLAG_FQDN_SERV_UPDATE")]
-        const FQDN_SERV_UPDATE = ffi::NM_DHCP_HOSTNAME_FLAG_FQDN_SERV_UPDATE as u32;
+        const FQDN_SERV_UPDATE = ffi::NM_DHCP_HOSTNAME_FLAG_FQDN_SERV_UPDATE as _;
+        /// if set, the FQDN is encoded
+        ///  using canonical wire format. Otherwise it uses the deprecated
+        ///  ASCII encoding. This flag is allowed only for DHCPv4.
         #[doc(alias = "NM_DHCP_HOSTNAME_FLAG_FQDN_ENCODED")]
-        const FQDN_ENCODED = ffi::NM_DHCP_HOSTNAME_FLAG_FQDN_ENCODED as u32;
+        const FQDN_ENCODED = ffi::NM_DHCP_HOSTNAME_FLAG_FQDN_ENCODED as _;
+        /// when not set, request the
+        ///  server to perform updates (the PTR RR and possibly the A RR
+        ///  based on the [`FQDN_SERV_UPDATE`][Self::FQDN_SERV_UPDATE] flag). If
+        ///  this is set, the [`FQDN_SERV_UPDATE`][Self::FQDN_SERV_UPDATE] flag
+        ///  should be cleared.
         #[doc(alias = "NM_DHCP_HOSTNAME_FLAG_FQDN_NO_UPDATE")]
-        const FQDN_NO_UPDATE = ffi::NM_DHCP_HOSTNAME_FLAG_FQDN_NO_UPDATE as u32;
+        const FQDN_NO_UPDATE = ffi::NM_DHCP_HOSTNAME_FLAG_FQDN_NO_UPDATE as _;
+        /// when set, no FQDN flags are
+        ///  sent in the DHCP FQDN option. When cleared and all other FQDN
+        ///  flags are zero, standard FQDN flags are sent. This flag is
+        ///  incompatible with any other FQDN flag.
         #[doc(alias = "NM_DHCP_HOSTNAME_FLAG_FQDN_CLEAR_FLAGS")]
-        const FQDN_CLEAR_FLAGS = ffi::NM_DHCP_HOSTNAME_FLAG_FQDN_CLEAR_FLAGS as u32;
+        const FQDN_CLEAR_FLAGS = ffi::NM_DHCP_HOSTNAME_FLAG_FQDN_CLEAR_FLAGS as _;
     }
 }
 
@@ -762,6 +1120,7 @@ impl fmt::Display for DhcpHostnameFlags {
 impl IntoGlib for DhcpHostnameFlags {
     type GlibType = ffi::NMDhcpHostnameFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMDhcpHostnameFlags {
         self.bits()
     }
@@ -771,6 +1130,7 @@ impl IntoGlib for DhcpHostnameFlags {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMDhcpHostnameFlags> for DhcpHostnameFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMDhcpHostnameFlags) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -779,8 +1139,21 @@ impl FromGlib<ffi::NMDhcpHostnameFlags> for DhcpHostnameFlags {
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 impl StaticType for DhcpHostnameFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_dhcp_hostname_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+impl glib::HasParamSpec for DhcpHostnameFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -795,6 +1168,7 @@ impl glib::value::ValueType for DhcpHostnameFlags {
 unsafe impl<'a> FromValue<'a> for DhcpHostnameFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -803,6 +1177,7 @@ unsafe impl<'a> FromValue<'a> for DhcpHostnameFlags {
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 impl ToValue for DhcpHostnameFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -811,20 +1186,37 @@ impl ToValue for DhcpHostnameFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
 #[cfg(any(feature = "v1_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+impl From<DhcpHostnameFlags> for glib::Value {
+    #[inline]
+    fn from(v: DhcpHostnameFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
+#[cfg(any(feature = "v1_22", feature = "dox"))]
 bitflags! {
+    /// Compare flags for [`IPAddress::cmp_full()`][crate::IPAddress::cmp_full()].
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     #[doc(alias = "NMIPAddressCmpFlags")]
     pub struct IPAddressCmpFlags: u32 {
+        /// no flags.
         #[doc(alias = "NM_IP_ADDRESS_CMP_FLAGS_NONE")]
-        const NONE = ffi::NM_IP_ADDRESS_CMP_FLAGS_NONE as u32;
+        const NONE = ffi::NM_IP_ADDRESS_CMP_FLAGS_NONE as _;
+        /// when comparing two addresses,
+        ///  also consider their attributes. Warning: note that attributes are GVariants
+        ///  and they don't have a total order. In other words, if the address differs only
+        ///  by their attributes, the returned compare order is not total. In that case,
+        ///  the return value merely indicates equality (zero) or inequality.
         #[doc(alias = "NM_IP_ADDRESS_CMP_FLAGS_WITH_ATTRS")]
-        const WITH_ATTRS = ffi::NM_IP_ADDRESS_CMP_FLAGS_WITH_ATTRS as u32;
+        const WITH_ATTRS = ffi::NM_IP_ADDRESS_CMP_FLAGS_WITH_ATTRS as _;
     }
 }
 
@@ -842,6 +1234,7 @@ impl fmt::Display for IPAddressCmpFlags {
 impl IntoGlib for IPAddressCmpFlags {
     type GlibType = ffi::NMIPAddressCmpFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMIPAddressCmpFlags {
         self.bits()
     }
@@ -851,6 +1244,7 @@ impl IntoGlib for IPAddressCmpFlags {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMIPAddressCmpFlags> for IPAddressCmpFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMIPAddressCmpFlags) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -859,8 +1253,21 @@ impl FromGlib<ffi::NMIPAddressCmpFlags> for IPAddressCmpFlags {
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 impl StaticType for IPAddressCmpFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_ip_address_cmp_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+impl glib::HasParamSpec for IPAddressCmpFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -875,6 +1282,7 @@ impl glib::value::ValueType for IPAddressCmpFlags {
 unsafe impl<'a> FromValue<'a> for IPAddressCmpFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -883,6 +1291,7 @@ unsafe impl<'a> FromValue<'a> for IPAddressCmpFlags {
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 impl ToValue for IPAddressCmpFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -891,8 +1300,18 @@ impl ToValue for IPAddressCmpFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+#[cfg(any(feature = "v1_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+impl From<IPAddressCmpFlags> for glib::Value {
+    #[inline]
+    fn from(v: IPAddressCmpFlags) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -901,14 +1320,23 @@ bitflags! {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "NMIPRoutingRuleAsStringFlags")]
     pub struct IPRoutingRuleAsStringFlags: u32 {
+        /// no flags selected.
         #[doc(alias = "NM_IP_ROUTING_RULE_AS_STRING_FLAGS_NONE")]
-        const NONE = ffi::NM_IP_ROUTING_RULE_AS_STRING_FLAGS_NONE as u32;
+        const NONE = ffi::NM_IP_ROUTING_RULE_AS_STRING_FLAGS_NONE as _;
+        /// whether to allow parsing
+        ///  IPv4 addresses.
         #[doc(alias = "NM_IP_ROUTING_RULE_AS_STRING_FLAGS_AF_INET")]
-        const AF_INET = ffi::NM_IP_ROUTING_RULE_AS_STRING_FLAGS_AF_INET as u32;
+        const AF_INET = ffi::NM_IP_ROUTING_RULE_AS_STRING_FLAGS_AF_INET as _;
+        /// whether to allow parsing
+        ///  IPv6 addresses. If both [`AF_INET`][Self::AF_INET] and
+        ///  [`AF_INET6`][Self::AF_INET6] are unset, it's the same
+        ///  as setting them both.
         #[doc(alias = "NM_IP_ROUTING_RULE_AS_STRING_FLAGS_AF_INET6")]
-        const AF_INET6 = ffi::NM_IP_ROUTING_RULE_AS_STRING_FLAGS_AF_INET6 as u32;
+        const AF_INET6 = ffi::NM_IP_ROUTING_RULE_AS_STRING_FLAGS_AF_INET6 as _;
+        /// if set, ensure that the
+        ///  rule verfies or fail.
         #[doc(alias = "NM_IP_ROUTING_RULE_AS_STRING_FLAGS_VALIDATE")]
-        const VALIDATE = ffi::NM_IP_ROUTING_RULE_AS_STRING_FLAGS_VALIDATE as u32;
+        const VALIDATE = ffi::NM_IP_ROUTING_RULE_AS_STRING_FLAGS_VALIDATE as _;
     }
 }
 
@@ -926,6 +1354,7 @@ impl fmt::Display for IPRoutingRuleAsStringFlags {
 impl IntoGlib for IPRoutingRuleAsStringFlags {
     type GlibType = ffi::NMIPRoutingRuleAsStringFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMIPRoutingRuleAsStringFlags {
         self.bits()
     }
@@ -935,6 +1364,7 @@ impl IntoGlib for IPRoutingRuleAsStringFlags {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMIPRoutingRuleAsStringFlags> for IPRoutingRuleAsStringFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMIPRoutingRuleAsStringFlags) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -943,8 +1373,21 @@ impl FromGlib<ffi::NMIPRoutingRuleAsStringFlags> for IPRoutingRuleAsStringFlags 
 #[cfg(any(feature = "v1_18", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
 impl StaticType for IPRoutingRuleAsStringFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_ip_routing_rule_as_string_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_18", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
+impl glib::HasParamSpec for IPRoutingRuleAsStringFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -959,6 +1402,7 @@ impl glib::value::ValueType for IPRoutingRuleAsStringFlags {
 unsafe impl<'a> FromValue<'a> for IPRoutingRuleAsStringFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -967,6 +1411,7 @@ unsafe impl<'a> FromValue<'a> for IPRoutingRuleAsStringFlags {
 #[cfg(any(feature = "v1_18", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
 impl ToValue for IPRoutingRuleAsStringFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -975,72 +1420,126 @@ impl ToValue for IPRoutingRuleAsStringFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
-bitflags! {
-    #[doc(alias = "NMIPTunnelFlags")]
-    pub struct IPTunnelFlags: u32 {
-        #[doc(alias = "NM_IP_TUNNEL_FLAG_NONE")]
-        const NONE = ffi::NM_IP_TUNNEL_FLAG_NONE as u32;
-        #[doc(alias = "NM_IP_TUNNEL_FLAG_IP6_IGN_ENCAP_LIMIT")]
-        const IP6_IGN_ENCAP_LIMIT = ffi::NM_IP_TUNNEL_FLAG_IP6_IGN_ENCAP_LIMIT as u32;
-        #[doc(alias = "NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_TCLASS")]
-        const IP6_USE_ORIG_TCLASS = ffi::NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_TCLASS as u32;
-        #[doc(alias = "NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_FLOWLABEL")]
-        const IP6_USE_ORIG_FLOWLABEL = ffi::NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_FLOWLABEL as u32;
-        #[doc(alias = "NM_IP_TUNNEL_FLAG_IP6_MIP6_DEV")]
-        const IP6_MIP6_DEV = ffi::NM_IP_TUNNEL_FLAG_IP6_MIP6_DEV as u32;
-        #[doc(alias = "NM_IP_TUNNEL_FLAG_IP6_RCV_DSCP_COPY")]
-        const IP6_RCV_DSCP_COPY = ffi::NM_IP_TUNNEL_FLAG_IP6_RCV_DSCP_COPY as u32;
-        #[doc(alias = "NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_FWMARK")]
-        const IP6_USE_ORIG_FWMARK = ffi::NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_FWMARK as u32;
+#[cfg(any(feature = "v1_18", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
+impl From<IPRoutingRuleAsStringFlags> for glib::Value {
+    #[inline]
+    fn from(v: IPRoutingRuleAsStringFlags) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+bitflags! {
+    /// IP tunnel flags.
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+    #[doc(alias = "NMIPTunnelFlags")]
+    pub struct IPTunnelFlags: u32 {
+        /// no flag
+        #[doc(alias = "NM_IP_TUNNEL_FLAG_NONE")]
+        const NONE = ffi::NM_IP_TUNNEL_FLAG_NONE as _;
+        /// don't add encapsulation limit
+        ///  if one isn't present in inner packet
+        #[doc(alias = "NM_IP_TUNNEL_FLAG_IP6_IGN_ENCAP_LIMIT")]
+        const IP6_IGN_ENCAP_LIMIT = ffi::NM_IP_TUNNEL_FLAG_IP6_IGN_ENCAP_LIMIT as _;
+        /// copy the traffic class field
+        ///  from the inner packet
+        #[doc(alias = "NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_TCLASS")]
+        const IP6_USE_ORIG_TCLASS = ffi::NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_TCLASS as _;
+        /// copy the flowlabel from the
+        ///  inner packet
+        #[doc(alias = "NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_FLOWLABEL")]
+        const IP6_USE_ORIG_FLOWLABEL = ffi::NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_FLOWLABEL as _;
+        /// used for Mobile IPv6
+        #[doc(alias = "NM_IP_TUNNEL_FLAG_IP6_MIP6_DEV")]
+        const IP6_MIP6_DEV = ffi::NM_IP_TUNNEL_FLAG_IP6_MIP6_DEV as _;
+        /// copy DSCP from the outer packet
+        #[doc(alias = "NM_IP_TUNNEL_FLAG_IP6_RCV_DSCP_COPY")]
+        const IP6_RCV_DSCP_COPY = ffi::NM_IP_TUNNEL_FLAG_IP6_RCV_DSCP_COPY as _;
+        /// copy fwmark from inner packet
+        #[doc(alias = "NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_FWMARK")]
+        const IP6_USE_ORIG_FWMARK = ffi::NM_IP_TUNNEL_FLAG_IP6_USE_ORIG_FWMARK as _;
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl fmt::Display for IPTunnelFlags {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         <Self as fmt::Debug>::fmt(self, f)
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 #[doc(hidden)]
 impl IntoGlib for IPTunnelFlags {
     type GlibType = ffi::NMIPTunnelFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMIPTunnelFlags {
         self.bits()
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMIPTunnelFlags> for IPTunnelFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMIPTunnelFlags) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl StaticType for IPTunnelFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_ip_tunnel_flags_get_type()) }
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+impl glib::HasParamSpec for IPTunnelFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl glib::value::ValueType for IPTunnelFlags {
     type Type = Self;
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 unsafe impl<'a> FromValue<'a> for IPTunnelFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl ToValue for IPTunnelFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1049,18 +1548,32 @@ impl ToValue for IPTunnelFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+impl From<IPTunnelFlags> for glib::Value {
+    #[inline]
+    fn from(v: IPTunnelFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 #[cfg(any(feature = "v1_30", feature = "dox"))]
 bitflags! {
+    /// Flags for customizing `nm_keyfile_read()` and `nm_keyfile_write()`.
+    ///
+    /// Currently no flags are implemented.
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
     #[doc(alias = "NMKeyfileHandlerFlags")]
     pub struct KeyfileHandlerFlags: u32 {
+        /// no flags set.
         #[doc(alias = "NM_KEYFILE_HANDLER_FLAGS_NONE")]
-        const NONE = ffi::NM_KEYFILE_HANDLER_FLAGS_NONE as u32;
+        const NONE = ffi::NM_KEYFILE_HANDLER_FLAGS_NONE as _;
     }
 }
 
@@ -1078,6 +1591,7 @@ impl fmt::Display for KeyfileHandlerFlags {
 impl IntoGlib for KeyfileHandlerFlags {
     type GlibType = ffi::NMKeyfileHandlerFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMKeyfileHandlerFlags {
         self.bits()
     }
@@ -1087,6 +1601,7 @@ impl IntoGlib for KeyfileHandlerFlags {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMKeyfileHandlerFlags> for KeyfileHandlerFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMKeyfileHandlerFlags) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -1095,8 +1610,21 @@ impl FromGlib<ffi::NMKeyfileHandlerFlags> for KeyfileHandlerFlags {
 #[cfg(any(feature = "v1_30", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 impl StaticType for KeyfileHandlerFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_keyfile_handler_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
+impl glib::HasParamSpec for KeyfileHandlerFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -1111,6 +1639,7 @@ impl glib::value::ValueType for KeyfileHandlerFlags {
 unsafe impl<'a> FromValue<'a> for KeyfileHandlerFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -1119,6 +1648,7 @@ unsafe impl<'a> FromValue<'a> for KeyfileHandlerFlags {
 #[cfg(any(feature = "v1_30", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
 impl ToValue for KeyfileHandlerFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1127,22 +1657,43 @@ impl ToValue for KeyfileHandlerFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+#[cfg(any(feature = "v1_30", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
+impl From<KeyfileHandlerFlags> for glib::Value {
+    #[inline]
+    fn from(v: KeyfileHandlerFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 bitflags! {
+    /// Flags for the manager Reload() call.
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
     #[doc(alias = "NMManagerReloadFlags")]
     pub struct ManagerReloadFlags: u32 {
+        /// reload the NetworkManager.conf configuration
+        ///  from disk. Note that this does not include connections, which can be
+        ///  reloaded via Setting's ReloadConnections().
         #[doc(alias = "NM_MANAGER_RELOAD_FLAG_CONF")]
-        const CONF = ffi::NM_MANAGER_RELOAD_FLAG_CONF as u32;
+        const CONF = ffi::NM_MANAGER_RELOAD_FLAG_CONF as _;
+        /// update DNS configuration, which usually
+        ///  involves writing /etc/resolv.conf anew.
         #[doc(alias = "NM_MANAGER_RELOAD_FLAG_DNS_RC")]
-        const DNS_RC = ffi::NM_MANAGER_RELOAD_FLAG_DNS_RC as u32;
+        const DNS_RC = ffi::NM_MANAGER_RELOAD_FLAG_DNS_RC as _;
+        /// means to restart the DNS plugin. This
+        ///  is for example useful when using dnsmasq plugin, which uses additional
+        ///  configuration in /etc/NetworkManager/dnsmasq.d. If you edit those files,
+        ///  you can restart the DNS plugin. This action shortly interrupts name
+        ///  resolution.
         #[doc(alias = "NM_MANAGER_RELOAD_FLAG_DNS_FULL")]
-        const DNS_FULL = ffi::NM_MANAGER_RELOAD_FLAG_DNS_FULL as u32;
+        const DNS_FULL = ffi::NM_MANAGER_RELOAD_FLAG_DNS_FULL as _;
     }
 }
 
@@ -1160,6 +1711,7 @@ impl fmt::Display for ManagerReloadFlags {
 impl IntoGlib for ManagerReloadFlags {
     type GlibType = ffi::NMManagerReloadFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMManagerReloadFlags {
         self.bits()
     }
@@ -1169,6 +1721,7 @@ impl IntoGlib for ManagerReloadFlags {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMManagerReloadFlags> for ManagerReloadFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMManagerReloadFlags) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -1177,8 +1730,21 @@ impl FromGlib<ffi::NMManagerReloadFlags> for ManagerReloadFlags {
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 impl StaticType for ManagerReloadFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_manager_reload_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+impl glib::HasParamSpec for ManagerReloadFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -1193,6 +1759,7 @@ impl glib::value::ValueType for ManagerReloadFlags {
 unsafe impl<'a> FromValue<'a> for ManagerReloadFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -1201,6 +1768,7 @@ unsafe impl<'a> FromValue<'a> for ManagerReloadFlags {
 #[cfg(any(feature = "v1_22", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
 impl ToValue for ManagerReloadFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1209,22 +1777,199 @@ impl ToValue for ManagerReloadFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+#[cfg(any(feature = "v1_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_22")))]
+impl From<ManagerReloadFlags> for glib::Value {
+    #[inline]
+    fn from(v: ManagerReloadFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
+#[cfg(any(feature = "v1_40", feature = "dox"))]
+bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    #[doc(alias = "NMMptcpFlags")]
+    pub struct MptcpFlags: u32 {
+        /// The default, meaning that no MPTCP flags are set.
+        #[doc(alias = "NM_MPTCP_FLAGS_NONE")]
+        const NONE = ffi::NM_MPTCP_FLAGS_NONE as _;
+        /// don't configure MPTCP endpoints on the device.
+        #[doc(alias = "NM_MPTCP_FLAGS_DISABLED")]
+        const DISABLED = ffi::NM_MPTCP_FLAGS_DISABLED as _;
+        /// MPTCP is enabled and endpoints will be configured.
+        ///  This flag is implied if any of the other flags indicate that
+        ///  MPTCP is enabled and therefore in most cases unnecessary.
+        ///  Note that if "/proc/sys/net/mptcp/enabled" sysctl is disabled, MPTCP
+        ///  handling is disabled despite this flag. This can be overruled with the
+        ///  "also-without-sysctl" flag.
+        ///  Note that by default interfaces that don't have a default route are
+        ///  excluded from having MPTCP endpoints configured. This can be overruled
+        ///  with the "also-without-default-route" and this affects endpoints
+        ///  per address family.
+        #[doc(alias = "NM_MPTCP_FLAGS_ENABLED")]
+        const ENABLED = ffi::NM_MPTCP_FLAGS_ENABLED as _;
+        /// even if MPTCP handling is enabled
+        ///  via the "enabled" flag, it is ignored unless "/proc/sys/net/mptcp/enabled"
+        ///  is on. With this flag, MPTCP endpoints will be configured regardless
+        ///  of the sysctl setting.
+        #[doc(alias = "NM_MPTCP_FLAGS_ALSO_WITHOUT_SYSCTL")]
+        const ALSO_WITHOUT_SYSCTL = ffi::NM_MPTCP_FLAGS_ALSO_WITHOUT_SYSCTL as _;
+        /// even if MPTCP handling is enabled
+        ///  via the "enabled" flag, it is ignored per-address family unless NetworkManager
+        ///  configures a default route. With this flag, NetworkManager will also configure
+        ///  MPTCP endpoints if there is no default route. This takes effect per-address
+        ///  family.
+        #[doc(alias = "NM_MPTCP_FLAGS_ALSO_WITHOUT_DEFAULT_ROUTE")]
+        const ALSO_WITHOUT_DEFAULT_ROUTE = ffi::NM_MPTCP_FLAGS_ALSO_WITHOUT_DEFAULT_ROUTE as _;
+        /// Flag for the MPTCP endpoint. The endpoint will be
+        ///  announced/signaled to each peer via an MPTCP ADD_ADDR sub-option.
+        #[doc(alias = "NM_MPTCP_FLAGS_SIGNAL")]
+        const SIGNAL = ffi::NM_MPTCP_FLAGS_SIGNAL as _;
+        /// Flag for the MPTCP endpoint. If additional subflow creation
+        ///  is allowed by the MPTCP limits, the MPTCP path manager will try to create an
+        ///  additional subflow using this endpoint as the source address after the MPTCP connection
+        ///  is established.
+        #[doc(alias = "NM_MPTCP_FLAGS_SUBFLOW")]
+        const SUBFLOW = ffi::NM_MPTCP_FLAGS_SUBFLOW as _;
+        /// Flag for the MPTCP endpoint. If this is a subflow endpoint, the
+        ///  subflows created using this endpoint will have the backup flag set during the connection
+        ///  process. This flag instructs the peer to only send data on a given subflow when all
+        ///  non-backup subflows are unavailable. This does not affect outgoing data,
+        ///  where subflow priority is determined by the backup/non-backup flag received
+        ///  from the peer
+        #[doc(alias = "NM_MPTCP_FLAGS_BACKUP")]
+        const BACKUP = ffi::NM_MPTCP_FLAGS_BACKUP as _;
+        /// Flag for the MPTCP endpoint. If this is a subflow endpoint and additional
+        ///  subflow creation is allowed by the MPTCP limits, the MPTCP path manager will try to create an
+        ///  additional subflow for each known peer address, using this endpoint as the source address.
+        ///  This will occur after the MPTCP connection is established. If the peer did not announce
+        ///  any additional addresses using the MPTCP ADD_ADDR sub-option, this will behave the same
+        ///  as a plain subflow endpoint. When the peer does announce addresses, each received ADD_ADDR
+        ///  sub-option will trigger creation of an additional subflow to generate a full mesh topology.
+        #[doc(alias = "NM_MPTCP_FLAGS_FULLMESH")]
+        const FULLMESH = ffi::NM_MPTCP_FLAGS_FULLMESH as _;
+    }
+}
+
+#[cfg(any(feature = "v1_40", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+impl fmt::Display for MptcpFlags {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        <Self as fmt::Debug>::fmt(self, f)
+    }
+}
+
+#[cfg(any(feature = "v1_40", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+#[doc(hidden)]
+impl IntoGlib for MptcpFlags {
+    type GlibType = ffi::NMMptcpFlags;
+
+    #[inline]
+    fn into_glib(self) -> ffi::NMMptcpFlags {
+        self.bits()
+    }
+}
+
+#[cfg(any(feature = "v1_40", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+#[doc(hidden)]
+impl FromGlib<ffi::NMMptcpFlags> for MptcpFlags {
+    #[inline]
+    unsafe fn from_glib(value: ffi::NMMptcpFlags) -> Self {
+        Self::from_bits_truncate(value)
+    }
+}
+
+#[cfg(any(feature = "v1_40", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+impl StaticType for MptcpFlags {
+    #[inline]
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::nm_mptcp_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_40", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+impl glib::HasParamSpec for MptcpFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
+    }
+}
+
+#[cfg(any(feature = "v1_40", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+impl glib::value::ValueType for MptcpFlags {
+    type Type = Self;
+}
+
+#[cfg(any(feature = "v1_40", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+unsafe impl<'a> FromValue<'a> for MptcpFlags {
+    type Checker = glib::value::GenericValueTypeChecker<Self>;
+
+    #[inline]
+    unsafe fn from_value(value: &'a glib::Value) -> Self {
+        from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
+    }
+}
+
+#[cfg(any(feature = "v1_40", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+impl ToValue for MptcpFlags {
+    #[inline]
+    fn to_value(&self) -> glib::Value {
+        let mut value = glib::Value::for_value_type::<Self>();
+        unsafe {
+            glib::gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, self.into_glib());
+        }
+        value
+    }
+
+    #[inline]
+    fn value_type(&self) -> glib::Type {
+        Self::static_type()
+    }
+}
+
+#[cfg(any(feature = "v1_40", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+impl From<MptcpFlags> for glib::Value {
+    #[inline]
+    fn from(v: MptcpFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 #[cfg(any(feature = "v1_38", feature = "dox"))]
 bitflags! {
+    /// Flags related to radio interfaces.
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
     #[doc(alias = "NMRadioFlags")]
     pub struct RadioFlags: u32 {
+        /// an alias for numeric zero, no flags set.
         #[doc(alias = "NM_RADIO_FLAG_NONE")]
-        const NONE = ffi::NM_RADIO_FLAG_NONE as u32;
+        const NONE = ffi::NM_RADIO_FLAG_NONE as _;
+        /// A Wireless LAN device or rfkill switch
+        ///  is detected in the system.
         #[doc(alias = "NM_RADIO_FLAG_WLAN_AVAILABLE")]
-        const WLAN_AVAILABLE = ffi::NM_RADIO_FLAG_WLAN_AVAILABLE as u32;
+        const WLAN_AVAILABLE = ffi::NM_RADIO_FLAG_WLAN_AVAILABLE as _;
+        /// A Wireless WAN device or rfkill switch
+        ///  is detected in the system.
         #[doc(alias = "NM_RADIO_FLAG_WWAN_AVAILABLE")]
-        const WWAN_AVAILABLE = ffi::NM_RADIO_FLAG_WWAN_AVAILABLE as u32;
+        const WWAN_AVAILABLE = ffi::NM_RADIO_FLAG_WWAN_AVAILABLE as _;
     }
 }
 
@@ -1242,6 +1987,7 @@ impl fmt::Display for RadioFlags {
 impl IntoGlib for RadioFlags {
     type GlibType = ffi::NMRadioFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMRadioFlags {
         self.bits()
     }
@@ -1251,6 +1997,7 @@ impl IntoGlib for RadioFlags {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMRadioFlags> for RadioFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMRadioFlags) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -1259,8 +2006,21 @@ impl FromGlib<ffi::NMRadioFlags> for RadioFlags {
 #[cfg(any(feature = "v1_38", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
 impl StaticType for RadioFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_radio_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_38", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+impl glib::HasParamSpec for RadioFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -1275,6 +2035,7 @@ impl glib::value::ValueType for RadioFlags {
 unsafe impl<'a> FromValue<'a> for RadioFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -1283,6 +2044,7 @@ unsafe impl<'a> FromValue<'a> for RadioFlags {
 #[cfg(any(feature = "v1_38", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
 impl ToValue for RadioFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1291,20 +2053,35 @@ impl ToValue for RadioFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+#[cfg(any(feature = "v1_38", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_38")))]
+impl From<RadioFlags> for glib::Value {
+    #[inline]
+    fn from(v: RadioFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
+    /// [`SecretAgentCapabilities`][crate::SecretAgentCapabilities] indicate various capabilities of the agent.
     #[doc(alias = "NMSecretAgentCapabilities")]
     pub struct SecretAgentCapabilities: u32 {
+        /// the agent supports no special capabilities
         #[doc(alias = "NM_SECRET_AGENT_CAPABILITY_NONE")]
-        const NONE = ffi::NM_SECRET_AGENT_CAPABILITY_NONE as u32;
+        const NONE = ffi::NM_SECRET_AGENT_CAPABILITY_NONE as _;
+        /// the agent supports passing hints to
+        /// VPN plugin authentication dialogs.
         #[doc(alias = "NM_SECRET_AGENT_CAPABILITY_VPN_HINTS")]
-        const VPN_HINTS = ffi::NM_SECRET_AGENT_CAPABILITY_VPN_HINTS as u32;
+        const VPN_HINTS = ffi::NM_SECRET_AGENT_CAPABILITY_VPN_HINTS as _;
+        /// bounds checking value; should not be used.
         #[doc(alias = "NM_SECRET_AGENT_CAPABILITY_LAST")]
-        const LAST = ffi::NM_SECRET_AGENT_CAPABILITY_LAST as u32;
+        const LAST = ffi::NM_SECRET_AGENT_CAPABILITY_LAST as _;
     }
 }
 
@@ -1318,6 +2095,7 @@ impl fmt::Display for SecretAgentCapabilities {
 impl IntoGlib for SecretAgentCapabilities {
     type GlibType = ffi::NMSecretAgentCapabilities;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMSecretAgentCapabilities {
         self.bits()
     }
@@ -1325,14 +2103,26 @@ impl IntoGlib for SecretAgentCapabilities {
 
 #[doc(hidden)]
 impl FromGlib<ffi::NMSecretAgentCapabilities> for SecretAgentCapabilities {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMSecretAgentCapabilities) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for SecretAgentCapabilities {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_secret_agent_capabilities_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for SecretAgentCapabilities {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -1343,12 +2133,14 @@ impl glib::value::ValueType for SecretAgentCapabilities {
 unsafe impl<'a> FromValue<'a> for SecretAgentCapabilities {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for SecretAgentCapabilities {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1357,28 +2149,58 @@ impl ToValue for SecretAgentCapabilities {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<SecretAgentCapabilities> for glib::Value {
+    #[inline]
+    fn from(v: SecretAgentCapabilities) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
+    /// [`SecretAgentGetSecretsFlags`][crate::SecretAgentGetSecretsFlags] values modify the behavior of a GetSecrets request.
     #[doc(alias = "NMSecretAgentGetSecretsFlags")]
     pub struct SecretAgentGetSecretsFlags: u32 {
+        /// no special behavior; by default no
+        ///  user interaction is allowed and requests for secrets are fulfilled from
+        ///  persistent storage, or if no secrets are available an error is returned.
         #[doc(alias = "NM_SECRET_AGENT_GET_SECRETS_FLAG_NONE")]
-        const NONE = ffi::NM_SECRET_AGENT_GET_SECRETS_FLAG_NONE as u32;
+        const NONE = ffi::NM_SECRET_AGENT_GET_SECRETS_FLAG_NONE as _;
+        /// allows the request to
+        ///  interact with the user, possibly prompting via UI for secrets if any are
+        ///  required, or if none are found in persistent storage.
         #[doc(alias = "NM_SECRET_AGENT_GET_SECRETS_FLAG_ALLOW_INTERACTION")]
-        const ALLOW_INTERACTION = ffi::NM_SECRET_AGENT_GET_SECRETS_FLAG_ALLOW_INTERACTION as u32;
+        const ALLOW_INTERACTION = ffi::NM_SECRET_AGENT_GET_SECRETS_FLAG_ALLOW_INTERACTION as _;
+        /// explicitly prompt for new
+        ///  secrets from the user. This flag signals that NetworkManager thinks any
+        ///  existing secrets are invalid or wrong. This flag implies that interaction
+        ///  is allowed.
         #[doc(alias = "NM_SECRET_AGENT_GET_SECRETS_FLAG_REQUEST_NEW")]
-        const REQUEST_NEW = ffi::NM_SECRET_AGENT_GET_SECRETS_FLAG_REQUEST_NEW as u32;
+        const REQUEST_NEW = ffi::NM_SECRET_AGENT_GET_SECRETS_FLAG_REQUEST_NEW as _;
+        /// set if the request was
+        ///  initiated by user-requested action via the D-Bus interface, as opposed to
+        ///  automatically initiated by NetworkManager in response to (for example) scan
+        ///  results or carrier changes.
         #[doc(alias = "NM_SECRET_AGENT_GET_SECRETS_FLAG_USER_REQUESTED")]
-        const USER_REQUESTED = ffi::NM_SECRET_AGENT_GET_SECRETS_FLAG_USER_REQUESTED as u32;
+        const USER_REQUESTED = ffi::NM_SECRET_AGENT_GET_SECRETS_FLAG_USER_REQUESTED as _;
+        /// indicates that WPS enrollment
+        ///  is active with PBC method. The agent may suggest that the user pushes a button
+        ///  on the router instead of supplying a PSK.
         #[doc(alias = "NM_SECRET_AGENT_GET_SECRETS_FLAG_WPS_PBC_ACTIVE")]
-        const WPS_PBC_ACTIVE = ffi::NM_SECRET_AGENT_GET_SECRETS_FLAG_WPS_PBC_ACTIVE as u32;
+        const WPS_PBC_ACTIVE = ffi::NM_SECRET_AGENT_GET_SECRETS_FLAG_WPS_PBC_ACTIVE as _;
+        /// Internal flag, not part of
+        ///  the D-Bus API.
         #[doc(alias = "NM_SECRET_AGENT_GET_SECRETS_FLAG_ONLY_SYSTEM")]
-        const ONLY_SYSTEM = ffi::NM_SECRET_AGENT_GET_SECRETS_FLAG_ONLY_SYSTEM as u32;
+        const ONLY_SYSTEM = ffi::NM_SECRET_AGENT_GET_SECRETS_FLAG_ONLY_SYSTEM as _;
+        /// Internal flag, not part of
+        ///  the D-Bus API.
         #[doc(alias = "NM_SECRET_AGENT_GET_SECRETS_FLAG_NO_ERRORS")]
-        const NO_ERRORS = ffi::NM_SECRET_AGENT_GET_SECRETS_FLAG_NO_ERRORS as u32;
+        const NO_ERRORS = ffi::NM_SECRET_AGENT_GET_SECRETS_FLAG_NO_ERRORS as _;
     }
 }
 
@@ -1392,6 +2214,7 @@ impl fmt::Display for SecretAgentGetSecretsFlags {
 impl IntoGlib for SecretAgentGetSecretsFlags {
     type GlibType = ffi::NMSecretAgentGetSecretsFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMSecretAgentGetSecretsFlags {
         self.bits()
     }
@@ -1399,14 +2222,26 @@ impl IntoGlib for SecretAgentGetSecretsFlags {
 
 #[doc(hidden)]
 impl FromGlib<ffi::NMSecretAgentGetSecretsFlags> for SecretAgentGetSecretsFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMSecretAgentGetSecretsFlags) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for SecretAgentGetSecretsFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_secret_agent_get_secrets_flags_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for SecretAgentGetSecretsFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -1417,12 +2252,14 @@ impl glib::value::ValueType for SecretAgentGetSecretsFlags {
 unsafe impl<'a> FromValue<'a> for SecretAgentGetSecretsFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for SecretAgentGetSecretsFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1431,26 +2268,44 @@ impl ToValue for SecretAgentGetSecretsFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<SecretAgentGetSecretsFlags> for glib::Value {
+    #[inline]
+    fn from(v: SecretAgentGetSecretsFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 #[cfg(any(feature = "v1_8", feature = "dox"))]
 bitflags! {
+    /// [`Setting8021xAuthFlags`][crate::Setting8021xAuthFlags] values indicate which authentication settings
+    /// should be used.
+    ///
+    /// Before 1.22, this was wrongly marked as a enum and not as a flags
+    /// type.
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
     #[doc(alias = "NMSetting8021xAuthFlags")]
     pub struct Setting8021xAuthFlags: u32 {
+        /// No flags
         #[doc(alias = "NM_SETTING_802_1X_AUTH_FLAGS_NONE")]
-        const NONE = ffi::NM_SETTING_802_1X_AUTH_FLAGS_NONE as u32;
+        const NONE = ffi::NM_SETTING_802_1X_AUTH_FLAGS_NONE as _;
+        /// Disable TLSv1.0
         #[doc(alias = "NM_SETTING_802_1X_AUTH_FLAGS_TLS_1_0_DISABLE")]
-        const TLS_1_0_DISABLE = ffi::NM_SETTING_802_1X_AUTH_FLAGS_TLS_1_0_DISABLE as u32;
+        const TLS_1_0_DISABLE = ffi::NM_SETTING_802_1X_AUTH_FLAGS_TLS_1_0_DISABLE as _;
+        /// Disable TLSv1.1
         #[doc(alias = "NM_SETTING_802_1X_AUTH_FLAGS_TLS_1_1_DISABLE")]
-        const TLS_1_1_DISABLE = ffi::NM_SETTING_802_1X_AUTH_FLAGS_TLS_1_1_DISABLE as u32;
+        const TLS_1_1_DISABLE = ffi::NM_SETTING_802_1X_AUTH_FLAGS_TLS_1_1_DISABLE as _;
+        /// Disable TLSv1.2
         #[doc(alias = "NM_SETTING_802_1X_AUTH_FLAGS_TLS_1_2_DISABLE")]
-        const TLS_1_2_DISABLE = ffi::NM_SETTING_802_1X_AUTH_FLAGS_TLS_1_2_DISABLE as u32;
+        const TLS_1_2_DISABLE = ffi::NM_SETTING_802_1X_AUTH_FLAGS_TLS_1_2_DISABLE as _;
+        /// All supported flags
         #[doc(alias = "NM_SETTING_802_1X_AUTH_FLAGS_ALL")]
-        const ALL = ffi::NM_SETTING_802_1X_AUTH_FLAGS_ALL as u32;
+        const ALL = ffi::NM_SETTING_802_1X_AUTH_FLAGS_ALL as _;
     }
 }
 
@@ -1468,6 +2323,7 @@ impl fmt::Display for Setting8021xAuthFlags {
 impl IntoGlib for Setting8021xAuthFlags {
     type GlibType = ffi::NMSetting8021xAuthFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMSetting8021xAuthFlags {
         self.bits()
     }
@@ -1477,6 +2333,7 @@ impl IntoGlib for Setting8021xAuthFlags {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMSetting8021xAuthFlags> for Setting8021xAuthFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMSetting8021xAuthFlags) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -1485,8 +2342,21 @@ impl FromGlib<ffi::NMSetting8021xAuthFlags> for Setting8021xAuthFlags {
 #[cfg(any(feature = "v1_8", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 impl StaticType for Setting8021xAuthFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_setting_802_1x_auth_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
+impl glib::HasParamSpec for Setting8021xAuthFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -1501,6 +2371,7 @@ impl glib::value::ValueType for Setting8021xAuthFlags {
 unsafe impl<'a> FromValue<'a> for Setting8021xAuthFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -1509,6 +2380,7 @@ unsafe impl<'a> FromValue<'a> for Setting8021xAuthFlags {
 #[cfg(any(feature = "v1_8", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
 impl ToValue for Setting8021xAuthFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1517,22 +2389,38 @@ impl ToValue for Setting8021xAuthFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+#[cfg(any(feature = "v1_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
+impl From<Setting8021xAuthFlags> for glib::Value {
+    #[inline]
+    fn from(v: Setting8021xAuthFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
+    /// DCB feature flags.
     #[doc(alias = "NMSettingDcbFlags")]
     pub struct SettingDcbFlags: u32 {
+        /// no flag
         #[doc(alias = "NM_SETTING_DCB_FLAG_NONE")]
-        const NONE = ffi::NM_SETTING_DCB_FLAG_NONE as u32;
+        const NONE = ffi::NM_SETTING_DCB_FLAG_NONE as _;
+        /// the feature is enabled
         #[doc(alias = "NM_SETTING_DCB_FLAG_ENABLE")]
-        const ENABLE = ffi::NM_SETTING_DCB_FLAG_ENABLE as u32;
+        const ENABLE = ffi::NM_SETTING_DCB_FLAG_ENABLE as _;
+        /// the feature is advertised
         #[doc(alias = "NM_SETTING_DCB_FLAG_ADVERTISE")]
-        const ADVERTISE = ffi::NM_SETTING_DCB_FLAG_ADVERTISE as u32;
+        const ADVERTISE = ffi::NM_SETTING_DCB_FLAG_ADVERTISE as _;
+        /// the feature is willing to change based on
+        /// peer configuration advertisements
         #[doc(alias = "NM_SETTING_DCB_FLAG_WILLING")]
-        const WILLING = ffi::NM_SETTING_DCB_FLAG_WILLING as u32;
+        const WILLING = ffi::NM_SETTING_DCB_FLAG_WILLING as _;
     }
 }
 
@@ -1546,6 +2434,7 @@ impl fmt::Display for SettingDcbFlags {
 impl IntoGlib for SettingDcbFlags {
     type GlibType = ffi::NMSettingDcbFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMSettingDcbFlags {
         self.bits()
     }
@@ -1553,14 +2442,26 @@ impl IntoGlib for SettingDcbFlags {
 
 #[doc(hidden)]
 impl FromGlib<ffi::NMSettingDcbFlags> for SettingDcbFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMSettingDcbFlags) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for SettingDcbFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_setting_dcb_flags_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for SettingDcbFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -1571,12 +2472,14 @@ impl glib::value::ValueType for SettingDcbFlags {
 unsafe impl<'a> FromValue<'a> for SettingDcbFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for SettingDcbFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1585,22 +2488,44 @@ impl ToValue for SettingDcbFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<SettingDcbFlags> for glib::Value {
+    #[inline]
+    fn from(v: SettingDcbFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
+    /// These flags indicate specific behavior related to handling of a secret. Each
+    /// secret has a corresponding set of these flags which indicate how the secret
+    /// is to be stored and/or requested when it is needed.
     #[doc(alias = "NMSettingSecretFlags")]
     pub struct SettingSecretFlags: u32 {
+        /// the system is responsible for providing and
+        /// storing this secret (default)
         #[doc(alias = "NM_SETTING_SECRET_FLAG_NONE")]
-        const NONE = ffi::NM_SETTING_SECRET_FLAG_NONE as u32;
+        const NONE = ffi::NM_SETTING_SECRET_FLAG_NONE as _;
+        /// a user secret agent is responsible
+        /// for providing and storing this secret; when it is required agents will be
+        /// asked to retrieve it
         #[doc(alias = "NM_SETTING_SECRET_FLAG_AGENT_OWNED")]
-        const AGENT_OWNED = ffi::NM_SETTING_SECRET_FLAG_AGENT_OWNED as u32;
+        const AGENT_OWNED = ffi::NM_SETTING_SECRET_FLAG_AGENT_OWNED as _;
+        /// this secret should not be saved, but
+        /// should be requested from the user each time it is needed
         #[doc(alias = "NM_SETTING_SECRET_FLAG_NOT_SAVED")]
-        const NOT_SAVED = ffi::NM_SETTING_SECRET_FLAG_NOT_SAVED as u32;
+        const NOT_SAVED = ffi::NM_SETTING_SECRET_FLAG_NOT_SAVED as _;
+        /// in situations where it cannot be
+        /// automatically determined that the secret is required (some VPNs and PPP
+        /// providers don't require all secrets) this flag indicates that the specific
+        /// secret is not required
         #[doc(alias = "NM_SETTING_SECRET_FLAG_NOT_REQUIRED")]
-        const NOT_REQUIRED = ffi::NM_SETTING_SECRET_FLAG_NOT_REQUIRED as u32;
+        const NOT_REQUIRED = ffi::NM_SETTING_SECRET_FLAG_NOT_REQUIRED as _;
     }
 }
 
@@ -1614,6 +2539,7 @@ impl fmt::Display for SettingSecretFlags {
 impl IntoGlib for SettingSecretFlags {
     type GlibType = ffi::NMSettingSecretFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMSettingSecretFlags {
         self.bits()
     }
@@ -1621,14 +2547,26 @@ impl IntoGlib for SettingSecretFlags {
 
 #[doc(hidden)]
 impl FromGlib<ffi::NMSettingSecretFlags> for SettingSecretFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMSettingSecretFlags) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for SettingSecretFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_setting_secret_flags_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for SettingSecretFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -1639,12 +2577,14 @@ impl glib::value::ValueType for SettingSecretFlags {
 unsafe impl<'a> FromValue<'a> for SettingSecretFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for SettingSecretFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1653,32 +2593,50 @@ impl ToValue for SettingSecretFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<SettingSecretFlags> for glib::Value {
+    #[inline]
+    fn from(v: SettingSecretFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 bitflags! {
+    /// Options for [`wake-on-lan`][struct@crate::SettingWired#wake-on-lan]. Note that not all options
+    /// are supported by all devices.
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "NMSettingWiredWakeOnLan")]
     pub struct SettingWiredWakeOnLan: u32 {
+        /// Wake on PHY activity
         #[doc(alias = "NM_SETTING_WIRED_WAKE_ON_LAN_PHY")]
-        const PHY = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_PHY as u32;
+        const PHY = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_PHY as _;
+        /// Wake on unicast messages
         #[doc(alias = "NM_SETTING_WIRED_WAKE_ON_LAN_UNICAST")]
-        const UNICAST = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_UNICAST as u32;
+        const UNICAST = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_UNICAST as _;
+        /// Wake on multicast messages
         #[doc(alias = "NM_SETTING_WIRED_WAKE_ON_LAN_MULTICAST")]
-        const MULTICAST = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_MULTICAST as u32;
+        const MULTICAST = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_MULTICAST as _;
+        /// Wake on broadcast messages
         #[doc(alias = "NM_SETTING_WIRED_WAKE_ON_LAN_BROADCAST")]
-        const BROADCAST = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_BROADCAST as u32;
+        const BROADCAST = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_BROADCAST as _;
+        /// Wake on ARP
         #[doc(alias = "NM_SETTING_WIRED_WAKE_ON_LAN_ARP")]
-        const ARP = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_ARP as u32;
+        const ARP = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_ARP as _;
+        /// Wake on magic packet
         #[doc(alias = "NM_SETTING_WIRED_WAKE_ON_LAN_MAGIC")]
-        const MAGIC = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_MAGIC as u32;
+        const MAGIC = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_MAGIC as _;
+        /// Use the default value
         #[doc(alias = "NM_SETTING_WIRED_WAKE_ON_LAN_DEFAULT")]
-        const DEFAULT = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_DEFAULT as u32;
+        const DEFAULT = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_DEFAULT as _;
+        /// Don't change configured settings
         #[doc(alias = "NM_SETTING_WIRED_WAKE_ON_LAN_IGNORE")]
-        const IGNORE = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_IGNORE as u32;
+        const IGNORE = ffi::NM_SETTING_WIRED_WAKE_ON_LAN_IGNORE as _;
     }
 }
 
@@ -1696,6 +2654,7 @@ impl fmt::Display for SettingWiredWakeOnLan {
 impl IntoGlib for SettingWiredWakeOnLan {
     type GlibType = ffi::NMSettingWiredWakeOnLan;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMSettingWiredWakeOnLan {
         self.bits()
     }
@@ -1705,6 +2664,7 @@ impl IntoGlib for SettingWiredWakeOnLan {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMSettingWiredWakeOnLan> for SettingWiredWakeOnLan {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMSettingWiredWakeOnLan) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -1713,8 +2673,21 @@ impl FromGlib<ffi::NMSettingWiredWakeOnLan> for SettingWiredWakeOnLan {
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 impl StaticType for SettingWiredWakeOnLan {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_setting_wired_wake_on_lan_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+impl glib::HasParamSpec for SettingWiredWakeOnLan {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -1729,6 +2702,7 @@ impl glib::value::ValueType for SettingWiredWakeOnLan {
 unsafe impl<'a> FromValue<'a> for SettingWiredWakeOnLan {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -1737,6 +2711,7 @@ unsafe impl<'a> FromValue<'a> for SettingWiredWakeOnLan {
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 impl ToValue for SettingWiredWakeOnLan {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1745,26 +2720,45 @@ impl ToValue for SettingWiredWakeOnLan {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+#[cfg(any(feature = "v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+impl From<SettingWiredWakeOnLan> for glib::Value {
+    #[inline]
+    fn from(v: SettingWiredWakeOnLan) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 bitflags! {
+    /// Configure the use of WPS by a connection while it activates.
+    ///
+    /// Note: prior to 1.16, this was a GEnum type instead of a GFlags type
+    /// although, with the same numeric values.
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "NMSettingWirelessSecurityWpsMethod")]
     pub struct SettingWirelessSecurityWpsMethod: u32 {
+        /// Attempt whichever method AP supports
         #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_DEFAULT")]
-        const DEFAULT = ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_DEFAULT as u32;
+        const DEFAULT = ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_DEFAULT as _;
+        /// WPS can not be used.
         #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_DISABLED")]
-        const DISABLED = ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_DISABLED as u32;
+        const DISABLED = ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_DISABLED as _;
+        /// Use WPS, any method
         #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_AUTO")]
-        const AUTO = ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_AUTO as u32;
+        const AUTO = ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_AUTO as _;
+        /// use WPS push-button method
         #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_PBC")]
-        const PBC = ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_PBC as u32;
+        const PBC = ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_PBC as _;
+        /// use PIN method
         #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_PIN")]
-        const PIN = ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_PIN as u32;
+        const PIN = ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD_PIN as _;
     }
 }
 
@@ -1782,6 +2776,7 @@ impl fmt::Display for SettingWirelessSecurityWpsMethod {
 impl IntoGlib for SettingWirelessSecurityWpsMethod {
     type GlibType = ffi::NMSettingWirelessSecurityWpsMethod;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMSettingWirelessSecurityWpsMethod {
         self.bits()
     }
@@ -1791,6 +2786,7 @@ impl IntoGlib for SettingWirelessSecurityWpsMethod {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMSettingWirelessSecurityWpsMethod> for SettingWirelessSecurityWpsMethod {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMSettingWirelessSecurityWpsMethod) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -1799,8 +2795,21 @@ impl FromGlib<ffi::NMSettingWirelessSecurityWpsMethod> for SettingWirelessSecuri
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 impl StaticType for SettingWirelessSecurityWpsMethod {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_setting_wireless_security_wps_method_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+impl glib::HasParamSpec for SettingWirelessSecurityWpsMethod {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -1815,6 +2824,7 @@ impl glib::value::ValueType for SettingWirelessSecurityWpsMethod {
 unsafe impl<'a> FromValue<'a> for SettingWirelessSecurityWpsMethod {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -1823,6 +2833,7 @@ unsafe impl<'a> FromValue<'a> for SettingWirelessSecurityWpsMethod {
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
 impl ToValue for SettingWirelessSecurityWpsMethod {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1831,38 +2842,62 @@ impl ToValue for SettingWirelessSecurityWpsMethod {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+#[cfg(any(feature = "v1_10", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
+impl From<SettingWirelessSecurityWpsMethod> for glib::Value {
+    #[inline]
+    fn from(v: SettingWirelessSecurityWpsMethod) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 bitflags! {
+    /// Options for [`wake-on-wlan`][struct@crate::SettingWireless#wake-on-wlan]. Note that not all options
+    /// are supported by all devices.
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "NMSettingWirelessWakeOnWLan")]
     pub struct SettingWirelessWakeOnWLan: u32 {
+        /// Wake on any activity
         #[doc(alias = "NM_SETTING_WIRELESS_WAKE_ON_WLAN_ANY")]
-        const ANY = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_ANY as u32;
+        const ANY = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_ANY as _;
+        /// Wake on disconnect
         #[doc(alias = "NM_SETTING_WIRELESS_WAKE_ON_WLAN_DISCONNECT")]
-        const DISCONNECT = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_DISCONNECT as u32;
+        const DISCONNECT = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_DISCONNECT as _;
+        /// Wake on magic packet
         #[doc(alias = "NM_SETTING_WIRELESS_WAKE_ON_WLAN_MAGIC")]
-        const MAGIC = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_MAGIC as u32;
+        const MAGIC = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_MAGIC as _;
+        /// Wake on GTK rekey failure
         #[doc(alias = "NM_SETTING_WIRELESS_WAKE_ON_WLAN_GTK_REKEY_FAILURE")]
-        const GTK_REKEY_FAILURE = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_GTK_REKEY_FAILURE as u32;
+        const GTK_REKEY_FAILURE = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_GTK_REKEY_FAILURE as _;
+        /// Wake on EAP identity request
         #[doc(alias = "NM_SETTING_WIRELESS_WAKE_ON_WLAN_EAP_IDENTITY_REQUEST")]
-        const EAP_IDENTITY_REQUEST = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_EAP_IDENTITY_REQUEST as u32;
+        const EAP_IDENTITY_REQUEST = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_EAP_IDENTITY_REQUEST as _;
+        /// Wake on 4way handshake
         #[doc(alias = "NM_SETTING_WIRELESS_WAKE_ON_WLAN_4WAY_HANDSHAKE")]
-        const __4WAY_HANDSHAKE = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_4WAY_HANDSHAKE as u32;
+        const __4WAY_HANDSHAKE = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_4WAY_HANDSHAKE as _;
+        /// Wake on rfkill release
         #[doc(alias = "NM_SETTING_WIRELESS_WAKE_ON_WLAN_RFKILL_RELEASE")]
-        const RFKILL_RELEASE = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_RFKILL_RELEASE as u32;
+        const RFKILL_RELEASE = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_RFKILL_RELEASE as _;
         #[doc(alias = "NM_SETTING_WIRELESS_WAKE_ON_WLAN_TCP")]
-        const TCP = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_TCP as u32;
+        const TCP = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_TCP as _;
+        /// Wake on all events. This does not
+        ///  include the exclusive flags [`DEFAULT`][Self::DEFAULT] or
+        ///  [`IGNORE`][Self::IGNORE].
         #[doc(alias = "NM_SETTING_WIRELESS_WAKE_ON_WLAN_ALL")]
-        const ALL = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_ALL as u32;
+        const ALL = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_ALL as _;
+        /// Use the default value
         #[doc(alias = "NM_SETTING_WIRELESS_WAKE_ON_WLAN_DEFAULT")]
-        const DEFAULT = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_DEFAULT as u32;
+        const DEFAULT = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_DEFAULT as _;
+        /// Don't change configured settings
         #[doc(alias = "NM_SETTING_WIRELESS_WAKE_ON_WLAN_IGNORE")]
-        const IGNORE = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_IGNORE as u32;
+        const IGNORE = ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN_IGNORE as _;
     }
 }
 
@@ -1880,6 +2915,7 @@ impl fmt::Display for SettingWirelessWakeOnWLan {
 impl IntoGlib for SettingWirelessWakeOnWLan {
     type GlibType = ffi::NMSettingWirelessWakeOnWLan;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMSettingWirelessWakeOnWLan {
         self.bits()
     }
@@ -1889,6 +2925,7 @@ impl IntoGlib for SettingWirelessWakeOnWLan {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMSettingWirelessWakeOnWLan> for SettingWirelessWakeOnWLan {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMSettingWirelessWakeOnWLan) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -1897,8 +2934,21 @@ impl FromGlib<ffi::NMSettingWirelessWakeOnWLan> for SettingWirelessWakeOnWLan {
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl StaticType for SettingWirelessWakeOnWLan {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_setting_wireless_wake_on_wlan_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+impl glib::HasParamSpec for SettingWirelessWakeOnWLan {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -1913,6 +2963,7 @@ impl glib::value::ValueType for SettingWirelessWakeOnWLan {
 unsafe impl<'a> FromValue<'a> for SettingWirelessWakeOnWLan {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -1921,6 +2972,7 @@ unsafe impl<'a> FromValue<'a> for SettingWirelessWakeOnWLan {
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl ToValue for SettingWirelessWakeOnWLan {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1929,24 +2981,42 @@ impl ToValue for SettingWirelessWakeOnWLan {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+impl From<SettingWirelessWakeOnWLan> for glib::Value {
+    #[inline]
+    fn from(v: SettingWirelessWakeOnWLan) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 #[cfg(any(feature = "v1_20", feature = "dox"))]
 bitflags! {
+    /// Numeric flags for the "flags" argument of AddConnection2() D-Bus API.
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     #[doc(alias = "NMSettingsAddConnection2Flags")]
     pub struct SettingsAddConnection2Flags: u32 {
+        /// an alias for numeric zero, no flags set.
         #[doc(alias = "NM_SETTINGS_ADD_CONNECTION2_FLAG_NONE")]
-        const NONE = ffi::NM_SETTINGS_ADD_CONNECTION2_FLAG_NONE as u32;
+        const NONE = ffi::NM_SETTINGS_ADD_CONNECTION2_FLAG_NONE as _;
+        /// to persist the connection to disk.
         #[doc(alias = "NM_SETTINGS_ADD_CONNECTION2_FLAG_TO_DISK")]
-        const TO_DISK = ffi::NM_SETTINGS_ADD_CONNECTION2_FLAG_TO_DISK as u32;
+        const TO_DISK = ffi::NM_SETTINGS_ADD_CONNECTION2_FLAG_TO_DISK as _;
+        /// to make the connection in-memory only.
         #[doc(alias = "NM_SETTINGS_ADD_CONNECTION2_FLAG_IN_MEMORY")]
-        const IN_MEMORY = ffi::NM_SETTINGS_ADD_CONNECTION2_FLAG_IN_MEMORY as u32;
+        const IN_MEMORY = ffi::NM_SETTINGS_ADD_CONNECTION2_FLAG_IN_MEMORY as _;
+        /// usually, when the connection
+        ///  has autoconnect enabled and gets added, it becomes eligible to autoconnect
+        ///  right away. Setting this flag, disables autoconnect until the connection
+        ///  is manually activated.
         #[doc(alias = "NM_SETTINGS_ADD_CONNECTION2_FLAG_BLOCK_AUTOCONNECT")]
-        const BLOCK_AUTOCONNECT = ffi::NM_SETTINGS_ADD_CONNECTION2_FLAG_BLOCK_AUTOCONNECT as u32;
+        const BLOCK_AUTOCONNECT = ffi::NM_SETTINGS_ADD_CONNECTION2_FLAG_BLOCK_AUTOCONNECT as _;
     }
 }
 
@@ -1964,6 +3034,7 @@ impl fmt::Display for SettingsAddConnection2Flags {
 impl IntoGlib for SettingsAddConnection2Flags {
     type GlibType = ffi::NMSettingsAddConnection2Flags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMSettingsAddConnection2Flags {
         self.bits()
     }
@@ -1973,6 +3044,7 @@ impl IntoGlib for SettingsAddConnection2Flags {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMSettingsAddConnection2Flags> for SettingsAddConnection2Flags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMSettingsAddConnection2Flags) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -1981,8 +3053,21 @@ impl FromGlib<ffi::NMSettingsAddConnection2Flags> for SettingsAddConnection2Flag
 #[cfg(any(feature = "v1_20", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 impl StaticType for SettingsAddConnection2Flags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_settings_add_connection2_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_20", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
+impl glib::HasParamSpec for SettingsAddConnection2Flags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -1997,6 +3082,7 @@ impl glib::value::ValueType for SettingsAddConnection2Flags {
 unsafe impl<'a> FromValue<'a> for SettingsAddConnection2Flags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -2005,6 +3091,7 @@ unsafe impl<'a> FromValue<'a> for SettingsAddConnection2Flags {
 #[cfg(any(feature = "v1_20", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 impl ToValue for SettingsAddConnection2Flags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -2013,26 +3100,53 @@ impl ToValue for SettingsAddConnection2Flags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+#[cfg(any(feature = "v1_20", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
+impl From<SettingsAddConnection2Flags> for glib::Value {
+    #[inline]
+    fn from(v: SettingsAddConnection2Flags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 bitflags! {
+    /// Flags describing the current activation state.
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "NMSettingsConnectionFlags")]
     pub struct SettingsConnectionFlags: u32 {
+        /// an alias for numeric zero, no flags set.
         #[doc(alias = "NM_SETTINGS_CONNECTION_FLAG_NONE")]
-        const NONE = ffi::NM_SETTINGS_CONNECTION_FLAG_NONE as u32;
+        const NONE = ffi::NM_SETTINGS_CONNECTION_FLAG_NONE as _;
+        /// the connection is not saved to disk.
+        ///  That either means, that the connection is in-memory only and currently
+        ///  is not backed by a file. Or, that the connection is backed by a file,
+        ///  but has modifications in-memory that were not persisted to disk.
         #[doc(alias = "NM_SETTINGS_CONNECTION_FLAG_UNSAVED")]
-        const UNSAVED = ffi::NM_SETTINGS_CONNECTION_FLAG_UNSAVED as u32;
+        const UNSAVED = ffi::NM_SETTINGS_CONNECTION_FLAG_UNSAVED as _;
+        /// A connection is "nm-generated" if
+        ///  it was generated by NetworkManger. If the connection gets modified or saved
+        ///  by the user, the flag gets cleared. A nm-generated is also unsaved
+        ///  and has no backing file as it is in-memory only.
         #[doc(alias = "NM_SETTINGS_CONNECTION_FLAG_NM_GENERATED")]
-        const NM_GENERATED = ffi::NM_SETTINGS_CONNECTION_FLAG_NM_GENERATED as u32;
+        const NM_GENERATED = ffi::NM_SETTINGS_CONNECTION_FLAG_NM_GENERATED as _;
+        /// The connection will be deleted
+        ///  when it disconnects. That is for in-memory connections (unsaved), which are
+        ///  currently active but deleted on disconnect. Volatile connections are
+        ///  always unsaved, but they are also no backing file on disk and are entirely
+        ///  in-memory only.
         #[doc(alias = "NM_SETTINGS_CONNECTION_FLAG_VOLATILE")]
-        const VOLATILE = ffi::NM_SETTINGS_CONNECTION_FLAG_VOLATILE as u32;
+        const VOLATILE = ffi::NM_SETTINGS_CONNECTION_FLAG_VOLATILE as _;
+        /// the profile was generated to represent
+        ///  an external configuration of a networking device. Since: 1.26.
         #[doc(alias = "NM_SETTINGS_CONNECTION_FLAG_EXTERNAL")]
-        const EXTERNAL = ffi::NM_SETTINGS_CONNECTION_FLAG_EXTERNAL as u32;
+        const EXTERNAL = ffi::NM_SETTINGS_CONNECTION_FLAG_EXTERNAL as _;
     }
 }
 
@@ -2050,6 +3164,7 @@ impl fmt::Display for SettingsConnectionFlags {
 impl IntoGlib for SettingsConnectionFlags {
     type GlibType = ffi::NMSettingsConnectionFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMSettingsConnectionFlags {
         self.bits()
     }
@@ -2059,6 +3174,7 @@ impl IntoGlib for SettingsConnectionFlags {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMSettingsConnectionFlags> for SettingsConnectionFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMSettingsConnectionFlags) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -2067,8 +3183,21 @@ impl FromGlib<ffi::NMSettingsConnectionFlags> for SettingsConnectionFlags {
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl StaticType for SettingsConnectionFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_settings_connection_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+impl glib::HasParamSpec for SettingsConnectionFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -2083,6 +3212,7 @@ impl glib::value::ValueType for SettingsConnectionFlags {
 unsafe impl<'a> FromValue<'a> for SettingsConnectionFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -2091,6 +3221,7 @@ unsafe impl<'a> FromValue<'a> for SettingsConnectionFlags {
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl ToValue for SettingsConnectionFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -2099,8 +3230,18 @@ impl ToValue for SettingsConnectionFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+impl From<SettingsConnectionFlags> for glib::Value {
+    #[inline]
+    fn from(v: SettingsConnectionFlags) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -2109,22 +3250,66 @@ bitflags! {
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "NMSettingsUpdate2Flags")]
     pub struct SettingsUpdate2Flags: u32 {
+        /// an alias for numeric zero, no flags set.
         #[doc(alias = "NM_SETTINGS_UPDATE2_FLAG_NONE")]
-        const NONE = ffi::NM_SETTINGS_UPDATE2_FLAG_NONE as u32;
+        const NONE = ffi::NM_SETTINGS_UPDATE2_FLAG_NONE as _;
+        /// to persist the connection to disk.
         #[doc(alias = "NM_SETTINGS_UPDATE2_FLAG_TO_DISK")]
-        const TO_DISK = ffi::NM_SETTINGS_UPDATE2_FLAG_TO_DISK as u32;
+        const TO_DISK = ffi::NM_SETTINGS_UPDATE2_FLAG_TO_DISK as _;
+        /// makes the profile in-memory.
+        ///  Note that such profiles are stored in keyfile format under /run.
+        ///  If the file is already in-memory, the file in /run is updated in-place.
+        ///  Otherwise, the previous storage for the profile is left unchanged
+        ///  on disk, and the in-memory copy shadows it.
+        ///  Note that the original filename of the previous persistent storage (if any)
+        ///  is remembered. That means, when later persisting the profile again to disk,
+        ///  the file on disk will be overwritten again.
+        ///  Likewise, when finally deleting the profile, both the storage from /run
+        ///  and persistent storage are deleted (or if the persistent storage does not
+        ///  allow deletion, and nmmeta file is written to mark the UUID as deleted).
         #[doc(alias = "NM_SETTINGS_UPDATE2_FLAG_IN_MEMORY")]
-        const IN_MEMORY = ffi::NM_SETTINGS_UPDATE2_FLAG_IN_MEMORY as u32;
+        const IN_MEMORY = ffi::NM_SETTINGS_UPDATE2_FLAG_IN_MEMORY as _;
+        /// this is almost the same
+        ///  as [`IN_MEMORY`][Self::IN_MEMORY], with one difference: when later deleting
+        ///  the profile, the original profile will not be deleted. Instead a nmmeta
+        ///  file is written to /run to indicate that the profile is gone.
+        ///  Note that if such a nmmeta tombstone file exists and hides a file in persistent
+        ///  storage, then when re-adding the profile with the same UUID, then the original
+        ///  storage is taken over again.
         #[doc(alias = "NM_SETTINGS_UPDATE2_FLAG_IN_MEMORY_DETACHED")]
-        const IN_MEMORY_DETACHED = ffi::NM_SETTINGS_UPDATE2_FLAG_IN_MEMORY_DETACHED as u32;
+        const IN_MEMORY_DETACHED = ffi::NM_SETTINGS_UPDATE2_FLAG_IN_MEMORY_DETACHED as _;
+        /// this is like [`IN_MEMORY`][Self::IN_MEMORY],
+        ///  but if the connection has a corresponding file on persistent storage, the file
+        ///  will be deleted right away. If the profile is later again persisted to disk,
+        ///  a new, unused filename will be chosen.
         #[doc(alias = "NM_SETTINGS_UPDATE2_FLAG_IN_MEMORY_ONLY")]
-        const IN_MEMORY_ONLY = ffi::NM_SETTINGS_UPDATE2_FLAG_IN_MEMORY_ONLY as u32;
+        const IN_MEMORY_ONLY = ffi::NM_SETTINGS_UPDATE2_FLAG_IN_MEMORY_ONLY as _;
+        /// This can be specified with either
+        ///  [`IN_MEMORY`][Self::IN_MEMORY], [`IN_MEMORY_DETACHED`][Self::IN_MEMORY_DETACHED]
+        ///  or [`IN_MEMORY_ONLY`][Self::IN_MEMORY_ONLY].
+        ///  After making the connection in-memory only, the connection is marked
+        ///  as volatile. That means, if the connection is currently not active
+        ///  it will be deleted right away. Otherwise, it is marked to for deletion
+        ///  once the connection deactivates. A volatile connection cannot autoactivate
+        ///  again (because it's about to be deleted), but a manual activation will
+        ///  clear the volatile flag.
         #[doc(alias = "NM_SETTINGS_UPDATE2_FLAG_VOLATILE")]
-        const VOLATILE = ffi::NM_SETTINGS_UPDATE2_FLAG_VOLATILE as u32;
+        const VOLATILE = ffi::NM_SETTINGS_UPDATE2_FLAG_VOLATILE as _;
+        /// usually, when the connection
+        ///  has autoconnect enabled and is modified, it becomes eligible to autoconnect
+        ///  right away. Setting this flag, disables autoconnect until the connection
+        ///  is manually activated.
         #[doc(alias = "NM_SETTINGS_UPDATE2_FLAG_BLOCK_AUTOCONNECT")]
-        const BLOCK_AUTOCONNECT = ffi::NM_SETTINGS_UPDATE2_FLAG_BLOCK_AUTOCONNECT as u32;
+        const BLOCK_AUTOCONNECT = ffi::NM_SETTINGS_UPDATE2_FLAG_BLOCK_AUTOCONNECT as _;
+        /// when a profile gets modified that is
+        ///  currently active, then these changes don't take effect for the active
+        ///  device unless the profile gets reactivated or the configuration reapplied.
+        ///  There are two exceptions: by default "connection.zone" and "connection.metered"
+        ///  properties take effect immediately. Specify this flag to prevent these
+        ///  properties to take effect, so that the change is restricted to modify
+        ///  the profile. Since: 1.20.
         #[doc(alias = "NM_SETTINGS_UPDATE2_FLAG_NO_REAPPLY")]
-        const NO_REAPPLY = ffi::NM_SETTINGS_UPDATE2_FLAG_NO_REAPPLY as u32;
+        const NO_REAPPLY = ffi::NM_SETTINGS_UPDATE2_FLAG_NO_REAPPLY as _;
     }
 }
 
@@ -2142,6 +3327,7 @@ impl fmt::Display for SettingsUpdate2Flags {
 impl IntoGlib for SettingsUpdate2Flags {
     type GlibType = ffi::NMSettingsUpdate2Flags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMSettingsUpdate2Flags {
         self.bits()
     }
@@ -2151,6 +3337,7 @@ impl IntoGlib for SettingsUpdate2Flags {
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMSettingsUpdate2Flags> for SettingsUpdate2Flags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMSettingsUpdate2Flags) -> Self {
         Self::from_bits_truncate(value)
     }
@@ -2159,8 +3346,21 @@ impl FromGlib<ffi::NMSettingsUpdate2Flags> for SettingsUpdate2Flags {
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl StaticType for SettingsUpdate2Flags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_settings_update2_flags_get_type()) }
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+impl glib::HasParamSpec for SettingsUpdate2Flags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -2175,6 +3375,7 @@ impl glib::value::ValueType for SettingsUpdate2Flags {
 unsafe impl<'a> FromValue<'a> for SettingsUpdate2Flags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
@@ -2183,6 +3384,7 @@ unsafe impl<'a> FromValue<'a> for SettingsUpdate2Flags {
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl ToValue for SettingsUpdate2Flags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -2191,64 +3393,113 @@ impl ToValue for SettingsUpdate2Flags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
-bitflags! {
-    #[doc(alias = "NMTeamLinkWatcherArpPingFlags")]
-    pub struct TeamLinkWatcherArpPingFlags: u32 {
-        #[doc(alias = "NM_TEAM_LINK_WATCHER_ARP_PING_FLAG_VALIDATE_ACTIVE")]
-        const VALIDATE_ACTIVE = ffi::NM_TEAM_LINK_WATCHER_ARP_PING_FLAG_VALIDATE_ACTIVE as u32;
-        #[doc(alias = "NM_TEAM_LINK_WATCHER_ARP_PING_FLAG_VALIDATE_INACTIVE")]
-        const VALIDATE_INACTIVE = ffi::NM_TEAM_LINK_WATCHER_ARP_PING_FLAG_VALIDATE_INACTIVE as u32;
-        #[doc(alias = "NM_TEAM_LINK_WATCHER_ARP_PING_FLAG_SEND_ALWAYS")]
-        const SEND_ALWAYS = ffi::NM_TEAM_LINK_WATCHER_ARP_PING_FLAG_SEND_ALWAYS as u32;
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+impl From<SettingsUpdate2Flags> for glib::Value {
+    #[inline]
+    fn from(v: SettingsUpdate2Flags) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+bitflags! {
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+    #[doc(alias = "NMTeamLinkWatcherArpPingFlags")]
+    pub struct TeamLinkWatcherArpPingFlags: u32 {
+        /// the arp_ping link watcher
+        ///  option 'validate_active' is enabled (set to true).
+        #[doc(alias = "NM_TEAM_LINK_WATCHER_ARP_PING_FLAG_VALIDATE_ACTIVE")]
+        const VALIDATE_ACTIVE = ffi::NM_TEAM_LINK_WATCHER_ARP_PING_FLAG_VALIDATE_ACTIVE as _;
+        /// the arp_ping link watcher
+        ///  option 'validate_inactive' is enabled (set to true).
+        #[doc(alias = "NM_TEAM_LINK_WATCHER_ARP_PING_FLAG_VALIDATE_INACTIVE")]
+        const VALIDATE_INACTIVE = ffi::NM_TEAM_LINK_WATCHER_ARP_PING_FLAG_VALIDATE_INACTIVE as _;
+        /// the arp_ping link watcher option
+        ///  'send_always' is enabled (set to true).
+        #[doc(alias = "NM_TEAM_LINK_WATCHER_ARP_PING_FLAG_SEND_ALWAYS")]
+        const SEND_ALWAYS = ffi::NM_TEAM_LINK_WATCHER_ARP_PING_FLAG_SEND_ALWAYS as _;
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl fmt::Display for TeamLinkWatcherArpPingFlags {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         <Self as fmt::Debug>::fmt(self, f)
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 #[doc(hidden)]
 impl IntoGlib for TeamLinkWatcherArpPingFlags {
     type GlibType = ffi::NMTeamLinkWatcherArpPingFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMTeamLinkWatcherArpPingFlags {
         self.bits()
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 #[doc(hidden)]
 impl FromGlib<ffi::NMTeamLinkWatcherArpPingFlags> for TeamLinkWatcherArpPingFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMTeamLinkWatcherArpPingFlags) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl StaticType for TeamLinkWatcherArpPingFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_team_link_watcher_arp_ping_flags_get_type()) }
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+impl glib::HasParamSpec for TeamLinkWatcherArpPingFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
+    }
+}
+
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl glib::value::ValueType for TeamLinkWatcherArpPingFlags {
     type Type = Self;
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 unsafe impl<'a> FromValue<'a> for TeamLinkWatcherArpPingFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 impl ToValue for TeamLinkWatcherArpPingFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -2257,22 +3508,42 @@ impl ToValue for TeamLinkWatcherArpPingFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+#[cfg(any(feature = "v1_12", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+impl From<TeamLinkWatcherArpPingFlags> for glib::Value {
+    #[inline]
+    fn from(v: TeamLinkWatcherArpPingFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
+    /// [`VlanFlags`][crate::VlanFlags] values control the behavior of the VLAN interface.
     #[doc(alias = "NMVlanFlags")]
     pub struct VlanFlags: u32 {
+        /// indicates that this interface should reorder
+        ///  outgoing packet headers to look more like a non-VLAN Ethernet interface
         #[doc(alias = "NM_VLAN_FLAG_REORDER_HEADERS")]
-        const REORDER_HEADERS = ffi::NM_VLAN_FLAG_REORDER_HEADERS as u32;
+        const REORDER_HEADERS = ffi::NM_VLAN_FLAG_REORDER_HEADERS as _;
+        /// indicates that this interface should use GVRP to register
+        ///  itself with its switch
         #[doc(alias = "NM_VLAN_FLAG_GVRP")]
-        const GVRP = ffi::NM_VLAN_FLAG_GVRP as u32;
+        const GVRP = ffi::NM_VLAN_FLAG_GVRP as _;
+        /// indicates that this interface's operating
+        ///  state is tied to the underlying network interface but other details
+        ///  (like routing) are not.
         #[doc(alias = "NM_VLAN_FLAG_LOOSE_BINDING")]
-        const LOOSE_BINDING = ffi::NM_VLAN_FLAG_LOOSE_BINDING as u32;
+        const LOOSE_BINDING = ffi::NM_VLAN_FLAG_LOOSE_BINDING as _;
+        /// indicates that this interface should use MVRP to register
+        ///  itself with its switch
         #[doc(alias = "NM_VLAN_FLAG_MVRP")]
-        const MVRP = ffi::NM_VLAN_FLAG_MVRP as u32;
+        const MVRP = ffi::NM_VLAN_FLAG_MVRP as _;
     }
 }
 
@@ -2286,6 +3557,7 @@ impl fmt::Display for VlanFlags {
 impl IntoGlib for VlanFlags {
     type GlibType = ffi::NMVlanFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMVlanFlags {
         self.bits()
     }
@@ -2293,14 +3565,26 @@ impl IntoGlib for VlanFlags {
 
 #[doc(hidden)]
 impl FromGlib<ffi::NMVlanFlags> for VlanFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMVlanFlags) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for VlanFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_vlan_flags_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for VlanFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -2311,12 +3595,14 @@ impl glib::value::ValueType for VlanFlags {
 unsafe impl<'a> FromValue<'a> for VlanFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for VlanFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -2325,22 +3611,35 @@ impl ToValue for VlanFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<VlanFlags> for glib::Value {
+    #[inline]
+    fn from(v: VlanFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
+    /// Flags that indicate certain capabilities of the plugin to editor programs.
     #[doc(alias = "NMVpnEditorPluginCapability")]
     pub struct VpnEditorPluginCapability: u32 {
+        /// unknown or no capability
         #[doc(alias = "NM_VPN_EDITOR_PLUGIN_CAPABILITY_NONE")]
-        const NONE = ffi::NM_VPN_EDITOR_PLUGIN_CAPABILITY_NONE as u32;
+        const NONE = ffi::NM_VPN_EDITOR_PLUGIN_CAPABILITY_NONE as _;
+        /// the plugin can import new connections
         #[doc(alias = "NM_VPN_EDITOR_PLUGIN_CAPABILITY_IMPORT")]
-        const IMPORT = ffi::NM_VPN_EDITOR_PLUGIN_CAPABILITY_IMPORT as u32;
+        const IMPORT = ffi::NM_VPN_EDITOR_PLUGIN_CAPABILITY_IMPORT as _;
+        /// the plugin can export connections
         #[doc(alias = "NM_VPN_EDITOR_PLUGIN_CAPABILITY_EXPORT")]
-        const EXPORT = ffi::NM_VPN_EDITOR_PLUGIN_CAPABILITY_EXPORT as u32;
+        const EXPORT = ffi::NM_VPN_EDITOR_PLUGIN_CAPABILITY_EXPORT as _;
+        /// the plugin supports IPv6 addressing
         #[doc(alias = "NM_VPN_EDITOR_PLUGIN_CAPABILITY_IPV6")]
-        const IPV6 = ffi::NM_VPN_EDITOR_PLUGIN_CAPABILITY_IPV6 as u32;
+        const IPV6 = ffi::NM_VPN_EDITOR_PLUGIN_CAPABILITY_IPV6 as _;
     }
 }
 
@@ -2354,6 +3653,7 @@ impl fmt::Display for VpnEditorPluginCapability {
 impl IntoGlib for VpnEditorPluginCapability {
     type GlibType = ffi::NMVpnEditorPluginCapability;
 
+    #[inline]
     fn into_glib(self) -> ffi::NMVpnEditorPluginCapability {
         self.bits()
     }
@@ -2361,14 +3661,26 @@ impl IntoGlib for VpnEditorPluginCapability {
 
 #[doc(hidden)]
 impl FromGlib<ffi::NMVpnEditorPluginCapability> for VpnEditorPluginCapability {
+    #[inline]
     unsafe fn from_glib(value: ffi::NMVpnEditorPluginCapability) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for VpnEditorPluginCapability {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_vpn_editor_plugin_capability_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for VpnEditorPluginCapability {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -2379,12 +3691,14 @@ impl glib::value::ValueType for VpnEditorPluginCapability {
 unsafe impl<'a> FromValue<'a> for VpnEditorPluginCapability {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for VpnEditorPluginCapability {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -2393,24 +3707,39 @@ impl ToValue for VpnEditorPluginCapability {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<VpnEditorPluginCapability> for glib::Value {
+    #[inline]
+    fn from(v: VpnEditorPluginCapability) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
+    /// 802.11 access point flags.
     #[doc(alias = "NM80211ApFlags")]
     pub struct _80211ApFlags: u32 {
+        /// access point has no special capabilities
         #[doc(alias = "NM_802_11_AP_FLAGS_NONE")]
-        const NONE = ffi::NM_802_11_AP_FLAGS_NONE as u32;
+        const NONE = ffi::NM_802_11_AP_FLAGS_NONE as _;
+        /// access point requires authentication and
+        /// encryption (usually means WEP)
         #[doc(alias = "NM_802_11_AP_FLAGS_PRIVACY")]
-        const PRIVACY = ffi::NM_802_11_AP_FLAGS_PRIVACY as u32;
+        const PRIVACY = ffi::NM_802_11_AP_FLAGS_PRIVACY as _;
+        /// access point supports some WPS method
         #[doc(alias = "NM_802_11_AP_FLAGS_WPS")]
-        const WPS = ffi::NM_802_11_AP_FLAGS_WPS as u32;
+        const WPS = ffi::NM_802_11_AP_FLAGS_WPS as _;
+        /// access point supports push-button WPS
         #[doc(alias = "NM_802_11_AP_FLAGS_WPS_PBC")]
-        const WPS_PBC = ffi::NM_802_11_AP_FLAGS_WPS_PBC as u32;
+        const WPS_PBC = ffi::NM_802_11_AP_FLAGS_WPS_PBC as _;
+        /// access point supports PIN-based WPS
         #[doc(alias = "NM_802_11_AP_FLAGS_WPS_PIN")]
-        const WPS_PIN = ffi::NM_802_11_AP_FLAGS_WPS_PIN as u32;
+        const WPS_PIN = ffi::NM_802_11_AP_FLAGS_WPS_PIN as _;
     }
 }
 
@@ -2424,6 +3753,7 @@ impl fmt::Display for _80211ApFlags {
 impl IntoGlib for _80211ApFlags {
     type GlibType = ffi::NM80211ApFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NM80211ApFlags {
         self.bits()
     }
@@ -2431,14 +3761,26 @@ impl IntoGlib for _80211ApFlags {
 
 #[doc(hidden)]
 impl FromGlib<ffi::NM80211ApFlags> for _80211ApFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NM80211ApFlags) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for _80211ApFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_802_11_ap_flags_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for _80211ApFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -2449,12 +3791,14 @@ impl glib::value::ValueType for _80211ApFlags {
 unsafe impl<'a> FromValue<'a> for _80211ApFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for _80211ApFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -2463,44 +3807,81 @@ impl ToValue for _80211ApFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<_80211ApFlags> for glib::Value {
+    #[inline]
+    fn from(v: _80211ApFlags) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
+    /// 802.11 access point security and authentication flags. These flags describe
+    /// the current security requirements of an access point as determined from the
+    /// access point's beacon.
     #[doc(alias = "NM80211ApSecurityFlags")]
     pub struct _80211ApSecurityFlags: u32 {
+        /// the access point has no special security requirements
         #[doc(alias = "NM_802_11_AP_SEC_NONE")]
-        const NONE = ffi::NM_802_11_AP_SEC_NONE as u32;
+        const NONE = ffi::NM_802_11_AP_SEC_NONE as _;
+        /// 40/64-bit WEP is supported for
+        /// pairwise/unicast encryption
         #[doc(alias = "NM_802_11_AP_SEC_PAIR_WEP40")]
-        const PAIR_WEP40 = ffi::NM_802_11_AP_SEC_PAIR_WEP40 as u32;
+        const PAIR_WEP40 = ffi::NM_802_11_AP_SEC_PAIR_WEP40 as _;
+        /// 104/128-bit WEP is supported for
+        /// pairwise/unicast encryption
         #[doc(alias = "NM_802_11_AP_SEC_PAIR_WEP104")]
-        const PAIR_WEP104 = ffi::NM_802_11_AP_SEC_PAIR_WEP104 as u32;
+        const PAIR_WEP104 = ffi::NM_802_11_AP_SEC_PAIR_WEP104 as _;
+        /// TKIP is supported for pairwise/unicast encryption
         #[doc(alias = "NM_802_11_AP_SEC_PAIR_TKIP")]
-        const PAIR_TKIP = ffi::NM_802_11_AP_SEC_PAIR_TKIP as u32;
+        const PAIR_TKIP = ffi::NM_802_11_AP_SEC_PAIR_TKIP as _;
+        /// AES/CCMP is supported for pairwise/unicast encryption
         #[doc(alias = "NM_802_11_AP_SEC_PAIR_CCMP")]
-        const PAIR_CCMP = ffi::NM_802_11_AP_SEC_PAIR_CCMP as u32;
+        const PAIR_CCMP = ffi::NM_802_11_AP_SEC_PAIR_CCMP as _;
+        /// 40/64-bit WEP is supported for group/broadcast
+        /// encryption
         #[doc(alias = "NM_802_11_AP_SEC_GROUP_WEP40")]
-        const GROUP_WEP40 = ffi::NM_802_11_AP_SEC_GROUP_WEP40 as u32;
+        const GROUP_WEP40 = ffi::NM_802_11_AP_SEC_GROUP_WEP40 as _;
+        /// 104/128-bit WEP is supported for
+        /// group/broadcast encryption
         #[doc(alias = "NM_802_11_AP_SEC_GROUP_WEP104")]
-        const GROUP_WEP104 = ffi::NM_802_11_AP_SEC_GROUP_WEP104 as u32;
+        const GROUP_WEP104 = ffi::NM_802_11_AP_SEC_GROUP_WEP104 as _;
+        /// TKIP is supported for group/broadcast encryption
         #[doc(alias = "NM_802_11_AP_SEC_GROUP_TKIP")]
-        const GROUP_TKIP = ffi::NM_802_11_AP_SEC_GROUP_TKIP as u32;
+        const GROUP_TKIP = ffi::NM_802_11_AP_SEC_GROUP_TKIP as _;
+        /// AES/CCMP is supported for group/broadcast
+        /// encryption
         #[doc(alias = "NM_802_11_AP_SEC_GROUP_CCMP")]
-        const GROUP_CCMP = ffi::NM_802_11_AP_SEC_GROUP_CCMP as u32;
+        const GROUP_CCMP = ffi::NM_802_11_AP_SEC_GROUP_CCMP as _;
+        /// WPA/RSN Pre-Shared Key encryption is
+        /// supported
         #[doc(alias = "NM_802_11_AP_SEC_KEY_MGMT_PSK")]
-        const KEY_MGMT_PSK = ffi::NM_802_11_AP_SEC_KEY_MGMT_PSK as u32;
+        const KEY_MGMT_PSK = ffi::NM_802_11_AP_SEC_KEY_MGMT_PSK as _;
+        /// 802.1x authentication and key management
+        /// is supported
         #[doc(alias = "NM_802_11_AP_SEC_KEY_MGMT_802_1X")]
-        const KEY_MGMT_802_1X = ffi::NM_802_11_AP_SEC_KEY_MGMT_802_1X as u32;
+        const KEY_MGMT_802_1X = ffi::NM_802_11_AP_SEC_KEY_MGMT_802_1X as _;
+        /// WPA/RSN Simultaneous Authentication of Equals is
+        /// supported
         #[doc(alias = "NM_802_11_AP_SEC_KEY_MGMT_SAE")]
-        const KEY_MGMT_SAE = ffi::NM_802_11_AP_SEC_KEY_MGMT_SAE as u32;
+        const KEY_MGMT_SAE = ffi::NM_802_11_AP_SEC_KEY_MGMT_SAE as _;
+        /// WPA/RSN Opportunistic Wireless Encryption is
+        /// supported
         #[doc(alias = "NM_802_11_AP_SEC_KEY_MGMT_OWE")]
-        const KEY_MGMT_OWE = ffi::NM_802_11_AP_SEC_KEY_MGMT_OWE as u32;
+        const KEY_MGMT_OWE = ffi::NM_802_11_AP_SEC_KEY_MGMT_OWE as _;
+        /// WPA/RSN Opportunistic Wireless Encryption
+        /// transition mode is supported. Since: 1.26.
         #[doc(alias = "NM_802_11_AP_SEC_KEY_MGMT_OWE_TM")]
-        const KEY_MGMT_OWE_TM = ffi::NM_802_11_AP_SEC_KEY_MGMT_OWE_TM as u32;
+        const KEY_MGMT_OWE_TM = ffi::NM_802_11_AP_SEC_KEY_MGMT_OWE_TM as _;
+        /// WPA3 Enterprise Suite-B 192 bit mode
+        /// is supported. Since: 1.30.
         #[doc(alias = "NM_802_11_AP_SEC_KEY_MGMT_EAP_SUITE_B_192")]
-        const KEY_MGMT_EAP_SUITE_B_192 = ffi::NM_802_11_AP_SEC_KEY_MGMT_EAP_SUITE_B_192 as u32;
+        const KEY_MGMT_EAP_SUITE_B_192 = ffi::NM_802_11_AP_SEC_KEY_MGMT_EAP_SUITE_B_192 as _;
     }
 }
 
@@ -2514,6 +3895,7 @@ impl fmt::Display for _80211ApSecurityFlags {
 impl IntoGlib for _80211ApSecurityFlags {
     type GlibType = ffi::NM80211ApSecurityFlags;
 
+    #[inline]
     fn into_glib(self) -> ffi::NM80211ApSecurityFlags {
         self.bits()
     }
@@ -2521,14 +3903,26 @@ impl IntoGlib for _80211ApSecurityFlags {
 
 #[doc(hidden)]
 impl FromGlib<ffi::NM80211ApSecurityFlags> for _80211ApSecurityFlags {
+    #[inline]
     unsafe fn from_glib(value: ffi::NM80211ApSecurityFlags) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for _80211ApSecurityFlags {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::nm_802_11_ap_security_flags_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for _80211ApSecurityFlags {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name| Self::ParamSpec::builder(name)
     }
 }
 
@@ -2539,12 +3933,14 @@ impl glib::value::ValueType for _80211ApSecurityFlags {
 unsafe impl<'a> FromValue<'a> for _80211ApSecurityFlags {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for _80211ApSecurityFlags {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -2553,7 +3949,15 @@ impl ToValue for _80211ApSecurityFlags {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<_80211ApSecurityFlags> for glib::Value {
+    #[inline]
+    fn from(v: _80211ApSecurityFlags) -> Self {
+        ToValue::to_value(&v)
     }
 }

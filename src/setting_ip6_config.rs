@@ -2,23 +2,490 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::Setting;
 #[cfg(any(feature = "v1_2", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
 use crate::SettingIP6ConfigAddrGenMode;
-use crate::SettingIP6ConfigPrivacy;
-use crate::SettingIPConfig;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use crate::{Setting, SettingIP6ConfigPrivacy, SettingIPConfig};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// IPv6 Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `addr-gen-mode`
+    ///  Configure method for creating the address for use with RFC4862 IPv6
+    /// Stateless Address Autoconfiguration. The permitted values are:
+    /// [`SettingIP6ConfigAddrGenMode::Eui64`][crate::SettingIP6ConfigAddrGenMode::Eui64],
+    /// [`SettingIP6ConfigAddrGenMode::StablePrivacy`][crate::SettingIP6ConfigAddrGenMode::StablePrivacy].
+    /// [`SettingIP6ConfigAddrGenMode::DefaultOrEui64`][crate::SettingIP6ConfigAddrGenMode::DefaultOrEui64]
+    /// or [`SettingIP6ConfigAddrGenMode::Default`][crate::SettingIP6ConfigAddrGenMode::Default].
+    ///
+    /// If the property is set to EUI64, the addresses will be generated
+    /// using the interface tokens derived from hardware address. This makes
+    /// the host part of the address to stay constant, making it possible
+    /// to track host's presence when it changes networks. The address changes
+    /// when the interface hardware is replaced.
+    ///
+    /// The value of stable-privacy enables use of cryptographically
+    /// secure hash of a secret host-specific key along with the connection's
+    /// stable-id and the network address as specified by RFC7217.
+    /// This makes it impossible to use the address track host's presence,
+    /// and makes the address stable when the network interface hardware is
+    /// replaced.
+    ///
+    /// The special values "default" and "default-or-eui64" will fallback to the global
+    /// connection default in as documented in NetworkManager.conf(5) manual. If the
+    /// global default is not specified, the fallback value is "stable-privacy"
+    /// or "eui64", respectively.
+    ///
+    /// For libnm, the property defaults to "default" since 1.40.
+    /// Previously it defaulted to "stable-privacy".
+    /// On D-Bus, the absence of an addr-gen-mode setting equals
+    /// "default". For keyfile plugin, the absence of the setting
+    /// on disk means "default-or-eui64" so that the property doesn't change on upgrade
+    /// from older versions.
+    ///
+    /// Note that this setting is distinct from the Privacy Extensions as
+    /// configured by "ip6-privacy" property and it does not affect the
+    /// temporary addresses configured with this option.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dhcp-duid`
+    ///  A string containing the DHCPv6 Unique Identifier (DUID) used by the dhcp
+    /// client to identify itself to DHCPv6 servers (RFC 3315). The DUID is carried
+    /// in the Client Identifier option.
+    /// If the property is a hex string ('aa:bb:cc') it is interpreted as a binary
+    /// DUID and filled as an opaque value in the Client Identifier option.
+    ///
+    /// The special value "lease" will retrieve the DUID previously used from the
+    /// lease file belonging to the connection. If no DUID is found and "dhclient"
+    /// is the configured dhcp client, the DUID is searched in the system-wide
+    /// dhclient lease file. If still no DUID is found, or another dhcp client is
+    /// used, a global and permanent DUID-UUID (RFC 6355) will be generated based
+    /// on the machine-id.
+    ///
+    /// The special values "llt" and "ll" will generate a DUID of type LLT or LL
+    /// (see RFC 3315) based on the current MAC address of the device. In order to
+    /// try providing a stable DUID-LLT, the time field will contain a constant
+    /// timestamp that is used globally (for all profiles) and persisted to disk.
+    ///
+    /// The special values "stable-llt", "stable-ll" and "stable-uuid" will generate
+    /// a DUID of the corresponding type, derived from the connection's stable-id and
+    /// a per-host unique key. You may want to include the "${DEVICE}" or "${MAC}" specifier
+    /// in the stable-id, in case this profile gets activated on multiple devices.
+    /// So, the link-layer address of "stable-ll" and "stable-llt" will be a generated
+    /// address derived from the stable id. The DUID-LLT time value in the "stable-llt"
+    /// option will be picked among a static timespan of three years (the upper bound
+    /// of the interval is the same constant timestamp used in "llt").
+    ///
+    /// When the property is unset, the global value provided for "ipv6.dhcp-duid" is
+    /// used. If no global value is provided, the default "lease" value is assumed.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `ip6-privacy`
+    ///  Configure IPv6 Privacy Extensions for SLAAC, described in RFC4941. If
+    /// enabled, it makes the kernel generate a temporary IPv6 address in
+    /// addition to the public one generated from MAC address via modified
+    /// EUI-64. This enhances privacy, but could cause problems in some
+    /// applications, on the other hand. The permitted values are: -1: unknown,
+    /// 0: disabled, 1: enabled (prefer public address), 2: enabled (prefer temporary
+    /// addresses).
+    ///
+    /// Having a per-connection setting set to "-1" (unknown) means fallback to
+    /// global configuration "ipv6.ip6-privacy".
+    ///
+    /// If also global configuration is unspecified or set to "-1", fallback to read
+    /// "/proc/sys/net/ipv6/conf/default/use_tempaddr".
+    ///
+    /// Note that this setting is distinct from the Stable Privacy addresses
+    /// that can be enabled with the "addr-gen-mode" property's "stable-privacy"
+    /// setting as another way of avoiding host tracking with IPv6 addresses.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mtu`
+    ///  Maximum transmission unit size, in bytes. If zero (the default), the MTU
+    /// is set automatically from router advertisements or is left equal to the
+    /// link-layer MTU. If greater than the link-layer MTU, or greater than zero
+    /// but less than the minimum IPv6 MTU of 1280, this value has no effect.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `ra-timeout`
+    ///  A timeout for waiting Router Advertisements in seconds. If zero (the default), a
+    /// globally configured default is used. If still unspecified, the timeout depends on the
+    /// sysctl settings of the device.
+    ///
+    /// Set to 2147483647 (MAXINT32) for infinity.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `token`
+    ///  Configure the token for draft-chown-6man-tokenised-ipv6-identifiers-02
+    /// IPv6 tokenized interface identifiers. Useful with eui64 addr-gen-mode.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>SettingIPConfig</h4></summary>
+    ///
+    ///
+    /// #### `dad-timeout`
+    ///  Timeout in milliseconds used to check for the presence of duplicate IP
+    /// addresses on the network. If an address conflict is detected, the
+    /// activation will fail. A zero value means that no duplicate address
+    /// detection is performed, -1 means the default value (either configuration
+    /// ipvx.dad-timeout override or zero). A value greater than zero is a
+    /// timeout in milliseconds.
+    ///
+    /// The property is currently implemented only for IPv4.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dhcp-hostname`
+    ///  If the [`dhcp-send-hostname`][struct@crate::SettingIPConfig#dhcp-send-hostname] property is [`true`], then the
+    /// specified name will be sent to the DHCP server when acquiring a lease.
+    /// This property and [`dhcp-fqdn`][struct@crate::SettingIP4Config#dhcp-fqdn] are mutually exclusive and
+    /// cannot be set at the same time.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dhcp-hostname-flags`
+    ///  Flags for the DHCP hostname and FQDN.
+    ///
+    /// Currently, this property only includes flags to control the FQDN flags
+    /// set in the DHCP FQDN option. Supported FQDN flags are
+    /// [`DhcpHostnameFlags::FQDN_SERV_UPDATE`][crate::DhcpHostnameFlags::FQDN_SERV_UPDATE],
+    /// [`DhcpHostnameFlags::FQDN_ENCODED`][crate::DhcpHostnameFlags::FQDN_ENCODED] and
+    /// [`DhcpHostnameFlags::FQDN_NO_UPDATE`][crate::DhcpHostnameFlags::FQDN_NO_UPDATE]. When no FQDN flag is set and
+    /// [`DhcpHostnameFlags::FQDN_CLEAR_FLAGS`][crate::DhcpHostnameFlags::FQDN_CLEAR_FLAGS] is set, the DHCP FQDN option will
+    /// contain no flag. Otherwise, if no FQDN flag is set and
+    /// [`DhcpHostnameFlags::FQDN_CLEAR_FLAGS`][crate::DhcpHostnameFlags::FQDN_CLEAR_FLAGS] is not set, the standard FQDN flags
+    /// are set in the request:
+    /// [`DhcpHostnameFlags::FQDN_SERV_UPDATE`][crate::DhcpHostnameFlags::FQDN_SERV_UPDATE],
+    /// [`DhcpHostnameFlags::FQDN_ENCODED`][crate::DhcpHostnameFlags::FQDN_ENCODED] for IPv4 and
+    /// [`DhcpHostnameFlags::FQDN_SERV_UPDATE`][crate::DhcpHostnameFlags::FQDN_SERV_UPDATE] for IPv6.
+    ///
+    /// When this property is set to the default value [`DhcpHostnameFlags::NONE`][crate::DhcpHostnameFlags::NONE],
+    /// a global default is looked up in NetworkManager configuration. If that value
+    /// is unset or also [`DhcpHostnameFlags::NONE`][crate::DhcpHostnameFlags::NONE], then the standard FQDN flags
+    /// described above are sent in the DHCP requests.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dhcp-iaid`
+    ///  A string containing the "Identity Association Identifier" (IAID) used
+    /// by the DHCP client. The property is a 32-bit decimal value or a
+    /// special value among "mac", "perm-mac", "ifname" and "stable". When
+    /// set to "mac" (or "perm-mac"), the last 4 bytes of the current (or
+    /// permanent) MAC address are used as IAID. When set to "ifname", the
+    /// IAID is computed by hashing the interface name. The special value
+    /// "stable" can be used to generate an IAID based on the stable-id (see
+    /// connection.stable-id), a per-host key and the interface name. When
+    /// the property is unset, the value from global configuration is used;
+    /// if no global default is set then the IAID is assumed to be
+    /// "ifname". Note that at the moment this property is ignored for IPv6
+    /// by dhclient, which always derives the IAID from the MAC address.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dhcp-reject-servers`
+    ///  Array of servers from which DHCP offers must be rejected. This property
+    /// is useful to avoid getting a lease from misconfigured or rogue servers.
+    ///
+    /// For DHCPv4, each element must be an IPv4 address, optionally
+    /// followed by a slash and a prefix length (e.g. "192.168.122.0/24").
+    ///
+    /// This property is currently not implemented for DHCPv6.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dhcp-send-hostname`
+    ///  If [`true`], a hostname is sent to the DHCP server when acquiring a lease.
+    /// Some DHCP servers use this hostname to update DNS databases, essentially
+    /// providing a static hostname for the computer. If the
+    /// [`dhcp-hostname`][struct@crate::SettingIPConfig#dhcp-hostname] property is [`None`] and this property is
+    /// [`true`], the current persistent hostname of the computer is sent.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dhcp-timeout`
+    ///  A timeout for a DHCP transaction in seconds. If zero (the default), a
+    /// globally configured default is used. If still unspecified, a device specific
+    /// timeout is used (usually 45 seconds).
+    ///
+    /// Set to 2147483647 (MAXINT32) for infinity.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dns`
+    ///  Array of IP addresses of DNS servers.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dns-options`
+    ///  Array of DNS options as described in man 5 resolv.conf.
+    ///
+    /// [`None`] means that the options are unset and left at the default.
+    /// In this case NetworkManager will use default options. This is
+    /// distinct from an empty list of properties.
+    ///
+    /// The currently supported options are "attempts", "debug", "edns0",
+    /// "inet6", "ip6-bytestring", "ip6-dotint", "ndots", "no-check-names",
+    /// "no-ip6-dotint", "no-reload", "no-tld-query", "rotate", "single-request",
+    /// "single-request-reopen", "timeout", "trust-ad", "use-vc".
+    ///
+    /// The "trust-ad" setting is only honored if the profile contributes
+    /// name servers to resolv.conf, and if all contributing profiles have
+    /// "trust-ad" enabled.
+    ///
+    /// When using a caching DNS plugin (dnsmasq or systemd-resolved in
+    /// NetworkManager.conf) then "edns0" and "trust-ad" are automatically
+    /// added.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dns-priority`
+    ///  DNS servers priority.
+    ///
+    /// The relative priority for DNS servers specified by this setting. A lower
+    /// numerical value is better (higher priority).
+    ///
+    /// Negative values have the special effect of excluding other configurations
+    /// with a greater numerical priority value; so in presence of at least one negative
+    /// priority, only DNS servers from connections with the lowest priority value will be used.
+    /// To avoid all DNS leaks, set the priority of the profile that should be used
+    /// to the most negative value of all active connections profiles.
+    ///
+    /// Zero selects a globally configured default value. If the latter is missing
+    /// or zero too, it defaults to 50 for VPNs (including WireGuard) and 100 for
+    /// other connections.
+    ///
+    /// Note that the priority is to order DNS settings for multiple active
+    /// connections. It does not disambiguate multiple DNS servers within the
+    /// same connection profile.
+    ///
+    /// When multiple devices have configurations with the same priority, VPNs will be
+    /// considered first, then devices with the best (lowest metric) default
+    /// route and then all other devices.
+    ///
+    /// When using dns=default, servers with higher priority will be on top of
+    /// resolv.conf. To prioritize a given server over another one within the
+    /// same connection, just specify them in the desired order.
+    /// Note that commonly the resolver tries name servers in /etc/resolv.conf
+    /// in the order listed, proceeding with the next server in the list
+    /// on failure. See for example the "rotate" option of the dns-options setting.
+    /// If there are any negative DNS priorities, then only name servers from
+    /// the devices with that lowest priority will be considered.
+    ///
+    /// When using a DNS resolver that supports Conditional Forwarding or
+    /// Split DNS (with dns=dnsmasq or dns=systemd-resolved settings), each connection
+    /// is used to query domains in its search list. The search domains determine which
+    /// name servers to ask, and the DNS priority is used to prioritize
+    /// name servers based on the domain. Queries for domains not present in any
+    /// search list are routed through connections having the '~.' special wildcard
+    /// domain, which is added automatically to connections with the default route
+    /// (or can be added manually). When multiple connections specify the same domain, the
+    /// one with the best priority (lowest numerical value) wins. If a sub domain
+    /// is configured on another interface it will be accepted regardless the priority,
+    /// unless parent domain on the other interface has a negative priority, which causes
+    /// the sub domain to be shadowed.
+    /// With Split DNS one can avoid undesired DNS leaks by properly configuring
+    /// DNS priorities and the search domains, so that only name servers of the desired
+    /// interface are configured.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dns-search`
+    ///  List of DNS search domains. Domains starting with a tilde ('~')
+    /// are considered 'routing' domains and are used only to decide the
+    /// interface over which a query must be forwarded; they are not used
+    /// to complete unqualified host names.
+    ///
+    /// When using a DNS plugin that supports Conditional Forwarding or
+    /// Split DNS, then the search domains specify which name servers to
+    /// query. This makes the behavior different from running with plain
+    /// /etc/resolv.conf. For more information see also the dns-priority setting.
+    ///
+    /// When set on a profile that also enabled DHCP, the DNS search list
+    /// received automatically (option 119 for DHCPv4 and option 24 for DHCPv6)
+    /// gets merged with the manual list. This can be prevented by setting
+    /// "ignore-auto-dns". Note that if no DNS searches are configured, the
+    /// fallback will be derived from the domain from DHCP (option 15).
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `gateway`
+    ///  The gateway associated with this configuration. This is only meaningful
+    /// if [`addresses`][struct@crate::SettingIPConfig#addresses] is also set.
+    ///
+    /// Setting the gateway causes NetworkManager to configure a standard default route
+    /// with the gateway as next hop. This is ignored if [`never-default`][struct@crate::SettingIPConfig#never-default]
+    /// is set. An alternative is to configure the default route explicitly with a manual
+    /// route and /0 as prefix length.
+    ///
+    /// Note that the gateway usually conflicts with routing that NetworkManager configures
+    /// for WireGuard interfaces, so usually it should not be set in that case. See
+    /// [`ip4-auto-default-route`][struct@crate::SettingWireGuard#ip4-auto-default-route].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `ignore-auto-dns`
+    ///  When [`method`][struct@crate::SettingIPConfig#method] is set to "auto" and this property to
+    /// [`true`], automatically configured name servers and search domains are
+    /// ignored and only name servers and search domains specified in the
+    /// [`dns`][struct@crate::SettingIPConfig#dns] and [`dns-search`][struct@crate::SettingIPConfig#dns-search] properties, if
+    /// any, are used.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `ignore-auto-routes`
+    ///  When [`method`][struct@crate::SettingIPConfig#method] is set to "auto" and this property to
+    /// [`true`], automatically configured routes are ignored and only routes
+    /// specified in the [`routes`][struct@crate::SettingIPConfig#routes] property, if any, are used.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `may-fail`
+    ///  If [`true`], allow overall network configuration to proceed even if the
+    /// configuration specified by this property times out. Note that at least
+    /// one IP configuration must succeed or overall network configuration will
+    /// still fail. For example, in IPv6-only networks, setting this property to
+    /// [`true`] on the [`SettingIP4Config`][crate::SettingIP4Config] allows the overall network configuration
+    /// to succeed if IPv4 configuration fails but IPv6 configuration completes
+    /// successfully.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `method`
+    ///  IP configuration method.
+    ///
+    /// [`SettingIP4Config`][crate::SettingIP4Config] and [`SettingIP6Config`][crate::SettingIP6Config] both support "disabled",
+    /// "auto", "manual", and "link-local". See the subclass-specific
+    /// documentation for other values.
+    ///
+    /// In general, for the "auto" method, properties such as
+    /// [`dns`][struct@crate::SettingIPConfig#dns] and [`routes`][struct@crate::SettingIPConfig#routes] specify information
+    /// that is added on to the information returned from automatic
+    /// configuration. The [`ignore-auto-routes`][struct@crate::SettingIPConfig#ignore-auto-routes] and
+    /// [`ignore-auto-dns`][struct@crate::SettingIPConfig#ignore-auto-dns] properties modify this behavior.
+    ///
+    /// For methods that imply no upstream network, such as "shared" or
+    /// "link-local", these properties must be empty.
+    ///
+    /// For IPv4 method "shared", the IP subnet can be configured by adding one
+    /// manual IPv4 address or otherwise 10.42.x.0/24 is chosen. Note that the
+    /// shared method must be configured on the interface which shares the internet
+    /// to a subnet, not on the uplink which is shared.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `never-default`
+    ///  If [`true`], this connection will never be the default connection for this
+    /// IP type, meaning it will never be assigned the default route by
+    /// NetworkManager.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `required-timeout`
+    ///  The minimum time interval in milliseconds for which dynamic IP configuration
+    /// should be tried before the connection succeeds.
+    ///
+    /// This property is useful for example if both IPv4 and IPv6 are enabled and
+    /// are allowed to fail. Normally the connection succeeds as soon as one of
+    /// the two address families completes; by setting a required timeout for
+    /// e.g. IPv4, one can ensure that even if IP6 succeeds earlier than IPv4,
+    /// NetworkManager waits some time for IPv4 before the connection becomes
+    /// active.
+    ///
+    /// Note that if [`may-fail`][struct@crate::SettingIPConfig#may-fail] is FALSE for the same address
+    /// family, this property has no effect as NetworkManager needs to wait for
+    /// the full DHCP timeout.
+    ///
+    /// A zero value means that no required timeout is present, -1 means the
+    /// default value (either configuration ipvx.required-timeout override or
+    /// zero).
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `route-metric`
+    ///  The default metric for routes that don't explicitly specify a metric.
+    /// The default value -1 means that the metric is chosen automatically
+    /// based on the device type.
+    /// The metric applies to dynamic routes, manual (static) routes that
+    /// don't have an explicit metric setting, address prefix routes, and
+    /// the default route.
+    /// Note that for IPv6, the kernel accepts zero (0) but coerces it to
+    /// 1024 (user default). Hence, setting this property to zero effectively
+    /// mean setting it to 1024.
+    /// For IPv4, zero is a regular value for the metric.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `route-table`
+    ///  Enable policy routing (source routing) and set the routing table used when adding routes.
+    ///
+    /// This affects all routes, including device-routes, IPv4LL, DHCP, SLAAC, default-routes
+    /// and static routes. But note that static routes can individually overwrite the setting
+    /// by explicitly specifying a non-zero routing table.
+    ///
+    /// If the table setting is left at zero, it is eligible to be overwritten via global
+    /// configuration. If the property is zero even after applying the global configuration
+    /// value, policy routing is disabled for the address family of this connection.
+    ///
+    /// Policy routing disabled means that NetworkManager will add all routes to the main
+    /// table (except static routes that explicitly configure a different table). Additionally,
+    /// NetworkManager will not delete any extraneous routes from tables except the main table.
+    /// This is to preserve backward compatibility for users who manage routing tables outside
+    /// of NetworkManager.
+    ///
+    /// Readable | Writeable
+    /// </details>
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingIPConfigExt`][trait@crate::prelude::SettingIPConfigExt], [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingIP6Config")]
     pub struct SettingIP6Config(Object<ffi::NMSettingIP6Config, ffi::NMSettingIP6ConfigClass>) @extends SettingIPConfig, Setting;
 
@@ -38,7 +505,7 @@ impl SettingIP6Config {
         unsafe { Setting::from_glib_full(ffi::nm_setting_ip6_config_new()).unsafe_cast() }
     }
 
-    /// Returns the value contained in the `property::SettingIP6Config::addr-gen-mode`
+    /// Returns the value contained in the [`addr-gen-mode`][struct@crate::SettingIP6Config#addr-gen-mode]
     /// property.
     ///
     /// # Returns
@@ -56,7 +523,7 @@ impl SettingIP6Config {
         }
     }
 
-    /// Returns the value contained in the `property::SettingIP6Config::dhcp-duid`
+    /// Returns the value contained in the [`dhcp-duid`][struct@crate::SettingIP6Config#dhcp-duid]
     /// property.
     ///
     /// # Returns
@@ -75,7 +542,7 @@ impl SettingIP6Config {
         }
     }
 
-    /// Returns the value contained in the `property::SettingIP6Config::ip6-privacy`
+    /// Returns the value contained in the [`ip6-privacy`][struct@crate::SettingIP6Config#ip6-privacy]
     /// property.
     ///
     /// # Returns
@@ -94,6 +561,19 @@ impl SettingIP6Config {
     ///
     /// # Returns
     ///
+    /// The configured [`SETTING_IP6_CONFIG_MTU`][crate::SETTING_IP6_CONFIG_MTU] value for the maximum
+    /// transmission unit.
+    #[cfg(any(feature = "v1_40", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    #[doc(alias = "nm_setting_ip6_config_get_mtu")]
+    #[doc(alias = "get_mtu")]
+    pub fn mtu(&self) -> u32 {
+        unsafe { ffi::nm_setting_ip6_config_get_mtu(self.to_glib_none().0) }
+    }
+
+    ///
+    /// # Returns
+    ///
     /// The configured [`SETTING_IP6_CONFIG_RA_TIMEOUT`][crate::SETTING_IP6_CONFIG_RA_TIMEOUT] value with the
     /// timeout for router advertisements in seconds.
     #[cfg(any(feature = "v1_24", feature = "dox"))]
@@ -104,7 +584,7 @@ impl SettingIP6Config {
         unsafe { ffi::nm_setting_ip6_config_get_ra_timeout(self.to_glib_none().0) }
     }
 
-    /// Returns the value contained in the `property::SettingIP6Config::token`
+    /// Returns the value contained in the [`token`][struct@crate::SettingIP6Config#token]
     /// property.
     ///
     /// # Returns
@@ -120,8 +600,10 @@ impl SettingIP6Config {
 
     /// Configure method for creating the address for use with RFC4862 IPv6
     /// Stateless Address Autoconfiguration. The permitted values are:
-    /// [`SettingIP6ConfigAddrGenMode::Eui64`][crate::SettingIP6ConfigAddrGenMode::Eui64] or
+    /// [`SettingIP6ConfigAddrGenMode::Eui64`][crate::SettingIP6ConfigAddrGenMode::Eui64],
     /// [`SettingIP6ConfigAddrGenMode::StablePrivacy`][crate::SettingIP6ConfigAddrGenMode::StablePrivacy].
+    /// [`SettingIP6ConfigAddrGenMode::DefaultOrEui64`][crate::SettingIP6ConfigAddrGenMode::DefaultOrEui64]
+    /// or [`SettingIP6ConfigAddrGenMode::Default`][crate::SettingIP6ConfigAddrGenMode::Default].
     ///
     /// If the property is set to EUI64, the addresses will be generated
     /// using the interface tokens derived from hardware address. This makes
@@ -136,9 +618,16 @@ impl SettingIP6Config {
     /// and makes the address stable when the network interface hardware is
     /// replaced.
     ///
-    /// On D-Bus, the absence of an addr-gen-mode setting equals enabling
-    /// stable-privacy. For keyfile plugin, the absence of the setting
-    /// on disk means EUI64 so that the property doesn't change on upgrade
+    /// The special values "default" and "default-or-eui64" will fallback to the global
+    /// connection default in as documented in NetworkManager.conf(5) manual. If the
+    /// global default is not specified, the fallback value is "stable-privacy"
+    /// or "eui64", respectively.
+    ///
+    /// For libnm, the property defaults to "default" since 1.40.
+    /// Previously it defaulted to "stable-privacy".
+    /// On D-Bus, the absence of an addr-gen-mode setting equals
+    /// "default". For keyfile plugin, the absence of the setting
+    /// on disk means "default-or-eui64" so that the property doesn't change on upgrade
     /// from older versions.
     ///
     /// Note that this setting is distinct from the Privacy Extensions as
@@ -207,6 +696,16 @@ impl SettingIP6Config {
     #[doc(alias = "ip6-privacy")]
     pub fn set_ip6_privacy(&self, ip6_privacy: SettingIP6ConfigPrivacy) {
         glib::ObjectExt::set_property(self, "ip6-privacy", &ip6_privacy)
+    }
+
+    /// Maximum transmission unit size, in bytes. If zero (the default), the MTU
+    /// is set automatically from router advertisements or is left equal to the
+    /// link-layer MTU. If greater than the link-layer MTU, or greater than zero
+    /// but less than the minimum IPv6 MTU of 1280, this value has no effect.
+    #[cfg(any(feature = "v1_40", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    pub fn set_mtu(&self, mtu: u32) {
+        glib::ObjectExt::set_property(self, "mtu", &mtu)
     }
 
     /// A timeout for waiting Router Advertisements in seconds. If zero (the default), a
@@ -296,6 +795,31 @@ impl SettingIP6Config {
                 b"notify::ip6-privacy\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_ip6_privacy_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    #[cfg(any(feature = "v1_40", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_40")))]
+    #[doc(alias = "mtu")]
+    pub fn connect_mtu_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_mtu_trampoline<F: Fn(&SettingIP6Config) + 'static>(
+            this: *mut ffi::NMSettingIP6Config,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::mtu\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_mtu_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

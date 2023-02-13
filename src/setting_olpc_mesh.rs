@@ -3,17 +3,53 @@
 // DO NOT EDIT
 
 use crate::Setting;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// OLPC Wireless Mesh Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `channel`
+    ///  Channel on which the mesh network to join is located.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `dhcp-anycast-address`
+    ///  Anycast DHCP MAC address used when requesting an IP address via DHCP.
+    /// The specific anycast address used determines which DHCP server class
+    /// answers the request.
+    ///
+    /// This is currently only implemented by dhclient DHCP plugin.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `ssid`
+    ///  SSID of the mesh network to join.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingOlpcMesh")]
     pub struct SettingOlpcMesh(Object<ffi::NMSettingOlpcMesh, ffi::NMSettingOlpcMeshClass>) @extends Setting;
 

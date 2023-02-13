@@ -5,27 +5,40 @@
 use crate::Setting;
 #[cfg(any(feature = "v1_30", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
-use glib::object::ObjectType as ObjectType_;
-#[cfg(any(feature = "v1_30", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
-use glib::signal::connect_raw;
-#[cfg(any(feature = "v1_30", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-#[cfg(any(feature = "v1_30", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
-use std::boxed::Box as Box_;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
 use std::fmt;
-use std::mem;
 #[cfg(any(feature = "v1_30", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
-use std::mem::transmute;
-#[cfg(any(feature = "v1_30", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
-use std::ptr;
+use std::{boxed::Box as Box_, mem, mem::transmute, ptr};
 
 glib::wrapper! {
+    /// OVS External IDs Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `data`
+    ///  A dictionary of key/value pairs with exernal-ids for OVS.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingOvsExternalIDs")]
     pub struct SettingOvsExternalIDs(Object<ffi::NMSettingOvsExternalIDs, ffi::NMSettingOvsExternalIDsClass>) @extends Setting;
 
@@ -73,6 +86,8 @@ impl SettingOvsExternalIDs {
     ///
     /// a
     ///  [`None`]-terminated array containing each key from the table.
+    #[cfg(any(feature = "v1_30", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_30")))]
     #[doc(alias = "nm_setting_ovs_external_ids_get_data_keys")]
     #[doc(alias = "get_data_keys")]
     pub fn data_keys(&self) -> Vec<glib::GString> {
@@ -83,7 +98,7 @@ impl SettingOvsExternalIDs {
                     self.to_glib_none().0,
                     out_len.as_mut_ptr(),
                 ),
-                out_len.assume_init() as usize,
+                out_len.assume_init() as _,
             );
             ret
         }
@@ -124,7 +139,7 @@ impl SettingOvsExternalIDs {
             let mut error = ptr::null_mut();
             let is_ok =
                 ffi::nm_setting_ovs_external_ids_check_key(key.to_glib_none().0, &mut error);
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -149,7 +164,7 @@ impl SettingOvsExternalIDs {
             let mut error = ptr::null_mut();
             let is_ok =
                 ffi::nm_setting_ovs_external_ids_check_val(val.to_glib_none().0, &mut error);
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {

@@ -5,13 +5,15 @@
 use crate::Setting;
 #[cfg(any(feature = "v1_8", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
-use glib::object::Cast;
-#[cfg(any(feature = "v1_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_8")))]
-use glib::translate::*;
+use glib::{prelude::*, translate::*};
 use std::fmt;
 
 glib::wrapper! {
+    /// Dummy Link Settings
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingDummy")]
     pub struct SettingDummy(Object<ffi::NMSettingDummy, ffi::NMSettingDummyClass>) @extends Setting;
 

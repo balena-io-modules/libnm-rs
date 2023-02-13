@@ -2,24 +2,43 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::Connection;
-use crate::VpnEditor;
-use crate::VpnEditorPluginCapability;
 #[cfg(any(feature = "v1_4", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
 use crate::VpnPluginInfo;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::StaticType;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
-use std::ptr;
+use crate::{Connection, VpnEditor, VpnEditorPluginCapability};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute, ptr};
 
 glib::wrapper! {
+    ///
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `description`
+    ///  Longer description of the VPN plugin.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `name`
+    ///  Short display name of the VPN plugin.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `service`
+    ///  D-Bus service name of the plugin's VPN service.
+    ///
+    /// Readable
+    ///
+    /// # Implements
+    ///
+    /// [`VpnEditorPluginExt`][trait@crate::prelude::VpnEditorPluginExt]
     #[doc(alias = "NMVpnEditorPlugin")]
     pub struct VpnEditorPlugin(Interface<ffi::NMVpnEditorPlugin, ffi::NMVpnEditorPluginInterface>);
 
@@ -169,7 +188,7 @@ impl<O: IsA<VpnEditorPlugin>> VpnEditorPluginExt for O {
                 connection.as_ref().to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {

@@ -5,31 +5,48 @@
 use crate::Setting;
 #[cfg(any(feature = "v1_20", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
-use glib::object::Cast;
-#[cfg(any(feature = "v1_20", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
-use glib::object::ObjectType as ObjectType_;
-#[cfg(any(feature = "v1_20", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
-use glib::signal::connect_raw;
-#[cfg(any(feature = "v1_20", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
-use glib::signal::SignalHandlerId;
-#[cfg(any(feature = "v1_20", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
-use glib::translate::*;
-#[cfg(any(feature = "v1_20", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
-use glib::ToValue;
-#[cfg(any(feature = "v1_20", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
-use std::boxed::Box as Box_;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
 use std::fmt;
 #[cfg(any(feature = "v1_20", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
-use std::mem::transmute;
+use std::{boxed::Box as Box_, mem::transmute};
 
 glib::wrapper! {
+    /// OvsDpdk Link Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `devargs`
+    ///  Open vSwitch DPDK device arguments.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `n-rxq`
+    ///  Open vSwitch DPDK number of rx queues.
+    /// Defaults to zero which means to leave the parameter in OVS unspecified
+    /// and effectively configures one queue.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingOvsDpdk")]
     pub struct SettingOvsDpdk(Object<ffi::NMSettingOvsDpdk, ffi::NMSettingOvsDpdkClass>) @extends Setting;
 
@@ -54,7 +71,7 @@ impl SettingOvsDpdk {
     ///
     /// # Returns
     ///
-    /// the `property::SettingOvsDpdk::devargs` property of the setting
+    /// the [`devargs`][struct@crate::SettingOvsDpdk#devargs] property of the setting
     #[cfg(any(feature = "v1_20", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
     #[doc(alias = "nm_setting_ovs_dpdk_get_devargs")]
@@ -66,7 +83,7 @@ impl SettingOvsDpdk {
     ///
     /// # Returns
     ///
-    /// the `property::SettingOvsDpdk::n-rxq` property of the setting
+    /// the [`n-rxq`][struct@crate::SettingOvsDpdk#n-rxq] property of the setting
     #[cfg(any(feature = "v1_36", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_36")))]
     #[doc(alias = "nm_setting_ovs_dpdk_get_n_rxq")]

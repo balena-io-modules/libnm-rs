@@ -2,22 +2,80 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::Setting;
-use crate::VlanFlags;
-use crate::VlanPriorityMap;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::StaticType;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem;
-use std::mem::transmute;
+use crate::{Setting, VlanFlags, VlanPriorityMap};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem, mem::transmute};
 
 glib::wrapper! {
+    /// VLAN Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `egress-priority-map`
+    ///  For outgoing packets, a list of mappings from Linux SKB priorities to
+    /// 802.1p priorities. The mapping is given in the format "from:to" where
+    /// both "from" and "to" are unsigned integers, ie "7:3".
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `flags`
+    ///  One or more flags which control the behavior and features of the VLAN
+    /// interface. Flags include [`VlanFlags::REORDER_HEADERS`][crate::VlanFlags::REORDER_HEADERS] (reordering of
+    /// output packet headers), [`VlanFlags::GVRP`][crate::VlanFlags::GVRP] (use of the GVRP protocol),
+    /// and [`VlanFlags::LOOSE_BINDING`][crate::VlanFlags::LOOSE_BINDING] (loose binding of the interface to its
+    /// master device's operating state). [`VlanFlags::MVRP`][crate::VlanFlags::MVRP] (use of the MVRP
+    /// protocol).
+    ///
+    /// The default value of this property is NM_VLAN_FLAG_REORDER_HEADERS,
+    /// but it used to be 0. To preserve backward compatibility, the default-value
+    /// in the D-Bus API continues to be 0 and a missing property on D-Bus
+    /// is still considered as 0.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `id`
+    ///  The VLAN identifier that the interface created by this connection should
+    /// be assigned. The valid range is from 0 to 4094, without the reserved id 4095.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `ingress-priority-map`
+    ///  For incoming packets, a list of mappings from 802.1p priorities to Linux
+    /// SKB priorities. The mapping is given in the format "from:to" where both
+    /// "from" and "to" are unsigned integers, ie "7:3".
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `parent`
+    ///  If given, specifies the parent interface name or parent connection UUID
+    /// from which this VLAN interface should be created. If this property is
+    /// not specified, the connection must contain an [`SettingWired`][crate::SettingWired] setting
+    /// with a [`mac-address`][struct@crate::SettingWired#mac-address] property.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingVlan")]
     pub struct SettingVlan(Object<ffi::NMSettingVlan, ffi::NMSettingVlanClass>) @extends Setting;
 
@@ -37,8 +95,8 @@ impl SettingVlan {
         unsafe { Setting::from_glib_full(ffi::nm_setting_vlan_new()).unsafe_cast() }
     }
 
-    /// Adds a priority mapping to the `property::SettingVlan::ingress_priority_map` or
-    /// `property::SettingVlan::egress_priority_map` properties of the setting. If `from` is
+    /// Adds a priority mapping to the [`ingress_priority_map`][struct@crate::SettingVlan#ingress_priority_map] or
+    /// [`egress_priority_map`][struct@crate::SettingVlan#egress_priority_map] properties of the setting. If `from` is
     /// already in the given priority map, this function will overwrite the
     /// existing entry with the new `to`.
     ///
@@ -69,8 +127,8 @@ impl SettingVlan {
         }
     }
 
-    /// Adds a priority map entry into either the `property::SettingVlan::ingress_priority_map`
-    /// or the `property::SettingVlan::egress_priority_map` properties. The priority map maps
+    /// Adds a priority map entry into either the [`ingress_priority_map`][struct@crate::SettingVlan#ingress_priority_map]
+    /// or the [`egress_priority_map`][struct@crate::SettingVlan#egress_priority_map] properties. The priority map maps
     /// the Linux SKB priorities to 802.1p priorities.
     /// ## `map`
     /// the type of priority map
@@ -92,8 +150,8 @@ impl SettingVlan {
         }
     }
 
-    /// Clear all the entries from `property::SettingVlan::ingress_priority_map` or
-    /// `property::SettingVlan::egress_priority_map` properties.
+    /// Clear all the entries from [`ingress_priority_map`][struct@crate::SettingVlan#ingress_priority_map] or
+    /// [`egress_priority_map`][struct@crate::SettingVlan#egress_priority_map] properties.
     /// ## `map`
     /// the type of priority map
     #[doc(alias = "nm_setting_vlan_clear_priorities")]
@@ -106,7 +164,7 @@ impl SettingVlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVlan::flags` property of the setting
+    /// the [`flags`][struct@crate::SettingVlan#flags] property of the setting
     #[doc(alias = "nm_setting_vlan_get_flags")]
     #[doc(alias = "get_flags")]
     pub fn flags(&self) -> u32 {
@@ -116,7 +174,7 @@ impl SettingVlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVlan::id` property of the setting
+    /// the [`id`][struct@crate::SettingVlan#id] property of the setting
     #[doc(alias = "nm_setting_vlan_get_id")]
     #[doc(alias = "get_id")]
     pub fn id(&self) -> u32 {
@@ -124,7 +182,7 @@ impl SettingVlan {
     }
 
     /// Returns the number of entries in the
-    /// `property::SettingVlan::ingress_priority_map` or `property::SettingVlan::egress_priority_map`
+    /// [`ingress_priority_map`][struct@crate::SettingVlan#ingress_priority_map] or [`egress_priority_map`][struct@crate::SettingVlan#egress_priority_map]
     /// properties of this setting.
     /// ## `map`
     /// the type of priority map
@@ -141,15 +199,15 @@ impl SettingVlan {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVlan::parent` property of the setting
+    /// the [`parent`][struct@crate::SettingVlan#parent] property of the setting
     #[doc(alias = "nm_setting_vlan_get_parent")]
     #[doc(alias = "get_parent")]
     pub fn parent(&self) -> Option<glib::GString> {
         unsafe { from_glib_none(ffi::nm_setting_vlan_get_parent(self.to_glib_none().0)) }
     }
 
-    /// Retrieve one of the entries of the `property::SettingVlan::ingress_priority_map`
-    /// or `property::SettingVlan::egress_priority_map` properties of this setting.
+    /// Retrieve one of the entries of the [`ingress_priority_map`][struct@crate::SettingVlan#ingress_priority_map]
+    /// or [`egress_priority_map`][struct@crate::SettingVlan#egress_priority_map] properties of this setting.
     /// ## `map`
     /// the type of priority map
     /// ## `idx`
@@ -186,7 +244,7 @@ impl SettingVlan {
     }
 
     /// Removes the priority map at index `idx` from the
-    /// `property::SettingVlan::ingress_priority_map` or `property::SettingVlan::egress_priority_map`
+    /// [`ingress_priority_map`][struct@crate::SettingVlan#ingress_priority_map] or [`egress_priority_map`][struct@crate::SettingVlan#egress_priority_map]
     /// properties.
     /// ## `map`
     /// the type of priority map
@@ -199,8 +257,8 @@ impl SettingVlan {
         }
     }
 
-    /// Removes the priority map `form`:`to` from the `property::SettingVlan::ingress_priority_map`
-    /// or `property::SettingVlan::egress_priority_map` (according to `map` argument)
+    /// Removes the priority map `form`:`to` from the [`ingress_priority_map`][struct@crate::SettingVlan#ingress_priority_map]
+    /// or [`egress_priority_map`][struct@crate::SettingVlan#egress_priority_map] (according to `map` argument)
     /// properties.
     /// ## `map`
     /// the type of priority map
@@ -224,8 +282,8 @@ impl SettingVlan {
         }
     }
 
-    /// Removes the priority map `str` from the `property::SettingVlan::ingress_priority_map`
-    /// or `property::SettingVlan::egress_priority_map` (according to `map` argument)
+    /// Removes the priority map `str` from the [`ingress_priority_map`][struct@crate::SettingVlan#ingress_priority_map]
+    /// or [`egress_priority_map`][struct@crate::SettingVlan#egress_priority_map] (according to `map` argument)
     /// properties.
     /// ## `map`
     /// the type of priority map
@@ -302,7 +360,7 @@ impl SettingVlan {
     /// If given, specifies the parent interface name or parent connection UUID
     /// from which this VLAN interface should be created. If this property is
     /// not specified, the connection must contain an [`SettingWired`][crate::SettingWired] setting
-    /// with a `property::SettingWired::mac-address` property.
+    /// with a [`mac-address`][struct@crate::SettingWired#mac-address] property.
     pub fn set_parent(&self, parent: Option<&str>) {
         glib::ObjectExt::set_property(self, "parent", &parent)
     }

@@ -3,20 +3,85 @@
 // DO NOT EDIT
 
 use crate::Setting;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 use std::mem;
-use std::mem::transmute;
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// VPN Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `data`
+    ///  Dictionary of key/value pairs of VPN plugin specific data. Both keys and
+    /// values must be strings.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `persistent`
+    ///  If the VPN service supports persistence, and this property is [`true`],
+    /// the VPN will attempt to stay connected across link changes and outages,
+    /// until explicitly disconnected.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `secrets`
+    ///  Dictionary of key/value pairs of VPN plugin specific secrets like
+    /// passwords or private keys. Both keys and values must be strings.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `service-type`
+    ///  D-Bus service name of the VPN plugin that this setting uses to connect to
+    /// its network. i.e. org.freedesktop.NetworkManager.vpnc for the vpnc
+    /// plugin.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `timeout`
+    ///  Timeout for the VPN service to establish the connection. Some services
+    /// may take quite a long time to connect.
+    /// Value of 0 means a default timeout, which is 60 seconds (unless overridden
+    /// by vpn.timeout in configuration file). Values greater than zero mean
+    /// timeout in seconds.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `user-name`
+    ///  If the VPN connection requires a user name for authentication, that name
+    /// should be provided here. If the connection is available to more than one
+    /// user, and the VPN requires each user to supply a different name, then
+    /// leave this property empty. If this property is empty, NetworkManager
+    /// will automatically supply the username of the user which requested the
+    /// VPN connection.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingVpn")]
     pub struct SettingVpn(Object<ffi::NMSettingVpn, ffi::NMSettingVpnClass>) @extends Setting;
 
@@ -95,7 +160,7 @@ impl SettingVpn {
             let key: Borrowed<glib::GString> = from_glib_borrow(key);
             let value: Borrowed<glib::GString> = from_glib_borrow(value);
             let callback: *mut P = user_data as *const _ as usize as *mut P;
-            (*callback)(key.as_str(), value.as_str());
+            (*callback)(key.as_str(), value.as_str())
         }
         let func = Some(func_func::<P> as _);
         let super_callback0: &P = &func_data;
@@ -124,7 +189,7 @@ impl SettingVpn {
             let key: Borrowed<glib::GString> = from_glib_borrow(key);
             let value: Borrowed<glib::GString> = from_glib_borrow(value);
             let callback: *mut P = user_data as *const _ as usize as *mut P;
-            (*callback)(key.as_str(), value.as_str());
+            (*callback)(key.as_str(), value.as_str())
         }
         let func = Some(func_func::<P> as _);
         let super_callback0: &P = &func_data;
@@ -172,7 +237,7 @@ impl SettingVpn {
             let mut out_length = mem::MaybeUninit::uninit();
             let ret = FromGlibContainer::from_glib_container_num(
                 ffi::nm_setting_vpn_get_data_keys(self.to_glib_none().0, out_length.as_mut_ptr()),
-                out_length.assume_init() as usize,
+                out_length.assume_init() as _,
             );
             ret
         }
@@ -203,7 +268,9 @@ impl SettingVpn {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVpn::persistent` property of the setting
+    /// the [`persistent`][struct@crate::SettingVpn#persistent] property of the setting
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     #[doc(alias = "nm_setting_vpn_get_persistent")]
     #[doc(alias = "get_persistent")]
     pub fn is_persistent(&self) -> bool {
@@ -245,7 +312,7 @@ impl SettingVpn {
             let mut out_length = mem::MaybeUninit::uninit();
             let ret = FromGlibContainer::from_glib_container_num(
                 ffi::nm_setting_vpn_get_secret_keys(self.to_glib_none().0, out_length.as_mut_ptr()),
-                out_length.assume_init() as usize,
+                out_length.assume_init() as _,
             );
             ret
         }
@@ -266,7 +333,7 @@ impl SettingVpn {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVpn::timeout` property of the setting
+    /// the [`timeout`][struct@crate::SettingVpn#timeout] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_vpn_get_timeout")]
@@ -278,7 +345,7 @@ impl SettingVpn {
     ///
     /// # Returns
     ///
-    /// the `property::SettingVpn::user-name` property of the setting
+    /// the [`user-name`][struct@crate::SettingVpn#user-name] property of the setting
     #[doc(alias = "nm_setting_vpn_get_user_name")]
     #[doc(alias = "get_user_name")]
     pub fn user_name(&self) -> Option<glib::GString> {
@@ -330,6 +397,13 @@ impl SettingVpn {
     //pub fn set_data(&self, data: /*Unimplemented*/HashTable TypeId { ns_id: 0, id: 28 }/TypeId { ns_id: 0, id: 28 }) {
     //    glib::ObjectExt::set_property(self,"data", &data)
     //}
+
+    /// If the VPN service supports persistence, and this property is [`true`],
+    /// the VPN will attempt to stay connected across link changes and outages,
+    /// until explicitly disconnected.
+    pub fn get_property_persistent(&self) -> bool {
+        glib::ObjectExt::property(self, "persistent")
+    }
 
     /// If the VPN service supports persistence, and this property is [`true`],
     /// the VPN will attempt to stay connected across link changes and outages,

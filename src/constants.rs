@@ -2,4447 +2,2070 @@
 // from gir-files
 // DO NOT EDIT
 
-use std::ffi::CStr;
+use glib::GStr;
 
 #[doc(alias = "NM_ACCESS_POINT_BSSID")]
-pub static ACCESS_POINT_BSSID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACCESS_POINT_BSSID).to_str().unwrap()
-    });
+pub static ACCESS_POINT_BSSID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACCESS_POINT_BSSID) };
 #[doc(alias = "NM_ACCESS_POINT_FLAGS")]
-pub static ACCESS_POINT_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACCESS_POINT_FLAGS).to_str().unwrap()
-    });
+pub static ACCESS_POINT_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACCESS_POINT_FLAGS) };
 #[doc(alias = "NM_ACCESS_POINT_FREQUENCY")]
-pub static ACCESS_POINT_FREQUENCY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACCESS_POINT_FREQUENCY)
-            .to_str()
-            .unwrap()
-    });
+pub static ACCESS_POINT_FREQUENCY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACCESS_POINT_FREQUENCY) };
 #[doc(alias = "NM_ACCESS_POINT_HW_ADDRESS")]
-pub static ACCESS_POINT_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACCESS_POINT_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static ACCESS_POINT_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACCESS_POINT_HW_ADDRESS) };
 #[doc(alias = "NM_ACCESS_POINT_LAST_SEEN")]
-pub static ACCESS_POINT_LAST_SEEN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACCESS_POINT_LAST_SEEN)
-            .to_str()
-            .unwrap()
-    });
+pub static ACCESS_POINT_LAST_SEEN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACCESS_POINT_LAST_SEEN) };
 #[doc(alias = "NM_ACCESS_POINT_MAX_BITRATE")]
-pub static ACCESS_POINT_MAX_BITRATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACCESS_POINT_MAX_BITRATE)
-            .to_str()
-            .unwrap()
-    });
+pub static ACCESS_POINT_MAX_BITRATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACCESS_POINT_MAX_BITRATE) };
 #[doc(alias = "NM_ACCESS_POINT_MODE")]
-pub static ACCESS_POINT_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACCESS_POINT_MODE).to_str().unwrap()
-    });
+pub static ACCESS_POINT_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACCESS_POINT_MODE) };
 #[doc(alias = "NM_ACCESS_POINT_RSN_FLAGS")]
-pub static ACCESS_POINT_RSN_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACCESS_POINT_RSN_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static ACCESS_POINT_RSN_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACCESS_POINT_RSN_FLAGS) };
 #[doc(alias = "NM_ACCESS_POINT_SSID")]
-pub static ACCESS_POINT_SSID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACCESS_POINT_SSID).to_str().unwrap()
-    });
+pub static ACCESS_POINT_SSID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACCESS_POINT_SSID) };
 #[doc(alias = "NM_ACCESS_POINT_STRENGTH")]
-pub static ACCESS_POINT_STRENGTH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACCESS_POINT_STRENGTH)
-            .to_str()
-            .unwrap()
-    });
+pub static ACCESS_POINT_STRENGTH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACCESS_POINT_STRENGTH) };
 #[doc(alias = "NM_ACCESS_POINT_WPA_FLAGS")]
-pub static ACCESS_POINT_WPA_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACCESS_POINT_WPA_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static ACCESS_POINT_WPA_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACCESS_POINT_WPA_FLAGS) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_CONNECTION")]
-pub static ACTIVE_CONNECTION_CONNECTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_CONNECTION)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_CONNECTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_CONNECTION) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_DEFAULT")]
-pub static ACTIVE_CONNECTION_DEFAULT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_DEFAULT)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_DEFAULT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_DEFAULT) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_DEFAULT6")]
-pub static ACTIVE_CONNECTION_DEFAULT6: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_DEFAULT6)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_DEFAULT6: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_DEFAULT6) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_DEVICES")]
-pub static ACTIVE_CONNECTION_DEVICES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_DEVICES)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_DEVICES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_DEVICES) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_DHCP4_CONFIG")]
-pub static ACTIVE_CONNECTION_DHCP4_CONFIG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_DHCP4_CONFIG)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_DHCP4_CONFIG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_DHCP4_CONFIG) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_DHCP6_CONFIG")]
-pub static ACTIVE_CONNECTION_DHCP6_CONFIG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_DHCP6_CONFIG)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_DHCP6_CONFIG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_DHCP6_CONFIG) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_ID")]
-pub static ACTIVE_CONNECTION_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_ID) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_IP4_CONFIG")]
-pub static ACTIVE_CONNECTION_IP4_CONFIG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_IP4_CONFIG)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_IP4_CONFIG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_IP4_CONFIG) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_IP6_CONFIG")]
-pub static ACTIVE_CONNECTION_IP6_CONFIG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_IP6_CONFIG)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_IP6_CONFIG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_IP6_CONFIG) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_MASTER")]
-pub static ACTIVE_CONNECTION_MASTER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_MASTER)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_MASTER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_MASTER) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_SPECIFIC_OBJECT_PATH")]
-pub static ACTIVE_CONNECTION_SPECIFIC_OBJECT_PATH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_SPECIFIC_OBJECT_PATH)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_SPECIFIC_OBJECT_PATH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_SPECIFIC_OBJECT_PATH) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_STATE")]
-pub static ACTIVE_CONNECTION_STATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_STATE)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_STATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_STATE) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_STATE_FLAGS")]
-pub static ACTIVE_CONNECTION_STATE_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_STATE_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_STATE_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_STATE_FLAGS) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_TYPE")]
-pub static ACTIVE_CONNECTION_TYPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_TYPE)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_TYPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_TYPE) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_UUID")]
-pub static ACTIVE_CONNECTION_UUID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_UUID)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_UUID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_UUID) };
 #[doc(alias = "NM_ACTIVE_CONNECTION_VPN")]
-pub static ACTIVE_CONNECTION_VPN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ACTIVE_CONNECTION_VPN)
-            .to_str()
-            .unwrap()
-    });
+pub static ACTIVE_CONNECTION_VPN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ACTIVE_CONNECTION_VPN) };
 #[doc(alias = "NM_CHECKPOINT_CREATED")]
-pub static CHECKPOINT_CREATED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CHECKPOINT_CREATED).to_str().unwrap()
-    });
+pub static CHECKPOINT_CREATED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CHECKPOINT_CREATED) };
 #[doc(alias = "NM_CHECKPOINT_DEVICES")]
-pub static CHECKPOINT_DEVICES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CHECKPOINT_DEVICES).to_str().unwrap()
-    });
+pub static CHECKPOINT_DEVICES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CHECKPOINT_DEVICES) };
 #[doc(alias = "NM_CHECKPOINT_ROLLBACK_TIMEOUT")]
-pub static CHECKPOINT_ROLLBACK_TIMEOUT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CHECKPOINT_ROLLBACK_TIMEOUT)
-            .to_str()
-            .unwrap()
-    });
+pub static CHECKPOINT_ROLLBACK_TIMEOUT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CHECKPOINT_ROLLBACK_TIMEOUT) };
 #[doc(alias = "NM_CLIENT_ACTIVATING_CONNECTION")]
-pub static CLIENT_ACTIVATING_CONNECTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_ACTIVATING_CONNECTION)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_ACTIVATING_CONNECTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_ACTIVATING_CONNECTION) };
 #[doc(alias = "NM_CLIENT_ACTIVE_CONNECTIONS")]
-pub static CLIENT_ACTIVE_CONNECTIONS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_ACTIVE_CONNECTIONS)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_ACTIVE_CONNECTIONS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_ACTIVE_CONNECTIONS) };
 #[doc(alias = "NM_CLIENT_ACTIVE_CONNECTION_ADDED")]
-pub static CLIENT_ACTIVE_CONNECTION_ADDED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_ACTIVE_CONNECTION_ADDED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_ACTIVE_CONNECTION_ADDED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_ACTIVE_CONNECTION_ADDED) };
 #[doc(alias = "NM_CLIENT_ACTIVE_CONNECTION_REMOVED")]
-pub static CLIENT_ACTIVE_CONNECTION_REMOVED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_ACTIVE_CONNECTION_REMOVED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_ACTIVE_CONNECTION_REMOVED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_ACTIVE_CONNECTION_REMOVED) };
 #[doc(alias = "NM_CLIENT_ALL_DEVICES")]
-pub static CLIENT_ALL_DEVICES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_ALL_DEVICES).to_str().unwrap()
-    });
+pub static CLIENT_ALL_DEVICES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_ALL_DEVICES) };
 #[doc(alias = "NM_CLIENT_ANY_DEVICE_ADDED")]
-pub static CLIENT_ANY_DEVICE_ADDED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_ANY_DEVICE_ADDED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_ANY_DEVICE_ADDED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_ANY_DEVICE_ADDED) };
 #[doc(alias = "NM_CLIENT_ANY_DEVICE_REMOVED")]
-pub static CLIENT_ANY_DEVICE_REMOVED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_ANY_DEVICE_REMOVED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_ANY_DEVICE_REMOVED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_ANY_DEVICE_REMOVED) };
 #[doc(alias = "NM_CLIENT_CAN_MODIFY")]
-pub static CLIENT_CAN_MODIFY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_CAN_MODIFY).to_str().unwrap()
-    });
+pub static CLIENT_CAN_MODIFY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_CAN_MODIFY) };
 #[doc(alias = "NM_CLIENT_CAPABILITIES")]
-pub static CLIENT_CAPABILITIES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_CAPABILITIES)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_CAPABILITIES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_CAPABILITIES) };
 #[doc(alias = "NM_CLIENT_CHECKPOINTS")]
-pub static CLIENT_CHECKPOINTS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_CHECKPOINTS).to_str().unwrap()
-    });
+pub static CLIENT_CHECKPOINTS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_CHECKPOINTS) };
 #[doc(alias = "NM_CLIENT_CONNECTIONS")]
-pub static CLIENT_CONNECTIONS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_CONNECTIONS).to_str().unwrap()
-    });
+pub static CLIENT_CONNECTIONS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_CONNECTIONS) };
 #[doc(alias = "NM_CLIENT_CONNECTION_ADDED")]
-pub static CLIENT_CONNECTION_ADDED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_CONNECTION_ADDED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_CONNECTION_ADDED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_CONNECTION_ADDED) };
 #[doc(alias = "NM_CLIENT_CONNECTION_REMOVED")]
-pub static CLIENT_CONNECTION_REMOVED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_CONNECTION_REMOVED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_CONNECTION_REMOVED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_CONNECTION_REMOVED) };
 #[doc(alias = "NM_CLIENT_CONNECTIVITY")]
-pub static CLIENT_CONNECTIVITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_CONNECTIVITY)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_CONNECTIVITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_CONNECTIVITY) };
 #[doc(alias = "NM_CLIENT_CONNECTIVITY_CHECK_AVAILABLE")]
-pub static CLIENT_CONNECTIVITY_CHECK_AVAILABLE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_CONNECTIVITY_CHECK_AVAILABLE)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_CONNECTIVITY_CHECK_AVAILABLE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_CONNECTIVITY_CHECK_AVAILABLE) };
 #[doc(alias = "NM_CLIENT_CONNECTIVITY_CHECK_ENABLED")]
-pub static CLIENT_CONNECTIVITY_CHECK_ENABLED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_CONNECTIVITY_CHECK_ENABLED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_CONNECTIVITY_CHECK_ENABLED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_CONNECTIVITY_CHECK_ENABLED) };
 #[doc(alias = "NM_CLIENT_CONNECTIVITY_CHECK_URI")]
-pub static CLIENT_CONNECTIVITY_CHECK_URI: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_CONNECTIVITY_CHECK_URI)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_CONNECTIVITY_CHECK_URI: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_CONNECTIVITY_CHECK_URI) };
 #[doc(alias = "NM_CLIENT_DBUS_CONNECTION")]
-pub static CLIENT_DBUS_CONNECTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_DBUS_CONNECTION)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_DBUS_CONNECTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_DBUS_CONNECTION) };
 #[doc(alias = "NM_CLIENT_DBUS_NAME_OWNER")]
-pub static CLIENT_DBUS_NAME_OWNER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_DBUS_NAME_OWNER)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_DBUS_NAME_OWNER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_DBUS_NAME_OWNER) };
 #[doc(alias = "NM_CLIENT_DEVICES")]
-pub static CLIENT_DEVICES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_DEVICES).to_str().unwrap()
-    });
+pub static CLIENT_DEVICES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_DEVICES) };
 #[doc(alias = "NM_CLIENT_DEVICE_ADDED")]
-pub static CLIENT_DEVICE_ADDED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_DEVICE_ADDED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_DEVICE_ADDED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_DEVICE_ADDED) };
 #[doc(alias = "NM_CLIENT_DEVICE_REMOVED")]
-pub static CLIENT_DEVICE_REMOVED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_DEVICE_REMOVED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_DEVICE_REMOVED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_DEVICE_REMOVED) };
 #[doc(alias = "NM_CLIENT_DNS_CONFIGURATION")]
-pub static CLIENT_DNS_CONFIGURATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_DNS_CONFIGURATION)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_DNS_CONFIGURATION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_DNS_CONFIGURATION) };
 #[doc(alias = "NM_CLIENT_DNS_MODE")]
-pub static CLIENT_DNS_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_DNS_MODE).to_str().unwrap()
-    });
+pub static CLIENT_DNS_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_DNS_MODE) };
 #[doc(alias = "NM_CLIENT_DNS_RC_MANAGER")]
-pub static CLIENT_DNS_RC_MANAGER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_DNS_RC_MANAGER)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_DNS_RC_MANAGER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_DNS_RC_MANAGER) };
 #[doc(alias = "NM_CLIENT_HOSTNAME")]
-pub static CLIENT_HOSTNAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_HOSTNAME).to_str().unwrap()
-    });
+pub static CLIENT_HOSTNAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_HOSTNAME) };
 #[doc(alias = "NM_CLIENT_INSTANCE_FLAGS")]
-pub static CLIENT_INSTANCE_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_INSTANCE_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_INSTANCE_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_INSTANCE_FLAGS) };
 #[doc(alias = "NM_CLIENT_METERED")]
-pub static CLIENT_METERED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_METERED).to_str().unwrap()
-    });
+pub static CLIENT_METERED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_METERED) };
 #[doc(alias = "NM_CLIENT_NETWORKING_ENABLED")]
-pub static CLIENT_NETWORKING_ENABLED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_NETWORKING_ENABLED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_NETWORKING_ENABLED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_NETWORKING_ENABLED) };
 #[doc(alias = "NM_CLIENT_NM_RUNNING")]
-pub static CLIENT_NM_RUNNING: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_NM_RUNNING).to_str().unwrap()
-    });
+pub static CLIENT_NM_RUNNING: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_NM_RUNNING) };
 #[doc(alias = "NM_CLIENT_PERMISSIONS_STATE")]
-pub static CLIENT_PERMISSIONS_STATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_PERMISSIONS_STATE)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_PERMISSIONS_STATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_PERMISSIONS_STATE) };
 #[doc(alias = "NM_CLIENT_PERMISSION_CHANGED")]
-pub static CLIENT_PERMISSION_CHANGED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_PERMISSION_CHANGED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_PERMISSION_CHANGED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_PERMISSION_CHANGED) };
 #[doc(alias = "NM_CLIENT_PRIMARY_CONNECTION")]
-pub static CLIENT_PRIMARY_CONNECTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_PRIMARY_CONNECTION)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_PRIMARY_CONNECTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_PRIMARY_CONNECTION) };
 #[doc(alias = "NM_CLIENT_RADIO_FLAGS")]
-pub static CLIENT_RADIO_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_RADIO_FLAGS).to_str().unwrap()
-    });
+pub static CLIENT_RADIO_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_RADIO_FLAGS) };
 #[doc(alias = "NM_CLIENT_STARTUP")]
-pub static CLIENT_STARTUP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_STARTUP).to_str().unwrap()
-    });
+pub static CLIENT_STARTUP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_STARTUP) };
 #[doc(alias = "NM_CLIENT_STATE")]
-pub static CLIENT_STATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_STATE).to_str().unwrap()
-    });
+pub static CLIENT_STATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_STATE) };
 #[doc(alias = "NM_CLIENT_VERSION")]
-pub static CLIENT_VERSION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_VERSION).to_str().unwrap()
-    });
+pub static CLIENT_VERSION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_VERSION) };
 #[doc(alias = "NM_CLIENT_WIMAX_ENABLED")]
-pub static CLIENT_WIMAX_ENABLED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_WIMAX_ENABLED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_WIMAX_ENABLED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_WIMAX_ENABLED) };
 #[doc(alias = "NM_CLIENT_WIMAX_HARDWARE_ENABLED")]
-pub static CLIENT_WIMAX_HARDWARE_ENABLED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_WIMAX_HARDWARE_ENABLED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_WIMAX_HARDWARE_ENABLED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_WIMAX_HARDWARE_ENABLED) };
 #[doc(alias = "NM_CLIENT_WIRELESS_ENABLED")]
-pub static CLIENT_WIRELESS_ENABLED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_WIRELESS_ENABLED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_WIRELESS_ENABLED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_WIRELESS_ENABLED) };
 #[doc(alias = "NM_CLIENT_WIRELESS_HARDWARE_ENABLED")]
-pub static CLIENT_WIRELESS_HARDWARE_ENABLED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_WIRELESS_HARDWARE_ENABLED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_WIRELESS_HARDWARE_ENABLED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_WIRELESS_HARDWARE_ENABLED) };
 #[doc(alias = "NM_CLIENT_WWAN_ENABLED")]
-pub static CLIENT_WWAN_ENABLED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_WWAN_ENABLED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_WWAN_ENABLED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_WWAN_ENABLED) };
 #[doc(alias = "NM_CLIENT_WWAN_HARDWARE_ENABLED")]
-pub static CLIENT_WWAN_HARDWARE_ENABLED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CLIENT_WWAN_HARDWARE_ENABLED)
-            .to_str()
-            .unwrap()
-    });
+pub static CLIENT_WWAN_HARDWARE_ENABLED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CLIENT_WWAN_HARDWARE_ENABLED) };
 #[doc(alias = "NM_CONNECTION_CHANGED")]
-pub static CONNECTION_CHANGED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CONNECTION_CHANGED).to_str().unwrap()
-    });
+pub static CONNECTION_CHANGED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CONNECTION_CHANGED) };
 #[doc(alias = "NM_CONNECTION_NORMALIZE_PARAM_IP4_CONFIG_METHOD")]
-pub static CONNECTION_NORMALIZE_PARAM_IP4_CONFIG_METHOD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CONNECTION_NORMALIZE_PARAM_IP4_CONFIG_METHOD)
-            .to_str()
-            .unwrap()
-    });
+pub static CONNECTION_NORMALIZE_PARAM_IP4_CONFIG_METHOD: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_CONNECTION_NORMALIZE_PARAM_IP4_CONFIG_METHOD)
+};
 #[doc(alias = "NM_CONNECTION_NORMALIZE_PARAM_IP6_CONFIG_METHOD")]
-pub static CONNECTION_NORMALIZE_PARAM_IP6_CONFIG_METHOD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CONNECTION_NORMALIZE_PARAM_IP6_CONFIG_METHOD)
-            .to_str()
-            .unwrap()
-    });
+pub static CONNECTION_NORMALIZE_PARAM_IP6_CONFIG_METHOD: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_CONNECTION_NORMALIZE_PARAM_IP6_CONFIG_METHOD)
+};
 #[doc(alias = "NM_CONNECTION_SECRETS_CLEARED")]
-pub static CONNECTION_SECRETS_CLEARED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CONNECTION_SECRETS_CLEARED)
-            .to_str()
-            .unwrap()
-    });
+pub static CONNECTION_SECRETS_CLEARED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CONNECTION_SECRETS_CLEARED) };
 #[doc(alias = "NM_CONNECTION_SECRETS_UPDATED")]
-pub static CONNECTION_SECRETS_UPDATED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_CONNECTION_SECRETS_UPDATED)
-            .to_str()
-            .unwrap()
-    });
+pub static CONNECTION_SECRETS_UPDATED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_CONNECTION_SECRETS_UPDATED) };
 #[doc(alias = "NM_DBUS_INTERFACE")]
-pub static DBUS_INTERFACE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_INTERFACE).to_str().unwrap()
-    });
+pub static DBUS_INTERFACE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_INTERFACE) };
 #[doc(alias = "NM_DBUS_INTERFACE_DNS_MANAGER")]
-pub static DBUS_INTERFACE_DNS_MANAGER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_INTERFACE_DNS_MANAGER)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_INTERFACE_DNS_MANAGER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_INTERFACE_DNS_MANAGER) };
 #[doc(alias = "NM_DBUS_INTERFACE_SETTINGS")]
-pub static DBUS_INTERFACE_SETTINGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_INTERFACE_SETTINGS)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_INTERFACE_SETTINGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_INTERFACE_SETTINGS) };
 #[doc(alias = "NM_DBUS_INTERFACE_SETTINGS_CONNECTION")]
-pub static DBUS_INTERFACE_SETTINGS_CONNECTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_INTERFACE_SETTINGS_CONNECTION)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_INTERFACE_SETTINGS_CONNECTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_INTERFACE_SETTINGS_CONNECTION) };
 #[doc(alias = "NM_DBUS_INTERFACE_SETTINGS_CONNECTION_SECRETS")]
-pub static DBUS_INTERFACE_SETTINGS_CONNECTION_SECRETS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_INTERFACE_SETTINGS_CONNECTION_SECRETS)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_INTERFACE_SETTINGS_CONNECTION_SECRETS: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_INTERFACE_SETTINGS_CONNECTION_SECRETS)
+};
 #[doc(alias = "NM_DBUS_INTERFACE_VPN")]
-pub static DBUS_INTERFACE_VPN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_INTERFACE_VPN).to_str().unwrap()
-    });
+pub static DBUS_INTERFACE_VPN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_INTERFACE_VPN) };
 #[doc(alias = "NM_DBUS_INTERFACE_VPN_CONNECTION")]
-pub static DBUS_INTERFACE_VPN_CONNECTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_INTERFACE_VPN_CONNECTION)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_INTERFACE_VPN_CONNECTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_INTERFACE_VPN_CONNECTION) };
 #[doc(alias = "NM_DBUS_INVALID_VPN_CONNECTION")]
-pub static DBUS_INVALID_VPN_CONNECTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_INVALID_VPN_CONNECTION)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_INVALID_VPN_CONNECTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_INVALID_VPN_CONNECTION) };
 #[doc(alias = "NM_DBUS_NO_ACTIVE_VPN_CONNECTION")]
-pub static DBUS_NO_ACTIVE_VPN_CONNECTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_NO_ACTIVE_VPN_CONNECTION)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_NO_ACTIVE_VPN_CONNECTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_NO_ACTIVE_VPN_CONNECTION) };
 #[doc(alias = "NM_DBUS_NO_VPN_CONNECTIONS")]
-pub static DBUS_NO_VPN_CONNECTIONS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_NO_VPN_CONNECTIONS)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_NO_VPN_CONNECTIONS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_NO_VPN_CONNECTIONS) };
 #[doc(alias = "NM_DBUS_PATH")]
-pub static DBUS_PATH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe { CStr::from_ptr(ffi::NM_DBUS_PATH).to_str().unwrap() });
+pub static DBUS_PATH: &GStr = unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_PATH) };
 #[doc(alias = "NM_DBUS_PATH_AGENT_MANAGER")]
-pub static DBUS_PATH_AGENT_MANAGER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_PATH_AGENT_MANAGER)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_PATH_AGENT_MANAGER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_PATH_AGENT_MANAGER) };
 #[doc(alias = "NM_DBUS_PATH_DNS_MANAGER")]
-pub static DBUS_PATH_DNS_MANAGER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_PATH_DNS_MANAGER)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_PATH_DNS_MANAGER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_PATH_DNS_MANAGER) };
 #[doc(alias = "NM_DBUS_PATH_SECRET_AGENT")]
-pub static DBUS_PATH_SECRET_AGENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_PATH_SECRET_AGENT)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_PATH_SECRET_AGENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_PATH_SECRET_AGENT) };
 #[doc(alias = "NM_DBUS_PATH_SETTINGS")]
-pub static DBUS_PATH_SETTINGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_PATH_SETTINGS).to_str().unwrap()
-    });
+pub static DBUS_PATH_SETTINGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_PATH_SETTINGS) };
 #[doc(alias = "NM_DBUS_PATH_SETTINGS_CONNECTION")]
-pub static DBUS_PATH_SETTINGS_CONNECTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_PATH_SETTINGS_CONNECTION)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_PATH_SETTINGS_CONNECTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_PATH_SETTINGS_CONNECTION) };
 #[doc(alias = "NM_DBUS_PATH_VPN")]
-pub static DBUS_PATH_VPN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_PATH_VPN).to_str().unwrap()
-    });
+pub static DBUS_PATH_VPN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_PATH_VPN) };
 #[doc(alias = "NM_DBUS_PATH_VPN_CONNECTION")]
-pub static DBUS_PATH_VPN_CONNECTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_PATH_VPN_CONNECTION)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_PATH_VPN_CONNECTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_PATH_VPN_CONNECTION) };
 #[doc(alias = "NM_DBUS_SERVICE")]
-pub static DBUS_SERVICE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_SERVICE).to_str().unwrap()
-    });
+pub static DBUS_SERVICE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_SERVICE) };
 #[doc(alias = "NM_DBUS_VPN_ALREADY_STARTED")]
-pub static DBUS_VPN_ALREADY_STARTED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_ALREADY_STARTED)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_ALREADY_STARTED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_ALREADY_STARTED) };
 #[doc(alias = "NM_DBUS_VPN_ALREADY_STOPPED")]
-pub static DBUS_VPN_ALREADY_STOPPED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_ALREADY_STOPPED)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_ALREADY_STOPPED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_ALREADY_STOPPED) };
 #[doc(alias = "NM_DBUS_VPN_BAD_ARGUMENTS")]
-pub static DBUS_VPN_BAD_ARGUMENTS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_BAD_ARGUMENTS)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_BAD_ARGUMENTS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_BAD_ARGUMENTS) };
 #[doc(alias = "NM_DBUS_VPN_ERROR_PREFIX")]
-pub static DBUS_VPN_ERROR_PREFIX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_ERROR_PREFIX)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_ERROR_PREFIX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_ERROR_PREFIX) };
 #[doc(alias = "NM_DBUS_VPN_INTERACTIVE_NOT_SUPPORTED")]
-pub static DBUS_VPN_INTERACTIVE_NOT_SUPPORTED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_INTERACTIVE_NOT_SUPPORTED)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_INTERACTIVE_NOT_SUPPORTED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_INTERACTIVE_NOT_SUPPORTED) };
 #[doc(alias = "NM_DBUS_VPN_SIGNAL_CONNECT_FAILED")]
-pub static DBUS_VPN_SIGNAL_CONNECT_FAILED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_SIGNAL_CONNECT_FAILED)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_SIGNAL_CONNECT_FAILED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_SIGNAL_CONNECT_FAILED) };
 #[doc(alias = "NM_DBUS_VPN_SIGNAL_IP4_CONFIG")]
-pub static DBUS_VPN_SIGNAL_IP4_CONFIG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_SIGNAL_IP4_CONFIG)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_SIGNAL_IP4_CONFIG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_SIGNAL_IP4_CONFIG) };
 #[doc(alias = "NM_DBUS_VPN_SIGNAL_IP_CONFIG_BAD")]
-pub static DBUS_VPN_SIGNAL_IP_CONFIG_BAD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_SIGNAL_IP_CONFIG_BAD)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_SIGNAL_IP_CONFIG_BAD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_SIGNAL_IP_CONFIG_BAD) };
 #[doc(alias = "NM_DBUS_VPN_SIGNAL_LAUNCH_FAILED")]
-pub static DBUS_VPN_SIGNAL_LAUNCH_FAILED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_SIGNAL_LAUNCH_FAILED)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_SIGNAL_LAUNCH_FAILED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_SIGNAL_LAUNCH_FAILED) };
 #[doc(alias = "NM_DBUS_VPN_SIGNAL_LOGIN_BANNER")]
-pub static DBUS_VPN_SIGNAL_LOGIN_BANNER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_SIGNAL_LOGIN_BANNER)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_SIGNAL_LOGIN_BANNER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_SIGNAL_LOGIN_BANNER) };
 #[doc(alias = "NM_DBUS_VPN_SIGNAL_LOGIN_FAILED")]
-pub static DBUS_VPN_SIGNAL_LOGIN_FAILED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_SIGNAL_LOGIN_FAILED)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_SIGNAL_LOGIN_FAILED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_SIGNAL_LOGIN_FAILED) };
 #[doc(alias = "NM_DBUS_VPN_SIGNAL_STATE_CHANGE")]
-pub static DBUS_VPN_SIGNAL_STATE_CHANGE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_SIGNAL_STATE_CHANGE)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_SIGNAL_STATE_CHANGE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_SIGNAL_STATE_CHANGE) };
 #[doc(alias = "NM_DBUS_VPN_SIGNAL_VPN_CONFIG_BAD")]
-pub static DBUS_VPN_SIGNAL_VPN_CONFIG_BAD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_SIGNAL_VPN_CONFIG_BAD)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_SIGNAL_VPN_CONFIG_BAD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_SIGNAL_VPN_CONFIG_BAD) };
 #[doc(alias = "NM_DBUS_VPN_STARTING_IN_PROGRESS")]
-pub static DBUS_VPN_STARTING_IN_PROGRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_STARTING_IN_PROGRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_STARTING_IN_PROGRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_STARTING_IN_PROGRESS) };
 #[doc(alias = "NM_DBUS_VPN_STOPPING_IN_PROGRESS")]
-pub static DBUS_VPN_STOPPING_IN_PROGRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_STOPPING_IN_PROGRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_STOPPING_IN_PROGRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_STOPPING_IN_PROGRESS) };
 #[doc(alias = "NM_DBUS_VPN_WRONG_STATE")]
-pub static DBUS_VPN_WRONG_STATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DBUS_VPN_WRONG_STATE)
-            .to_str()
-            .unwrap()
-    });
+pub static DBUS_VPN_WRONG_STATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DBUS_VPN_WRONG_STATE) };
 #[doc(alias = "NM_DEVICE_6LOWPAN_HW_ADDRESS")]
-pub static DEVICE_6LOWPAN_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_6LOWPAN_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_6LOWPAN_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_6LOWPAN_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_6LOWPAN_PARENT")]
-pub static DEVICE_6LOWPAN_PARENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_6LOWPAN_PARENT)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_6LOWPAN_PARENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_6LOWPAN_PARENT) };
 #[doc(alias = "NM_DEVICE_ACTIVE_CONNECTION")]
-pub static DEVICE_ACTIVE_CONNECTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_ACTIVE_CONNECTION)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_ACTIVE_CONNECTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_ACTIVE_CONNECTION) };
 #[doc(alias = "NM_DEVICE_ADSL_CARRIER")]
-pub static DEVICE_ADSL_CARRIER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_ADSL_CARRIER)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_ADSL_CARRIER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_ADSL_CARRIER) };
 #[doc(alias = "NM_DEVICE_AUTOCONNECT")]
-pub static DEVICE_AUTOCONNECT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_AUTOCONNECT).to_str().unwrap()
-    });
+pub static DEVICE_AUTOCONNECT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_AUTOCONNECT) };
 #[doc(alias = "NM_DEVICE_AVAILABLE_CONNECTIONS")]
-pub static DEVICE_AVAILABLE_CONNECTIONS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_AVAILABLE_CONNECTIONS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_AVAILABLE_CONNECTIONS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_AVAILABLE_CONNECTIONS) };
 #[doc(alias = "NM_DEVICE_BOND_CARRIER")]
-pub static DEVICE_BOND_CARRIER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_BOND_CARRIER)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_BOND_CARRIER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_BOND_CARRIER) };
 #[doc(alias = "NM_DEVICE_BOND_HW_ADDRESS")]
-pub static DEVICE_BOND_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_BOND_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_BOND_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_BOND_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_BOND_SLAVES")]
-pub static DEVICE_BOND_SLAVES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_BOND_SLAVES).to_str().unwrap()
-    });
+pub static DEVICE_BOND_SLAVES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_BOND_SLAVES) };
 #[doc(alias = "NM_DEVICE_BRIDGE_CARRIER")]
-pub static DEVICE_BRIDGE_CARRIER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_BRIDGE_CARRIER)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_BRIDGE_CARRIER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_BRIDGE_CARRIER) };
 #[doc(alias = "NM_DEVICE_BRIDGE_HW_ADDRESS")]
-pub static DEVICE_BRIDGE_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_BRIDGE_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_BRIDGE_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_BRIDGE_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_BRIDGE_SLAVES")]
-pub static DEVICE_BRIDGE_SLAVES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_BRIDGE_SLAVES)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_BRIDGE_SLAVES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_BRIDGE_SLAVES) };
 #[doc(alias = "NM_DEVICE_BT_CAPABILITIES")]
-pub static DEVICE_BT_CAPABILITIES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_BT_CAPABILITIES)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_BT_CAPABILITIES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_BT_CAPABILITIES) };
 #[doc(alias = "NM_DEVICE_BT_HW_ADDRESS")]
-pub static DEVICE_BT_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_BT_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_BT_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_BT_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_BT_NAME")]
-pub static DEVICE_BT_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_BT_NAME).to_str().unwrap()
-    });
+pub static DEVICE_BT_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_BT_NAME) };
 #[doc(alias = "NM_DEVICE_CAPABILITIES")]
-pub static DEVICE_CAPABILITIES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_CAPABILITIES)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_CAPABILITIES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_CAPABILITIES) };
 #[doc(alias = "NM_DEVICE_DEVICE_TYPE")]
-pub static DEVICE_DEVICE_TYPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_DEVICE_TYPE).to_str().unwrap()
-    });
+pub static DEVICE_DEVICE_TYPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_DEVICE_TYPE) };
 #[doc(alias = "NM_DEVICE_DHCP4_CONFIG")]
-pub static DEVICE_DHCP4_CONFIG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_DHCP4_CONFIG)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_DHCP4_CONFIG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_DHCP4_CONFIG) };
 #[doc(alias = "NM_DEVICE_DHCP6_CONFIG")]
-pub static DEVICE_DHCP6_CONFIG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_DHCP6_CONFIG)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_DHCP6_CONFIG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_DHCP6_CONFIG) };
 #[doc(alias = "NM_DEVICE_DRIVER")]
-pub static DEVICE_DRIVER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_DRIVER).to_str().unwrap()
-    });
+pub static DEVICE_DRIVER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_DRIVER) };
 #[doc(alias = "NM_DEVICE_DRIVER_VERSION")]
-pub static DEVICE_DRIVER_VERSION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_DRIVER_VERSION)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_DRIVER_VERSION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_DRIVER_VERSION) };
 #[doc(alias = "NM_DEVICE_DUMMY_HW_ADDRESS")]
-pub static DEVICE_DUMMY_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_DUMMY_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_DUMMY_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_DUMMY_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_ETHERNET_CARRIER")]
-pub static DEVICE_ETHERNET_CARRIER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_ETHERNET_CARRIER)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_ETHERNET_CARRIER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_ETHERNET_CARRIER) };
 #[doc(alias = "NM_DEVICE_ETHERNET_HW_ADDRESS")]
-pub static DEVICE_ETHERNET_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_ETHERNET_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_ETHERNET_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_ETHERNET_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_ETHERNET_PERMANENT_HW_ADDRESS")]
-pub static DEVICE_ETHERNET_PERMANENT_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_ETHERNET_PERMANENT_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_ETHERNET_PERMANENT_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_ETHERNET_PERMANENT_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_ETHERNET_S390_SUBCHANNELS")]
-pub static DEVICE_ETHERNET_S390_SUBCHANNELS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_ETHERNET_S390_SUBCHANNELS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_ETHERNET_S390_SUBCHANNELS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_ETHERNET_S390_SUBCHANNELS) };
 #[doc(alias = "NM_DEVICE_ETHERNET_SPEED")]
-pub static DEVICE_ETHERNET_SPEED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_ETHERNET_SPEED)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_ETHERNET_SPEED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_ETHERNET_SPEED) };
 #[doc(alias = "NM_DEVICE_FIRMWARE_MISSING")]
-pub static DEVICE_FIRMWARE_MISSING: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_FIRMWARE_MISSING)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_FIRMWARE_MISSING: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_FIRMWARE_MISSING) };
 #[doc(alias = "NM_DEVICE_FIRMWARE_VERSION")]
-pub static DEVICE_FIRMWARE_VERSION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_FIRMWARE_VERSION)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_FIRMWARE_VERSION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_FIRMWARE_VERSION) };
 #[doc(alias = "NM_DEVICE_GENERIC_HW_ADDRESS")]
-pub static DEVICE_GENERIC_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_GENERIC_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_GENERIC_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_GENERIC_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_GENERIC_TYPE_DESCRIPTION")]
-pub static DEVICE_GENERIC_TYPE_DESCRIPTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_GENERIC_TYPE_DESCRIPTION)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_GENERIC_TYPE_DESCRIPTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_GENERIC_TYPE_DESCRIPTION) };
 #[doc(alias = "NM_DEVICE_HW_ADDRESS")]
-pub static DEVICE_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_HW_ADDRESS).to_str().unwrap()
-    });
+pub static DEVICE_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_INFINIBAND_CARRIER")]
-pub static DEVICE_INFINIBAND_CARRIER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_INFINIBAND_CARRIER)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_INFINIBAND_CARRIER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_INFINIBAND_CARRIER) };
 #[doc(alias = "NM_DEVICE_INFINIBAND_HW_ADDRESS")]
-pub static DEVICE_INFINIBAND_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_INFINIBAND_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_INFINIBAND_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_INFINIBAND_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_INTERFACE")]
-pub static DEVICE_INTERFACE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_INTERFACE).to_str().unwrap()
-    });
+pub static DEVICE_INTERFACE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_INTERFACE) };
 #[doc(alias = "NM_DEVICE_INTERFACE_FLAGS")]
-pub static DEVICE_INTERFACE_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_INTERFACE_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_INTERFACE_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_INTERFACE_FLAGS) };
 #[doc(alias = "NM_DEVICE_IP4_CONFIG")]
-pub static DEVICE_IP4_CONFIG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP4_CONFIG).to_str().unwrap()
-    });
+pub static DEVICE_IP4_CONFIG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP4_CONFIG) };
 #[doc(alias = "NM_DEVICE_IP4_CONNECTIVITY")]
-pub static DEVICE_IP4_CONNECTIVITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP4_CONNECTIVITY)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP4_CONNECTIVITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP4_CONNECTIVITY) };
 #[doc(alias = "NM_DEVICE_IP6_CONFIG")]
-pub static DEVICE_IP6_CONFIG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP6_CONFIG).to_str().unwrap()
-    });
+pub static DEVICE_IP6_CONFIG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP6_CONFIG) };
 #[doc(alias = "NM_DEVICE_IP6_CONNECTIVITY")]
-pub static DEVICE_IP6_CONNECTIVITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP6_CONNECTIVITY)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP6_CONNECTIVITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP6_CONNECTIVITY) };
 #[doc(alias = "NM_DEVICE_IP_INTERFACE")]
-pub static DEVICE_IP_INTERFACE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP_INTERFACE)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP_INTERFACE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP_INTERFACE) };
 #[doc(alias = "NM_DEVICE_IP_TUNNEL_ENCAPSULATION_LIMIT")]
-pub static DEVICE_IP_TUNNEL_ENCAPSULATION_LIMIT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP_TUNNEL_ENCAPSULATION_LIMIT)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP_TUNNEL_ENCAPSULATION_LIMIT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP_TUNNEL_ENCAPSULATION_LIMIT) };
 #[doc(alias = "NM_DEVICE_IP_TUNNEL_FLAGS")]
-pub static DEVICE_IP_TUNNEL_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP_TUNNEL_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP_TUNNEL_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP_TUNNEL_FLAGS) };
 #[doc(alias = "NM_DEVICE_IP_TUNNEL_FLOW_LABEL")]
-pub static DEVICE_IP_TUNNEL_FLOW_LABEL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP_TUNNEL_FLOW_LABEL)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP_TUNNEL_FLOW_LABEL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP_TUNNEL_FLOW_LABEL) };
 #[doc(alias = "NM_DEVICE_IP_TUNNEL_INPUT_KEY")]
-pub static DEVICE_IP_TUNNEL_INPUT_KEY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP_TUNNEL_INPUT_KEY)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP_TUNNEL_INPUT_KEY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP_TUNNEL_INPUT_KEY) };
 #[doc(alias = "NM_DEVICE_IP_TUNNEL_LOCAL")]
-pub static DEVICE_IP_TUNNEL_LOCAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP_TUNNEL_LOCAL)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP_TUNNEL_LOCAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP_TUNNEL_LOCAL) };
 #[doc(alias = "NM_DEVICE_IP_TUNNEL_MODE")]
-pub static DEVICE_IP_TUNNEL_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP_TUNNEL_MODE)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP_TUNNEL_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP_TUNNEL_MODE) };
 #[doc(alias = "NM_DEVICE_IP_TUNNEL_OUTPUT_KEY")]
-pub static DEVICE_IP_TUNNEL_OUTPUT_KEY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP_TUNNEL_OUTPUT_KEY)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP_TUNNEL_OUTPUT_KEY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP_TUNNEL_OUTPUT_KEY) };
 #[doc(alias = "NM_DEVICE_IP_TUNNEL_PARENT")]
-pub static DEVICE_IP_TUNNEL_PARENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP_TUNNEL_PARENT)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP_TUNNEL_PARENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP_TUNNEL_PARENT) };
 #[doc(alias = "NM_DEVICE_IP_TUNNEL_PATH_MTU_DISCOVERY")]
-pub static DEVICE_IP_TUNNEL_PATH_MTU_DISCOVERY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP_TUNNEL_PATH_MTU_DISCOVERY)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP_TUNNEL_PATH_MTU_DISCOVERY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP_TUNNEL_PATH_MTU_DISCOVERY) };
 #[doc(alias = "NM_DEVICE_IP_TUNNEL_REMOTE")]
-pub static DEVICE_IP_TUNNEL_REMOTE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP_TUNNEL_REMOTE)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP_TUNNEL_REMOTE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP_TUNNEL_REMOTE) };
 #[doc(alias = "NM_DEVICE_IP_TUNNEL_TOS")]
-pub static DEVICE_IP_TUNNEL_TOS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP_TUNNEL_TOS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP_TUNNEL_TOS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP_TUNNEL_TOS) };
 #[doc(alias = "NM_DEVICE_IP_TUNNEL_TTL")]
-pub static DEVICE_IP_TUNNEL_TTL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_IP_TUNNEL_TTL)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_IP_TUNNEL_TTL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_IP_TUNNEL_TTL) };
 #[doc(alias = "NM_DEVICE_LLDP_NEIGHBORS")]
-pub static DEVICE_LLDP_NEIGHBORS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_LLDP_NEIGHBORS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_LLDP_NEIGHBORS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_LLDP_NEIGHBORS) };
 #[doc(alias = "NM_DEVICE_MACSEC_CIPHER_SUITE")]
-pub static DEVICE_MACSEC_CIPHER_SUITE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACSEC_CIPHER_SUITE)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACSEC_CIPHER_SUITE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACSEC_CIPHER_SUITE) };
 #[doc(alias = "NM_DEVICE_MACSEC_ENCODING_SA")]
-pub static DEVICE_MACSEC_ENCODING_SA: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACSEC_ENCODING_SA)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACSEC_ENCODING_SA: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACSEC_ENCODING_SA) };
 #[doc(alias = "NM_DEVICE_MACSEC_ENCRYPT")]
-pub static DEVICE_MACSEC_ENCRYPT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACSEC_ENCRYPT)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACSEC_ENCRYPT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACSEC_ENCRYPT) };
 #[doc(alias = "NM_DEVICE_MACSEC_ES")]
-pub static DEVICE_MACSEC_ES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACSEC_ES).to_str().unwrap()
-    });
+pub static DEVICE_MACSEC_ES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACSEC_ES) };
 #[doc(alias = "NM_DEVICE_MACSEC_HW_ADDRESS")]
-pub static DEVICE_MACSEC_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACSEC_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACSEC_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACSEC_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_MACSEC_ICV_LENGTH")]
-pub static DEVICE_MACSEC_ICV_LENGTH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACSEC_ICV_LENGTH)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACSEC_ICV_LENGTH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACSEC_ICV_LENGTH) };
 #[doc(alias = "NM_DEVICE_MACSEC_INCLUDE_SCI")]
-pub static DEVICE_MACSEC_INCLUDE_SCI: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACSEC_INCLUDE_SCI)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACSEC_INCLUDE_SCI: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACSEC_INCLUDE_SCI) };
 #[doc(alias = "NM_DEVICE_MACSEC_PARENT")]
-pub static DEVICE_MACSEC_PARENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACSEC_PARENT)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACSEC_PARENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACSEC_PARENT) };
 #[doc(alias = "NM_DEVICE_MACSEC_PROTECT")]
-pub static DEVICE_MACSEC_PROTECT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACSEC_PROTECT)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACSEC_PROTECT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACSEC_PROTECT) };
 #[doc(alias = "NM_DEVICE_MACSEC_REPLAY_PROTECT")]
-pub static DEVICE_MACSEC_REPLAY_PROTECT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACSEC_REPLAY_PROTECT)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACSEC_REPLAY_PROTECT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACSEC_REPLAY_PROTECT) };
 #[doc(alias = "NM_DEVICE_MACSEC_SCB")]
-pub static DEVICE_MACSEC_SCB: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACSEC_SCB).to_str().unwrap()
-    });
+pub static DEVICE_MACSEC_SCB: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACSEC_SCB) };
 #[doc(alias = "NM_DEVICE_MACSEC_SCI")]
-pub static DEVICE_MACSEC_SCI: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACSEC_SCI).to_str().unwrap()
-    });
+pub static DEVICE_MACSEC_SCI: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACSEC_SCI) };
 #[doc(alias = "NM_DEVICE_MACSEC_VALIDATION")]
-pub static DEVICE_MACSEC_VALIDATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACSEC_VALIDATION)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACSEC_VALIDATION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACSEC_VALIDATION) };
 #[doc(alias = "NM_DEVICE_MACSEC_WINDOW")]
-pub static DEVICE_MACSEC_WINDOW: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACSEC_WINDOW)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACSEC_WINDOW: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACSEC_WINDOW) };
 #[doc(alias = "NM_DEVICE_MACVLAN_HW_ADDRESS")]
-pub static DEVICE_MACVLAN_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACVLAN_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACVLAN_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACVLAN_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_MACVLAN_MODE")]
-pub static DEVICE_MACVLAN_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACVLAN_MODE)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACVLAN_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACVLAN_MODE) };
 #[doc(alias = "NM_DEVICE_MACVLAN_NO_PROMISC")]
-pub static DEVICE_MACVLAN_NO_PROMISC: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACVLAN_NO_PROMISC)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACVLAN_NO_PROMISC: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACVLAN_NO_PROMISC) };
 #[doc(alias = "NM_DEVICE_MACVLAN_PARENT")]
-pub static DEVICE_MACVLAN_PARENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACVLAN_PARENT)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MACVLAN_PARENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACVLAN_PARENT) };
 #[doc(alias = "NM_DEVICE_MACVLAN_TAP")]
-pub static DEVICE_MACVLAN_TAP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MACVLAN_TAP).to_str().unwrap()
-    });
+pub static DEVICE_MACVLAN_TAP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MACVLAN_TAP) };
 #[doc(alias = "NM_DEVICE_MANAGED")]
-pub static DEVICE_MANAGED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MANAGED).to_str().unwrap()
-    });
+pub static DEVICE_MANAGED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MANAGED) };
 #[doc(alias = "NM_DEVICE_METERED")]
-pub static DEVICE_METERED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_METERED).to_str().unwrap()
-    });
+pub static DEVICE_METERED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_METERED) };
 #[doc(alias = "NM_DEVICE_MODEM_APN")]
-pub static DEVICE_MODEM_APN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MODEM_APN).to_str().unwrap()
-    });
+pub static DEVICE_MODEM_APN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MODEM_APN) };
 #[doc(alias = "NM_DEVICE_MODEM_CURRENT_CAPABILITIES")]
-pub static DEVICE_MODEM_CURRENT_CAPABILITIES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MODEM_CURRENT_CAPABILITIES)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MODEM_CURRENT_CAPABILITIES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MODEM_CURRENT_CAPABILITIES) };
 #[doc(alias = "NM_DEVICE_MODEM_DEVICE_ID")]
-pub static DEVICE_MODEM_DEVICE_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MODEM_DEVICE_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MODEM_DEVICE_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MODEM_DEVICE_ID) };
 #[doc(alias = "NM_DEVICE_MODEM_MODEM_CAPABILITIES")]
-pub static DEVICE_MODEM_MODEM_CAPABILITIES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MODEM_MODEM_CAPABILITIES)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MODEM_MODEM_CAPABILITIES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MODEM_MODEM_CAPABILITIES) };
 #[doc(alias = "NM_DEVICE_MODEM_OPERATOR_CODE")]
-pub static DEVICE_MODEM_OPERATOR_CODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_MODEM_OPERATOR_CODE)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_MODEM_OPERATOR_CODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MODEM_OPERATOR_CODE) };
 #[doc(alias = "NM_DEVICE_MTU")]
-pub static DEVICE_MTU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe { CStr::from_ptr(ffi::NM_DEVICE_MTU).to_str().unwrap() });
+pub static DEVICE_MTU: &GStr = unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_MTU) };
 #[doc(alias = "NM_DEVICE_NM_PLUGIN_MISSING")]
-pub static DEVICE_NM_PLUGIN_MISSING: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_NM_PLUGIN_MISSING)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_NM_PLUGIN_MISSING: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_NM_PLUGIN_MISSING) };
 #[doc(alias = "NM_DEVICE_OLPC_MESH_ACTIVE_CHANNEL")]
-pub static DEVICE_OLPC_MESH_ACTIVE_CHANNEL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_OLPC_MESH_ACTIVE_CHANNEL)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_OLPC_MESH_ACTIVE_CHANNEL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_OLPC_MESH_ACTIVE_CHANNEL) };
 #[doc(alias = "NM_DEVICE_OLPC_MESH_COMPANION")]
-pub static DEVICE_OLPC_MESH_COMPANION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_OLPC_MESH_COMPANION)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_OLPC_MESH_COMPANION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_OLPC_MESH_COMPANION) };
 #[doc(alias = "NM_DEVICE_OLPC_MESH_HW_ADDRESS")]
-pub static DEVICE_OLPC_MESH_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_OLPC_MESH_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_OLPC_MESH_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_OLPC_MESH_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_OVS_BRIDGE_SLAVES")]
-pub static DEVICE_OVS_BRIDGE_SLAVES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_OVS_BRIDGE_SLAVES)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_OVS_BRIDGE_SLAVES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_OVS_BRIDGE_SLAVES) };
 #[doc(alias = "NM_DEVICE_OVS_PORT_SLAVES")]
-pub static DEVICE_OVS_PORT_SLAVES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_OVS_PORT_SLAVES)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_OVS_PORT_SLAVES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_OVS_PORT_SLAVES) };
 #[doc(alias = "NM_DEVICE_PATH")]
-pub static DEVICE_PATH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe { CStr::from_ptr(ffi::NM_DEVICE_PATH).to_str().unwrap() });
+pub static DEVICE_PATH: &GStr = unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_PATH) };
 #[doc(alias = "NM_DEVICE_PHYSICAL_PORT_ID")]
-pub static DEVICE_PHYSICAL_PORT_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_PHYSICAL_PORT_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_PHYSICAL_PORT_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_PHYSICAL_PORT_ID) };
 #[doc(alias = "NM_DEVICE_PORTS")]
-pub static DEVICE_PORTS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_PORTS).to_str().unwrap()
-    });
+pub static DEVICE_PORTS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_PORTS) };
 #[doc(alias = "NM_DEVICE_PRODUCT")]
-pub static DEVICE_PRODUCT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_PRODUCT).to_str().unwrap()
-    });
+pub static DEVICE_PRODUCT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_PRODUCT) };
 #[doc(alias = "NM_DEVICE_REAL")]
-pub static DEVICE_REAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe { CStr::from_ptr(ffi::NM_DEVICE_REAL).to_str().unwrap() });
+pub static DEVICE_REAL: &GStr = unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_REAL) };
 #[doc(alias = "NM_DEVICE_STATE")]
-pub static DEVICE_STATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_STATE).to_str().unwrap()
-    });
+pub static DEVICE_STATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_STATE) };
 #[doc(alias = "NM_DEVICE_STATE_REASON")]
-pub static DEVICE_STATE_REASON: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_STATE_REASON)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_STATE_REASON: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_STATE_REASON) };
 #[doc(alias = "NM_DEVICE_TEAM_CARRIER")]
-pub static DEVICE_TEAM_CARRIER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_TEAM_CARRIER)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_TEAM_CARRIER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_TEAM_CARRIER) };
 #[doc(alias = "NM_DEVICE_TEAM_CONFIG")]
-pub static DEVICE_TEAM_CONFIG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_TEAM_CONFIG).to_str().unwrap()
-    });
+pub static DEVICE_TEAM_CONFIG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_TEAM_CONFIG) };
 #[doc(alias = "NM_DEVICE_TEAM_HW_ADDRESS")]
-pub static DEVICE_TEAM_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_TEAM_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_TEAM_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_TEAM_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_TEAM_SLAVES")]
-pub static DEVICE_TEAM_SLAVES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_TEAM_SLAVES).to_str().unwrap()
-    });
+pub static DEVICE_TEAM_SLAVES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_TEAM_SLAVES) };
 #[doc(alias = "NM_DEVICE_TUN_GROUP")]
-pub static DEVICE_TUN_GROUP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_TUN_GROUP).to_str().unwrap()
-    });
+pub static DEVICE_TUN_GROUP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_TUN_GROUP) };
 #[doc(alias = "NM_DEVICE_TUN_HW_ADDRESS")]
-pub static DEVICE_TUN_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_TUN_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_TUN_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_TUN_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_TUN_MODE")]
-pub static DEVICE_TUN_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_TUN_MODE).to_str().unwrap()
-    });
+pub static DEVICE_TUN_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_TUN_MODE) };
 #[doc(alias = "NM_DEVICE_TUN_MULTI_QUEUE")]
-pub static DEVICE_TUN_MULTI_QUEUE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_TUN_MULTI_QUEUE)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_TUN_MULTI_QUEUE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_TUN_MULTI_QUEUE) };
 #[doc(alias = "NM_DEVICE_TUN_NO_PI")]
-pub static DEVICE_TUN_NO_PI: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_TUN_NO_PI).to_str().unwrap()
-    });
+pub static DEVICE_TUN_NO_PI: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_TUN_NO_PI) };
 #[doc(alias = "NM_DEVICE_TUN_OWNER")]
-pub static DEVICE_TUN_OWNER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_TUN_OWNER).to_str().unwrap()
-    });
+pub static DEVICE_TUN_OWNER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_TUN_OWNER) };
 #[doc(alias = "NM_DEVICE_TUN_VNET_HDR")]
-pub static DEVICE_TUN_VNET_HDR: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_TUN_VNET_HDR)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_TUN_VNET_HDR: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_TUN_VNET_HDR) };
 #[doc(alias = "NM_DEVICE_UDI")]
-pub static DEVICE_UDI: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe { CStr::from_ptr(ffi::NM_DEVICE_UDI).to_str().unwrap() });
+pub static DEVICE_UDI: &GStr = unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_UDI) };
 #[doc(alias = "NM_DEVICE_VENDOR")]
-pub static DEVICE_VENDOR: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VENDOR).to_str().unwrap()
-    });
+pub static DEVICE_VENDOR: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VENDOR) };
 #[doc(alias = "NM_DEVICE_VETH_PEER")]
-pub static DEVICE_VETH_PEER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VETH_PEER).to_str().unwrap()
-    });
+pub static DEVICE_VETH_PEER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VETH_PEER) };
 #[doc(alias = "NM_DEVICE_VLAN_CARRIER")]
-pub static DEVICE_VLAN_CARRIER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VLAN_CARRIER)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_VLAN_CARRIER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VLAN_CARRIER) };
 #[doc(alias = "NM_DEVICE_VLAN_HW_ADDRESS")]
-pub static DEVICE_VLAN_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VLAN_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_VLAN_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VLAN_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_VLAN_PARENT")]
-pub static DEVICE_VLAN_PARENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VLAN_PARENT).to_str().unwrap()
-    });
+pub static DEVICE_VLAN_PARENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VLAN_PARENT) };
 #[doc(alias = "NM_DEVICE_VLAN_VLAN_ID")]
-pub static DEVICE_VLAN_VLAN_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VLAN_VLAN_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_VLAN_VLAN_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VLAN_VLAN_ID) };
 #[doc(alias = "NM_DEVICE_VRF_TABLE")]
-pub static DEVICE_VRF_TABLE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VRF_TABLE).to_str().unwrap()
-    });
+pub static DEVICE_VRF_TABLE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VRF_TABLE) };
 #[doc(alias = "NM_DEVICE_VXLAN_AGEING")]
-pub static DEVICE_VXLAN_AGEING: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_AGEING)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_VXLAN_AGEING: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_AGEING) };
 #[doc(alias = "NM_DEVICE_VXLAN_CARRIER")]
-pub static DEVICE_VXLAN_CARRIER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_CARRIER)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_VXLAN_CARRIER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_CARRIER) };
 #[doc(alias = "NM_DEVICE_VXLAN_DST_PORT")]
-pub static DEVICE_VXLAN_DST_PORT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_DST_PORT)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_VXLAN_DST_PORT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_DST_PORT) };
 #[doc(alias = "NM_DEVICE_VXLAN_GROUP")]
-pub static DEVICE_VXLAN_GROUP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_GROUP).to_str().unwrap()
-    });
+pub static DEVICE_VXLAN_GROUP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_GROUP) };
 #[doc(alias = "NM_DEVICE_VXLAN_HW_ADDRESS")]
-pub static DEVICE_VXLAN_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_VXLAN_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_VXLAN_ID")]
-pub static DEVICE_VXLAN_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_ID).to_str().unwrap()
-    });
+pub static DEVICE_VXLAN_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_ID) };
 #[doc(alias = "NM_DEVICE_VXLAN_L2MISS")]
-pub static DEVICE_VXLAN_L2MISS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_L2MISS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_VXLAN_L2MISS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_L2MISS) };
 #[doc(alias = "NM_DEVICE_VXLAN_L3MISS")]
-pub static DEVICE_VXLAN_L3MISS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_L3MISS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_VXLAN_L3MISS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_L3MISS) };
 #[doc(alias = "NM_DEVICE_VXLAN_LEARNING")]
-pub static DEVICE_VXLAN_LEARNING: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_LEARNING)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_VXLAN_LEARNING: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_LEARNING) };
 #[doc(alias = "NM_DEVICE_VXLAN_LIMIT")]
-pub static DEVICE_VXLAN_LIMIT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_LIMIT).to_str().unwrap()
-    });
+pub static DEVICE_VXLAN_LIMIT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_LIMIT) };
 #[doc(alias = "NM_DEVICE_VXLAN_LOCAL")]
-pub static DEVICE_VXLAN_LOCAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_LOCAL).to_str().unwrap()
-    });
+pub static DEVICE_VXLAN_LOCAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_LOCAL) };
 #[doc(alias = "NM_DEVICE_VXLAN_PARENT")]
-pub static DEVICE_VXLAN_PARENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_PARENT)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_VXLAN_PARENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_PARENT) };
 #[doc(alias = "NM_DEVICE_VXLAN_PROXY")]
-pub static DEVICE_VXLAN_PROXY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_PROXY).to_str().unwrap()
-    });
+pub static DEVICE_VXLAN_PROXY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_PROXY) };
 #[doc(alias = "NM_DEVICE_VXLAN_RSC")]
-pub static DEVICE_VXLAN_RSC: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_RSC).to_str().unwrap()
-    });
+pub static DEVICE_VXLAN_RSC: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_RSC) };
 #[doc(alias = "NM_DEVICE_VXLAN_SRC_PORT_MAX")]
-pub static DEVICE_VXLAN_SRC_PORT_MAX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_SRC_PORT_MAX)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_VXLAN_SRC_PORT_MAX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_SRC_PORT_MAX) };
 #[doc(alias = "NM_DEVICE_VXLAN_SRC_PORT_MIN")]
-pub static DEVICE_VXLAN_SRC_PORT_MIN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_SRC_PORT_MIN)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_VXLAN_SRC_PORT_MIN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_SRC_PORT_MIN) };
 #[doc(alias = "NM_DEVICE_VXLAN_TOS")]
-pub static DEVICE_VXLAN_TOS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_TOS).to_str().unwrap()
-    });
+pub static DEVICE_VXLAN_TOS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_TOS) };
 #[doc(alias = "NM_DEVICE_VXLAN_TTL")]
-pub static DEVICE_VXLAN_TTL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_VXLAN_TTL).to_str().unwrap()
-    });
+pub static DEVICE_VXLAN_TTL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_VXLAN_TTL) };
 #[doc(alias = "NM_DEVICE_WIFI_ACCESS_POINTS")]
-pub static DEVICE_WIFI_ACCESS_POINTS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIFI_ACCESS_POINTS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIFI_ACCESS_POINTS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIFI_ACCESS_POINTS) };
 #[doc(alias = "NM_DEVICE_WIFI_ACTIVE_ACCESS_POINT")]
-pub static DEVICE_WIFI_ACTIVE_ACCESS_POINT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIFI_ACTIVE_ACCESS_POINT)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIFI_ACTIVE_ACCESS_POINT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIFI_ACTIVE_ACCESS_POINT) };
 #[doc(alias = "NM_DEVICE_WIFI_BITRATE")]
-pub static DEVICE_WIFI_BITRATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIFI_BITRATE)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIFI_BITRATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIFI_BITRATE) };
 #[doc(alias = "NM_DEVICE_WIFI_CAPABILITIES")]
-pub static DEVICE_WIFI_CAPABILITIES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIFI_CAPABILITIES)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIFI_CAPABILITIES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIFI_CAPABILITIES) };
 #[doc(alias = "NM_DEVICE_WIFI_HW_ADDRESS")]
-pub static DEVICE_WIFI_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIFI_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIFI_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIFI_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_WIFI_LAST_SCAN")]
-pub static DEVICE_WIFI_LAST_SCAN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIFI_LAST_SCAN)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIFI_LAST_SCAN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIFI_LAST_SCAN) };
 #[doc(alias = "NM_DEVICE_WIFI_MODE")]
-pub static DEVICE_WIFI_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIFI_MODE).to_str().unwrap()
-    });
+pub static DEVICE_WIFI_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIFI_MODE) };
 #[doc(alias = "NM_DEVICE_WIFI_P2P_HW_ADDRESS")]
-pub static DEVICE_WIFI_P2P_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIFI_P2P_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIFI_P2P_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIFI_P2P_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_WIFI_P2P_PEERS")]
-pub static DEVICE_WIFI_P2P_PEERS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIFI_P2P_PEERS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIFI_P2P_PEERS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIFI_P2P_PEERS) };
 #[doc(alias = "NM_DEVICE_WIFI_P2P_WFDIES")]
-pub static DEVICE_WIFI_P2P_WFDIES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIFI_P2P_WFDIES)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIFI_P2P_WFDIES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIFI_P2P_WFDIES) };
 #[doc(alias = "NM_DEVICE_WIFI_PERMANENT_HW_ADDRESS")]
-pub static DEVICE_WIFI_PERMANENT_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIFI_PERMANENT_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIFI_PERMANENT_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIFI_PERMANENT_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_WIMAX_ACTIVE_NSP")]
-pub static DEVICE_WIMAX_ACTIVE_NSP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIMAX_ACTIVE_NSP)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIMAX_ACTIVE_NSP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIMAX_ACTIVE_NSP) };
 #[doc(alias = "NM_DEVICE_WIMAX_BSID")]
-pub static DEVICE_WIMAX_BSID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIMAX_BSID).to_str().unwrap()
-    });
+pub static DEVICE_WIMAX_BSID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIMAX_BSID) };
 #[doc(alias = "NM_DEVICE_WIMAX_CENTER_FREQUENCY")]
-pub static DEVICE_WIMAX_CENTER_FREQUENCY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIMAX_CENTER_FREQUENCY)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIMAX_CENTER_FREQUENCY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIMAX_CENTER_FREQUENCY) };
 #[doc(alias = "NM_DEVICE_WIMAX_CINR")]
-pub static DEVICE_WIMAX_CINR: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIMAX_CINR).to_str().unwrap()
-    });
+pub static DEVICE_WIMAX_CINR: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIMAX_CINR) };
 #[doc(alias = "NM_DEVICE_WIMAX_HW_ADDRESS")]
-pub static DEVICE_WIMAX_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIMAX_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIMAX_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIMAX_HW_ADDRESS) };
 #[doc(alias = "NM_DEVICE_WIMAX_NSPS")]
-pub static DEVICE_WIMAX_NSPS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIMAX_NSPS).to_str().unwrap()
-    });
+pub static DEVICE_WIMAX_NSPS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIMAX_NSPS) };
 #[doc(alias = "NM_DEVICE_WIMAX_RSSI")]
-pub static DEVICE_WIMAX_RSSI: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIMAX_RSSI).to_str().unwrap()
-    });
+pub static DEVICE_WIMAX_RSSI: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIMAX_RSSI) };
 #[doc(alias = "NM_DEVICE_WIMAX_TX_POWER")]
-pub static DEVICE_WIMAX_TX_POWER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIMAX_TX_POWER)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIMAX_TX_POWER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIMAX_TX_POWER) };
 #[doc(alias = "NM_DEVICE_WIREGUARD_FWMARK")]
-pub static DEVICE_WIREGUARD_FWMARK: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIREGUARD_FWMARK)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIREGUARD_FWMARK: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIREGUARD_FWMARK) };
 #[doc(alias = "NM_DEVICE_WIREGUARD_LISTEN_PORT")]
-pub static DEVICE_WIREGUARD_LISTEN_PORT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIREGUARD_LISTEN_PORT)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIREGUARD_LISTEN_PORT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIREGUARD_LISTEN_PORT) };
 #[doc(alias = "NM_DEVICE_WIREGUARD_PUBLIC_KEY")]
-pub static DEVICE_WIREGUARD_PUBLIC_KEY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WIREGUARD_PUBLIC_KEY)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WIREGUARD_PUBLIC_KEY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WIREGUARD_PUBLIC_KEY) };
 #[doc(alias = "NM_DEVICE_WPAN_HW_ADDRESS")]
-pub static DEVICE_WPAN_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DEVICE_WPAN_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static DEVICE_WPAN_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DEVICE_WPAN_HW_ADDRESS) };
 #[doc(alias = "NM_DHCP_CONFIG_FAMILY")]
-pub static DHCP_CONFIG_FAMILY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DHCP_CONFIG_FAMILY).to_str().unwrap()
-    });
+pub static DHCP_CONFIG_FAMILY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DHCP_CONFIG_FAMILY) };
 #[doc(alias = "NM_DHCP_CONFIG_OPTIONS")]
-pub static DHCP_CONFIG_OPTIONS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_DHCP_CONFIG_OPTIONS)
-            .to_str()
-            .unwrap()
-    });
+pub static DHCP_CONFIG_OPTIONS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_DHCP_CONFIG_OPTIONS) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_RX")]
-pub static ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_RX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_RX)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_RX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_RX) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_TX")]
-pub static ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_TX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_TX)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_TX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_ADAPTIVE_TX) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_PKT_RATE_HIGH")]
-pub static ETHTOOL_OPTNAME_COALESCE_PKT_RATE_HIGH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_PKT_RATE_HIGH)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_PKT_RATE_HIGH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_PKT_RATE_HIGH) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_PKT_RATE_LOW")]
-pub static ETHTOOL_OPTNAME_COALESCE_PKT_RATE_LOW: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_PKT_RATE_LOW)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_PKT_RATE_LOW: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_PKT_RATE_LOW) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES")]
-pub static ETHTOOL_OPTNAME_COALESCE_RX_FRAMES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_FRAMES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_HIGH")]
-pub static ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_HIGH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_HIGH)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_HIGH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_HIGH) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_IRQ")]
-pub static ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_IRQ: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_IRQ)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_IRQ: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_IRQ) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_LOW")]
-pub static ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_LOW: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_LOW)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_LOW: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_FRAMES_LOW) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS")]
-pub static ETHTOOL_OPTNAME_COALESCE_RX_USECS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_USECS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_HIGH")]
-pub static ETHTOOL_OPTNAME_COALESCE_RX_USECS_HIGH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_HIGH)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_USECS_HIGH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_HIGH) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_IRQ")]
-pub static ETHTOOL_OPTNAME_COALESCE_RX_USECS_IRQ: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_IRQ)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_USECS_IRQ: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_IRQ) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_LOW")]
-pub static ETHTOOL_OPTNAME_COALESCE_RX_USECS_LOW: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_LOW)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_RX_USECS_LOW: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_RX_USECS_LOW) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_SAMPLE_INTERVAL")]
-pub static ETHTOOL_OPTNAME_COALESCE_SAMPLE_INTERVAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_SAMPLE_INTERVAL)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_SAMPLE_INTERVAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_SAMPLE_INTERVAL) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_STATS_BLOCK_USECS")]
-pub static ETHTOOL_OPTNAME_COALESCE_STATS_BLOCK_USECS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_STATS_BLOCK_USECS)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_STATS_BLOCK_USECS: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_STATS_BLOCK_USECS)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES")]
-pub static ETHTOOL_OPTNAME_COALESCE_TX_FRAMES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_FRAMES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_HIGH")]
-pub static ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_HIGH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_HIGH)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_HIGH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_HIGH) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_IRQ")]
-pub static ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_IRQ: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_IRQ)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_IRQ: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_IRQ) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_LOW")]
-pub static ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_LOW: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_LOW)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_LOW: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_FRAMES_LOW) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS")]
-pub static ETHTOOL_OPTNAME_COALESCE_TX_USECS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_USECS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_HIGH")]
-pub static ETHTOOL_OPTNAME_COALESCE_TX_USECS_HIGH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_HIGH)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_USECS_HIGH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_HIGH) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_IRQ")]
-pub static ETHTOOL_OPTNAME_COALESCE_TX_USECS_IRQ: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_IRQ)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_USECS_IRQ: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_IRQ) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_LOW")]
-pub static ETHTOOL_OPTNAME_COALESCE_TX_USECS_LOW: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_LOW)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_COALESCE_TX_USECS_LOW: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_COALESCE_TX_USECS_LOW) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_ESP_HW_OFFLOAD")]
-pub static ETHTOOL_OPTNAME_FEATURE_ESP_HW_OFFLOAD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_ESP_HW_OFFLOAD)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_ESP_HW_OFFLOAD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_ESP_HW_OFFLOAD) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_ESP_TX_CSUM_HW_OFFLOAD")]
-pub static ETHTOOL_OPTNAME_FEATURE_ESP_TX_CSUM_HW_OFFLOAD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_ESP_TX_CSUM_HW_OFFLOAD)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_ESP_TX_CSUM_HW_OFFLOAD: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_ESP_TX_CSUM_HW_OFFLOAD)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_FCOE_MTU")]
-pub static ETHTOOL_OPTNAME_FEATURE_FCOE_MTU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_FCOE_MTU)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_FCOE_MTU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_FCOE_MTU) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_GRO")]
-pub static ETHTOOL_OPTNAME_FEATURE_GRO: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_GRO)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_GRO: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_GRO) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_GSO")]
-pub static ETHTOOL_OPTNAME_FEATURE_GSO: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_GSO)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_GSO: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_GSO) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_HIGHDMA")]
-pub static ETHTOOL_OPTNAME_FEATURE_HIGHDMA: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_HIGHDMA)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_HIGHDMA: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_HIGHDMA) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_HW_TC_OFFLOAD")]
-pub static ETHTOOL_OPTNAME_FEATURE_HW_TC_OFFLOAD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_HW_TC_OFFLOAD)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_HW_TC_OFFLOAD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_HW_TC_OFFLOAD) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_L2_FWD_OFFLOAD")]
-pub static ETHTOOL_OPTNAME_FEATURE_L2_FWD_OFFLOAD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_L2_FWD_OFFLOAD)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_L2_FWD_OFFLOAD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_L2_FWD_OFFLOAD) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_LOOPBACK")]
-pub static ETHTOOL_OPTNAME_FEATURE_LOOPBACK: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_LOOPBACK)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_LOOPBACK: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_LOOPBACK) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_LRO")]
-pub static ETHTOOL_OPTNAME_FEATURE_LRO: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_LRO)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_LRO: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_LRO) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_MACSEC_HW_OFFLOAD")]
-pub static ETHTOOL_OPTNAME_FEATURE_MACSEC_HW_OFFLOAD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_MACSEC_HW_OFFLOAD)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_MACSEC_HW_OFFLOAD: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_MACSEC_HW_OFFLOAD)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_NTUPLE")]
-pub static ETHTOOL_OPTNAME_FEATURE_NTUPLE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_NTUPLE)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_NTUPLE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_NTUPLE) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_RX")]
-pub static ETHTOOL_OPTNAME_FEATURE_RX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_RX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_RXHASH")]
-pub static ETHTOOL_OPTNAME_FEATURE_RXHASH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RXHASH)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_RXHASH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RXHASH) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_RXVLAN")]
-pub static ETHTOOL_OPTNAME_FEATURE_RXVLAN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RXVLAN)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_RXVLAN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RXVLAN) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_RX_ALL")]
-pub static ETHTOOL_OPTNAME_FEATURE_RX_ALL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_ALL)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_RX_ALL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_ALL) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_RX_FCS")]
-pub static ETHTOOL_OPTNAME_FEATURE_RX_FCS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_FCS)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_RX_FCS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_FCS) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_RX_GRO_HW")]
-pub static ETHTOOL_OPTNAME_FEATURE_RX_GRO_HW: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_GRO_HW)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_RX_GRO_HW: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_GRO_HW) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_RX_GRO_LIST")]
-pub static ETHTOOL_OPTNAME_FEATURE_RX_GRO_LIST: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_GRO_LIST)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_RX_GRO_LIST: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_GRO_LIST) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_RX_UDP_GRO_FORWARDING")]
-pub static ETHTOOL_OPTNAME_FEATURE_RX_UDP_GRO_FORWARDING: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_UDP_GRO_FORWARDING)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_RX_UDP_GRO_FORWARDING: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_UDP_GRO_FORWARDING)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_RX_UDP_TUNNEL_PORT_OFFLOAD")]
-pub static ETHTOOL_OPTNAME_FEATURE_RX_UDP_TUNNEL_PORT_OFFLOAD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_UDP_TUNNEL_PORT_OFFLOAD)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_RX_UDP_TUNNEL_PORT_OFFLOAD: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_UDP_TUNNEL_PORT_OFFLOAD)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_FILTER")]
-pub static ETHTOOL_OPTNAME_FEATURE_RX_VLAN_FILTER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_FILTER)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_RX_VLAN_FILTER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_FILTER) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_FILTER")]
-pub static ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_FILTER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_FILTER)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_FILTER: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_FILTER)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_HW_PARSE")]
-pub static ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_HW_PARSE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_HW_PARSE)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_HW_PARSE: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_RX_VLAN_STAG_HW_PARSE)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_SG")]
-pub static ETHTOOL_OPTNAME_FEATURE_SG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_SG)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_SG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_SG) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_RECORD")]
-pub static ETHTOOL_OPTNAME_FEATURE_TLS_HW_RECORD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_RECORD)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TLS_HW_RECORD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_RECORD) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_RX_OFFLOAD")]
-pub static ETHTOOL_OPTNAME_FEATURE_TLS_HW_RX_OFFLOAD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_RX_OFFLOAD)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TLS_HW_RX_OFFLOAD: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_RX_OFFLOAD)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_TX_OFFLOAD")]
-pub static ETHTOOL_OPTNAME_FEATURE_TLS_HW_TX_OFFLOAD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_TX_OFFLOAD)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TLS_HW_TX_OFFLOAD: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TLS_HW_TX_OFFLOAD)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TSO")]
-pub static ETHTOOL_OPTNAME_FEATURE_TSO: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TSO)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TSO: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TSO) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TXVLAN")]
-pub static ETHTOOL_OPTNAME_FEATURE_TXVLAN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TXVLAN)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TXVLAN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TXVLAN) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_FCOE_CRC")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_FCOE_CRC: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_FCOE_CRC)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_FCOE_CRC: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_FCOE_CRC)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IPV4")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IPV4: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IPV4)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IPV4: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IPV4) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IPV6")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IPV6: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IPV6)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IPV6: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IPV6) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IP_GENERIC")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IP_GENERIC: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IP_GENERIC)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IP_GENERIC: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_IP_GENERIC)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_SCTP")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_SCTP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_SCTP)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_SCTP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_CHECKSUM_SCTP) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_ESP_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_ESP_SEGMENTATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_ESP_SEGMENTATION)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_ESP_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_ESP_SEGMENTATION)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_FCOE_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_FCOE_SEGMENTATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_FCOE_SEGMENTATION)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_FCOE_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_FCOE_SEGMENTATION)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_GRE_CSUM_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_GRE_CSUM_SEGMENTATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_GRE_CSUM_SEGMENTATION)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_GRE_CSUM_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_GRE_CSUM_SEGMENTATION)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_GRE_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_GRE_SEGMENTATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_GRE_SEGMENTATION)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_GRE_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_GRE_SEGMENTATION)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_LIST")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_GSO_LIST: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_LIST)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_GSO_LIST: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_LIST) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_PARTIAL")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_GSO_PARTIAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_PARTIAL)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_GSO_PARTIAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_PARTIAL) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_ROBUST")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_GSO_ROBUST: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_ROBUST)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_GSO_ROBUST: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_GSO_ROBUST) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_IPXIP4_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_IPXIP4_SEGMENTATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_IPXIP4_SEGMENTATION)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_IPXIP4_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_IPXIP4_SEGMENTATION)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_IPXIP6_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_IPXIP6_SEGMENTATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_IPXIP6_SEGMENTATION)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_IPXIP6_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_IPXIP6_SEGMENTATION)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_NOCACHE_COPY")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_NOCACHE_COPY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_NOCACHE_COPY)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_NOCACHE_COPY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_NOCACHE_COPY) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_SCATTER_GATHER")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_SCATTER_GATHER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_SCATTER_GATHER)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_SCATTER_GATHER: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_SCATTER_GATHER)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_SCATTER_GATHER_FRAGLIST")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_SCATTER_GATHER_FRAGLIST: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_SCATTER_GATHER_FRAGLIST)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_SCATTER_GATHER_FRAGLIST: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_SCATTER_GATHER_FRAGLIST)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_SCTP_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_SCTP_SEGMENTATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_SCTP_SEGMENTATION)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_SCTP_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_SCTP_SEGMENTATION)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP6_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_TCP6_SEGMENTATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP6_SEGMENTATION)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_TCP6_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP6_SEGMENTATION)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_ECN_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_TCP_ECN_SEGMENTATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_ECN_SEGMENTATION)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_TCP_ECN_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_ECN_SEGMENTATION)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_MANGLEID_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_TCP_MANGLEID_SEGMENTATION: once_cell::sync::Lazy<
-    &'static str,
-> = once_cell::sync::Lazy::new(|| unsafe {
-    CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_MANGLEID_SEGMENTATION)
-        .to_str()
-        .unwrap()
-});
+pub static ETHTOOL_OPTNAME_FEATURE_TX_TCP_MANGLEID_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_MANGLEID_SEGMENTATION)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_TCP_SEGMENTATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_SEGMENTATION)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_TCP_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_TCP_SEGMENTATION)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_TUNNEL_REMCSUM_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_TUNNEL_REMCSUM_SEGMENTATION: once_cell::sync::Lazy<
-    &'static str,
-> = once_cell::sync::Lazy::new(|| unsafe {
-    CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_TUNNEL_REMCSUM_SEGMENTATION)
-        .to_str()
-        .unwrap()
-});
+pub static ETHTOOL_OPTNAME_FEATURE_TX_TUNNEL_REMCSUM_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(
+        ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_TUNNEL_REMCSUM_SEGMENTATION,
+    )
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_UDP_SEGMENTATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_SEGMENTATION)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_UDP_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_SEGMENTATION)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_CSUM_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_CSUM_SEGMENTATION: once_cell::sync::Lazy<
-    &'static str,
-> = once_cell::sync::Lazy::new(|| unsafe {
-    CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_CSUM_SEGMENTATION)
-        .to_str()
-        .unwrap()
-});
+pub static ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_CSUM_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_CSUM_SEGMENTATION)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_SEGMENTATION")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_SEGMENTATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_SEGMENTATION)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_SEGMENTATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_UDP_TNL_SEGMENTATION)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_FEATURE_TX_VLAN_STAG_HW_INSERT")]
-pub static ETHTOOL_OPTNAME_FEATURE_TX_VLAN_STAG_HW_INSERT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_VLAN_STAG_HW_INSERT)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_FEATURE_TX_VLAN_STAG_HW_INSERT: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_FEATURE_TX_VLAN_STAG_HW_INSERT)
+};
 #[doc(alias = "NM_ETHTOOL_OPTNAME_PAUSE_AUTONEG")]
-pub static ETHTOOL_OPTNAME_PAUSE_AUTONEG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_PAUSE_AUTONEG)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_PAUSE_AUTONEG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_PAUSE_AUTONEG) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_PAUSE_RX")]
-pub static ETHTOOL_OPTNAME_PAUSE_RX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_PAUSE_RX)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_PAUSE_RX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_PAUSE_RX) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_PAUSE_TX")]
-pub static ETHTOOL_OPTNAME_PAUSE_TX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_PAUSE_TX)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_PAUSE_TX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_PAUSE_TX) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_RING_RX")]
-pub static ETHTOOL_OPTNAME_RING_RX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_RING_RX)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_RING_RX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_RING_RX) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_RING_RX_JUMBO")]
-pub static ETHTOOL_OPTNAME_RING_RX_JUMBO: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_RING_RX_JUMBO)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_RING_RX_JUMBO: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_RING_RX_JUMBO) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_RING_RX_MINI")]
-pub static ETHTOOL_OPTNAME_RING_RX_MINI: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_RING_RX_MINI)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_RING_RX_MINI: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_RING_RX_MINI) };
 #[doc(alias = "NM_ETHTOOL_OPTNAME_RING_TX")]
-pub static ETHTOOL_OPTNAME_RING_TX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_ETHTOOL_OPTNAME_RING_TX)
-            .to_str()
-            .unwrap()
-    });
+pub static ETHTOOL_OPTNAME_RING_TX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_ETHTOOL_OPTNAME_RING_TX) };
 #[doc(alias = "NM_IP_ADDRESS_ATTRIBUTE_LABEL")]
-pub static IP_ADDRESS_ATTRIBUTE_LABEL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ADDRESS_ATTRIBUTE_LABEL)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ADDRESS_ATTRIBUTE_LABEL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ADDRESS_ATTRIBUTE_LABEL) };
 #[doc(alias = "NM_IP_CONFIG_ADDRESSES")]
-pub static IP_CONFIG_ADDRESSES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_CONFIG_ADDRESSES)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_CONFIG_ADDRESSES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_CONFIG_ADDRESSES) };
 #[doc(alias = "NM_IP_CONFIG_DOMAINS")]
-pub static IP_CONFIG_DOMAINS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_CONFIG_DOMAINS).to_str().unwrap()
-    });
+pub static IP_CONFIG_DOMAINS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_CONFIG_DOMAINS) };
 #[doc(alias = "NM_IP_CONFIG_FAMILY")]
-pub static IP_CONFIG_FAMILY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_CONFIG_FAMILY).to_str().unwrap()
-    });
+pub static IP_CONFIG_FAMILY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_CONFIG_FAMILY) };
 #[doc(alias = "NM_IP_CONFIG_GATEWAY")]
-pub static IP_CONFIG_GATEWAY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_CONFIG_GATEWAY).to_str().unwrap()
-    });
+pub static IP_CONFIG_GATEWAY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_CONFIG_GATEWAY) };
 #[doc(alias = "NM_IP_CONFIG_NAMESERVERS")]
-pub static IP_CONFIG_NAMESERVERS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_CONFIG_NAMESERVERS)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_CONFIG_NAMESERVERS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_CONFIG_NAMESERVERS) };
 #[doc(alias = "NM_IP_CONFIG_ROUTES")]
-pub static IP_CONFIG_ROUTES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_CONFIG_ROUTES).to_str().unwrap()
-    });
+pub static IP_CONFIG_ROUTES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_CONFIG_ROUTES) };
 #[doc(alias = "NM_IP_CONFIG_SEARCHES")]
-pub static IP_CONFIG_SEARCHES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_CONFIG_SEARCHES).to_str().unwrap()
-    });
+pub static IP_CONFIG_SEARCHES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_CONFIG_SEARCHES) };
 #[doc(alias = "NM_IP_CONFIG_WINS_SERVERS")]
-pub static IP_CONFIG_WINS_SERVERS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_CONFIG_WINS_SERVERS)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_CONFIG_WINS_SERVERS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_CONFIG_WINS_SERVERS) };
+#[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_ADVMSS")]
+pub static IP_ROUTE_ATTRIBUTE_ADVMSS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_ADVMSS) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_CWND")]
-pub static IP_ROUTE_ATTRIBUTE_CWND: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_CWND)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_CWND: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_CWND) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_FROM")]
-pub static IP_ROUTE_ATTRIBUTE_FROM: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_FROM)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_FROM: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_FROM) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_INITCWND")]
-pub static IP_ROUTE_ATTRIBUTE_INITCWND: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_INITCWND)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_INITCWND: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_INITCWND) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_INITRWND")]
-pub static IP_ROUTE_ATTRIBUTE_INITRWND: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_INITRWND)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_INITRWND: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_INITRWND) };
+#[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_LOCK_ADVMSS")]
+pub static IP_ROUTE_ATTRIBUTE_LOCK_ADVMSS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_LOCK_ADVMSS) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_LOCK_CWND")]
-pub static IP_ROUTE_ATTRIBUTE_LOCK_CWND: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_LOCK_CWND)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_LOCK_CWND: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_LOCK_CWND) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_LOCK_INITCWND")]
-pub static IP_ROUTE_ATTRIBUTE_LOCK_INITCWND: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_LOCK_INITCWND)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_LOCK_INITCWND: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_LOCK_INITCWND) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_LOCK_INITRWND")]
-pub static IP_ROUTE_ATTRIBUTE_LOCK_INITRWND: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_LOCK_INITRWND)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_LOCK_INITRWND: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_LOCK_INITRWND) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_LOCK_MTU")]
-pub static IP_ROUTE_ATTRIBUTE_LOCK_MTU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_LOCK_MTU)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_LOCK_MTU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_LOCK_MTU) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_LOCK_WINDOW")]
-pub static IP_ROUTE_ATTRIBUTE_LOCK_WINDOW: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_LOCK_WINDOW)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_LOCK_WINDOW: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_LOCK_WINDOW) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_MTU")]
-pub static IP_ROUTE_ATTRIBUTE_MTU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_MTU)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_MTU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_MTU) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_ONLINK")]
-pub static IP_ROUTE_ATTRIBUTE_ONLINK: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_ONLINK)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_ONLINK: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_ONLINK) };
+#[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_QUICKACK")]
+pub static IP_ROUTE_ATTRIBUTE_QUICKACK: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_QUICKACK) };
+#[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_RTO_MIN")]
+pub static IP_ROUTE_ATTRIBUTE_RTO_MIN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_RTO_MIN) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_SCOPE")]
-pub static IP_ROUTE_ATTRIBUTE_SCOPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_SCOPE)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_SCOPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_SCOPE) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_SRC")]
-pub static IP_ROUTE_ATTRIBUTE_SRC: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_SRC)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_SRC: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_SRC) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_TABLE")]
-pub static IP_ROUTE_ATTRIBUTE_TABLE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_TABLE)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_TABLE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_TABLE) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_TOS")]
-pub static IP_ROUTE_ATTRIBUTE_TOS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_TOS)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_TOS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_TOS) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_TYPE")]
-pub static IP_ROUTE_ATTRIBUTE_TYPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_TYPE)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_TYPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_TYPE) };
 #[doc(alias = "NM_IP_ROUTE_ATTRIBUTE_WINDOW")]
-pub static IP_ROUTE_ATTRIBUTE_WINDOW: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_IP_ROUTE_ATTRIBUTE_WINDOW)
-            .to_str()
-            .unwrap()
-    });
+pub static IP_ROUTE_ATTRIBUTE_WINDOW: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_IP_ROUTE_ATTRIBUTE_WINDOW) };
 #[doc(alias = "NM_LLDP_ATTR_CHASSIS_ID")]
-pub static LLDP_ATTR_CHASSIS_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_CHASSIS_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_CHASSIS_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_CHASSIS_ID) };
 #[doc(alias = "NM_LLDP_ATTR_CHASSIS_ID_TYPE")]
-pub static LLDP_ATTR_CHASSIS_ID_TYPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_CHASSIS_ID_TYPE)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_CHASSIS_ID_TYPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_CHASSIS_ID_TYPE) };
 #[doc(alias = "NM_LLDP_ATTR_DESTINATION")]
-pub static LLDP_ATTR_DESTINATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_DESTINATION)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_DESTINATION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_DESTINATION) };
 #[doc(alias = "NM_LLDP_ATTR_IEEE_802_1_PPVID")]
-pub static LLDP_ATTR_IEEE_802_1_PPVID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_IEEE_802_1_PPVID)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_IEEE_802_1_PPVID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_IEEE_802_1_PPVID) };
 #[doc(alias = "NM_LLDP_ATTR_IEEE_802_1_PPVIDS")]
-pub static LLDP_ATTR_IEEE_802_1_PPVIDS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_IEEE_802_1_PPVIDS)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_IEEE_802_1_PPVIDS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_IEEE_802_1_PPVIDS) };
 #[doc(alias = "NM_LLDP_ATTR_IEEE_802_1_PPVID_FLAGS")]
-pub static LLDP_ATTR_IEEE_802_1_PPVID_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_IEEE_802_1_PPVID_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_IEEE_802_1_PPVID_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_IEEE_802_1_PPVID_FLAGS) };
 #[doc(alias = "NM_LLDP_ATTR_IEEE_802_1_PVID")]
-pub static LLDP_ATTR_IEEE_802_1_PVID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_IEEE_802_1_PVID)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_IEEE_802_1_PVID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_IEEE_802_1_PVID) };
 #[doc(alias = "NM_LLDP_ATTR_IEEE_802_1_VID")]
-pub static LLDP_ATTR_IEEE_802_1_VID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_IEEE_802_1_VID)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_IEEE_802_1_VID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_IEEE_802_1_VID) };
 #[doc(alias = "NM_LLDP_ATTR_IEEE_802_1_VLANS")]
-pub static LLDP_ATTR_IEEE_802_1_VLANS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_IEEE_802_1_VLANS)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_IEEE_802_1_VLANS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_IEEE_802_1_VLANS) };
 #[doc(alias = "NM_LLDP_ATTR_IEEE_802_1_VLAN_NAME")]
-pub static LLDP_ATTR_IEEE_802_1_VLAN_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_IEEE_802_1_VLAN_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_IEEE_802_1_VLAN_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_IEEE_802_1_VLAN_NAME) };
 #[doc(alias = "NM_LLDP_ATTR_IEEE_802_3_MAC_PHY_CONF")]
-pub static LLDP_ATTR_IEEE_802_3_MAC_PHY_CONF: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_IEEE_802_3_MAC_PHY_CONF)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_IEEE_802_3_MAC_PHY_CONF: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_IEEE_802_3_MAC_PHY_CONF) };
 #[doc(alias = "NM_LLDP_ATTR_IEEE_802_3_MAX_FRAME_SIZE")]
-pub static LLDP_ATTR_IEEE_802_3_MAX_FRAME_SIZE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_IEEE_802_3_MAX_FRAME_SIZE)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_IEEE_802_3_MAX_FRAME_SIZE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_IEEE_802_3_MAX_FRAME_SIZE) };
 #[doc(alias = "NM_LLDP_ATTR_IEEE_802_3_POWER_VIA_MDI")]
-pub static LLDP_ATTR_IEEE_802_3_POWER_VIA_MDI: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_IEEE_802_3_POWER_VIA_MDI)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_IEEE_802_3_POWER_VIA_MDI: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_IEEE_802_3_POWER_VIA_MDI) };
 #[doc(alias = "NM_LLDP_ATTR_MANAGEMENT_ADDRESSES")]
-pub static LLDP_ATTR_MANAGEMENT_ADDRESSES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_MANAGEMENT_ADDRESSES)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_MANAGEMENT_ADDRESSES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_MANAGEMENT_ADDRESSES) };
 #[doc(alias = "NM_LLDP_ATTR_MUD_URL")]
-pub static LLDP_ATTR_MUD_URL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_MUD_URL).to_str().unwrap()
-    });
+pub static LLDP_ATTR_MUD_URL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_MUD_URL) };
 #[doc(alias = "NM_LLDP_ATTR_PORT_DESCRIPTION")]
-pub static LLDP_ATTR_PORT_DESCRIPTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_PORT_DESCRIPTION)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_PORT_DESCRIPTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_PORT_DESCRIPTION) };
 #[doc(alias = "NM_LLDP_ATTR_PORT_ID")]
-pub static LLDP_ATTR_PORT_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_PORT_ID).to_str().unwrap()
-    });
+pub static LLDP_ATTR_PORT_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_PORT_ID) };
 #[doc(alias = "NM_LLDP_ATTR_PORT_ID_TYPE")]
-pub static LLDP_ATTR_PORT_ID_TYPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_PORT_ID_TYPE)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_PORT_ID_TYPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_PORT_ID_TYPE) };
 #[doc(alias = "NM_LLDP_ATTR_RAW")]
-pub static LLDP_ATTR_RAW: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_RAW).to_str().unwrap()
-    });
+pub static LLDP_ATTR_RAW: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_RAW) };
 #[doc(alias = "NM_LLDP_ATTR_SYSTEM_CAPABILITIES")]
-pub static LLDP_ATTR_SYSTEM_CAPABILITIES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_SYSTEM_CAPABILITIES)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_SYSTEM_CAPABILITIES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_SYSTEM_CAPABILITIES) };
 #[doc(alias = "NM_LLDP_ATTR_SYSTEM_DESCRIPTION")]
-pub static LLDP_ATTR_SYSTEM_DESCRIPTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_SYSTEM_DESCRIPTION)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_SYSTEM_DESCRIPTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_SYSTEM_DESCRIPTION) };
 #[doc(alias = "NM_LLDP_ATTR_SYSTEM_NAME")]
-pub static LLDP_ATTR_SYSTEM_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_ATTR_SYSTEM_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_ATTR_SYSTEM_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_ATTR_SYSTEM_NAME) };
 #[doc(alias = "NM_LLDP_DEST_NEAREST_BRIDGE")]
-pub static LLDP_DEST_NEAREST_BRIDGE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_DEST_NEAREST_BRIDGE)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_DEST_NEAREST_BRIDGE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_DEST_NEAREST_BRIDGE) };
 #[doc(alias = "NM_LLDP_DEST_NEAREST_CUSTOMER_BRIDGE")]
-pub static LLDP_DEST_NEAREST_CUSTOMER_BRIDGE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_DEST_NEAREST_CUSTOMER_BRIDGE)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_DEST_NEAREST_CUSTOMER_BRIDGE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_DEST_NEAREST_CUSTOMER_BRIDGE) };
 #[doc(alias = "NM_LLDP_DEST_NEAREST_NON_TPMR_BRIDGE")]
-pub static LLDP_DEST_NEAREST_NON_TPMR_BRIDGE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_LLDP_DEST_NEAREST_NON_TPMR_BRIDGE)
-            .to_str()
-            .unwrap()
-    });
+pub static LLDP_DEST_NEAREST_NON_TPMR_BRIDGE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_LLDP_DEST_NEAREST_NON_TPMR_BRIDGE) };
 #[doc(alias = "NM_OBJECT_CLIENT")]
-pub static OBJECT_CLIENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_OBJECT_CLIENT).to_str().unwrap()
-    });
+pub static OBJECT_CLIENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_OBJECT_CLIENT) };
 #[doc(alias = "NM_OBJECT_PATH")]
-pub static OBJECT_PATH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe { CStr::from_ptr(ffi::NM_OBJECT_PATH).to_str().unwrap() });
+pub static OBJECT_PATH: &GStr = unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_OBJECT_PATH) };
 #[doc(alias = "NM_REMOTE_CONNECTION_DBUS_CONNECTION")]
-pub static REMOTE_CONNECTION_DBUS_CONNECTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_REMOTE_CONNECTION_DBUS_CONNECTION)
-            .to_str()
-            .unwrap()
-    });
+pub static REMOTE_CONNECTION_DBUS_CONNECTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_REMOTE_CONNECTION_DBUS_CONNECTION) };
 #[doc(alias = "NM_REMOTE_CONNECTION_FILENAME")]
-pub static REMOTE_CONNECTION_FILENAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_REMOTE_CONNECTION_FILENAME)
-            .to_str()
-            .unwrap()
-    });
+pub static REMOTE_CONNECTION_FILENAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_REMOTE_CONNECTION_FILENAME) };
 #[doc(alias = "NM_REMOTE_CONNECTION_FLAGS")]
-pub static REMOTE_CONNECTION_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_REMOTE_CONNECTION_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static REMOTE_CONNECTION_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_REMOTE_CONNECTION_FLAGS) };
 #[doc(alias = "NM_REMOTE_CONNECTION_PATH")]
-pub static REMOTE_CONNECTION_PATH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_REMOTE_CONNECTION_PATH)
-            .to_str()
-            .unwrap()
-    });
+pub static REMOTE_CONNECTION_PATH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_REMOTE_CONNECTION_PATH) };
 #[doc(alias = "NM_REMOTE_CONNECTION_UNSAVED")]
-pub static REMOTE_CONNECTION_UNSAVED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_REMOTE_CONNECTION_UNSAVED)
-            .to_str()
-            .unwrap()
-    });
+pub static REMOTE_CONNECTION_UNSAVED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_REMOTE_CONNECTION_UNSAVED) };
 #[doc(alias = "NM_REMOTE_CONNECTION_VISIBLE")]
-pub static REMOTE_CONNECTION_VISIBLE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_REMOTE_CONNECTION_VISIBLE)
-            .to_str()
-            .unwrap()
-    });
+pub static REMOTE_CONNECTION_VISIBLE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_REMOTE_CONNECTION_VISIBLE) };
 #[doc(alias = "NM_SECRET_AGENT_OLD_AUTO_REGISTER")]
-pub static SECRET_AGENT_OLD_AUTO_REGISTER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SECRET_AGENT_OLD_AUTO_REGISTER)
-            .to_str()
-            .unwrap()
-    });
+pub static SECRET_AGENT_OLD_AUTO_REGISTER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SECRET_AGENT_OLD_AUTO_REGISTER) };
 #[doc(alias = "NM_SECRET_AGENT_OLD_CAPABILITIES")]
-pub static SECRET_AGENT_OLD_CAPABILITIES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SECRET_AGENT_OLD_CAPABILITIES)
-            .to_str()
-            .unwrap()
-    });
+pub static SECRET_AGENT_OLD_CAPABILITIES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SECRET_AGENT_OLD_CAPABILITIES) };
 #[doc(alias = "NM_SECRET_AGENT_OLD_DBUS_CONNECTION")]
-pub static SECRET_AGENT_OLD_DBUS_CONNECTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SECRET_AGENT_OLD_DBUS_CONNECTION)
-            .to_str()
-            .unwrap()
-    });
+pub static SECRET_AGENT_OLD_DBUS_CONNECTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SECRET_AGENT_OLD_DBUS_CONNECTION) };
 #[doc(alias = "NM_SECRET_AGENT_OLD_IDENTIFIER")]
-pub static SECRET_AGENT_OLD_IDENTIFIER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SECRET_AGENT_OLD_IDENTIFIER)
-            .to_str()
-            .unwrap()
-    });
+pub static SECRET_AGENT_OLD_IDENTIFIER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SECRET_AGENT_OLD_IDENTIFIER) };
 #[doc(alias = "NM_SECRET_AGENT_OLD_REGISTERED")]
-pub static SECRET_AGENT_OLD_REGISTERED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SECRET_AGENT_OLD_REGISTERED)
-            .to_str()
-            .unwrap()
-    });
+pub static SECRET_AGENT_OLD_REGISTERED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SECRET_AGENT_OLD_REGISTERED) };
 #[doc(alias = "NM_SETTING_6LOWPAN_PARENT")]
-pub static SETTING_6LOWPAN_PARENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_6LOWPAN_PARENT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_6LOWPAN_PARENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_6LOWPAN_PARENT) };
 #[doc(alias = "NM_SETTING_6LOWPAN_SETTING_NAME")]
-pub static SETTING_6LOWPAN_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_6LOWPAN_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_6LOWPAN_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_6LOWPAN_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_802_1X_ALTSUBJECT_MATCHES")]
-pub static SETTING_802_1X_ALTSUBJECT_MATCHES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_ALTSUBJECT_MATCHES)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_ALTSUBJECT_MATCHES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_ALTSUBJECT_MATCHES) };
 #[doc(alias = "NM_SETTING_802_1X_ANONYMOUS_IDENTITY")]
-pub static SETTING_802_1X_ANONYMOUS_IDENTITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_ANONYMOUS_IDENTITY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_ANONYMOUS_IDENTITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_ANONYMOUS_IDENTITY) };
 #[doc(alias = "NM_SETTING_802_1X_AUTH_TIMEOUT")]
-pub static SETTING_802_1X_AUTH_TIMEOUT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_AUTH_TIMEOUT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_AUTH_TIMEOUT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_AUTH_TIMEOUT) };
 #[doc(alias = "NM_SETTING_802_1X_CA_CERT")]
-pub static SETTING_802_1X_CA_CERT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_CA_CERT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_CA_CERT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_CA_CERT) };
 #[doc(alias = "NM_SETTING_802_1X_CA_CERT_PASSWORD")]
-pub static SETTING_802_1X_CA_CERT_PASSWORD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_CA_CERT_PASSWORD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_CA_CERT_PASSWORD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_CA_CERT_PASSWORD) };
 #[doc(alias = "NM_SETTING_802_1X_CA_CERT_PASSWORD_FLAGS")]
-pub static SETTING_802_1X_CA_CERT_PASSWORD_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_CA_CERT_PASSWORD_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_CA_CERT_PASSWORD_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_CA_CERT_PASSWORD_FLAGS) };
 #[doc(alias = "NM_SETTING_802_1X_CA_PATH")]
-pub static SETTING_802_1X_CA_PATH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_CA_PATH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_CA_PATH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_CA_PATH) };
 #[doc(alias = "NM_SETTING_802_1X_CERT_SCHEME_PREFIX_PATH")]
-pub static SETTING_802_1X_CERT_SCHEME_PREFIX_PATH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_CERT_SCHEME_PREFIX_PATH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_CERT_SCHEME_PREFIX_PATH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_CERT_SCHEME_PREFIX_PATH) };
 #[doc(alias = "NM_SETTING_802_1X_CERT_SCHEME_PREFIX_PKCS11")]
-pub static SETTING_802_1X_CERT_SCHEME_PREFIX_PKCS11: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_CERT_SCHEME_PREFIX_PKCS11)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_CERT_SCHEME_PREFIX_PKCS11: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_CERT_SCHEME_PREFIX_PKCS11) };
 #[doc(alias = "NM_SETTING_802_1X_CLIENT_CERT")]
-pub static SETTING_802_1X_CLIENT_CERT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_CLIENT_CERT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_CLIENT_CERT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_CLIENT_CERT) };
 #[doc(alias = "NM_SETTING_802_1X_CLIENT_CERT_PASSWORD")]
-pub static SETTING_802_1X_CLIENT_CERT_PASSWORD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_CLIENT_CERT_PASSWORD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_CLIENT_CERT_PASSWORD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_CLIENT_CERT_PASSWORD) };
 #[doc(alias = "NM_SETTING_802_1X_CLIENT_CERT_PASSWORD_FLAGS")]
-pub static SETTING_802_1X_CLIENT_CERT_PASSWORD_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_CLIENT_CERT_PASSWORD_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_CLIENT_CERT_PASSWORD_FLAGS: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_CLIENT_CERT_PASSWORD_FLAGS)
+};
 #[doc(alias = "NM_SETTING_802_1X_DOMAIN_MATCH")]
-pub static SETTING_802_1X_DOMAIN_MATCH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_DOMAIN_MATCH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_DOMAIN_MATCH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_DOMAIN_MATCH) };
 #[doc(alias = "NM_SETTING_802_1X_DOMAIN_SUFFIX_MATCH")]
-pub static SETTING_802_1X_DOMAIN_SUFFIX_MATCH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_DOMAIN_SUFFIX_MATCH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_DOMAIN_SUFFIX_MATCH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_DOMAIN_SUFFIX_MATCH) };
 #[doc(alias = "NM_SETTING_802_1X_EAP")]
-pub static SETTING_802_1X_EAP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_EAP).to_str().unwrap()
-    });
+pub static SETTING_802_1X_EAP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_EAP) };
 #[doc(alias = "NM_SETTING_802_1X_IDENTITY")]
-pub static SETTING_802_1X_IDENTITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_IDENTITY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_IDENTITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_IDENTITY) };
 #[doc(alias = "NM_SETTING_802_1X_OPTIONAL")]
-pub static SETTING_802_1X_OPTIONAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_OPTIONAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_OPTIONAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_OPTIONAL) };
 #[doc(alias = "NM_SETTING_802_1X_PAC_FILE")]
-pub static SETTING_802_1X_PAC_FILE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PAC_FILE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PAC_FILE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PAC_FILE) };
 #[doc(alias = "NM_SETTING_802_1X_PASSWORD")]
-pub static SETTING_802_1X_PASSWORD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PASSWORD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PASSWORD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PASSWORD) };
 #[doc(alias = "NM_SETTING_802_1X_PASSWORD_FLAGS")]
-pub static SETTING_802_1X_PASSWORD_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PASSWORD_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PASSWORD_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PASSWORD_FLAGS) };
 #[doc(alias = "NM_SETTING_802_1X_PASSWORD_RAW")]
-pub static SETTING_802_1X_PASSWORD_RAW: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PASSWORD_RAW)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PASSWORD_RAW: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PASSWORD_RAW) };
 #[doc(alias = "NM_SETTING_802_1X_PASSWORD_RAW_FLAGS")]
-pub static SETTING_802_1X_PASSWORD_RAW_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PASSWORD_RAW_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PASSWORD_RAW_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PASSWORD_RAW_FLAGS) };
 #[doc(alias = "NM_SETTING_802_1X_PHASE1_AUTH_FLAGS")]
-pub static SETTING_802_1X_PHASE1_AUTH_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE1_AUTH_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE1_AUTH_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE1_AUTH_FLAGS) };
 #[doc(alias = "NM_SETTING_802_1X_PHASE1_FAST_PROVISIONING")]
-pub static SETTING_802_1X_PHASE1_FAST_PROVISIONING: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE1_FAST_PROVISIONING)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE1_FAST_PROVISIONING: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE1_FAST_PROVISIONING) };
 #[doc(alias = "NM_SETTING_802_1X_PHASE1_PEAPLABEL")]
-pub static SETTING_802_1X_PHASE1_PEAPLABEL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE1_PEAPLABEL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE1_PEAPLABEL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE1_PEAPLABEL) };
 #[doc(alias = "NM_SETTING_802_1X_PHASE1_PEAPVER")]
-pub static SETTING_802_1X_PHASE1_PEAPVER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE1_PEAPVER)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE1_PEAPVER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE1_PEAPVER) };
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_ALTSUBJECT_MATCHES")]
-pub static SETTING_802_1X_PHASE2_ALTSUBJECT_MATCHES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_ALTSUBJECT_MATCHES)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_ALTSUBJECT_MATCHES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_ALTSUBJECT_MATCHES) };
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_AUTH")]
-pub static SETTING_802_1X_PHASE2_AUTH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_AUTH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_AUTH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_AUTH) };
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_AUTHEAP")]
-pub static SETTING_802_1X_PHASE2_AUTHEAP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_AUTHEAP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_AUTHEAP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_AUTHEAP) };
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_CA_CERT")]
-pub static SETTING_802_1X_PHASE2_CA_CERT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_CA_CERT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_CA_CERT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_CA_CERT) };
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_CA_CERT_PASSWORD")]
-pub static SETTING_802_1X_PHASE2_CA_CERT_PASSWORD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_CA_CERT_PASSWORD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_CA_CERT_PASSWORD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_CA_CERT_PASSWORD) };
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_CA_CERT_PASSWORD_FLAGS")]
-pub static SETTING_802_1X_PHASE2_CA_CERT_PASSWORD_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_CA_CERT_PASSWORD_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_CA_CERT_PASSWORD_FLAGS: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_CA_CERT_PASSWORD_FLAGS)
+};
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_CA_PATH")]
-pub static SETTING_802_1X_PHASE2_CA_PATH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_CA_PATH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_CA_PATH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_CA_PATH) };
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_CLIENT_CERT")]
-pub static SETTING_802_1X_PHASE2_CLIENT_CERT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_CLIENT_CERT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_CLIENT_CERT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_CLIENT_CERT) };
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD")]
-pub static SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD)
+};
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD_FLAGS")]
-pub static SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD_FLAGS: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_CLIENT_CERT_PASSWORD_FLAGS)
+};
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_DOMAIN_MATCH")]
-pub static SETTING_802_1X_PHASE2_DOMAIN_MATCH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_DOMAIN_MATCH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_DOMAIN_MATCH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_DOMAIN_MATCH) };
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_DOMAIN_SUFFIX_MATCH")]
-pub static SETTING_802_1X_PHASE2_DOMAIN_SUFFIX_MATCH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_DOMAIN_SUFFIX_MATCH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_DOMAIN_SUFFIX_MATCH: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_DOMAIN_SUFFIX_MATCH)
+};
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_PRIVATE_KEY")]
-pub static SETTING_802_1X_PHASE2_PRIVATE_KEY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_PRIVATE_KEY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_PRIVATE_KEY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_PRIVATE_KEY) };
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD")]
-pub static SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD)
+};
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD_FLAGS")]
-pub static SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD_FLAGS: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD_FLAGS)
+};
 #[doc(alias = "NM_SETTING_802_1X_PHASE2_SUBJECT_MATCH")]
-pub static SETTING_802_1X_PHASE2_SUBJECT_MATCH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PHASE2_SUBJECT_MATCH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PHASE2_SUBJECT_MATCH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PHASE2_SUBJECT_MATCH) };
 #[doc(alias = "NM_SETTING_802_1X_PIN")]
-pub static SETTING_802_1X_PIN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PIN).to_str().unwrap()
-    });
+pub static SETTING_802_1X_PIN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PIN) };
 #[doc(alias = "NM_SETTING_802_1X_PIN_FLAGS")]
-pub static SETTING_802_1X_PIN_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PIN_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PIN_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PIN_FLAGS) };
 #[doc(alias = "NM_SETTING_802_1X_PRIVATE_KEY")]
-pub static SETTING_802_1X_PRIVATE_KEY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PRIVATE_KEY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PRIVATE_KEY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PRIVATE_KEY) };
 #[doc(alias = "NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD")]
-pub static SETTING_802_1X_PRIVATE_KEY_PASSWORD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PRIVATE_KEY_PASSWORD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD) };
 #[doc(alias = "NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD_FLAGS")]
-pub static SETTING_802_1X_PRIVATE_KEY_PASSWORD_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_PRIVATE_KEY_PASSWORD_FLAGS: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD_FLAGS)
+};
 #[doc(alias = "NM_SETTING_802_1X_SETTING_NAME")]
-pub static SETTING_802_1X_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_802_1X_SUBJECT_MATCH")]
-pub static SETTING_802_1X_SUBJECT_MATCH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_SUBJECT_MATCH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_SUBJECT_MATCH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_SUBJECT_MATCH) };
 #[doc(alias = "NM_SETTING_802_1X_SYSTEM_CA_CERTS")]
-pub static SETTING_802_1X_SYSTEM_CA_CERTS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_802_1X_SYSTEM_CA_CERTS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_802_1X_SYSTEM_CA_CERTS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_802_1X_SYSTEM_CA_CERTS) };
 #[doc(alias = "NM_SETTING_ADSL_ENCAPSULATION")]
-pub static SETTING_ADSL_ENCAPSULATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_ADSL_ENCAPSULATION)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_ADSL_ENCAPSULATION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_ADSL_ENCAPSULATION) };
 #[doc(alias = "NM_SETTING_ADSL_ENCAPSULATION_LLC")]
-pub static SETTING_ADSL_ENCAPSULATION_LLC: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_ADSL_ENCAPSULATION_LLC)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_ADSL_ENCAPSULATION_LLC: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_ADSL_ENCAPSULATION_LLC) };
 #[doc(alias = "NM_SETTING_ADSL_ENCAPSULATION_VCMUX")]
-pub static SETTING_ADSL_ENCAPSULATION_VCMUX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_ADSL_ENCAPSULATION_VCMUX)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_ADSL_ENCAPSULATION_VCMUX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_ADSL_ENCAPSULATION_VCMUX) };
 #[doc(alias = "NM_SETTING_ADSL_PASSWORD")]
-pub static SETTING_ADSL_PASSWORD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_ADSL_PASSWORD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_ADSL_PASSWORD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_ADSL_PASSWORD) };
 #[doc(alias = "NM_SETTING_ADSL_PASSWORD_FLAGS")]
-pub static SETTING_ADSL_PASSWORD_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_ADSL_PASSWORD_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_ADSL_PASSWORD_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_ADSL_PASSWORD_FLAGS) };
 #[doc(alias = "NM_SETTING_ADSL_PROTOCOL")]
-pub static SETTING_ADSL_PROTOCOL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_ADSL_PROTOCOL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_ADSL_PROTOCOL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_ADSL_PROTOCOL) };
 #[doc(alias = "NM_SETTING_ADSL_PROTOCOL_IPOATM")]
-pub static SETTING_ADSL_PROTOCOL_IPOATM: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_ADSL_PROTOCOL_IPOATM)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_ADSL_PROTOCOL_IPOATM: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_ADSL_PROTOCOL_IPOATM) };
 #[doc(alias = "NM_SETTING_ADSL_PROTOCOL_PPPOA")]
-pub static SETTING_ADSL_PROTOCOL_PPPOA: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_ADSL_PROTOCOL_PPPOA)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_ADSL_PROTOCOL_PPPOA: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_ADSL_PROTOCOL_PPPOA) };
 #[doc(alias = "NM_SETTING_ADSL_PROTOCOL_PPPOE")]
-pub static SETTING_ADSL_PROTOCOL_PPPOE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_ADSL_PROTOCOL_PPPOE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_ADSL_PROTOCOL_PPPOE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_ADSL_PROTOCOL_PPPOE) };
 #[doc(alias = "NM_SETTING_ADSL_SETTING_NAME")]
-pub static SETTING_ADSL_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_ADSL_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_ADSL_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_ADSL_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_ADSL_USERNAME")]
-pub static SETTING_ADSL_USERNAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_ADSL_USERNAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_ADSL_USERNAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_ADSL_USERNAME) };
 #[doc(alias = "NM_SETTING_ADSL_VCI")]
-pub static SETTING_ADSL_VCI: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_ADSL_VCI).to_str().unwrap()
-    });
+pub static SETTING_ADSL_VCI: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_ADSL_VCI) };
 #[doc(alias = "NM_SETTING_ADSL_VPI")]
-pub static SETTING_ADSL_VPI: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_ADSL_VPI).to_str().unwrap()
-    });
+pub static SETTING_ADSL_VPI: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_ADSL_VPI) };
 #[doc(alias = "NM_SETTING_BLUETOOTH_BDADDR")]
-pub static SETTING_BLUETOOTH_BDADDR: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BLUETOOTH_BDADDR)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BLUETOOTH_BDADDR: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BLUETOOTH_BDADDR) };
 #[doc(alias = "NM_SETTING_BLUETOOTH_SETTING_NAME")]
-pub static SETTING_BLUETOOTH_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BLUETOOTH_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BLUETOOTH_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BLUETOOTH_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_BLUETOOTH_TYPE")]
-pub static SETTING_BLUETOOTH_TYPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BLUETOOTH_TYPE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BLUETOOTH_TYPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BLUETOOTH_TYPE) };
 /// Connection type describing a connection to devices that support the Bluetooth
 /// DUN profile.
 #[doc(alias = "NM_SETTING_BLUETOOTH_TYPE_DUN")]
-pub static SETTING_BLUETOOTH_TYPE_DUN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BLUETOOTH_TYPE_DUN)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BLUETOOTH_TYPE_DUN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BLUETOOTH_TYPE_DUN) };
 /// Connection type describing a Bluetooth NAP (Network Access Point),
 /// which accepts PANU clients.
 #[doc(alias = "NM_SETTING_BLUETOOTH_TYPE_NAP")]
-pub static SETTING_BLUETOOTH_TYPE_NAP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BLUETOOTH_TYPE_NAP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BLUETOOTH_TYPE_NAP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BLUETOOTH_TYPE_NAP) };
 /// Connection type describing PANU connection to a Bluetooth NAP (Network
 /// Access Point).
 #[doc(alias = "NM_SETTING_BLUETOOTH_TYPE_PANU")]
-pub static SETTING_BLUETOOTH_TYPE_PANU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BLUETOOTH_TYPE_PANU)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BLUETOOTH_TYPE_PANU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BLUETOOTH_TYPE_PANU) };
 #[doc(alias = "NM_SETTING_BOND_OPTIONS")]
-pub static SETTING_BOND_OPTIONS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTIONS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTIONS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTIONS) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_ACTIVE_SLAVE")]
-pub static SETTING_BOND_OPTION_ACTIVE_SLAVE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_ACTIVE_SLAVE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_ACTIVE_SLAVE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_ACTIVE_SLAVE) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_AD_ACTOR_SYSTEM")]
-pub static SETTING_BOND_OPTION_AD_ACTOR_SYSTEM: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_AD_ACTOR_SYSTEM)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_AD_ACTOR_SYSTEM: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_AD_ACTOR_SYSTEM) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_AD_ACTOR_SYS_PRIO")]
-pub static SETTING_BOND_OPTION_AD_ACTOR_SYS_PRIO: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_AD_ACTOR_SYS_PRIO)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_AD_ACTOR_SYS_PRIO: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_AD_ACTOR_SYS_PRIO) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_AD_SELECT")]
-pub static SETTING_BOND_OPTION_AD_SELECT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_AD_SELECT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_AD_SELECT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_AD_SELECT) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_AD_USER_PORT_KEY")]
-pub static SETTING_BOND_OPTION_AD_USER_PORT_KEY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_AD_USER_PORT_KEY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_AD_USER_PORT_KEY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_AD_USER_PORT_KEY) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_ALL_SLAVES_ACTIVE")]
-pub static SETTING_BOND_OPTION_ALL_SLAVES_ACTIVE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_ALL_SLAVES_ACTIVE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_ALL_SLAVES_ACTIVE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_ALL_SLAVES_ACTIVE) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_ARP_ALL_TARGETS")]
-pub static SETTING_BOND_OPTION_ARP_ALL_TARGETS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_ARP_ALL_TARGETS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_ARP_ALL_TARGETS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_ARP_ALL_TARGETS) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_ARP_INTERVAL")]
-pub static SETTING_BOND_OPTION_ARP_INTERVAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_ARP_INTERVAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_ARP_INTERVAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_ARP_INTERVAL) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_ARP_IP_TARGET")]
-pub static SETTING_BOND_OPTION_ARP_IP_TARGET: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_ARP_IP_TARGET)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_ARP_IP_TARGET: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_ARP_IP_TARGET) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_ARP_VALIDATE")]
-pub static SETTING_BOND_OPTION_ARP_VALIDATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_ARP_VALIDATE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_ARP_VALIDATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_ARP_VALIDATE) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_DOWNDELAY")]
-pub static SETTING_BOND_OPTION_DOWNDELAY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_DOWNDELAY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_DOWNDELAY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_DOWNDELAY) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_FAIL_OVER_MAC")]
-pub static SETTING_BOND_OPTION_FAIL_OVER_MAC: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_FAIL_OVER_MAC)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_FAIL_OVER_MAC: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_FAIL_OVER_MAC) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_LACP_RATE")]
-pub static SETTING_BOND_OPTION_LACP_RATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_LACP_RATE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_LACP_RATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_LACP_RATE) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_LP_INTERVAL")]
-pub static SETTING_BOND_OPTION_LP_INTERVAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_LP_INTERVAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_LP_INTERVAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_LP_INTERVAL) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_MIIMON")]
-pub static SETTING_BOND_OPTION_MIIMON: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_MIIMON)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_MIIMON: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_MIIMON) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_MIN_LINKS")]
-pub static SETTING_BOND_OPTION_MIN_LINKS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_MIN_LINKS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_MIN_LINKS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_MIN_LINKS) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_MODE")]
-pub static SETTING_BOND_OPTION_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_MODE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_MODE) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_NUM_GRAT_ARP")]
-pub static SETTING_BOND_OPTION_NUM_GRAT_ARP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_NUM_GRAT_ARP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_NUM_GRAT_ARP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_NUM_GRAT_ARP) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_NUM_UNSOL_NA")]
-pub static SETTING_BOND_OPTION_NUM_UNSOL_NA: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_NUM_UNSOL_NA)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_NUM_UNSOL_NA: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_NUM_UNSOL_NA) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_PACKETS_PER_SLAVE")]
-pub static SETTING_BOND_OPTION_PACKETS_PER_SLAVE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_PACKETS_PER_SLAVE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_PACKETS_PER_SLAVE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_PACKETS_PER_SLAVE) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_PEER_NOTIF_DELAY")]
-pub static SETTING_BOND_OPTION_PEER_NOTIF_DELAY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_PEER_NOTIF_DELAY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_PEER_NOTIF_DELAY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_PEER_NOTIF_DELAY) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_PRIMARY")]
-pub static SETTING_BOND_OPTION_PRIMARY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_PRIMARY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_PRIMARY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_PRIMARY) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_PRIMARY_RESELECT")]
-pub static SETTING_BOND_OPTION_PRIMARY_RESELECT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_PRIMARY_RESELECT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_PRIMARY_RESELECT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_PRIMARY_RESELECT) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_RESEND_IGMP")]
-pub static SETTING_BOND_OPTION_RESEND_IGMP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_RESEND_IGMP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_RESEND_IGMP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_RESEND_IGMP) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_TLB_DYNAMIC_LB")]
-pub static SETTING_BOND_OPTION_TLB_DYNAMIC_LB: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_TLB_DYNAMIC_LB)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_TLB_DYNAMIC_LB: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_TLB_DYNAMIC_LB) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_UPDELAY")]
-pub static SETTING_BOND_OPTION_UPDELAY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_UPDELAY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_UPDELAY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_UPDELAY) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_USE_CARRIER")]
-pub static SETTING_BOND_OPTION_USE_CARRIER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_USE_CARRIER)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_USE_CARRIER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_USE_CARRIER) };
 #[doc(alias = "NM_SETTING_BOND_OPTION_XMIT_HASH_POLICY")]
-pub static SETTING_BOND_OPTION_XMIT_HASH_POLICY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_OPTION_XMIT_HASH_POLICY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_OPTION_XMIT_HASH_POLICY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_OPTION_XMIT_HASH_POLICY) };
 #[doc(alias = "NM_SETTING_BOND_PORT_QUEUE_ID")]
-pub static SETTING_BOND_PORT_QUEUE_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_PORT_QUEUE_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_PORT_QUEUE_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_PORT_QUEUE_ID) };
 #[doc(alias = "NM_SETTING_BOND_PORT_SETTING_NAME")]
-pub static SETTING_BOND_PORT_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_PORT_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_PORT_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_PORT_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_BOND_SETTING_NAME")]
-pub static SETTING_BOND_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BOND_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BOND_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BOND_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_BRIDGE_AGEING_TIME")]
-pub static SETTING_BRIDGE_AGEING_TIME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_AGEING_TIME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_AGEING_TIME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_AGEING_TIME) };
 #[doc(alias = "NM_SETTING_BRIDGE_FORWARD_DELAY")]
-pub static SETTING_BRIDGE_FORWARD_DELAY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_FORWARD_DELAY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_FORWARD_DELAY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_FORWARD_DELAY) };
 #[doc(alias = "NM_SETTING_BRIDGE_GROUP_ADDRESS")]
-pub static SETTING_BRIDGE_GROUP_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_GROUP_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_GROUP_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_GROUP_ADDRESS) };
 #[doc(alias = "NM_SETTING_BRIDGE_GROUP_FORWARD_MASK")]
-pub static SETTING_BRIDGE_GROUP_FORWARD_MASK: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_GROUP_FORWARD_MASK)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_GROUP_FORWARD_MASK: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_GROUP_FORWARD_MASK) };
 #[doc(alias = "NM_SETTING_BRIDGE_HELLO_TIME")]
-pub static SETTING_BRIDGE_HELLO_TIME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_HELLO_TIME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_HELLO_TIME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_HELLO_TIME) };
 #[doc(alias = "NM_SETTING_BRIDGE_MAC_ADDRESS")]
-pub static SETTING_BRIDGE_MAC_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MAC_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MAC_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MAC_ADDRESS) };
 #[doc(alias = "NM_SETTING_BRIDGE_MAX_AGE")]
-pub static SETTING_BRIDGE_MAX_AGE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MAX_AGE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MAX_AGE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MAX_AGE) };
 #[doc(alias = "NM_SETTING_BRIDGE_MULTICAST_HASH_MAX")]
-pub static SETTING_BRIDGE_MULTICAST_HASH_MAX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MULTICAST_HASH_MAX)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MULTICAST_HASH_MAX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MULTICAST_HASH_MAX) };
 #[doc(alias = "NM_SETTING_BRIDGE_MULTICAST_LAST_MEMBER_COUNT")]
-pub static SETTING_BRIDGE_MULTICAST_LAST_MEMBER_COUNT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MULTICAST_LAST_MEMBER_COUNT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MULTICAST_LAST_MEMBER_COUNT: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MULTICAST_LAST_MEMBER_COUNT)
+};
 #[doc(alias = "NM_SETTING_BRIDGE_MULTICAST_LAST_MEMBER_INTERVAL")]
-pub static SETTING_BRIDGE_MULTICAST_LAST_MEMBER_INTERVAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MULTICAST_LAST_MEMBER_INTERVAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MULTICAST_LAST_MEMBER_INTERVAL: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MULTICAST_LAST_MEMBER_INTERVAL)
+};
 #[doc(alias = "NM_SETTING_BRIDGE_MULTICAST_MEMBERSHIP_INTERVAL")]
-pub static SETTING_BRIDGE_MULTICAST_MEMBERSHIP_INTERVAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MULTICAST_MEMBERSHIP_INTERVAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MULTICAST_MEMBERSHIP_INTERVAL: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MULTICAST_MEMBERSHIP_INTERVAL)
+};
 #[doc(alias = "NM_SETTING_BRIDGE_MULTICAST_QUERIER")]
-pub static SETTING_BRIDGE_MULTICAST_QUERIER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MULTICAST_QUERIER)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MULTICAST_QUERIER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MULTICAST_QUERIER) };
 #[doc(alias = "NM_SETTING_BRIDGE_MULTICAST_QUERIER_INTERVAL")]
-pub static SETTING_BRIDGE_MULTICAST_QUERIER_INTERVAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MULTICAST_QUERIER_INTERVAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MULTICAST_QUERIER_INTERVAL: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MULTICAST_QUERIER_INTERVAL)
+};
 #[doc(alias = "NM_SETTING_BRIDGE_MULTICAST_QUERY_INTERVAL")]
-pub static SETTING_BRIDGE_MULTICAST_QUERY_INTERVAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MULTICAST_QUERY_INTERVAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MULTICAST_QUERY_INTERVAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MULTICAST_QUERY_INTERVAL) };
 #[doc(alias = "NM_SETTING_BRIDGE_MULTICAST_QUERY_RESPONSE_INTERVAL")]
-pub static SETTING_BRIDGE_MULTICAST_QUERY_RESPONSE_INTERVAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MULTICAST_QUERY_RESPONSE_INTERVAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MULTICAST_QUERY_RESPONSE_INTERVAL: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MULTICAST_QUERY_RESPONSE_INTERVAL)
+};
 #[doc(alias = "NM_SETTING_BRIDGE_MULTICAST_QUERY_USE_IFADDR")]
-pub static SETTING_BRIDGE_MULTICAST_QUERY_USE_IFADDR: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MULTICAST_QUERY_USE_IFADDR)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MULTICAST_QUERY_USE_IFADDR: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MULTICAST_QUERY_USE_IFADDR)
+};
 #[doc(alias = "NM_SETTING_BRIDGE_MULTICAST_ROUTER")]
-pub static SETTING_BRIDGE_MULTICAST_ROUTER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MULTICAST_ROUTER)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MULTICAST_ROUTER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MULTICAST_ROUTER) };
 #[doc(alias = "NM_SETTING_BRIDGE_MULTICAST_SNOOPING")]
-pub static SETTING_BRIDGE_MULTICAST_SNOOPING: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MULTICAST_SNOOPING)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MULTICAST_SNOOPING: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MULTICAST_SNOOPING) };
 #[doc(alias = "NM_SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_COUNT")]
-pub static SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_COUNT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_COUNT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_COUNT: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_COUNT)
+};
 #[doc(alias = "NM_SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_INTERVAL")]
-pub static SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_INTERVAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_INTERVAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_INTERVAL: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_MULTICAST_STARTUP_QUERY_INTERVAL)
+};
 #[doc(alias = "NM_SETTING_BRIDGE_PORT_HAIRPIN_MODE")]
-pub static SETTING_BRIDGE_PORT_HAIRPIN_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_PORT_HAIRPIN_MODE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_PORT_HAIRPIN_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_PORT_HAIRPIN_MODE) };
 #[doc(alias = "NM_SETTING_BRIDGE_PORT_PATH_COST")]
-pub static SETTING_BRIDGE_PORT_PATH_COST: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_PORT_PATH_COST)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_PORT_PATH_COST: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_PORT_PATH_COST) };
 #[doc(alias = "NM_SETTING_BRIDGE_PORT_PRIORITY")]
-pub static SETTING_BRIDGE_PORT_PRIORITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_PORT_PRIORITY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_PORT_PRIORITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_PORT_PRIORITY) };
 #[doc(alias = "NM_SETTING_BRIDGE_PORT_SETTING_NAME")]
-pub static SETTING_BRIDGE_PORT_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_PORT_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_PORT_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_PORT_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_BRIDGE_PORT_VLANS")]
-pub static SETTING_BRIDGE_PORT_VLANS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_PORT_VLANS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_PORT_VLANS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_PORT_VLANS) };
 #[doc(alias = "NM_SETTING_BRIDGE_PRIORITY")]
-pub static SETTING_BRIDGE_PRIORITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_PRIORITY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_PRIORITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_PRIORITY) };
 #[doc(alias = "NM_SETTING_BRIDGE_SETTING_NAME")]
-pub static SETTING_BRIDGE_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_BRIDGE_STP")]
-pub static SETTING_BRIDGE_STP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_STP).to_str().unwrap()
-    });
+pub static SETTING_BRIDGE_STP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_STP) };
 #[doc(alias = "NM_SETTING_BRIDGE_VLANS")]
-pub static SETTING_BRIDGE_VLANS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_VLANS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_VLANS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_VLANS) };
 #[doc(alias = "NM_SETTING_BRIDGE_VLAN_DEFAULT_PVID")]
-pub static SETTING_BRIDGE_VLAN_DEFAULT_PVID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_VLAN_DEFAULT_PVID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_VLAN_DEFAULT_PVID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_VLAN_DEFAULT_PVID) };
 #[doc(alias = "NM_SETTING_BRIDGE_VLAN_FILTERING")]
-pub static SETTING_BRIDGE_VLAN_FILTERING: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_VLAN_FILTERING)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_VLAN_FILTERING: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_VLAN_FILTERING) };
 #[doc(alias = "NM_SETTING_BRIDGE_VLAN_PROTOCOL")]
-pub static SETTING_BRIDGE_VLAN_PROTOCOL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_VLAN_PROTOCOL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_VLAN_PROTOCOL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_VLAN_PROTOCOL) };
 #[doc(alias = "NM_SETTING_BRIDGE_VLAN_STATS_ENABLED")]
-pub static SETTING_BRIDGE_VLAN_STATS_ENABLED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_BRIDGE_VLAN_STATS_ENABLED)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_BRIDGE_VLAN_STATS_ENABLED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_BRIDGE_VLAN_STATS_ENABLED) };
 #[doc(alias = "NM_SETTING_CDMA_MTU")]
-pub static SETTING_CDMA_MTU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CDMA_MTU).to_str().unwrap()
-    });
+pub static SETTING_CDMA_MTU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CDMA_MTU) };
 #[doc(alias = "NM_SETTING_CDMA_NUMBER")]
-pub static SETTING_CDMA_NUMBER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CDMA_NUMBER)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CDMA_NUMBER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CDMA_NUMBER) };
 #[doc(alias = "NM_SETTING_CDMA_PASSWORD")]
-pub static SETTING_CDMA_PASSWORD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CDMA_PASSWORD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CDMA_PASSWORD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CDMA_PASSWORD) };
 #[doc(alias = "NM_SETTING_CDMA_PASSWORD_FLAGS")]
-pub static SETTING_CDMA_PASSWORD_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CDMA_PASSWORD_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CDMA_PASSWORD_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CDMA_PASSWORD_FLAGS) };
 #[doc(alias = "NM_SETTING_CDMA_SETTING_NAME")]
-pub static SETTING_CDMA_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CDMA_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CDMA_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CDMA_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_CDMA_USERNAME")]
-pub static SETTING_CDMA_USERNAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CDMA_USERNAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CDMA_USERNAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CDMA_USERNAME) };
 #[doc(alias = "NM_SETTING_CONNECTION_AUTH_RETRIES")]
-pub static SETTING_CONNECTION_AUTH_RETRIES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_AUTH_RETRIES)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_AUTH_RETRIES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_AUTH_RETRIES) };
 #[doc(alias = "NM_SETTING_CONNECTION_AUTOCONNECT")]
-pub static SETTING_CONNECTION_AUTOCONNECT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_AUTOCONNECT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_AUTOCONNECT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_AUTOCONNECT) };
 #[doc(alias = "NM_SETTING_CONNECTION_AUTOCONNECT_PRIORITY")]
-pub static SETTING_CONNECTION_AUTOCONNECT_PRIORITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_AUTOCONNECT_PRIORITY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_AUTOCONNECT_PRIORITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_AUTOCONNECT_PRIORITY) };
 #[doc(alias = "NM_SETTING_CONNECTION_AUTOCONNECT_RETRIES")]
-pub static SETTING_CONNECTION_AUTOCONNECT_RETRIES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_AUTOCONNECT_RETRIES)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_AUTOCONNECT_RETRIES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_AUTOCONNECT_RETRIES) };
 #[doc(alias = "NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES")]
-pub static SETTING_CONNECTION_AUTOCONNECT_SLAVES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_AUTOCONNECT_SLAVES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_AUTOCONNECT_SLAVES) };
 #[doc(alias = "NM_SETTING_CONNECTION_DNS_OVER_TLS")]
-pub static SETTING_CONNECTION_DNS_OVER_TLS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_DNS_OVER_TLS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_DNS_OVER_TLS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_DNS_OVER_TLS) };
 #[doc(alias = "NM_SETTING_CONNECTION_GATEWAY_PING_TIMEOUT")]
-pub static SETTING_CONNECTION_GATEWAY_PING_TIMEOUT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_GATEWAY_PING_TIMEOUT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_GATEWAY_PING_TIMEOUT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_GATEWAY_PING_TIMEOUT) };
 #[doc(alias = "NM_SETTING_CONNECTION_ID")]
-pub static SETTING_CONNECTION_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_ID) };
 #[doc(alias = "NM_SETTING_CONNECTION_INTERFACE_NAME")]
-pub static SETTING_CONNECTION_INTERFACE_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_INTERFACE_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_INTERFACE_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_INTERFACE_NAME) };
 #[doc(alias = "NM_SETTING_CONNECTION_LLDP")]
-pub static SETTING_CONNECTION_LLDP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_LLDP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_LLDP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_LLDP) };
 #[doc(alias = "NM_SETTING_CONNECTION_LLMNR")]
-pub static SETTING_CONNECTION_LLMNR: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_LLMNR)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_LLMNR: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_LLMNR) };
 #[doc(alias = "NM_SETTING_CONNECTION_MASTER")]
-pub static SETTING_CONNECTION_MASTER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_MASTER)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_MASTER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_MASTER) };
 #[doc(alias = "NM_SETTING_CONNECTION_MDNS")]
-pub static SETTING_CONNECTION_MDNS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_MDNS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_MDNS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_MDNS) };
 #[doc(alias = "NM_SETTING_CONNECTION_METERED")]
-pub static SETTING_CONNECTION_METERED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_METERED)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_METERED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_METERED) };
+#[doc(alias = "NM_SETTING_CONNECTION_MPTCP_FLAGS")]
+pub static SETTING_CONNECTION_MPTCP_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_MPTCP_FLAGS) };
 #[doc(alias = "NM_SETTING_CONNECTION_MUD_URL")]
-pub static SETTING_CONNECTION_MUD_URL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_MUD_URL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_MUD_URL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_MUD_URL) };
 #[doc(alias = "NM_SETTING_CONNECTION_MULTI_CONNECT")]
-pub static SETTING_CONNECTION_MULTI_CONNECT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_MULTI_CONNECT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_MULTI_CONNECT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_MULTI_CONNECT) };
 #[doc(alias = "NM_SETTING_CONNECTION_PERMISSIONS")]
-pub static SETTING_CONNECTION_PERMISSIONS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_PERMISSIONS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_PERMISSIONS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_PERMISSIONS) };
 #[doc(alias = "NM_SETTING_CONNECTION_READ_ONLY")]
-pub static SETTING_CONNECTION_READ_ONLY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_READ_ONLY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_READ_ONLY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_READ_ONLY) };
 #[doc(alias = "NM_SETTING_CONNECTION_SECONDARIES")]
-pub static SETTING_CONNECTION_SECONDARIES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_SECONDARIES)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_SECONDARIES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_SECONDARIES) };
 #[doc(alias = "NM_SETTING_CONNECTION_SETTING_NAME")]
-pub static SETTING_CONNECTION_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_CONNECTION_SLAVE_TYPE")]
-pub static SETTING_CONNECTION_SLAVE_TYPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_SLAVE_TYPE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_SLAVE_TYPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_SLAVE_TYPE) };
 #[doc(alias = "NM_SETTING_CONNECTION_STABLE_ID")]
-pub static SETTING_CONNECTION_STABLE_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_STABLE_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_STABLE_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_STABLE_ID) };
 #[doc(alias = "NM_SETTING_CONNECTION_TIMESTAMP")]
-pub static SETTING_CONNECTION_TIMESTAMP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_TIMESTAMP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_TIMESTAMP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_TIMESTAMP) };
 #[doc(alias = "NM_SETTING_CONNECTION_TYPE")]
-pub static SETTING_CONNECTION_TYPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_TYPE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_TYPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_TYPE) };
 #[doc(alias = "NM_SETTING_CONNECTION_UUID")]
-pub static SETTING_CONNECTION_UUID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_UUID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_UUID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_UUID) };
+#[doc(alias = "NM_SETTING_CONNECTION_WAIT_ACTIVATION_DELAY")]
+pub static SETTING_CONNECTION_WAIT_ACTIVATION_DELAY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_WAIT_ACTIVATION_DELAY) };
 #[doc(alias = "NM_SETTING_CONNECTION_WAIT_DEVICE_TIMEOUT")]
-pub static SETTING_CONNECTION_WAIT_DEVICE_TIMEOUT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_WAIT_DEVICE_TIMEOUT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_WAIT_DEVICE_TIMEOUT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_WAIT_DEVICE_TIMEOUT) };
 #[doc(alias = "NM_SETTING_CONNECTION_ZONE")]
-pub static SETTING_CONNECTION_ZONE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_CONNECTION_ZONE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_CONNECTION_ZONE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_CONNECTION_ZONE) };
 #[doc(alias = "NM_SETTING_DCB_APP_FCOE_FLAGS")]
-pub static SETTING_DCB_APP_FCOE_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_APP_FCOE_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_APP_FCOE_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_APP_FCOE_FLAGS) };
 #[doc(alias = "NM_SETTING_DCB_APP_FCOE_MODE")]
-pub static SETTING_DCB_APP_FCOE_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_APP_FCOE_MODE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_APP_FCOE_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_APP_FCOE_MODE) };
 #[doc(alias = "NM_SETTING_DCB_APP_FCOE_PRIORITY")]
-pub static SETTING_DCB_APP_FCOE_PRIORITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_APP_FCOE_PRIORITY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_APP_FCOE_PRIORITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_APP_FCOE_PRIORITY) };
 #[doc(alias = "NM_SETTING_DCB_APP_FIP_FLAGS")]
-pub static SETTING_DCB_APP_FIP_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_APP_FIP_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_APP_FIP_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_APP_FIP_FLAGS) };
 #[doc(alias = "NM_SETTING_DCB_APP_FIP_PRIORITY")]
-pub static SETTING_DCB_APP_FIP_PRIORITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_APP_FIP_PRIORITY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_APP_FIP_PRIORITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_APP_FIP_PRIORITY) };
 #[doc(alias = "NM_SETTING_DCB_APP_ISCSI_FLAGS")]
-pub static SETTING_DCB_APP_ISCSI_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_APP_ISCSI_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_APP_ISCSI_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_APP_ISCSI_FLAGS) };
 #[doc(alias = "NM_SETTING_DCB_APP_ISCSI_PRIORITY")]
-pub static SETTING_DCB_APP_ISCSI_PRIORITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_APP_ISCSI_PRIORITY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_APP_ISCSI_PRIORITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_APP_ISCSI_PRIORITY) };
 /// Indicates that the FCoE controller should use "fabric" mode (default)
 #[doc(alias = "NM_SETTING_DCB_FCOE_MODE_FABRIC")]
-pub static SETTING_DCB_FCOE_MODE_FABRIC: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_FCOE_MODE_FABRIC)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_FCOE_MODE_FABRIC: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_FCOE_MODE_FABRIC) };
 /// Indicates that the FCoE controller should use "VN2VN" mode.
 #[doc(alias = "NM_SETTING_DCB_FCOE_MODE_VN2VN")]
-pub static SETTING_DCB_FCOE_MODE_VN2VN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_FCOE_MODE_VN2VN)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_FCOE_MODE_VN2VN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_FCOE_MODE_VN2VN) };
 #[doc(alias = "NM_SETTING_DCB_PRIORITY_BANDWIDTH")]
-pub static SETTING_DCB_PRIORITY_BANDWIDTH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_PRIORITY_BANDWIDTH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_PRIORITY_BANDWIDTH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_PRIORITY_BANDWIDTH) };
 #[doc(alias = "NM_SETTING_DCB_PRIORITY_FLOW_CONTROL")]
-pub static SETTING_DCB_PRIORITY_FLOW_CONTROL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_PRIORITY_FLOW_CONTROL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_PRIORITY_FLOW_CONTROL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_PRIORITY_FLOW_CONTROL) };
 #[doc(alias = "NM_SETTING_DCB_PRIORITY_FLOW_CONTROL_FLAGS")]
-pub static SETTING_DCB_PRIORITY_FLOW_CONTROL_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_PRIORITY_FLOW_CONTROL_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_PRIORITY_FLOW_CONTROL_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_PRIORITY_FLOW_CONTROL_FLAGS) };
 #[doc(alias = "NM_SETTING_DCB_PRIORITY_GROUP_BANDWIDTH")]
-pub static SETTING_DCB_PRIORITY_GROUP_BANDWIDTH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_PRIORITY_GROUP_BANDWIDTH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_PRIORITY_GROUP_BANDWIDTH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_PRIORITY_GROUP_BANDWIDTH) };
 #[doc(alias = "NM_SETTING_DCB_PRIORITY_GROUP_FLAGS")]
-pub static SETTING_DCB_PRIORITY_GROUP_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_PRIORITY_GROUP_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_PRIORITY_GROUP_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_PRIORITY_GROUP_FLAGS) };
 #[doc(alias = "NM_SETTING_DCB_PRIORITY_GROUP_ID")]
-pub static SETTING_DCB_PRIORITY_GROUP_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_PRIORITY_GROUP_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_PRIORITY_GROUP_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_PRIORITY_GROUP_ID) };
 #[doc(alias = "NM_SETTING_DCB_PRIORITY_STRICT_BANDWIDTH")]
-pub static SETTING_DCB_PRIORITY_STRICT_BANDWIDTH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_PRIORITY_STRICT_BANDWIDTH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_PRIORITY_STRICT_BANDWIDTH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_PRIORITY_STRICT_BANDWIDTH) };
 #[doc(alias = "NM_SETTING_DCB_PRIORITY_TRAFFIC_CLASS")]
-pub static SETTING_DCB_PRIORITY_TRAFFIC_CLASS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_PRIORITY_TRAFFIC_CLASS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_PRIORITY_TRAFFIC_CLASS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_PRIORITY_TRAFFIC_CLASS) };
 #[doc(alias = "NM_SETTING_DCB_SETTING_NAME")]
-pub static SETTING_DCB_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DCB_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DCB_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DCB_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_ATTEMPTS")]
-pub static SETTING_DNS_OPTION_ATTEMPTS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_ATTEMPTS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_ATTEMPTS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_ATTEMPTS) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_DEBUG")]
-pub static SETTING_DNS_OPTION_DEBUG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_DEBUG)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_DEBUG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_DEBUG) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_EDNS0")]
-pub static SETTING_DNS_OPTION_EDNS0: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_EDNS0)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_EDNS0: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_EDNS0) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_INET6")]
-pub static SETTING_DNS_OPTION_INET6: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_INET6)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_INET6: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_INET6) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_IP6_BYTESTRING")]
-pub static SETTING_DNS_OPTION_IP6_BYTESTRING: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_IP6_BYTESTRING)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_IP6_BYTESTRING: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_IP6_BYTESTRING) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_IP6_DOTINT")]
-pub static SETTING_DNS_OPTION_IP6_DOTINT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_IP6_DOTINT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_IP6_DOTINT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_IP6_DOTINT) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_NDOTS")]
-pub static SETTING_DNS_OPTION_NDOTS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_NDOTS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_NDOTS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_NDOTS) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_NO_CHECK_NAMES")]
-pub static SETTING_DNS_OPTION_NO_CHECK_NAMES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_NO_CHECK_NAMES)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_NO_CHECK_NAMES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_NO_CHECK_NAMES) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_NO_IP6_DOTINT")]
-pub static SETTING_DNS_OPTION_NO_IP6_DOTINT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_NO_IP6_DOTINT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_NO_IP6_DOTINT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_NO_IP6_DOTINT) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_NO_RELOAD")]
-pub static SETTING_DNS_OPTION_NO_RELOAD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_NO_RELOAD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_NO_RELOAD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_NO_RELOAD) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_NO_TLD_QUERY")]
-pub static SETTING_DNS_OPTION_NO_TLD_QUERY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_NO_TLD_QUERY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_NO_TLD_QUERY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_NO_TLD_QUERY) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_ROTATE")]
-pub static SETTING_DNS_OPTION_ROTATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_ROTATE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_ROTATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_ROTATE) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_SINGLE_REQUEST")]
-pub static SETTING_DNS_OPTION_SINGLE_REQUEST: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_SINGLE_REQUEST)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_SINGLE_REQUEST: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_SINGLE_REQUEST) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_SINGLE_REQUEST_REOPEN")]
-pub static SETTING_DNS_OPTION_SINGLE_REQUEST_REOPEN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_SINGLE_REQUEST_REOPEN)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_SINGLE_REQUEST_REOPEN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_SINGLE_REQUEST_REOPEN) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_TIMEOUT")]
-pub static SETTING_DNS_OPTION_TIMEOUT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_TIMEOUT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_TIMEOUT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_TIMEOUT) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_TRUST_AD")]
-pub static SETTING_DNS_OPTION_TRUST_AD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_TRUST_AD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_TRUST_AD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_TRUST_AD) };
 #[doc(alias = "NM_SETTING_DNS_OPTION_USE_VC")]
-pub static SETTING_DNS_OPTION_USE_VC: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DNS_OPTION_USE_VC)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DNS_OPTION_USE_VC: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DNS_OPTION_USE_VC) };
 #[doc(alias = "NM_SETTING_DUMMY_SETTING_NAME")]
-pub static SETTING_DUMMY_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_DUMMY_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_DUMMY_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_DUMMY_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_ETHTOOL_SETTING_NAME")]
-pub static SETTING_ETHTOOL_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_ETHTOOL_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_ETHTOOL_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_ETHTOOL_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_GENERIC_SETTING_NAME")]
-pub static SETTING_GENERIC_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GENERIC_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_GENERIC_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GENERIC_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_GSM_APN")]
-pub static SETTING_GSM_APN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_APN).to_str().unwrap()
-    });
+pub static SETTING_GSM_APN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_APN) };
 #[doc(alias = "NM_SETTING_GSM_AUTO_CONFIG")]
-pub static SETTING_GSM_AUTO_CONFIG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_AUTO_CONFIG)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_GSM_AUTO_CONFIG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_AUTO_CONFIG) };
 #[doc(alias = "NM_SETTING_GSM_DEVICE_ID")]
-pub static SETTING_GSM_DEVICE_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_DEVICE_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_GSM_DEVICE_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_DEVICE_ID) };
 #[doc(alias = "NM_SETTING_GSM_HOME_ONLY")]
-pub static SETTING_GSM_HOME_ONLY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_HOME_ONLY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_GSM_HOME_ONLY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_HOME_ONLY) };
 #[doc(alias = "NM_SETTING_GSM_MTU")]
-pub static SETTING_GSM_MTU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_MTU).to_str().unwrap()
-    });
+pub static SETTING_GSM_MTU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_MTU) };
 #[doc(alias = "NM_SETTING_GSM_NETWORK_ID")]
-pub static SETTING_GSM_NETWORK_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_NETWORK_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_GSM_NETWORK_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_NETWORK_ID) };
 #[doc(alias = "NM_SETTING_GSM_NUMBER")]
-pub static SETTING_GSM_NUMBER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_NUMBER).to_str().unwrap()
-    });
+pub static SETTING_GSM_NUMBER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_NUMBER) };
 #[doc(alias = "NM_SETTING_GSM_PASSWORD")]
-pub static SETTING_GSM_PASSWORD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_PASSWORD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_GSM_PASSWORD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_PASSWORD) };
 #[doc(alias = "NM_SETTING_GSM_PASSWORD_FLAGS")]
-pub static SETTING_GSM_PASSWORD_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_PASSWORD_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_GSM_PASSWORD_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_PASSWORD_FLAGS) };
 #[doc(alias = "NM_SETTING_GSM_PIN")]
-pub static SETTING_GSM_PIN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_PIN).to_str().unwrap()
-    });
+pub static SETTING_GSM_PIN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_PIN) };
 #[doc(alias = "NM_SETTING_GSM_PIN_FLAGS")]
-pub static SETTING_GSM_PIN_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_PIN_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_GSM_PIN_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_PIN_FLAGS) };
 #[doc(alias = "NM_SETTING_GSM_SETTING_NAME")]
-pub static SETTING_GSM_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_GSM_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_GSM_SIM_ID")]
-pub static SETTING_GSM_SIM_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_SIM_ID).to_str().unwrap()
-    });
+pub static SETTING_GSM_SIM_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_SIM_ID) };
 #[doc(alias = "NM_SETTING_GSM_SIM_OPERATOR_ID")]
-pub static SETTING_GSM_SIM_OPERATOR_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_SIM_OPERATOR_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_GSM_SIM_OPERATOR_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_SIM_OPERATOR_ID) };
 #[doc(alias = "NM_SETTING_GSM_USERNAME")]
-pub static SETTING_GSM_USERNAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_GSM_USERNAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_GSM_USERNAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_GSM_USERNAME) };
 #[doc(alias = "NM_SETTING_HOSTNAME_FROM_DHCP")]
-pub static SETTING_HOSTNAME_FROM_DHCP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_HOSTNAME_FROM_DHCP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_HOSTNAME_FROM_DHCP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_HOSTNAME_FROM_DHCP) };
 #[doc(alias = "NM_SETTING_HOSTNAME_FROM_DNS_LOOKUP")]
-pub static SETTING_HOSTNAME_FROM_DNS_LOOKUP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_HOSTNAME_FROM_DNS_LOOKUP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_HOSTNAME_FROM_DNS_LOOKUP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_HOSTNAME_FROM_DNS_LOOKUP) };
 #[doc(alias = "NM_SETTING_HOSTNAME_ONLY_FROM_DEFAULT")]
-pub static SETTING_HOSTNAME_ONLY_FROM_DEFAULT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_HOSTNAME_ONLY_FROM_DEFAULT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_HOSTNAME_ONLY_FROM_DEFAULT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_HOSTNAME_ONLY_FROM_DEFAULT) };
 #[doc(alias = "NM_SETTING_HOSTNAME_PRIORITY")]
-pub static SETTING_HOSTNAME_PRIORITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_HOSTNAME_PRIORITY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_HOSTNAME_PRIORITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_HOSTNAME_PRIORITY) };
 #[doc(alias = "NM_SETTING_HOSTNAME_SETTING_NAME")]
-pub static SETTING_HOSTNAME_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_HOSTNAME_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_HOSTNAME_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_HOSTNAME_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_INFINIBAND_MAC_ADDRESS")]
-pub static SETTING_INFINIBAND_MAC_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_INFINIBAND_MAC_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_INFINIBAND_MAC_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_INFINIBAND_MAC_ADDRESS) };
 #[doc(alias = "NM_SETTING_INFINIBAND_MTU")]
-pub static SETTING_INFINIBAND_MTU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_INFINIBAND_MTU)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_INFINIBAND_MTU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_INFINIBAND_MTU) };
 #[doc(alias = "NM_SETTING_INFINIBAND_PARENT")]
-pub static SETTING_INFINIBAND_PARENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_INFINIBAND_PARENT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_INFINIBAND_PARENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_INFINIBAND_PARENT) };
 #[doc(alias = "NM_SETTING_INFINIBAND_P_KEY")]
-pub static SETTING_INFINIBAND_P_KEY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_INFINIBAND_P_KEY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_INFINIBAND_P_KEY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_INFINIBAND_P_KEY) };
 #[doc(alias = "NM_SETTING_INFINIBAND_SETTING_NAME")]
-pub static SETTING_INFINIBAND_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_INFINIBAND_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_INFINIBAND_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_INFINIBAND_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_INFINIBAND_TRANSPORT_MODE")]
-pub static SETTING_INFINIBAND_TRANSPORT_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_INFINIBAND_TRANSPORT_MODE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_INFINIBAND_TRANSPORT_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_INFINIBAND_TRANSPORT_MODE) };
 #[doc(alias = "NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID")]
-pub static SETTING_IP4_CONFIG_DHCP_CLIENT_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP4_CONFIG_DHCP_CLIENT_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID) };
 #[doc(alias = "NM_SETTING_IP4_CONFIG_DHCP_FQDN")]
-pub static SETTING_IP4_CONFIG_DHCP_FQDN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP4_CONFIG_DHCP_FQDN)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP4_CONFIG_DHCP_FQDN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP4_CONFIG_DHCP_FQDN) };
 #[doc(alias = "NM_SETTING_IP4_CONFIG_DHCP_VENDOR_CLASS_IDENTIFIER")]
-pub static SETTING_IP4_CONFIG_DHCP_VENDOR_CLASS_IDENTIFIER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP4_CONFIG_DHCP_VENDOR_CLASS_IDENTIFIER)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP4_CONFIG_DHCP_VENDOR_CLASS_IDENTIFIER: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP4_CONFIG_DHCP_VENDOR_CLASS_IDENTIFIER)
+};
+#[doc(alias = "NM_SETTING_IP4_CONFIG_LINK_LOCAL")]
+pub static SETTING_IP4_CONFIG_LINK_LOCAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP4_CONFIG_LINK_LOCAL) };
 /// IPv4 configuration should be automatically determined via a method appropriate
 /// for the hardware interface, ie DHCP or PPP or some other device-specific
 /// manner.
 #[doc(alias = "NM_SETTING_IP4_CONFIG_METHOD_AUTO")]
-pub static SETTING_IP4_CONFIG_METHOD_AUTO: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP4_CONFIG_METHOD_AUTO)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP4_CONFIG_METHOD_AUTO: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP4_CONFIG_METHOD_AUTO) };
 /// This connection does not use or require IPv4 address and it should be disabled.
 #[doc(alias = "NM_SETTING_IP4_CONFIG_METHOD_DISABLED")]
-pub static SETTING_IP4_CONFIG_METHOD_DISABLED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP4_CONFIG_METHOD_DISABLED)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP4_CONFIG_METHOD_DISABLED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP4_CONFIG_METHOD_DISABLED) };
 /// IPv4 configuration should be automatically configured for link-local-only
 /// operation.
 #[doc(alias = "NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL")]
-pub static SETTING_IP4_CONFIG_METHOD_LINK_LOCAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP4_CONFIG_METHOD_LINK_LOCAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL) };
 /// All necessary IPv4 configuration (addresses, prefix, DNS, etc) is specified
 /// in the setting's properties.
 #[doc(alias = "NM_SETTING_IP4_CONFIG_METHOD_MANUAL")]
-pub static SETTING_IP4_CONFIG_METHOD_MANUAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP4_CONFIG_METHOD_MANUAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP4_CONFIG_METHOD_MANUAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP4_CONFIG_METHOD_MANUAL) };
 /// This connection specifies configuration that allows other computers to
 /// connect through it to the default network (usually the Internet). The
 /// connection's interface will be assigned a private address, and a DHCP server,
@@ -4450,96 +2073,52 @@ pub static SETTING_IP4_CONFIG_METHOD_MANUAL: once_cell::sync::Lazy<&'static str>
 /// be started on this connection's interface to allow other devices to connect
 /// through that interface to the default network.
 #[doc(alias = "NM_SETTING_IP4_CONFIG_METHOD_SHARED")]
-pub static SETTING_IP4_CONFIG_METHOD_SHARED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP4_CONFIG_METHOD_SHARED)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP4_CONFIG_METHOD_SHARED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP4_CONFIG_METHOD_SHARED) };
 #[doc(alias = "NM_SETTING_IP4_CONFIG_SETTING_NAME")]
-pub static SETTING_IP4_CONFIG_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP4_CONFIG_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP4_CONFIG_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP4_CONFIG_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE")]
-pub static SETTING_IP6_CONFIG_ADDR_GEN_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP6_CONFIG_ADDR_GEN_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP6_CONFIG_ADDR_GEN_MODE) };
 #[doc(alias = "NM_SETTING_IP6_CONFIG_DHCP_DUID")]
-pub static SETTING_IP6_CONFIG_DHCP_DUID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP6_CONFIG_DHCP_DUID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP6_CONFIG_DHCP_DUID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP6_CONFIG_DHCP_DUID) };
 #[doc(alias = "NM_SETTING_IP6_CONFIG_IP6_PRIVACY")]
-pub static SETTING_IP6_CONFIG_IP6_PRIVACY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP6_CONFIG_IP6_PRIVACY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP6_CONFIG_IP6_PRIVACY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP6_CONFIG_IP6_PRIVACY) };
 /// IPv6 configuration should be automatically determined via a method appropriate
 /// for the hardware interface, ie router advertisements, DHCP, or PPP or some
 /// other device-specific manner.
 #[doc(alias = "NM_SETTING_IP6_CONFIG_METHOD_AUTO")]
-pub static SETTING_IP6_CONFIG_METHOD_AUTO: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP6_CONFIG_METHOD_AUTO)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP6_CONFIG_METHOD_AUTO: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP6_CONFIG_METHOD_AUTO) };
 /// IPv6 configuration should be automatically determined via DHCPv6 only and
 /// router advertisements should be ignored.
 #[doc(alias = "NM_SETTING_IP6_CONFIG_METHOD_DHCP")]
-pub static SETTING_IP6_CONFIG_METHOD_DHCP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP6_CONFIG_METHOD_DHCP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP6_CONFIG_METHOD_DHCP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP6_CONFIG_METHOD_DHCP) };
 /// IPv6 is disabled for the connection.
 #[cfg(any(feature = "v1_20", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 #[doc(alias = "NM_SETTING_IP6_CONFIG_METHOD_DISABLED")]
-pub static SETTING_IP6_CONFIG_METHOD_DISABLED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP6_CONFIG_METHOD_DISABLED)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP6_CONFIG_METHOD_DISABLED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP6_CONFIG_METHOD_DISABLED) };
 /// IPv6 is not required or is handled by some other mechanism, and NetworkManager
 /// should not configure IPv6 for this connection.
 #[doc(alias = "NM_SETTING_IP6_CONFIG_METHOD_IGNORE")]
-pub static SETTING_IP6_CONFIG_METHOD_IGNORE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP6_CONFIG_METHOD_IGNORE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP6_CONFIG_METHOD_IGNORE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP6_CONFIG_METHOD_IGNORE) };
 /// IPv6 configuration should be automatically configured for link-local-only
 /// operation.
 #[doc(alias = "NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL")]
-pub static SETTING_IP6_CONFIG_METHOD_LINK_LOCAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP6_CONFIG_METHOD_LINK_LOCAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL) };
 /// All necessary IPv6 configuration (addresses, prefix, DNS, etc) is specified
 /// in the setting's properties.
 #[doc(alias = "NM_SETTING_IP6_CONFIG_METHOD_MANUAL")]
-pub static SETTING_IP6_CONFIG_METHOD_MANUAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP6_CONFIG_METHOD_MANUAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP6_CONFIG_METHOD_MANUAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP6_CONFIG_METHOD_MANUAL) };
 /// This connection specifies configuration that allows other computers to
 /// connect through it to the default network (usually the Internet). The
 /// connection's interface will be assigned a private address, and router
@@ -4548,2564 +2127,1143 @@ pub static SETTING_IP6_CONFIG_METHOD_MANUAL: once_cell::sync::Lazy<&'static str>
 /// devices to connect through that interface to the default network. (not yet
 /// supported for IPv6)
 #[doc(alias = "NM_SETTING_IP6_CONFIG_METHOD_SHARED")]
-pub static SETTING_IP6_CONFIG_METHOD_SHARED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP6_CONFIG_METHOD_SHARED)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP6_CONFIG_METHOD_SHARED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP6_CONFIG_METHOD_SHARED) };
+#[doc(alias = "NM_SETTING_IP6_CONFIG_MTU")]
+pub static SETTING_IP6_CONFIG_MTU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP6_CONFIG_MTU) };
 #[doc(alias = "NM_SETTING_IP6_CONFIG_RA_TIMEOUT")]
-pub static SETTING_IP6_CONFIG_RA_TIMEOUT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP6_CONFIG_RA_TIMEOUT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP6_CONFIG_RA_TIMEOUT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP6_CONFIG_RA_TIMEOUT) };
 #[doc(alias = "NM_SETTING_IP6_CONFIG_SETTING_NAME")]
-pub static SETTING_IP6_CONFIG_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP6_CONFIG_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP6_CONFIG_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP6_CONFIG_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_IP6_CONFIG_TOKEN")]
-pub static SETTING_IP6_CONFIG_TOKEN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP6_CONFIG_TOKEN)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP6_CONFIG_TOKEN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP6_CONFIG_TOKEN) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_ADDRESSES")]
-pub static SETTING_IP_CONFIG_ADDRESSES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_ADDRESSES)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_ADDRESSES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_ADDRESSES) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_DAD_TIMEOUT")]
-pub static SETTING_IP_CONFIG_DAD_TIMEOUT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_DAD_TIMEOUT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_DAD_TIMEOUT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_DAD_TIMEOUT) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_DHCP_HOSTNAME")]
-pub static SETTING_IP_CONFIG_DHCP_HOSTNAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_DHCP_HOSTNAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_DHCP_HOSTNAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_DHCP_HOSTNAME) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_DHCP_HOSTNAME_FLAGS")]
-pub static SETTING_IP_CONFIG_DHCP_HOSTNAME_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_DHCP_HOSTNAME_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_DHCP_HOSTNAME_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_DHCP_HOSTNAME_FLAGS) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_DHCP_IAID")]
-pub static SETTING_IP_CONFIG_DHCP_IAID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_DHCP_IAID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_DHCP_IAID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_DHCP_IAID) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_DHCP_REJECT_SERVERS")]
-pub static SETTING_IP_CONFIG_DHCP_REJECT_SERVERS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_DHCP_REJECT_SERVERS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_DHCP_REJECT_SERVERS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_DHCP_REJECT_SERVERS) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_DHCP_SEND_HOSTNAME")]
-pub static SETTING_IP_CONFIG_DHCP_SEND_HOSTNAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_DHCP_SEND_HOSTNAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_DHCP_SEND_HOSTNAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_DHCP_SEND_HOSTNAME) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_DHCP_TIMEOUT")]
-pub static SETTING_IP_CONFIG_DHCP_TIMEOUT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_DHCP_TIMEOUT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_DHCP_TIMEOUT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_DHCP_TIMEOUT) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_DNS")]
-pub static SETTING_IP_CONFIG_DNS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_DNS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_DNS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_DNS) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_DNS_OPTIONS")]
-pub static SETTING_IP_CONFIG_DNS_OPTIONS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_DNS_OPTIONS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_DNS_OPTIONS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_DNS_OPTIONS) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_DNS_PRIORITY")]
-pub static SETTING_IP_CONFIG_DNS_PRIORITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_DNS_PRIORITY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_DNS_PRIORITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_DNS_PRIORITY) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_DNS_SEARCH")]
-pub static SETTING_IP_CONFIG_DNS_SEARCH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_DNS_SEARCH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_DNS_SEARCH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_DNS_SEARCH) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_GATEWAY")]
-pub static SETTING_IP_CONFIG_GATEWAY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_GATEWAY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_GATEWAY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_GATEWAY) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_IGNORE_AUTO_DNS")]
-pub static SETTING_IP_CONFIG_IGNORE_AUTO_DNS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_IGNORE_AUTO_DNS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_IGNORE_AUTO_DNS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_IGNORE_AUTO_DNS) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_IGNORE_AUTO_ROUTES")]
-pub static SETTING_IP_CONFIG_IGNORE_AUTO_ROUTES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_IGNORE_AUTO_ROUTES)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_IGNORE_AUTO_ROUTES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_IGNORE_AUTO_ROUTES) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_MAY_FAIL")]
-pub static SETTING_IP_CONFIG_MAY_FAIL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_MAY_FAIL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_MAY_FAIL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_MAY_FAIL) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_METHOD")]
-pub static SETTING_IP_CONFIG_METHOD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_METHOD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_METHOD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_METHOD) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_NEVER_DEFAULT")]
-pub static SETTING_IP_CONFIG_NEVER_DEFAULT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_NEVER_DEFAULT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_NEVER_DEFAULT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_NEVER_DEFAULT) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_REQUIRED_TIMEOUT")]
-pub static SETTING_IP_CONFIG_REQUIRED_TIMEOUT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_REQUIRED_TIMEOUT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_REQUIRED_TIMEOUT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_REQUIRED_TIMEOUT) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_ROUTES")]
-pub static SETTING_IP_CONFIG_ROUTES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_ROUTES)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_ROUTES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_ROUTES) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_ROUTE_METRIC")]
-pub static SETTING_IP_CONFIG_ROUTE_METRIC: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_ROUTE_METRIC)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_ROUTE_METRIC: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_ROUTE_METRIC) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_ROUTE_TABLE")]
-pub static SETTING_IP_CONFIG_ROUTE_TABLE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_ROUTE_TABLE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_ROUTE_TABLE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_ROUTE_TABLE) };
 #[doc(alias = "NM_SETTING_IP_CONFIG_ROUTING_RULES")]
-pub static SETTING_IP_CONFIG_ROUTING_RULES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_CONFIG_ROUTING_RULES)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_CONFIG_ROUTING_RULES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_CONFIG_ROUTING_RULES) };
 #[doc(alias = "NM_SETTING_IP_TUNNEL_ENCAPSULATION_LIMIT")]
-pub static SETTING_IP_TUNNEL_ENCAPSULATION_LIMIT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_TUNNEL_ENCAPSULATION_LIMIT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_TUNNEL_ENCAPSULATION_LIMIT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_TUNNEL_ENCAPSULATION_LIMIT) };
 #[doc(alias = "NM_SETTING_IP_TUNNEL_FLAGS")]
-pub static SETTING_IP_TUNNEL_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_TUNNEL_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_TUNNEL_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_TUNNEL_FLAGS) };
 #[doc(alias = "NM_SETTING_IP_TUNNEL_FLOW_LABEL")]
-pub static SETTING_IP_TUNNEL_FLOW_LABEL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_TUNNEL_FLOW_LABEL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_TUNNEL_FLOW_LABEL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_TUNNEL_FLOW_LABEL) };
 #[doc(alias = "NM_SETTING_IP_TUNNEL_INPUT_KEY")]
-pub static SETTING_IP_TUNNEL_INPUT_KEY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_TUNNEL_INPUT_KEY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_TUNNEL_INPUT_KEY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_TUNNEL_INPUT_KEY) };
 #[doc(alias = "NM_SETTING_IP_TUNNEL_LOCAL")]
-pub static SETTING_IP_TUNNEL_LOCAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_TUNNEL_LOCAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_TUNNEL_LOCAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_TUNNEL_LOCAL) };
 #[doc(alias = "NM_SETTING_IP_TUNNEL_MODE")]
-pub static SETTING_IP_TUNNEL_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_TUNNEL_MODE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_TUNNEL_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_TUNNEL_MODE) };
 #[doc(alias = "NM_SETTING_IP_TUNNEL_MTU")]
-pub static SETTING_IP_TUNNEL_MTU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_TUNNEL_MTU)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_TUNNEL_MTU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_TUNNEL_MTU) };
 #[doc(alias = "NM_SETTING_IP_TUNNEL_OUTPUT_KEY")]
-pub static SETTING_IP_TUNNEL_OUTPUT_KEY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_TUNNEL_OUTPUT_KEY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_TUNNEL_OUTPUT_KEY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_TUNNEL_OUTPUT_KEY) };
 #[doc(alias = "NM_SETTING_IP_TUNNEL_PARENT")]
-pub static SETTING_IP_TUNNEL_PARENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_TUNNEL_PARENT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_TUNNEL_PARENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_TUNNEL_PARENT) };
 #[doc(alias = "NM_SETTING_IP_TUNNEL_PATH_MTU_DISCOVERY")]
-pub static SETTING_IP_TUNNEL_PATH_MTU_DISCOVERY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_TUNNEL_PATH_MTU_DISCOVERY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_TUNNEL_PATH_MTU_DISCOVERY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_TUNNEL_PATH_MTU_DISCOVERY) };
 #[doc(alias = "NM_SETTING_IP_TUNNEL_REMOTE")]
-pub static SETTING_IP_TUNNEL_REMOTE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_TUNNEL_REMOTE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_TUNNEL_REMOTE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_TUNNEL_REMOTE) };
 #[doc(alias = "NM_SETTING_IP_TUNNEL_SETTING_NAME")]
-pub static SETTING_IP_TUNNEL_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_TUNNEL_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_TUNNEL_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_TUNNEL_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_IP_TUNNEL_TOS")]
-pub static SETTING_IP_TUNNEL_TOS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_TUNNEL_TOS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_TUNNEL_TOS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_TUNNEL_TOS) };
 #[doc(alias = "NM_SETTING_IP_TUNNEL_TTL")]
-pub static SETTING_IP_TUNNEL_TTL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_IP_TUNNEL_TTL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_IP_TUNNEL_TTL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_IP_TUNNEL_TTL) };
 #[doc(alias = "NM_SETTING_MACSEC_ENCRYPT")]
-pub static SETTING_MACSEC_ENCRYPT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACSEC_ENCRYPT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACSEC_ENCRYPT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACSEC_ENCRYPT) };
 #[doc(alias = "NM_SETTING_MACSEC_MKA_CAK")]
-pub static SETTING_MACSEC_MKA_CAK: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACSEC_MKA_CAK)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACSEC_MKA_CAK: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACSEC_MKA_CAK) };
 #[doc(alias = "NM_SETTING_MACSEC_MKA_CAK_FLAGS")]
-pub static SETTING_MACSEC_MKA_CAK_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACSEC_MKA_CAK_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACSEC_MKA_CAK_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACSEC_MKA_CAK_FLAGS) };
 #[doc(alias = "NM_SETTING_MACSEC_MKA_CKN")]
-pub static SETTING_MACSEC_MKA_CKN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACSEC_MKA_CKN)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACSEC_MKA_CKN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACSEC_MKA_CKN) };
 #[doc(alias = "NM_SETTING_MACSEC_MODE")]
-pub static SETTING_MACSEC_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACSEC_MODE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACSEC_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACSEC_MODE) };
 #[doc(alias = "NM_SETTING_MACSEC_PARENT")]
-pub static SETTING_MACSEC_PARENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACSEC_PARENT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACSEC_PARENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACSEC_PARENT) };
 #[doc(alias = "NM_SETTING_MACSEC_PORT")]
-pub static SETTING_MACSEC_PORT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACSEC_PORT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACSEC_PORT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACSEC_PORT) };
 #[doc(alias = "NM_SETTING_MACSEC_SEND_SCI")]
-pub static SETTING_MACSEC_SEND_SCI: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACSEC_SEND_SCI)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACSEC_SEND_SCI: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACSEC_SEND_SCI) };
 #[doc(alias = "NM_SETTING_MACSEC_SETTING_NAME")]
-pub static SETTING_MACSEC_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACSEC_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACSEC_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACSEC_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_MACSEC_VALIDATION")]
-pub static SETTING_MACSEC_VALIDATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACSEC_VALIDATION)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACSEC_VALIDATION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACSEC_VALIDATION) };
 #[doc(alias = "NM_SETTING_MACVLAN_MODE")]
-pub static SETTING_MACVLAN_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACVLAN_MODE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACVLAN_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACVLAN_MODE) };
 #[doc(alias = "NM_SETTING_MACVLAN_PARENT")]
-pub static SETTING_MACVLAN_PARENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACVLAN_PARENT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACVLAN_PARENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACVLAN_PARENT) };
 #[doc(alias = "NM_SETTING_MACVLAN_PROMISCUOUS")]
-pub static SETTING_MACVLAN_PROMISCUOUS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACVLAN_PROMISCUOUS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACVLAN_PROMISCUOUS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACVLAN_PROMISCUOUS) };
 #[doc(alias = "NM_SETTING_MACVLAN_SETTING_NAME")]
-pub static SETTING_MACVLAN_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACVLAN_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACVLAN_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACVLAN_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_MACVLAN_TAP")]
-pub static SETTING_MACVLAN_TAP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MACVLAN_TAP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MACVLAN_TAP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MACVLAN_TAP) };
 #[doc(alias = "NM_SETTING_MATCH_DRIVER")]
-pub static SETTING_MATCH_DRIVER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MATCH_DRIVER)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MATCH_DRIVER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MATCH_DRIVER) };
 #[doc(alias = "NM_SETTING_MATCH_INTERFACE_NAME")]
-pub static SETTING_MATCH_INTERFACE_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MATCH_INTERFACE_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MATCH_INTERFACE_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MATCH_INTERFACE_NAME) };
 #[doc(alias = "NM_SETTING_MATCH_KERNEL_COMMAND_LINE")]
-pub static SETTING_MATCH_KERNEL_COMMAND_LINE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MATCH_KERNEL_COMMAND_LINE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MATCH_KERNEL_COMMAND_LINE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MATCH_KERNEL_COMMAND_LINE) };
 #[doc(alias = "NM_SETTING_MATCH_PATH")]
-pub static SETTING_MATCH_PATH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MATCH_PATH).to_str().unwrap()
-    });
+pub static SETTING_MATCH_PATH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MATCH_PATH) };
 #[doc(alias = "NM_SETTING_MATCH_SETTING_NAME")]
-pub static SETTING_MATCH_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_MATCH_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_MATCH_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_MATCH_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_NAME")]
-pub static SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_NAME).to_str().unwrap()
-    });
+pub static SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_OLPC_MESH_CHANNEL")]
-pub static SETTING_OLPC_MESH_CHANNEL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OLPC_MESH_CHANNEL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OLPC_MESH_CHANNEL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OLPC_MESH_CHANNEL) };
 #[doc(alias = "NM_SETTING_OLPC_MESH_DHCP_ANYCAST_ADDRESS")]
-pub static SETTING_OLPC_MESH_DHCP_ANYCAST_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OLPC_MESH_DHCP_ANYCAST_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OLPC_MESH_DHCP_ANYCAST_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OLPC_MESH_DHCP_ANYCAST_ADDRESS) };
 #[doc(alias = "NM_SETTING_OLPC_MESH_SETTING_NAME")]
-pub static SETTING_OLPC_MESH_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OLPC_MESH_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OLPC_MESH_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OLPC_MESH_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_OLPC_MESH_SSID")]
-pub static SETTING_OLPC_MESH_SSID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OLPC_MESH_SSID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OLPC_MESH_SSID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OLPC_MESH_SSID) };
 #[doc(alias = "NM_SETTING_OVS_BRIDGE_DATAPATH_TYPE")]
-pub static SETTING_OVS_BRIDGE_DATAPATH_TYPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_BRIDGE_DATAPATH_TYPE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_BRIDGE_DATAPATH_TYPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_BRIDGE_DATAPATH_TYPE) };
 #[doc(alias = "NM_SETTING_OVS_BRIDGE_FAIL_MODE")]
-pub static SETTING_OVS_BRIDGE_FAIL_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_BRIDGE_FAIL_MODE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_BRIDGE_FAIL_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_BRIDGE_FAIL_MODE) };
 #[doc(alias = "NM_SETTING_OVS_BRIDGE_MCAST_SNOOPING_ENABLE")]
-pub static SETTING_OVS_BRIDGE_MCAST_SNOOPING_ENABLE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_BRIDGE_MCAST_SNOOPING_ENABLE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_BRIDGE_MCAST_SNOOPING_ENABLE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_BRIDGE_MCAST_SNOOPING_ENABLE) };
 #[doc(alias = "NM_SETTING_OVS_BRIDGE_RSTP_ENABLE")]
-pub static SETTING_OVS_BRIDGE_RSTP_ENABLE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_BRIDGE_RSTP_ENABLE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_BRIDGE_RSTP_ENABLE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_BRIDGE_RSTP_ENABLE) };
 #[doc(alias = "NM_SETTING_OVS_BRIDGE_SETTING_NAME")]
-pub static SETTING_OVS_BRIDGE_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_BRIDGE_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_BRIDGE_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_BRIDGE_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_OVS_BRIDGE_STP_ENABLE")]
-pub static SETTING_OVS_BRIDGE_STP_ENABLE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_BRIDGE_STP_ENABLE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_BRIDGE_STP_ENABLE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_BRIDGE_STP_ENABLE) };
 #[doc(alias = "NM_SETTING_OVS_DPDK_DEVARGS")]
-pub static SETTING_OVS_DPDK_DEVARGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_DPDK_DEVARGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_DPDK_DEVARGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_DPDK_DEVARGS) };
 #[doc(alias = "NM_SETTING_OVS_DPDK_N_RXQ")]
-pub static SETTING_OVS_DPDK_N_RXQ: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_DPDK_N_RXQ)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_DPDK_N_RXQ: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_DPDK_N_RXQ) };
 #[doc(alias = "NM_SETTING_OVS_DPDK_SETTING_NAME")]
-pub static SETTING_OVS_DPDK_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_DPDK_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_DPDK_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_DPDK_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_OVS_EXTERNAL_IDS_DATA")]
-pub static SETTING_OVS_EXTERNAL_IDS_DATA: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_EXTERNAL_IDS_DATA)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_EXTERNAL_IDS_DATA: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_EXTERNAL_IDS_DATA) };
 #[doc(alias = "NM_SETTING_OVS_EXTERNAL_IDS_SETTING_NAME")]
-pub static SETTING_OVS_EXTERNAL_IDS_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_EXTERNAL_IDS_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_EXTERNAL_IDS_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_EXTERNAL_IDS_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_OVS_INTERFACE_SETTING_NAME")]
-pub static SETTING_OVS_INTERFACE_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_INTERFACE_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_INTERFACE_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_INTERFACE_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_OVS_INTERFACE_TYPE")]
-pub static SETTING_OVS_INTERFACE_TYPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_INTERFACE_TYPE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_INTERFACE_TYPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_INTERFACE_TYPE) };
 #[doc(alias = "NM_SETTING_OVS_PATCH_PEER")]
-pub static SETTING_OVS_PATCH_PEER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_PATCH_PEER)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_PATCH_PEER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_PATCH_PEER) };
 #[doc(alias = "NM_SETTING_OVS_PATCH_SETTING_NAME")]
-pub static SETTING_OVS_PATCH_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_PATCH_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_PATCH_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_PATCH_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_OVS_PORT_BOND_DOWNDELAY")]
-pub static SETTING_OVS_PORT_BOND_DOWNDELAY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_PORT_BOND_DOWNDELAY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_PORT_BOND_DOWNDELAY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_PORT_BOND_DOWNDELAY) };
 #[doc(alias = "NM_SETTING_OVS_PORT_BOND_MODE")]
-pub static SETTING_OVS_PORT_BOND_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_PORT_BOND_MODE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_PORT_BOND_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_PORT_BOND_MODE) };
 #[doc(alias = "NM_SETTING_OVS_PORT_BOND_UPDELAY")]
-pub static SETTING_OVS_PORT_BOND_UPDELAY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_PORT_BOND_UPDELAY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_PORT_BOND_UPDELAY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_PORT_BOND_UPDELAY) };
 #[doc(alias = "NM_SETTING_OVS_PORT_LACP")]
-pub static SETTING_OVS_PORT_LACP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_PORT_LACP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_PORT_LACP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_PORT_LACP) };
 #[doc(alias = "NM_SETTING_OVS_PORT_SETTING_NAME")]
-pub static SETTING_OVS_PORT_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_PORT_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_PORT_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_PORT_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_OVS_PORT_TAG")]
-pub static SETTING_OVS_PORT_TAG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_PORT_TAG)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_PORT_TAG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_PORT_TAG) };
 #[doc(alias = "NM_SETTING_OVS_PORT_VLAN_MODE")]
-pub static SETTING_OVS_PORT_VLAN_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_OVS_PORT_VLAN_MODE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_OVS_PORT_VLAN_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_OVS_PORT_VLAN_MODE) };
 #[doc(alias = "NM_SETTING_PPPOE_PARENT")]
-pub static SETTING_PPPOE_PARENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPPOE_PARENT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPPOE_PARENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPPOE_PARENT) };
 #[doc(alias = "NM_SETTING_PPPOE_PASSWORD")]
-pub static SETTING_PPPOE_PASSWORD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPPOE_PASSWORD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPPOE_PASSWORD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPPOE_PASSWORD) };
 #[doc(alias = "NM_SETTING_PPPOE_PASSWORD_FLAGS")]
-pub static SETTING_PPPOE_PASSWORD_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPPOE_PASSWORD_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPPOE_PASSWORD_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPPOE_PASSWORD_FLAGS) };
 #[doc(alias = "NM_SETTING_PPPOE_SERVICE")]
-pub static SETTING_PPPOE_SERVICE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPPOE_SERVICE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPPOE_SERVICE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPPOE_SERVICE) };
 #[doc(alias = "NM_SETTING_PPPOE_SETTING_NAME")]
-pub static SETTING_PPPOE_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPPOE_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPPOE_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPPOE_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_PPPOE_USERNAME")]
-pub static SETTING_PPPOE_USERNAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPPOE_USERNAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPPOE_USERNAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPPOE_USERNAME) };
 #[doc(alias = "NM_SETTING_PPP_BAUD")]
-pub static SETTING_PPP_BAUD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_BAUD).to_str().unwrap()
-    });
+pub static SETTING_PPP_BAUD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_BAUD) };
 #[doc(alias = "NM_SETTING_PPP_CRTSCTS")]
-pub static SETTING_PPP_CRTSCTS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_CRTSCTS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_CRTSCTS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_CRTSCTS) };
 #[doc(alias = "NM_SETTING_PPP_LCP_ECHO_FAILURE")]
-pub static SETTING_PPP_LCP_ECHO_FAILURE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_LCP_ECHO_FAILURE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_LCP_ECHO_FAILURE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_LCP_ECHO_FAILURE) };
 #[doc(alias = "NM_SETTING_PPP_LCP_ECHO_INTERVAL")]
-pub static SETTING_PPP_LCP_ECHO_INTERVAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_LCP_ECHO_INTERVAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_LCP_ECHO_INTERVAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_LCP_ECHO_INTERVAL) };
 #[doc(alias = "NM_SETTING_PPP_MPPE_STATEFUL")]
-pub static SETTING_PPP_MPPE_STATEFUL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_MPPE_STATEFUL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_MPPE_STATEFUL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_MPPE_STATEFUL) };
 #[doc(alias = "NM_SETTING_PPP_MRU")]
-pub static SETTING_PPP_MRU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_MRU).to_str().unwrap()
-    });
+pub static SETTING_PPP_MRU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_MRU) };
 #[doc(alias = "NM_SETTING_PPP_MTU")]
-pub static SETTING_PPP_MTU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_MTU).to_str().unwrap()
-    });
+pub static SETTING_PPP_MTU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_MTU) };
 #[doc(alias = "NM_SETTING_PPP_NOAUTH")]
-pub static SETTING_PPP_NOAUTH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_NOAUTH).to_str().unwrap()
-    });
+pub static SETTING_PPP_NOAUTH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_NOAUTH) };
 #[doc(alias = "NM_SETTING_PPP_NOBSDCOMP")]
-pub static SETTING_PPP_NOBSDCOMP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_NOBSDCOMP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_NOBSDCOMP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_NOBSDCOMP) };
 #[doc(alias = "NM_SETTING_PPP_NODEFLATE")]
-pub static SETTING_PPP_NODEFLATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_NODEFLATE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_NODEFLATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_NODEFLATE) };
 #[doc(alias = "NM_SETTING_PPP_NO_VJ_COMP")]
-pub static SETTING_PPP_NO_VJ_COMP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_NO_VJ_COMP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_NO_VJ_COMP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_NO_VJ_COMP) };
 #[doc(alias = "NM_SETTING_PPP_REFUSE_CHAP")]
-pub static SETTING_PPP_REFUSE_CHAP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_REFUSE_CHAP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_REFUSE_CHAP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_REFUSE_CHAP) };
 #[doc(alias = "NM_SETTING_PPP_REFUSE_EAP")]
-pub static SETTING_PPP_REFUSE_EAP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_REFUSE_EAP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_REFUSE_EAP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_REFUSE_EAP) };
 #[doc(alias = "NM_SETTING_PPP_REFUSE_MSCHAP")]
-pub static SETTING_PPP_REFUSE_MSCHAP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_REFUSE_MSCHAP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_REFUSE_MSCHAP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_REFUSE_MSCHAP) };
 #[doc(alias = "NM_SETTING_PPP_REFUSE_MSCHAPV2")]
-pub static SETTING_PPP_REFUSE_MSCHAPV2: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_REFUSE_MSCHAPV2)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_REFUSE_MSCHAPV2: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_REFUSE_MSCHAPV2) };
 #[doc(alias = "NM_SETTING_PPP_REFUSE_PAP")]
-pub static SETTING_PPP_REFUSE_PAP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_REFUSE_PAP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_REFUSE_PAP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_REFUSE_PAP) };
 #[doc(alias = "NM_SETTING_PPP_REQUIRE_MPPE")]
-pub static SETTING_PPP_REQUIRE_MPPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_REQUIRE_MPPE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_REQUIRE_MPPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_REQUIRE_MPPE) };
 #[doc(alias = "NM_SETTING_PPP_REQUIRE_MPPE_128")]
-pub static SETTING_PPP_REQUIRE_MPPE_128: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_REQUIRE_MPPE_128)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_REQUIRE_MPPE_128: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_REQUIRE_MPPE_128) };
 #[doc(alias = "NM_SETTING_PPP_SETTING_NAME")]
-pub static SETTING_PPP_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PPP_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PPP_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PPP_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_PROXY_BROWSER_ONLY")]
-pub static SETTING_PROXY_BROWSER_ONLY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PROXY_BROWSER_ONLY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PROXY_BROWSER_ONLY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PROXY_BROWSER_ONLY) };
 #[doc(alias = "NM_SETTING_PROXY_METHOD")]
-pub static SETTING_PROXY_METHOD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PROXY_METHOD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PROXY_METHOD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PROXY_METHOD) };
 #[doc(alias = "NM_SETTING_PROXY_PAC_SCRIPT")]
-pub static SETTING_PROXY_PAC_SCRIPT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PROXY_PAC_SCRIPT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PROXY_PAC_SCRIPT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PROXY_PAC_SCRIPT) };
 #[doc(alias = "NM_SETTING_PROXY_PAC_URL")]
-pub static SETTING_PROXY_PAC_URL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PROXY_PAC_URL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PROXY_PAC_URL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PROXY_PAC_URL) };
 #[doc(alias = "NM_SETTING_PROXY_SETTING_NAME")]
-pub static SETTING_PROXY_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_PROXY_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_PROXY_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_PROXY_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_SERIAL_BAUD")]
-pub static SETTING_SERIAL_BAUD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_SERIAL_BAUD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_SERIAL_BAUD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_SERIAL_BAUD) };
 #[doc(alias = "NM_SETTING_SERIAL_BITS")]
-pub static SETTING_SERIAL_BITS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_SERIAL_BITS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_SERIAL_BITS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_SERIAL_BITS) };
 #[doc(alias = "NM_SETTING_SERIAL_PARITY")]
-pub static SETTING_SERIAL_PARITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_SERIAL_PARITY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_SERIAL_PARITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_SERIAL_PARITY) };
 #[doc(alias = "NM_SETTING_SERIAL_SEND_DELAY")]
-pub static SETTING_SERIAL_SEND_DELAY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_SERIAL_SEND_DELAY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_SERIAL_SEND_DELAY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_SERIAL_SEND_DELAY) };
 #[doc(alias = "NM_SETTING_SERIAL_SETTING_NAME")]
-pub static SETTING_SERIAL_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_SERIAL_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_SERIAL_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_SERIAL_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_SERIAL_STOPBITS")]
-pub static SETTING_SERIAL_STOPBITS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_SERIAL_STOPBITS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_SERIAL_STOPBITS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_SERIAL_STOPBITS) };
 #[doc(alias = "NM_SETTING_SRIOV_AUTOPROBE_DRIVERS")]
-pub static SETTING_SRIOV_AUTOPROBE_DRIVERS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_SRIOV_AUTOPROBE_DRIVERS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_SRIOV_AUTOPROBE_DRIVERS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_SRIOV_AUTOPROBE_DRIVERS) };
 #[doc(alias = "NM_SETTING_SRIOV_SETTING_NAME")]
-pub static SETTING_SRIOV_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_SRIOV_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_SRIOV_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_SRIOV_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_SRIOV_TOTAL_VFS")]
-pub static SETTING_SRIOV_TOTAL_VFS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_SRIOV_TOTAL_VFS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_SRIOV_TOTAL_VFS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_SRIOV_TOTAL_VFS) };
 #[doc(alias = "NM_SETTING_SRIOV_VFS")]
-pub static SETTING_SRIOV_VFS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_SRIOV_VFS).to_str().unwrap()
-    });
+pub static SETTING_SRIOV_VFS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_SRIOV_VFS) };
 #[doc(alias = "NM_SETTING_TC_CONFIG_QDISCS")]
-pub static SETTING_TC_CONFIG_QDISCS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TC_CONFIG_QDISCS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TC_CONFIG_QDISCS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TC_CONFIG_QDISCS) };
 #[doc(alias = "NM_SETTING_TC_CONFIG_SETTING_NAME")]
-pub static SETTING_TC_CONFIG_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TC_CONFIG_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TC_CONFIG_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TC_CONFIG_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_TC_CONFIG_TFILTERS")]
-pub static SETTING_TC_CONFIG_TFILTERS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TC_CONFIG_TFILTERS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TC_CONFIG_TFILTERS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TC_CONFIG_TFILTERS) };
 #[doc(alias = "NM_SETTING_TEAM_CONFIG")]
-pub static SETTING_TEAM_CONFIG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_CONFIG)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_CONFIG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_CONFIG) };
 #[doc(alias = "NM_SETTING_TEAM_LINK_WATCHERS")]
-pub static SETTING_TEAM_LINK_WATCHERS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_LINK_WATCHERS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_LINK_WATCHERS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_LINK_WATCHERS) };
 #[doc(alias = "NM_SETTING_TEAM_MCAST_REJOIN_COUNT")]
-pub static SETTING_TEAM_MCAST_REJOIN_COUNT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_MCAST_REJOIN_COUNT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_MCAST_REJOIN_COUNT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_MCAST_REJOIN_COUNT) };
 #[doc(alias = "NM_SETTING_TEAM_MCAST_REJOIN_INTERVAL")]
-pub static SETTING_TEAM_MCAST_REJOIN_INTERVAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_MCAST_REJOIN_INTERVAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_MCAST_REJOIN_INTERVAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_MCAST_REJOIN_INTERVAL) };
 #[doc(alias = "NM_SETTING_TEAM_NOTIFY_PEERS_COUNT")]
-pub static SETTING_TEAM_NOTIFY_PEERS_COUNT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_NOTIFY_PEERS_COUNT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_NOTIFY_PEERS_COUNT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_NOTIFY_PEERS_COUNT) };
 #[doc(alias = "NM_SETTING_TEAM_NOTIFY_PEERS_INTERVAL")]
-pub static SETTING_TEAM_NOTIFY_PEERS_INTERVAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_NOTIFY_PEERS_INTERVAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_NOTIFY_PEERS_INTERVAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_NOTIFY_PEERS_INTERVAL) };
 #[doc(alias = "NM_SETTING_TEAM_PORT_CONFIG")]
-pub static SETTING_TEAM_PORT_CONFIG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_PORT_CONFIG)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_PORT_CONFIG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_PORT_CONFIG) };
 #[doc(alias = "NM_SETTING_TEAM_PORT_LACP_KEY")]
-pub static SETTING_TEAM_PORT_LACP_KEY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_PORT_LACP_KEY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_PORT_LACP_KEY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_PORT_LACP_KEY) };
 #[doc(alias = "NM_SETTING_TEAM_PORT_LACP_PRIO")]
-pub static SETTING_TEAM_PORT_LACP_PRIO: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_PORT_LACP_PRIO)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_PORT_LACP_PRIO: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_PORT_LACP_PRIO) };
 #[doc(alias = "NM_SETTING_TEAM_PORT_LINK_WATCHERS")]
-pub static SETTING_TEAM_PORT_LINK_WATCHERS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_PORT_LINK_WATCHERS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_PORT_LINK_WATCHERS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_PORT_LINK_WATCHERS) };
 #[doc(alias = "NM_SETTING_TEAM_PORT_PRIO")]
-pub static SETTING_TEAM_PORT_PRIO: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_PORT_PRIO)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_PORT_PRIO: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_PORT_PRIO) };
 #[doc(alias = "NM_SETTING_TEAM_PORT_QUEUE_ID")]
-pub static SETTING_TEAM_PORT_QUEUE_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_PORT_QUEUE_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_PORT_QUEUE_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_PORT_QUEUE_ID) };
 #[doc(alias = "NM_SETTING_TEAM_PORT_SETTING_NAME")]
-pub static SETTING_TEAM_PORT_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_PORT_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_PORT_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_PORT_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_TEAM_PORT_STICKY")]
-pub static SETTING_TEAM_PORT_STICKY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_PORT_STICKY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_PORT_STICKY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_PORT_STICKY) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER")]
-pub static SETTING_TEAM_RUNNER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_ACTIVE")]
-pub static SETTING_TEAM_RUNNER_ACTIVE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_ACTIVE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_ACTIVE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_ACTIVE) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_ACTIVEBACKUP")]
-pub static SETTING_TEAM_RUNNER_ACTIVEBACKUP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_ACTIVEBACKUP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_ACTIVEBACKUP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_ACTIVEBACKUP) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY")]
-pub static SETTING_TEAM_RUNNER_AGG_SELECT_POLICY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_AGG_SELECT_POLICY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_BANDWIDTH")]
-pub static SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_BANDWIDTH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_BANDWIDTH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_BANDWIDTH: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_BANDWIDTH)
+};
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_COUNT")]
-pub static SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_COUNT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_COUNT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_COUNT: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_COUNT)
+};
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_LACP_PRIO")]
-pub static SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_LACP_PRIO: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_LACP_PRIO)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_LACP_PRIO: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_LACP_PRIO)
+};
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_LACP_PRIO_STABLE")]
-pub static SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_LACP_PRIO_STABLE: once_cell::sync::Lazy<
-    &'static str,
-> = once_cell::sync::Lazy::new(|| unsafe {
-    CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_LACP_PRIO_STABLE)
-        .to_str()
-        .unwrap()
-});
+pub static SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_LACP_PRIO_STABLE: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(
+        ffi::NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_LACP_PRIO_STABLE,
+    )
+};
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_PORT_CONFIG")]
-pub static SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_PORT_CONFIG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_PORT_CONFIG)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_PORT_CONFIG: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_AGG_SELECT_POLICY_PORT_CONFIG)
+};
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_BROADCAST")]
-pub static SETTING_TEAM_RUNNER_BROADCAST: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_BROADCAST)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_BROADCAST: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_BROADCAST) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_FAST_RATE")]
-pub static SETTING_TEAM_RUNNER_FAST_RATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_FAST_RATE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_FAST_RATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_FAST_RATE) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_HWADDR_POLICY")]
-pub static SETTING_TEAM_RUNNER_HWADDR_POLICY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_HWADDR_POLICY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_HWADDR_POLICY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_HWADDR_POLICY) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_BY_ACTIVE")]
-pub static SETTING_TEAM_RUNNER_HWADDR_POLICY_BY_ACTIVE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_BY_ACTIVE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_HWADDR_POLICY_BY_ACTIVE: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_BY_ACTIVE)
+};
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_ONLY_ACTIVE")]
-pub static SETTING_TEAM_RUNNER_HWADDR_POLICY_ONLY_ACTIVE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_ONLY_ACTIVE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_HWADDR_POLICY_ONLY_ACTIVE: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_ONLY_ACTIVE)
+};
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_SAME_ALL")]
-pub static SETTING_TEAM_RUNNER_HWADDR_POLICY_SAME_ALL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_SAME_ALL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_HWADDR_POLICY_SAME_ALL: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_HWADDR_POLICY_SAME_ALL)
+};
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_LACP")]
-pub static SETTING_TEAM_RUNNER_LACP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_LACP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_LACP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_LACP) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_LOADBALANCE")]
-pub static SETTING_TEAM_RUNNER_LOADBALANCE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_LOADBALANCE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_LOADBALANCE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_LOADBALANCE) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_MIN_PORTS")]
-pub static SETTING_TEAM_RUNNER_MIN_PORTS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_MIN_PORTS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_MIN_PORTS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_MIN_PORTS) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_RANDOM")]
-pub static SETTING_TEAM_RUNNER_RANDOM: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_RANDOM)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_RANDOM: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_RANDOM) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_ROUNDROBIN")]
-pub static SETTING_TEAM_RUNNER_ROUNDROBIN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_ROUNDROBIN)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_ROUNDROBIN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_ROUNDROBIN) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_SYS_PRIO")]
-pub static SETTING_TEAM_RUNNER_SYS_PRIO: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_SYS_PRIO)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_SYS_PRIO: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_SYS_PRIO) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_TX_BALANCER")]
-pub static SETTING_TEAM_RUNNER_TX_BALANCER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_TX_BALANCER)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_TX_BALANCER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_TX_BALANCER) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_TX_BALANCER_INTERVAL")]
-pub static SETTING_TEAM_RUNNER_TX_BALANCER_INTERVAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_TX_BALANCER_INTERVAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_TX_BALANCER_INTERVAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_TX_BALANCER_INTERVAL) };
 #[doc(alias = "NM_SETTING_TEAM_RUNNER_TX_HASH")]
-pub static SETTING_TEAM_RUNNER_TX_HASH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_RUNNER_TX_HASH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_RUNNER_TX_HASH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_RUNNER_TX_HASH) };
 #[doc(alias = "NM_SETTING_TEAM_SETTING_NAME")]
-pub static SETTING_TEAM_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TEAM_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TEAM_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TEAM_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_TUN_GROUP")]
-pub static SETTING_TUN_GROUP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TUN_GROUP).to_str().unwrap()
-    });
+pub static SETTING_TUN_GROUP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TUN_GROUP) };
 #[doc(alias = "NM_SETTING_TUN_MODE")]
-pub static SETTING_TUN_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TUN_MODE).to_str().unwrap()
-    });
+pub static SETTING_TUN_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TUN_MODE) };
 #[doc(alias = "NM_SETTING_TUN_MULTI_QUEUE")]
-pub static SETTING_TUN_MULTI_QUEUE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TUN_MULTI_QUEUE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TUN_MULTI_QUEUE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TUN_MULTI_QUEUE) };
 #[doc(alias = "NM_SETTING_TUN_OWNER")]
-pub static SETTING_TUN_OWNER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TUN_OWNER).to_str().unwrap()
-    });
+pub static SETTING_TUN_OWNER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TUN_OWNER) };
 #[doc(alias = "NM_SETTING_TUN_PI")]
-pub static SETTING_TUN_PI: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TUN_PI).to_str().unwrap()
-    });
+pub static SETTING_TUN_PI: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TUN_PI) };
 #[doc(alias = "NM_SETTING_TUN_SETTING_NAME")]
-pub static SETTING_TUN_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TUN_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TUN_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TUN_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_TUN_VNET_HDR")]
-pub static SETTING_TUN_VNET_HDR: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_TUN_VNET_HDR)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_TUN_VNET_HDR: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_TUN_VNET_HDR) };
 #[doc(alias = "NM_SETTING_USER_DATA")]
-pub static SETTING_USER_DATA: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_USER_DATA).to_str().unwrap()
-    });
+pub static SETTING_USER_DATA: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_USER_DATA) };
 #[doc(alias = "NM_SETTING_USER_SETTING_NAME")]
-pub static SETTING_USER_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_USER_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_USER_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_USER_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_VETH_PEER")]
-pub static SETTING_VETH_PEER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VETH_PEER).to_str().unwrap()
-    });
+pub static SETTING_VETH_PEER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VETH_PEER) };
 #[doc(alias = "NM_SETTING_VETH_SETTING_NAME")]
-pub static SETTING_VETH_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VETH_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VETH_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VETH_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_VLAN_EGRESS_PRIORITY_MAP")]
-pub static SETTING_VLAN_EGRESS_PRIORITY_MAP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VLAN_EGRESS_PRIORITY_MAP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VLAN_EGRESS_PRIORITY_MAP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VLAN_EGRESS_PRIORITY_MAP) };
 #[doc(alias = "NM_SETTING_VLAN_FLAGS")]
-pub static SETTING_VLAN_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VLAN_FLAGS).to_str().unwrap()
-    });
+pub static SETTING_VLAN_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VLAN_FLAGS) };
 #[doc(alias = "NM_SETTING_VLAN_ID")]
-pub static SETTING_VLAN_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VLAN_ID).to_str().unwrap()
-    });
+pub static SETTING_VLAN_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VLAN_ID) };
 #[doc(alias = "NM_SETTING_VLAN_INGRESS_PRIORITY_MAP")]
-pub static SETTING_VLAN_INGRESS_PRIORITY_MAP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VLAN_INGRESS_PRIORITY_MAP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VLAN_INGRESS_PRIORITY_MAP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VLAN_INGRESS_PRIORITY_MAP) };
 #[doc(alias = "NM_SETTING_VLAN_PARENT")]
-pub static SETTING_VLAN_PARENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VLAN_PARENT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VLAN_PARENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VLAN_PARENT) };
 #[doc(alias = "NM_SETTING_VLAN_SETTING_NAME")]
-pub static SETTING_VLAN_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VLAN_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VLAN_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VLAN_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_VPN_DATA")]
-pub static SETTING_VPN_DATA: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VPN_DATA).to_str().unwrap()
-    });
+pub static SETTING_VPN_DATA: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VPN_DATA) };
 #[doc(alias = "NM_SETTING_VPN_PERSISTENT")]
-pub static SETTING_VPN_PERSISTENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VPN_PERSISTENT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VPN_PERSISTENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VPN_PERSISTENT) };
 #[doc(alias = "NM_SETTING_VPN_SECRETS")]
-pub static SETTING_VPN_SECRETS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VPN_SECRETS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VPN_SECRETS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VPN_SECRETS) };
 #[doc(alias = "NM_SETTING_VPN_SERVICE_TYPE")]
-pub static SETTING_VPN_SERVICE_TYPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VPN_SERVICE_TYPE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VPN_SERVICE_TYPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VPN_SERVICE_TYPE) };
 #[doc(alias = "NM_SETTING_VPN_SETTING_NAME")]
-pub static SETTING_VPN_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VPN_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VPN_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VPN_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_VPN_TIMEOUT")]
-pub static SETTING_VPN_TIMEOUT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VPN_TIMEOUT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VPN_TIMEOUT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VPN_TIMEOUT) };
 #[doc(alias = "NM_SETTING_VPN_USER_NAME")]
-pub static SETTING_VPN_USER_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VPN_USER_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VPN_USER_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VPN_USER_NAME) };
 #[doc(alias = "NM_SETTING_VRF_SETTING_NAME")]
-pub static SETTING_VRF_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VRF_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VRF_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VRF_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_VRF_TABLE")]
-pub static SETTING_VRF_TABLE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VRF_TABLE).to_str().unwrap()
-    });
+pub static SETTING_VRF_TABLE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VRF_TABLE) };
 #[doc(alias = "NM_SETTING_VXLAN_AGEING")]
-pub static SETTING_VXLAN_AGEING: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_AGEING)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VXLAN_AGEING: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_AGEING) };
 #[doc(alias = "NM_SETTING_VXLAN_DESTINATION_PORT")]
-pub static SETTING_VXLAN_DESTINATION_PORT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_DESTINATION_PORT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VXLAN_DESTINATION_PORT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_DESTINATION_PORT) };
 #[doc(alias = "NM_SETTING_VXLAN_ID")]
-pub static SETTING_VXLAN_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_ID).to_str().unwrap()
-    });
+pub static SETTING_VXLAN_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_ID) };
 #[doc(alias = "NM_SETTING_VXLAN_L2_MISS")]
-pub static SETTING_VXLAN_L2_MISS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_L2_MISS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VXLAN_L2_MISS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_L2_MISS) };
 #[doc(alias = "NM_SETTING_VXLAN_L3_MISS")]
-pub static SETTING_VXLAN_L3_MISS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_L3_MISS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VXLAN_L3_MISS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_L3_MISS) };
 #[doc(alias = "NM_SETTING_VXLAN_LEARNING")]
-pub static SETTING_VXLAN_LEARNING: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_LEARNING)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VXLAN_LEARNING: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_LEARNING) };
 #[doc(alias = "NM_SETTING_VXLAN_LIMIT")]
-pub static SETTING_VXLAN_LIMIT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_LIMIT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VXLAN_LIMIT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_LIMIT) };
 #[doc(alias = "NM_SETTING_VXLAN_LOCAL")]
-pub static SETTING_VXLAN_LOCAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_LOCAL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VXLAN_LOCAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_LOCAL) };
 #[doc(alias = "NM_SETTING_VXLAN_PARENT")]
-pub static SETTING_VXLAN_PARENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_PARENT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VXLAN_PARENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_PARENT) };
 #[doc(alias = "NM_SETTING_VXLAN_PROXY")]
-pub static SETTING_VXLAN_PROXY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_PROXY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VXLAN_PROXY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_PROXY) };
 #[doc(alias = "NM_SETTING_VXLAN_REMOTE")]
-pub static SETTING_VXLAN_REMOTE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_REMOTE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VXLAN_REMOTE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_REMOTE) };
 #[doc(alias = "NM_SETTING_VXLAN_RSC")]
-pub static SETTING_VXLAN_RSC: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_RSC).to_str().unwrap()
-    });
+pub static SETTING_VXLAN_RSC: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_RSC) };
 #[doc(alias = "NM_SETTING_VXLAN_SETTING_NAME")]
-pub static SETTING_VXLAN_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VXLAN_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_VXLAN_SOURCE_PORT_MAX")]
-pub static SETTING_VXLAN_SOURCE_PORT_MAX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_SOURCE_PORT_MAX)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VXLAN_SOURCE_PORT_MAX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_SOURCE_PORT_MAX) };
 #[doc(alias = "NM_SETTING_VXLAN_SOURCE_PORT_MIN")]
-pub static SETTING_VXLAN_SOURCE_PORT_MIN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_SOURCE_PORT_MIN)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_VXLAN_SOURCE_PORT_MIN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_SOURCE_PORT_MIN) };
 #[doc(alias = "NM_SETTING_VXLAN_TOS")]
-pub static SETTING_VXLAN_TOS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_TOS).to_str().unwrap()
-    });
+pub static SETTING_VXLAN_TOS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_TOS) };
 #[doc(alias = "NM_SETTING_VXLAN_TTL")]
-pub static SETTING_VXLAN_TTL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_VXLAN_TTL).to_str().unwrap()
-    });
+pub static SETTING_VXLAN_TTL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_VXLAN_TTL) };
 /// The mac address of the peer to connect to.
 #[doc(alias = "NM_SETTING_WIFI_P2P_PEER")]
-pub static SETTING_WIFI_P2P_PEER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIFI_P2P_PEER)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIFI_P2P_PEER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIFI_P2P_PEER) };
 #[doc(alias = "NM_SETTING_WIFI_P2P_SETTING_NAME")]
-pub static SETTING_WIFI_P2P_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIFI_P2P_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIFI_P2P_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIFI_P2P_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_WIFI_P2P_WFD_IES")]
-pub static SETTING_WIFI_P2P_WFD_IES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIFI_P2P_WFD_IES)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIFI_P2P_WFD_IES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIFI_P2P_WFD_IES) };
 #[doc(alias = "NM_SETTING_WIFI_P2P_WPS_METHOD")]
-pub static SETTING_WIFI_P2P_WPS_METHOD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIFI_P2P_WPS_METHOD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIFI_P2P_WPS_METHOD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIFI_P2P_WPS_METHOD) };
 #[doc(alias = "NM_SETTING_WIMAX_MAC_ADDRESS")]
-pub static SETTING_WIMAX_MAC_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIMAX_MAC_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIMAX_MAC_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIMAX_MAC_ADDRESS) };
 #[doc(alias = "NM_SETTING_WIMAX_NETWORK_NAME")]
-pub static SETTING_WIMAX_NETWORK_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIMAX_NETWORK_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIMAX_NETWORK_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIMAX_NETWORK_NAME) };
 #[doc(alias = "NM_SETTING_WIMAX_SETTING_NAME")]
-pub static SETTING_WIMAX_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIMAX_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIMAX_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIMAX_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_WIRED_ACCEPT_ALL_MAC_ADDRESSES")]
-pub static SETTING_WIRED_ACCEPT_ALL_MAC_ADDRESSES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_ACCEPT_ALL_MAC_ADDRESSES)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRED_ACCEPT_ALL_MAC_ADDRESSES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_ACCEPT_ALL_MAC_ADDRESSES) };
 #[doc(alias = "NM_SETTING_WIRED_AUTO_NEGOTIATE")]
-pub static SETTING_WIRED_AUTO_NEGOTIATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_AUTO_NEGOTIATE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRED_AUTO_NEGOTIATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_AUTO_NEGOTIATE) };
 #[doc(alias = "NM_SETTING_WIRED_CLONED_MAC_ADDRESS")]
-pub static SETTING_WIRED_CLONED_MAC_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_CLONED_MAC_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRED_CLONED_MAC_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_CLONED_MAC_ADDRESS) };
 #[doc(alias = "NM_SETTING_WIRED_DUPLEX")]
-pub static SETTING_WIRED_DUPLEX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_DUPLEX)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRED_DUPLEX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_DUPLEX) };
 #[doc(alias = "NM_SETTING_WIRED_GENERATE_MAC_ADDRESS_MASK")]
-pub static SETTING_WIRED_GENERATE_MAC_ADDRESS_MASK: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_GENERATE_MAC_ADDRESS_MASK)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRED_GENERATE_MAC_ADDRESS_MASK: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_GENERATE_MAC_ADDRESS_MASK) };
 #[doc(alias = "NM_SETTING_WIRED_MAC_ADDRESS")]
-pub static SETTING_WIRED_MAC_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_MAC_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRED_MAC_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_MAC_ADDRESS) };
 #[doc(alias = "NM_SETTING_WIRED_MAC_ADDRESS_BLACKLIST")]
-pub static SETTING_WIRED_MAC_ADDRESS_BLACKLIST: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_MAC_ADDRESS_BLACKLIST)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRED_MAC_ADDRESS_BLACKLIST: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_MAC_ADDRESS_BLACKLIST) };
 #[doc(alias = "NM_SETTING_WIRED_MTU")]
-pub static SETTING_WIRED_MTU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_MTU).to_str().unwrap()
-    });
+pub static SETTING_WIRED_MTU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_MTU) };
 #[doc(alias = "NM_SETTING_WIRED_PORT")]
-pub static SETTING_WIRED_PORT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_PORT).to_str().unwrap()
-    });
+pub static SETTING_WIRED_PORT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_PORT) };
 #[doc(alias = "NM_SETTING_WIRED_S390_NETTYPE")]
-pub static SETTING_WIRED_S390_NETTYPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_S390_NETTYPE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRED_S390_NETTYPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_S390_NETTYPE) };
 #[doc(alias = "NM_SETTING_WIRED_S390_OPTIONS")]
-pub static SETTING_WIRED_S390_OPTIONS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_S390_OPTIONS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRED_S390_OPTIONS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_S390_OPTIONS) };
 #[doc(alias = "NM_SETTING_WIRED_S390_SUBCHANNELS")]
-pub static SETTING_WIRED_S390_SUBCHANNELS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_S390_SUBCHANNELS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRED_S390_SUBCHANNELS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_S390_SUBCHANNELS) };
 #[doc(alias = "NM_SETTING_WIRED_SETTING_NAME")]
-pub static SETTING_WIRED_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRED_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_WIRED_SPEED")]
-pub static SETTING_WIRED_SPEED: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_SPEED)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRED_SPEED: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_SPEED) };
 #[doc(alias = "NM_SETTING_WIRED_WAKE_ON_LAN")]
-pub static SETTING_WIRED_WAKE_ON_LAN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_WAKE_ON_LAN)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRED_WAKE_ON_LAN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_WAKE_ON_LAN) };
 #[doc(alias = "NM_SETTING_WIRED_WAKE_ON_LAN_PASSWORD")]
-pub static SETTING_WIRED_WAKE_ON_LAN_PASSWORD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRED_WAKE_ON_LAN_PASSWORD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRED_WAKE_ON_LAN_PASSWORD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRED_WAKE_ON_LAN_PASSWORD) };
 #[doc(alias = "NM_SETTING_WIREGUARD_FWMARK")]
-pub static SETTING_WIREGUARD_FWMARK: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIREGUARD_FWMARK)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIREGUARD_FWMARK: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIREGUARD_FWMARK) };
 #[doc(alias = "NM_SETTING_WIREGUARD_IP4_AUTO_DEFAULT_ROUTE")]
-pub static SETTING_WIREGUARD_IP4_AUTO_DEFAULT_ROUTE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIREGUARD_IP4_AUTO_DEFAULT_ROUTE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIREGUARD_IP4_AUTO_DEFAULT_ROUTE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIREGUARD_IP4_AUTO_DEFAULT_ROUTE) };
 #[doc(alias = "NM_SETTING_WIREGUARD_IP6_AUTO_DEFAULT_ROUTE")]
-pub static SETTING_WIREGUARD_IP6_AUTO_DEFAULT_ROUTE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIREGUARD_IP6_AUTO_DEFAULT_ROUTE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIREGUARD_IP6_AUTO_DEFAULT_ROUTE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIREGUARD_IP6_AUTO_DEFAULT_ROUTE) };
 #[doc(alias = "NM_SETTING_WIREGUARD_LISTEN_PORT")]
-pub static SETTING_WIREGUARD_LISTEN_PORT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIREGUARD_LISTEN_PORT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIREGUARD_LISTEN_PORT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIREGUARD_LISTEN_PORT) };
 #[doc(alias = "NM_SETTING_WIREGUARD_MTU")]
-pub static SETTING_WIREGUARD_MTU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIREGUARD_MTU)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIREGUARD_MTU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIREGUARD_MTU) };
 #[doc(alias = "NM_SETTING_WIREGUARD_PEERS")]
-pub static SETTING_WIREGUARD_PEERS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIREGUARD_PEERS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIREGUARD_PEERS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIREGUARD_PEERS) };
 #[doc(alias = "NM_SETTING_WIREGUARD_PEER_ROUTES")]
-pub static SETTING_WIREGUARD_PEER_ROUTES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIREGUARD_PEER_ROUTES)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIREGUARD_PEER_ROUTES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIREGUARD_PEER_ROUTES) };
 #[doc(alias = "NM_SETTING_WIREGUARD_PRIVATE_KEY")]
-pub static SETTING_WIREGUARD_PRIVATE_KEY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIREGUARD_PRIVATE_KEY)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIREGUARD_PRIVATE_KEY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIREGUARD_PRIVATE_KEY) };
 #[doc(alias = "NM_SETTING_WIREGUARD_PRIVATE_KEY_FLAGS")]
-pub static SETTING_WIREGUARD_PRIVATE_KEY_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIREGUARD_PRIVATE_KEY_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIREGUARD_PRIVATE_KEY_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIREGUARD_PRIVATE_KEY_FLAGS) };
 #[doc(alias = "NM_SETTING_WIREGUARD_SETTING_NAME")]
-pub static SETTING_WIREGUARD_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIREGUARD_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIREGUARD_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIREGUARD_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_WIRELESS_AP_ISOLATION")]
-pub static SETTING_WIRELESS_AP_ISOLATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_AP_ISOLATION)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_AP_ISOLATION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_AP_ISOLATION) };
 #[doc(alias = "NM_SETTING_WIRELESS_BAND")]
-pub static SETTING_WIRELESS_BAND: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_BAND)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_BAND: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_BAND) };
 #[doc(alias = "NM_SETTING_WIRELESS_BSSID")]
-pub static SETTING_WIRELESS_BSSID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_BSSID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_BSSID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_BSSID) };
 #[doc(alias = "NM_SETTING_WIRELESS_CHANNEL")]
-pub static SETTING_WIRELESS_CHANNEL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_CHANNEL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_CHANNEL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_CHANNEL) };
 #[doc(alias = "NM_SETTING_WIRELESS_CLONED_MAC_ADDRESS")]
-pub static SETTING_WIRELESS_CLONED_MAC_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_CLONED_MAC_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_CLONED_MAC_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_CLONED_MAC_ADDRESS) };
 #[doc(alias = "NM_SETTING_WIRELESS_GENERATE_MAC_ADDRESS_MASK")]
-pub static SETTING_WIRELESS_GENERATE_MAC_ADDRESS_MASK: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_GENERATE_MAC_ADDRESS_MASK)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_GENERATE_MAC_ADDRESS_MASK: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_GENERATE_MAC_ADDRESS_MASK)
+};
 #[doc(alias = "NM_SETTING_WIRELESS_HIDDEN")]
-pub static SETTING_WIRELESS_HIDDEN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_HIDDEN)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_HIDDEN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_HIDDEN) };
 #[doc(alias = "NM_SETTING_WIRELESS_MAC_ADDRESS")]
-pub static SETTING_WIRELESS_MAC_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_MAC_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_MAC_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_MAC_ADDRESS) };
 #[doc(alias = "NM_SETTING_WIRELESS_MAC_ADDRESS_BLACKLIST")]
-pub static SETTING_WIRELESS_MAC_ADDRESS_BLACKLIST: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_MAC_ADDRESS_BLACKLIST)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_MAC_ADDRESS_BLACKLIST: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_MAC_ADDRESS_BLACKLIST) };
 #[doc(alias = "NM_SETTING_WIRELESS_MAC_ADDRESS_RANDOMIZATION")]
-pub static SETTING_WIRELESS_MAC_ADDRESS_RANDOMIZATION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_MAC_ADDRESS_RANDOMIZATION)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_MAC_ADDRESS_RANDOMIZATION: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_MAC_ADDRESS_RANDOMIZATION)
+};
 #[doc(alias = "NM_SETTING_WIRELESS_MODE")]
-pub static SETTING_WIRELESS_MODE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_MODE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_MODE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_MODE) };
 /// Indicates Ad-Hoc mode where no access point is expected to be present.
 #[doc(alias = "NM_SETTING_WIRELESS_MODE_ADHOC")]
-pub static SETTING_WIRELESS_MODE_ADHOC: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_MODE_ADHOC)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_MODE_ADHOC: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_MODE_ADHOC) };
 /// Indicates AP/master mode where the wireless device is started as an access
 /// point/hotspot.
 #[doc(alias = "NM_SETTING_WIRELESS_MODE_AP")]
-pub static SETTING_WIRELESS_MODE_AP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_MODE_AP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_MODE_AP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_MODE_AP) };
 /// Indicates infrastructure mode where an access point is expected to be present
 /// for this connection.
 #[doc(alias = "NM_SETTING_WIRELESS_MODE_INFRA")]
-pub static SETTING_WIRELESS_MODE_INFRA: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_MODE_INFRA)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_MODE_INFRA: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_MODE_INFRA) };
 /// Indicates that the connection should create a mesh point.
 #[cfg(any(feature = "v1_20", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
 #[doc(alias = "NM_SETTING_WIRELESS_MODE_MESH")]
-pub static SETTING_WIRELESS_MODE_MESH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_MODE_MESH)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_MODE_MESH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_MODE_MESH) };
 #[doc(alias = "NM_SETTING_WIRELESS_MTU")]
-pub static SETTING_WIRELESS_MTU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_MTU)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_MTU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_MTU) };
 #[doc(alias = "NM_SETTING_WIRELESS_POWERSAVE")]
-pub static SETTING_WIRELESS_POWERSAVE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_POWERSAVE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_POWERSAVE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_POWERSAVE) };
 #[doc(alias = "NM_SETTING_WIRELESS_RATE")]
-pub static SETTING_WIRELESS_RATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_RATE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_RATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_RATE) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_AUTH_ALG")]
-pub static SETTING_WIRELESS_SECURITY_AUTH_ALG: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_AUTH_ALG)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_AUTH_ALG: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_AUTH_ALG) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_FILS")]
-pub static SETTING_WIRELESS_SECURITY_FILS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_FILS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_FILS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_FILS) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_GROUP")]
-pub static SETTING_WIRELESS_SECURITY_GROUP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_GROUP)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_GROUP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_GROUP) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_KEY_MGMT")]
-pub static SETTING_WIRELESS_SECURITY_KEY_MGMT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_KEY_MGMT)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_KEY_MGMT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_KEY_MGMT) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD")]
-pub static SETTING_WIRELESS_SECURITY_LEAP_PASSWORD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_LEAP_PASSWORD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD_FLAGS")]
-pub static SETTING_WIRELESS_SECURITY_LEAP_PASSWORD_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_LEAP_PASSWORD_FLAGS: &GStr = unsafe {
+    GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD_FLAGS)
+};
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME")]
-pub static SETTING_WIRELESS_SECURITY_LEAP_USERNAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_LEAP_USERNAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_PAIRWISE")]
-pub static SETTING_WIRELESS_SECURITY_PAIRWISE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_PAIRWISE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_PAIRWISE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_PAIRWISE) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_PMF")]
-pub static SETTING_WIRELESS_SECURITY_PMF: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_PMF)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_PMF: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_PMF) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_PROTO")]
-pub static SETTING_WIRELESS_SECURITY_PROTO: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_PROTO)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_PROTO: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_PROTO) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_PSK")]
-pub static SETTING_WIRELESS_SECURITY_PSK: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_PSK)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_PSK: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_PSK) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_PSK_FLAGS")]
-pub static SETTING_WIRELESS_SECURITY_PSK_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_PSK_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_PSK_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_PSK_FLAGS) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_SETTING_NAME")]
-pub static SETTING_WIRELESS_SECURITY_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_WEP_KEY0")]
-pub static SETTING_WIRELESS_SECURITY_WEP_KEY0: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_WEP_KEY0)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_WEP_KEY0: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_WEP_KEY0) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_WEP_KEY1")]
-pub static SETTING_WIRELESS_SECURITY_WEP_KEY1: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_WEP_KEY1)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_WEP_KEY1: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_WEP_KEY1) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_WEP_KEY2")]
-pub static SETTING_WIRELESS_SECURITY_WEP_KEY2: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_WEP_KEY2)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_WEP_KEY2: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_WEP_KEY2) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_WEP_KEY3")]
-pub static SETTING_WIRELESS_SECURITY_WEP_KEY3: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_WEP_KEY3)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_WEP_KEY3: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_WEP_KEY3) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_WEP_KEY_FLAGS")]
-pub static SETTING_WIRELESS_SECURITY_WEP_KEY_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_WEP_KEY_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_WEP_KEY_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_WEP_KEY_FLAGS) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_WEP_KEY_TYPE")]
-pub static SETTING_WIRELESS_SECURITY_WEP_KEY_TYPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_WEP_KEY_TYPE)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_WEP_KEY_TYPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_WEP_KEY_TYPE) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX")]
-pub static SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX) };
 #[doc(alias = "NM_SETTING_WIRELESS_SECURITY_WPS_METHOD")]
-pub static SETTING_WIRELESS_SECURITY_WPS_METHOD: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SECURITY_WPS_METHOD: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SECURITY_WPS_METHOD) };
 #[doc(alias = "NM_SETTING_WIRELESS_SEEN_BSSIDS")]
-pub static SETTING_WIRELESS_SEEN_BSSIDS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SEEN_BSSIDS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SEEN_BSSIDS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SEEN_BSSIDS) };
 #[doc(alias = "NM_SETTING_WIRELESS_SETTING_NAME")]
-pub static SETTING_WIRELESS_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_WIRELESS_SSID")]
-pub static SETTING_WIRELESS_SSID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_SSID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_SSID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_SSID) };
 #[doc(alias = "NM_SETTING_WIRELESS_TX_POWER")]
-pub static SETTING_WIRELESS_TX_POWER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_TX_POWER)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_TX_POWER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_TX_POWER) };
 #[doc(alias = "NM_SETTING_WIRELESS_WAKE_ON_WLAN")]
-pub static SETTING_WIRELESS_WAKE_ON_WLAN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WIRELESS_WAKE_ON_WLAN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WIRELESS_WAKE_ON_WLAN) };
 #[doc(alias = "NM_SETTING_WPAN_CHANNEL")]
-pub static SETTING_WPAN_CHANNEL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WPAN_CHANNEL)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WPAN_CHANNEL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WPAN_CHANNEL) };
 #[doc(alias = "NM_SETTING_WPAN_MAC_ADDRESS")]
-pub static SETTING_WPAN_MAC_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WPAN_MAC_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WPAN_MAC_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WPAN_MAC_ADDRESS) };
 #[doc(alias = "NM_SETTING_WPAN_PAGE")]
-pub static SETTING_WPAN_PAGE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WPAN_PAGE).to_str().unwrap()
-    });
+pub static SETTING_WPAN_PAGE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WPAN_PAGE) };
 #[doc(alias = "NM_SETTING_WPAN_PAN_ID")]
-pub static SETTING_WPAN_PAN_ID: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WPAN_PAN_ID)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WPAN_PAN_ID: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WPAN_PAN_ID) };
 #[doc(alias = "NM_SETTING_WPAN_SETTING_NAME")]
-pub static SETTING_WPAN_SETTING_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WPAN_SETTING_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WPAN_SETTING_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WPAN_SETTING_NAME) };
 #[doc(alias = "NM_SETTING_WPAN_SHORT_ADDRESS")]
-pub static SETTING_WPAN_SHORT_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SETTING_WPAN_SHORT_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static SETTING_WPAN_SHORT_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SETTING_WPAN_SHORT_ADDRESS) };
 #[doc(alias = "NM_SRIOV_VF_ATTRIBUTE_MAC")]
-pub static SRIOV_VF_ATTRIBUTE_MAC: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SRIOV_VF_ATTRIBUTE_MAC)
-            .to_str()
-            .unwrap()
-    });
+pub static SRIOV_VF_ATTRIBUTE_MAC: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SRIOV_VF_ATTRIBUTE_MAC) };
 #[doc(alias = "NM_SRIOV_VF_ATTRIBUTE_MAX_TX_RATE")]
-pub static SRIOV_VF_ATTRIBUTE_MAX_TX_RATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SRIOV_VF_ATTRIBUTE_MAX_TX_RATE)
-            .to_str()
-            .unwrap()
-    });
+pub static SRIOV_VF_ATTRIBUTE_MAX_TX_RATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SRIOV_VF_ATTRIBUTE_MAX_TX_RATE) };
 #[doc(alias = "NM_SRIOV_VF_ATTRIBUTE_MIN_TX_RATE")]
-pub static SRIOV_VF_ATTRIBUTE_MIN_TX_RATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SRIOV_VF_ATTRIBUTE_MIN_TX_RATE)
-            .to_str()
-            .unwrap()
-    });
+pub static SRIOV_VF_ATTRIBUTE_MIN_TX_RATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SRIOV_VF_ATTRIBUTE_MIN_TX_RATE) };
 #[doc(alias = "NM_SRIOV_VF_ATTRIBUTE_SPOOF_CHECK")]
-pub static SRIOV_VF_ATTRIBUTE_SPOOF_CHECK: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SRIOV_VF_ATTRIBUTE_SPOOF_CHECK)
-            .to_str()
-            .unwrap()
-    });
+pub static SRIOV_VF_ATTRIBUTE_SPOOF_CHECK: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SRIOV_VF_ATTRIBUTE_SPOOF_CHECK) };
 #[doc(alias = "NM_SRIOV_VF_ATTRIBUTE_TRUST")]
-pub static SRIOV_VF_ATTRIBUTE_TRUST: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_SRIOV_VF_ATTRIBUTE_TRUST)
-            .to_str()
-            .unwrap()
-    });
+pub static SRIOV_VF_ATTRIBUTE_TRUST: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_SRIOV_VF_ATTRIBUTE_TRUST) };
 #[doc(alias = "NM_TEAM_LINK_WATCHER_ARP_PING")]
-pub static TEAM_LINK_WATCHER_ARP_PING: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_TEAM_LINK_WATCHER_ARP_PING)
-            .to_str()
-            .unwrap()
-    });
+pub static TEAM_LINK_WATCHER_ARP_PING: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_TEAM_LINK_WATCHER_ARP_PING) };
 #[doc(alias = "NM_TEAM_LINK_WATCHER_ETHTOOL")]
-pub static TEAM_LINK_WATCHER_ETHTOOL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_TEAM_LINK_WATCHER_ETHTOOL)
-            .to_str()
-            .unwrap()
-    });
+pub static TEAM_LINK_WATCHER_ETHTOOL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_TEAM_LINK_WATCHER_ETHTOOL) };
 #[doc(alias = "NM_TEAM_LINK_WATCHER_NSNA_PING")]
-pub static TEAM_LINK_WATCHER_NSNA_PING: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_TEAM_LINK_WATCHER_NSNA_PING)
-            .to_str()
-            .unwrap()
-    });
+pub static TEAM_LINK_WATCHER_NSNA_PING: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_TEAM_LINK_WATCHER_NSNA_PING) };
 #[doc(alias = "NM_VPN_CONNECTION_BANNER")]
-pub static VPN_CONNECTION_BANNER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_CONNECTION_BANNER)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_CONNECTION_BANNER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_CONNECTION_BANNER) };
 #[doc(alias = "NM_VPN_CONNECTION_VPN_STATE")]
-pub static VPN_CONNECTION_VPN_STATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_CONNECTION_VPN_STATE)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_CONNECTION_VPN_STATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_CONNECTION_VPN_STATE) };
 #[doc(alias = "NM_VPN_DBUS_PLUGIN_INTERFACE")]
-pub static VPN_DBUS_PLUGIN_INTERFACE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_DBUS_PLUGIN_INTERFACE)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_DBUS_PLUGIN_INTERFACE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_DBUS_PLUGIN_INTERFACE) };
 #[doc(alias = "NM_VPN_DBUS_PLUGIN_PATH")]
-pub static VPN_DBUS_PLUGIN_PATH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_DBUS_PLUGIN_PATH)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_DBUS_PLUGIN_PATH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_DBUS_PLUGIN_PATH) };
 #[doc(alias = "NM_VPN_EDITOR_PLUGIN_DESCRIPTION")]
-pub static VPN_EDITOR_PLUGIN_DESCRIPTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_EDITOR_PLUGIN_DESCRIPTION)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_EDITOR_PLUGIN_DESCRIPTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_EDITOR_PLUGIN_DESCRIPTION) };
 #[doc(alias = "NM_VPN_EDITOR_PLUGIN_NAME")]
-pub static VPN_EDITOR_PLUGIN_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_EDITOR_PLUGIN_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_EDITOR_PLUGIN_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_EDITOR_PLUGIN_NAME) };
 #[doc(alias = "NM_VPN_EDITOR_PLUGIN_SERVICE")]
-pub static VPN_EDITOR_PLUGIN_SERVICE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_EDITOR_PLUGIN_SERVICE)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_EDITOR_PLUGIN_SERVICE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_EDITOR_PLUGIN_SERVICE) };
 #[doc(alias = "NM_VPN_PLUGIN_CAN_PERSIST")]
-pub static VPN_PLUGIN_CAN_PERSIST: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_CAN_PERSIST)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_CAN_PERSIST: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_CAN_PERSIST) };
 #[doc(alias = "NM_VPN_PLUGIN_CONFIG_BANNER")]
-pub static VPN_PLUGIN_CONFIG_BANNER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_CONFIG_BANNER)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_CONFIG_BANNER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_CONFIG_BANNER) };
 #[doc(alias = "NM_VPN_PLUGIN_CONFIG_EXT_GATEWAY")]
-pub static VPN_PLUGIN_CONFIG_EXT_GATEWAY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_CONFIG_EXT_GATEWAY)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_CONFIG_EXT_GATEWAY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_CONFIG_EXT_GATEWAY) };
 #[doc(alias = "NM_VPN_PLUGIN_CONFIG_HAS_IP4")]
-pub static VPN_PLUGIN_CONFIG_HAS_IP4: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_CONFIG_HAS_IP4)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_CONFIG_HAS_IP4: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_CONFIG_HAS_IP4) };
 #[doc(alias = "NM_VPN_PLUGIN_CONFIG_HAS_IP6")]
-pub static VPN_PLUGIN_CONFIG_HAS_IP6: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_CONFIG_HAS_IP6)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_CONFIG_HAS_IP6: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_CONFIG_HAS_IP6) };
 #[doc(alias = "NM_VPN_PLUGIN_CONFIG_MTU")]
-pub static VPN_PLUGIN_CONFIG_MTU: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_CONFIG_MTU)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_CONFIG_MTU: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_CONFIG_MTU) };
 #[doc(alias = "NM_VPN_PLUGIN_CONFIG_PROXY_PAC")]
-pub static VPN_PLUGIN_CONFIG_PROXY_PAC: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_CONFIG_PROXY_PAC)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_CONFIG_PROXY_PAC: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_CONFIG_PROXY_PAC) };
 #[doc(alias = "NM_VPN_PLUGIN_CONFIG_TUNDEV")]
-pub static VPN_PLUGIN_CONFIG_TUNDEV: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_CONFIG_TUNDEV)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_CONFIG_TUNDEV: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_CONFIG_TUNDEV) };
 #[doc(alias = "NM_VPN_PLUGIN_INFO_FILENAME")]
-pub static VPN_PLUGIN_INFO_FILENAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_INFO_FILENAME)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_INFO_FILENAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_INFO_FILENAME) };
 #[doc(alias = "NM_VPN_PLUGIN_INFO_KEYFILE")]
-pub static VPN_PLUGIN_INFO_KEYFILE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_INFO_KEYFILE)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_INFO_KEYFILE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_INFO_KEYFILE) };
 #[doc(alias = "NM_VPN_PLUGIN_INFO_KF_GROUP_CONNECTION")]
-pub static VPN_PLUGIN_INFO_KF_GROUP_CONNECTION: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_INFO_KF_GROUP_CONNECTION)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_INFO_KF_GROUP_CONNECTION: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_INFO_KF_GROUP_CONNECTION) };
 #[doc(alias = "NM_VPN_PLUGIN_INFO_KF_GROUP_GNOME")]
-pub static VPN_PLUGIN_INFO_KF_GROUP_GNOME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_INFO_KF_GROUP_GNOME)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_INFO_KF_GROUP_GNOME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_INFO_KF_GROUP_GNOME) };
 #[doc(alias = "NM_VPN_PLUGIN_INFO_KF_GROUP_LIBNM")]
-pub static VPN_PLUGIN_INFO_KF_GROUP_LIBNM: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_INFO_KF_GROUP_LIBNM)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_INFO_KF_GROUP_LIBNM: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_INFO_KF_GROUP_LIBNM) };
 #[doc(alias = "NM_VPN_PLUGIN_INFO_NAME")]
-pub static VPN_PLUGIN_INFO_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_INFO_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_INFO_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_INFO_NAME) };
 #[doc(alias = "NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS")]
-pub static VPN_PLUGIN_IP4_CONFIG_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP4_CONFIG_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS) };
 #[doc(alias = "NM_VPN_PLUGIN_IP4_CONFIG_DNS")]
-pub static VPN_PLUGIN_IP4_CONFIG_DNS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP4_CONFIG_DNS)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP4_CONFIG_DNS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP4_CONFIG_DNS) };
 #[doc(alias = "NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN")]
-pub static VPN_PLUGIN_IP4_CONFIG_DOMAIN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP4_CONFIG_DOMAIN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN) };
 #[doc(alias = "NM_VPN_PLUGIN_IP4_CONFIG_DOMAINS")]
-pub static VPN_PLUGIN_IP4_CONFIG_DOMAINS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP4_CONFIG_DOMAINS)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP4_CONFIG_DOMAINS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP4_CONFIG_DOMAINS) };
 #[doc(alias = "NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY")]
-pub static VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY) };
 #[doc(alias = "NM_VPN_PLUGIN_IP4_CONFIG_MSS")]
-pub static VPN_PLUGIN_IP4_CONFIG_MSS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP4_CONFIG_MSS)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP4_CONFIG_MSS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP4_CONFIG_MSS) };
 #[doc(alias = "NM_VPN_PLUGIN_IP4_CONFIG_NBNS")]
-pub static VPN_PLUGIN_IP4_CONFIG_NBNS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP4_CONFIG_NBNS)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP4_CONFIG_NBNS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP4_CONFIG_NBNS) };
 #[doc(alias = "NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT")]
-pub static VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT) };
 #[doc(alias = "NM_VPN_PLUGIN_IP4_CONFIG_PREFIX")]
-pub static VPN_PLUGIN_IP4_CONFIG_PREFIX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP4_CONFIG_PREFIX)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP4_CONFIG_PREFIX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP4_CONFIG_PREFIX) };
 #[doc(alias = "NM_VPN_PLUGIN_IP4_CONFIG_PRESERVE_ROUTES")]
-pub static VPN_PLUGIN_IP4_CONFIG_PRESERVE_ROUTES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP4_CONFIG_PRESERVE_ROUTES)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP4_CONFIG_PRESERVE_ROUTES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP4_CONFIG_PRESERVE_ROUTES) };
 #[doc(alias = "NM_VPN_PLUGIN_IP4_CONFIG_PTP")]
-pub static VPN_PLUGIN_IP4_CONFIG_PTP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP4_CONFIG_PTP)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP4_CONFIG_PTP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP4_CONFIG_PTP) };
 #[doc(alias = "NM_VPN_PLUGIN_IP4_CONFIG_ROUTES")]
-pub static VPN_PLUGIN_IP4_CONFIG_ROUTES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP4_CONFIG_ROUTES)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP4_CONFIG_ROUTES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP4_CONFIG_ROUTES) };
 #[doc(alias = "NM_VPN_PLUGIN_IP6_CONFIG_ADDRESS")]
-pub static VPN_PLUGIN_IP6_CONFIG_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP6_CONFIG_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP6_CONFIG_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP6_CONFIG_ADDRESS) };
 #[doc(alias = "NM_VPN_PLUGIN_IP6_CONFIG_DNS")]
-pub static VPN_PLUGIN_IP6_CONFIG_DNS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP6_CONFIG_DNS)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP6_CONFIG_DNS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP6_CONFIG_DNS) };
 #[doc(alias = "NM_VPN_PLUGIN_IP6_CONFIG_DOMAIN")]
-pub static VPN_PLUGIN_IP6_CONFIG_DOMAIN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP6_CONFIG_DOMAIN)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP6_CONFIG_DOMAIN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP6_CONFIG_DOMAIN) };
 #[doc(alias = "NM_VPN_PLUGIN_IP6_CONFIG_DOMAINS")]
-pub static VPN_PLUGIN_IP6_CONFIG_DOMAINS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP6_CONFIG_DOMAINS)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP6_CONFIG_DOMAINS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP6_CONFIG_DOMAINS) };
 #[doc(alias = "NM_VPN_PLUGIN_IP6_CONFIG_INT_GATEWAY")]
-pub static VPN_PLUGIN_IP6_CONFIG_INT_GATEWAY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP6_CONFIG_INT_GATEWAY)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP6_CONFIG_INT_GATEWAY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP6_CONFIG_INT_GATEWAY) };
 #[doc(alias = "NM_VPN_PLUGIN_IP6_CONFIG_MSS")]
-pub static VPN_PLUGIN_IP6_CONFIG_MSS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP6_CONFIG_MSS)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP6_CONFIG_MSS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP6_CONFIG_MSS) };
 #[doc(alias = "NM_VPN_PLUGIN_IP6_CONFIG_NEVER_DEFAULT")]
-pub static VPN_PLUGIN_IP6_CONFIG_NEVER_DEFAULT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP6_CONFIG_NEVER_DEFAULT)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP6_CONFIG_NEVER_DEFAULT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP6_CONFIG_NEVER_DEFAULT) };
 #[doc(alias = "NM_VPN_PLUGIN_IP6_CONFIG_PREFIX")]
-pub static VPN_PLUGIN_IP6_CONFIG_PREFIX: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP6_CONFIG_PREFIX)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP6_CONFIG_PREFIX: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP6_CONFIG_PREFIX) };
 #[doc(alias = "NM_VPN_PLUGIN_IP6_CONFIG_PRESERVE_ROUTES")]
-pub static VPN_PLUGIN_IP6_CONFIG_PRESERVE_ROUTES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP6_CONFIG_PRESERVE_ROUTES)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP6_CONFIG_PRESERVE_ROUTES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP6_CONFIG_PRESERVE_ROUTES) };
 #[doc(alias = "NM_VPN_PLUGIN_IP6_CONFIG_PTP")]
-pub static VPN_PLUGIN_IP6_CONFIG_PTP: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP6_CONFIG_PTP)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP6_CONFIG_PTP: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP6_CONFIG_PTP) };
 #[doc(alias = "NM_VPN_PLUGIN_IP6_CONFIG_ROUTES")]
-pub static VPN_PLUGIN_IP6_CONFIG_ROUTES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_IP6_CONFIG_ROUTES)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_IP6_CONFIG_ROUTES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_IP6_CONFIG_ROUTES) };
 #[doc(alias = "NM_VPN_PLUGIN_OLD_DBUS_SERVICE_NAME")]
-pub static VPN_PLUGIN_OLD_DBUS_SERVICE_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_OLD_DBUS_SERVICE_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_OLD_DBUS_SERVICE_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_OLD_DBUS_SERVICE_NAME) };
 #[doc(alias = "NM_VPN_PLUGIN_OLD_STATE")]
-pub static VPN_PLUGIN_OLD_STATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_PLUGIN_OLD_STATE)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_PLUGIN_OLD_STATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_PLUGIN_OLD_STATE) };
 #[doc(alias = "NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME")]
-pub static VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME) };
 #[doc(alias = "NM_VPN_SERVICE_PLUGIN_DBUS_WATCH_PEER")]
-pub static VPN_SERVICE_PLUGIN_DBUS_WATCH_PEER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_SERVICE_PLUGIN_DBUS_WATCH_PEER)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_SERVICE_PLUGIN_DBUS_WATCH_PEER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_SERVICE_PLUGIN_DBUS_WATCH_PEER) };
 #[doc(alias = "NM_VPN_SERVICE_PLUGIN_STATE")]
-pub static VPN_SERVICE_PLUGIN_STATE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_VPN_SERVICE_PLUGIN_STATE)
-            .to_str()
-            .unwrap()
-    });
+pub static VPN_SERVICE_PLUGIN_STATE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_VPN_SERVICE_PLUGIN_STATE) };
 #[doc(alias = "NM_WIFI_P2P_PEER_FLAGS")]
-pub static WIFI_P2P_PEER_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIFI_P2P_PEER_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static WIFI_P2P_PEER_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIFI_P2P_PEER_FLAGS) };
 #[doc(alias = "NM_WIFI_P2P_PEER_HW_ADDRESS")]
-pub static WIFI_P2P_PEER_HW_ADDRESS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIFI_P2P_PEER_HW_ADDRESS)
-            .to_str()
-            .unwrap()
-    });
+pub static WIFI_P2P_PEER_HW_ADDRESS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIFI_P2P_PEER_HW_ADDRESS) };
 #[doc(alias = "NM_WIFI_P2P_PEER_LAST_SEEN")]
-pub static WIFI_P2P_PEER_LAST_SEEN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIFI_P2P_PEER_LAST_SEEN)
-            .to_str()
-            .unwrap()
-    });
+pub static WIFI_P2P_PEER_LAST_SEEN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIFI_P2P_PEER_LAST_SEEN) };
 #[doc(alias = "NM_WIFI_P2P_PEER_MANUFACTURER")]
-pub static WIFI_P2P_PEER_MANUFACTURER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIFI_P2P_PEER_MANUFACTURER)
-            .to_str()
-            .unwrap()
-    });
+pub static WIFI_P2P_PEER_MANUFACTURER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIFI_P2P_PEER_MANUFACTURER) };
 #[doc(alias = "NM_WIFI_P2P_PEER_MODEL")]
-pub static WIFI_P2P_PEER_MODEL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIFI_P2P_PEER_MODEL)
-            .to_str()
-            .unwrap()
-    });
+pub static WIFI_P2P_PEER_MODEL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIFI_P2P_PEER_MODEL) };
 #[doc(alias = "NM_WIFI_P2P_PEER_MODEL_NUMBER")]
-pub static WIFI_P2P_PEER_MODEL_NUMBER: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIFI_P2P_PEER_MODEL_NUMBER)
-            .to_str()
-            .unwrap()
-    });
+pub static WIFI_P2P_PEER_MODEL_NUMBER: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIFI_P2P_PEER_MODEL_NUMBER) };
 #[doc(alias = "NM_WIFI_P2P_PEER_NAME")]
-pub static WIFI_P2P_PEER_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIFI_P2P_PEER_NAME).to_str().unwrap()
-    });
+pub static WIFI_P2P_PEER_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIFI_P2P_PEER_NAME) };
 #[doc(alias = "NM_WIFI_P2P_PEER_SERIAL")]
-pub static WIFI_P2P_PEER_SERIAL: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIFI_P2P_PEER_SERIAL)
-            .to_str()
-            .unwrap()
-    });
+pub static WIFI_P2P_PEER_SERIAL: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIFI_P2P_PEER_SERIAL) };
 #[doc(alias = "NM_WIFI_P2P_PEER_STRENGTH")]
-pub static WIFI_P2P_PEER_STRENGTH: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIFI_P2P_PEER_STRENGTH)
-            .to_str()
-            .unwrap()
-    });
+pub static WIFI_P2P_PEER_STRENGTH: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIFI_P2P_PEER_STRENGTH) };
 #[doc(alias = "NM_WIFI_P2P_PEER_WFD_IES")]
-pub static WIFI_P2P_PEER_WFD_IES: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIFI_P2P_PEER_WFD_IES)
-            .to_str()
-            .unwrap()
-    });
+pub static WIFI_P2P_PEER_WFD_IES: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIFI_P2P_PEER_WFD_IES) };
 #[doc(alias = "NM_WIMAX_NSP_NAME")]
-pub static WIMAX_NSP_NAME: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIMAX_NSP_NAME).to_str().unwrap()
-    });
+pub static WIMAX_NSP_NAME: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIMAX_NSP_NAME) };
 #[doc(alias = "NM_WIMAX_NSP_NETWORK_TYPE")]
-pub static WIMAX_NSP_NETWORK_TYPE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIMAX_NSP_NETWORK_TYPE)
-            .to_str()
-            .unwrap()
-    });
+pub static WIMAX_NSP_NETWORK_TYPE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIMAX_NSP_NETWORK_TYPE) };
 #[doc(alias = "NM_WIMAX_NSP_SIGNAL_QUALITY")]
-pub static WIMAX_NSP_SIGNAL_QUALITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIMAX_NSP_SIGNAL_QUALITY)
-            .to_str()
-            .unwrap()
-    });
+pub static WIMAX_NSP_SIGNAL_QUALITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIMAX_NSP_SIGNAL_QUALITY) };
 #[doc(alias = "NM_WIREGUARD_PEER_ATTR_ALLOWED_IPS")]
-pub static WIREGUARD_PEER_ATTR_ALLOWED_IPS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIREGUARD_PEER_ATTR_ALLOWED_IPS)
-            .to_str()
-            .unwrap()
-    });
+pub static WIREGUARD_PEER_ATTR_ALLOWED_IPS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIREGUARD_PEER_ATTR_ALLOWED_IPS) };
 #[doc(alias = "NM_WIREGUARD_PEER_ATTR_ENDPOINT")]
-pub static WIREGUARD_PEER_ATTR_ENDPOINT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIREGUARD_PEER_ATTR_ENDPOINT)
-            .to_str()
-            .unwrap()
-    });
+pub static WIREGUARD_PEER_ATTR_ENDPOINT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIREGUARD_PEER_ATTR_ENDPOINT) };
 #[doc(alias = "NM_WIREGUARD_PEER_ATTR_PERSISTENT_KEEPALIVE")]
-pub static WIREGUARD_PEER_ATTR_PERSISTENT_KEEPALIVE: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIREGUARD_PEER_ATTR_PERSISTENT_KEEPALIVE)
-            .to_str()
-            .unwrap()
-    });
+pub static WIREGUARD_PEER_ATTR_PERSISTENT_KEEPALIVE: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIREGUARD_PEER_ATTR_PERSISTENT_KEEPALIVE) };
 #[doc(alias = "NM_WIREGUARD_PEER_ATTR_PRESHARED_KEY")]
-pub static WIREGUARD_PEER_ATTR_PRESHARED_KEY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIREGUARD_PEER_ATTR_PRESHARED_KEY)
-            .to_str()
-            .unwrap()
-    });
+pub static WIREGUARD_PEER_ATTR_PRESHARED_KEY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIREGUARD_PEER_ATTR_PRESHARED_KEY) };
 #[doc(alias = "NM_WIREGUARD_PEER_ATTR_PRESHARED_KEY_FLAGS")]
-pub static WIREGUARD_PEER_ATTR_PRESHARED_KEY_FLAGS: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIREGUARD_PEER_ATTR_PRESHARED_KEY_FLAGS)
-            .to_str()
-            .unwrap()
-    });
+pub static WIREGUARD_PEER_ATTR_PRESHARED_KEY_FLAGS: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIREGUARD_PEER_ATTR_PRESHARED_KEY_FLAGS) };
 #[doc(alias = "NM_WIREGUARD_PEER_ATTR_PUBLIC_KEY")]
-pub static WIREGUARD_PEER_ATTR_PUBLIC_KEY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::NM_WIREGUARD_PEER_ATTR_PUBLIC_KEY)
-            .to_str()
-            .unwrap()
-    });
+pub static WIREGUARD_PEER_ATTR_PUBLIC_KEY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::NM_WIREGUARD_PEER_ATTR_PUBLIC_KEY) };

@@ -2,20 +2,61 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::Setting;
-use crate::SriovVF;
-use crate::Ternary;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use crate::{Setting, SriovVF, Ternary};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// SR-IOV settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `autoprobe-drivers`
+    ///  Whether to autoprobe virtual functions by a compatible driver.
+    ///
+    /// If set to [`Ternary::True`][crate::Ternary::True], the kernel will try to bind VFs to
+    /// a compatible driver and if this succeeds a new network
+    /// interface will be instantiated for each VF.
+    ///
+    /// If set to [`Ternary::False`][crate::Ternary::False], VFs will not be claimed and no
+    /// network interfaces will be created for them.
+    ///
+    /// When set to [`Ternary::Default`][crate::Ternary::Default], the global default is used; in
+    /// case the global default is unspecified it is assumed to be
+    /// [`Ternary::True`][crate::Ternary::True].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `total-vfs`
+    ///  The total number of virtual functions to create.
+    ///
+    /// Note that when the sriov setting is present NetworkManager
+    /// enforces the number of virtual functions on the interface
+    /// (also when it is zero) during activation and resets it
+    /// upon deactivation. To prevent any changes to SR-IOV
+    /// parameters don't add a sriov setting to the connection.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingSriov")]
     pub struct SettingSriov(Object<ffi::NMSettingSriov, ffi::NMSettingSriovClass>) @extends Setting;
 
@@ -54,7 +95,7 @@ impl SettingSriov {
         }
     }
 
-    /// Returns the value contained in the `property::SettingSriov::autoprobe-drivers`
+    /// Returns the value contained in the [`autoprobe-drivers`][struct@crate::SettingSriov#autoprobe-drivers]
     /// property.
     ///
     /// # Returns
@@ -80,7 +121,7 @@ impl SettingSriov {
         unsafe { ffi::nm_setting_sriov_get_num_vfs(self.to_glib_none().0) }
     }
 
-    /// Returns the value contained in the `property::SettingSriov::total-vfs`
+    /// Returns the value contained in the [`total-vfs`][struct@crate::SettingSriov#total-vfs]
     /// property.
     ///
     /// # Returns

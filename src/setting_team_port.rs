@@ -6,17 +6,71 @@ use crate::Setting;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
 use crate::TeamLinkWatcher;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// Team Port Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `config`
+    ///  The JSON configuration for the team port. The property should contain raw
+    /// JSON configuration data suitable for teamd, because the value is passed
+    /// directly to teamd. If not specified, the default configuration is
+    /// used. See man teamd.conf for the format details.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `lacp-key`
+    ///  Corresponds to the teamd ports.PORTIFNAME.lacp_key.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `lacp-prio`
+    ///  Corresponds to the teamd ports.PORTIFNAME.lacp_prio.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `prio`
+    ///  Corresponds to the teamd ports.PORTIFNAME.prio.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `queue-id`
+    ///  Corresponds to the teamd ports.PORTIFNAME.queue_id.
+    /// When set to -1 means the parameter is skipped from the json config.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `sticky`
+    ///  Corresponds to the teamd ports.PORTIFNAME.sticky.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingTeamPort")]
     pub struct SettingTeamPort(Object<ffi::NMSettingTeamPort, ffi::NMSettingTeamPortClass>) @extends Setting;
 
@@ -69,7 +123,7 @@ impl SettingTeamPort {
     ///
     /// # Returns
     ///
-    /// the `property::SettingTeamPort::config` property of the setting
+    /// the [`config`][struct@crate::SettingTeamPort#config] property of the setting
     #[doc(alias = "nm_setting_team_port_get_config")]
     #[doc(alias = "get_config")]
     pub fn config(&self) -> Option<glib::GString> {
@@ -79,7 +133,7 @@ impl SettingTeamPort {
     ///
     /// # Returns
     ///
-    /// the `property::SettingTeamPort::lacp-key` property of the setting
+    /// the [`lacp-key`][struct@crate::SettingTeamPort#lacp-key] property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_setting_team_port_get_lacp_key")]
@@ -91,7 +145,7 @@ impl SettingTeamPort {
     ///
     /// # Returns
     ///
-    /// the `property::SettingTeamPort::lacp-prio` property of the setting
+    /// the [`lacp-prio`][struct@crate::SettingTeamPort#lacp-prio] property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_setting_team_port_get_lacp_prio")]
@@ -134,7 +188,7 @@ impl SettingTeamPort {
     ///
     /// # Returns
     ///
-    /// the `property::SettingTeamPort::prio` property of the setting
+    /// the [`prio`][struct@crate::SettingTeamPort#prio] property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_setting_team_port_get_prio")]
@@ -146,7 +200,7 @@ impl SettingTeamPort {
     ///
     /// # Returns
     ///
-    /// the `property::SettingTeamPort::queue_id` property of the setting
+    /// the [`queue_id`][struct@crate::SettingTeamPort#queue_id] property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_setting_team_port_get_queue_id")]
@@ -158,7 +212,7 @@ impl SettingTeamPort {
     ///
     /// # Returns
     ///
-    /// the `property::SettingTeamPort::sticky` property of the setting
+    /// the [`sticky`][struct@crate::SettingTeamPort#sticky] property of the setting
     #[cfg(any(feature = "v1_12", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
     #[doc(alias = "nm_setting_team_port_get_sticky")]

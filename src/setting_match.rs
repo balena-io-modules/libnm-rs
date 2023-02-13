@@ -3,20 +3,100 @@
 // DO NOT EDIT
 
 use crate::Setting;
-#[cfg(any(feature = "v1_32", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_32")))]
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem, mem::transmute};
 
 glib::wrapper! {
+    /// Match settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `driver`
+    ///  A list of driver names to match. Each element is a shell wildcard pattern.
+    ///
+    /// See NMSettingMatch:interface-name for how special characters '|', '&',
+    /// '!' and '\\' are used for optional and mandatory matches and inverting the
+    /// pattern.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `interface-name`
+    ///  A list of interface names to match. Each element is a shell wildcard
+    /// pattern.
+    ///
+    /// An element can be prefixed with a pipe symbol (|) or an ampersand (&).
+    /// The former means that the element is optional and the latter means that
+    /// it is mandatory. If there are any optional elements, than the match
+    /// evaluates to true if at least one of the optional element matches
+    /// (logical OR). If there are any mandatory elements, then they all
+    /// must match (logical AND). By default, an element is optional. This means
+    /// that an element "foo" behaves the same as "|foo". An element can also be inverted
+    /// with exclamation mark (!) between the pipe symbol (or the ampersand) and before
+    /// the pattern. Note that "!foo" is a shortcut for the mandatory match "&!foo". Finally,
+    /// a backslash can be used at the beginning of the element (after the optional special characters)
+    /// to escape the start of the pattern. For example, "&\\!a" is an mandatory match for literally "!a".
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `kernel-command-line`
+    ///  A list of kernel command line arguments to match. This may be used to check
+    /// whether a specific kernel command line option is set (or unset, if prefixed with
+    /// the exclamation mark). The argument must either be a single word, or
+    /// an assignment (i.e. two words, joined by "="). In the former case the kernel
+    /// command line is searched for the word appearing as is, or as left hand side
+    /// of an assignment. In the latter case, the exact assignment is looked for
+    /// with right and left hand side matching. Wildcard patterns are not supported.
+    ///
+    /// See NMSettingMatch:interface-name for how special characters '|', '&',
+    /// '!' and '\\' are used for optional and mandatory matches and inverting the
+    /// match.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `path`
+    ///  A list of paths to match against the ID_PATH udev property of
+    /// devices. ID_PATH represents the topological persistent path of a
+    /// device. It typically contains a subsystem string (pci, usb, platform,
+    /// etc.) and a subsystem-specific identifier.
+    ///
+    /// For PCI devices the path has the form
+    /// "pci-$domain:$bus:$device.$function", where each variable is an
+    /// hexadecimal value; for example "pci-0000:0a:00.0".
+    ///
+    /// The path of a device can be obtained with "udevadm info
+    /// /sys/class/net/$dev | grep ID_PATH=" or by looking at the "path"
+    /// property exported by NetworkManager ("nmcli -f general.path device
+    /// show $dev").
+    ///
+    /// Each element of the list is a shell wildcard pattern.
+    ///
+    /// See NMSettingMatch:interface-name for how special characters '|', '&',
+    /// '!' and '\\' are used for optional and mandatory matches and inverting the
+    /// pattern.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingMatch")]
     pub struct SettingMatch(Object<ffi::NMSettingMatch, ffi::NMSettingMatchClass>) @extends Setting;
 
@@ -161,7 +241,7 @@ impl SettingMatch {
             let mut length = mem::MaybeUninit::uninit();
             let ret = FromGlibContainer::from_glib_none_num(
                 ffi::nm_setting_match_get_drivers(self.to_glib_none().0, length.as_mut_ptr()),
-                length.assume_init() as usize,
+                length.assume_init() as _,
             );
             ret
         }
@@ -202,7 +282,7 @@ impl SettingMatch {
                     self.to_glib_none().0,
                     length.as_mut_ptr(),
                 ),
-                length.assume_init() as usize,
+                length.assume_init() as _,
             );
             ret
         }
@@ -244,7 +324,7 @@ impl SettingMatch {
                     self.to_glib_none().0,
                     length.as_mut_ptr(),
                 ),
-                length.assume_init() as usize,
+                length.assume_init() as _,
             );
             ret
         }
@@ -324,7 +404,7 @@ impl SettingMatch {
             let mut length = mem::MaybeUninit::uninit();
             let ret = FromGlibContainer::from_glib_none_num(
                 ffi::nm_setting_match_get_paths(self.to_glib_none().0, length.as_mut_ptr()),
-                length.assume_init() as usize,
+                length.assume_init() as _,
             );
             ret
         }

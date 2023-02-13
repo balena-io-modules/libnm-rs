@@ -6,17 +6,229 @@
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
 use crate::BridgeVlan;
 use crate::Setting;
-use glib::object::Cast;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::ToValue;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    /// Bridging Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `ageing-time`
+    ///  The Ethernet MAC address aging time, in seconds.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `forward-delay`
+    ///  The Spanning Tree Protocol (STP) forwarding delay, in seconds.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `group-address`
+    ///  If specified, The MAC address of the multicast group this bridge uses for STP.
+    ///
+    /// The address must be a link-local address in standard Ethernet MAC address format,
+    /// ie an address of the form 01:80:C2:00:00:0X, with X in [0, 4..F].
+    /// If not specified the default value is 01:80:C2:00:00:00.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `group-forward-mask`
+    ///  A mask of group addresses to forward. Usually, group addresses in
+    /// the range from 01:80:C2:00:00:00 to 01:80:C2:00:00:0F are not
+    /// forwarded according to standards. This property is a mask of 16 bits,
+    /// each corresponding to a group address in that range that must be
+    /// forwarded. The mask can't have bits 0, 1 or 2 set because they are
+    /// used for STP, MAC pause frames and LACP.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `hello-time`
+    ///  The Spanning Tree Protocol (STP) hello time, in seconds.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mac-address`
+    ///  If specified, the MAC address of bridge. When creating a new bridge, this
+    /// MAC address will be set.
+    ///
+    /// If this field is left unspecified, the "ethernet.cloned-mac-address" is
+    /// referred instead to generate the initial MAC address. Note that setting
+    /// "ethernet.cloned-mac-address" anyway overwrites the MAC address of
+    /// the bridge later while activating the bridge. Hence, this property
+    /// is deprecated.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `max-age`
+    ///  The Spanning Tree Protocol (STP) maximum message age, in seconds.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `multicast-hash-max`
+    ///  Set maximum size of multicast hash table (value must be a power of 2).
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `multicast-last-member-count`
+    ///  Set the number of queries the bridge will send before
+    /// stopping forwarding a multicast group after a "leave"
+    /// message has been received.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `multicast-last-member-interval`
+    ///  Set interval (in deciseconds) between queries to find remaining
+    /// members of a group, after a "leave" message is received.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `multicast-membership-interval`
+    ///  Set delay (in deciseconds) after which the bridge will
+    /// leave a group, if no membership reports for this
+    /// group are received.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `multicast-querier`
+    ///  Enable or disable sending of multicast queries by the bridge.
+    /// If not specified the option is disabled.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `multicast-querier-interval`
+    ///  If no queries are seen after this delay (in deciseconds) has passed,
+    /// the bridge will start to send its own queries.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `multicast-query-interval`
+    ///  Interval (in deciseconds) between queries sent
+    /// by the bridge after the end of the startup phase.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `multicast-query-response-interval`
+    ///  Set the Max Response Time/Max Response Delay
+    /// (in deciseconds) for IGMP/MLD queries sent by the bridge.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `multicast-query-use-ifaddr`
+    ///  If enabled the bridge's own IP address is used as
+    /// the source address for IGMP queries otherwise
+    /// the default of 0.0.0.0 is used.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `multicast-router`
+    ///  Sets bridge's multicast router. Multicast-snooping must be enabled
+    /// for this option to work.
+    ///
+    /// Supported values are: 'auto', 'disabled', 'enabled' to which kernel
+    /// assigns the numbers 1, 0, and 2, respectively.
+    /// If not specified the default value is 'auto' (1).
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `multicast-snooping`
+    ///  Controls whether IGMP snooping is enabled for this bridge.
+    /// Note that if snooping was automatically disabled due to hash collisions,
+    /// the system may refuse to enable the feature until the collisions are
+    /// resolved.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `multicast-startup-query-count`
+    ///  Set the number of IGMP queries to send during startup phase.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `multicast-startup-query-interval`
+    ///  Sets the time (in deciseconds) between queries sent out
+    /// at startup to determine membership information.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `priority`
+    ///  Sets the Spanning Tree Protocol (STP) priority for this bridge. Lower
+    /// values are "better"; the lowest priority bridge will be elected the root
+    /// bridge.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `stp`
+    ///  Controls whether Spanning Tree Protocol (STP) is enabled for this bridge.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `vlan-default-pvid`
+    ///  The default PVID for the ports of the bridge, that is the VLAN id
+    /// assigned to incoming untagged frames.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `vlan-filtering`
+    ///  Control whether VLAN filtering is enabled on the bridge.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `vlan-protocol`
+    ///  If specified, the protocol used for VLAN filtering.
+    ///
+    /// Supported values are: '802.1Q', '802.1ad'.
+    /// If not specified the default value is '802.1Q'.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `vlan-stats-enabled`
+    ///  Controls whether per-VLAN stats accounting is enabled.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingBridge")]
     pub struct SettingBridge(Object<ffi::NMSettingBridge, ffi::NMSettingBridgeClass>) @extends Setting;
 
@@ -62,7 +274,7 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::ageing-time` property of the setting
+    /// the [`ageing-time`][struct@crate::SettingBridge#ageing-time] property of the setting
     #[doc(alias = "nm_setting_bridge_get_ageing_time")]
     #[doc(alias = "get_ageing_time")]
     pub fn ageing_time(&self) -> u32 {
@@ -72,7 +284,7 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::forward-delay` property of the setting
+    /// the [`forward-delay`][struct@crate::SettingBridge#forward-delay] property of the setting
     #[doc(alias = "nm_setting_bridge_get_forward_delay")]
     #[doc(alias = "get_forward_delay")]
     pub fn forward_delay(&self) -> u16 {
@@ -82,9 +294,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::group-address` property of the setting
-    ///
-    /// Since 1.24
+    /// the [`group-address`][struct@crate::SettingBridge#group-address] property of the setting
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "nm_setting_bridge_get_group_address")]
     #[doc(alias = "get_group_address")]
     pub fn group_address(&self) -> Option<glib::GString> {
@@ -98,7 +310,7 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::group-forward-mask` property of the setting
+    /// the [`group-forward-mask`][struct@crate::SettingBridge#group-forward-mask] property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_setting_bridge_get_group_forward_mask")]
@@ -110,7 +322,7 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::hello-time` property of the setting
+    /// the [`hello-time`][struct@crate::SettingBridge#hello-time] property of the setting
     #[doc(alias = "nm_setting_bridge_get_hello_time")]
     #[doc(alias = "get_hello_time")]
     pub fn hello_time(&self) -> u16 {
@@ -120,7 +332,7 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::mac-address` property of the setting
+    /// the [`mac-address`][struct@crate::SettingBridge#mac-address] property of the setting
     #[doc(alias = "nm_setting_bridge_get_mac_address")]
     #[doc(alias = "get_mac_address")]
     pub fn mac_address(&self) -> Option<glib::GString> {
@@ -134,7 +346,7 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::max-age` property of the setting
+    /// the [`max-age`][struct@crate::SettingBridge#max-age] property of the setting
     #[doc(alias = "nm_setting_bridge_get_max_age")]
     #[doc(alias = "get_max_age")]
     pub fn max_age(&self) -> u16 {
@@ -144,9 +356,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::multicast-hash-max` property of the setting
-    ///
-    /// Since 1.26
+    /// the [`multicast-hash-max`][struct@crate::SettingBridge#multicast-hash-max] property of the setting
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     #[doc(alias = "nm_setting_bridge_get_multicast_hash_max")]
     #[doc(alias = "get_multicast_hash_max")]
     pub fn multicast_hash_max(&self) -> u32 {
@@ -156,9 +368,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::multicast-last-member-count` property of the setting
-    ///
-    /// Since 1.26
+    /// the [`multicast-last-member-count`][struct@crate::SettingBridge#multicast-last-member-count] property of the setting
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     #[doc(alias = "nm_setting_bridge_get_multicast_last_member_count")]
     #[doc(alias = "get_multicast_last_member_count")]
     pub fn multicast_last_member_count(&self) -> u32 {
@@ -168,9 +380,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::multicast-last-member-interval` property of the setting
-    ///
-    /// Since 1.26
+    /// the [`multicast-last-member-interval`][struct@crate::SettingBridge#multicast-last-member-interval] property of the setting
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     #[doc(alias = "nm_setting_bridge_get_multicast_last_member_interval")]
     #[doc(alias = "get_multicast_last_member_interval")]
     pub fn multicast_last_member_interval(&self) -> u64 {
@@ -180,9 +392,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::multicast-membership-interval` property of the setting
-    ///
-    /// Since 1.26
+    /// the [`multicast-membership-interval`][struct@crate::SettingBridge#multicast-membership-interval] property of the setting
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     #[doc(alias = "nm_setting_bridge_get_multicast_membership_interval")]
     #[doc(alias = "get_multicast_membership_interval")]
     pub fn multicast_membership_interval(&self) -> u64 {
@@ -192,9 +404,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::multicast-querier` property of the setting
-    ///
-    /// Since 1.24
+    /// the [`multicast-querier`][struct@crate::SettingBridge#multicast-querier] property of the setting
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "nm_setting_bridge_get_multicast_querier")]
     #[doc(alias = "get_multicast_querier")]
     pub fn is_multicast_querier(&self) -> bool {
@@ -208,9 +420,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::multicast-querier-interval` property of the setting
-    ///
-    /// Since 1.26
+    /// the [`multicast-querier-interval`][struct@crate::SettingBridge#multicast-querier-interval] property of the setting
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     #[doc(alias = "nm_setting_bridge_get_multicast_querier_interval")]
     #[doc(alias = "get_multicast_querier_interval")]
     pub fn multicast_querier_interval(&self) -> u64 {
@@ -220,9 +432,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::multicast-query-interval` property of the setting
-    ///
-    /// Since 1.26
+    /// the [`multicast-query-interval`][struct@crate::SettingBridge#multicast-query-interval] property of the setting
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     #[doc(alias = "nm_setting_bridge_get_multicast_query_interval")]
     #[doc(alias = "get_multicast_query_interval")]
     pub fn multicast_query_interval(&self) -> u64 {
@@ -232,9 +444,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::multicast-query-response-interval` property of the setting
-    ///
-    /// Since 1.26
+    /// the [`multicast-query-response-interval`][struct@crate::SettingBridge#multicast-query-response-interval] property of the setting
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     #[doc(alias = "nm_setting_bridge_get_multicast_query_response_interval")]
     #[doc(alias = "get_multicast_query_response_interval")]
     pub fn multicast_query_response_interval(&self) -> u64 {
@@ -246,9 +458,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::multicast-query-use-ifaddr` property of the setting
-    ///
-    /// Since 1.24
+    /// the [`multicast-query-use-ifaddr`][struct@crate::SettingBridge#multicast-query-use-ifaddr] property of the setting
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "nm_setting_bridge_get_multicast_query_use_ifaddr")]
     #[doc(alias = "get_multicast_query_use_ifaddr")]
     pub fn is_multicast_query_use_ifaddr(&self) -> bool {
@@ -262,9 +474,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::multicast-router` property of the setting
-    ///
-    /// Since 1.24
+    /// the [`multicast-router`][struct@crate::SettingBridge#multicast-router] property of the setting
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "nm_setting_bridge_get_multicast_router")]
     #[doc(alias = "get_multicast_router")]
     pub fn multicast_router(&self) -> Option<glib::GString> {
@@ -278,7 +490,7 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::multicast-snooping` property of the setting
+    /// the [`multicast-snooping`][struct@crate::SettingBridge#multicast-snooping] property of the setting
     #[cfg(any(feature = "v1_2", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
     #[doc(alias = "nm_setting_bridge_get_multicast_snooping")]
@@ -294,9 +506,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::multicast-query-response-interval` property of the setting
-    ///
-    /// Since 1.26
+    /// the [`multicast-query-response-interval`][struct@crate::SettingBridge#multicast-query-response-interval] property of the setting
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     #[doc(alias = "nm_setting_bridge_get_multicast_startup_query_count")]
     #[doc(alias = "get_multicast_startup_query_count")]
     pub fn multicast_startup_query_count(&self) -> u32 {
@@ -306,9 +518,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::multicast-startup-query-interval` property of the setting
-    ///
-    /// Since 1.26
+    /// the [`multicast-startup-query-interval`][struct@crate::SettingBridge#multicast-startup-query-interval] property of the setting
+    #[cfg(any(feature = "v1_26", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_26")))]
     #[doc(alias = "nm_setting_bridge_get_multicast_startup_query_interval")]
     #[doc(alias = "get_multicast_startup_query_interval")]
     pub fn multicast_startup_query_interval(&self) -> u64 {
@@ -332,7 +544,7 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::priority` property of the setting
+    /// the [`priority`][struct@crate::SettingBridge#priority] property of the setting
     #[doc(alias = "nm_setting_bridge_get_priority")]
     #[doc(alias = "get_priority")]
     pub fn priority(&self) -> u16 {
@@ -342,7 +554,7 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::stp` property of the setting
+    /// the [`stp`][struct@crate::SettingBridge#stp] property of the setting
     #[doc(alias = "nm_setting_bridge_get_stp")]
     #[doc(alias = "get_stp")]
     pub fn is_stp(&self) -> bool {
@@ -366,7 +578,7 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::vlan-default-pvid` property of the setting
+    /// the [`vlan-default-pvid`][struct@crate::SettingBridge#vlan-default-pvid] property of the setting
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_setting_bridge_get_vlan_default_pvid")]
@@ -378,7 +590,7 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::vlan-filtering` property of the setting
+    /// the [`vlan-filtering`][struct@crate::SettingBridge#vlan-filtering] property of the setting
     #[cfg(any(feature = "v1_18", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_18")))]
     #[doc(alias = "nm_setting_bridge_get_vlan_filtering")]
@@ -394,9 +606,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::vlan-protocol` property of the setting
-    ///
-    /// Since 1.24
+    /// the [`vlan-protocol`][struct@crate::SettingBridge#vlan-protocol] property of the setting
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "nm_setting_bridge_get_vlan_protocol")]
     #[doc(alias = "get_vlan_protocol")]
     pub fn vlan_protocol(&self) -> Option<glib::GString> {
@@ -410,9 +622,9 @@ impl SettingBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingBridge::vlan-stats-enabled` property of the setting
-    ///
-    /// Since 1.24
+    /// the [`vlan-stats-enabled`][struct@crate::SettingBridge#vlan-stats-enabled] property of the setting
+    #[cfg(any(feature = "v1_24", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_24")))]
     #[doc(alias = "nm_setting_bridge_get_vlan_stats_enabled")]
     #[doc(alias = "get_vlan_stats_enabled")]
     pub fn is_vlan_stats_enabled(&self) -> bool {
@@ -528,8 +740,22 @@ impl SettingBridge {
 
     /// Set maximum size of multicast hash table (value must be a power of 2).
     #[doc(alias = "multicast-hash-max")]
+    pub fn get_property_multicast_hash_max(&self) -> u32 {
+        glib::ObjectExt::property(self, "multicast-hash-max")
+    }
+
+    /// Set maximum size of multicast hash table (value must be a power of 2).
+    #[doc(alias = "multicast-hash-max")]
     pub fn set_multicast_hash_max(&self, multicast_hash_max: u32) {
         glib::ObjectExt::set_property(self, "multicast-hash-max", &multicast_hash_max)
+    }
+
+    /// Set the number of queries the bridge will send before
+    /// stopping forwarding a multicast group after a "leave"
+    /// message has been received.
+    #[doc(alias = "multicast-last-member-count")]
+    pub fn get_property_multicast_last_member_count(&self) -> u32 {
+        glib::ObjectExt::property(self, "multicast-last-member-count")
     }
 
     /// Set the number of queries the bridge will send before
@@ -547,12 +773,27 @@ impl SettingBridge {
     /// Set interval (in deciseconds) between queries to find remaining
     /// members of a group, after a "leave" message is received.
     #[doc(alias = "multicast-last-member-interval")]
+    pub fn get_property_multicast_last_member_interval(&self) -> u64 {
+        glib::ObjectExt::property(self, "multicast-last-member-interval")
+    }
+
+    /// Set interval (in deciseconds) between queries to find remaining
+    /// members of a group, after a "leave" message is received.
+    #[doc(alias = "multicast-last-member-interval")]
     pub fn set_multicast_last_member_interval(&self, multicast_last_member_interval: u64) {
         glib::ObjectExt::set_property(
             self,
             "multicast-last-member-interval",
             &multicast_last_member_interval,
         )
+    }
+
+    /// Set delay (in deciseconds) after which the bridge will
+    /// leave a group, if no membership reports for this
+    /// group are received.
+    #[doc(alias = "multicast-membership-interval")]
+    pub fn get_property_multicast_membership_interval(&self) -> u64 {
+        glib::ObjectExt::property(self, "multicast-membership-interval")
     }
 
     /// Set delay (in deciseconds) after which the bridge will
@@ -570,8 +811,22 @@ impl SettingBridge {
     /// Enable or disable sending of multicast queries by the bridge.
     /// If not specified the option is disabled.
     #[doc(alias = "multicast-querier")]
+    pub fn get_property_multicast_querier(&self) -> bool {
+        glib::ObjectExt::property(self, "multicast-querier")
+    }
+
+    /// Enable or disable sending of multicast queries by the bridge.
+    /// If not specified the option is disabled.
+    #[doc(alias = "multicast-querier")]
     pub fn set_multicast_querier(&self, multicast_querier: bool) {
         glib::ObjectExt::set_property(self, "multicast-querier", &multicast_querier)
+    }
+
+    /// If no queries are seen after this delay (in deciseconds) has passed,
+    /// the bridge will start to send its own queries.
+    #[doc(alias = "multicast-querier-interval")]
+    pub fn get_property_multicast_querier_interval(&self) -> u64 {
+        glib::ObjectExt::property(self, "multicast-querier-interval")
     }
 
     /// If no queries are seen after this delay (in deciseconds) has passed,
@@ -588,8 +843,22 @@ impl SettingBridge {
     /// Interval (in deciseconds) between queries sent
     /// by the bridge after the end of the startup phase.
     #[doc(alias = "multicast-query-interval")]
+    pub fn get_property_multicast_query_interval(&self) -> u64 {
+        glib::ObjectExt::property(self, "multicast-query-interval")
+    }
+
+    /// Interval (in deciseconds) between queries sent
+    /// by the bridge after the end of the startup phase.
+    #[doc(alias = "multicast-query-interval")]
     pub fn set_multicast_query_interval(&self, multicast_query_interval: u64) {
         glib::ObjectExt::set_property(self, "multicast-query-interval", &multicast_query_interval)
+    }
+
+    /// Set the Max Response Time/Max Response Delay
+    /// (in deciseconds) for IGMP/MLD queries sent by the bridge.
+    #[doc(alias = "multicast-query-response-interval")]
+    pub fn get_property_multicast_query_response_interval(&self) -> u64 {
+        glib::ObjectExt::property(self, "multicast-query-response-interval")
     }
 
     /// Set the Max Response Time/Max Response Delay
@@ -607,12 +876,31 @@ impl SettingBridge {
     /// the source address for IGMP queries otherwise
     /// the default of 0.0.0.0 is used.
     #[doc(alias = "multicast-query-use-ifaddr")]
+    pub fn get_property_multicast_query_use_ifaddr(&self) -> bool {
+        glib::ObjectExt::property(self, "multicast-query-use-ifaddr")
+    }
+
+    /// If enabled the bridge's own IP address is used as
+    /// the source address for IGMP queries otherwise
+    /// the default of 0.0.0.0 is used.
+    #[doc(alias = "multicast-query-use-ifaddr")]
     pub fn set_multicast_query_use_ifaddr(&self, multicast_query_use_ifaddr: bool) {
         glib::ObjectExt::set_property(
             self,
             "multicast-query-use-ifaddr",
             &multicast_query_use_ifaddr,
         )
+    }
+
+    /// Sets bridge's multicast router. Multicast-snooping must be enabled
+    /// for this option to work.
+    ///
+    /// Supported values are: 'auto', 'disabled', 'enabled' to which kernel
+    /// assigns the numbers 1, 0, and 2, respectively.
+    /// If not specified the default value is 'auto' (1).
+    #[doc(alias = "multicast-router")]
+    pub fn get_property_multicast_router(&self) -> Option<glib::GString> {
+        glib::ObjectExt::property(self, "multicast-router")
     }
 
     /// Sets bridge's multicast router. Multicast-snooping must be enabled
@@ -639,12 +927,25 @@ impl SettingBridge {
 
     /// Set the number of IGMP queries to send during startup phase.
     #[doc(alias = "multicast-startup-query-count")]
+    pub fn get_property_multicast_startup_query_count(&self) -> u32 {
+        glib::ObjectExt::property(self, "multicast-startup-query-count")
+    }
+
+    /// Set the number of IGMP queries to send during startup phase.
+    #[doc(alias = "multicast-startup-query-count")]
     pub fn set_multicast_startup_query_count(&self, multicast_startup_query_count: u32) {
         glib::ObjectExt::set_property(
             self,
             "multicast-startup-query-count",
             &multicast_startup_query_count,
         )
+    }
+
+    /// Sets the time (in deciseconds) between queries sent out
+    /// at startup to determine membership information.
+    #[doc(alias = "multicast-startup-query-interval")]
+    pub fn get_property_multicast_startup_query_interval(&self) -> u64 {
+        glib::ObjectExt::property(self, "multicast-startup-query-interval")
     }
 
     /// Sets the time (in deciseconds) between queries sent out
@@ -696,6 +997,12 @@ impl SettingBridge {
     #[doc(alias = "vlan-protocol")]
     pub fn set_vlan_protocol(&self, vlan_protocol: Option<&str>) {
         glib::ObjectExt::set_property(self, "vlan-protocol", &vlan_protocol)
+    }
+
+    /// Controls whether per-VLAN stats accounting is enabled.
+    #[doc(alias = "vlan-stats-enabled")]
+    pub fn get_property_vlan_stats_enabled(&self) -> bool {
+        glib::ObjectExt::property(self, "vlan-stats-enabled")
     }
 
     /// Controls whether per-VLAN stats accounting is enabled.

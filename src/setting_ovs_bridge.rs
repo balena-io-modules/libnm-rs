@@ -5,31 +5,64 @@
 use crate::Setting;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use glib::object::Cast;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use glib::object::ObjectType as ObjectType_;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use glib::signal::connect_raw;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use glib::signal::SignalHandlerId;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use glib::translate::*;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use glib::ToValue;
-#[cfg(any(feature = "v1_10", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use std::boxed::Box as Box_;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
 use std::fmt;
 #[cfg(any(feature = "v1_10", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
-use std::mem::transmute;
+use std::{boxed::Box as Box_, mem::transmute};
 
 glib::wrapper! {
+    /// OvsBridge Link Settings
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `datapath-type`
+    ///  The data path type. One of "system", "netdev" or empty.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `fail-mode`
+    ///  The bridge failure mode. One of "secure", "standalone" or empty.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `mcast-snooping-enable`
+    ///  Enable or disable multicast snooping.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `rstp-enable`
+    ///  Enable or disable RSTP.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `stp-enable`
+    ///  Enable or disable STP.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>Setting</h4></summary>
+    ///
+    ///
+    /// #### `name`
+    ///  The setting's name, which uniquely identifies the setting within the
+    /// connection. Each setting type has a name unique to that type, for
+    /// example "ppp" or "802-11-wireless" or "802-3-ethernet".
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingOvsBridge")]
     pub struct SettingOvsBridge(Object<ffi::NMSettingOvsBridge, ffi::NMSettingOvsBridgeClass>) @extends Setting;
 
@@ -54,9 +87,9 @@ impl SettingOvsBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingOvsBridge::datapath_type` property of the setting
-    #[cfg(any(feature = "v1_20", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
+    /// the [`datapath_type`][struct@crate::SettingOvsBridge#datapath_type] property of the setting
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     #[doc(alias = "nm_setting_ovs_bridge_get_datapath_type")]
     #[doc(alias = "get_datapath_type")]
     pub fn datapath_type(&self) -> Option<glib::GString> {
@@ -70,7 +103,7 @@ impl SettingOvsBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingOvsBridge::fail_mode` property of the setting
+    /// the [`fail_mode`][struct@crate::SettingOvsBridge#fail_mode] property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_setting_ovs_bridge_get_fail_mode")]
@@ -86,7 +119,7 @@ impl SettingOvsBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingOvsBridge::mcast_snooping_enable` property of the setting
+    /// the [`mcast_snooping_enable`][struct@crate::SettingOvsBridge#mcast_snooping_enable] property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_setting_ovs_bridge_get_mcast_snooping_enable")]
@@ -102,7 +135,7 @@ impl SettingOvsBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingOvsBridge::rstp_enable` property of the setting
+    /// the [`rstp_enable`][struct@crate::SettingOvsBridge#rstp_enable] property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_setting_ovs_bridge_get_rstp_enable")]
@@ -118,7 +151,7 @@ impl SettingOvsBridge {
     ///
     /// # Returns
     ///
-    /// the `property::SettingOvsBridge::stp_enable` property of the setting
+    /// the [`stp_enable`][struct@crate::SettingOvsBridge#stp_enable] property of the setting
     #[cfg(any(feature = "v1_10", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_10")))]
     #[doc(alias = "nm_setting_ovs_bridge_get_stp_enable")]
@@ -129,6 +162,14 @@ impl SettingOvsBridge {
                 self.to_glib_none().0,
             ))
         }
+    }
+
+    /// The data path type. One of "system", "netdev" or empty.
+    #[cfg(any(feature = "v1_20", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_20")))]
+    #[doc(alias = "datapath-type")]
+    pub fn get_property_datapath_type(&self) -> Option<glib::GString> {
+        glib::ObjectExt::property(self, "datapath-type")
     }
 
     /// The data path type. One of "system", "netdev" or empty.

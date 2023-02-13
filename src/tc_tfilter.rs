@@ -2,8 +2,8 @@
 // from gir-files
 // DO NOT EDIT
 
-#[cfg(any(feature = "v1_12", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+#[cfg(any(feature = "v1_42", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
 use crate::TCAction;
 #[cfg(any(feature = "v1_12", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
@@ -77,8 +77,8 @@ impl TCTfilter {
     /// # Returns
     ///
     /// the action associated with a traffic filter.
-    #[cfg(any(feature = "v1_12", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     #[doc(alias = "nm_tc_tfilter_get_action")]
     #[doc(alias = "get_action")]
     pub fn action(&self) -> Option<TCAction> {
@@ -120,8 +120,8 @@ impl TCTfilter {
     /// Sets the action associated with a traffic filter.
     /// ## `action`
     /// the action object
-    #[cfg(any(feature = "v1_12", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_12")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     #[doc(alias = "nm_tc_tfilter_set_action")]
     pub fn set_action(&self, action: &TCAction) {
         unsafe {

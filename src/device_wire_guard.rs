@@ -2,29 +2,284 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::Device;
-use crate::Object;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use glib::object::ObjectType as ObjectType_;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use glib::signal::connect_raw;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use glib::signal::SignalHandlerId;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use glib::translate::*;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use std::boxed::Box as Box_;
-use std::fmt;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
-use std::mem::transmute;
+use crate::{Device, Object};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    ///
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `fwmark`
+    ///  Optional firewall mark - see ip-rule(8).
+    /// Used when setting routing policy for outgoing encrypted packets.
+    /// Set to 0 to disable the mark (default).
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `listen-port`
+    ///  Local UDP listen port.
+    /// Set to 0 to allow a random port to be chosen (default).
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `public-key`
+    ///  32-byte public key, derived from the current private key.
+    ///
+    /// Readable
+    /// <details><summary><h4>Device</h4></summary>
+    ///
+    ///
+    /// #### `active-connection`
+    ///  The [`ActiveConnection`][crate::ActiveConnection] object that "owns" this device during activation.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `autoconnect`
+    ///  Whether the device can auto-activate a connection.
+    ///
+    /// The property setter is a synchronous D-Bus call. This is deprecated since 1.22.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `available-connections`
+    ///  The available connections of the device
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `capabilities`
+    ///  The capabilities of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `device-type`
+    ///  The numeric type of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `dhcp4-config`
+    ///  The IPv4 [`DhcpConfig`][crate::DhcpConfig] of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `dhcp6-config`
+    ///  The IPv6 [`DhcpConfig`][crate::DhcpConfig] of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `driver`
+    ///  The driver of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `driver-version`
+    ///  The version of the device driver.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `firmware-missing`
+    ///  When [`true`] indicates the device is likely missing firmware required
+    /// for its operation.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `firmware-version`
+    ///  The firmware version of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `hw-address`
+    ///  The hardware address of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `interface`
+    ///  The interface of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `interface-flags`
+    ///  The interface flags.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `ip-interface`
+    ///  The IP interface of the device which should be used for all IP-related
+    /// operations like addressing and routing.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `ip4-config`
+    ///  The `NMIP4Config` of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `ip4-connectivity`
+    ///  The IPv4 connectivity state of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `ip6-config`
+    ///  The IPv6 [`IPConfig`][crate::IPConfig] of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `ip6-connectivity`
+    ///  The IPv6 connectivity state of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `lldp-neighbors`
+    ///  The LLDP neighbors.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `managed`
+    ///  Whether the device is managed by NetworkManager.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `metered`
+    ///  Whether the device is metered.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `mtu`
+    ///  The MTU of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `nm-plugin-missing`
+    ///  When [`true`] indicates that the NetworkManager plugin for the device
+    /// is not installed.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `path`
+    ///  The device path as exposed by the udev property ID_PATH.
+    ///
+    /// The string is backslash escaped (C escaping) for invalid
+    /// characters. The escaping can be reverted with `g_strcompress()`,
+    /// however the result may not be valid UTF-8.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `physical-port-id`
+    ///  The physical port ID of the device. (See
+    /// [`DeviceExt::physical_port_id()`][crate::prelude::DeviceExt::physical_port_id()].)
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `ports`
+    ///  The port devices of the controller device. For devices that cannot be
+    /// controllers this is likely to be always empty.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `product`
+    ///  The product string of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `real`
+    ///  Whether the device is real or is a placeholder device that could
+    /// be created automatically by NetworkManager if one of its
+    /// [`available-connections`][struct@crate::Device#available-connections] was activated.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `state`
+    ///  The state of the device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `state-reason`
+    ///  The reason for the device state.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `udi`
+    ///  An operating-system specific device hardware identifier; this is not
+    /// unique to a specific hardware device across reboots or hotplugs. It
+    /// is an opaque string which for some device types (Bluetooth, Modem)
+    /// contains an identifier provided by the underlying hardware service daemon
+    /// such as Bluez or ModemManager, and clients can use this property to
+    /// request more information about the device from those services.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `vendor`
+    ///  The vendor string of the device.
+    ///
+    /// Readable
+    /// </details>
+    /// <details><summary><h4>Object</h4></summary>
+    ///
+    ///
+    /// #### `client`
+    ///  The NMClient instance as returned by `nm_object_get_client()`.
+    ///
+    /// When an NMObject gets removed from the NMClient cache,
+    /// the NMObject:path property stays unchanged, but this client
+    /// instance gets reset to [`None`]. You can use this property to
+    /// track removal of the object from the cache.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `path`
+    ///  The D-Bus object path.
+    ///
+    /// The D-Bus path of an object instance never changes, even if the object
+    /// gets removed from the cache. To see whether the object is still in the
+    /// cache, check NMObject:client.
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`DeviceExt`][trait@crate::prelude::DeviceExt], [`ObjectExt`][trait@crate::prelude::ObjectExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMDeviceWireGuard")]
     pub struct DeviceWireGuard(Object<ffi::NMDeviceWireGuard, ffi::NMDeviceWireGuardClass>) @extends Device, Object;
 
@@ -41,8 +296,6 @@ impl DeviceWireGuard {
     /// # Returns
     ///
     /// 0 if fwmark not in use, 32-bit fwmark value otherwise
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_device_wireguard_get_fwmark")]
     #[doc(alias = "get_fwmark")]
     pub fn fwmark(&self) -> u32 {
@@ -54,8 +307,6 @@ impl DeviceWireGuard {
     /// # Returns
     ///
     /// UDP listen port
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_device_wireguard_get_listen_port")]
     #[doc(alias = "get_listen_port")]
     pub fn listen_port(&self) -> u16 {
@@ -67,8 +318,6 @@ impl DeviceWireGuard {
     /// # Returns
     ///
     /// the [`glib::Bytes`][crate::glib::Bytes] containing the 32-byte public key
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_device_wireguard_get_public_key")]
     #[doc(alias = "get_public_key")]
     pub fn public_key(&self) -> Option<glib::Bytes> {

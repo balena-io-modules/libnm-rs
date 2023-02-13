@@ -11,8 +11,8 @@ use glib::translate::*;
 #[cfg(any(feature = "v1_14", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
 use std::mem;
-#[cfg(any(feature = "v1_14", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+#[cfg(any(feature = "v1_42", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
 use std::ptr;
 
 glib::wrapper! {
@@ -146,12 +146,19 @@ impl SriovVF {
             let mut length = mem::MaybeUninit::uninit();
             let ret = FromGlibContainer::from_glib_none_num(
                 ffi::nm_sriov_vf_get_vlan_ids(self.to_glib_none().0, length.as_mut_ptr()),
-                length.assume_init() as usize,
+                length.assume_init() as _,
             );
             ret
         }
     }
 
+    /// Returns the configured protocol for the given VLAN.
+    /// ## `vlan_id`
+    /// the VLAN id
+    ///
+    /// # Returns
+    ///
+    /// the configured protocol
     #[cfg(any(feature = "v1_14", feature = "dox"))]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
     #[doc(alias = "nm_sriov_vf_get_vlan_protocol")]
@@ -258,8 +265,8 @@ impl SriovVF {
     ///
     /// ## `known`
     /// on return, whether the attribute name is a known one
-    #[cfg(any(feature = "v1_14", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_14")))]
+    #[cfg(any(feature = "v1_42", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_42")))]
     #[doc(alias = "nm_sriov_vf_attribute_validate")]
     pub fn attribute_validate(name: &str, value: &glib::Variant) -> Result<bool, glib::Error> {
         unsafe {
@@ -271,7 +278,7 @@ impl SriovVF {
                 known.as_mut_ptr(),
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(from_glib(known.assume_init()))
             } else {

@@ -2,22 +2,115 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::Connection;
-use crate::Object;
-use crate::_80211ApFlags;
-use crate::_80211ApSecurityFlags;
-use crate::_80211Mode;
-use glib::object::IsA;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::StaticType;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use crate::{Connection, Object, _80211ApFlags, _80211ApSecurityFlags, _80211Mode};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
+    ///
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `bssid`
+    ///  The BSSID of the access point.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `flags`
+    ///  The flags of the access point.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `frequency`
+    ///  The frequency of the access point.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `hw-address`
+    ///  Alias for [`bssid`][struct@crate::AccessPoint#bssid].
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `last-seen`
+    ///  The timestamp (in CLOCK_BOOTTIME seconds) for the last time the
+    /// access point was found in scan results. A value of -1 means the
+    /// access point has not been found in a scan.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `max-bitrate`
+    ///  The maximum bit rate of the access point in kbit/s.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `mode`
+    ///  The mode of the access point; either "infrastructure" (a central
+    /// coordinator of the wireless network allowing clients to connect) or
+    /// "ad-hoc" (a network with no central controller).
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `rsn-flags`
+    ///  The RSN flags of the access point.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `ssid`
+    ///  The SSID of the access point, or [`None`] if it is not known.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `strength`
+    ///  The current signal strength of the access point.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `wpa-flags`
+    ///  The WPA flags of the access point.
+    ///
+    /// Readable
+    /// <details><summary><h4>Object</h4></summary>
+    ///
+    ///
+    /// #### `client`
+    ///  The NMClient instance as returned by `nm_object_get_client()`.
+    ///
+    /// When an NMObject gets removed from the NMClient cache,
+    /// the NMObject:path property stays unchanged, but this client
+    /// instance gets reset to [`None`]. You can use this property to
+    /// track removal of the object from the cache.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `path`
+    ///  The D-Bus object path.
+    ///
+    /// The D-Bus path of an object instance never changes, even if the object
+    /// gets removed from the cache. To see whether the object is still in the
+    /// cache, check NMObject:client.
+    ///
+    /// Readable
+    /// </details>
+    ///
+    /// # Implements
+    ///
+    /// [`ObjectExt`][trait@crate::prelude::ObjectExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMAccessPoint")]
     pub struct AccessPoint(Object<ffi::NMAccessPoint, ffi::NMAccessPointClass>) @extends Object;
 
@@ -197,11 +290,11 @@ impl AccessPoint {
         unsafe { from_glib(ffi::nm_access_point_get_wpa_flags(self.to_glib_none().0)) }
     }
 
-    /// Alias for `property::AccessPoint::bssid`.
+    /// Alias for [`bssid`][struct@crate::AccessPoint#bssid].
     ///
     /// # Deprecated since 1
     ///
-    /// Use `property::AccessPoint::bssid`.
+    /// Use [`bssid`][struct@crate::AccessPoint#bssid].
     #[cfg_attr(feature = "v1", deprecated = "Since 1")]
     #[doc(alias = "hw-address")]
     pub fn hw_address(&self) -> Option<glib::GString> {

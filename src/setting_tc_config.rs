@@ -2,14 +2,16 @@
 // from gir-files
 // DO NOT EDIT
 
-use crate::Setting;
-use crate::TCQdisc;
-use crate::TCTfilter;
-use glib::object::Cast;
-use glib::translate::*;
+use crate::{Setting, TCQdisc, TCTfilter};
+use glib::{prelude::*, translate::*};
 use std::fmt;
 
 glib::wrapper! {
+    /// Linux Traffic Control Settings
+    ///
+    /// # Implements
+    ///
+    /// [`SettingExt`][trait@crate::prelude::SettingExt], [`trait@glib::ObjectExt`]
     #[doc(alias = "NMSettingTCConfig")]
     pub struct SettingTCConfig(Object<ffi::NMSettingTCConfig, ffi::NMSettingTCConfigClass>) @extends Setting;
 
